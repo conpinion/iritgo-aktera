@@ -1,0 +1,25 @@
+<configuration>
+
+	<iritgo>
+
+		<datasource id="aktario" class="de.iritgo.aktera.persist.KeelDataSource" />
+
+		<network>
+
+			<socket
+				port="3000"
+				acceptTimeout="60000"
+				readTimeout="30000"
+				buffer="65536"
+			/>
+
+		</network>
+
+		<threadpool
+			id="system"
+			minThreads="16"/>
+
+	</iritgo>
+
+</configuration>
+

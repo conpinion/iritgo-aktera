@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+	targetNamespace="http://aktera.iritgo.de/webservices/webservices" xmlns:aktera="http://aktera.iritgo.de/webservices/webservices">
+
+	<xs:element name="pingRequest">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="sequence" type="xs:long" />
+			</xs:all>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="pongResponse">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="sequence" type="xs:long" />
+			</xs:all>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

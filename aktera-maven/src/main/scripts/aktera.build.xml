@@ -1,0 +1,605 @@
+<!--
+	This file is part of the Iritgo/Aktera Framework.
+
+	Copyright (C) 2005-2009 Iritgo Technologies.
+	Copyright (C) 2003-2005 BueroByte GbR.
+
+	Iritgo licenses this file to You under the Apache License, Version 2.0
+	(the "License"); you may not use this file except in compliance with
+	the License. You may obtain a copy of the License at
+
+	http://www.apache.org/licenses/LICENSE-2.0
+
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
+-->
+
+<project>
+
+	<!-- Deploy the web application -->
+
+	<target name="webapp">
+
+		<property name="webapp.dir" value="target/webapp" />
+		<property name="source.dir"
+		          value="target/${project.artifactId}-${project.version}.dir" />
+
+		<echo message="-- Deploying webapp ${aktera.product.name} in directory ${webapp.dir}" />
+
+		<!-- Create all directories -->
+
+		<delete dir="target/webapp" />
+		<mkdir dir="${webapp.dir}" />
+		<mkdir dir="${webapp.dir}/tmp" />
+		<mkdir dir="${webapp.dir}/aktario" />
+		<mkdir dir="${webapp.dir}/aktario/plugins" />
+		<mkdir dir="${webapp.dir}/aktario/lib" />
+		<mkdir dir="${webapp.dir}/aktario/lib/native" />
+		<mkdir dir="${webapp.dir}/WEB-INF" />
+		<mkdir dir="${webapp.dir}/WEB-INF/lib" />
+		<mkdir dir="${webapp.dir}/WEB-INF/conf" />
+		<mkdir dir="${webapp.dir}/WEB-INF/resources" />
+		<mkdir dir="${webapp.dir}/WEB-INF/schemas" />
+
+		<echo message="--- Copy program files" />
+
+		<!-- Copy server libraries -->
+
+		<copy todir="${webapp.dir}/WEB-INF/lib">
+			<fileset dir="${source.dir}">
+				<include name="*.jar" />
+				<exclude name="jsp-api-*.jar" />
+				<exclude name="servlet-api-*.jar" />
+			</fileset>
+		</copy>
+
+		<!-- Copy aktario plugins -->
+
+		<copy todir="${webapp.dir}/aktario/plugins">
+			<fileset dir="${source.dir}">
+				<include name="*-aktario-*.jar" />
+				<exclude name="iritgo-aktario-framework-*.jar" />
+				<exclude name="iritgo-aktera-aktario-*.jar" />
+			</fileset>
+			<fileset dir="${source.dir}">
+				<include name="iritgo-aktera-aktario-aktario-*.jar" />
+			</fileset>
+		</copy>
+
+		<!-- Copy aktario libraries -->
+
+		<copy todir="${webapp.dir}/aktario/lib">
+			<fileset dir="${source.dir}">
+				<include name="*.jar" />
+				<exclude name="*-aktario-*" />
+				<exclude name="*-aktera-*" />
+				<exclude name="excalibur-*" />
+				<exclude name="avalon-*" />
+			</fileset>
+			<fileset dir="${source.dir}">
+				<include name="iritgo-aktario-framework-*.jar" />
+			</fileset>
+		</copy>
+		<copy todir="${webapp.dir}/aktario/lib">
+			<fileset dir="${source.dir}">
+				<include name="*.so" />
+				<include name="*.dll" />
+			</fileset>
+			<!-- Remove version numbers from native library file names -->
+			<regexpmapper from="^(.+)-\d+\.\d+\.\d+\.(.+)$" to="\1.\2" />
+		</copy>
+		<unzip dest="${webapp.dir}/aktario/lib/native">
+			<patternset>
+				<include name="*.so" />
+				<include name="*.dll" />
+			</patternset>
+			<fileset dir="${source.dir}">
+				<include name="**/*-linux-*.jar" />
+				<include name="**/*-win32-*.jar" />
+			</fileset>
+		</unzip>
+
+		<!-- Unzip web files (e.g. JSP and images), server config -->
+
+		<echo message="--- Unzip and copy webapp files" />
+
+		<unzip dest="${webapp.dir}/tmp">
+			<patternset>
+				<include name="web/**" />
+				<include name="conf/**" />
+				<include name="resources/**" />
+				<include name="WEB-INF/**" />
+				<include name="jdbc-conf/**" />
+				<include name="*Resources*.properties" />
+			</patternset>
+			<fileset dir="${source.dir}">
+				<include name="**/iritgo-*.jar" />
+				<include name="**/iritgo-aktera-aktario-*.jar" />
+				<exclude name="**/iritgo-aktario-*.jar" />
+				<exclude name="**/iritgo-aktera-*-aktario-*.jar" />
+				<include name="**/${project.artifactId}-*.jar" />
+				<exclude name="**/${project.artifactId}-*-aktario-*.jar" />
+			</fileset>
+		</unzip>
+
+		<unzip dest="${webapp.dir}/tmp">
+			<patternset>
+				<include name="aktario-conf/**" />
+			</patternset>
+			<fileset dir="${source.dir}">
+				<include name="**/iritgo-aktera-aktario-aktario-*.jar" />
+			</fileset>
+		</unzip>
+
+		<!-- Move JSP,image,... files -->
+
+		<move todir="${webapp.dir}">
+			<fileset dir="${webapp.dir}/tmp/web">
+				<include name="**/*" />
+			</fileset>
+		</move>
+
+		<!-- Move config files -->
+
+		<move todir="${webapp.dir}/WEB-INF/conf">
+			<fileset dir="${webapp.dir}/tmp/conf">
+				<include name="**/*" />
+			</fileset>
+		</move>
+
+		<!-- Move resource files -->
+
+		<move todir="${webapp.dir}/WEB-INF/resources">
+			<fileset dir="${webapp.dir}/tmp">
+				<include name="*Resources*.properties" />
+			</fileset>
+			<fileset dir="${webapp.dir}/tmp/resources">
+				<include name="**/*" />
+			</fileset>
+		</move>
+
+		<!-- Create database config file -->
+
+		<echo message="--- Create database config" />
+
+		<copy tofile="${webapp.dir}/WEB-INF/conf/jdbc-system.xconf">
+			<fileset dir="${webapp.dir}/tmp/jdbc-conf">
+				<include name="${aktera.database.type}-jdbc-system.xconf" />
+			</fileset>
+			<filterset begintoken="@" endtoken="@">
+				<filter token="aktera.database.server"
+				        value="${aktera.database.server}" />
+				<filter token="aktera.database.name"
+				        value="${aktera.database.name}" />
+				<filter token="aktera.database.user"
+				        value="${aktera.database.user}" />
+				<filter token="aktera.database.password"
+				        value="${aktera.database.password}" />
+			</filterset>
+		</copy>
+
+		<!-- Create Aktario config files -->
+
+		<echo message="--- Copy Aktario config files" />
+
+		<jar destfile="${webapp.dir}/WEB-INF/lib/iritgo-aktario-server-configuration.jar">
+			<fileset dir="${webapp.dir}/tmp/aktario-conf">
+				<include name="server-config.xml" />
+			</fileset>
+		</jar>
+
+		<jar destfile="${webapp.dir}/aktario/lib/iritgo-aktario-client-configuration.jar">
+			<fileset dir="${webapp.dir}/tmp/aktario-conf">
+				<include name="client-config.xml" />
+			</fileset>
+		</jar>
+
+		<echo message="--- Create Aktario system properties" />
+
+		<echo message="iritgo.app.title = ${aktera.product.name}${line.separator}"
+		      file="${webapp.dir}/aktario/sys.properties" />
+		<echo message="iritgo.app.version = ${aktera.product.version}${line.separator}"
+		      file="${webapp.dir}/aktario/sys.properties"
+		      append="true" />
+		<echo message="iritgo.app.version.long = ${aktera.product.version.long}${line.separator}"
+		      file="${webapp.dir}/aktario/sys.properties"
+		      append="true" />
+		<echo message="iritgo.app.copyright = ${aktera.product.copyright}${line.separator}"
+		      file="${webapp.dir}/aktario/sys.properties"
+		      append="true" />
+
+		<exec executable="native2ascii" >
+			<arg value="-encoding" />
+			<arg value="UTF-8" />
+			<arg value="${webapp.dir}/aktario/sys.properties" />
+			<arg value="${webapp.dir}/aktario/sys.properties" />
+		</exec>
+
+		<!-- Move web config files -->
+
+		<move todir="${webapp.dir}/WEB-INF">
+			<fileset dir="${webapp.dir}/tmp/WEB-INF">
+				<include name="*.xml" />
+				<include name="*.tld" />
+				<include name="classes/META-INF/*" />
+			</fileset>
+		</move>
+
+		<!-- Create struts.conf -->
+
+		<concat destfile="${webapp.dir}/WEB-INF/struts-config.xml">
+			<fileset dir="${webapp.dir}/tmp/WEB-INF"
+			         includes="struts-config1-xml" />
+		</concat>
+		<concat destfile="${webapp.dir}/WEB-INF/struts-config.xml"
+		        append="true">
+			<fileset dir="${webapp.dir}/tmp/WEB-INF" includes="*.forwards" />
+			<filterchain>
+				<prefixlines prefix="                " />
+			</filterchain>
+		</concat>
+		<concat destfile="${webapp.dir}/WEB-INF/struts-config.xml"
+		        append="true">
+			<fileset dir="${webapp.dir}/tmp/WEB-INF"
+			         includes="struts-config2-xml" />
+		</concat>
+		<concat destfile="${webapp.dir}/WEB-INF/struts-config.xml"
+		        append="true">
+			<fileset dir="${webapp.dir}/tmp/WEB-INF" includes="*.messages" />
+			<filterchain>
+				<prefixlines prefix="        " />
+			</filterchain>
+		</concat>
+		<concat destfile="${webapp.dir}/WEB-INF/struts-config.xml"
+		        append="true">
+			<fileset dir="${webapp.dir}/tmp/WEB-INF"
+			         includes="struts-config3-xml" />
+		</concat>
+
+		<!-- Create web.xml -->
+
+		<concat destfile="${webapp.dir}/WEB-INF/web.xml">
+			<fileset dir="${webapp.dir}/tmp/WEB-INF" includes="web-xml-1" />
+		</concat>
+		<concat destfile="${webapp.dir}/WEB-INF/web.xml" append="true">
+			<fileset dir="${webapp.dir}/tmp/WEB-INF" includes="*.context-params" />
+			<filterchain>
+				<prefixlines prefix="    " />
+			</filterchain>
+		</concat>
+		<concat destfile="${webapp.dir}/WEB-INF/web.xml" append="true">
+			<fileset dir="${webapp.dir}/tmp/WEB-INF" includes="web-xml-2" />
+		</concat>
+		<concat destfile="${webapp.dir}/WEB-INF/web.xml" append="true">
+			<fileset dir="${webapp.dir}/tmp/WEB-INF" includes="*.context-listeners" />
+			<filterchain>
+				<prefixlines prefix="    " />
+			</filterchain>
+		</concat>
+		<concat destfile="${webapp.dir}/WEB-INF/web.xml" append="true">
+			<fileset dir="${webapp.dir}/tmp/WEB-INF" includes="web-xml-3" />
+		</concat>
+		<concat destfile="${webapp.dir}/WEB-INF/web.xml" append="true">
+			<fileset dir="${webapp.dir}/tmp/WEB-INF" includes="*.servlets" />
+			<filterchain>
+				<prefixlines prefix="    " />
+			</filterchain>
+		</concat>
+		<concat destfile="${webapp.dir}/WEB-INF/web.xml" append="true">
+			<fileset dir="${webapp.dir}/tmp/WEB-INF" includes="web-xml-4" />
+		</concat>
+		<concat destfile="${webapp.dir}/WEB-INF/web.xml" append="true">
+			<fileset dir="${webapp.dir}/tmp/WEB-INF"
+			         includes="*.servlet-mappings" />
+			<filterchain>
+				<prefixlines prefix="    " />
+			</filterchain>
+		</concat>
+		<concat destfile="${webapp.dir}/WEB-INF/web.xml" append="true">
+			<fileset dir="${webapp.dir}/tmp/WEB-INF" includes="web-xml-5" />
+		</concat>
+
+		<!-- Create server-config.wsdd -->
+
+		<concat destfile="${webapp.dir}/WEB-INF/server-config.wsdd">
+			<fileset dir="${webapp.dir}/tmp/WEB-INF" includes="server-config-wsdd-1" />
+		</concat>
+		<concat destfile="${webapp.dir}/WEB-INF/server-config.wsdd" append="true">
+			<fileset dir="${webapp.dir}/tmp/WEB-INF" includes="*.webservices" />
+			<filterchain>
+				<prefixlines prefix="    " />
+			</filterchain>
+		</concat>
+		<concat destfile="${webapp.dir}/WEB-INF/server-config.wsdd" append="true">
+			<fileset dir="${webapp.dir}/tmp/WEB-INF" includes="server-config-wsdd-2" />
+		</concat>
+
+		<!-- Remove temp dir -->
+
+		<delete dir="${webapp.dir}/tmp" />
+
+	</target>
+
+	<!-- Sign the client jars -->
+
+	<target name="signclient">
+
+		<signjar keystore="${aktera.keystore}"
+		         alias="${aktera.keystore.alias}"
+		         storepass="${aktera.keystore.password}">
+			<fileset dir="target/webapp/aktario">
+				<include name="**/*.jar" />
+			</fileset>
+		</signjar>
+
+	</target>
+
+	<!-- Run the client -->
+
+	<target name="runclient">
+
+		<property name="aktario.dir" value="target/webapp/aktario" />
+
+		<java classname="de.iritgo.aktario.framework.IritgoClient" fork="true">
+			<classpath>
+				<fileset dir="${aktario.dir}/lib">
+					<include name="*.jar" />
+				</fileset>
+				<fileset dir="${aktario.dir}/plugins">
+					<include name="*.jar" />
+				</fileset>
+			</classpath>
+			<jvmarg value="-Xms32m" />
+			<jvmarg value="-Xmx1024m" />
+			<sysproperty key="java.library.path" value="${aktario.dir}/lib" />
+			<sysproperty key="awt.useSystemAAFontSettings" value="lcd" />
+			<sysproperty key="iritgo.app.title" value="${project.name}" />
+			<sysproperty key="iritgo.app.version" value="${project.version}" />
+			<sysproperty key="iritgo.app.version.long"
+			             value="${aktera.product.version}" />
+			<sysproperty key="iritgo.app.copyright" value="" />
+			<arg value="-s ${aktario.dir}" />
+		</java>
+
+	</target>
+
+	<target name="debugclient">
+
+		<property name="aktario.dir" value="target/webapp/aktario" />
+
+		<java classname="de.iritgo.aktario.framework.IritgoClient" fork="true">
+			<classpath>
+				<fileset dir="${aktario.dir}/lib">
+					<include name="*.jar" />
+				</fileset>
+				<fileset dir="${aktario.dir}/plugins">
+					<include name="*.jar" />
+				</fileset>
+			</classpath>
+			<jvmarg value="-Xms32m" />
+			<jvmarg value="-Xmx1024m" />
+			<jvmarg value="-Xdebug" />
+			<jvmarg value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y" />
+			<sysproperty key="java.library.path" value="${aktario.dir}/lib" />
+			<sysproperty key="awt.useSystemAAFontSettings" value="lcd" />
+			<sysproperty key="iritgo.app.title"
+			             value="${aktera.product.name}" />
+			<sysproperty key="iritgo.app.version"
+			             value="${aktera.product.version}" />
+			<sysproperty key="iritgo.app.version.long"
+			             value="${aktera.product.version}" />
+			<sysproperty key="iritgo.app.copyright" value="" />
+			<arg value="-s ${aktario.dir}" />
+			<arg value="-d 10" />
+		</java>
+
+	</target>
+
+	<target name="profileclient">
+
+		<property environment="env" />
+		<property name="aktario.dir" value="target/webapp/aktario" />
+
+		<java classname="de.iritgo.aktario.framework.IritgoClient" fork="true">
+			<classpath>
+				<fileset dir="${aktario.dir}/lib">
+					<include name="*.jar" />
+				</fileset>
+				<fileset dir="${aktario.dir}/plugins">
+					<include name="*.jar" />
+				</fileset>
+			</classpath>
+			<jvmarg value="-Xms32m" />
+			<jvmarg value="-Xmx1024m" />
+			<jvmarg value="-Dcom.sun.management.jmxremote=true" />
+			<jvmarg value="-agentlib:jprofilerti=port=8849" />
+			<jvmarg value="-Xbootclasspath/a:${env.JPROFILER_HOME}/bin/agent.jar" />
+			<env key="LD_LIBRARY_PATH"
+			     value="${env.JPROFILER_HOME}/bin/${env.JPROFILER_ARCH}" />
+			<sysproperty key="java.library.path" value="${aktario.dir}/lib" />
+			<sysproperty key="awt.useSystemAAFontSettings" value="lcd" />
+			<sysproperty key="iritgo.app.title"
+			             value="${aktera.product.name}" />
+			<sysproperty key="iritgo.app.version"
+			             value="${aktera.product.version}" />
+			<sysproperty key="iritgo.app.version.long"
+			             value="${aktera.product.version}" />
+			<sysproperty key="iritgo.app.copyright" value="" />
+			<arg value="-s ${aktario.dir}" />
+		</java>
+
+	</target>
+
+	<target name="projectinfo">
+
+		<java classname="de.iritgo.aktera.maven.ProjectInfo" fork="false">
+			<classpath refid="compile.classpath" />
+		</java>
+
+	</target>
+
+	<target name="clientinstaller">
+
+		<property environment="env" />
+		<property name="izpack.dir" value="${env.IZPACK_HOME}" />
+		<property name="launch4j.dir" value="${env.LAUNCH4J_HOME}" />
+		<property name="tmp.dir" value="tmp" />
+		<property name="target.dir" value="target" />
+		<property name="installer.dir" value="installer/aktarioclient" />
+		<property name="aktario.version" value="2.2.1" />
+		<property name="aktario.dir" value="target/webapp/aktario" />
+
+		<taskdef name="launch4j"
+		         classname="net.sf.launch4j.ant.Launch4jTask"
+		         classpath="${launch4j.dir}/launch4j.jar:${launch4j.dir}/lib/xstream.jar" />
+
+		<delete dir="${tmp.dir}" />
+		<mkdir dir="${tmp.dir}" />
+		<mkdir dir="${target.dir}" />
+
+		<copy file="${installer.dir}/installer.xml"
+		      toFile="${tmp.dir}/installer.xml">
+			<filterset>
+				<filter token="aktario.version" value="${aktario.version}" />
+				<filter token="aktario.dir" value="${aktario.dir}" />
+				<filter token="installer.dir" value="${installer.dir}" />
+				<filter token="tmp.dir" value="${tmp.dir}" />
+				<filter token="aktera.product.id"
+				        value="${aktera.product.id}" />
+				<filter token="aktera.product.name"
+				        value="${aktera.product.name}" />
+				<filter token="aktera.product.file.name"
+				        value="${aktera.product.file.name}" />
+				<filter token="aktera.product.version"
+				        value="${aktera.product.version}" />
+				<filter token="aktera.product.manufacturer"
+				        value="${aktera.product.manufacturer}" />
+				<filter token="aktera.product.manufacturer.short"
+				        value="${aktera.product.manufacturer.short}" />
+				<filter token="aktera.product.manufacturer.email"
+				        value="${aktera.product.manufacturer.email}" />
+				<filter token="aktera.product.manufacturer.web"
+				        value="${aktera.product.manufacturer.web}" />
+			</filterset>
+		</copy>
+
+		<copy file="${installer.dir}/wininstaller.xml"
+		      toFile="${tmp.dir}/wininstaller.xml">
+			<filterset>
+				<filter token="aktario.version" value="${aktario.version}" />
+				<filter token="aktario.dir" value="${aktario.dir}" />
+				<filter token="installer.dir" value="${installer.dir}" />
+				<filter token="tmp.dir" value="${tmp.dir}" />
+				<filter token="aktera.product.id"
+				        value="${aktera.product.id}" />
+				<filter token="aktera.product.name"
+				        value="${aktera.product.name}" />
+				<filter token="aktera.product.file.name"
+				        value="${aktera.product.file.name}" />
+				<filter token="aktera.product.version"
+				        value="${aktera.product.version}" />
+				<filter token="aktera.product.manufacturer"
+				        value="${aktera.product.manufacturer}" />
+				<filter token="aktera.product.manufacturer.short"
+				        value="${aktera.product.manufacturer.short}" />
+				<filter token="aktera.product.manufacturer.email"
+				        value="${aktera.product.manufacturer.email}" />
+				<filter token="aktera.product.manufacturer.web"
+				        value="${aktera.product.manufacturer.web}" />
+			</filterset>
+		</copy>
+
+		<copy file="${installer.dir}/windows/shortcuts-win.xml"
+		      toFile="${tmp.dir}/shortcuts-win.xml">
+			<filterset>
+				<filter token="aktario.version" value="${aktario.version}" />
+				<filter token="aktario.dir" value="${aktario.dir}" />
+				<filter token="installer.dir" value="${installer.dir}" />
+				<filter token="tmp.dir" value="${tmp.dir}" />
+				<filter token="aktera.product.id"
+				        value="${aktera.product.id}" />
+				<filter token="aktera.product.name"
+				        value="${aktera.product.name}" />
+				<filter token="aktera.product.file.name"
+				        value="${aktera.product.file.name}" />
+				<filter token="aktera.product.version"
+				        value="${aktera.product.version}" />
+				<filter token="aktera.product.manufacturer"
+				        value="${aktera.product.manufacturer}" />
+				<filter token="aktera.product.manufacturer.short"
+				        value="${aktera.product.manufacturer.short}" />
+				<filter token="aktera.product.manufacturer.email"
+				        value="${aktera.product.manufacturer.email}" />
+				<filter token="aktera.product.manufacturer.web"
+				        value="${aktera.product.manufacturer.web}" />
+			</filterset>
+		</copy>
+
+		<copy file="${installer.dir}/linux/shortcuts-linux.xml"
+		      toFile="${tmp.dir}/shortcuts-unix.xml">
+			<filterset>
+				<filter token="aktario.version" value="${aktario.version}" />
+				<filter token="aktario.dir" value="${aktario.dir}" />
+				<filter token="installer.dir" value="${installer.dir}" />
+				<filter token="tmp.dir" value="${tmp.dir}" />
+				<filter token="aktera.product.id"
+				        value="${aktera.product.id}" />
+				<filter token="aktera.product.name"
+				        value="${aktera.product.name}" />
+				<filter token="aktera.product.file.name"
+				        value="${aktera.product.file.name}" />
+				<filter token="aktera.product.version"
+				        value="${aktera.product.version}" />
+				<filter token="aktera.product.manufacturer"
+				        value="${aktera.product.manufacturer}" />
+				<filter token="aktera.product.manufacturer.short"
+				        value="${aktera.product.manufacturer.short}" />
+				<filter token="aktera.product.manufacturer.email"
+				        value="${aktera.product.manufacturer.email}" />
+				<filter token="aktera.product.manufacturer.web"
+				        value="${aktera.product.manufacturer.web}" />
+			</filterset>
+		</copy>
+
+		<copy file="${installer.dir}/windows/client.xml"
+		      toFile="${tmp.dir}/winclient.xml">
+			<filterset>
+				<filter token="aktario.version" value="${aktario.version}" />
+				<filter token="aktario.dir" value="${aktario.dir}" />
+				<filter token="installer.dir" value="${installer.dir}" />
+				<filter token="tmp.dir" value="${tmp.dir}" />
+				<filter token="aktera.product.id"
+				        value="${aktera.product.id}" />
+				<filter token="aktera.product.name"
+				        value="${aktera.product.name}" />
+				<filter token="aktera.product.file.name"
+				        value="${aktera.product.file.name}" />
+				<filter token="aktera.product.version"
+				        value="${aktera.product.version}" />
+				<filter token="aktera.product.manufacturer"
+				        value="${aktera.product.manufacturer}" />
+				<filter token="aktera.product.manufacturer.short"
+				        value="${aktera.product.manufacturer.short}" />
+				<filter token="aktera.product.manufacturer.email"
+				        value="${aktera.product.manufacturer.email}" />
+				<filter token="aktera.product.manufacturer.web"
+				        value="${aktera.product.manufacturer.web}" />
+			</filterset>
+		</copy>
+
+		<launch4j configFile="${tmp.dir}/winclient.xml" />
+
+        <exec executable="/opt/izpack/bin/compile">
+            <arg line="${tmp.dir}/installer.xml -o ${target.dir}/${aktera.product.file.name}-Client-${aktera.product.version}-Install.jar -b ${basedir} -h ${izpack.dir}"/>
+        </exec>
+
+		<launch4j configFile="${tmp.dir}/wininstaller.xml" />
+
+		<delete dir="${tmp.dir}" />
+
+	</target>
+
+</project>

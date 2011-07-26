@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    This file is part of the Iritgo/Aktera Framework.
+
+    Copyright (C) 2005-2011 Iritgo Technologies.
+    Copyright (C) 2003-2005 BueroByte GbR.
+
+    Iritgo licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License. You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:ui="http://aktera.iritgo.de/spring/ui"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+			http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+			http://aktera.iritgo.de/spring/ui http://aktera.iritgo.de/spring/ui.xsd">
+
+	<!-- Events -->
+
+	<util:list id="de.iritgo.aktera.event.Handlers-Address">
+		<bean parent="de.iritgo.aktera.event.DelegatingEventHandler">
+			<property name="event" value="aktera.user.deleted" />
+			<property name="bean" value="de.iritgo.aktera.address.AddressManager" />
+			<property name="method" value="onUserDeleted" />
+		</bean>
+		<bean parent="de.iritgo.aktera.event.DelegatingEventHandler">
+			<property name="event" value="aktera.user.created" />
+			<property name="bean" value="de.iritgo.aktera.address.AddressManager" />
+			<property name="method" value="onUserCreated" />
+		</bean>
+	</util:list>
+
+	<!-- Services  -->
+
+	<bean id="de.iritgo.aktera.address.AddressDAO" class="de.iritgo.aktera.address.AddressDAOImpl">
+		<property name="sessionFactory" ref="de.iritgo.aktera.hibernate.SessionFactory" />
+	</bean>
+
+	<bean id="de.iritgo.aktera.address.AddressManager" class="de.iritgo.aktera.address.AddressManagerImpl">
+		<property name="addressStoreTypes" ref="de.iritgo.aktera.address.AddressStoreTypes" />
+		<property name="addressDAO" ref="de.iritgo.aktera.address.AddressDAO" />
+		<property name="logger" ref="de.iritgo.aktera.logger.Logger" />
+		<property name="i18N" ref="de.iritgo.aktera.i18n.I18N" />
+		<property name="permissionManager" ref="de.iritgo.aktera.permissions.PermissionManager" />
+		<property name="userDAO" ref="keel.UserDAO" />
+	</bean>
+
+	<util:list id="de.iritgo.aktera.address.AddressStoreTypes">
+		<bean class="de.iritgo.aktera.address.AddressStoreType">
+			<property name="key" value="de.iritgo.aktera.address.entity.AddressDAOStore" />
+			<property name="className" value="de.iritgo.aktera.address.entity.AddressDAOStore" />
+			<property name="label" value="$AkteraAddress:de.iritgo.aktera.address.entity.AddressDAOStore" />
+		</bean>
+		<bean class="de.iritgo.aktera.address.AddressStoreType">
+			<property name="key" value="de.iritgo.aktera.address.entity.AddressLDAPStore" />
+			<property name="className" value="de.iritgo.aktera.address.entity.AddressLDAPStore" />
+			<property name="label" value="$AkteraAddress:de.iritgo.aktera.address.entity.AddressLDAPStore" />
+		</bean>
+		<bean class="de.iritgo.aktera.address.AddressStoreType">
+			<property name="key" value="de.iritgo.aktera.address.entity.AddressGoogleStore" />
+			<property name="className" value="de.iritgo.aktera.address.entity.AddressGoogleStore" />
+			<property name="label" value="$AkteraAddress:de.iritgo.aktera.address.entity.AddressGoogleStore" />
+		</bean>
+	</util:list>
+
+	<bean id="de.iritgo.aktera.services.address.AddressService" class="de.iritgo.aktera.address.services.AddressServiceImpl">
+		<property name="addressManager" ref="de.iritgo.aktera.address.AddressManager" />
+	</bean>
+
+	<util:map id="de.iritgo.aktera.script.Services-Address">
+		<entry key="de.iritgo.aktera.services.address.AddressService" value-ref="de.iritgo.aktera.services.address.AddressService" />
+	</util:map>
+
+	<!-- Address store prototypes -->
+
+	<bean class="de.iritgo.aktera.address.entity.AddressDAOStore" scope="prototype" abstract="true">
+		<property name="emptySearchReturnsAllEntries" value="true" />
+		<property name="systemStore" value="true" />
+	</bean>
+
+	<bean class="de.iritgo.aktera.address.entity.AddressLDAPStore" scope="prototype" abstract="true">
+		<property name="editable" value="false" />
+	</bean>
+
+	<bean class="de.iritgo.aktera.address.entity.AddressGoogleStore" scope="prototype" abstract="true">
+		<property name="editable" value="false" />
+	</bean>
+
+	<!-- Webservices -->
+
+	<util:list id="de.iritgo.aktera.webservices.SchemaObjects-AkteraAddress">
+		<value>de.iritgo.aktera.webservices.address</value>
+	</util:list>
+
+	<bean id="de.iritgo.aktera.address.AddressEndpoint" class="de.iritgo.aktera.address.ws.AddressEndpoint" />
+
+	 <bean id="de.iritgo.aktera.webservices.Address" class="org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition">
+	   <property name="schema">
+	     <bean class="org.springframework.xml.xsd.SimpleXsdSchema">
+	       <property name="xsd" value="classpath:schemas/iritgo-aktera-address/AddressWebService.xsd"/>
+	     </bean>
+	   </property>
+	   <property name="portTypeName" value="Address"/>
+	   <property name="locationUri" value="/services"/>
+	 </bean>
+
+	<!-- Permissions -->
+
+	<util:list id="de.iritgo.aktera.permissions.Permissions-Address">
+		<bean parent="de.iritgo.aktera.permissions.PermissionMetaData">
+			<property name="id" value="de.iritgo.aktera.address.*" />
+			<property name="name" value="AkteraAddress:permissionAddressAll" />
+			<property name="objectType" value="de.iritgo.aktera.address.entity.AddressStore" />
+		</bean>
+		<bean parent="de.iritgo.aktera.permissions.PermissionMetaData">
+			<property name="id" value="de.iritgo.aktera.address.view" />
+			<property name="name" value="AkteraAddress:permissionAddressView" />
+			<property name="objectType" value="de.iritgo.aktera.address.entity.AddressStore" />
+		</bean>
+		<bean parent="de.iritgo.aktera.permissions.PermissionMetaData">
+			<property name="id" value="de.iritgo.aktera.address.create" />
+			<property name="name" value="AkteraAddress:permissionAddressCreate" />
+			<property name="objectType" value="de.iritgo.aktera.address.entity.AddressStore" />
+		</bean>
+		<bean parent="de.iritgo.aktera.permissions.PermissionMetaData">
+			<property name="id" value="de.iritgo.aktera.address.edit" />
+			<property name="name" value="AkteraAddress:permissionAddressEdit" />
+			<property name="objectType" value="de.iritgo.aktera.address.entity.AddressStore" />
+		</bean>
+		<bean parent="de.iritgo.aktera.permissions.PermissionMetaData">
+			<property name="id" value="de.iritgo.aktera.address.delete" />
+			<property name="name" value="AkteraAddress:permissionAddressDelete" />
+			<property name="objectType" value="de.iritgo.aktera.address.entity.AddressStore" />
+		</bean>
+		<bean parent="de.iritgo.aktera.permissions.PermissionMetaData">
+			<property name="id" value="de.iritgo.aktera.address.import" />
+			<property name="name" value="AkteraAddress:permissionAddressImport" />
+			<property name="objectType" value="de.iritgo.aktera.address.entity.AddressStore" />
+		</bean>
+	</util:list>
+
+	<util:map id="de.iritgo.aktera.permissions.PermissionFormParts-Address">
+		<entry key="de.iritgo.aktera.address.*">
+			<bean class="de.iritgo.aktera.address.ui.AddressStorePermissionFormPart">
+				<property name="addressDAO" ref="de.iritgo.aktera.address.AddressDAO" />
+			</bean>
+		</entry>
+		<entry key="de.iritgo.aktera.address.view">
+			<bean class="de.iritgo.aktera.address.ui.AddressStorePermissionFormPart">
+				<property name="addressDAO" ref="de.iritgo.aktera.address.AddressDAO" />
+			</bean>
+		</entry>
+		<entry key="de.iritgo.aktera.address.create">
+			<bean class="de.iritgo.aktera.address.ui.AddressStorePermissionFormPart">
+				<property name="addressDAO" ref="de.iritgo.aktera.address.AddressDAO" />
+			</bean>
+		</entry>
+		<entry key="de.iritgo.aktera.address.edit">
+			<bean class="de.iritgo.aktera.address.ui.AddressStorePermissionFormPart">
+				<property name="addressDAO" ref="de.iritgo.aktera.address.AddressDAO" />
+			</bean>
+		</entry>
+		<entry key="de.iritgo.aktera.address.delete">
+			<bean class="de.iritgo.aktera.address.ui.AddressStorePermissionFormPart">
+				<property name="addressDAO" ref="de.iritgo.aktera.address.AddressDAO" />
+			</bean>
+		</entry>
+		<entry key="de.iritgo.aktera.address.import">
+			<bean class="de.iritgo.aktera.address.ui.AddressStorePermissionFormPart">
+				<property name="addressDAO" ref="de.iritgo.aktera.address.AddressDAO" />
+			</bean>
+		</entry>
+	</util:map>
+
+	<util:list id="de.iritgo.aktera.permissions.PermissionFormularGroups-Address">
+		<ui:formularGroup>
+			<ui:group name="de.iritgo.aktera.address.*" label="permissionAddressAll" bundle="AkteraAddress">
+				<ui:field name="permission.objectId" label="addressStore" editor="combo" size="40" duty="true" />
+			</ui:group>
+			<ui:group name="de.iritgo.aktera.address.view" label="permissionAddressView" bundle="AkteraAddress">
+				<ui:field name="permission.objectId" label="addressStore" editor="combo" size="40" duty="true" />
+			</ui:group>
+			<ui:group name="de.iritgo.aktera.address.create" label="permissionAddressCreate" bundle="AkteraAddress">
+				<ui:field name="permission.objectId" label="addressStore" editor="combo" size="40" duty="true" />
+			</ui:group>
+			<ui:group name="de.iritgo.aktera.address.edit" label="permissionAddressEdit" bundle="AkteraAddress">
+				<ui:field name="permission.objectId" label="addressStore" editor="combo" size="40" duty="true" />
+			</ui:group>
+			<ui:group name="de.iritgo.aktera.address.delete" label="permissionAddressDelete" bundle="AkteraAddress">
+				<ui:field name="permission.objectId" label="addressStore" editor="combo" size="40" duty="true" />
+			</ui:group>
+			<ui:group name="de.iritgo.aktera.address.import" label="permissionAddressImport" bundle="AkteraAddress">
+				<ui:field name="permission.objectId" label="addressStore" editor="combo" size="40" duty="true" />
+			</ui:group>
+		</ui:formularGroup>
+	</util:list>
+
+	<!-- User interface -->
+
+	<bean id="de.iritgo.aktera.address.GetPhoneNumbersByStoreAndAddress" class="de.iritgo.aktera.address.ui.GetPhoneNumbersByStoreAndAddress">
+		<property name="forward" value="aktera.address.get-phone-numbers" />
+	</bean>
+
+	<!-- Address -->
+
+	<ui:listing id="de.iritgo.aktera.address.Listing">
+		<ui:title>addresses</ui:title>
+		<ui:bundle>Aktera</ui:bundle>
+		<ui:key column="address.partyId" />
+		<ui:sort column="address.lastName" />
+		<ui:column name="address.lastName" viewer="text" width="15" />
+		<ui:column name="address.firstName" viewer="text" width="10" />
+		<ui:column name="address.company" viewer="text" width="15" />
+		<ui:column name="address.street" viewer="text" width="20" />
+		<ui:column name="address.city" viewer="text" width="10" />
+		<ui:column name="address.phoneNumber(B).number" label="phoneBusiness" viewer="text" width="15" sortable="false" />
+		<ui:column name="address.phoneNumber(BF).number" label="phoneBusinessFax" viewer="text" width="15" sortable="false" />
+		<ui:handler bean="de.iritgo.aktera.address.AddressListingHandler" />
+	</ui:listing>
+
+	<bean id="de.iritgo.aktera.address.AddressListingHandler" class="de.iritgo.aktera.address.ui.AddressListingHandler" />
+
+	<bean id="de.iritgo.aktera.address.AddressFormularHandler" class="de.iritgo.aktera.address.ui.AddressFormularHandler" />
+
+	<!-- AddressStore -->
+
+	<ui:listing id="de.iritgo.aktera.address.ListAddressStores">
+		<ui:title>manageAddressStores</ui:title>
+		<ui:icon>server-32</ui:icon>
+		<ui:bundle>AkteraAddress</ui:bundle>
+		<ui:key value="#{it(id)}" />
+		<ui:sort name="position" />
+		<ui:column name="name" value="#{it(name)}" bundle="Aktera" viewer="text" width="60" />
+		<ui:column name="type" value="#{it(type)}" bundle="Aktera" viewer="handler:formatTypeColumn" width="60" />
+		<ui:column name="position" value="#{it(position)}" bundle="Aktera" viewer="text" width="10" />
+		<ui:column name="default" value="#{it(default)}" bundle="Aktera" viewer="icon:tool-ok-16" width="0" />
+		<ui:query name="de.iritgo.aktera.address.AddressStoreList">
+			<ui:param name="name" value="#{search}" />
+		</ui:query>
+		<ui:command-view bean="de.iritgo.aktera.address.EditAddressStore" />
+		<ui:command-new bean="de.iritgo.aktera.address.CreateAddressStoreStart" label="new" />
+		<ui:command-search bean="de.iritgo.aktera.address.ListAddressStores" label="search" />
+		<ui:item-command id="delete" bean="de.iritgo.aktera.address.DeleteAddressStore" label="delete" />
+		<ui:item-command bundle="AkteraAddress" id="deleteAll" bean="de.iritgo.aktera.address.DeleteAllAddressesInAddressStore"
+			label="deleteAllAddressesInStore" />
+		<ui:item-command id="up" bean="de.iritgo.aktera.address.MoveAddressStoreOnePositionUp" label="up" icon="tool-up-10"
+			style="tool" />
+		<ui:item-command id="down" bean="de.iritgo.aktera.address.MoveAddressStoreOnePositionDown" label="down" icon="tool-down-10"
+			style="tool" />
+		<ui:handler bean="de.iritgo.aktera.address.AddressStoreListingHandler" />
+	</ui:listing>
+
+	<bean id="de.iritgo.aktera.address.AddressStoreListingHandler" class="de.iritgo.aktera.address.ui.AddressStoreListingHandler" />
+
+	<bean id="de.iritgo.aktera.address.MoveAddressStoreOnePositionUp" class="de.iritgo.aktera.address.ui.MoveAddressStoreOnePositionUp" />
+
+	<bean id="de.iritgo.aktera.address.MoveAddressStoreOnePositionDown" class="de.iritgo.aktera.address.ui.MoveAddressStoreOnePositionDown" />
+
+	<bean id="de.iritgo.aktera.address.DeleteAllAddressesInAddressStore" class="de.iritgo.aktera.address.ui.DeleteAllAddressesInAddressStore" />
+
+	<ui:formular id="de.iritgo.aktera.address.AddressStoreCreationFormular">
+		<ui:bundle>AkteraAddress</ui:bundle>
+		<ui:labelWidth>25</ui:labelWidth>
+		<ui:group name="general" titleVisible="false">
+			<ui:field name="type" label="addressStoreType" unbound="true" editor="combo" duty="true" />
+		</ui:group>
+	</ui:formular>
+
+	<bean id="de.iritgo.aktera.address.AddressStoreCreationFormularHandler" class="de.iritgo.aktera.address.ui.AddressStoreCreationFormularHandler" />
+
+	<ui:edit id="de.iritgo.aktera.address.CreateAddressStoreStart">
+		<ui:bundle>Aktera</ui:bundle>
+		<ui:title>createAddressStore</ui:title>
+		<ui:icon>tool-new-32</ui:icon>
+		<ui:context id="de.iritgo.aktera.address.AddressStore" />
+		<ui:formular bean="de.iritgo.aktera.address.AddressStoreCreationFormular" />
+		<ui:handler bean="de.iritgo.aktera.address.AddressStoreCreationFormularHandler" />
+		<ui:command-save bean="de.iritgo.aktera.address.CreateAddressStoreFinish" label="next" />
+		<ui:command-cancel bean="de.iritgo.aktera.address.manage-address-store.manage-seq" label="cancel" />
+	</ui:edit>
+
+	<ui:save id="de.iritgo.aktera.address.CreateAddressStoreFinish">
+		<ui:context id="de.iritgo.aktera.address.AddressStore" />
+		<ui:handler bean="de.iritgo.aktera.address.AddressStoreCreationFormularHandler" />
+		<ui:command-ok bean="de.iritgo.aktera.address.EditAddressStore" label="next">
+			<ui:param name="reedit" value="true" />
+		</ui:command-ok>
+	</ui:save>
+
+	<bean id="de.iritgo.aktera.address.AddressStoreFormularHandler" class="de.iritgo.aktera.address.ui.AddressStoreFormularHandler" />
+
+	<ui:formular id="de.iritgo.aktera.address.AddressStoreFormular">
+		<ui:key>store.id</ui:key>
+		<ui:bundle>AkteraAddress</ui:bundle>
+		<ui:labelWidth>25</ui:labelWidth>
+		<ui:group name="addressStore">
+			<ui:field name="store.name" bundle="Aktera" editor="identifier" size="40" duty="true" />
+			<ui:field name="store.title" bundle="Aktera" editor="text" size="40" />
+			<ui:field name="store.numberLookup" label="useAddressStoreForPhoneNumberLookup" editor="check" />
+			<ui:field name="store.emptySearchReturnsAllEntries" label="emptySearchReturnsAllEntries" editor="check" />
+			<ui:field name="store.systemStore" label="addressStoreSystemStore" editor="check" />
+			<ui:field name="store.defaultStore" label="addressStoreDefaultStore" editor="check" />
+			<ui:field name="store.editable" label="addressStoreEditable" editor="check" />
+		</ui:group>
+		<ui:group name="de.iritgo.aktera.address.entity.AddressDAOStore">
+			<ui:field name="store.category" editor="text" size="40" duty="true" />
+			<ui:field name="store.checkOwner" editor="check" label="personalAddressStore" />
+		</ui:group>
+		<ui:group name="de.iritgo.aktera.address.entity.AddressLDAPStore">
+			<ui:field name="store.host" label="host" bundle="Aktera" editor="text" size="40" duty="true" />
+			<ui:field name="store.port" label="port" bundle="Aktera" editor="number" />
+			<ui:field name="store.authDn" label="ldapAuthDn" editor="text" size="80" />
+			<ui:field name="store.authPassword" label="ldapAuthPassword" editor="password" size="40" />
+			<ui:field name="store.baseDn" label="ldapBaseDn" editor="text" size="80" duty="true" />
+			<ui:field name="store.query" label="ldapQuery" editor="text" size="80" tip="ldapQueryTip" />
+			<ui:field name="store.scope" label="ldapScope" editor="combo" />
+			<ui:field name="store.pageSize" label="ldapPageSize" editor="number" size="10" tip="ldapPageSizeTip" />
+			<ui:field name="store.maxEntries" label="ldapMaxEntries" editor="number" size="10" />
+			<ui:field name="store.searchAttributes" label="ldapSearchAttributes" editor="text" size="80" tip="ldapSearchAttributesTip" />
+			<ui:field name="store.attributeNames" label="ldapAttributeNames" editor="textarea" size="80" rows="4" tip="ldapAttributeNamesTip" />
+		</ui:group>
+		<ui:group name="de.iritgo.aktera.address.entity.AddressGoogleStore">
+			<ui:field name="store.url" editor="text" size="80" duty="true" />
+			<ui:field name="store.authUser" editor="text" size="40" duty="true" />
+			<ui:field name="store.authPassword" editor="password" size="40" duty="true" />
+		</ui:group>
+	</ui:formular>
+
+	<ui:edit id="de.iritgo.aktera.address.EditAddressStore">
+		<ui:title>editAddressStore</ui:title>
+		<ui:icon>server-32</ui:icon>
+		<ui:context id="de.iritgo.aktera.address.AddressStore" />
+		<ui:formular bean="de.iritgo.aktera.address.AddressStoreFormular" />
+		<ui:persistent id="store" entity="de.iritgo.aktera.address.entity.AddressStore" />
+		<ui:handler bean="de.iritgo.aktera.address.AddressStoreFormularHandler" />
+		<ui:command-save bean="de.iritgo.aktera.address.SaveAddressStore" />
+		<ui:command-cancel bean="de.iritgo.aktera.address.ListAddressStores" />
+	</ui:edit>
+
+	<ui:save id="de.iritgo.aktera.address.SaveAddressStore">
+		<ui:context id="de.iritgo.aktera.address.AddressStore" />
+		<ui:persistent id="store" />
+		<ui:handler bean="de.iritgo.aktera.address.AddressStoreFormularHandler" />
+		<ui:command-ok bean="de.iritgo.aktera.address.ListAddressStores" />
+		<ui:command-edit bean="de.iritgo.aktera.address.EditAddressStore" />
+	</ui:save>
+
+	<ui:delete id="de.iritgo.aktera.address.DeleteAddressStore">
+		<ui:persistent id="store" entity="de.iritgo.aktera.address.entity.AddressStore" />
+		<ui:handler bean="de.iritgo.aktera.address.AddressStoreFormularHandler" />
+	</ui:delete>
+
+</beans>

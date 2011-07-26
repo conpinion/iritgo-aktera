@@ -1,0 +1,145 @@
+Third-Party Licenses:
+
+The Apache Software License Version 2.0
+---------------------------------------
+Website:			http://www.apache.org/licenses/
+File:				TASL2.0.txt
+
+Name:				Ant build tool. 
+Archiv:			ant.jar, optional.jar, packager.jar
+Version:			1.1.1
+
+Name:				Avalon-Framework 
+Archiv:			avalon-framework-4.1.4.jar
+Version:			1.0
+
+Name:				Cactus 
+Archiv:			cactus-ant-1.6.1.jar
+Version:			1.0
+
+Name:				Commons 
+Archiv:			commons-betwixt-1.0-alpha-1.jar, commons-cli-1.0.jar, 				commons-collections.jar, commons-dbcp-1.1.jar,
+				commons-dbutils-1.0.jar, commons-digester.jar, commons-				pool-1.1.jar
+Version:			1.0
+
+Name:				J4Log-API
+Archiv:			log4j-1.2.6.jar
+Version:			1.0
+
+Name:				SwixML 
+Archiv:			swixml.jar
+Version:			1.2
+
+Name:				Jboss Rules
+Archiv:			...
+Version:			...
+
+Name:				Xalan (XML)
+Archiv:			...
+Version:			...
+
+Name:				Asterisk-Java
+Archiv:			...
+Version:			...
+
+Name:				JSTUN
+Archiv:			...
+Version:			...
+
+The Apache Software License Version 1.1
+---------------------------------------
+Website: 			http://www.apache.org/licenses/
+File: 			TASL1.1.txt
+
+Name:				i4jruntime 
+Archiv:			i4jruntime.jar
+Version:			1.0
+
+Name:				JainSip 
+Archiv:			JainSipApi1.1.jar
+Version:			1.0
+
+
+
+Gnu Lesser Public License
+-------------------------
+Website: 			http://www.gnu.org/copyleft/lesser.html
+File: 			LGPL.txt
+
+Name:				Beanshell 
+Archiv:			bsh-2.0b1.jar
+Version:			1.0
+
+Name:				iText
+Archiv:			...
+Version:			...
+
+
+The (Jalopy) BSD License
+----------------------
+Website: 			http://jalopy.sourceforge.net/license-bsd.html
+File: 			JBSD.txt
+
+Name:				Jalopy-Codeformater
+Archiv:			jalopy-1.0b10.jar
+Version:			1.0
+
+Name				Jalopy-Ant-Task
+Archiv:			jalopy-ant-0.6.1.jar
+Version:			1.0
+
+Name				Jung
+Archiv:			...
+Version:			...
+
+Hunter License
+--------------
+Website: 			http://
+File: 			Hunter.txt
+
+Libraries:
+				jdom-1.0b8.jar
+				jdom.jar
+
+
+MIT (style) license
+-----------------
+Website: 			http://syntax.jedit.org/
+File: 			MIT.txt
+
+Name:				JEdit-Syntax
+Archiv:			jedit-syntax.jar
+Version:			1.0
+
+Name:				Easy Mock
+Archiv:			...
+Version:			...
+
+Berkeley Software Distribution (BSD) License
+--------------------------------------------
+Website: 			https://jgoodies.dev.java.net/
+File: 			BSD.txt
+
+Name:				JGoodies Looks
+Archiv:			looks-1.2.2-bb.jar
+Version:			1.0
+
+Name:				JGoodies Renderpack
+Archiv:			renderpack.jar
+Version:			1.0
+
+Name:				Keel-Framework
+Archiv:			Keel*
+Version:			1.0
+
+
+
+Jasper-Reports
+--------------
+Website: 			http://jasperreports.sourceforge.net/license.html
+File: 			Jasper.txt
+
+Name:				Jasper-Reports
+Archiv:			Jasper.jar
+Version:			1.0
+

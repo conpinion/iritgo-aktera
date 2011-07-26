@@ -1,0 +1,2 @@
+classpath*:nexim.spring.xml
+classpath*:nexim-logger.spring.xml

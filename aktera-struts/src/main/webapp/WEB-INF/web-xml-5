@@ -1,0 +1,45 @@
+
+	<session-config>
+		<session-timeout>30</session-timeout>
+	</session-config>
+
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+
+	<error-page>
+		<exception-type>java.lang.SecurityException</exception-type>
+		<location>/permissions.jsp</location>
+	</error-page>
+
+	<error-page>
+		<exception-type>de.iritgo.aktera.struts.PermissionException</exception-type>
+		<location>/permissions.jsp</location>
+	</error-page>
+
+	<taglib>
+		<taglib-uri>http://aktera.iritgo.de/taglibs/bean-2.1</taglib-uri>
+		<taglib-location>/WEB-INF/iritgo-aktera-bean.tld</taglib-location>
+	</taglib>
+
+	<taglib>
+		<taglib-uri>http://aktera.iritgo.de/taglibs/html-2.1</taglib-uri>
+		<taglib-location>/WEB-INF/iritgo-aktera-html.tld</taglib-location>
+	</taglib>
+
+	<taglib>
+		<taglib-uri>http://aktera.iritgo.de/taglibs/keel-2.1</taglib-uri>
+		<taglib-location>/WEB-INF/iritgo-aktera-keel.tld</taglib-location>
+	</taglib>
+
+	<taglib>
+		<taglib-uri>http://aktera.iritgo.de/taglibs/logic-2.1</taglib-uri>
+		<taglib-location>/WEB-INF/iritgo-aktera-logic.tld</taglib-location>
+	</taglib>
+
+	<taglib>
+		<taglib-uri>http://www.keelframework.org/struts/keel-1.0</taglib-uri>
+		<taglib-location>/WEB-INF/keel.tld</taglib-location>
+	</taglib>
+
+</web-app>

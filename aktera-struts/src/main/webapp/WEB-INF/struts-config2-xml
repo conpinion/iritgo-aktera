@@ -1,0 +1,30 @@
+	</global-forwards>
+
+	<action-mappings>
+
+	    <!-- Keel model action -->
+
+		<action
+			path="/model"
+			type="de.iritgo.aktera.struts.ModelAction"
+			name="none"
+			scope="request">
+		</action>
+
+    	<!-- Spring bean action -->
+
+    	<action  path="/bean"
+             type="de.iritgo.aktera.struts.BeanAction"
+             name="none"
+             scope="request">
+    	</action>
+
+	</action-mappings>
+
+	<controller
+		processorClass="org.apache.struts.action.RequestProcessor"
+		contentType="text/html"
+		maxFileSize="1G">
+	</controller>
+
+	<message-resources parameter="ApplicationResources" null="true"/>

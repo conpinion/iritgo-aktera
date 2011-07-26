@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    This file is part of the Iritgo/Aktera Framework.
+
+    Copyright (C) 2005-2011 Iritgo Technologies.
+    Copyright (C) 2003-2005 BueroByte GbR.
+
+    Iritgo licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License. You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+
+<keel>
+
+	<!-- Schedule actions -->
+
+	<de.iritgo.aktera.scheduler.ScheduleActionFormParts id="de.iritgo.aktera.scheduler.ScheduleActionFormParts">
+		<part id="Log" class="de.iritgo.aktera.scheduler.action.LogScheduleActionFormPart" bundle="aktera-scheduler"
+			infoKey="scheduleActionLog" />
+	</de.iritgo.aktera.scheduler.ScheduleActionFormParts>
+
+	<de.iritgo.aktera.scheduler.ScheduleActionHandlers id="de.iritgo.aktera.scheduler.ScheduleActionHandlers">
+		<handler id="Log" bean="de.iritgo.aktera.scheduler.LogScheduleActionHandler" />
+	</de.iritgo.aktera.scheduler.ScheduleActionHandlers>
+
+	<!-- Schedule management -->
+
+	<aktera.listing id="de.iritgo.aktera.scheduler.ScheduleListing">
+		<bundle>aktera-scheduler</bundle>
+		<key>schedule.id</key>
+		<sort>schedule.position</sort>
+		<column name="schedule.disabled" label="0.empty" bundle="Aktera" viewer="icon:tool-stop-12" width="0" />
+		<column name="schedule.name" bundle="Aktera" viewer="text" width="90" />
+		<column name="schedule.position" bundle="Aktera" viewer="text" width="10" />
+	</aktera.listing>
+
+	<aktera.list id="de.iritgo.aktera.scheduler.ListSchedules">
+		<title>manageSchedules</title>
+		<icon>clock-32</icon>
+		<listing id="de.iritgo.aktera.scheduler.ScheduleListing" />
+		<persistent id="schedule" name="aktera.Schedule" />
+		<command-view model="de.iritgo.aktera.scheduler.EditScheduleSeq" />
+		<command-new model="de.iritgo.aktera.scheduler.EditScheduleSeq" label="new" />
+		<command-search model="de.iritgo.aktera.scheduler.ListSchedules" label="search" />
+		<item-command id="up" model="de.iritgo.aktera.scheduler.MoveScheduleUp" label="up" icon="tool-up-10"
+			style="tool" />
+		<item-command id="down" model="de.iritgo.aktera.scheduler.MoveScheduleDown" label="down" icon="tool-down-10"
+			style="tool" />
+		<item-command id="execute" model="de.iritgo.aktera.scheduler.ExecuteSchedule" label="execute" />
+		<item-command id="delete" model="de.iritgo.aktera.scheduler.DeleteSchedule" label="delete" />
+	</aktera.list>
+
+	<aktera.formular id="de.iritgo.aktera.scheduler.ScheduleFormular">
+		<key>schedule.id</key>
+		<bundle>aktera-scheduler</bundle>
+		<group name="general" bundle="Aktera">
+			<field name="schedule.name" bundle="Aktera" editor="text" size="80" duty="true" />
+			<field name="schedule.description" bundle="Aktera" editor="textarea" size="80" rows="2" />
+		</group>
+		<group name="actions">
+			<field name="actions" noLabel="true" editor="list" unbound="true" />
+		</group>
+		<group name="pointsInTimeSeconds">
+			<field name="schedule.allSeconds" label="all" bundle="Aktera" editor="check" />
+			<field name="schedule.seconds" label="selection" bundle="Aktera" editor="seconds" />
+		</group>
+		<group name="pointsInTimeMinutes">
+			<field name="schedule.allMinutes" label="all" bundle="Aktera" editor="check" />
+			<field name="schedule.minutes" label="selection" bundle="Aktera" editor="minutes" />
+		</group>
+		<group name="pointsInTimeHours">
+			<field name="schedule.allHours" label="all" bundle="Aktera" editor="check" />
+			<field name="schedule.hours" label="selection" bundle="Aktera" editor="hours" />
+		</group>
+		<group name="pointsInTimeDays">
+			<field name="schedule.allDays" label="all" bundle="Aktera" editor="check" />
+			<field name="schedule.days" label="selection" bundle="Aktera" editor="days" />
+		</group>
+		<group name="pointsInTimeDaysOfWeek">
+			<field name="schedule.allDaysOfWeek" label="all" bundle="Aktera" editor="check" />
+			<field name="schedule.daysOfWeek" label="selection" bundle="Aktera" editor="weekdays" />
+		</group>
+		<group name="pointsInTimeMonths">
+			<field name="schedule.allMonths" label="all" bundle="Aktera" editor="check" />
+			<field name="schedule.months" label="selection" bundle="Aktera" editor="months" />
+		</group>
+		<group name="pointsInTimeHolidays">
+			<field name="schedule.holidaysAllowance" label="holidaysAllowanceLabel" editor="combo" />
+			<field name="schedule.holidaysCountry" label="country" bundle="Aktera" editor="country" submit="true" />
+			<field name="schedule.holidaysProvince" label="province" bundle="Aktera" editor="province" />
+			<field name="schedule.holidaysProvinceCountry" editor="hidden" unbound="true"/>
+		</group>
+	</aktera.formular>
+
+	<aktera.edit id="de.iritgo.aktera.scheduler.EditSchedule">
+		<title>editSchedule</title>
+		<icon>clock-32</icon>
+		<context id="de.iritgo.aktera.scheduler.Schedule" />
+		<formular id="de.iritgo.aktera.scheduler.ScheduleFormular" />
+		<persistent id="schedule" name="aktera.Schedule" key="id" />
+		<handler bean="de.iritgo.aktera.scheduler.ui.ScheduleFormularHandler" />
+		<command-save model="de.iritgo.aktera.scheduler.SaveSchedule" />
+		<command-cancel model="de.iritgo.aktera.scheduler.ListSchedules" />
+	</aktera.edit>
+
+	<sequence id="de.iritgo.aktera.scheduler.EditScheduleSeq" logger="aktera">
+		<model name="de.iritgo.aktera.scheduler.ListScheduleActions" return="false" />
+		<model name="de.iritgo.aktera.scheduler.EditSchedule" return="false" />
+	</sequence>
+
+	<aktera.save id="de.iritgo.aktera.scheduler.SaveSchedule">
+		<context id="de.iritgo.aktera.scheduler.Schedule" />
+		<formular id="de.iritgo.aktera.scheduler.ScheduleFormular" />
+		<persistent id="schedule" name="aktera.Schedule" key="id" />
+		<handler bean="de.iritgo.aktera.scheduler.ui.ScheduleFormularHandler" />
+		<command-ok model="de.iritgo.aktera.scheduler.ListSchedules" />
+		<command-edit model="de.iritgo.aktera.scheduler.EditScheduleSeq" />
+	</aktera.save>
+
+	<aktera.delete id="de.iritgo.aktera.scheduler.DeleteSchedule">
+		<persistent id="schedule" name="aktera.Schedule" key="id" />
+		<handler bean="de.iritgo.aktera.scheduler.ui.ScheduleFormularHandler" />
+	</aktera.delete>
+
+	<!-- ScheduleAction management -->
+
+	<aktera.listing id="de.iritgo.aktera.scheduler.ScheduleActionListing">
+		<bundle>aktera-scheduler</bundle>
+		<key>action.id</key>
+		<sort>action.position</sort>
+		<column name="action.disabled" label="0.empty" bundle="Aktera" viewer="icon:tool-stop-12" width="0" />
+		<column name="info" label="actionInfo" viewer="custom" width="90" />
+		<column name="action.position" bundle="Aktera" viewer="text" width="10" />
+		<column name="action.type" visible="false" />
+		<column name="action.stringParam1" visible="false" />
+		<column name="action.integerParam1" visible="false" />
+		<column name="action.integerParam2" visible="false" />
+	</aktera.listing>
+
+	<aktera.list id="de.iritgo.aktera.scheduler.ListScheduleActions">
+		<title>manageScheduleActions</title>
+		<icon>clock-32</icon>
+		<listing id="de.iritgo.aktera.scheduler.ScheduleActionListing" />
+		<persistent id="action" name="aktera.ScheduleAction" />
+		<condition>scheduleId = #id</condition>
+		<listId>actions</listId>
+		<keyName>actionId</keyName>
+		<recordsPerPage>4</recordsPerPage>
+		<handler bean="de.iritgo.aktera.scheduler.ui.ScheduleActionListingHandler" />
+		<command-view model="de.iritgo.aktera.scheduler.SaveScheduleEditScheduleAction" />
+		<command-new model="de.iritgo.aktera.scheduler.SaveScheduleEditScheduleAction" label="new" />
+		<command-search model="de.iritgo.aktera.scheduler.ListScheduleActions" label="search" />
+		<item-command id="up" model="de.iritgo.aktera.scheduler.MoveScheduleActionUp" label="up" icon="tool-up-10"
+			style="tool" />
+		<item-command id="down" model="de.iritgo.aktera.scheduler.MoveScheduleActionDown" label="down"
+			icon="tool-down-10" style="tool" />
+		<item-command id="delete" model="de.iritgo.aktera.scheduler.DeleteScheduleAction" label="delete" />
+	</aktera.list>
+
+	<aktera.formular id="de.iritgo.aktera.scheduler.ScheduleActionFormular">
+		<key>action.id</key>
+		<bundle>aktera-scheduler</bundle>
+		<labelWidth>25</labelWidth>
+		<group name="general" bundle="Aktera" pos="SS">
+			<field name="scheduleId" editor="hidden" unbound="true" />
+			<field name="action.type" bundle="Aktera" editor="combo" duty="true" submit="true" />
+		</group>
+		<group name="scheduleActionLog" bundle="aktera-scheduler" pos="M">
+			<field name="action.stringParam1" label="message" editor="text" size="80" />
+		</group>
+	</aktera.formular>
+
+	<aktera.save id="de.iritgo.aktera.scheduler.SaveScheduleEditScheduleAction">
+		<context id="de.iritgo.aktera.scheduler.Schedule" />
+		<formular id="de.iritgo.aktera.scheduler.ScheduleFormular" />
+		<persistent id="schedule" key="id" />
+		<handler bean="de.iritgo.aktera.scheduler.ui.ScheduleFormularHandler" />
+		<command-ok model="de.iritgo.aktera.scheduler.EditScheduleAction">
+			<param name="scheduleId" value="#{saveId}" />
+			<param name="id" value="#{params(actionId)}" />
+		</command-ok>
+		<command-edit model="de.iritgo.aktera.scheduler.EditScheduleSeq" />
+	</aktera.save>
+
+	<aktera.edit id="de.iritgo.aktera.scheduler.EditScheduleAction">
+		<title>editScheduleAction</title>
+		<icon>clock-32</icon>
+		<context id="de.iritgo.aktera.scheduler.ScheduleAction" />
+		<formular id="de.iritgo.aktera.scheduler.ScheduleActionFormular" />
+		<persistent id="action" name="aktera.ScheduleAction" key="id" />
+		<handler bean="de.iritgo.aktera.scheduler.ui.ScheduleActionFormularHandler" />
+		<command-save model="de.iritgo.aktera.scheduler.SaveScheduleAction">
+			<param name="scheduleId" value="#{params(scheduleId)}" />
+		</command-save>
+		<command-cancel model="de.iritgo.aktera.scheduler.EditScheduleSeq">
+			<param name="id" value="#{params(scheduleId)}" />
+		</command-cancel>
+	</aktera.edit>
+
+	<aktera.save id="de.iritgo.aktera.scheduler.SaveScheduleAction">
+		<context id="de.iritgo.aktera.scheduler.ScheduleAction" />
+		<formular id="de.iritgo.aktera.scheduler.ScheduleActionFormular" />
+		<persistent id="action" key="id" />
+		<handler bean="de.iritgo.aktera.scheduler.ui.ScheduleActionFormularHandler" />
+		<command-ok model="de.iritgo.aktera.scheduler.EditScheduleSeq">
+			<param name="id" value="#{params(scheduleId)}" />
+		</command-ok>
+		<command-edit model="de.iritgo.aktera.scheduler.EditScheduleAction">
+			<param name="scheduleId" value="#{params(scheduleId)}" />
+		</command-edit>
+	</aktera.save>
+
+	<aktera.delete id="de.iritgo.aktera.scheduler.DeleteScheduleAction">
+		<persistent id="scheduleAction" name="aktera.ScheduleAction" key="id" />
+		<handler bean="de.iritgo.aktera.scheduler.ui.ScheduleActionFormularHandler" />
+		<keyName>actionId</keyName>
+	</aktera.delete>
+
+</keel>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    This file is part of the Iritgo/Aktera Framework.
+
+    Copyright (C) 2005-2011 Iritgo Technologies.
+    Copyright (C) 2003-2005 BueroByte GbR.
+
+    Iritgo licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License. You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:ui="http://aktera.iritgo.de/spring/ui"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+       http://aktera.iritgo.de/spring/ui http://aktera.iritgo.de/spring/ui.xsd">
+
+	<!-- User interface -->
+
+	<ui:listing id="de.iritgo.aktera.permissions.ListPermissions">
+		<ui:key value="#{it(id)}" />
+		<ui:column name="permission" value="#{it(permission)}" visible="false" />
+		<ui:column name="negative" label="0.empty" value="#{it(negative)}" bundle="Aktera" viewer="icon:tool-remove-16|tool-add-16" width="0"/>
+		<ui:column name="permissionName" value="permissionName" bundle="Aktera" viewer="custom" width="40"/>
+		<ui:column name="permissionInfo" label="details" viewer="custom" width="60"/>
+		<ui:query name="de.iritgo.aktera.permissions.PermissionListing">
+		</ui:query>
+		<ui:command-view bean="aktera.admin.permission.EditPermission"/>
+		<ui:command-new bean="aktera.admin.permission.EditPermission"/>
+		<ui:handler bean="de.iritgo.aktera.permissions.PermissionListingHandler"/>
+		<ui:sort column="permission"></ui:sort>
+		<ui:bundle>Aktera</ui:bundle>
+		<ui:title>permissions</ui:title>
+		<ui:icon>keypaper-32</ui:icon>
+	</ui:listing>
+
+	<bean id="de.iritgo.aktera.permissions.PermissionListingHandler" class="de.iritgo.aktera.permissions.ui.PermissionListingHandler">
+		<property name="permissionManager" ref="de.iritgo.aktera.permissions.PermissionManager" />
+		<property name="permissionFormParts" ref="de.iritgo.aktera.permissions.PermissionFormParts" />
+	</bean>
+
+	<ui:formular id="de.iritgo.aktera.permissions.PermissionFormular">
+		<ui:key >permission.id</ui:key>
+		<ui:group name="permission">
+			<ui:field name="principalId" editor="hidden" unbound="true"/>
+			<ui:field name="permission.permission" bundle="Aktera" editor="combo" size="40" duty="true" submit="true" />
+			<ui:field name="permission.negative" label="negativePermission" bundle="Aktera" editor="check"/>
+		</ui:group>
+		<ui:groupList bean="de.iritgo.aktera.permissions.PermissionFormularGroups" />
+		<ui:bundle>Aktera</ui:bundle>
+		<ui:labelWidth>25</ui:labelWidth>
+	</ui:formular>
+
+	<util:list id="de.iritgo.aktera.permissions.PermissionFormularGroups">
+	</util:list>
+
+	<ui:edit id="de.iritgo.aktera.permissions.EditPermission">
+		<ui:context id="Permission"/>
+		<ui:formular bean="de.iritgo.aktera.permissions.PermissionFormular"/>
+		<ui:persistent id="permission" name="aktera.Permission" key="id" />
+		<ui:handler bean="de.iritgo.aktera.permissions.PermissionFormularHandler"/>
+		<ui:title>editPermission</ui:title>
+		<ui:icon>keypaper-32</ui:icon>
+	</ui:edit>
+
+	<ui:save id="de.iritgo.aktera.permissions.SavePermission">
+		<ui:context id="Permission"/>
+		<ui:persistent id="permission" key="id" />
+		<ui:handler bean="de.iritgo.aktera.permissions.PermissionFormularHandler"/>
+	</ui:save>
+
+	<bean id="de.iritgo.aktera.permissions.PermissionFormularHandler" class="de.iritgo.aktera.permissions.ui.PermissionFormularHandler">
+		<property name="permissionManager" ref="de.iritgo.aktera.permissions.PermissionManager" />
+		<property name="permissionFormParts" ref="de.iritgo.aktera.permissions.PermissionFormParts" />
+	</bean>
+
+	<util:map id="de.iritgo.aktera.permissions.PermissionFormParts">
+	</util:map>
+
+</beans>

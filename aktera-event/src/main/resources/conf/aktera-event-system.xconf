@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    This file is part of the Iritgo/Aktera Framework.
+
+    Copyright (C) 2005-2011 Iritgo Technologies.
+    Copyright (C) 2003-2005 BueroByte GbR.
+
+    Iritgo licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License. You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+
+<keel>
+
+	<!-- Module info -->
+
+	<aktera.module-info id="aktera.module-info">
+		<module id="${pom.artifactId}" type="service">
+			<name>${pom.name}</name>
+			<version>${pom.version}</version>
+			<description>${pom.description}</description>
+			<copyright>${aktera.copyright}</copyright>
+		</module>
+	</aktera.module-info>
+
+	<!-- Startup -->
+
+	<aktera.startup id="aktera.startup" activation="startup" logger="aktera">
+		<startup id="de.iritgo.aktera.event.EventManager" bean="de.iritgo.aktera.event.EventManager" />
+	</aktera.startup>
+
+	<!-- Events -->
+
+	<events id="events" activation="startup" logger="aktera"/>
+
+</keel>

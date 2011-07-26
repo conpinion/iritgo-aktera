@@ -1,0 +1,4 @@
+	<context-param>
+		<param-name>contextClass</param-name>
+		<param-value>de.iritgo.aktera.spring.web.AkteraWebApplicationContext</param-value>
+	</context-param>

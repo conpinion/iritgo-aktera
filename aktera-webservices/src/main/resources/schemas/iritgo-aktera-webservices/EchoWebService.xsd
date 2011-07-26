@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+	targetNamespace="http://aktera.iritgo.de/webservices/webservices" xmlns:aktera="http://aktera.iritgo.de/webservices/webservices">
+
+	<xs:element name="echoRequest">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="name" type="xs:string" />
+				<xs:element name="message" type="xs:string" />
+			</xs:all>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="echoResponse">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="answer" type="xs:string" />
+				<xs:element name="timestamp" type="xs:string" />
+			</xs:all>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

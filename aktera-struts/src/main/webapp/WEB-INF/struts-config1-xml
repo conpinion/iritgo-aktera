@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE struts-config PUBLIC
+					"-//Apache Software Foundation//DTD Struts Configuration 1.1//EN"
+					"http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+
+<struts-config>
+
+	<form-beans>
+
+		<form-bean name="none" type="org.apache.struts.action.DynaActionForm">
+			<form-property name="fileUpload1" type="org.apache.struts.upload.FormFile" />
+			<form-property name="fileUpload2" type="org.apache.struts.upload.FormFile" />
+			<form-property name="fileUpload3" type="org.apache.struts.upload.FormFile" />
+			<form-property name="fileUpload4" type="org.apache.struts.upload.FormFile" />
+		</form-bean>
+
+	</form-beans>
+
+	<global-exceptions>
+
+	</global-exceptions>
+
+	<global-forwards>
+
+		<forward name="default" path="/aktera.jsp" />

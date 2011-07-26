@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    This file is part of the Iritgo/Aktera Framework.
+
+    Copyright (C) 2005-2011 Iritgo Technologies.
+    Copyright (C) 2003-2005 BueroByte GbR.
+
+    Iritgo licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License. You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<bean id="de.iritgo.aktera.hibernate.SessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="de.iritgo.aktera.persist.DataSource" />
+		<property name="annotatedClasses">
+			<bean class="de.iritgo.aktera.hibernate.DomainClassesLocationsProvider" />
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.cache.region.factory_class">net.sf.ehcache.hibernate.EhCacheRegionFactory</prop>
+				<prop key="hibernate.cache.use_second_level_cache">true</prop>
+				<prop key="hibernate.cache.use_query_cache">true</prop>
+				<prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</prop>
+				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+				<prop key="hibernate.format_sql">true</prop>
+				<prop key="hibernate.use_sql_comments">true</prop>
+				<prop key="hibernate.generate_statistics">false</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="de.iritgo.aktera.hibernate.TransactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="de.iritgo.aktera.hibernate.SessionFactory" />
+	</bean>
+
+	<tx:annotation-driven transaction-manager="de.iritgo.aktera.hibernate.TransactionManager"
+		proxy-target-class="true" />
+
+	<bean id="de.iritgo.aktera.hibernate.StandardDao" class="de.iritgo.aktera.hibernate.StandardDaoImpl">
+		<property name="sessionFactory" ref="de.iritgo.aktera.hibernate.SessionFactory" />
+	</bean>
+
+</beans>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    This file is part of the Iritgo/Aktera Framework.
+
+    Copyright (C) 2005-2011 Iritgo Technologies.
+    Copyright (C) 2003-2005 BueroByte GbR.
+
+    Iritgo licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License. You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+			http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<bean id="de.iritgo.aktera.event.EventManager" class="de.iritgo.aktera.event.EventManagerImpl">
+		<property name="configuration">
+			<bean class="de.iritgo.aktera.configuration.Configuration">
+				<property name="root" value="events" />
+			</bean>
+		</property>
+		<property name="logger" ref="de.iritgo.aktera.logger.Logger" />
+		<property name="events" ref="de.iritgo.aktera.event.Events" />
+		<property name="handlers" ref="de.iritgo.aktera.event.Handlers" />
+	</bean>
+
+	<bean id="de.iritgo.aktera.event.DelegatingEventHandler" class="de.iritgo.aktera.event.DelegatingEventHandler"
+		abstract="true">
+	</bean>
+
+	<util:list id="de.iritgo.aktera.event.Events">
+	</util:list>
+
+	<util:list id="de.iritgo.aktera.event.Handlers">
+	</util:list>
+
+</beans>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    This file is part of the Iritgo/Aktera Framework.
+
+    Copyright (C) 2005-2011 Iritgo Technologies.
+    Copyright (C) 2003-2005 BueroByte GbR.
+
+    Iritgo licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License. You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+
+<keel>
+
+	<!-- Module info -->
+
+	<aktera.module-info id="aktera.module-info">
+		<module id="${pom.artifactId}" type="service">
+			<name>${pom.name}</name>
+			<version>${pom.version}</version>
+			<description>${pom.description}</description>
+			<copyright>${aktera.copyright}</copyright>
+			<create class="de.iritgo.aktera.authentication.defaultauth.module.ModuleCreateHandler"/>
+			<update class="de.iritgo.aktera.authentication.defaultauth.module.ModuleUpdateHandler"/>
+		</module>
+	</aktera.module-info>
+
+	<keel-authentication id="default" default="true" logger="svc-authentication-persist">
+	    <bypass-am>nullauth</bypass-am>
+	    <domain name="default" descrip="Default Domain"/>
+	</keel-authentication>
+
+	<!-- Events -->
+
+	<events id="events">
+		<event id="aktera.user.renamed">
+			<param name="id" type="java.lang.Integer" description="Id of the user"/>
+			<param name="oldName" type="java.lang.String" description="Old name of the user"/>
+			<param name="newName" type="java.lang.String" description="New name of the user"/>
+			<param name="newFirstName" type="java.lang.String" description="New first name of the user"/>
+			<param name="newLastName" type="java.lang.String" description="New last name of the user"/>
+			<param name="newEmail" type="java.lang.String" description="New email of the user"/>
+		</event>
+	</events>
+
+</keel>

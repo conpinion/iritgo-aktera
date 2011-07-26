@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    This file is part of the Iritgo/Aktera Framework.
+
+    Copyright (C) 2005-2011 Iritgo Technologies.
+    Copyright (C) 2003-2005 BueroByte GbR.
+
+    Iritgo licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License. You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:ui="http://aktera.iritgo.de/spring/ui"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+       http://aktera.iritgo.de/spring/ui http://aktera.iritgo.de/spring/ui.xsd">
+
+	<!-- UI controllers -->
+
+	<bean id="de.iritgo.aktera.ui.TestBeanController" class="de.iritgo.aktera.ui.TestBeanController">
+		<property name="forward" value="test-bean-controller" />
+	</bean>
+
+	<bean id="aktera.cancel" class="de.iritgo.aktera.ui.ng.formular.Cancel">
+	</bean>
+
+	<bean id="de.iritgo.aktera.ui.ExecuteListItemCommand" class="de.iritgo.aktera.ui.ng.listing.ExecuteListItemCommand">
+	</bean>
+
+	<ui:listing id="de.iritgo.aktera.ui.TestListing">
+		<ui:key name="config.id" />
+		<ui:column name="config.category" viewer="text" width="40" />
+		<ui:column name="config.name" viewer="text" width="40" />
+		<ui:column name="config.value" viewer="text" width="20" />
+		<ui:persistent id="config" name="aktera.SystemConfig" />
+		<ui:command-view bean="de.iritgo.aktera.ui.TestEdit"/>
+		<ui:sort column="config.category" />
+		<ui:bundle>Aktera</ui:bundle>
+		<ui:title>configuration</ui:title>
+		<ui:icon>text-file-32</ui:icon>
+	</ui:listing>
+
+	<ui:formular id="de.iritgo.aktera.ui.TestFormular">
+		<ui:key>config.id</ui:key>
+		<ui:group name="config">
+			<ui:field name="config.category" bundle="Aktera" editor="identifier" size="40" duty="true">
+				<ui:command name="abc" bean="xyz" label="123" />
+			</ui:field>
+			<ui:field name="config.name" bundle="Aktera" editor="identifier" size="40" duty="true"/>
+			<ui:field name="config.value" bundle="Aktera" editor="text" size="80" duty="true"/>
+		</ui:group>
+		<ui:bundle>Aktera</ui:bundle>
+	</ui:formular>
+
+	<ui:edit id="de.iritgo.aktera.ui.TestEdit">
+		<ui:context id="de.iritgo.aktera.ui.TestFormular"/>
+		<ui:formular bean="de.iritgo.aktera.ui.TestFormular"/>
+		<ui:persistent id="config" name="aktera.SystemConfig" key="id"/>
+		<ui:command-save bean="de.iritgo.aktera.ui.TestSave"/>
+		<ui:command-cancel bean="de.iritgo.aktera.ui.TestListing"/>
+		<ui:title>editConfig</ui:title>
+		<ui:icon>text-file-32</ui:icon>
+	</ui:edit>
+
+	<ui:save id="de.iritgo.aktera.ui.TestSave">
+		<ui:context id="de.iritgo.aktera.ui.TestFormular"/>
+		<ui:persistent id="config" key="id"/>
+		<ui:command-ok bean="de.iritgo.aktera.ui.TestListing" />
+		<ui:command-edit bean="de.iritgo.aktera.ui.TestEdit"/>
+	</ui:save>
+
+	<ui:sequence id="de.iritgo.aktera.ui.TestSequence">
+		<ui:controller bean="de.iritgo.aktera.ui.TestListing" />
+		<ui:controller bean="de.iritgo.aktera.ui.TestEdit" />
+	</ui:sequence>
+
+</beans>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    This file is part of the Iritgo/Aktera Framework.
+
+    Copyright (C) 2005-2011 Iritgo Technologies.
+    Copyright (C) 2003-2005 BueroByte GbR.
+
+    Iritgo licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License. You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+
+<keel>
+
+	<!-- Holiday management -->
+
+	<aktera.formular id="aktera.holiday.formular">
+		<key>holiday.id</key>
+		<bundle>Aktera</bundle>
+		<labelWidth>20</labelWidth>
+		<group name="holiday">
+			<field name="holiday.name" editor="text" size="80" duty="true"/>
+			<field name="holiday.country" editor="country" submit="true" duty="true" />
+			<field name="holiday.province" editor="province" />
+			<field name="holiday.provinceCountry" editor="hidden" unbound="true"/>
+			<field name="holiday.day" editor="day" duty="true" />
+			<field name="holiday.month" editor="month" duty="true" />
+			<field name="holiday.year" editor="year" />
+			<field name="holiday.description" editor="textarea" size="80" rows="10"/>
+		</group>
+	</aktera.formular>
+
+	<aktera.edit id="aktera.holiday.edit">
+		<context id="Holiday"/>
+		<title>editHoliday</title>
+		<icon>calendar-32</icon>
+		<command-save model="aktera.holiday.save"/>
+		<command-cancel model="aktera.holiday.list-seq"/>
+		<formular id="aktera.holiday.formular"/>
+		<handler bean="de.iritgo.aktera.scheduler.ui.HolidayFormularHandler" />
+		<persistent id="holiday" name="aktera.Holiday" key="id"/>
+	</aktera.edit>
+
+	<aktera.save id="aktera.holiday.save">
+		<context id="Holiday"/>
+		<command-ok model="aktera.holiday.list-seq"/>
+		<command-edit model="aktera.holiday.edit-seq"/>
+		<formular id="aktera.holiday.formular"/>
+		<handler bean="de.iritgo.aktera.scheduler.ui.HolidayFormularHandler" />
+		<persistent id="holiday" key="id" />
+	</aktera.save>
+
+	<aktera.delete id="aktera.holiday.delete">
+		<persistent id="holiday" name="aktera.Holiday" key="id"/>
+	</aktera.delete>
+
+	<aktera.listing id="aktera.holiday.listing">
+		<title>holidays</title>
+		<bundle>Aktera</bundle>
+		<key>holiday.id</key>
+		<sort>holiday.name</sort>
+		<column name="holiday.name" viewer="text" width="40"/>
+		<column name="holiday.country" viewer="country" width="15"/>
+		<column name="holiday.province" viewer="province" width="15"/>
+		<column name="holiday.country" rename="holiday.provinceCountry" viewer="country" visible="false" />
+		<column name="holiday.day" viewer="day" width="10"/>
+		<column name="holiday.month" viewer="month" width="10"/>
+		<column name="holiday.year" viewer="year" width="10"/>
+	</aktera.listing>
+
+	<aktera.list id="aktera.holiday.list">
+		<listing id="aktera.holiday.listing"/>
+		<item-command id="delete" model="aktera.holiday.delete" label="delete"/>
+		<persistent id="holiday" name="aktera.Holiday"/>
+		<condition><![CDATA[
+			holiday.name like '~search'
+		]]></condition>
+	</aktera.list>
+
+</keel>

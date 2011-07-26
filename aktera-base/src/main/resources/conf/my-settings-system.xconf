@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    This file is part of the Iritgo/Aktera Framework.
+
+    Copyright (C) 2005-2011 Iritgo Technologies.
+    Copyright (C) 2003-2005 BueroByte GbR.
+
+    Iritgo licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License. You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+
+<keel>
+
+	<!-- Settings formular -->
+
+	<aktera.formular id="aktera.my.settings.formular">
+		<key>sysUser.uid</key>
+		<bundle>Aktera</bundle>
+		<labelWidth>25</labelWidth>
+		<group name="account">
+			<field name="sysUser.name" editor="text" size="20" readonly="true"/>
+			<field name="passwordNew" editor="password" size="20" unbound="true"/>
+			<field name="passwordNewRepeat" editor="password" size="20" unbound="true"/>
+			<field name="pinNew" editor="password" size="20" unbound="true"/>
+			<field name="pinNewRepeat" editor="password" size="20" unbound="true"/>
+		</group>
+		<group name="address">
+			<field name="address.salutation" editor="salutation"/>
+			<field name="address.firstName" editor="text" size="80"/>
+			<field name="address.lastName" editor="text" size="80" duty="true"/>
+			<field name="address.company" editor="text" size="80"/>
+			<field name="address.division" editor="text" size="80"/>
+			<field name="address.street" editor="text" size="80"/>
+			<field name="address.postalCode" editor="text" size="10"/>
+			<field name="address.city" editor="text" size="80"/>
+			<field name="address.country" editor="country"/>
+			<field name="address.email" editor="email" size="80" duty="true"/>
+			<field name="address.web" editor="text" size="80"/>
+		</group>
+		<group name="settings">
+			<field name="preferences.language" editor="language"/>
+			<field name="preferences.theme" editor="combo"/>
+			<field name="gui.tableRowsPerPage" editor="number" size="10" unbound="true"/>
+		</group>
+	</aktera.formular>
+
+	<aktera.edit id="aktera.my.settings.edit">
+		<context id="aktera.my.settings"/>
+		<title>editSettings</title>
+		<icon>settings-32</icon>
+		<command-save model="aktera.my.settings.save"/>
+		<command-cancel model="aktera.my.personal-seq"/>
+		<formular id="aktera.my.settings.formular"/>
+		<persistent id="sysUser" name="keel.user" key="uid"/>
+		<persistent id="preferences" name="aktera.Preferences" join="sysUser" myKey="userId" otherKey="uid"/>
+		<persistent id="party" name="aktera.Party" join="sysUser" myKey="userId" otherKey="uid"/>
+		<persistent id="address" name="aktera.Address" join="party" myKey="partyId" otherKey="partyId" condition="category = 'B'"/>
+		<persistent id="profile" name="aktera.Profile" join="party" myKey="partyId" otherKey="partyId"/>
+		<handler bean="de.iritgo.aktera.base.my.SettingsFormularHandler"/>
+	</aktera.edit>
+
+	<aktera.save id="aktera.my.settings.save">
+		<context id="aktera.my.settings"/>
+		<command-ok model="aktera.my.personal-seq"/>
+		<command-edit model="aktera.my.settings.edit"/>
+		<persistent id="sysUser" key="uid" />
+		<persistent id="preferences" />
+		<persistent id="party" />
+		<persistent id="address" />
+		<persistent id="profile" />
+		<handler bean="de.iritgo.aktera.base.my.SettingsFormularHandler"/>
+	</aktera.save>
+
+</keel>

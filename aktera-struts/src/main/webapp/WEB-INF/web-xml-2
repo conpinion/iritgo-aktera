@@ -1,0 +1,25 @@
+
+	<filter>
+		<filter-name>Charset Filter</filter-name>
+		<filter-class>de.iritgo.aktera.struts.CharsetFilter</filter-class>
+		<init-param>
+			<param-name>requestEncoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>Charset Filter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<listener>
+		<listener-class>de.iritgo.aktera.struts.KeelContextListener</listener-class>
+	</listener>
+
+	<listener>
+		<listener-class>de.iritgo.aktera.struts.KeelSessionListener</listener-class>
+	</listener>
+
+	<!-- Application defined context listeners -->
+

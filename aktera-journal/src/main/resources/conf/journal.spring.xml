@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    This file is part of the Iritgo/Aktera Framework.
+
+    Copyright (C) 2005-2011 Iritgo Technologies.
+    Copyright (C) 2003-2005 BueroByte GbR.
+
+    Iritgo licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License. You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+			http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<!-- Services -->
+
+	<bean id="de.iritgo.aktera.journal.JournalDAO" class="de.iritgo.aktera.journal.JournalDAOImpl">
+		<property name="sessionFactory" ref="de.iritgo.aktera.hibernate.SessionFactory" />
+	</bean>
+
+	<bean id="de.iritgo.aktera.journal.JournalManager" class="de.iritgo.aktera.journal.JournalManagerImpl">
+		<property name="journalDAO" ref="de.iritgo.aktera.journal.JournalDAO" />
+		<property name="journalExtenders" ref="de.iritgo.aktera.journal.JournalExtenders" />
+		<property name="journalExecuters" ref="de.iritgo.aktera.journal.JournalExecuters" />
+		<property name="eventManager" ref="de.iritgo.aktera.event.EventManager" />
+ 		<property name="logger" ref="de.telcat.iptell.base.Logger"/>
+ 	</bean>
+
+	<util:map id="de.iritgo.aktera.journal.JournalExtenders">
+	</util:map>
+
+	<util:list id="de.iritgo.aktera.journal.JournalExecuters">
+	</util:list>
+
+	<bean id="de.iritgo.aktera.journal.JournalDataExtender" class="de.iritgo.aktera.journal.JournalDataExtenderImpl">
+		<property name="journalDAO" ref="de.iritgo.aktera.journal.JournalDAO" />
+	</bean>
+
+	<!-- Presentation -->
+
+	<bean id="de.iritgo.aktera.journal.WebJournalListingBuilder" class="de.iritgo.aktera.journal.ui.WebJournalListingBuilder">
+		<property name="entryBuilders" ref="de.iritgo.aktera.journal.WebJournalListingEntryBuilders" />
+	</bean>
+
+	<bean id="de.iritgo.aktera.journal.BaseWebJournalListingEntryBuilder" class="de.iritgo.aktera.journal.ui.BaseWebJournalListingEntryBuilder">
+	</bean>
+
+	<util:map id="de.iritgo.aktera.journal.WebJournalListingEntryBuilders">
+		<entry key="de.iritgo.aktera.journal.Base" value-ref="de.iritgo.aktera.journal.BaseWebJournalListingEntryBuilder" />
+	</util:map>
+
+	<bean id="de.iritgo.aktera.journal.WebJournalListingHandler" class="de.iritgo.aktera.journal.ui.WebJournalListingHandler">
+		<property name="journalManager" ref="de.iritgo.aktera.journal.JournalManager" />
+		<property name="webJournalListingBuilder" ref="de.iritgo.aktera.journal.WebJournalListingBuilder" />
+		<property name="journalSearches" ref="de.iritgo.aktera.journal.JournalSearches" />
+		<property name="userDAO" ref="keel.UserDAO" />
+	</bean>
+
+	<util:list id="de.iritgo.aktera.journal.JournalSearches">
+	</util:list>
+
+	<!-- Webservices -->
+
+	<util:list id="de.iritgo.aktera.webservices.SchemaObjects-AkteraJournal">
+		<value>de.iritgo.aktera.webservices.journal</value>
+	</util:list>
+
+	<bean id="de.iritgo.aktera.journal.JournalEndpoint" class="de.iritgo.aktera.journal.ws.JournalEndpoint">
+		<property name="journalDAO" ref="de.iritgo.aktera.journal.JournalDAO" />
+		<property name="journalManager" ref="de.iritgo.aktera.journal.JournalManager" />
+		<property name="securityContext" ref="de.iritgo.aktera.authentication.SecurityContext" />
+	</bean>
+
+	<bean id="de.iritgo.aktera.webservices.Journal" class="org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition">
+		<property name="schema">
+			<bean class="org.springframework.xml.xsd.SimpleXsdSchema">
+				<property name="xsd" value="classpath:schemas/iritgo-aktera-journal/JournalWebService.xsd" />
+			</bean>
+		</property>
+		<property name="portTypeName" value="Journal" />
+		<property name="locationUri" value="/services" />
+	</bean>
+
+	<!-- Dashbaord -->
+
+	<util:list id="de.iritgo.aktera.dashboard.DashboardGroups-Journal">
+		<ref bean="de.iritgo.aktera.journal.JournalGroup"/>
+	</util:list>
+
+	<bean id="de.iritgo.aktera.journal.JournalGroup" class="de.iritgo.aktera.journal.dashboard.JournalGroupImpl"
+		parent="de.iritgo.aktera.dashboard.AbstractGroup" scope="prototype">
+		<lookup-method name="newInstance" bean="de.iritgo.aktera.journal.JournalGroup"/>
+		<property name="customVisitor" ref="de.iritgo.aktera.journal.JournalUIResponseVisitor" />
+		<property name="bundle" value="AkteraJournal"/>
+		<property name="title" value="journalDashboard"/>
+		<property name="id" value="journal-dashboard"/>
+		<property name="renderFile" value="/aktera-journal/dashboard-group.jsp"/>
+		<property name="primaryType" value="dashboard"/>
+		<property name="ownerId" value="1"/>
+		<property name="dashboardItems">
+			<util:list list-class="java.util.LinkedList">
+				<bean id="journalDashboardList" class="de.iritgo.aktera.journal.dashboard.JournalItemImpl" parent="de.iritgo.aktera.dashboard.AbstractItems" scope="prototype">
+					<property name="renderFile" value="/aktera-journal/dashboard-item.jsp"/>
+					<property name="journalManager" ref="de.iritgo.aktera.journal.JournalManager" />
+				</bean>
+			</util:list>
+		</property>
+	</bean>
+
+	<!-- UI response visitor -->
+
+	<bean id="de.iritgo.aktera.journal.JournalUIResponseVisitor" class="de.iritgo.aktera.journal.dashboard.JournalUIResponseVisitor"
+		scope="prototype">
+	</bean>
+
+</beans>

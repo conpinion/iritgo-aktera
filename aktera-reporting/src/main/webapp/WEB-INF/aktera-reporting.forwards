@@ -1,0 +1,2 @@
+<forward name="aktera.reporting.report-result" path="/aktera-reporting/report-result.jsp"/>
+<forward name="aktera.reporting.report-result-download" path="/aktera-reporting/report-result-download.jsp"/>

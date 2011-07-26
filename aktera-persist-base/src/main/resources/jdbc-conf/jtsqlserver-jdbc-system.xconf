@@ -1,0 +1,69 @@
+<!--
+
+    This file is part of the Iritgo/Aktera Framework.
+
+    Copyright (C) 2005-2011 Iritgo Technologies.
+    Copyright (C) 2003-2005 BueroByte GbR.
+
+    Iritgo licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License. You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<keel>
+
+	<!--**********************************************
+		JDBC driver & pool definition for SQLServer with JTurbo driver
+		********************************************-->
+		
+	<jdbc id="keel-dbpool" activation="request">
+		<pool-controller max="10" maxStrict="true" blocking="true" timeout="-1"
+			trim-interval="60000" auto-commit="true"
+			connection-class="org.apache.avalon.excalibur.datasource.JdbcConnection"
+			>
+			<keep-alive disable="false">select * from foo</keep-alive>
+		</pool-controller>
+		<driver>com.newatlanta.jturbo.driver.Driver</driver>
+		<dburl>jdbc:JTurbo://@aktera.database.server@:1111</dburl>
+	</jdbc>
+
+	<!-- 
+		NOTE: There can be as many *-jdbc-system.xconf files in the conf
+		directory as needed.  Keel needs a dbtype defined with the "id" set
+		to "keel-dbtype".  By convention, that file should be renamed to
+		"jdbc-system.xconf".  In other included *-jdbc-system.xconf files,
+		make sure the "id" parameter is renamed to something other than
+		"keel-dbtype"
+	-->
+	<sqlserver id="keel-dbtype" activation="startup" logger="persist-default">
+		<type from="longvarchar" to="text" prefix="'" suffix="'"/>
+		<type from="boolean" to="bit"/>
+		<type from="date" to="datetime"/>
+		<type from="time" to="datetime"/>
+		<type from="double" to="float"/>
+	</sqlserver>
+	
+	<default-persistent id="default">
+    	<properties id="default">
+    	    <hibernate.connection.driver_class>com.newatlanta.jturbo.driver.Driver</hibernate.connection.driver_class>
+    	    <hibernate.connection.url>jdbc:JTurbo://@aktera.database.server@/@aktera.database.name@</hibernate.connection.url>
+    	    <hibernate.connection.username>@aktera.database.user@</hibernate.connection.username>
+    	    <hibernate.connection.password>@aktera.database.password@</hibernate.connection.password>
+    	    <hibernate.dialect>net.sf.hibernate.dialect.SybaseDialect</hibernate.dialect>
+    	    <!-- <hibernate.connection.pool_size></hibernate.connection.pool_size>
+    	    <hibernate.statement_cache.size></hibernate.statement_cache.size>
+    	    <hibernate.connection.isolation></hibernate.connection.isolation> -->
+    	</properties>
+    </default-persistent>
+	
+
+</keel>

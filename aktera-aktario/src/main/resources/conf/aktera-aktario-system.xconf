@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    This file is part of the Iritgo/Aktera Framework.
+
+    Copyright (C) 2005-2011 Iritgo Technologies.
+    Copyright (C) 2003-2005 BueroByte GbR.
+
+    Iritgo licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License. You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+
+<keel>
+
+	<!-- Module info -->
+
+	<aktera.module-info id="aktera.module-info">
+		<module id="${pom.artifactId}" type="service">
+			<name>${pom.name}</name>
+			<version>${pom.version}</version>
+			<description>${pom.description}</description>
+			<copyright>${aktera.copyright}</copyright>
+			<dependencies modules="iritgo-aktera-base"/>
+			<create class="de.iritgo.aktera.aktario.module.ModuleCreateHandler"/>
+			<update class="de.iritgo.aktera.aktario.module.ModuleUpdateHandler"/>
+		</module>
+	</aktera.module-info>
+
+	<!-- Startup -->
+
+	<aktera.startup id="aktera.startup" activation="startup" logger="aktera">
+		<startup id="aktera.aktario.startIritgo" class="de.iritgo.aktera.aktario.StartIritgoServer">
+			<depends type="startup">aktera.System</depends>
+		</startup>
+	</aktera.startup>
+
+	<!-- Events -->
+
+	<events id="events">
+		<handler event="aktera.user.renamed" bean="de.iritgo.aktera.aktario.IritgoUserManager" method="onUserRenamed" />
+	</events>
+
+	<!-- Participant listing -->
+
+	<aktera.listing id="aktera.aktario.participant.listing">
+		<bundle>Aktera</bundle>
+		<header>users</header>
+		<key>user.id</key>
+		<sort>user.name</sort>
+		<column name="user.online" viewer="icon" width="0"/>
+		<column name="user.name" viewer="text" width="100"/>
+	</aktera.listing>
+
+	<aktera.list id="aktera.aktario.list-participants">
+		<listing id="aktera.aktario.participant.listing"/>
+		<handler bean="de.iritgo.aktera.aktario.user.ParticipantListingHandler"/>
+	</aktera.list>
+
+</keel>

@@ -1,0 +1,100 @@
+<!--
+
+    This file is part of the Iritgo/Aktera Framework.
+
+    Copyright (C) 2005-2011 Iritgo Technologies.
+    Copyright (C) 2003-2005 BueroByte GbR.
+
+    Iritgo licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License. You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<keel>
+
+	<!--**********************************************
+		JDBC driver & pool definition for MySQL
+		********************************************-->
+		
+	<!-- 
+		NOTE: There can be as many *-jdbc-system.xconf files in the conf
+		directory as needed.  Keel needs a pool defined with the "id" set
+		to "keel-dbpool".  By convention, that file should be renamed to
+		"jdbc-system.xconf".  In other included *-jdbc-system.xconf files,
+		make sure the "id" parameter is renamed to something other than
+		"keel-dbpool"
+		
+		NOTE 2: The items below with surrounded by "@" characters, like
+		@SERVERNAME@ and @USERNAME@, are meant to be replaced by
+		an ANT script that prompts the user for input. To run this script, execute
+		the "setupdb" target in keel-build/build.xml.
+	-->
+	<jdbc id="keel-dbpool" activation="request" logger="persist-default">
+		<pool-controller max="10" maxStrict="true" blocking="true" timeout="-1"
+			trim-interval="60000" auto-commit="true"
+			connection-class="org.apache.avalon.excalibur.datasource.JdbcConnection"
+			>
+			<keep-alive disable="false">select 1</keep-alive>
+		</pool-controller>
+		<!-- Older driver: <driver>org.gjt.mm.mysql.Driver</driver> -->
+		<driver>com.mysql.jdbc.Driver</driver>
+		<!-- example: <dburl>jdbc:mysql://localhost/keel</dburl> -->
+		<dburl>jdbc:mysql://@aktera.database.server@/@aktera.database.name@</dburl>
+		<!-- example: <user>root</user> -->
+		<user>@aktera.database.user@</user>
+		<password>@aktera.database.password@</password>
+	</jdbc>
+	
+	<default-persistent id="default">
+    	
+    	<properties id="default">
+    	    <hibernate.connection.driver_class>com.mysql.jdbc.Driver</hibernate.connection.driver_class>
+    	    <hibernate.connection.url>jdbc:mysql://@aktera.database.server@/@aktera.database.name@</hibernate.connection.url>
+    	    <hibernate.connection.username>@aktera.database.user@</hibernate.connection.username>
+    	    <hibernate.connection.password>@aktera.database.password@</hibernate.connection.password>
+    	    <hibernate.dialect>net.sf.hibernate.dialect.MySQLDialect</hibernate.dialect>
+    	    <!-- <hibernate.connection.pool_size></hibernate.connection.pool_size>
+    	    <hibernate.statement_cache.size></hibernate.statement_cache.size>
+    	    <hibernate.connection.isolation></hibernate.connection.isolation> -->
+    	</properties>
+    </default-persistent>
+
+	<!-- 
+		NOTE: There can be as many *-jdbc-system.xconf files in the conf
+		directory as needed.  Keel needs a dbtype defined with the "id" set
+		to "keel-dbtype".  By convention, that file should be renamed to
+		"jdbc-system.xconf".  In other included *-jdbc-system.xconf files,
+		make sure the "id" parameter is renamed to something other than
+		"keel-dbtype"
+	-->
+	<mysql id="keel-dbtype" activation="startup" logger="persist-default">
+		<type from="longvarchar" to="text" prefix="'" suffix="'"/>
+		<type from="boolean" to="char(5)" prefix="" suffix=""/>
+		<type from="distinct" to="integer" prefix="" suffix=""/>
+	</mysql>
+
+    <!-- Properties used to configure the XORM JDO implementation -->
+    <!-- if it is used, for MySQL -->
+    <xorm id="default" if="service.jdo.xorm">
+        <property name="javax.jdo.PersistenceManagerFactoryClass" value="org.xorm.InterfaceManagerFactory"/>
+        <property name="javax.jdo.option.ConnectionURL" value="jdbc:mysql://@aktera.database.server@/@aktera.database.name@"/>
+        <property name="javax.jdo.option.ConnectionUserName" value="@aktera.database.user@"/>
+        <property name="javax.jdo.option.ConnectionPassword" value="@aktera.database.password@"/>
+        <property name="javax.jdo.option.ConnectionDriverName" value="org.gjt.mm.mysql.Driver"/>
+        <property name="javax.jdo.option.MinPool" value="2"/>
+        <property name="javax.jdo.option.MaxPool" value="5"/>
+        <property name="org.xorm.datastore.DatastoreDriverClass" value="org.xorm.datastore.sql.BaseSQLDriver"/>
+        <property name="org.xorm.datastore.sql.NextIDStatement" value=""/>
+        <property name="org.xorm.datastore.sql.LastIDStatement" value="select last_insert_id()"/>
+        <!-- <property name="org.xorm.datastore.sql.TransactionIsolationLevel" value=""/> -->
+    </xorm>
+</keel>

@@ -1,0 +1,4 @@
+	<servlet-mapping>
+        <servlet-name>springmvc</servlet-name>
+        <url-pattern>*.form</url-pattern>
+    </servlet-mapping>

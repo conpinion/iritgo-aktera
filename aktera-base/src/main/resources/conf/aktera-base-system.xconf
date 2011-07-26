@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    This file is part of the Iritgo/Aktera Framework.
+
+    Copyright (C) 2005-2011 Iritgo Technologies.
+    Copyright (C) 2003-2005 BueroByte GbR.
+
+    Iritgo licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License. You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+
+<keel>
+
+	<!-- Module info -->
+
+	<aktera.module-info id="aktera.module-info">
+		<module id="${pom.artifactId}">
+			<name>${pom.name}</name>
+			<version>${pom.version}</version>
+			<description>${pom.description}</description>
+			<copyright>${aktera.copyright}</copyright>
+			<dependencies modules="iritgo-aktera-address" />
+			<create class="de.iritgo.aktera.base.module.ModuleCreateHandler"/>
+			<update class="de.iritgo.aktera.base.module.ModuleUpdateHandler"/>
+		</module>
+	</aktera.module-info>
+
+	<!-- Application info -->
+
+	<aktera.app-info id="aktera.app-info">
+		<app id="iritgo-aktera">
+			<name>Iritgo/Aktera Enterprise Application Framework</name>
+			<version>${aktera.version}</version>
+			<description>Iritgo/Aktera Enterprise Application Framework</description>
+			<copyright>${aktera.copyright}</copyright>
+		</app>
+	</aktera.app-info>
+
+	<!-- Events -->
+
+	<events id="events">
+		<event id="aktera.database.update.pre" />
+		<event id="aktera.database.update.post" />
+	</events>
+
+    <!-- Startup -->
+
+    <aktera.startup id="aktera.startup" activation="startup" logger="aktera">
+        <startup id="aktera.AppInfo" bean="de.iritgo.aktera.AppInfo" />
+        <startup id="aktera.System" bean="de.iritgo.aktera.SystemStartup">
+			<depends type="startup">aktera.AppInfo</depends>
+		</startup>
+    </aktera.startup>
+
+	<!-- Session management -->
+
+	<aktera.session.prompt-login id="aktera.session.prompt-login" remember="last">
+		<domains id="domains">
+			<domain name="default" descrip="default"/>
+		</domains>
+		<cookie>
+			<seq>base64.encrypt</seq>
+		</cookie>
+	</aktera.session.prompt-login>
+
+	<aktera.session.login id="aktera.session.login">
+		<cookie>
+			<seq>base64.encrypt</seq>
+		</cookie>
+		<bypass-am>nullauth</bypass-am>
+	</aktera.session.login>
+
+	<!-- Misc -->
+
+	<aktera.tools.themer id="aktera.tools.themer">
+		<theme-name>iritgo</theme-name>
+	</aktera.tools.themer>
+
+	<aktera.report.report id="aktera.report.report-download">
+		<attribute name="forward" value="aktera.report.report-result-download"/>
+	</aktera.report.report>
+
+	<aktera.forward id="aktera.error-404">
+		<attribute name="forward" value="aktera.error-404" />
+	</aktera.forward>
+
+	<!-- Menus -->
+
+	<aktera.tools.menu id="aktera.tools.menu">
+		<menu id="navigation" title="navigation">
+			<item model="aktera.my.personal-seq" userGroup="user" title="personalPage" icon="admin-user-16"/>
+			<item model="aktera.admin.personal-seq" userGroup="admin" title="administration" icon="settings-16"/>
+		</menu>
+		<menu id="session" title="session">
+			<item model="aktera.session.logout-seq" validUser="true" title="logout" icon="exit-16"/>
+		</menu>
+	</aktera.tools.menu>
+
+	<aktera.menu id="aktera.menu.personal">
+		<sort>name</sort>
+	</aktera.menu>
+
+	<aktera.menu id="aktera.menu.admin">
+		<item id="userManagement" bean="aktera.admin.usermanagement.edit-seq" title="usermanagement" icon="admin-group-16" inactiveIcon="admin-group-grey-16"/>
+	</aktera.menu>
+
+	<sequence id="aktera.about-seq" logger="aktera">
+		<model name="aktera.app-info" return="false"/>
+		<model name="aktera.module-info" return="false"/>
+		<model name="aktera.about"/>
+	</sequence>
+
+	<sequence id="aktera.my.personal-seq" logger="aktera">
+		<model name="aktera.appointment.get-calendar" return="false"/>
+		<model name="aktera.task.overview-tasks" return="false"/>
+		<model name="aktera.note.overview-notes" return="false"/>
+		<model name="aktera.my.personal"/>
+	</sequence>
+
+	<sequence id="aktera.admin.personal-seq" logger="aktera">
+		<model name="aktera.appointment.get-calendar" return="false"/>
+		<model name="aktera.task.overview-tasks" return="false"/>
+		<model name="aktera.note.overview-notes" return="false"/>
+		<model name="aktera.admin.personal"/>
+	</sequence>
+
+	<sequence id="aktera.session.logout-seq" logger="aktera">
+		<model name="aktera.session.logout" return="false"/>
+		<model name="aktera.session.prompt-login"/>
+	</sequence>
+
+	<!-- User preferences variables. -->
+
+	<aktera.preferences.manager id="aktera.preferences.manager">
+		<config category="gui" name="tableRowsPerPage" type="I" value="15"/>
+	</aktera.preferences.manager>
+
+</keel>

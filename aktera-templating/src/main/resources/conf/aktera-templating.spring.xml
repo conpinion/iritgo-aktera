@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    This file is part of the Iritgo/Aktera Framework.
+
+    Copyright (C) 2005-2011 Iritgo Technologies.
+    Copyright (C) 2003-2005 BueroByte GbR.
+
+    Iritgo licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License. You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<!-- This file is part of the Iritgo/Aktera Framework. Copyright (C) 2005-2011 Iritgo Technologies. Copyright (C) 2003-2005
+	BueroByte GbR. Iritgo licenses this file to You under the Apache License, Version 2.0 (the "License"); you may not use this
+	file except in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+	Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS
+	IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
+	governing permissions and limitations under the License. -->
+
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<bean id="de.iritgo.aktera.templating.VelocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+		<property name="velocityProperties">
+			<util:map>
+				<entry key="resource.loader" value="web" />
+				<entry key="web.resource.loader.instance" value-ref="de.iritgo.aktera.templating.VelocitySpringResourceLoader" />
+			</util:map>
+		</property>
+	</bean>
+
+	<bean id="de.iritgo.aktera.templating.TemplateManager" class="de.iritgo.aktera.templating.TemplateManagerImpl" />
+
+	<bean id="de.iritgo.aktera.templating.VelocitySpringResourceLoader" class="de.iritgo.aktera.templating.VelocitySpringResourceLoaderImpl" />
+
+</beans>

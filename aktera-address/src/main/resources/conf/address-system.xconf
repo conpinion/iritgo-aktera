@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    This file is part of the Iritgo/Aktera Framework.
+
+    Copyright (C) 2005-2011 Iritgo Technologies.
+    Copyright (C) 2003-2005 BueroByte GbR.
+
+    Iritgo licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License. You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<!-- This file is part of the Iritgo/Aktera Framework. Copyright (C) 2005-2011 Iritgo Technologies. Copyright (C) 2003-2005
+	BueroByte GbR. Iritgo licenses this file to You under the Apache License, Version 2.0 (the "License"); you may not use this
+	file except in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+	Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS
+	IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
+	governing permissions and limitations under the License. -->
+
+
+<keel>
+
+	<!-- Startup -->
+
+	<aktera.startup id="aktera.startup">
+		<startup id="de.iritgo.aktera.address.Startup" bean="de.iritgo.aktera.address.AddressManager">
+			<depends type="startup">aktera.System</depends>
+		</startup>
+	</aktera.startup>
+
+	<!-- Events -->
+
+	<events id="events">
+		<handler event="aktera.user.renamed" bean="de.iritgo.aktera.address.AddressManager" method="onUserRenamed" />
+	</events>
+
+	<!-- Import handlers -->
+
+	<aktera.import id="aktera.import">
+		<import id="Address" root="addresses" class="de.iritgo.aktera.address.ui.AddressImportHandler">
+			<depends import="Users" />
+		</import>
+		<csvImport id="Address" xsl="Address" />
+	</aktera.import>
+
+	<!-- Permissions -->
+
+	<aktera.formular id="de.iritgo.aktera.permissions.Permissionformular">
+		<group name="de.iritgo.aktera.address.global" label="permissionAddressGlobal" bundle="AkteraAddress" pos="M">
+			<comment label="$AkteraPermissionsUi:thisPermissionHasNoSettings" />
+		</group>
+	</aktera.formular>
+
+	<!-- Address management -->
+
+	<aktera.listing id="aktera.address.listing">
+		<title>addresses</title>
+		<bundle>Aktera</bundle>
+		<key>address.partyId</key>
+		<sort>address.lastName</sort>
+		<column name="address.lastName" viewer="text" width="15" />
+		<column name="address.firstName" viewer="text" width="10" />
+		<column name="address.company" viewer="text" width="15" />
+		<column name="address.street" viewer="text" width="20" />
+		<column name="address.city" viewer="text" width="10" />
+		<column name="address.phoneNumber(B).number" label="phoneBusiness" viewer="text" width="15" sortable="false" />
+		<column name="address.phoneNumber(BF).number" label="phoneBusinessFax" viewer="text" width="15" sortable="false" />
+	</aktera.listing>
+
+	<aktera.list id="aktera.address.list">
+		<listing id="aktera.address.listing" />
+		<handler bean="de.iritgo.aktera.address.AddressListingHandler" />
+	</aktera.list>
+
+	<aktera.list id="aktera.address.manage">
+		<extends>aktera.address.list</extends>
+		<title>manageAddress</title>
+		<icon>address-32</icon>
+		<command-view model="aktera.address.edit">
+			<param name="addressStoreId" value="#{listing.category}" />
+		</command-view>
+		<command-new model="aktera.address.edit" label="new">
+			<param name="addressStoreId" value="#{listing.category}" />
+		</command-new>
+		<command-search model="aktera.address.manage" label="search" />
+		<item-command id="delete" model="aktera.address.delete" label="delete">
+			<param name="addressStoreId" value="#{listing.category}" />
+		</item-command>
+	</aktera.list>
+
+	<aktera.formular id="aktera.address.formular">
+		<bundle>Aktera</bundle>
+		<labelWidth>20</labelWidth>
+		<key>address.anyId</key>
+		<group name="address">
+			<field name="address.salutation" editor="salutation" />
+			<field name="address.firstName" editor="text" size="80" />
+			<field name="address.lastName" editor="text" size="80" />
+			<field name="address.company" editor="text" size="80" />
+			<field name="address.division" editor="text" size="80" />
+			<field name="address.position" editor="text" size="80" />
+			<field name="address.street" editor="text" size="80" />
+			<field name="address.postalCode" editor="text" size="10" />
+			<field name="address.city" editor="text" size="80" />
+			<field name="address.country" editor="country" />
+			<field name="address.email" editor="text" size="80" />
+			<field name="address.web" editor="text" size="80" />
+			<field name="address.contactNumber" editor="text" size="40" />
+			<field name="address.companyNumber" editor="text" size="40" />
+		</group>
+		<group name="phone">
+			<field name="address.phoneNumber(B).number" editor="text" size="80" label="phoneBusiness" />
+			<field name="address.phoneNumber(BM).number" editor="text" size="80" label="phoneBusinessMobile" />
+			<field name="address.phoneNumber(BF).number" editor="text" size="80" label="phoneBusinessFax" />
+			<field name="address.phoneNumber(BDD).number" editor="text" size="80" label="phoneBusinessDirectDial" />
+			<field name="address.phoneNumber(P).number" editor="text" size="80" label="phonePrivate" />
+			<field name="address.phoneNumber(PM).number" editor="text" size="80" label="phonePrivateMobile" />
+			<field name="address.phoneNumber(PF).number" editor="text" size="80" label="phonePrivateFax" />
+			<field name="address.phoneNumber(VOIP).number" editor="text" size="80" label="phoneVoip" />
+		</group>
+		<group name="other">
+			<field name="address.remark" editor="textarea" size="80" rows="10" />
+		</group>
+	</aktera.formular>
+
+	<aktera.edit id="aktera.address.edit">
+		<context id="Address" />
+		<title>editAddress</title>
+		<icon>address-32</icon>
+		<command-save model="aktera.address.save" />
+		<command-cancel model="aktera.address.manage" />
+		<formular id="aktera.address.formular" />
+		<handler bean="de.iritgo.aktera.address.AddressFormularHandler" />
+	</aktera.edit>
+
+	<aktera.save id="aktera.address.save">
+		<context id="Address" />
+		<command-ok model="aktera.address.manage" />
+		<command-edit model="aktera.address.edit" />
+		<formular id="aktera.address.formular" />
+		<handler bean="de.iritgo.aktera.address.AddressFormularHandler" />
+	</aktera.save>
+
+	<aktera.delete id="aktera.address.delete">
+		<handler bean="de.iritgo.aktera.address.AddressFormularHandler" />
+	</aktera.delete>
+
+	<!-- Query to count duplicate address entries with same last name -->
+
+	<query-sql id="aktera.address.duplicate-name.count" logger="aktera">
+		<dbpool>keel-dbpool</dbpool>
+		<criteria name="lastName" />
+		<criteria name="firstName" />
+		<result name="count" descrip="Count" />
+		<sql><![CDATA[
+				SELECT COUNT(*) FROM Address WHERE
+				lastName = '$lastName' AND
+				(
+					('' = '$firstName' AND (firstName = '' OR firstName IS NULL)) OR
+					('' <> '$firstName' AND firstName = '$firstName')
+				)
+		]]></sql>
+	</query-sql>
+
+	<!-- Query to count duplicate address entries with same company name -->
+
+	<query-sql id="aktera.address.duplicate-company.count" logger="aktera">
+		<dbpool>keel-dbpool</dbpool>
+		<criteria name="company" />
+		<result name="count" descrip="Count" />
+		<sql><![CDATA[
+				SELECT COUNT(*) FROM Address WHERE
+				(lastName = '' OR lastName IS NULL) AND
+				(company = '$company')
+		]]></sql>
+	</query-sql>
+
+</keel>

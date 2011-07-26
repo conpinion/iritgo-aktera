@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!--
+	This file is part of the Iritgo/Aktera Framework.
+
+	Copyright (C) 2005-2009 Iritgo Technologies.
+	Copyright (C) 2003-2005 BueroByte GbR.
+
+	Iritgo licenses this file to You under the Apache License, Version 2.0
+	(the "License"); you may not use this file except in compliance with
+	the License. You may obtain a copy of the License at
+
+	http://www.apache.org/licenses/LICENSE-2.0
+
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
+-->
+
+
+<panel layout="GridBagLayout">
+
+	<gridbagconstraints id="std"
+		insets="0,0,0,0" ipadx="0" ipady="0"
+		gridx="0" gridy="0" gridheight="1" gridwidth="1"
+		weightx="0.0" weighty="0.0"
+		anchor="GridBagConstraints.WEST"
+		fill="GridBagConstraints.NONE"/>
+
+	<textfield id="statusUser" editable="false">
+		<gridbagconstraints use="std" gridx="0" gridy="0" weightx="1.0" fill="GridBagConstraints.HORIZONTAL"/>
+	</textfield>
+	<textfield id="statusText" editable="false">
+		<gridbagconstraints use="std" gridx="0" gridy="0" weightx="1.0" fill="GridBagConstraints.HORIZONTAL"/>
+	</textfield>
+
+</panel>

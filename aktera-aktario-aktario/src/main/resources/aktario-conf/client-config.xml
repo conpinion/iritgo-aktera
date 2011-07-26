@@ -1,0 +1,22 @@
+<configuration>
+
+	<iritgo>
+
+		<network>
+
+			<socket
+				port="3000"
+				readTimeout="30000"
+				buffer="65536"
+			/>
+
+		</network>
+
+		<threadpool
+			id="system"
+			minThreads="2"/>
+
+	</iritgo>
+
+</configuration>
+

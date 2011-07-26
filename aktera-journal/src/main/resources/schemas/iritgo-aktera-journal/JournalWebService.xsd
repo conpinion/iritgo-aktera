@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+	targetNamespace="http://aktera.iritgo.de/webservices/journal" xmlns:aktera="http://aktera.iritgo.de/webservices/journal">
+
+	<xs:element name="countJournalRequest">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="query" type="xs:string" />
+			</xs:all>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="countJournalResponse">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="count" type="xs:int" />
+			</xs:all>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="listJournalRequest">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="query" type="xs:string" />
+				<xs:element name="firstResult" type="xs:int" minOccurs="0" />
+				<xs:element name="maxResults" type="xs:int" minOccurs="0" />
+				<xs:element name="orderBy" type="xs:string" minOccurs="0" />
+				<xs:element name="orderDir" type="xs:string" minOccurs="0" fixed="asc desc" />
+			</xs:all>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="listJournalResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="entry" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="id" type="xs:long" />
+							<xs:element name="occurredAt" type="xs:dateTime" />
+							<xs:element name="primaryType" type="xs:string" />
+							<xs:element name="secondaryType" type="xs:string" />
+							<xs:element name="secondaryTypeText" type="xs:string" />
+							<xs:element name="message" type="xs:string" />
+							<xs:element name="shortMessage" type="xs:string" />
+							<xs:element name="source" type="xs:string" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

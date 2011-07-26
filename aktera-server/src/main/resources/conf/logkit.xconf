@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<!--
+
+    This file is part of the Iritgo/Aktera Framework.
+
+    Copyright (C) 2005-2011 Iritgo Technologies.
+    Copyright (C) 2003-2005 BueroByte GbR.
+
+    Iritgo licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License. You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+
+<logkit>
+
+	<factories>
+		<factory type="console" class="de.iritgo.aktera.logger.StreamTargetFactory" />
+		<!--<factory type="console" class="org.apache.avalon.excalibur.logger.factory.StreamTargetFactory" />-->
+		<factory type="file" class="org.apache.avalon.excalibur.logger.factory.FileTargetFactory" />
+		<factory type="priority-filter" class="org.apache.avalon.excalibur.logger.factory.PriorityFilterTargetFactory" />
+	</factories>
+
+	<!-- IMPORTANT: Performance penalty for the %{method} format below. Remove it for deployment -->
+
+	<targets id="targets">
+
+		<console id="default">
+			<stream>System.out</stream>
+			<format type="extended">
+				%{time:yyyy-MM-dd HH:mm:ss} %5.5{priority} [%{category}] [%{method}]: %{message}\n%{throwable}
+			</format>
+		</console>
+
+		<console id="default.short">
+			<stream>System.out</stream>
+			<format type="extended">
+				%{time:MM-dd HH:mm} %5.5{priority} [%5.5{category}]: %{message}\n%{throwable}
+			</format>
+		</console>
+
+		<console id="default.console">
+			<stream>System.out</stream>
+			<format type="extended">
+				%7.7{priority} %23.23{time:yyyy-MM-dd HH:mm:ss.sss} [%{category}] (%{context}/%{method}):
+				%{message}\n%{throwable}
+			</format>
+		</console>
+
+		<file id="keelserver">
+			<filename>${current-dir}/logs/keelserver.log</filename>
+			<format type="extended">
+				%7.7{priority} %23.23{time:yyyy-MM-dd HH:mm:ss.sss} [%{category}] (%{context}/%{method}):
+				%{message}\n%{throwable}
+			</format>
+			<append>true</append>
+		</file>
+
+		<file id="system">
+			<filename>${current-dir}/logs/system.log</filename>
+			<format type="extended">
+				%7.7{priority} %23.23{time:yyyy-MM-dd HH:mm:ss.sss} [%{category}] (%{context}/%{method}):
+				%{message}\n%{throwable}
+			</format>
+			<append>false</append>
+		</file>
+
+	</targets>
+
+	<categories id="categories">
+
+		<category name="" log-level="INFO">
+			<log-target id-ref="default" />
+		</category>
+
+		<category name="keelserver" log-level="INFO">
+			<log-target id-ref="default" />
+		</category>
+
+		<category name="keel" log-level="INFO">
+			<log-target id-ref="default" />
+		</category>
+
+		<category name="system" log-level="INFO">
+			<log-target id-ref="default" />
+		</category>
+
+		<category name="system.roles" log-level="INFO">
+			<log-target id-ref="default" />
+		</category>
+
+		<category name="system.instrument" log-level="INFO">
+			<log-target id-ref="default" />
+		</category>
+
+		<category name="system.factory" log-level="INFO">
+			<log-target id-ref="default" />
+		</category>
+
+		<category name="console" log-level="DEBUG">
+			<log-target id-ref="default" />
+		</category>
+
+	</categories>
+
+</logkit>

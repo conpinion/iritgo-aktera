@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    This file is part of the Iritgo/Aktera Framework.
+
+    Copyright (C) 2005-2011 Iritgo Technologies.
+    Copyright (C) 2003-2005 BueroByte GbR.
+
+    Iritgo licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License. You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+
+<keel>
+
+	<!-- Startup -->
+
+	<aktera.startup id="aktera.startup">
+		<startup id="de.iritgo.aktera.journal.Startup" bean="de.iritgo.aktera.journal.JournalManager">
+			<depends type="startup">aktera.System</depends>
+		</startup>
+	</aktera.startup>
+
+	<!-- Events -->
+
+	<events id="events">
+		<event id="iritgo.aktera.journal.new-entry">
+			<param name="journalEntry" type="de.iritgo.aktera.journal.entity.JournalEntry" description="The journal entry" />
+		</event>
+		<event id="iritgo.aktera.journal.removed-entry">
+			<param name="journalEntry" type="de.iritgo.aktera.journal.entity.JournalEntry" description="The journal entry" />
+		</event>
+	</events>
+
+	<aktera.listing id="aktera.journal.listing">
+		<title>journal</title>
+		<bundle>aktera-journal</bundle>
+		<key>journal.id</key>
+		<sort>journal.occurredAt</sort>
+		<column name="journal.id" label="0.empty" viewer="number" width="15" visible="false" />
+		<column name="journal.occurredAt" label="journalOccurredAt" viewer="text" width="15" />
+		<column name="journal.primaryType" bundle="Aktera" label="0.empty" viewer="icon" width="0" />
+		<column name="journal.secondaryType" bundle="Aktera" label="0.empty" viewer="icon" width="0" />
+		<column name="journal.secondaryTypeText" bundle="Aktera" label="0.empty" viewer="message" width="0" />
+		<column name="journal.message" label="journalMessage" viewer="message" width="80" />
+		<column name="journal.rawData" label="0.empty" viewer="text" width="0" visible="false" />
+	</aktera.listing>
+
+	<aktera.list id="aktera.journal.list">
+		<title>journal</title>
+		<icon>book2-32</icon>
+		<bundle>aktera-journal</bundle>
+		<command-search model="aktera.journal.list" />
+		<listing id="aktera.journal.listing" />
+		<handler bean="de.iritgo.aktera.journal.WebJournalListingHandler" />
+		<item-command model="aktera.journal.execute-journal-entry" id="execute" bundle="aktera-journal" label="executeJournal"
+			icon="tool-accept-16" style="tool" />
+		<item-command id="delete" model="aktera.journal.delete-journal-entry" label="delete" />
+	</aktera.list>
+
+
+	<aktera.listing id="aktera.journal.listing.notvisible">
+		<title>journal</title>
+		<bundle>aktera-journal</bundle>
+		<key>journal.id</key>
+		<sort>journal.occurredAt</sort>
+		<column name="journal.primaryType" bundle="Aktera" label="0.empty" viewer="icon" width="0" visible="true" />
+		<column name="journal.secondaryType" bundle="Aktera" label="0.empty" viewer="icon" width="0" visible="true" />
+		<column name="journal.id" label="0.empty" viewer="number" width="15" visible="false" />
+		<column name="journal.secondaryTypeText" bundle="Aktera" label="0.empty" viewer="message" width="0" visible="false" />
+		<column name="journal.occurredAt" label="journalOccurredAt" viewer="text" width="15" visible="false" />
+		<column name="journal.message" label="journalMessage" viewer="message" width="80" visible="false" />
+		<column name="journal.rawData" label="0.empty" viewer="text" width="0" visible="false" />
+	</aktera.listing>
+
+	<aktera.list id="aktera.journal.list.notvisible">
+		<title>journal</title>
+		<icon>book2-32</icon>
+		<bundle>aktera-journal</bundle>
+		<command-search model="aktera.journal.list" />
+		<listing id="aktera.journal.listing.notvisible" />
+		<handler bean="de.iritgo.aktera.journal.WebJournalListingHandler" />
+		<item-command model="aktera.journal.execute-journal-entry" id="execute" bundle="aktera-journal" label="executeJournal"
+			icon="tool-accept-16" style="tool" />
+		<item-command id="delete" model="aktera.journal.delete-journal-entry" label="delete" />
+	</aktera.list>
+
+</keel>

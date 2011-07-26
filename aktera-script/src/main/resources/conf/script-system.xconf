@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    This file is part of the Iritgo/Aktera Framework.
+
+    Copyright (C) 2005-2011 Iritgo Technologies.
+    Copyright (C) 2003-2005 BueroByte GbR.
+
+    Iritgo licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License. You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+
+<keel>
+
+	<!-- Script events -->
+
+	<events id="events">
+
+		<event id="aktera.script.script-rename">
+			<param name="oldScriptName" type="String" description="The old script name"/>
+			<param name="newScriptName" type="String" description="The new script name"/>
+		</event>
+	</events>
+
+	<!-- Script management -->
+
+	<aktera.listing id="de.iritgo.aktera.script.ScriptListing">
+		<bundle>aktera-script</bundle>
+		<key>script.id</key>
+		<sort>script.name</sort>
+		<column name="script.name" bundle="Aktera" viewer="text" width="20"/>
+		<column name="script.displayName" bundle="Aktera" viewer="text" width="20"/>
+		<column name="script.author" bundle="Aktera" viewer="text" width="20"/>
+		<column name="script.version" bundle="Aktera" viewer="text" width="10"/>
+		<column name="script.description" bundle="Aktera" viewer="text" width="30"/>
+	</aktera.listing>
+
+	<aktera.list id="de.iritgo.aktera.script.ListScripts">
+		<title>manageScripts</title>
+		<icon>text-file-32</icon>
+		<command-view model="de.iritgo.aktera.script.EditScript"/>
+		<command-new model="de.iritgo.aktera.script.EditScript" label="new"/>
+		<command-search model="de.iritgo.aktera.script.ListScripts" label="search"/>
+		<listing id="de.iritgo.aktera.script.ScriptListing"/>
+		<persistent id="script" name="aktera.Script"/>
+		<item-command id="delete" model="de.iritgo.aktera.script.DeleteScript" label="delete"/>
+		<condition>script.name like '~search'</condition>
+	</aktera.list>
+
+	<aktera.formular id="de.iritgo.aktera.script.ScriptFormular">
+		<key>script.id</key>
+		<bundle>aktera-script</bundle>
+		<group name="script">
+			<field name="script.name" bundle="Aktera" editor="identifier" size="40" duty="true"/>
+			<field name="script.displayName" bundle="Aktera" editor="text" size="40" duty="true"/>
+			<field name="script.language" editor="combo" size="20" duty="true"/>
+			<field name="script.author" bundle="Aktera" editor="text" size="40" />
+			<field name="script.copyright" bundle="Aktera" editor="text" size="40" />
+			<field name="script.version" bundle="Aktera" editor="text" size="20" />
+			<field name="script.description" bundle="Aktera" editor="textarea" size="80" rows="4"/>
+			<field name="script.code" editor="textarea" size="120" rows="40"/>
+		</group>
+	</aktera.formular>
+
+	<aktera.edit id="de.iritgo.aktera.script.EditScript">
+		<title>editScript</title>
+		<icon>text-file-32</icon>
+		<context id="de.iritgo.aktera.script.Script"/>
+		<command-save model="de.iritgo.aktera.script.SaveScript"/>
+		<command-cancel model="de.iritgo.aktera.script.ListScripts"/>
+		<command id="accept" model="de.iritgo.aktera.script.AcceptScript" label="accept" icon="tool-accept-16"/>
+		<formular id="de.iritgo.aktera.script.ScriptFormular"/>
+		<persistent id="script" name="aktera.Script" key="id"/>
+		<handler bean="de.iritgo.aktera.script.ui.ScriptFormularHandler"/>
+	</aktera.edit>
+
+	<aktera.save id="de.iritgo.aktera.script.AcceptScript">
+		<context id="de.iritgo.aktera.script.Script"/>
+		<command-ok model="de.iritgo.aktera.script.EditScript">
+			<param name="id" value="#{saveId}"/>
+		</command-ok>
+		<command-edit model="de.iritgo.aktera.script.EditScript"/>
+		<formular id="de.iritgo.aktera.script.ScriptFormular"/>
+		<persistent id="script" key="id" />
+		<handler bean="de.iritgo.aktera.script.ui.ScriptFormularHandler"/>
+	</aktera.save>
+
+	<aktera.save id="de.iritgo.aktera.script.SaveScript">
+		<context id="de.iritgo.aktera.script.Script"/>
+		<command-ok model="de.iritgo.aktera.script.ListScripts"/>
+		<command-edit model="de.iritgo.aktera.script.EditScript"/>
+		<formular id="de.iritgo.aktera.script.ScriptFormular"/>
+		<persistent id="script" key="id" />
+		<handler bean="de.iritgo.aktera.script.ui.ScriptFormularHandler"/>
+	</aktera.save>
+
+	<aktera.delete id="de.iritgo.aktera.script.DeleteScript">
+		<persistent id="script" name="aktera.Script" key="id"/>
+		<handler bean="de.iritgo.aktera.script.ui.ScriptFormularHandler"/>
+	</aktera.delete>
+
+</keel>

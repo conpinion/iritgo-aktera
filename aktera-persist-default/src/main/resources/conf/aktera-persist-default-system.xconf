@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    This file is part of the Iritgo/Aktera Framework.
+
+    Copyright (C) 2005-2011 Iritgo Technologies.
+    Copyright (C) 2003-2005 BueroByte GbR.
+
+    Iritgo licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License. You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+
+<keel>
+
+	<!-- Module info -->
+
+	<aktera.module-info id="aktera.module-info">
+		<module id="${pom.artifactId}" type="service">
+			<name>${pom.name}</name>
+			<version>${pom.version}</version>
+			<description>${pom.description}</description>
+			<copyright>${aktera.copyright}</copyright>
+			<create class="de.iritgo.aktera.persist.defaultpersist.module.ModuleCreateHandler"/>
+		</module>
+	</aktera.module-info>
+
+    <default-persistent id="default" name="default" security="default" logger="persist-default">
+    	<dbpool>keel-dbpool</dbpool>
+    	<dbtype>keel-dbtype</dbtype>
+
+    	<schemas name="default" id="default">
+			<!-- include any schema.xml files here -->
+			<!-- A special schema used only to generate the necessary "ids" -->
+			<!-- table for the TableIdGenerator. If you don't use TableIdGenerator  -->
+			<!-- then you can remove this schema -->
+			<schema name="ids" key="ids" id="ids">
+				<persistent name="ids" id="ids" table="ids" descrip="id table"
+					key="ids-table">
+					<field name="table_name" db-name="table_name" type="varchar"
+						descrip="Table Name" length="32" null-allowed="false"
+						primary-key="true"/>
+					<field name="next_id" db-name="next_id" descrip="Next Id"
+						type="integer" null-allowed="false"/>
+				</persistent>
+			</schema>
+      	</schemas>
+
+      <bypass-am>nullauth</bypass-am>
+    </default-persistent>
+
+    <default-metadata id="default-metadata" activation="request" logger="persist-default">
+        <!-- To bypass persistent security altogether, un-comment the line below -->
+        <!-- <default-am>nullauth</default-am> -->
+    </default-metadata>
+
+	<transaction id="default-transaction" activation="request" logger="persist-default"/>
+
+</keel>

@@ -1,0 +1,466 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    This file is part of the Iritgo/Aktera Framework.
+
+    Copyright (C) 2005-2011 Iritgo Technologies.
+    Copyright (C) 2003-2005 BueroByte GbR.
+
+    Iritgo licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License. You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"  xmlns:ui="http://aktera.iritgo.de/spring/ui"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+			http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+			http://aktera.iritgo.de/spring/ui http://aktera.iritgo.de/spring/ui.xsd">
+
+	<!-- User interface -->
+
+	<bean id="de.iritgo.aktera.base.group.GroupFormularHandler" class="de.iritgo.aktera.base.group.GroupFormularHandler">
+		<property name="permissionManager" ref="de.iritgo.aktera.permissions.PermissionManager" />
+	</bean>
+
+	<bean id="de.iritgo.aktera.base.admin.UserFormularHandler" class="de.iritgo.aktera.base.admin.UserFormularHandler" />
+
+	<!-- User/Group management -->
+
+	<ui:formular id="aktera.admin.usermanagement.formular">
+		<ui:page name="users" icon="admin-user-16" inactiveIcon="admin-user-grey-16">
+			<ui:group name="users" titleVisible="false">
+				<ui:field name="users" noLabel="true" editor="list" unbound="true"/>
+			</ui:group>
+		</ui:page>
+		<ui:page name="groups" icon="admin-group-16" inactiveIcon="admin-group-grey-16">
+			<ui:group name="groups" titleVisible="false">
+				<ui:field name="userGroups" noLabel="true" editor="list" unbound="true"/>
+			</ui:group>
+		</ui:page>
+		<ui:bundle>Aktera</ui:bundle>
+		<ui:labelWidth>25</ui:labelWidth>
+	</ui:formular>
+
+	<ui:edit id="aktera.admin.usermanagement.edit">
+		<ui:context id="aktera.admin.usermanagement.edit"/>
+		<ui:formular bean="aktera.admin.usermanagement.formular"/>
+		<ui:command-save bean="aktera.admin.usermanagement.edit-seq" visible="false"/>
+		<ui:title>usermanagement</ui:title>
+		<ui:icon>admin-group-32</ui:icon>
+	</ui:edit>
+
+	<ui:sequence id="aktera.admin.usermanagement.edit-seq">
+		<ui:controller bean="aktera.admin.user.listing" />
+		<ui:controller bean="aktera.admin.group.listing" />
+		<ui:controller bean="aktera.admin.usermanagement.edit"/>
+	</ui:sequence>
+
+	<!-- User management -->
+
+	<ui:listing id="aktera.admin.user.listing">
+		<ui:listId>users</ui:listId>
+		<ui:key column="sysUser.uid" />
+		<ui:column name="preferences.protect" viewer="icon:tool-lock-12" width="0"/>
+		<ui:column name="sysUser.name" label="sysname" viewer="text" width="40"/>
+		<ui:column name="address.lastName" label="lastName" viewer="text" width="30"/>
+		<ui:column name="sysUser.email" label="email" viewer="text" width="30"/>
+		<ui:persistent id="sysUser" name="keel.user" />
+		<ui:persistent id="preferences" name="aktera.Preferences" join="sysUser" myKey="userId"
+			otherKey="uid" />
+		<ui:persistent id="party" name="aktera.Party" join="sysUser" myKey="userId"
+			otherKey="uid" />
+		<ui:persistent id="address" name="aktera.Address" join="party" myKey="partyId"
+			otherKey="partyId" />
+		<ui:condition><![CDATA[
+			sysUser.uid <> 0 and ( sysUser.name like '~search' or sysUser.email like '~search'
+			or address.lastName like '~search' ) and address.category = 'G'
+		]]></ui:condition>
+		<ui:command-new bean="aktera.admin.user.edit-seq" />
+		<ui:command-view bean="aktera.admin.user.edit-seq" />
+		<ui:command-search bean="aktera.admin.usermanagement.edit-seq"/>
+		<ui:item-command id="delete" bean="aktera.admin.user.delete" label="deleteUser"/>
+		<ui:item-command id="deleteWithAddress" bean="aktera.admin.user.delete-with-address" label="deleteUserWithAddress"/>
+		<ui:bundle>Aktera</ui:bundle>
+		<ui:sort column="sysUser.name" />
+		<ui:title>users</ui:title>
+		<ui:icon>admin-user-32</ui:icon>
+	</ui:listing>
+
+	<ui:formular id="aktera.admin.user.formular">
+		<ui:key>sysUser.uid</ui:key>
+		<ui:page name="userSettings" icon="admin-user-16" inactiveIcon="admin-user-grey-16">
+			<ui:group name="account">
+				<ui:field name="sysUser.name" editor="regexp:[\w]+" size="20" duty="true" validator="de.iritgo.aktera.base.admin.UserExistsValidation"/>
+				<ui:field name="sysUser.ldapName" editor="text" size="20" />
+				<ui:field name="deletePassword" editor="check" unbound="true"/>
+				<ui:field name="passwordNew" editor="password" size="20" unbound="true"/>
+				<ui:field name="passwordNewRepeat" editor="password" size="20" unbound="true"/>
+				<ui:field name="pinNew" editor="password" size="20" unbound="true"/>
+				<ui:field name="pinNewRepeat" editor="password" size="20" unbound="true"/>
+				<ui:field name="role" editor="combo" duty="true" unbound="true"/>
+				<ui:field name="newUsersGroup" editor="combo" duty="true" unbound="true"/>
+			</ui:group>
+			<ui:group name="address">
+				<ui:field name="address.salutation" editor="salutation"/>
+				<ui:field name="address.firstName" editor="text" size="80"/>
+				<ui:field name="address.lastName" editor="text" size="80" duty="true"/>
+				<ui:field name="address.company" editor="text" size="80"/>
+				<ui:field name="address.division" editor="text" size="80"/>
+				<ui:field name="address.street" editor="text" size="80"/>
+				<ui:field name="address.postalCode" editor="text" size="10"/>
+				<ui:field name="address.city" editor="text" size="80"/>
+				<ui:field name="address.country" editor="country"/>
+				<ui:field name="address.email" editor="email" size="80" duty="true"/>
+				<ui:field name="address.web" editor="text" size="80"/>
+			</ui:group>
+			<ui:group name="settings">
+				<ui:field name="preferences.canChangePassword" editor="check"/>
+				<ui:field name="preferences.language" editor="language"/>
+				<ui:field name="preferences.theme" editor="combo"/>
+				<ui:field name="gui.tableRowsPerPage" editor="number" size="10" unbound="true"/>
+			</ui:group>
+		</ui:page>
+		<ui:page name="permissions" icon="keypaper-16" inactiveIcon="keypaper-grey-16">
+			<ui:group name="permissions" titleVisible="false">
+				<ui:field name="permissions" noLabel="true" editor="list" unbound="true"/>
+			</ui:group>
+		</ui:page>
+		<ui:bundle>Aktera</ui:bundle>
+		<ui:labelWidth>25</ui:labelWidth>
+	</ui:formular>
+
+	<ui:edit id="aktera.admin.user.edit">
+		<ui:context id="aktera.admin.user"/>
+		<ui:formular bean="aktera.admin.user.formular"/>
+		<ui:persistent id="sysUser" name="keel.user" key="uid"/>
+		<ui:persistent id="preferences" name="aktera.Preferences" join="sysUser" myKey="userId" otherKey="uid"/>
+		<ui:persistent id="party" name="aktera.Party" join="sysUser" myKey="userId" otherKey="uid"/>
+		<ui:persistent id="profile" name="aktera.Profile" join="party" myKey="partyId" otherKey="partyId"/>
+		<ui:persistent id="address" name="aktera.Address" join="party" myKey="partyId" otherKey="partyId" condition="category = 'G'"/>
+		<ui:command-save bean="aktera.admin.user.save"/>
+		<ui:command-cancel bean="aktera.admin.usermanagement.edit-seq"/>
+		<ui:handler bean="de.iritgo.aktera.base.admin.UserFormularHandler"/>
+		<ui:title>editUser</ui:title>
+		<ui:icon>admin-user-32</ui:icon>
+	</ui:edit>
+
+	<ui:sequence id="aktera.admin.user.edit-seq">
+		<ui:controller bean="aktera.admin.user.permission.listing" />
+		<ui:controller bean="aktera.admin.user.edit"/>
+	</ui:sequence>
+
+	<ui:save id="aktera.admin.user.save">
+		<ui:context id="aktera.admin.user"/>
+		<ui:persistent id="sysUser" key="uid" />
+		<ui:persistent id="preferences" />
+		<ui:persistent id="party" />
+		<ui:persistent id="profile" />
+		<ui:persistent id="address" />
+		<ui:command-ok bean="aktera.admin.usermanagement.edit-seq"/>
+		<ui:command-edit bean="aktera.admin.user.edit-seq"/>
+		<ui:handler bean="de.iritgo.aktera.base.admin.UserFormularHandler"/>
+	</ui:save>
+
+	<ui:delete id="aktera.admin.user.delete">
+		<ui:persistent id="sysUser" name="keel.user" key="uid"/>
+		<ui:handler bean="de.iritgo.aktera.base.admin.UserFormularHandler"/>
+	</ui:delete>
+
+	<ui:sequence id="aktera.admin.user.delete-with-address">
+		<ui:controller bean="aktera.admin.user.delete">
+			<ui:param name="deleteAddress" value="Y"/>
+		</ui:controller>
+	</ui:sequence>
+
+	<!-- User permission management -->
+
+	<ui:listing id="aktera.admin.user.permission.listing">
+		<ui:extends bean="de.iritgo.aktera.permissions.ListPermissions" />
+		<ui:listId>permissions</ui:listId>
+		<ui:keyName>permissionId</ui:keyName>
+		<ui:query name="de.iritgo.aktera.permissions.UserPermissionListing">
+			<ui:param name="userId" value="#{paramAsInt(id)}" />
+		</ui:query>
+		<ui:command-new bean="aktera.admin.user.permission.user.save" />
+		<ui:command-view bean="aktera.admin.user.permission.user.save" />
+		<ui:item-command id="delete" bean="aktera.admin.user.permission.delete" label="delete"/>
+	</ui:listing>
+
+	<ui:save id="aktera.admin.user.permission.user.save">
+		<ui:context id="aktera.admin.user"/>
+		<ui:preserveContext>true</ui:preserveContext>
+		<ui:persistent id="sysUser" key="uid" />
+		<ui:persistent id="preferences" />
+		<ui:persistent id="party" />
+		<ui:persistent id="profile" />
+		<ui:persistent id="address" />
+		<ui:command-ok bean="aktera.admin.user.permission.edit">
+			<ui:param name="principalId" value="#{saveId}"/>
+			<ui:param name="principalType" value="U"/>
+			<ui:param name="id" value="#{param(permissionId)}"/>
+		</ui:command-ok>
+		<ui:command-edit bean="aktera.admin.user.edit-seq"/>
+		<ui:handler bean="de.iritgo.aktera.base.admin.UserFormularHandler"/>
+	</ui:save>
+
+	<ui:edit id="aktera.admin.user.permission.edit">
+		<ui:extends bean="de.iritgo.aktera.permissions.EditPermission" />
+		<ui:command-save bean="aktera.admin.user.permission.save" />
+		<ui:command-cancel bean="aktera.admin.user.edit-seq">
+			<ui:param name="id" value="#{persistent(permission).field(principalId)}"/>
+		</ui:command-cancel>
+		<ui:attribute name="permissionController" value="aktera.admin.user.permission.edit"/>
+	</ui:edit>
+
+	<ui:save id="aktera.admin.user.permission.save">
+		<ui:extends bean="de.iritgo.aktera.permissions.SavePermission" />
+		<ui:preserveContext>true</ui:preserveContext>
+		<ui:command-ok bean="aktera.admin.user.edit-seq">
+			<ui:param name="id" value="#{persistent(permission).field(principalId)}"/>
+		</ui:command-ok>
+		<ui:command-edit bean="aktera.admin.user.permission.edit" />
+	</ui:save>
+
+	<ui:delete id="aktera.admin.user.permission.delete">
+		<ui:keyName>permissionId</ui:keyName>
+		<ui:persistent id="permission" name="aktera.Permission" key="id"/>
+		<ui:handler bean="de.iritgo.aktera.permissions.PermissionFormularHandler"/>
+	</ui:delete>
+
+	<!-- Group management -->
+
+	<ui:listing id="aktera.admin.group.listing">
+		<ui:listId>userGroups</ui:listId>
+		<ui:key column="akteraGroup.id" />
+		<ui:column name="akteraGroup.protect" bundle="Aktera" viewer="icon:tool-lock-12" width="0"/>
+		<ui:column name="akteraGroup.name" bundle="Aktera" viewer="text" width="100"/>
+		<ui:persistent id="akteraGroup" name="aktera.AkteraGroup"/>
+		<ui:condition><![CDATA[
+			akteraGroup.name like '~search'
+		]]></ui:condition>
+		<ui:command-new bean="aktera.group.edit-seq" label="new"/>
+		<ui:command-view bean="aktera.group.edit-seq"/>
+		<ui:command-search bean="aktera.admin.usermanagement.edit-seq"/>
+		<ui:item-command id="delete" bean="aktera.group.delete" label="delete"/>
+		<ui:bundle>Aktera</ui:bundle>
+		<ui:sort column="akteraGroup.name" />
+		<ui:title>groups</ui:title>
+		<ui:icon>admin-group-32</ui:icon>
+	</ui:listing>
+
+	<ui:formular id="aktera.group.formular">
+		<ui:key>akteraGroup.id</ui:key>
+		<ui:page name="groupSettings" icon="admin-group-16" inactiveIcon="admin-group-grey-16">
+			<ui:group name="group">
+				<ui:comment label="groupSectionNameRestrictionsDescription" bundle="Aktera"/>
+				<ui:field name="akteraGroup.name" bundle="Aktera" editor="regexp:[\w-]+" size="40" duty="true"/>
+				<ui:field name="akteraGroup.title" bundle="Aktera" editor="text" size="40" />
+				<ui:field name="akteraGroup.visible" bundle="Aktera" editor="check" />
+			</ui:group>
+		</ui:page>
+		<ui:page name="groupMembers" icon="admin-group-16" inactiveIcon="admin-group-grey-16">
+			<ui:group name="groupMembers" titleVisible="false">
+				<ui:field name="groupMembers" noLabel="true" editor="list" unbound="true"/>
+			</ui:group>
+		</ui:page>
+		<ui:page name="permissions" icon="keypaper-16" inactiveIcon="keypaper-grey-16">
+			<ui:group name="permissions" titleVisible="false">
+				<ui:field name="permissions" noLabel="true" editor="list" unbound="true"/>
+			</ui:group>
+		</ui:page>
+		<ui:bundle>Aktera</ui:bundle>
+		<ui:labelWidth>25</ui:labelWidth>
+	</ui:formular>
+
+	<ui:edit id="aktera.group.edit">
+		<ui:context id="akteraGroup"/>
+		<ui:persistent id="akteraGroup" name="aktera.AkteraGroup" key="id"/>
+		<ui:command-save bean="aktera.group.save"/>
+		<ui:command-cancel bean="aktera.admin.usermanagement.edit-seq"/>
+		<ui:formular bean="aktera.group.formular"/>
+		<ui:handler bean="de.iritgo.aktera.base.group.GroupFormularHandler"/>
+		<ui:title>editGroup</ui:title>
+		<ui:icon>admin-group-32</ui:icon>
+	</ui:edit>
+
+	<ui:sequence id="aktera.group.edit-seq">
+		<ui:controller bean="aktera.admin.group.permission.listing" />
+		<ui:controller bean="aktera.groupentry.listing" />
+		<ui:controller bean="aktera.group.edit"/>
+	</ui:sequence>
+
+	<ui:save id="aktera.group.save">
+		<ui:context id="akteraGroup"/>
+		<ui:persistent id="akteraGroup" key="id" />
+		<ui:command-ok bean="aktera.admin.usermanagement.edit-seq"/>
+		<ui:command-edit bean="aktera.group.edit-seq"/>
+		<ui:handler bean="de.iritgo.aktera.base.group.GroupFormularHandler"/>
+	</ui:save>
+
+	<ui:delete id="aktera.group.delete">
+		<ui:persistent id="akteraGroup" name="aktera.AkteraGroup" key="id"/>
+		<ui:handler bean="de.iritgo.aktera.base.group.GroupFormularHandler"/>
+	</ui:delete>
+
+	<!-- Group entry management -->
+
+	<ui:listing id="aktera.groupentry.listing">
+		<ui:listId>groupMembers</ui:listId>
+		<ui:key column="entry.id" />
+		<ui:keyName>entryId</ui:keyName>
+		<ui:column name="sysUser.name" bundle="Aktera" viewer="text" width="90"/>
+		<ui:column name="entry.position" bundle="Aktera" viewer="text" width="10"/>
+		<ui:persistent id="entry" name="aktera.AkteraGroupEntry"/>
+		<ui:persistent id="sysUser" name="keel.user" join="entry" myKey="uid" otherKey="userId"/>
+		<ui:condition><![CDATA[
+			groupId = #id
+		]]></ui:condition>
+		<ui:command-new bean="aktera.groupentry.group.save" label="add"/>
+		<ui:item-command id="remove" bean="aktera.group.remove-entry-seq" label="remove" icon="tool-delete-12" style="tool"/>
+		<ui:item-command id="up" bean="aktera.group.up-entry-seq" label="up" icon="tool-up-10" style="tool"/>
+		<ui:item-command id="down" bean="aktera.group.down-entry-seq" label="down" icon="tool-down-10" style="tool"/>
+		<ui:sort column="entry.position" />
+		<ui:bundle>Aktera</ui:bundle>
+	</ui:listing>
+
+	<ui:save id="aktera.groupentry.group.save">
+		<ui:context id="akteraGroup"/>
+		<ui:preserveContext>true</ui:preserveContext>
+		<ui:persistent id="akteraGroup" key="id" />
+		<ui:command-ok bean="aktera.group.user.listing">
+			<ui:param name="groupId" value="#{saveId}"/>
+		</ui:command-ok>
+		<ui:command-edit bean="aktera.group.edit-seq"/>
+		<ui:handler bean="de.iritgo.aktera.base.group.GroupFormularHandler"/>
+	</ui:save>
+
+	<ui:listing id="aktera.group.user.listing">
+		<ui:key column="sysUser.uid" />
+		<ui:keyName>uid</ui:keyName>
+		<ui:column name="sysUser.name" bundle="Aktera" viewer="text" width="100"/>
+		<ui:persistent id="sysUser" name="keel.user"/>
+		<ui:condition><![CDATA[
+			sysUser.name like '~search'
+		]]></ui:condition>
+		<ui:command-back bean="aktera.group.edit-seq">
+			<ui:param name="id" value="#{params(groupId)}"/>
+		</ui:command-back>
+		<ui:command-view bean="aktera.group.add-entry-seq" id="add" label="add">
+			<ui:param name="id" value="#{params(groupId)}"/>
+		</ui:command-view>
+		<ui:command-search bean="aktera.group.user.list">
+			<ui:param name="groupId" value="#{params(groupId)}"/>
+		</ui:command-search>
+		<ui:command-execute>
+			<ui:param name="id" value="#{params(groupId)}"/>
+		</ui:command-execute>
+		<ui:item-command id="add" bean="aktera.group.add-entry-seq" label="add">
+			<ui:param name="id" value="#{params(groupId)}"/>
+		</ui:item-command>
+		<ui:bundle>Aktera</ui:bundle>
+		<ui:sort column="sysUser.name" />
+		<ui:title bundle="Aktera">selectInternalUsersForGroup</ui:title>
+		<ui:icon>admin-group-32</ui:icon>
+	</ui:listing>
+
+	<ui:sequence id="aktera.group.add-entry-seq">
+		<ui:controller bean="de.iritgo.aktera.base.AddAkteraGroupEntry" />
+		<ui:controller bean="aktera.group.edit-seq" />
+	</ui:sequence>
+
+	<ui:sequence id="aktera.group.remove-entry-seq">
+		<ui:controller bean="de.iritgo.aktera.base.RemoveAkteraGroupEntry" />
+		<ui:controller bean="aktera.group.edit-seq" />
+	</ui:sequence>
+
+	<ui:sequence id="aktera.group.up-entry-seq">
+		<ui:controller bean="de.iritgo.aktera.base.UpAkteraGroupEntry" />
+		<ui:controller bean="aktera.group.edit-seq" />
+	</ui:sequence>
+
+	<ui:sequence id="aktera.group.down-entry-seq">
+		<ui:controller bean="de.iritgo.aktera.base.DownAkteraGroupEntry" />
+		<ui:controller bean="aktera.group.edit-seq" />
+	</ui:sequence>
+
+	<bean id="de.iritgo.aktera.base.AddAkteraGroupEntry" class="de.iritgo.aktera.base.group.AddAkteraGroupEntry">
+		<property name="userDAO" ref="keel.UserDAO" />
+		<property name="permissionManager" ref="de.iritgo.aktera.permissions.PermissionManager" />
+	</bean>
+
+	<bean id="de.iritgo.aktera.base.RemoveAkteraGroupEntry" class="de.iritgo.aktera.base.group.RemoveAkteraGroupEntry">
+		<property name="userDAO" ref="keel.UserDAO" />
+		<property name="permissionManager" ref="de.iritgo.aktera.permissions.PermissionManager" />
+	</bean>
+
+	<bean id="de.iritgo.aktera.base.DownAkteraGroupEntry" class="de.iritgo.aktera.base.group.DownAkteraGroupEntry">
+		<property name="userDAO" ref="keel.UserDAO" />
+	</bean>
+
+	<bean id="de.iritgo.aktera.base.UpAkteraGroupEntry" class="de.iritgo.aktera.base.group.UpAkteraGroupEntry">
+		<property name="userDAO" ref="keel.UserDAO" />
+	</bean>
+
+	<!-- Group permission management -->
+
+	<ui:listing id="aktera.admin.group.permission.listing">
+		<ui:extends bean="de.iritgo.aktera.permissions.ListPermissions" />
+		<ui:listId>permissions</ui:listId>
+		<ui:keyName>permissionId</ui:keyName>
+		<ui:query name="de.iritgo.aktera.permissions.GroupPermissionListing">
+			<ui:param name="groupId" value="#{paramAsInt(id)}" />
+		</ui:query>
+		<ui:command-new bean="aktera.admin.group.permission.group.save" />
+		<ui:command-view bean="aktera.admin.group.permission.group.save" />
+		<ui:item-command id="delete" bean="aktera.admin.group.permission.delete" label="delete"/>
+	</ui:listing>
+
+	<ui:save id="aktera.admin.group.permission.group.save">
+		<ui:context id="akteraGroup"/>
+		<ui:preserveContext>true</ui:preserveContext>
+		<ui:persistent id="akteraGroup" key="id" />
+		<ui:command-ok bean="aktera.admin.group.permission.edit">
+			<ui:param name="principalId" value="#{saveId}"/>
+			<ui:param name="principalType" value="G"/>
+			<ui:param name="id" value="#{param(permissionId)}"/>
+		</ui:command-ok>
+		<ui:command-edit bean="aktera.group.edit-seq"/>
+		<ui:handler bean="de.iritgo.aktera.base.group.GroupFormularHandler"/>
+	</ui:save>
+
+	<ui:edit id="aktera.admin.group.permission.edit">
+		<ui:extends bean="de.iritgo.aktera.permissions.EditPermission" />
+		<ui:command-save bean="aktera.admin.group.permission.save"/>
+		<ui:command-cancel bean="aktera.group.edit-seq">
+			<ui:param name="id" value="#{persistent(permission).field(principalId)}"/>
+		</ui:command-cancel>
+		<ui:attribute name="permissionController" value="aktera.admin.group.permission.edit"/>
+	</ui:edit>
+
+	<ui:save id="aktera.admin.group.permission.save">
+		<ui:extends bean="de.iritgo.aktera.permissions.SavePermission" />
+		<ui:preserveContext>true</ui:preserveContext>
+		<ui:command-ok bean="aktera.group.edit-seq">
+			<ui:param name="id" value="#{persistent(permission).field(principalId)}"/>
+		</ui:command-ok>
+		<ui:command-edit bean="aktera.admin.group.permission.edit" />
+	</ui:save>
+
+	<ui:delete id="aktera.admin.group.permission.delete">
+		<ui:keyName>permissionId</ui:keyName>
+		<ui:persistent id="permission" name="aktera.Permission" key="id"/>
+		<ui:handler bean="de.iritgo.aktera.permissions.PermissionFormularHandler"/>
+	</ui:delete>
+
+</beans>

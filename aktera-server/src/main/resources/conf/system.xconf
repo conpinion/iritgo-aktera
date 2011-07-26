@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    This file is part of the Iritgo/Aktera Framework.
+
+    Copyright (C) 2005-2011 Iritgo Technologies.
+    Copyright (C) 2003-2005 BueroByte GbR.
+
+    Iritgo licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License. You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+
+<!-- This file is the primary configuration file for Keel and it's installed applications -->
+<!-- At install-time, the entities defined above in the "local" subdirectory are created -->
+<!-- by appending the config files for all locally-installed Keel applications -->
+
+<!-- You should not need to edit this file directly. Additional (or overriding) configuration -->
+<!-- can be supplied by adding files that end in "system.xconf" (e.g. local-system.xconf) to -->
+<!-- the directory in which this file is found. All files matching that pattern (including -->
+<!-- files in sub-directories) will be merged together when Keel starts up. The merged configuration -->
+<!-- is written out to a file called "merged.conf", so you can examine it to make sure the -->
+<!-- merge happens the way you wanted it to. -->
+
+<keel proxy-type="java">
+<!-- <keel proxy-type="none"> --> <!-- syncretries="3" - add preceding attribute to enable context synchronization in cluster -->
+    <!-- The above proxy-type attribute specifies how the Keel container -->
+    <!-- (Fortress) accesses components. The default of "java" should be -->
+    <!-- kept for development, but you may wish to set it to "none" for -->
+    <!-- performance-sensitive deployments, which disables the proxying -->
+    <!-- entirely. The other allowed values are "bcel" or "discover", -->
+    <!-- "discover" will use BCEL if present, or java.lang.Proxy otherwise. -->
+    <!-- The system-properties entries below are used at startup to set -->
+    <!-- java System properties (via System.setProperty). You can use the shorthand -->
+    <!-- %conf% to refer to the directory in which this config file is found when -->
+    <!-- specifying pathnames -->
+    <system-properties>
+        <property name="java.security.auth.login.config" value="%conf%/jaas.config"/>
+        <property name="java.security.krb5.realm" value="YOUR.REALM"/>
+        <property name="java.security.krb5.kdc" value="YOUR.KDC"/>
+        <!-- number of seconds before a model "times out" if it has not returned a response -->
+        <property name="model.timeout" value="60"/>
+    </system-properties>
+
+    <nullauth activation="request" id="nullauth"/>
+
+    <socket-server port="8100"/>
+
+</keel>

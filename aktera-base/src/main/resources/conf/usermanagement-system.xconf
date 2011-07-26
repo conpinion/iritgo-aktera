@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    This file is part of the Iritgo/Aktera Framework.
+
+    Copyright (C) 2005-2011 Iritgo Technologies.
+    Copyright (C) 2003-2005 BueroByte GbR.
+
+    Iritgo licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License. You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+
+<keel>
+
+	<!-- Events -->
+
+	<events id="events">
+		<event id="aktera.user.created">
+			<param name="id" type="java.lang.Integer" description="Id of the new user"/>
+			<param name="name" type="java.lang.String" description="Name of the new user"/>
+		</event>
+		<event id="aktera.user.updated">
+			<param name="id" type="java.lang.Integer" description="Id of the updated user"/>
+			<param name="name" type="java.lang.String" description="Name of the updated user"/>
+		</event>
+		<event id="aktera.user.delete">
+			<param name="id" type="java.lang.Integer" description="Id of the user to delete"/>
+			<param name="name" type="java.lang.String" description="Name of the user to delete"/>
+		</event>
+		<event id="aktera.user.deleted">
+			<param name="id" type="java.lang.Integer" description="Id of the deleted user"/>
+			<param name="name" type="java.lang.String" description="Name of the deleted user"/>
+		</event>
+	</events>
+
+	<!-- Import handlers -->
+
+	<aktera.import id="aktera.import">
+		<import id="Users" root="users" class="de.iritgo.aktera.base.admin.UserImportHandler"/>
+	</aktera.import>
+
+</keel>

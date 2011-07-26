@@ -1,0 +1,2 @@
+<forward name="aktera.import.analyse-report" path="/aktera-importer/analyse-report.jsp"/>
+<forward name="aktera.import.import-report" path="/aktera-importer/import-report.jsp"/>

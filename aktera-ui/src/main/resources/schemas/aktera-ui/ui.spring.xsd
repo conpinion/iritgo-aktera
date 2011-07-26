@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema xmlns="http://aktera.iritgo.de/spring/ui" targetNamespace="http://aktera.iritgo.de/spring/ui"
+	elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:beans="http://www.springframework.org/schema/beans">
+
+	<xsd:import namespace="http://www.springframework.org/schema/beans" />
+
+	<xsd:element name="listing">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="beans:identifiedType">
+					<xsd:choice minOccurs="0" maxOccurs="unbounded">
+						<xsd:element name="extends" minOccurs="0" maxOccurs="1" type="extends" />
+						<xsd:element name="listId" minOccurs="0" maxOccurs="1" />
+						<xsd:element name="key" minOccurs="0" maxOccurs="1">
+							<xsd:complexType>
+								<xsd:attribute name="value" use="optional" type="xsd:string" />
+								<xsd:attribute name="name" use="optional" type="xsd:string" />
+								<xsd:attribute name="column" use="optional" type="xsd:string" />
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="keyName" minOccurs="0" maxOccurs="1" />
+						<xsd:element name="column" minOccurs="0" maxOccurs="unbounded">
+							<xsd:complexType>
+								<xsd:attribute name="name" use="required" type="xsd:string" />
+								<xsd:attribute name="label" use="optional" type="xsd:string" />
+								<xsd:attribute name="viewer" use="optional" type="xsd:string" default="text"/>
+								<xsd:attribute name="width" use="optional" type="xsd:int" />
+								<xsd:attribute name="bundle" use="optional" type="xsd:string" />
+								<xsd:attribute name="value" use="optional" type="xsd:string" />
+								<xsd:attribute name="sortable" use="optional" type="xsd:string" />
+								<xsd:attribute name="visible" use="optional" type="xsd:boolean" />
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="persistent" minOccurs="0" maxOccurs="unbounded">
+							<xsd:complexType>
+								<xsd:attribute name="id" use="required" type="xsd:string" />
+								<xsd:attribute name="name" use="required" type="xsd:string" />
+								<xsd:attribute name="join" use="optional" type="xsd:string" />
+								<xsd:attribute name="myKey" use="optional" type="xsd:string" />
+								<xsd:attribute name="otherKey" use="optional" type="xsd:string" />
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="condition" minOccurs="0" maxOccurs="1" />
+						<xsd:element name="query" minOccurs="0" maxOccurs="unbounded">
+							<xsd:complexType>
+								<xsd:choice minOccurs="0" maxOccurs="unbounded">
+									<xsd:element name="param" minOccurs="0" maxOccurs="unbounded" type="param" />
+								</xsd:choice>
+								<xsd:attribute name="name" use="optional" type="xsd:string" />
+								<xsd:attribute name="dao" use="optional" type="xsd:string" />
+								<xsd:attribute name="method" use="optional" type="xsd:string" />
+								<xsd:attribute name="find" use="optional" type="xsd:string" />
+								<xsd:attribute name="expression" use="optional" type="xsd:string" />
+								<xsd:attribute name="count" use="optional" type="xsd:string" />
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="command-search" minOccurs="0" maxOccurs="1" type="listCommand" />
+						<xsd:element name="command-view" minOccurs="0" maxOccurs="1" type="listCommand" />
+						<xsd:element name="command-new" minOccurs="0" maxOccurs="1" type="listCommand" />
+						<xsd:element name="command-back" minOccurs="0" maxOccurs="1" type="listCommand" />
+						<xsd:element name="command-execute" minOccurs="0" maxOccurs="1">
+							<xsd:complexType>
+								<xsd:choice minOccurs="0" maxOccurs="unbounded">
+									<xsd:element name="param" minOccurs="0" maxOccurs="unbounded">
+										<xsd:complexType>
+											<xsd:attribute name="name" use="required" type="xsd:string" />
+											<xsd:attribute name="value" use="required" type="xsd:string" />
+										</xsd:complexType>
+									</xsd:element>
+								</xsd:choice>
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="item-command" minOccurs="0" maxOccurs="unbounded">
+							<xsd:complexType>
+								<xsd:choice minOccurs="0" maxOccurs="unbounded">
+									<xsd:element name="param" minOccurs="0" maxOccurs="unbounded" type="param" />
+								</xsd:choice>
+								<xsd:attribute name="id" use="required" type="xsd:string" />
+								<xsd:attribute name="bean" use="required" type="xsd:string" />
+								<xsd:attribute name="label" use="optional" type="xsd:string" />
+								<xsd:attribute name="bundle" use="optional" type="xsd:string" />
+								<xsd:attribute name="icon" use="optional" type="xsd:string" />
+								<xsd:attribute name="style" use="optional" type="xsd:string" />
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="handler" minOccurs="0" maxOccurs="1">
+							<xsd:complexType>
+								<xsd:attribute name="bean" use="required" type="xsd:string" />
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="sort" minOccurs="0" maxOccurs="1">
+							<xsd:complexType>
+								<xsd:attribute name="name" use="optional" type="xsd:string" />
+								<xsd:attribute name="column" use="optional" type="xsd:string" />
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="bundle" minOccurs="0" maxOccurs="1" />
+						<xsd:element name="title" minOccurs="0" maxOccurs="1" />
+						<xsd:element name="titleBundle" minOccurs="0" maxOccurs="1" />
+						<xsd:element name="icon" minOccurs="0" maxOccurs="1" />
+					</xsd:choice>
+					<xsd:attribute name="forward" use="optional" type="xsd:string" />
+					<xsd:attribute name="bundle" use="optional" type="xsd:string" />
+					<xsd:attribute name="security" use="optional" type="security" />
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="formular">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="beans:identifiedType">
+					<xsd:choice minOccurs="0" maxOccurs="unbounded">
+						<xsd:element name="key" minOccurs="0" maxOccurs="1" />
+						<xsd:element name="page" minOccurs="0" maxOccurs="unbounded">
+							<xsd:complexType>
+								<xsd:choice minOccurs="0" maxOccurs="unbounded">
+									<xsd:element name="group" minOccurs="0" maxOccurs="unbounded" type="group" />
+								</xsd:choice>
+								<xsd:attribute name="name" use="required" type="xsd:string" />
+								<xsd:attribute name="icon" use="optional" type="xsd:string" />
+								<xsd:attribute name="inactiveIcon" use="optional" type="xsd:string" />
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="group" minOccurs="0" maxOccurs="unbounded" type="group" />
+						<xsd:element name="groupList" minOccurs="0" maxOccurs="unbounded">
+							<xsd:complexType>
+								<xsd:attribute name="bean" use="required" type="xsd:string" />
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="bundle" minOccurs="0" maxOccurs="1" />
+						<xsd:element name="labelWidth" minOccurs="0" maxOccurs="1" />
+					</xsd:choice>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="formularGroup">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="beans:identifiedType">
+					<xsd:choice minOccurs="0" maxOccurs="unbounded">
+						<xsd:element name="group" minOccurs="0" maxOccurs="unbounded" type="group" />
+					</xsd:choice>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:complexType name="group">
+		<xsd:choice minOccurs="0" maxOccurs="unbounded">
+			<xsd:element name="field" minOccurs="0" maxOccurs="unbounded">
+				<xsd:complexType>
+					<xsd:choice minOccurs="0" maxOccurs="unbounded">
+						<xsd:element name="command" minOccurs="0" type="formularCommand" />
+					</xsd:choice>
+					<xsd:attribute name="name" use="required" type="xsd:string" />
+					<xsd:attribute name="bundle" use="optional" type="xsd:string" />
+					<xsd:attribute name="editor" use="required" type="xsd:string" />
+					<xsd:attribute name="size" use="optional" type="xsd:int" />
+					<xsd:attribute name="duty" use="optional" type="xsd:boolean" />
+					<xsd:attribute name="rows" use="optional" type="xsd:int" />
+					<xsd:attribute name="tip" use="optional" type="xsd:string" />
+					<xsd:attribute name="label" use="optional" type="xsd:string" />
+					<xsd:attribute name="unbound" use="optional" type="xsd:boolean" />
+					<xsd:attribute name="nolabel" use="optional" type="xsd:boolean" />
+					<xsd:attribute name="readonly" use="optional" type="xsd:boolean" />
+					<xsd:attribute name="submit" use="optional" type="xsd:boolean" />
+					<xsd:attribute name="noLabel" use="optional" type="xsd:boolean" />
+					<xsd:attribute name="validator" use="optional" type="xsd:string" />
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="comment" minOccurs="0" maxOccurs="unbounded">
+				<xsd:complexType>
+					<xsd:attribute name="label" use="required" type="xsd:string" />
+					<xsd:attribute name="bundle" use="optional" type="xsd:string" />
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="buttons" minOccurs="0" maxOccurs="unbounded">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="command" minOccurs="0" maxOccurs="unbounded">
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="param" minOccurs="0" maxOccurs="unbounded">
+										<xsd:complexType>
+											<xsd:attribute name="name" use="required" type="xsd:string" />
+											<xsd:attribute name="value" use="required" type="xsd:string" />
+										</xsd:complexType>
+									</xsd:element>
+								</xsd:sequence>
+								<xsd:attribute name="name" use="required" type="xsd:string" />
+								<xsd:attribute name="bean" use="optional" type="xsd:string" />
+								<xsd:attribute name="model" use="optional" type="xsd:string" />
+								<xsd:attribute name="label" use="optional" type="xsd:string" />
+								<xsd:attribute name="icon" use="optional" type="xsd:string" />
+								<xsd:attribute name="bundle" use="optional" type="xsd:string" />
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:sequence>
+					<xsd:attribute name="id" use="optional" type="xsd:string" />
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="comment" minOccurs="0" maxOccurs="unbounded">
+				<xsd:complexType>
+					<xsd:attribute name="label" use="required" type="xsd:string" />
+					<xsd:attribute name="bundle" use="optional" type="xsd:string" />
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:choice>
+		<xsd:attribute name="name" use="required" type="xsd:string" />
+		<xsd:attribute name="label" use="optional" type="xsd:string" />
+		<xsd:attribute name="bundle" use="optional" type="xsd:string" />
+		<xsd:attribute name="icon" use="optional" type="xsd:string" />
+		<xsd:attribute name="titleVisible" use="optional" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<xsd:element name="edit">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="beans:identifiedType">
+					<xsd:choice minOccurs="0" maxOccurs="unbounded">
+						<xsd:element name="extends" minOccurs="0" maxOccurs="1" type="extends" />
+						<xsd:element name="context" minOccurs="1" maxOccurs="1" />
+						<xsd:element name="formular" minOccurs="1" maxOccurs="1">
+							<xsd:complexType>
+								<xsd:attribute name="bean" use="required" type="xsd:string" />
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="persistent" minOccurs="0" maxOccurs="unbounded">
+							<xsd:complexType>
+								<xsd:attribute name="id" use="required" type="xsd:string" />
+								<xsd:attribute name="name" use="optional" type="xsd:string" />
+								<xsd:attribute name="key" use="optional" type="xsd:string" />
+								<xsd:attribute name="entity" use="optional" type="xsd:string" />
+								<xsd:attribute name="join" use="optional" type="xsd:string" />
+								<xsd:attribute name="myKey" use="optional" type="xsd:string" />
+								<xsd:attribute name="otherKey" use="optional" type="xsd:string" />
+								<xsd:attribute name="condition" use="optional" type="xsd:string" />
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="attribute" minOccurs="0" maxOccurs="unbounded">
+							<xsd:complexType>
+								<xsd:attribute name="name" use="optional" type="xsd:string" />
+								<xsd:attribute name="value" use="optional" type="xsd:string" />
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="command-save" minOccurs="0" maxOccurs="1" type="listCommand" />
+						<xsd:element name="command-cancel" minOccurs="0" maxOccurs="1" type="listCommand" />
+						<xsd:element name="handler" minOccurs="0" maxOccurs="1">
+							<xsd:complexType>
+								<xsd:attribute name="bean" use="required" type="xsd:string" />
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="keyName" minOccurs="0" maxOccurs="1" />
+						<xsd:element name="title" minOccurs="0" maxOccurs="1" />
+						<xsd:element name="bundle" minOccurs="0" maxOccurs="1" />
+						<xsd:element name="icon" minOccurs="0" maxOccurs="1" />
+					</xsd:choice>
+					<xsd:attribute name="forward" use="optional" type="xsd:string" />
+					<xsd:attribute name="bundle" use="optional" type="xsd:string" />
+					<xsd:attribute name="security" use="optional" type="security" />
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="save">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="beans:identifiedType">
+					<xsd:choice minOccurs="0" maxOccurs="unbounded">
+						<xsd:element name="extends" minOccurs="0" maxOccurs="1" type="extends" />
+						<xsd:element name="context" minOccurs="1" maxOccurs="1" />
+						<xsd:element name="preserveContext" minOccurs="0" maxOccurs="1" type="xsd:boolean" />
+						<xsd:element name="persistent" minOccurs="0" maxOccurs="unbounded">
+							<xsd:complexType>
+								<xsd:attribute name="id" use="required" type="xsd:string" />
+								<xsd:attribute name="name" use="optional" type="xsd:string" />
+								<xsd:attribute name="key" use="optional" type="xsd:string" />
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="command-ok" minOccurs="0" maxOccurs="1" type="listCommand" />
+						<xsd:element name="command-edit" minOccurs="0" maxOccurs="1" type="listCommand" />
+						<xsd:element name="handler" minOccurs="0" maxOccurs="1">
+							<xsd:complexType>
+								<xsd:attribute name="bean" use="required" type="xsd:string" />
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="keyName" minOccurs="0" maxOccurs="1" />
+					</xsd:choice>
+					<xsd:attribute name="forward" use="optional" type="xsd:string" />
+					<xsd:attribute name="bundle" use="optional" type="xsd:string" />
+					<xsd:attribute name="security" use="optional" type="security" />
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="delete">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="beans:identifiedType">
+					<xsd:choice minOccurs="0" maxOccurs="unbounded">
+						<xsd:element name="extends" minOccurs="0" maxOccurs="1" type="extends" />
+						<xsd:element name="persistent" minOccurs="0" maxOccurs="unbounded">
+							<xsd:complexType>
+								<xsd:attribute name="id" use="required" type="xsd:string" />
+								<xsd:attribute name="name" use="optional" type="xsd:string" />
+								<xsd:attribute name="key" use="optional" type="xsd:string" />
+								<xsd:attribute name="entity" use="optional" type="xsd:string" />
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="handler" minOccurs="0" maxOccurs="1">
+							<xsd:complexType>
+								<xsd:attribute name="bean" use="required" type="xsd:string" />
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="keyName" minOccurs="0" maxOccurs="1" />
+					</xsd:choice>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="sequence">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="beans:identifiedType">
+					<xsd:sequence>
+						<xsd:element name="controller" minOccurs="0" maxOccurs="unbounded">
+							<xsd:complexType>
+								<xsd:choice minOccurs="0" maxOccurs="unbounded">
+									<xsd:element name="param" minOccurs="0" maxOccurs="unbounded" type="param" />
+								</xsd:choice>
+								<xsd:attribute name="bean" use="required" type="xsd:string" />
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:complexType name="extends">
+		<xsd:attribute name="bean" use="required" type="xsd:string" />
+	</xsd:complexType>
+
+	<xsd:complexType name="param">
+		<xsd:attribute name="name" use="required" type="xsd:string" />
+		<xsd:attribute name="value" use="required" type="xsd:string" />
+	</xsd:complexType>
+
+	<xsd:complexType name="listCommand">
+		<xsd:choice minOccurs="0" maxOccurs="unbounded">
+			<xsd:element name="param" minOccurs="0" maxOccurs="unbounded" type="param" />
+		</xsd:choice>
+		<xsd:attribute name="bean" use="required" type="xsd:string" />
+		<xsd:attribute name="label" use="optional" type="xsd:string" />
+		<xsd:attribute name="visible" use="optional" type="xsd:boolean" />
+		<xsd:attribute name="id" use="optional" type="xsd:string" />
+	</xsd:complexType>
+
+	<xsd:complexType name="formularCommand">
+		<xsd:choice minOccurs="0" maxOccurs="unbounded">
+			<xsd:element name="param" minOccurs="0" maxOccurs="unbounded">
+				<xsd:complexType>
+					<xsd:attribute name="name" use="required" type="xsd:string" />
+					<xsd:attribute name="value" use="required" type="xsd:string" />
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:choice>
+		<xsd:attribute name="name" use="required" type="xsd:string" />
+		<xsd:attribute name="bean" use="optional" type="xsd:string" />
+		<xsd:attribute name="model" use="optional" type="xsd:string" />
+		<xsd:attribute name="label" use="optional" type="xsd:string" />
+		<xsd:attribute name="icon" use="optional" type="xsd:string" />
+		<xsd:attribute name="bundle" use="optional" type="xsd:string" />
+		<xsd:attribute name="visible" use="optional" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<xsd:simpleType name="security">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="none" />
+			<xsd:enumeration value="component" />
+			<xsd:enumeration value="instance" />
+			<xsd:enumeration value="invokation" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="editor">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="text" />
+			<xsd:enumeration value="nospacetext" />
+			<xsd:enumeration value="identifier" />
+			<xsd:enumeration value="number" />
+			<xsd:enumeration value="integer" />
+			<xsd:enumeration value="digits" />
+			<xsd:enumeration value="realnumber" />
+			<xsd:enumeration value="textarea" />
+			<xsd:enumeration value="password" />
+			<xsd:enumeration value="ipaddress" />
+			<xsd:enumeration value="macaddress" />
+			<xsd:enumeration value="email" />
+			<xsd:enumeration value="language" />
+			<xsd:enumeration value="salutation" />
+			<xsd:enumeration value="country" />
+			<xsd:enumeration value="province" />
+			<xsd:enumeration value="weekday" />
+			<xsd:enumeration value="weekdaycheck" />
+			<xsd:enumeration value="year" />
+			<xsd:enumeration value="month" />
+			<xsd:enumeration value="day" />
+			<xsd:enumeration value="datetext" />
+			<xsd:enumeration value="datecombo" />
+			<xsd:enumeration value="timetext" />
+			<xsd:enumeration value="timecombo" />
+			<xsd:enumeration value="timestamptext" />
+			<xsd:enumeration value="timestampcombo" />
+			<xsd:enumeration value="check" />
+			<xsd:enumeration value="money" />
+			<xsd:enumeration value="combo" />
+			<xsd:enumeration value="file" />
+			<xsd:enumeration value="dipswitch" />
+			<xsd:enumeration value="seconds" />
+			<xsd:enumeration value="minutes" />
+			<xsd:enumeration value="hours" />
+			<xsd:enumeration value="days" />
+			<xsd:enumeration value="months" />
+			<xsd:enumeration value="weekdays" />
+			<xsd:enumeration value="list" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="viewer">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="text" />
+			<xsd:enumeration value="date" />
+			<xsd:enumeration value="time" />
+			<xsd:enumeration value="datetime" />
+			<xsd:enumeration value="timestamp" />
+			<xsd:enumeration value="check" />
+			<xsd:enumeration value="icon" />
+			<xsd:enumeration value="js" />
+			<xsd:enumeration value="combo" />
+			<xsd:enumeration value="message" />
+			<xsd:enumeration value="weekday" />
+			<xsd:enumeration value="year" />
+			<xsd:enumeration value="month" />
+			<xsd:enumeration value="day" />
+			<xsd:enumeration value="country" />
+			<xsd:enumeration value="province" />
+			<xsd:enumeration value="bytesize" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+</xsd:schema>

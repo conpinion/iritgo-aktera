@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!-- This file is part of the Iritgo/Aktera Framework. -->
+
+<!-- Copyright (C) 2005-2010 Iritgo Technologies. -->
+<!-- Copyright (C) 2003-2005 BueroByte GbR. -->
+
+<!-- Iritgo licenses this file to You under the Apache License, Version 2.0 -->
+<!-- (the "License"); you may not use this file except in compliance with -->
+<!-- the License. You may obtain a copy of the License at -->
+
+<!-- http://www.apache.org/licenses/LICENSE-2.0 -->
+
+<!-- Unless required by applicable law or agreed to in writing, software -->
+<!-- distributed under the License is distributed on an "AS IS" BASIS, -->
+<!-- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. -->
+<!-- See the License for the specific language governing permissions and -->
+<!-- limitations under the License. -->
+
+<frame iconImage="resources/address.png">
+
+	<gridbagconstraints id="std" insets="2,2,2,2" ipadx="0" ipady="0" gridx="0" gridy="0" gridheight="1"
+		gridwidth="1" weightx="0.0" weighty="0.0" anchor="GridBagConstraints.WEST" fill="GridBagConstraints.NONE" />
+
+	<panel layout="GridBagLayout" border="EmptyBorder(8,8,8,8)" constraints="BorderLayout.CENTER">
+
+		<ifieldlabel text="salutation">
+			<gridbagconstraints use="std" gridx="0" gridy="0" />
+		</ifieldlabel>
+
+		<textfield id="salutation" editable="true">
+			<gridbagconstraints use="std" gridx="1" gridy="0" weightx="1.0" fill="GridBagConstraints.HORIZONTAL" />
+		</textfield>
+
+		<ifieldlabel text="firstName">
+			<gridbagconstraints use="std" gridx="0" gridy="1" />
+		</ifieldlabel>
+
+		<textfield id="firstName" editable="true">
+			<gridbagconstraints use="std" gridx="1" gridy="1" weightx="1.0" fill="GridBagConstraints.HORIZONTAL" />
+		</textfield>
+
+		<ifieldlabel text="lastName">
+			<gridbagconstraints use="std" gridx="0" gridy="2" />
+		</ifieldlabel>
+
+		<textfield id="lastName" editable="true">
+			<gridbagconstraints use="std" gridx="1" gridy="2" weightx="1.0" fill="GridBagConstraints.HORIZONTAL" />
+		</textfield>
+
+		<ifieldlabel text="company">
+			<gridbagconstraints use="std" gridx="0" gridy="3" />
+		</ifieldlabel>
+
+		<textfield id="company" editable="true">
+			<gridbagconstraints use="std" gridx="1" gridy="3" weightx="1.0" fill="GridBagConstraints.HORIZONTAL" />
+		</textfield>
+
+		<ifieldlabel text="division">
+			<gridbagconstraints use="std" gridx="0" gridy="4" />
+		</ifieldlabel>
+
+		<textfield id="division" editable="true">
+			<gridbagconstraints use="std" gridx="1" gridy="4" weightx="1.0" fill="GridBagConstraints.HORIZONTAL" />
+		</textfield>
+
+		<ifieldlabel text="position">
+			<gridbagconstraints use="std" gridx="0" gridy="5" fill="GridBagConstraints.BOTH" />
+		</ifieldlabel>
+
+		<textfield id="position" editable="true">
+			<gridbagconstraints use="std" gridx="1" gridy="5" weightx="1.0" fill="GridBagConstraints.HORIZONTAL" />
+		</textfield>
+
+		<ifieldlabel text="street">
+			<gridbagconstraints use="std" gridx="0" gridy="6" />
+		</ifieldlabel>
+
+		<textfield id="street" editable="true">
+			<gridbagconstraints use="std" gridx="1" gridy="6" weightx="1.0" fill="GridBagConstraints.HORIZONTAL" />
+		</textfield>
+
+		<ifieldlabel text="postalCodeAndCity">
+			<gridbagconstraints use="std" gridx="0" gridy="7" />
+		</ifieldlabel>
+
+		<textfield id="postalCodeAndCity" editable="true">
+			<gridbagconstraints use="std" gridx="1" gridy="7" weightx="1.0" fill="GridBagConstraints.HORIZONTAL" />
+		</textfield>
+
+		<ifieldlabel text="country">
+			<gridbagconstraints use="std" gridx="0" gridy="8" />
+		</ifieldlabel>
+
+		<textfield id="country" editable="true">
+			<gridbagconstraints use="std" gridx="1" gridy="8" weightx="1.0" fill="GridBagConstraints.HORIZONTAL" />
+		</textfield>
+
+		<ifieldlabel text="email">
+			<gridbagconstraints use="std" gridx="0" gridy="9" />
+		</ifieldlabel>
+
+		<textfield id="email" editable="true">
+			<gridbagconstraints use="std" gridx="1" gridy="9" weightx="1.0" fill="GridBagConstraints.HORIZONTAL" />
+		</textfield>
+
+		<ifieldlabel text="homepage">
+			<gridbagconstraints use="std" gridx="0" gridy="10" />
+		</ifieldlabel>
+
+		<textfield id="homepage" editable="true">
+			<gridbagconstraints use="std" gridx="1" gridy="10" weightx="1.0" fill="GridBagConstraints.HORIZONTAL" />
+		</textfield>
+
+		<ifieldlabel text="contactNumber">
+			<gridbagconstraints use="std" gridx="0" gridy="11" />
+		</ifieldlabel>
+
+		<textfield id="contactNumber" editable="true">
+			<gridbagconstraints use="std" gridx="1" gridy="11" weightx="1.0" fill="GridBagConstraints.HORIZONTAL" />
+		</textfield>
+
+		<ifieldlabel text="companyNumber">
+			<gridbagconstraints use="std" gridx="0" gridy="12" />
+		</ifieldlabel>
+
+		<textfield id="companyNumber" editable="true">
+			<gridbagconstraints use="std" gridx="1" gridy="12" weightx="1.0" fill="GridBagConstraints.HORIZONTAL" />
+		</textfield>
+
+		<ifieldlabel text="phoneNumberB">
+			<gridbagconstraints use="std" gridx="2" gridy="0" />
+		</ifieldlabel>
+
+		<textfield id="phoneNumberB" editable="true">
+			<gridbagconstraints use="std" gridx="3" gridy="0" weightx="1.0" fill="GridBagConstraints.HORIZONTAL" />
+		</textfield>
+
+		<panel id="phoneNumberBActions" layout="FlowLayout">
+			<gridbagconstraints use="std" gridx="4" gridy="0" />
+		</panel>
+
+		<ifieldlabel text="phoneNumberBM">
+			<gridbagconstraints use="std" gridx="2" gridy="1" />
+		</ifieldlabel>
+
+		<textfield id="phoneNumberBM" editable="true">
+			<gridbagconstraints use="std" gridx="3" gridy="1" weightx="1.0" fill="GridBagConstraints.HORIZONTAL" />
+		</textfield>
+
+		<panel id="phoneNumberBMActions" layout="FlowLayout">
+			<gridbagconstraints use="std" gridx="4" gridy="1" />
+		</panel>
+		<ifieldlabel text="phoneNumberBF">
+
+			<gridbagconstraints use="std" gridx="2" gridy="2" />
+		</ifieldlabel>
+
+		<textfield id="phoneNumberBF" editable="true">
+			<gridbagconstraints use="std" gridx="3" gridy="2" weightx="1.0" fill="GridBagConstraints.HORIZONTAL" />
+		</textfield>
+
+		<panel id="phoneNumberBFActions" layout="FlowLayout">
+			<gridbagconstraints use="std" gridx="4" gridy="2" />
+		</panel>
+
+		<ifieldlabel text="phoneNumberBDD">
+			<gridbagconstraints use="std" gridx="2" gridy="3" />
+		</ifieldlabel>
+
+		<textfield id="phoneNumberBDD" editable="true">
+			<gridbagconstraints use="std" gridx="3" gridy="3" weightx="1.0" fill="GridBagConstraints.HORIZONTAL" />
+		</textfield>
+
+		<panel id="phoneNumberBDDActions" layout="FlowLayout">
+			<gridbagconstraints use="std" gridx="4" gridy="3" />
+		</panel>
+
+		<ifieldlabel text="phoneNumberP">
+			<gridbagconstraints use="std" gridx="2" gridy="4" />
+		</ifieldlabel>
+
+		<textfield id="phoneNumberP" editable="true">
+			<gridbagconstraints use="std" gridx="3" gridy="4" weightx="1.0" fill="GridBagConstraints.HORIZONTAL" />
+		</textfield>
+
+		<panel id="phoneNumberPActions" layout="FlowLayout">
+			<gridbagconstraints use="std" gridx="4" gridy="4" />
+		</panel>
+
+		<ifieldlabel text="phoneNumberPF">
+			<gridbagconstraints use="std" gridx="2" gridy="5" />
+		</ifieldlabel>
+
+		<textfield id="phoneNumberPF" editable="true">
+			<gridbagconstraints use="std" gridx="3" gridy="5" weightx="1.0" fill="GridBagConstraints.HORIZONTAL" />
+		</textfield>
+
+		<panel id="phoneNumberPFActions" layout="FlowLayout">
+			<gridbagconstraints use="std" gridx="4" gridy="5" />
+		</panel>
+
+		<ifieldlabel text="phoneNumberPM">
+			<gridbagconstraints use="std" gridx="2" gridy="6" />
+		</ifieldlabel>
+
+		<textfield id="phoneNumberPM" editable="true">
+			<gridbagconstraints use="std" gridx="3" gridy="6" weightx="1.0" fill="GridBagConstraints.HORIZONTAL" />
+		</textfield>
+
+		<panel id="phoneNumberPMActions" layout="FlowLayout">
+			<gridbagconstraints use="std" gridx="4" gridy="6" />
+		</panel>
+
+		<ifieldlabel text="phoneNumberVOIP">
+			<gridbagconstraints use="std" gridx="2" gridy="7" />
+		</ifieldlabel>
+
+		<textfield id="phoneNumberVOIP" editable="true">
+			<gridbagconstraints use="std" gridx="3" gridy="7" weightx="1.0" fill="GridBagConstraints.HORIZONTAL" />
+		</textfield>
+
+		<panel id="phoneNumberVOIPActions" layout="FlowLayout">
+			<gridbagconstraints use="std" gridx="4" gridy="7" />
+		</panel>
+
+		<ifieldlabel text="remark">
+			<gridbagconstraints use="std" gridx="0" gridy="13" anchor="GridBagConstraints.NORTHWEST" />
+		</ifieldlabel>
+
+		<textarea id="remark" editable="true" border="EtchedBorder">
+			<gridbagconstraints use="std" gridx="1" gridy="13" gridwidth="4" weightx="1.0" weighty="1.0"
+				fill="GridBagConstraints.BOTH" />
+		</textarea>
+
+		<separator>
+			<gridbagconstraints use="std" gridx="0" gridy="14" gridwidth="5" weightx="1.0"
+				fill="GridBagConstraints.HORIZONTAL" />
+		</separator>
+
+		<panel layout="GridBagLayout">
+
+			<gridbagconstraints use="std" gridx="0" gridy="15" gridwidth="5" weightx="1.0" weighty="0.0"
+				fill="GridBagConstraints.BOTH" />
+
+			<label>
+				<gridbagconstraints use="std" gridx="0" gridy="0" gridwidth="1" weightx="1.0"
+					fill="GridBagConstraints.HORIZONTAL" />
+			</label>
+
+			<ibutton text="close" action="close" icon="resources/ok.png">
+				<gridbagconstraints use="std" gridx="1" gridy="0" gridwidth="1" />
+			</ibutton>
+
+		</panel>
+
+	</panel>
+
+</frame>

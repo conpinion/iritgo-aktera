@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+
+	<context-param>
+		<param-name>jms-client</param-name>
+		<param-value>de.iritgo.aktera.clients.direct.KeelClientDirect</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>keel.config.dir</param-name>
+		<param-value>WEB-INF/conf</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>keel.session.created.model</param-name>
+		<param-value>aktera.session.session-manager</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>keel.session.destroyed.model</param-name>
+		<param-value>aktera.session.session-manager</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>iritgo.license.path</param-name>
+		<param-value>WEB-INF/Iritgo-License,WEB-INF/License</param-value>
+	</context-param>
+
+	<!-- Application defined context params -->
+
