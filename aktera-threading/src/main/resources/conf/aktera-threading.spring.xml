@@ -33,7 +33,9 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
-	<bean id="de.iritgo.aktera.threading.ThreadManager" class="de.iritgo.aktera.threading.ThreadManagerImpl" />
+	<bean id="de.iritgo.aktera.threading.ThreadManager" class="de.iritgo.aktera.threading.ThreadManagerImpl">
+		<property name="delayedAsyncExecutionManager" ref="de.iritgo.aktera.threading.DelayedAsyncExecutionManager" />
+	</bean>
 
 	<bean id="de.iritgo.aktera.threading.DelayedAsyncExecutionManager" class="de.iritgo.aktera.threading.DelayedAsyncExecutionManagerImpl" />
 

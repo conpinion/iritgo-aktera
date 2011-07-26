@@ -21,13 +21,11 @@ package de.iritgo.aktera.threading;
 
 
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
 
 
 public class ThreadManagerImpl implements ThreadManager
 {
 	@Setter
-	@Autowired
 	private DelayedAsyncExecutionManager delayedAsyncExecutionManager;
 
 	/**

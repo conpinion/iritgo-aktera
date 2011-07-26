@@ -23,13 +23,11 @@ package de.iritgo.aktera.threading;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import org.springframework.beans.factory.annotation.Value;
 
 
 public class DelayedAsyncExecutionManagerImpl implements DelayedAsyncExecutionManager
 {
-	@Value("1")
-	private int POOL_SIZE;
+	private int POOL_SIZE = 1;
 
 	private ScheduledExecutorService scheduler;
 
