@@ -513,7 +513,7 @@ public class AddressManagerImpl implements AddressManager, StartupHandler
 		{
 			public void execute (Object address, Object category)
 			{
-				Address theAddress = (Address) address;
+				Address theAddress = ((Option<Address>) (Address) address).get ();
 				String theCategory = (String) category;
 				PhoneNumber number = new PhoneNumber ();
 				number.setCategory (theCategory);
