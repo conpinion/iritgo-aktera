@@ -14,9 +14,11 @@ optTestPort=8080
 optTestContext=aktera
 optTestBrowser='*firefox /opt/firefox3/firefox-bin'
 optTestCase='*'
+optSettings=
+optMavenSettings=
 
 shortOptions=c123h
-longOptions=clean,format,fixversions,site,selenium,tests:,testcase:
+longOptions=clean,format,fixversions,site,selenium,tests:,testcase:,settings:
 
 options=("$(getopt -u -o $shortOptions --long $longOptions -- $@)")
 
@@ -50,6 +52,10 @@ function processOptions
 			--testcase) shift
 				optTestCase=$1
 				;;
+			--settings) shift
+				optSettings="--settings $1"
+				optMavenSettings="-s $HOME/.m2/$1-settings.xml"
+				;;
 			-h) printf "Usage: %s: [options]\n" $0
 			    printf "Options:\n"
 			    printf " -c                              Perform a clean build\n"
@@ -61,6 +67,8 @@ function processOptions
 			    printf " --tests <host>,<port>,<context> Define the test host\n"
 			    printf " -selenium                       Start the selenium server\n"
 			    printf " --testcase <name>               Specifes a single test case to run\n"
+			    printf " --settings                      Alternate Maven settings file\n"
+			    printf "                                 (Leave out the path the extension)\n"
 			    printf " -h                              Print this help\n"
 			    exit 0
 			    ;;
@@ -71,19 +79,22 @@ function processOptions
 
 processOptions $options
 
+MVN="mvn $optMavenSettings"
+BUILD="./build.sh $settings"
+
 shift $(($OPTIND - 1))
 
 if [ ! -z "$optFormat" ]
 then
-	mvn java-formatter:format
-	mvn license:format
+	$MVN java-formatter:format
+	$MVN license:format
 	exit 0
 fi
 
 if [ ! -z "$optSite" ]
 then
-	mvn site:site
-	mvn site:deploy
+	$MVN site:site
+	$MVN site:deploy
 	exit 0
 fi
 
@@ -91,7 +102,7 @@ if [ -n "$optUtility" ]
 then
 	case $optUtility in
 		fixversions)
-			mvn aktera:fixversions
+			$MVN aktera:fixversions
 			exit 0
 			;;
 	esac
@@ -99,15 +110,15 @@ fi
 
 if [ -n "$optSelenium" ]
 then
-	mvn selenium:start-server
+	$MVN selenium:start-server
 	exit 0
 fi
 
 if [ -n "$optTests" ]
 then
-	mvn integration-test -Dtest.host=$optTestHost -Dtest.port=$optTestPort -Dtest.context=$optTestContext -Dtest.case=$optTestCase
-	mvn surefire-report:report-only
-	mvn jxr:jxr jxr:test-jxr
+	$MVN integration-test -Dtest.host=$optTestHost -Dtest.port=$optTestPort -Dtest.context=$optTestContext -Dtest.case=$optTestCase
+	$MVN surefire-report:report-only
+	$MVN jxr:jxr jxr:test-jxr
 	exit 0
 fi
 
@@ -116,9 +127,9 @@ then
 	cd ../iritgo-aktario
 	if [ -n "$optClean" ]
 	then
-		./build.sh -c -$optStage
+		$BUILD -c -$optStage
 	else
-		./build.sh -$optStage
+		$BUILD -$optStage
 	fi
 	if [ $? != 0 ]
 	then
@@ -127,10 +138,10 @@ then
 	cd ../iritgo-nexim
 	if [ -n "$optClean" ]
 	then
-		#mvn clean currently doesn't work because of dependency errors
+		#$MVN clean currently doesn't work because of dependency errors
 		for i in $(find . -iname "target"); do rm -rf $i; done
 	fi
-	mvn install
+	$MVN install
 	if [ $? != 0 ]
 	then
 		exit $?
@@ -140,8 +151,8 @@ fi
 
 if [ -n "$optClean" ]
 then
-	#mvn clean currently doesn't work because of dependency errors
+	#$MVN clean currently doesn't work because of dependency errors
 	for i in $(find . -iname "target"); do rm -rf $i; done
 fi
 
-mvn install -DskipITs
+$MVN install -DskipITs
