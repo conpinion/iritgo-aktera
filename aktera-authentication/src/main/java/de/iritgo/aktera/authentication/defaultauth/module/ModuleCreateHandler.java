@@ -105,9 +105,9 @@ public class ModuleCreateHandler extends CreateHandler
 		update ("INSERT INTO keelgroupmembers (UniqId, GroupName) values (2, 'user')");
 
 		update ("INSERT INTO AkteraGroup (name, protect, title, visible) values ('" + AkteraGroup.GROUP_NAME_ADMINISTRATOR
-						+ "', true, '$Aktera:administrators', true)");
+						+ "', true, '$Aktera:administrators', false)");
 		update ("INSERT INTO AkteraGroup (name, protect, title, visible) values ('" + AkteraGroup.GROUP_NAME_MANAGER
-						+ "', true, '$Aktera:managers', true)");
+						+ "', true, '$Aktera:managers', false)");
 		update ("INSERT INTO AkteraGroup (name, protect, title, visible) values ('" + AkteraGroup.GROUP_NAME_USER
 						+ "', true, '$Aktera:users', true)");
 

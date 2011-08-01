@@ -98,7 +98,7 @@ public class ModuleUpdateHandler extends UpdateHandler
 			if (count ("AkteraGroup", "name = '" + AkteraGroup.GROUP_NAME_ADMINISTRATOR + "'") == 0)
 			{
 				insert ("AkteraGroup", "name", "'" + AkteraGroup.GROUP_NAME_ADMINISTRATOR + "'", "protect", "true",
-								"visible", "true", "title", "'$Aktera:administrators'");
+								"visible", "false", "title", "'$Aktera:administrators'");
 
 				long adminGroupId = NumberTools.toLong (selectString ("AkteraGroup", "id", "name = '"
 								+ AkteraGroup.GROUP_NAME_ADMINISTRATOR + "'"), - 1);
@@ -117,7 +117,7 @@ public class ModuleUpdateHandler extends UpdateHandler
 			if (count ("AkteraGroup", "name = '" + AkteraGroup.GROUP_NAME_MANAGER + "'") == 0)
 			{
 				insert ("AkteraGroup", "name", "'" + AkteraGroup.GROUP_NAME_MANAGER + "'", "protect", "true",
-								"visible", "true", "title", "'$Aktera:managers'");
+								"visible", "false", "title", "'$Aktera:managers'");
 
 				long managerGroupId = NumberTools.toLong (selectString ("AkteraGroup", "id", "name = '"
 								+ AkteraGroup.GROUP_NAME_MANAGER + "'"), - 1);
@@ -136,7 +136,7 @@ public class ModuleUpdateHandler extends UpdateHandler
 			if (count ("AkteraGroup", "name = '" + AkteraGroup.GROUP_NAME_USER + "'") == 0)
 			{
 				insert ("AkteraGroup", "name", "'" + AkteraGroup.GROUP_NAME_USER + "'", "protect", "true", "visible",
-								"true", "title", "'$Aktera:users'");
+								"false", "title", "'$Aktera:users'");
 
 				long userGroupId = NumberTools.toLong (selectString ("AkteraGroup", "id", "name = '"
 								+ AkteraGroup.GROUP_NAME_USER + "'"), - 1);
