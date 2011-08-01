@@ -306,7 +306,7 @@
 		<ui:bundle>AkteraAddress</ui:bundle>
 		<ui:labelWidth>25</ui:labelWidth>
 		<ui:group name="addressStore">
-			<ui:field name="store.name" bundle="Aktera" editor="identifier" size="40" duty="true" />
+			<ui:field name="store.name" bundle="Aktera" editor="text" size="40" duty="true" />
 			<ui:field name="store.title" bundle="Aktera" editor="text" size="40" />
 			<ui:field name="store.numberLookup" label="useAddressStoreForPhoneNumberLookup" editor="check" />
 			<ui:field name="store.emptySearchReturnsAllEntries" label="emptySearchReturnsAllEntries" editor="check" />
