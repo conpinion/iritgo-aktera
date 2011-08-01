@@ -28,11 +28,11 @@ import javax.naming.ldap.*;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import lombok.*;
-import org.hibernate.validator.constraints.*;
-import org.springframework.beans.factory.annotation.*;
-import de.iritgo.simplelife.constants.*;
-import de.iritgo.simplelife.math.*;
-import de.iritgo.simplelife.string.*;
+import org.hibernate.validator.constraints.Length;
+import org.springframework.beans.factory.annotation.Configurable;
+import de.iritgo.simplelife.constants.SortOrder;
+import de.iritgo.simplelife.math.NumberTools;
+import de.iritgo.simplelife.string.StringTools;
 import de.iritgo.simplelife.tools.*;
 
 
@@ -76,7 +76,8 @@ public class AddressLDAPStore extends AddressStore
 	private String query;
 
 	/** Search scope */
-	@Length(max = 32)
+	@Enumerated(EnumType.STRING)
+	@NotNull
 	private SearchScope scope;
 
 	/** Size of a result page (0 or null disables paging) */
