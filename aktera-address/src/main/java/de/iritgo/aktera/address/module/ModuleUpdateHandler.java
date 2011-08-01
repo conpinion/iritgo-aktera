@@ -347,6 +347,8 @@ public class ModuleUpdateHandler extends UpdateHandler
 							"de.iritgo.aktera.address.entity.AddressStore", selectInt ("AddressStore", "id",
 											"name = 'de.iritgo.aktera.address.AddressLocalGlobalStore'"));
 
+			update ("delete from Permission where permission like 'de.iritgo.aktera.address.global%'");
+
 			deleteComponentSecurity ("de.iritgo.aktera.address.ui.GetPhoneNumbers", "user");
 			createComponentSecurity ("de.iritgo.aktera.address.ui.GetPhoneNumbersByStoreAndAddress", "user", "*");
 
