@@ -323,12 +323,21 @@
 								<artifactId>commons-logging</artifactId>
 								<groupId>commons-logging</groupId>
 							</exclusion>
+							<exclusion>
+								<artifactId>commons-collections</artifactId>
+								<groupId>commons-collections</groupId>
+							</exclusion>
 						</exclusions>
 					</dependency>
 					<dependency>
 						<groupId>commons-logging</groupId>
 						<artifactId>commons-logging</artifactId>
 						<version>1.1.1</version>
+					</dependency>
+					<dependency>
+						<artifactId>commons-collections</artifactId>
+						<groupId>commons-collections</groupId>
+						<version>3.2.1</version>
 					</dependency>
 				</dependencies>
 			</plugin>
