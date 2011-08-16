@@ -53,6 +53,12 @@ public class AddressDAOImpl extends HibernateDaoSupport implements AddressDAO
 		throw new DataRetrievalFailureException ("Unable to find party of user with id " + userId);
 	}
 
+	public Option<Address> findAddressById (Integer addressId)
+	{
+		List<Address> res = getHibernateTemplate ().find ("from Address where id = ?", addressId);
+		return res.size () > 0 ? new Full (res.get (0)) : new Empty ();
+	}
+
 	public Option<Address> findAddressByCategoryAndLastNameOrCompany (final String category, String lastNameOrCompany)
 	{
 		String search = lastNameOrCompany.toLowerCase ();
@@ -113,22 +119,6 @@ public class AddressDAOImpl extends HibernateDaoSupport implements AddressDAO
 		List<Address> res = getHibernateTemplate ().findByNamedQuery (
 						"de.iritgo.aktera.address.FindAddressByCategoryAndPhoneNumber", category, number);
 		return res.size () > 0 ? new Full (res.get (0)) : new Empty ();
-
-		//		List<PhoneNumber> phoneNumbers = getHibernateTemplate ().find ("from PhoneNumber where internalNumber = ?",
-		//						number);
-		//		for (PhoneNumber phoneNumber : phoneNumbers)
-		//		{
-		//			List<Address> addresses = getHibernateTemplate ().find ("from Address where category = ? AND id = ?",
-		//							new Object[]
-		//							{
-		//											category, phoneNumber.getAddress ().getId ()
-		//							});
-		//			if (addresses.size () > 0)
-		//			{
-		//				return new Full (addresses.get (0));
-		//			}
-		//		}
-		//		return new Empty ();
 	}
 
 	public Option<Address> findAddressOfOwnerByCategoryAndPhoneNumber (final Integer ownerId, final String category,

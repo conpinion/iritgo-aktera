@@ -46,7 +46,7 @@ public class AddressListingHandler extends ListingHandler
 
 	@Setter
 	@Autowired
-	private PermissionManager permissionManager;
+	protected PermissionManager permissionManager;
 
 	@Override
 	public Map<String, String> createSearchCategories (ModelRequest request, ListingDescriptor listing)

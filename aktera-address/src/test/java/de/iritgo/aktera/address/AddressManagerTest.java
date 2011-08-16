@@ -21,13 +21,11 @@ package de.iritgo.aktera.address;
 
 
 import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import java.util.*;
 import org.junit.*;
 import de.iritgo.aktera.address.entity.*;
 import de.iritgo.simplelife.tools.*;
-import de.iritgo.aktera.address.entity.Address;
-import de.iritgo.aktera.address.entity.AddressStore;
 
 
 @Ignore

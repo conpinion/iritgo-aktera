@@ -21,19 +21,20 @@ package de.iritgo.aktera.threading;
 
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.*;
+import org.springframework.beans.factory.annotation.Value;
 
 
 public class DelayedAsyncExecutionManagerImpl implements DelayedAsyncExecutionManager
 {
-	private int POOL_SIZE = 1;
+	@Value("1")
+	private int poolSize;
 
 	private ScheduledExecutorService scheduler;
 
 	public DelayedAsyncExecutionManagerImpl ()
 	{
-		scheduler = Executors.newScheduledThreadPool (POOL_SIZE);
+		scheduler = Executors.newScheduledThreadPool (poolSize);
 	}
 
 	public void addDelayedExecution (long delay, Runnable runnable)

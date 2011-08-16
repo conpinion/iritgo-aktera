@@ -180,8 +180,7 @@ public class KeelContainer extends DefaultContainer implements Container
 			FileSystemXmlApplicationContext fsxac = (FileSystemXmlApplicationContext) (new FileSystemXmlApplicationContext (
 							springFileConfigLocations));
 
-			ClassPathXmlApplicationContext cpxac = (ClassPathXmlApplicationContext) (springApplicationContext = new ClassPathXmlApplicationContext (
-							springClasspathConfigLocations, fsxac));
+			springApplicationContext = new ClassPathXmlApplicationContext (springClasspathConfigLocations, fsxac);
 		}
 		catch (Exception x)
 		{

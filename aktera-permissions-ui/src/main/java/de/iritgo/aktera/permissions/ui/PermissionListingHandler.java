@@ -22,43 +22,25 @@ package de.iritgo.aktera.permissions.ui;
 
 import java.sql.SQLException;
 import java.util.Map;
-import de.iritgo.aktera.model.ModelException;
-import de.iritgo.aktera.model.ModelRequest;
-import de.iritgo.aktera.model.ModelResponse;
+import javax.annotation.Resource;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+import de.iritgo.aktera.model.*;
 import de.iritgo.aktera.permissions.PermissionManager;
 import de.iritgo.aktera.persist.PersistenceException;
-import de.iritgo.aktera.ui.listing.CellData;
-import de.iritgo.aktera.ui.listing.ColumnDescriptor;
-import de.iritgo.aktera.ui.listing.ListingColumnViewer;
-import de.iritgo.aktera.ui.listing.ListingDescriptor;
-import de.iritgo.aktera.ui.listing.ListingHandler;
-import de.iritgo.aktera.ui.listing.RowData;
+import de.iritgo.aktera.ui.listing.*;
 
 
-/**
- * Handler for permission listings.
- */
 public class PermissionListingHandler extends ListingHandler
 {
-	/** The permission manager */
+	@Setter
+	@Autowired
 	private PermissionManager permissionManager;
 
-	public void setPermissionManager (PermissionManager permissionManager)
-	{
-		this.permissionManager = permissionManager;
-	}
-
-	/** Formular handler for specific permission groups */
+	@Setter
+	@Resource(name="de.iritgo.aktera.permissions.PermissionFormParts")
 	private Map<String, PermissionFormPart> permissionFormParts;
 
-	public void setPermissionFormParts (Map<String, PermissionFormPart> permissionFormParts)
-	{
-		this.permissionFormParts = permissionFormParts;
-	}
-
-	/**
-	 * @see de.iritgo.aktera.ui.listing.ListingHandler#handleResult(de.iritgo.aktera.model.ModelRequest, de.iritgo.aktera.model.ModelResponse, de.iritgo.aktera.ui.listing.ListingDescriptor, de.iritgo.aktera.ui.listing.RowData, de.iritgo.aktera.ui.listing.ColumnDescriptor)
-	 */
 	@Override
 	public CellData handleResult (ModelRequest request, ModelResponse response, ListingDescriptor listing,
 					RowData data, ColumnDescriptor column) throws PersistenceException, ModelException, SQLException

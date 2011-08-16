@@ -20,18 +20,21 @@
 package de.iritgo.aktera.ui.form;
 
 
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.InvocationTargetException;
+import java.sql.*;
+import java.sql.Date;
+import java.text.*;
+import java.util.*;
+import java.util.regex.*;
+import org.apache.avalon.framework.logger.Logger;
+import org.apache.commons.beanutils.*;
 import de.iritgo.aktera.configuration.SystemConfigManager;
 import de.iritgo.aktera.configuration.preferences.Preferences;
-import de.iritgo.aktera.model.Command;
-import de.iritgo.aktera.model.Input;
-import de.iritgo.aktera.model.ModelException;
-import de.iritgo.aktera.model.ModelRequest;
-import de.iritgo.aktera.model.ModelResponse;
-import de.iritgo.aktera.model.Output;
-import de.iritgo.aktera.persist.PersistenceException;
-import de.iritgo.aktera.persist.Persistent;
-import de.iritgo.aktera.persist.PersistentFactory;
-import de.iritgo.aktera.persist.PersistentMetaData;
+import de.iritgo.aktera.hibernate.StandardDao;
+import de.iritgo.aktera.model.*;
+import de.iritgo.aktera.persist.*;
+import de.iritgo.aktera.spring.SpringTools;
 import de.iritgo.aktera.tools.ModelTools;
 import de.iritgo.aktera.ui.UIRequest;
 import de.iritgo.aktera.ui.el.ExpressionLanguageContext;
@@ -39,24 +42,6 @@ import de.iritgo.aktera.ui.ng.ModelRequestWrapper;
 import de.iritgo.aktera.ui.tools.UserTools;
 import de.iritgo.simplelife.math.NumberTools;
 import de.iritgo.simplelife.string.StringTools;
-import org.apache.avalon.framework.logger.Logger;
-import org.apache.commons.beanutils.MethodUtils;
-import org.apache.commons.beanutils.PropertyUtils;
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.InvocationTargetException;
-import java.sql.Date;
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.StringTokenizer;
-import java.util.TreeMap;
-import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
 
 
 /**
@@ -860,7 +845,12 @@ public class FormTools
 			{
 				if (getAttributeFromDataObject (persistent, fieldName) != null)
 				{
-					input.setDefaultValue (getAttributeFromDataObject (persistent, fieldName));
+					Object value = getAttributeFromDataObject (persistent, fieldName);
+					if (! (value instanceof String) && ! (value instanceof Integer))
+					{
+						value = getAttributeFromDataObject (persistent, fieldName + ".id");
+					}
+					input.setDefaultValue (value);
 				}
 				else
 				{
@@ -2099,6 +2089,11 @@ public class FormTools
 				if (descriptor != null && Enum.class.isAssignableFrom (descriptor.getPropertyType ()))
 				{
 					value = MethodUtils.invokeExactStaticMethod (descriptor.getPropertyType (), "valueOf", value);
+				}
+				else if (descriptor != null && descriptor.getPropertyType ().getAnnotation (javax.persistence.Entity.class) != null)
+				{
+					StandardDao standardDAO = (StandardDao) SpringTools.getBean (StandardDao.ID);
+					value = standardDAO.get (descriptor.getPropertyType ().getName (), NumberTools.toInt (value, -1));
 				}
 
 				PropertyUtils.setNestedProperty (o, name, value);

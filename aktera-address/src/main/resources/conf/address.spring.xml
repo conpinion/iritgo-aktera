@@ -25,7 +25,7 @@
 	xmlns:util="http://www.springframework.org/schema/util" xmlns:ui="http://aktera.iritgo.de/spring/ui"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 			http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
-			http://aktera.iritgo.de/spring/ui http://aktera.iritgo.de/spring/ui.xsd">
+			http://aktera.iritgo.de/spring/ui http://iritgo-aktera.googlecode.com/files/ui.spring.xsd">
 
 	<!-- Events -->
 
@@ -49,15 +49,14 @@
 	</bean>
 
 	<bean id="de.iritgo.aktera.address.AddressManager" class="de.iritgo.aktera.address.AddressManagerImpl">
-		<property name="addressStoreTypes" ref="de.iritgo.aktera.address.AddressStoreTypes" />
 		<property name="addressDAO" ref="de.iritgo.aktera.address.AddressDAO" />
 		<property name="logger" ref="de.iritgo.aktera.logger.Logger" />
-		<property name="i18N" ref="de.iritgo.aktera.i18n.I18N" />
-		<property name="permissionManager" ref="de.iritgo.aktera.permissions.PermissionManager" />
+		<property name="i18n" ref="de.iritgo.aktera.i18n.I18N" />
 		<property name="userDAO" ref="keel.UserDAO" />
+		<property name="addressStoreTypes" ref="de.iritgo.aktera.address.AddressStoreTypes" />
 	</bean>
 
-	<util:list id="de.iritgo.aktera.address.AddressStoreTypes">
+	<util:list id="de.iritgo.aktera.address.AddressStoreTypes" value-type="de.iritgo.aktera.address.AddressStoreType">
 		<bean class="de.iritgo.aktera.address.AddressStoreType">
 			<property name="key" value="de.iritgo.aktera.address.entity.AddressDAOStore" />
 			<property name="className" value="de.iritgo.aktera.address.entity.AddressDAOStore" />

@@ -21,20 +21,15 @@ package de.iritgo.aktera.aktario.user;
 
 
 import de.iritgo.aktario.core.Engine;
-import de.iritgo.aktario.core.user.AktarioUser;
-import de.iritgo.aktario.core.user.AktarioUserManager;
-import de.iritgo.aktario.core.user.AktarioUserRegistry;
-import de.iritgo.aktario.framework.server.Server;
-import de.iritgo.aktario.framework.user.UserRegistry;
-import de.iritgo.aktera.model.ModelException;
-import de.iritgo.aktera.model.ModelRequest;
-import de.iritgo.aktera.model.ModelResponse;
-import de.iritgo.aktera.model.StandardLogEnabledModel;
-import de.iritgo.aktera.persist.PersistenceException;
-import de.iritgo.aktera.persist.Persistent;
-import de.iritgo.aktera.persist.PersistentFactory;
+import de.iritgo.aktario.core.user.*;
+import de.iritgo.aktera.address.AddressDAO;
+import de.iritgo.aktera.address.entity.Address;
+import de.iritgo.aktera.model.*;
+import de.iritgo.aktera.persist.*;
+import de.iritgo.aktera.spring.SpringTools;
 import de.iritgo.simplelife.math.NumberTools;
 import de.iritgo.simplelife.string.StringTools;
+import de.iritgo.simplelife.tools.Option;
 
 
 /**
@@ -74,21 +69,20 @@ public class ModifyAktarioUser extends StandardLogEnabledModel
 					party.setField ("userId", new Integer (userId));
 					party.find ();
 
-					Persistent address = persistentManager.create ("aktera.Address");
-
-					address.setField ("partyId", party.getField ("partyId"));
-					address.find ();
-
+					AddressDAO addressDAO = (AddressDAO) SpringTools.getBean (AddressDAO.ID);
+					Option<Address> address = addressDAO.findAddressByPartyId (party.getFieldInt ("partyId"));
 					AktarioUser aktarioUser = aktarioUsers.getUserByName (user.getFieldString ("name"));
-
-					if (StringTools.isTrimEmpty (address.getFieldString ("firstName")))
+					if (address.full ())
 					{
-						aktarioUser.setFullName (address.getFieldString ("lastName"));
-					}
-					else
-					{
-						aktarioUser.setFullName (address.getFieldString ("firstName") + " "
-										+ address.getFieldString ("lastName"));
+						if (StringTools.isTrimEmpty (address.get ().getFirstName ()))
+						{
+							aktarioUser.setFullName (address.get ().getLastName ());
+						}
+						else
+						{
+							aktarioUser.setFullName (address.get ().getFirstName () + " "
+											+ address.get ().getLastName ());
+						}
 					}
 
 					String password = (String) req.getParameter ("password");
@@ -98,7 +92,10 @@ public class ModifyAktarioUser extends StandardLogEnabledModel
 						aktarioUser.setPassword (password);
 					}
 
-					aktarioUser.setEmail (address.getFieldString ("email"));
+					if (address.full ())
+					{
+						aktarioUser.setEmail (address.get ().getEmail ());
+					}
 
 					if (aktarioUser != null)
 					{

@@ -38,6 +38,8 @@ public interface AddressDAO
 
 	public Address getAddressById (Integer addressId);
 
+	public Option<Address> findAddressById (Integer addressId);
+
 	public Option<Address> findAddressByCategoryAndLastNameOrCompany (String category, String lastNameOrCompany);
 
 	public List<Address> findAddressesByCategoryAndNameOrCompanyStartsWith (String category, String lastNameOrCompany);

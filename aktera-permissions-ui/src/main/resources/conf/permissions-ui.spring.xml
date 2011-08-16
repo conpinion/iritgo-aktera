@@ -25,7 +25,7 @@
 	xmlns:util="http://www.springframework.org/schema/util" xmlns:ui="http://aktera.iritgo.de/spring/ui"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
-       http://aktera.iritgo.de/spring/ui http://aktera.iritgo.de/spring/ui.xsd">
+       http://aktera.iritgo.de/spring/ui http://iritgo-aktera.googlecode.com/files/ui.spring.xsd">
 
 	<!-- User interface -->
 
@@ -46,10 +46,7 @@
 		<ui:icon>keypaper-32</ui:icon>
 	</ui:listing>
 
-	<bean id="de.iritgo.aktera.permissions.PermissionListingHandler" class="de.iritgo.aktera.permissions.ui.PermissionListingHandler">
-		<property name="permissionManager" ref="de.iritgo.aktera.permissions.PermissionManager" />
-		<property name="permissionFormParts" ref="de.iritgo.aktera.permissions.PermissionFormParts" />
-	</bean>
+	<bean id="de.iritgo.aktera.permissions.PermissionListingHandler" class="de.iritgo.aktera.permissions.ui.PermissionListingHandler" />
 
 	<ui:formular id="de.iritgo.aktera.permissions.PermissionFormular">
 		<ui:key >permission.id</ui:key>

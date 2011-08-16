@@ -25,13 +25,11 @@
 	xmlns:util="http://www.springframework.org/schema/util"  xmlns:ui="http://aktera.iritgo.de/spring/ui"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 			http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
-			http://aktera.iritgo.de/spring/ui http://aktera.iritgo.de/spring/ui.xsd">
+			http://aktera.iritgo.de/spring/ui http://iritgo-aktera.googlecode.com/files/ui.spring.xsd">
 
 	<!-- User interface -->
 
-	<bean id="de.iritgo.aktera.base.group.GroupFormularHandler" class="de.iritgo.aktera.base.group.GroupFormularHandler">
-		<property name="permissionManager" ref="de.iritgo.aktera.permissions.PermissionManager" />
-	</bean>
+	<bean id="de.iritgo.aktera.base.group.GroupFormularHandler" class="de.iritgo.aktera.base.group.GroupFormularHandler" />
 
 	<bean id="de.iritgo.aktera.base.admin.UserFormularHandler" class="de.iritgo.aktera.base.admin.UserFormularHandler" />
 

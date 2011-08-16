@@ -50,7 +50,7 @@
 	<bean id="de.iritgo.aktera.shell.GroovyShellService" class="de.iritgo.aktera.shell.groovyshell.GroovyShellService"
 		parent="de.iritgo.aktera.shell.GroovyService">
 		<property name="socket" value="6789" />
-		<property name="BindOnLocalhost" value="true" />
+		<property name="bindOnLocalhost" value="true" />
 		<property name="launchAtStart" value="true" />
 	</bean>
 

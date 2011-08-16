@@ -20,17 +20,16 @@
 package de.iritgo.aktera.threading;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import lombok.Setter;
 
 
 public class ThreadManagerImpl implements ThreadManager
 {
 	@Setter
+	@Autowired
 	private DelayedAsyncExecutionManager delayedAsyncExecutionManager;
 
-	/**
-	 * @see de.iritgo.aktera.threading.ThreadManager#addDelayedAsyncExecution(int, java.lang.Runnable)
-	 */
 	public void addDelayedAsyncExecution (long delay, Runnable runnable)
 	{
 		delayedAsyncExecutionManager.addDelayedExecution (delay, runnable);

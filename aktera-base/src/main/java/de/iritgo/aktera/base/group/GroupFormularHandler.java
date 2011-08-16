@@ -20,43 +20,24 @@
 package de.iritgo.aktera.base.group;
 
 
-import de.iritgo.aktera.model.ModelException;
-import de.iritgo.aktera.model.ModelRequest;
-import de.iritgo.aktera.model.ModelResponse;
+import java.util.List;
+import lombok.Setter;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.springframework.beans.factory.annotation.Autowired;
+import de.iritgo.aktera.model.*;
 import de.iritgo.aktera.permissions.PermissionManager;
-import de.iritgo.aktera.persist.PersistenceException;
-import de.iritgo.aktera.persist.Persistent;
-import de.iritgo.aktera.persist.PersistentFactory;
-import de.iritgo.aktera.ui.form.FormTools;
-import de.iritgo.aktera.ui.form.FormularDescriptor;
-import de.iritgo.aktera.ui.form.FormularHandler;
-import de.iritgo.aktera.ui.form.PersistentDescriptor;
-import de.iritgo.aktera.ui.form.ValidationResult;
+import de.iritgo.aktera.persist.*;
+import de.iritgo.aktera.ui.form.*;
 import de.iritgo.simplelife.math.NumberTools;
 import de.iritgo.simplelife.string.StringTools;
-import org.apache.avalon.framework.configuration.Configuration;
-import java.util.List;
 
 
-/**
- * Handler for the user group management formular.
- */
 public class GroupFormularHandler extends FormularHandler
 {
-	/** */
+	@Setter
+	@Autowired
 	private PermissionManager permissionManager;
 
-	/**
-	 * @param permissionManager The new permissionManager.
-	 */
-	public void setPermissionManager (PermissionManager permissionManager)
-	{
-		this.permissionManager = permissionManager;
-	}
-
-	/**
-	 * @see de.iritgo.aktera.ui.form.FormularHandler
-	 */
 	@Override
 	public void validatePersistents (List<Configuration> persistentConfig, ModelRequest request,
 					ModelResponse response, FormularDescriptor formular, PersistentDescriptor persistents,
@@ -80,9 +61,6 @@ public class GroupFormularHandler extends FormularHandler
 		}
 	}
 
-	/**
-	 * @see de.iritgo.aktera.ui.form.FormularHandler
-	 */
 	@Override
 	public int createPersistents (ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents,
 					List<Configuration> persistentConfig) throws ModelException, PersistenceException
@@ -94,9 +72,6 @@ public class GroupFormularHandler extends FormularHandler
 		return id;
 	}
 
-	/**
-	 * @see de.iritgo.aktera.ui.form.FormularHandler
-	 */
 	@Override
 	public void updatePersistents (ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents,
 					List<Configuration> persistentConfig, boolean modified) throws ModelException, PersistenceException
@@ -119,9 +94,6 @@ public class GroupFormularHandler extends FormularHandler
 		}
 	}
 
-	/**
-	 * @see de.iritgo.aktera.ui.form.FormularHandler
-	 */
 	@Override
 	public void deletePersistent (ModelRequest request, ModelResponse response, Object id, Persistent persistent,
 					boolean systemDelete) throws ModelException, PersistenceException

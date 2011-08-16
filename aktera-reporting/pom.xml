@@ -65,6 +65,10 @@
 					<artifactId>jcommon</artifactId>
 					<groupId>jfree</groupId>
 				</exclusion>
+				<exclusion>
+					<artifactId>commons-collections</artifactId>
+					<groupId>commons-collections</groupId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>

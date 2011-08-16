@@ -21,28 +21,24 @@ package de.iritgo.aktera.address;
 
 
 import java.util.*;
+import javax.annotation.Resource;
 import lombok.*;
-import org.apache.avalon.framework.logger.*;
+import org.apache.avalon.framework.logger.Logger;
 import org.apache.commons.collections.*;
 import org.springframework.beans.factory.annotation.*;
 import de.iritgo.aktera.address.entity.*;
 import de.iritgo.aktera.authentication.defaultauth.entity.*;
-import de.iritgo.aktera.event.*;
-import de.iritgo.aktera.i18n.*;
-import de.iritgo.aktera.permissions.*;
+import de.iritgo.aktera.event.Event;
+import de.iritgo.aktera.i18n.I18N;
 import de.iritgo.aktera.startup.*;
 import de.iritgo.simplelife.data.*;
-import de.iritgo.simplelife.process.*;
-import de.iritgo.simplelife.string.*;
+import de.iritgo.simplelife.process.Procedure2;
+import de.iritgo.simplelife.string.StringTools;
 import de.iritgo.simplelife.tools.*;
 
 
 public class AddressManagerImpl implements AddressManager, StartupHandler
 {
-	@Setter
-	@Getter
-	private List<AddressStoreType> addressStoreTypes;
-
 	@Setter
 	private List<AddressStore> addressStores = new LinkedList ();
 
@@ -50,17 +46,17 @@ public class AddressManagerImpl implements AddressManager, StartupHandler
 	private AddressDAO addressDAO;
 
 	@Setter
-	@Qualifier("de.iritgo.aktera.logger.Logger")
 	private Logger logger;
 
 	@Setter
-	private I18N i18N;
-
-	@Setter
-	private PermissionManager permissionManager;
+	private I18N i18n;
 
 	@Setter
 	private UserDAO userDAO;
+
+	@Setter
+	@Getter
+	private List<AddressStoreType> addressStoreTypes;
 
 	public AddressStore getAddressStoreByName (final String storeName) throws AddressStoreNotFoundException
 	{
@@ -292,10 +288,10 @@ public class AddressManagerImpl implements AddressManager, StartupHandler
 		displayProperties.setProperty ("company", address.getCompany () != null ? address.getCompany () : "");
 		displayProperties.setProperty ("companyWithComma", ! StringTools.isTrimEmpty (address.getCompany ()) ? ", "
 						+ address.getCompany () : "");
-		displayProperties.setProperty ("companyNumber", address.getCompanyNumber () != null ? address
-						.getCompanyNumber () : "");
-		displayProperties.setProperty ("contactNumber", address.getContactNumber () != null ? address
-						.getContactNumber () : "");
+		displayProperties.setProperty ("companyNumber",
+						address.getCompanyNumber () != null ? address.getCompanyNumber () : "");
+		displayProperties.setProperty ("contactNumber",
+						address.getContactNumber () != null ? address.getContactNumber () : "");
 		displayProperties.setProperty ("country", address.getCountry () != null ? address.getCountry () : "");
 		displayProperties.setProperty ("division", address.getDivision () != null ? address.getDivision () : "");
 		displayProperties.setProperty ("email", address.getEmail () != null ? address.getEmail () : "");
@@ -304,8 +300,7 @@ public class AddressManagerImpl implements AddressManager, StartupHandler
 						! StringTools.isTrimEmpty (address.getFirstName ()) ? address.getFirstName ().substring (0, 1)
 										: "");
 		displayProperties.setProperty ("firstNameAbbr", ! StringTools.isTrimEmpty (address.getFirstName ()) ? address
-						.getFirstName ().substring (0, 1)
-						+ ". " : "");
+						.getFirstName ().substring (0, 1) + ". " : "");
 		displayProperties.setProperty ("lastName", address.getLastName () != null ? address.getLastName () : "");
 		displayProperties.setProperty ("position", address.getPosition () != null ? address.getPosition () : "");
 		displayProperties.setProperty ("postalCode", address.getPostalCode () != null ? address.getPostalCode () : "");
@@ -313,7 +308,7 @@ public class AddressManagerImpl implements AddressManager, StartupHandler
 
 		if (! StringTools.isTrimEmpty (address.getSalutation ()) && locale != null)
 		{
-			String salutation = i18N.msg (locale, "Aktera", address.getSalutation ());
+			String salutation = i18n.msg (locale, "Aktera", address.getSalutation ());
 
 			displayProperties.setProperty ("salutation", salutation);
 		}
@@ -395,9 +390,7 @@ public class AddressManagerImpl implements AddressManager, StartupHandler
 		List<Tuple3<Integer, String, String>> res = new LinkedList ();
 		for (AddressStore store : addressStores)
 		{
-			res
-							.add (new Tuple3<Integer, String, String> (store.getId (), store.getName (), store
-											.getDisplayedTitle ()));
+			res.add (new Tuple3<Integer, String, String> (store.getId (), store.getName (), store.getDisplayedTitle ()));
 		}
 		return res;
 	}
@@ -448,7 +441,7 @@ public class AddressManagerImpl implements AddressManager, StartupHandler
 
 		if (! StringTools.isTrimEmpty (address.getSalutation ()) && locale != null)
 		{
-			salutation = i18N.msg (locale, "Aktera", address.getSalutation ());
+			salutation = i18n.msg (locale, "Aktera", address.getSalutation ());
 		}
 		if (! StringTools.isTrimEmpty (address.getFirstName ()))
 		{

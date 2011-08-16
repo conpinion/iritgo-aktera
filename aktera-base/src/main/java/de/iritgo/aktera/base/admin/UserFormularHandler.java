@@ -21,22 +21,22 @@ package de.iritgo.aktera.base.admin;
 
 
 import java.util.*;
-import lombok.*;
-import org.apache.avalon.framework.configuration.*;
-import org.springframework.beans.factory.annotation.*;
+import lombok.Setter;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.springframework.beans.factory.annotation.Autowired;
 import de.iritgo.aktera.authentication.defaultauth.entity.*;
 import de.iritgo.aktera.configuration.preferences.*;
-import de.iritgo.aktera.event.*;
-import de.iritgo.aktera.license.*;
+import de.iritgo.aktera.event.EventManager;
+import de.iritgo.aktera.license.LicenseTools;
 import de.iritgo.aktera.model.*;
-import de.iritgo.aktera.permissions.*;
+import de.iritgo.aktera.permissions.PermissionManager;
 import de.iritgo.aktera.persist.*;
-import de.iritgo.aktera.spring.*;
-import de.iritgo.aktera.tools.*;
+import de.iritgo.aktera.spring.SpringTools;
+import de.iritgo.aktera.tools.ModelTools;
 import de.iritgo.aktera.ui.form.*;
-import de.iritgo.aktera.ui.tools.*;
-import de.iritgo.simplelife.math.*;
-import de.iritgo.simplelife.string.*;
+import de.iritgo.aktera.ui.tools.UserTools;
+import de.iritgo.simplelife.math.NumberTools;
+import de.iritgo.simplelife.string.StringTools;
 
 
 public class UserFormularHandler extends FormularHandler

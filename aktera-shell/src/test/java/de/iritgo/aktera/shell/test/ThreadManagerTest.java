@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package de.iritgo.aktera.threading.test;
+package de.iritgo.aktera.shell.test;
 
 
 import org.junit.Ignore;
