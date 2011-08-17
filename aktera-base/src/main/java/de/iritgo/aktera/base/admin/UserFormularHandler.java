@@ -76,8 +76,8 @@ public class UserFormularHandler extends FormularHandler
 	public void adjustFormular (ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents)
 		throws ModelException, PersistenceException
 	{
-		PersistentFactory persistentManager = (PersistentFactory) request.getService (PersistentFactory.ROLE, request
-						.getDomain ());
+		PersistentFactory persistentManager = (PersistentFactory) request.getService (PersistentFactory.ROLE,
+						request.getDomain ());
 
 		Persistent user = persistents.getPersistent ("sysUser");
 		int userId = NumberTools.toInt (user.getField ("uid"), - 1);
@@ -266,8 +266,8 @@ public class UserFormularHandler extends FormularHandler
 					PersistentDescriptor persistents, @SuppressWarnings("unused") boolean modified)
 		throws ModelException, PersistenceException
 	{
-		PersistentFactory persistentManager = (PersistentFactory) req.getService (PersistentFactory.ROLE, req
-						.getDomain ());
+		PersistentFactory persistentManager = (PersistentFactory) req.getService (PersistentFactory.ROLE,
+						req.getDomain ());
 
 		updateSystemGroups (persistentManager, persistents.getPersistent ("sysUser").getField ("uid"),
 						(String) persistents.getAttribute ("role"));
@@ -318,8 +318,8 @@ public class UserFormularHandler extends FormularHandler
 	public int createUserPersistents (ModelRequest request, @SuppressWarnings("unused") FormularDescriptor formular,
 					PersistentDescriptor persistents) throws ModelException, PersistenceException
 	{
-		PersistentFactory persistentManager = (PersistentFactory) request.getService (PersistentFactory.ROLE, request
-						.getDomain ());
+		PersistentFactory persistentManager = (PersistentFactory) request.getService (PersistentFactory.ROLE,
+						request.getDomain ());
 
 		persistents.getPersistent ("sysUser").add ();
 
@@ -371,114 +371,114 @@ public class UserFormularHandler extends FormularHandler
 					boolean systemDelete) throws ModelException, PersistenceException
 	{
 		int userId = persistent.getFieldInt ("uid");
-		String userName = persistent.getFieldString ("name");
+		if (userId != - 1 && userId != 0 && userId != 1 && userId != 2)
+		{
+			String userName = persistent.getFieldString ("name");
 
-		EventManager em = (EventManager) SpringTools.getBean (EventManager.ID);
-		Properties props = new Properties ();
+			EventManager em = (EventManager) SpringTools.getBean (EventManager.ID);
+			Properties props = new Properties ();
 
-		props.put ("id", userId);
-		props.put ("name", userName);
-		em.fire ("aktera.user.delete", request, log, props);
+			props.put ("id", userId);
+			props.put ("name", userName);
+			em.fire ("aktera.user.delete", request, log, props);
 
-		deleteUserPersistent (request, response, persistent, systemDelete);
+			deleteUserPersistent (request, response, persistent, systemDelete);
 
-		props = new Properties ();
-		props.put ("id", userId);
-		props.put ("name", userName);
-		em.fire ("aktera.user.deleted", request, log, props);
+			props = new Properties ();
+			props.put ("id", userId);
+			props.put ("name", userName);
+			em.fire ("aktera.user.deleted", request, log, props);
+		}
 	}
 
 	public void deleteUserPersistent (ModelRequest request, @SuppressWarnings("unused") ModelResponse response,
 					Persistent persistent, boolean systemDelete) throws ModelException, PersistenceException
 	{
-		PersistentFactory persistentManager = (PersistentFactory) request.getService (PersistentFactory.ROLE, request
-						.getDomain ());
+		PersistentFactory persistentManager = (PersistentFactory) request.getService (PersistentFactory.ROLE,
+						request.getDomain ());
 
 		Integer userId = NumberTools.toIntInstance (persistent.getField ("uid"), - 1);
 
-		if (userId.intValue () != - 1 && userId.intValue () != 0 && userId.intValue () != 1)
+		Persistent user = persistentManager.create ("keel.user");
+
+		user.setField ("uid", userId);
+		user.retrieve ();
+
+		if (! user.find ())
 		{
-			Persistent user = persistentManager.create ("keel.user");
-
-			user.setField ("uid", userId);
-			user.retrieve ();
-
-			if (! user.find ())
-			{
-				return;
-			}
-
-			Persistent preferences = persistentManager.create ("aktera.Preferences");
-
-			preferences.setField ("userId", userId);
-
-			if (! preferences.find () || (preferences.getFieldBoolean ("protect") && ! systemDelete))
-			{
-				return;
-			}
-
-			Persistent party = persistentManager.create ("aktera.Party");
-
-			party.setField ("userId", userId);
-
-			if (! party.find ())
-			{
-				return;
-			}
-
-			Object partyId = party.getField ("partyId");
-
-			if (request.getParameter ("deleteAddress") != null)
-			{
-				Persistent address = persistentManager.create ("aktera.Address");
-
-				address.setField ("partyId", partyId);
-
-				if (address.find ())
-				{
-					Properties props = new Properties ();
-
-					props.put ("id", address.getField ("id"));
-					props.put ("systemDelete", Boolean.TRUE);
-					ModelTools.callModel (request, "aktera.address.delete", props);
-				}
-			}
-
-			Properties props = new Properties ();
-
-			props = new Properties ();
-			props.put ("id", userId.toString ());
-			ModelTools.callModel (request, "aktera.aktario.user.delete-aktario-user", props);
-
-			userDAO.deleteAkteraGroupEntriesByUserId (userId);
-
-			permissionManager.deleteAllPermissionsOfPrincipal (userId, "U");
-
-			preferences.delete ();
-
-			Persistent preferencesConfig = persistentManager.create ("aktera.PreferencesConfig");
-
-			preferencesConfig.setField ("userId", userId);
-			preferencesConfig.deleteAll ();
-
-			Persistent profile = persistentManager.create ("aktera.Profile");
-
-			profile.setField ("partyId", partyId);
-
-			if (profile.find ())
-			{
-				profile.delete ();
-			}
-
-			party.delete ();
-
-			user.delete ();
-
-			Persistent keelGroups = persistentManager.create ("keel.groupmembers");
-
-			keelGroups.setField ("uid", userId);
-			keelGroups.deleteAll ();
+			return;
 		}
+
+		Persistent preferences = persistentManager.create ("aktera.Preferences");
+
+		preferences.setField ("userId", userId);
+
+		if (! preferences.find () || (preferences.getFieldBoolean ("protect") && ! systemDelete))
+		{
+			return;
+		}
+
+		Persistent party = persistentManager.create ("aktera.Party");
+
+		party.setField ("userId", userId);
+
+		if (! party.find ())
+		{
+			return;
+		}
+
+		Object partyId = party.getField ("partyId");
+
+		if (request.getParameter ("deleteAddress") != null)
+		{
+			Persistent address = persistentManager.create ("aktera.Address");
+
+			address.setField ("partyId", partyId);
+
+			if (address.find ())
+			{
+				Properties props = new Properties ();
+
+				props.put ("id", address.getField ("id"));
+				props.put ("systemDelete", Boolean.TRUE);
+				ModelTools.callModel (request, "aktera.address.delete", props);
+			}
+		}
+
+		Properties props = new Properties ();
+
+		props = new Properties ();
+		props.put ("id", userId.toString ());
+		ModelTools.callModel (request, "aktera.aktario.user.delete-aktario-user", props);
+
+		userDAO.deleteAkteraGroupEntriesByUserId (userId);
+
+		permissionManager.deleteAllPermissionsOfPrincipal (userId, "U");
+
+		preferences.delete ();
+
+		Persistent preferencesConfig = persistentManager.create ("aktera.PreferencesConfig");
+
+		preferencesConfig.setField ("userId", userId);
+		preferencesConfig.deleteAll ();
+
+		Persistent profile = persistentManager.create ("aktera.Profile");
+
+		profile.setField ("partyId", partyId);
+
+		if (profile.find ())
+		{
+			profile.delete ();
+		}
+
+		party.delete ();
+
+		user.delete ();
+
+		Persistent keelGroups = persistentManager.create ("keel.groupmembers");
+
+		keelGroups.setField ("uid", userId);
+		keelGroups.deleteAll ();
 	}
 
 	protected void updateSystemGroups (PersistentFactory persistentManager, Object userId, String role)
