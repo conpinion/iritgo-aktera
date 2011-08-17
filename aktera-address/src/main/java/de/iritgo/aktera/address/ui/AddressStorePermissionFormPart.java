@@ -41,7 +41,7 @@ public class AddressStorePermissionFormPart extends PermissionFormPart
 	public String createListInfo (ModelRequest request, RowData data) throws PersistenceException, ModelException
 	{
 		AddressStore store = addressDAO.getAddressStoreById (NumberTools.toInt (data.get ("objectId"), - 1));
-		return "addressStorePermissionInfo|" + (store != null ? store.getName () : "---");
+		return "addressStorePermissionInfo|" + (store != null ? store.getDisplayedTitle () : "---");
 	}
 
 	@Override
