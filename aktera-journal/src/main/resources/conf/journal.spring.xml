@@ -79,12 +79,6 @@
 		<value>de.iritgo.aktera.webservices.journal</value>
 	</util:list>
 
-	<bean id="de.iritgo.aktera.journal.JournalEndpoint" class="de.iritgo.aktera.journal.ws.JournalEndpoint">
-		<property name="journalDAO" ref="de.iritgo.aktera.journal.JournalDAO" />
-		<property name="journalManager" ref="de.iritgo.aktera.journal.JournalManager" />
-		<property name="securityContext" ref="de.iritgo.aktera.authentication.SecurityContext" />
-	</bean>
-
 	<bean id="de.iritgo.aktera.webservices.Journal" class="org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition">
 		<property name="schema">
 			<bean class="org.springframework.xml.xsd.SimpleXsdSchema">

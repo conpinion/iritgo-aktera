@@ -21,67 +21,34 @@ package de.iritgo.aktera.journal.ws;
 
 
 import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Map;
-import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.XMLGregorianCalendar;
-import org.springframework.ws.server.endpoint.annotation.Endpoint;
-import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
+import java.util.*;
+import javax.xml.datatype.*;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ws.server.endpoint.annotation.*;
 import de.iritgo.aktera.authentication.SecurityContext;
 import de.iritgo.aktera.authentication.defaultauth.entity.AkteraUser;
-import de.iritgo.aktera.journal.JournalDAO;
-import de.iritgo.aktera.journal.JournalManager;
-import de.iritgo.aktera.webservices.journal.CountJournalRequest;
-import de.iritgo.aktera.webservices.journal.CountJournalResponse;
-import de.iritgo.aktera.webservices.journal.ListJournalRequest;
-import de.iritgo.aktera.webservices.journal.ListJournalResponse;
+import de.iritgo.aktera.journal.*;
+import de.iritgo.aktera.webservices.journal.*;
 import de.iritgo.simplelife.constants.SortOrder;
 import de.iritgo.simplelife.string.StringTools;
 
 
-/**
- *
- */
-@Endpoint
+@Endpoint("de.iritgo.aktera.journal.JournalEndpoint")
 public class JournalEndpoint
 {
+	@Setter
+	@Autowired
 	private JournalManager journalManager;
 
+	@Setter
+	@Autowired
 	private JournalDAO journalDAO;
 
-	/** A security context */
+	@Setter
+	@Autowired
 	private SecurityContext securityContext;
 
-	public void setJournalManager (JournalManager journalManager)
-	{
-		this.journalManager = journalManager;
-	}
-
-	public void setJournalDAO (JournalDAO journalDAO)
-	{
-		this.journalDAO = journalDAO;
-	}
-
-	/**
-	 * Set the security context.
-	 *
-	 * @param securityContext
-	 *            The security context
-	 */
-	public void setSecurityContext (SecurityContext securityContext)
-	{
-		this.securityContext = securityContext;
-	}
-
-	/**
-	 * Describe method count() here.
-	 *
-	 * @param request
-	 * @return
-	 * @throws Exception
-	 */
 	@PayloadRoot(localPart = "countJournalRequest", namespace = "http://aktera.iritgo.de/webservices/journal")
 	public CountJournalResponse count (CountJournalRequest request) throws Exception
 	{
@@ -94,13 +61,6 @@ public class JournalEndpoint
 		return response;
 	}
 
-	/**
-	 * Describe method list() here.
-	 *
-	 * @param request
-	 * @return
-	 * @throws Exception
-	 */
 	@PayloadRoot(localPart = "listJournalRequest", namespace = "http://aktera.iritgo.de/webservices/journal")
 	public ListJournalResponse list (ListJournalRequest request) throws Exception
 	{

@@ -33,6 +33,8 @@
 
 	<context:load-time-weaver />
 
+	<context:component-scan base-package="de.iritgo.aktera"/>
+
 	<bean class="de.iritgo.aktera.spring.util.ExtendableCollectionsFactoryPostProcessor" />
 
 	<bean id="de.iritgo.aktera.spring.SpringTools" class="de.iritgo.aktera.spring.SpringTools" />

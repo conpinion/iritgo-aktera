@@ -22,13 +22,11 @@ package de.iritgo.aktera.webservices.ws;
 
 import java.util.Date;
 import org.apache.log4j.helpers.DateTimeDateFormat;
-import org.springframework.ws.server.endpoint.annotation.Endpoint;
-import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
-import de.iritgo.aktera.webservices.webservices.EchoRequest;
-import de.iritgo.aktera.webservices.webservices.EchoResponse;
+import org.springframework.ws.server.endpoint.annotation.*;
+import de.iritgo.aktera.webservices.webservices.*;
 
 
-@Endpoint
+@Endpoint("de.iritgo.aktera.webservices.EchoEndpoint")
 public class EchoEndpoint
 {
 	@PayloadRoot(localPart = "echoRequest", namespace = "http://aktera.iritgo.de/webservices/webservices")

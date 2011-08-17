@@ -20,13 +20,11 @@
 package de.iritgo.aktera.webservices.ws;
 
 
-import org.springframework.ws.server.endpoint.annotation.Endpoint;
-import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
-import de.iritgo.aktera.webservices.webservices.PingRequest;
-import de.iritgo.aktera.webservices.webservices.PongResponse;
+import org.springframework.ws.server.endpoint.annotation.*;
+import de.iritgo.aktera.webservices.webservices.*;
 
 
-@Endpoint
+@Endpoint("de.iritgo.aktera.webservices.PingPongEndpoint")
 public class PingPongEndpoint
 {
 	@PayloadRoot(localPart = "pingRequest", namespace = "http://aktera.iritgo.de/webservices/webservices")

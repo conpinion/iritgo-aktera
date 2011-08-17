@@ -63,9 +63,6 @@
 		<property name="logger" ref="de.iritgo.aktera.logger.Logger" />
 	</bean>
 
-	<bean id="de.iritgo.aktera.webservices.EchoEndpoint" class="de.iritgo.aktera.webservices.ws.EchoEndpoint">
-	</bean>
-
 	<bean id="de.iritgo.aktera.webservices.Echo" class="org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition">
 		<property name="schema">
 			<bean class="org.springframework.xml.xsd.SimpleXsdSchema">
@@ -74,9 +71,6 @@
 		</property>
 		<property name="portTypeName" value="Echo" />
 		<property name="locationUri" value="/services" />
-	</bean>
-
-	<bean id="de.iritgo.aktera.webservices.PingPongEndpoint" class="de.iritgo.aktera.webservices.ws.PingPongEndpoint">
 	</bean>
 
 	<bean id="de.iritgo.aktera.webservices.PingPong" class="org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition">

@@ -20,24 +20,24 @@
 package de.iritgo.aktera.address.ws;
 
 
-import lombok.*;
-import org.springframework.beans.factory.annotation.*;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.*;
 import de.iritgo.aktera.address.*;
 import de.iritgo.aktera.address.entity.*;
 import de.iritgo.aktera.address.entity.Address;
-import de.iritgo.aktera.authentication.*;
-import de.iritgo.aktera.authentication.defaultauth.entity.*;
-import de.iritgo.aktera.configuration.preferences.*;
-import de.iritgo.aktera.permissions.*;
+import de.iritgo.aktera.authentication.SecurityContext;
+import de.iritgo.aktera.authentication.defaultauth.entity.AkteraUser;
+import de.iritgo.aktera.configuration.preferences.PreferencesManager;
+import de.iritgo.aktera.permissions.PermissionManager;
 import de.iritgo.aktera.webservices.address.*;
-import de.iritgo.simplelife.constants.*;
-import de.iritgo.simplelife.data.*;
-import de.iritgo.simplelife.string.*;
-import de.iritgo.simplelife.tools.*;
+import de.iritgo.simplelife.constants.SortOrder;
+import de.iritgo.simplelife.data.Tuple3;
+import de.iritgo.simplelife.string.StringTools;
+import de.iritgo.simplelife.tools.Option;
 
 
-@Endpoint
+@Endpoint("de.iritgo.aktera.address.AddressEndpoint")
 public class AddressEndpoint
 {
 	@Setter
