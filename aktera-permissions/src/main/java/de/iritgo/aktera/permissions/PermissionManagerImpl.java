@@ -128,7 +128,8 @@ public class PermissionManagerImpl implements PermissionManager
 	}
 
 	/**
-	 * @see de.iritgo.aktera.permissions.PermissionManager#hasPermission(java.lang.String, java.lang.String)
+	 * @see de.iritgo.aktera.permissions.PermissionManager#hasPermission(java.lang.String,
+	 *      java.lang.String)
 	 */
 	public boolean hasPermission (String userName, String permission)
 	{
@@ -136,7 +137,8 @@ public class PermissionManagerImpl implements PermissionManager
 	}
 
 	/**
-	 * @see de.iritgo.aktera.permissions.PermissionManager#hasPermission(java.lang.Integer, java.lang.String)
+	 * @see de.iritgo.aktera.permissions.PermissionManager#hasPermission(java.lang.Integer,
+	 *      java.lang.String)
 	 */
 	public boolean hasPermission (Integer userId, String permission)
 	{
@@ -144,7 +146,8 @@ public class PermissionManagerImpl implements PermissionManager
 	}
 
 	/**
-	 * @see de.iritgo.aktera.permissions.PermissionManager#hasPermission(java.lang.String, java.lang.String, java.lang.String, java.lang.Integer)
+	 * @see de.iritgo.aktera.permissions.PermissionManager#hasPermission(java.lang.String,
+	 *      java.lang.String, java.lang.String, java.lang.Integer)
 	 */
 	public synchronized boolean hasPermission (String userName, String permission, String objectType, Integer objectId)
 	{
@@ -170,7 +173,8 @@ public class PermissionManagerImpl implements PermissionManager
 	}
 
 	/**
-	 * @see de.iritgo.aktera.permissions.PermissionManager#hasPermission(java.lang.Integer, java.lang.String, java.lang.String, java.lang.Integer)
+	 * @see de.iritgo.aktera.permissions.PermissionManager#hasPermission(java.lang.Integer,
+	 *      java.lang.String, java.lang.String, java.lang.Integer)
 	 */
 	public synchronized boolean hasPermission (Integer userId, String permission, String objectType, Integer objectId)
 	{
@@ -178,7 +182,8 @@ public class PermissionManagerImpl implements PermissionManager
 	}
 
 	/**
-	 * @see de.iritgo.aktera.permissions.PermissionManager#hasPermissionOnUserOrGroup(java.lang.String, java.lang.String, java.lang.Integer)
+	 * @see de.iritgo.aktera.permissions.PermissionManager#hasPermissionOnUserOrGroup(java.lang.String,
+	 *      java.lang.String, java.lang.Integer)
 	 */
 	public synchronized boolean hasPermissionOnUserOrGroup (String userName, String permission, Integer userId)
 	{
@@ -224,58 +229,63 @@ public class PermissionManagerImpl implements PermissionManager
 		{
 			return;
 		}
+
+		AkteraUser akteraUser = userDAO.findUserByName (userName);
+		if (akteraUser == null)
+		{
+			return;
+		}
+
 		principal = new Principal (userName);
 		principals.put (userName, principal);
 
 		try
 		{
-			AkteraUser akteraUser = userDAO.findUserByName (userName);
-			if (akteraUser != null)
+			for (AkteraGroup akteraGroup : userDAO.findGroupsByUser (akteraUser))
 			{
-				for (AkteraGroup akteraGroup : userDAO.findGroupsByUser (akteraUser))
+				String groupName = akteraGroup.getName ();
+				Group group = (Group) groups.get (groupName);
+				if (group == null)
 				{
-					String groupName = akteraGroup.getName ();
-					Group group = (Group) groups.get (groupName);
-					if (group == null)
-					{
-						group = new Group (groupName);
-						groups.put (groupName, group);
+					group = new Group (groupName);
+					groups.put (groupName, group);
 
-						for (Permission permissionEntity : permissionDAO.findGroupPermissions (akteraGroup))
+					for (Permission permissionEntity : permissionDAO.findGroupPermissions (akteraGroup))
+					{
+						Tuple2 aclKey = new Tuple2 (
+										permissionEntity.getObjectType () != null ? permissionEntity.getObjectType ()
+														: GLOBAL_OBJECT_TYPE, permissionEntity.getObjectId ());
+						Acl acl = aclByDomainObject.get (aclKey);
+						if (acl == null)
 						{
-							Tuple2 aclKey = new Tuple2 (permissionEntity.getObjectType () != null ? permissionEntity
-											.getObjectType () : GLOBAL_OBJECT_TYPE, permissionEntity.getObjectId ());
-							Acl acl = aclByDomainObject.get (aclKey);
-							if (acl == null)
-							{
-								acl = new Acl (ROOT, ROOT_NAME);
-								aclByDomainObject.put (aclKey, acl);
-							}
-							AclEntry aclEntry = acl.findAclEntry (group, permissionEntity.getNegative ());
-							if (aclEntry == null)
-							{
-								aclEntry = new AclEntry (group);
-								if (permissionEntity.getNegative ())
-								{
-									aclEntry.setNegativePermissions ();
-								}
-								acl.addEntry (ROOT, aclEntry);
-							}
-							aclEntry.addPermission (new SimplePermission (permissionEntity.getPermission ()));
+							acl = new Acl (ROOT, ROOT_NAME);
+							aclByDomainObject.put (aclKey, acl);
 						}
+						AclEntry aclEntry = acl.findAclEntry (group, permissionEntity.getNegative ());
+						if (aclEntry == null)
+						{
+							aclEntry = new AclEntry (group);
+							if (permissionEntity.getNegative ())
+							{
+								aclEntry.setNegativePermissions ();
+							}
+							acl.addEntry (ROOT, aclEntry);
+						}
+						aclEntry.addPermission (new SimplePermission (permissionEntity.getPermission ()));
 					}
+				}
 
-					if (! group.isMember (principal))
-					{
-						group.addMember (principal);
-					}
+				if (! group.isMember (principal))
+				{
+					group.addMember (principal);
 				}
 			}
 
 			for (Permission permissionEntity : permissionDAO.findUserPermissions (akteraUser))
 			{
-				Tuple2 aclKey = new Tuple2 (permissionEntity.getObjectType () != null ? permissionEntity
-								.getObjectType () : GLOBAL_OBJECT_TYPE, permissionEntity.getObjectId ());
+				Tuple2 aclKey = new Tuple2 (
+								permissionEntity.getObjectType () != null ? permissionEntity.getObjectType ()
+												: GLOBAL_OBJECT_TYPE, permissionEntity.getObjectId ());
 				Acl acl = aclByDomainObject.get (aclKey);
 				if (acl == null)
 				{
@@ -313,7 +323,8 @@ public class PermissionManagerImpl implements PermissionManager
 	}
 
 	/**
-	 * @see de.iritgo.aktera.permissions.PermissionManager#deleteAllPermissionsOfPrincipal(java.lang.Integer, java.lang.String)
+	 * @see de.iritgo.aktera.permissions.PermissionManager#deleteAllPermissionsOfPrincipal(java.lang.Integer,
+	 *      java.lang.String)
 	 */
 	@Transactional(readOnly = false)
 	public void deleteAllPermissionsOfPrincipal (Integer principalId, String principalType)
