@@ -20,9 +20,8 @@
 package de.iritgo.aktera.script;
 
 
-public interface ScriptCompiler
+public abstract class CompiledScript
 {
-	public CompiledScript compile (String scriptName, String scriptCode) throws ScriptCompilerException;
-
-	public void check (String scriptCode) throws ScriptCompilerException;
+	public abstract Object execute (String methodName, Object... args)
+		throws ScriptMethodNotFoundException, ScriptExecutionException;
 }

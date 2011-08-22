@@ -38,7 +38,7 @@ import java.util.Set;
 public class ScriptManagerImpl implements ScriptManager
 {
 	/** This map stores the compiled scripts under their name */
-	private Map<String, Class<?>> compiledScripts = new HashMap<String, Class<?>> ();
+	private Map<String, CompiledScript> compiledScripts = new HashMap ();
 
 	/** All available script compilers, indexed by name */
 	private Map<String, ScriptCompiler> compilers = new HashMap<String, ScriptCompiler> ();
@@ -96,30 +96,8 @@ public class ScriptManagerImpl implements ScriptManager
 	private Object executeCompiledScript (String scriptName, String methodName, Object... args)
 		throws ScriptExecutionException, ScriptMethodNotFoundException
 	{
-		try
-		{
-			Class<?> scriptClass = compiledScripts.get (scriptName);
-			Object scriptObject = scriptClass.newInstance ();
-
-			return MethodUtils.invokeMethod (scriptObject, methodName, args);
-		}
-		catch (InstantiationException x)
-		{
-			throw new ScriptExecutionException ("Unable to instantiate script with name '" + scriptName + "'", x);
-		}
-		catch (IllegalAccessException x)
-		{
-			throw new ScriptMethodNotFoundException ("No such script method with name '" + methodName + "'", x);
-		}
-		catch (NoSuchMethodException x)
-		{
-			throw new ScriptMethodNotFoundException ("No such script method with name '" + methodName + "'", x);
-		}
-		catch (InvocationTargetException x)
-		{
-			throw new ScriptExecutionException ("Error during execution of script method '" + scriptName + "."
-							+ methodName + "': " + x.getTargetException ().getMessage (), x.getTargetException ());
-		}
+		CompiledScript compiledScript = compiledScripts.get (scriptName);
+		return compiledScript.execute (methodName, args);
 	}
 
 	/**
@@ -133,7 +111,7 @@ public class ScriptManagerImpl implements ScriptManager
 			throw new ScriptLanguageNotFoundException ("No such script language '" + script.getLanguage () + "'");
 		}
 
-		compiledScripts.put (script.getName (), compilers.get (script.getLanguage ()).compile (script.getCode ()));
+		compiledScripts.put (script.getName (), compilers.get (script.getLanguage ()).compile (script.getName (), script.getCode ()));
 	}
 
 	/**

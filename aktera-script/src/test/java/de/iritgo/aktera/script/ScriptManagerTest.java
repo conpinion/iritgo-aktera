@@ -20,29 +20,12 @@
 package de.iritgo.aktera.script;
 
 
-import de.iritgo.aktera.script.Script;
-import de.iritgo.aktera.script.ScriptCompiler;
-import de.iritgo.aktera.script.ScriptCompilerException;
-import de.iritgo.aktera.script.ScriptExecutionException;
-import de.iritgo.aktera.script.ScriptLanguageNotFoundException;
-import de.iritgo.aktera.script.ScriptManager;
-import de.iritgo.aktera.script.ScriptManagerImpl;
-import de.iritgo.aktera.script.ScriptMethodNotFoundException;
-import de.iritgo.aktera.script.ScriptNotFoundException;
-import de.iritgo.aktera.script.ScriptProvider;
+import static org.junit.Assert.*;
+import java.lang.reflect.InvocationTargetException;
+import java.util.*;
+import org.apache.commons.beanutils.MethodUtils;
+import org.junit.*;
 import de.iritgo.simplelife.data.KeyedValue2;
-import de.iritgo.simplelife.data.Tuple3;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-import org.junit.Before;
-import org.junit.Test;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 
 /**
@@ -59,16 +42,42 @@ public class ScriptManagerTest
 
 		compilers.put ("scriptLanguage", new ScriptCompiler ()
 		{
-			public Class<?> compile (String script)
+			public CompiledScript compile (final String scriptName, final String scriptCode)
 			{
-				try
+				return new CompiledScript ()
 				{
-					return Class.forName (script);
-				}
-				catch (ClassNotFoundException x)
-				{
-					throw new RuntimeException (x);
-				}
+					private String code = scriptCode;
+
+					@Override
+					public Object execute (String methodName, Object... args)
+						throws ScriptMethodNotFoundException, ScriptExecutionException
+					{
+						try
+						{
+							return MethodUtils.invokeMethod (Class.forName (code).newInstance (), methodName, args);
+						}
+						catch (InstantiationException x)
+						{
+							throw new ScriptExecutionException ();
+						}
+						catch (IllegalAccessException x)
+						{
+							throw new ScriptMethodNotFoundException ();
+						}
+						catch (NoSuchMethodException x)
+						{
+							throw new ScriptMethodNotFoundException ();
+						}
+						catch (InvocationTargetException x)
+						{
+							throw new ScriptExecutionException ();
+						}
+						catch (ClassNotFoundException x)
+						{
+							throw new ScriptExecutionException ();
+						}
+					}
+				};
 			}
 
 			public void check (String script) throws ScriptCompilerException

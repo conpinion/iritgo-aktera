@@ -32,6 +32,7 @@
 		<property name="compilers">
 			<util:map>
 				<entry key="groovy" value-ref="de.iritgo.aktera.script.GroovyScriptCompiler"/>
+				<entry key="javascript" value-ref="de.iritgo.aktera.script.JavaScriptScriptCompiler"/>
 			</util:map>
 		</property>
 		<property name="providers">
@@ -43,6 +44,9 @@
 	</bean>
 
 	<bean id="de.iritgo.aktera.script.GroovyScriptCompiler" class="de.iritgo.aktera.script.GroovyScriptCompiler">
+	</bean>
+
+	<bean id="de.iritgo.aktera.script.JavaScriptScriptCompiler" class="de.iritgo.aktera.script.JavaScriptScriptCompiler">
 	</bean>
 
 	<bean id="de.iritgo.aktera.script.DatabaseScriptProvider" class="de.iritgo.aktera.script.DatabaseScriptProvider">

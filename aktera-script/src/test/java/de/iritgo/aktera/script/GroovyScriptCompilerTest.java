@@ -20,14 +20,9 @@
 package de.iritgo.aktera.script;
 
 
-import de.iritgo.aktera.script.GroovyScriptCompiler;
-import de.iritgo.aktera.script.ScriptCompiler;
-import de.iritgo.aktera.script.ScriptCompilerException;
-import org.apache.commons.beanutils.MethodUtils;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-import org.junit.Test;
+import static org.junit.Assert.*;
 import java.lang.reflect.InvocationTargetException;
+import org.junit.Test;
 
 
 /**
@@ -37,21 +32,17 @@ public class GroovyScriptCompilerTest
 {
 	@Test
 	public void compileGroovyScript ()
-		throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException,
-		ScriptCompilerException
+		throws ScriptMethodNotFoundException, ScriptExecutionException, ScriptCompilerException
 	{
 		String script = "public class Script { public String scriptMethod () { return \"ExpectedResult\"; }}";
 		ScriptCompiler groovyCompiler = new GroovyScriptCompiler ();
-		Class<?> scriptClass = groovyCompiler.compile (script);
+		CompiledScript compiledScript = groovyCompiler.compile ("test", script);
 
-		assertEquals ("Wrong script result", "ExpectedResult", MethodUtils.invokeExactMethod (scriptClass
-						.newInstance (), "scriptMethod", new Object[]
-		{}));
+		assertEquals ("Wrong script result", "ExpectedResult", compiledScript.execute ("scriptMethod", new Object[] {}));
 	}
 
 	@Test
 	public void compileBadGroovyScript ()
-		throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException
 	{
 		String script = "badGroovyScript !!$$$%%%&&";
 		ScriptCompiler groovyCompiler = new GroovyScriptCompiler ();
@@ -59,7 +50,7 @@ public class GroovyScriptCompilerTest
 		try
 		{
 			@SuppressWarnings("unused")
-			Class<?> ignored = groovyCompiler.compile (script);
+			CompiledScript ignored = groovyCompiler.compile ("test", script);
 
 			fail ("No exception triggered");
 		}
