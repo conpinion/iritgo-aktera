@@ -53,7 +53,7 @@ public class AddressStorePermissionFormPart extends PermissionFormPart
 		stores.put ("", "$opt-");
 		for (AddressStore store : addressDAO.findAllAddressStores ())
 		{
-			stores.put (store.getId ().toString (), store.getName ());
+			stores.put (store.getId ().toString (), store.getDisplayedTitle ());
 		}
 	}
 
