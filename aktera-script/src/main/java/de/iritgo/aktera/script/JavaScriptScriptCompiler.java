@@ -38,10 +38,11 @@ public class JavaScriptScriptCompiler implements ScriptCompiler
 		}
 
 		@Override
-		public Object execute (String methodName, Object... args) throws ScriptMethodNotFoundException, ScriptExecutionException
+		public Object execute (String methodName, Object... args)
+			throws ScriptMethodNotFoundException, ScriptExecutionException
 		{
 			Context ctx = Context.enter ();
-			Scriptable scope = ctx.initStandardObjects();
+			Scriptable scope = new ImporterTopLevel (ctx);
 			script.exec (ctx, scope);
 			Function function = (Function) scope.get (methodName, scope);
 			return function.call (ctx, scope, scope, args);
@@ -57,7 +58,7 @@ public class JavaScriptScriptCompiler implements ScriptCompiler
 	public void check (String scriptCode) throws ScriptCompilerException
 	{
 		Context ctx = Context.enter ();
-		Scriptable scope = ctx.initStandardObjects();
+		Scriptable scope = new ImporterTopLevel (ctx);
 		try
 		{
 			ctx.evaluateString (scope, scriptCode, "", 1, null);
