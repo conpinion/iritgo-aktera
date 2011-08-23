@@ -20,22 +20,13 @@
 package de.iritgo.aktera.permissions.ui;
 
 
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 import org.apache.avalon.framework.configuration.Configuration;
-import de.iritgo.aktera.model.ModelException;
-import de.iritgo.aktera.model.ModelRequest;
-import de.iritgo.aktera.model.ModelResponse;
-import de.iritgo.aktera.permissions.PermissionManager;
-import de.iritgo.aktera.permissions.PermissionMetaData;
-import de.iritgo.aktera.persist.PersistenceException;
-import de.iritgo.aktera.persist.Persistent;
-import de.iritgo.aktera.ui.form.FormularDescriptor;
-import de.iritgo.aktera.ui.form.FormularHandler;
-import de.iritgo.aktera.ui.form.GroupDescriptor;
-import de.iritgo.aktera.ui.form.PersistentDescriptor;
-import de.iritgo.aktera.ui.form.ValidationResult;
+import de.iritgo.aktera.model.*;
+import de.iritgo.aktera.permissions.*;
+import de.iritgo.aktera.persist.*;
+import de.iritgo.aktera.ui.form.*;
+import de.iritgo.simplelife.string.StringTools;
 
 
 /**
@@ -143,7 +134,10 @@ public class PermissionFormularHandler extends FormularHandler
 	{
 		Persistent permission = persistents.getPersistent ("permission");
 		String permissionType = (String) persistents.getAttribute ("permission.permission");
-		permission.setField ("objectType", (permissionManager.getMetaDataById (permissionType).getObjectType ()));
+		if (StringTools.isTrimEmpty (permission.getField ("objectType")))
+		{
+			permission.setField ("objectType", (permissionManager.getMetaDataById (permissionType).getObjectType ()));
+		}
 
 		super.updatePersistents (request, formular, persistents, persistentConfig, modified);
 
@@ -159,7 +153,10 @@ public class PermissionFormularHandler extends FormularHandler
 	{
 		Persistent permission = persistents.getPersistent ("permission");
 		String permissionType = (String) persistents.getAttribute ("permission.permission");
-		permission.setField ("objectType", (permissionManager.getMetaDataById (permissionType).getObjectType ()));
+		if (StringTools.isTrimEmpty (permission.getField ("objectType")))
+		{
+			permission.setField ("objectType", (permissionManager.getMetaDataById (permissionType).getObjectType ()));
+		}
 
 		int res = super.createPersistents (request, formular, persistents, persistentConfig);
 
