@@ -28,7 +28,7 @@ import de.iritgo.aktera.model.ModelRequest;
 import de.iritgo.aktera.persist.PersistenceException;
 import de.iritgo.aktera.persist.Persistent;
 import de.iritgo.aktera.persist.PersistentFactory;
-import de.iritgo.aktera.ui.form.Edit;
+import de.iritgo.aktera.ui.ng.formular.Edit;
 import de.iritgo.aktera.ui.form.FormularDescriptor;
 import de.iritgo.simplelife.string.StringTools;
 import org.w3c.dom.Document;
@@ -218,11 +218,7 @@ public class UserImportHandler implements ImportHandler
 
 				reporter.println ("New user: " + systemName);
 			}
-			catch (PersistenceException x)
-			{
-				reporter.println ("[UserImportHandler] Error: " + x);
-			}
-			catch (ModelException x)
+			catch (Exception x)
 			{
 				reporter.println ("[UserImportHandler] Error: " + x);
 			}
