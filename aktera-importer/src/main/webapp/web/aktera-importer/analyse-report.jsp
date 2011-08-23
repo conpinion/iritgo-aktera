@@ -33,6 +33,15 @@
 		<center><logic:present name="report">
 			<logic:present name="cmdReport">
 				<xhtml:img src="/aktera/images/std/timer-48" align="center" />
+				<br>
+				<br>
+				<xhtml:form action="model" method="post">
+					<xkeel:command name="cmdReport" styleClass="form-button" icon="/aktera/images/std/tool-reload-16">
+						<bean:message key="reload" bundle="Aktera" />
+					</xkeel:command>
+				</xhtml:form>
+				<br>
+				<br>
 			</logic:present>
 			<br>
 			<br>
