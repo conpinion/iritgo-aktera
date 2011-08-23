@@ -20,13 +20,15 @@
 package de.iritgo.aktera.ui.ng.formular;
 
 
-import de.iritgo.aktera.authorization.Security;
+import de.iritgo.aktera.authentication.UserEnvironment;
+import de.iritgo.aktera.authorization.*;
 import de.iritgo.aktera.model.ModelException;
 import de.iritgo.aktera.model.ModelRequest;
 import de.iritgo.aktera.model.ModelResponse;
 import de.iritgo.aktera.model.Output;
 import de.iritgo.aktera.persist.PersistenceException;
 import de.iritgo.aktera.spring.SpringTools;
+import de.iritgo.aktera.struts.*;
 import de.iritgo.aktera.tools.ModelTools;
 import de.iritgo.aktera.ui.AbstractUIController;
 import de.iritgo.aktera.ui.UIControllerException;
@@ -48,10 +50,8 @@ import de.iritgo.simplelife.math.NumberTools;
 import de.iritgo.simplelife.string.StringTools;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Properties;
+import org.apache.avalon.framework.context.ContextException;
+import java.util.*;
 
 
 public class Edit extends AbstractUIController
@@ -582,60 +582,74 @@ public class Edit extends AbstractUIController
 	 * Call this method to init a system internal edit process.
 	 *
 	 * @param req A model request.
-	 * @param model The edit model to call.
+	 * @param controller The edit controller to call.
 	 * @return The formular descriptor.
+	 * @throws UIControllerException
+	 * @throws AuthorizationException
+	 * @throws ModelException
+	 * @throws ContextException
 	 */
-	public static FormularDescriptor start (ModelRequest req, String model, Object id) throws ModelException
+	public static FormularDescriptor start (ModelRequest req, String controller, Object id) throws AuthorizationException, UIControllerException, ContextException, ModelException
 	{
-		Properties props = new Properties ();
-
-		props.put (SYSTEM_EDIT, Boolean.TRUE);
-
+		Map<String, Object> params = new HashMap ();
+		params.put (SYSTEM_EDIT, Boolean.TRUE);
 		if (id != null)
 		{
-			props.put ("id", id);
+			params.put ("id", id);
 		}
-
-		ModelResponse res = ModelTools.callModel (req, model, props);
-
-		return (FormularDescriptor) ModelTools.getOutputContent (res, FORM_KEY);
+		BeanRequest uiRequest = new BeanRequest ();
+		uiRequest.setLocale (req.getLocale ());
+		uiRequest.setBean (controller);
+		uiRequest.setParameters (params);
+		uiRequest.setUserEnvironment ((UserEnvironment) req.getContext ().get (UserEnvironment.CONTEXT_KEY));
+		BeanResponse uiResponse = new BeanResponse ();
+		BeanAction.execute (uiRequest, uiResponse);
+		return (FormularDescriptor) ((Output) uiResponse.get (FORM_KEY)).getContent ();
 	}
 
 	/**
 	 * Call this method to init a system internal edit process.
 	 *
 	 * @param req A model request.
-	 * @param model The edit model to call.
+	 * @param controller The edit controller to call.
 	 * @return The formular descriptor.
+	 * @throws ContextException
+	 * @throws UIControllerException
+	 * @throws AuthorizationException
 	 */
-	public static FormularDescriptor start (ModelRequest req, String model) throws ModelException
+	public static FormularDescriptor start (ModelRequest req, String controller) throws ModelException, AuthorizationException, UIControllerException, ContextException
 	{
-		return start (req, model, null);
+		return start (req, controller, null);
 	}
 
 	/**
 	 * Call this method to init a system internal edit process.
 	 *
 	 * @param req A model request.
-	 * @param model The edit model to call.
+	 * @param controller The edit controller to call.
 	 * @param id The id of the persistent to reedit.
 	 * @return The formular descriptor.
+	 * @throws UIControllerException
+	 * @throws AuthorizationException
+	 * @throws ContextException
 	 */
-	public static FormularDescriptor restart (ModelRequest req, String model, Object id) throws ModelException
+	public static FormularDescriptor restart (ModelRequest req, String controller, Object id) throws ModelException, AuthorizationException, UIControllerException, ContextException
 	{
-		Properties props = new Properties ();
-
-		props.put (SYSTEM_EDIT, Boolean.TRUE);
-		props.put ("reedit", Boolean.TRUE);
-
+		Map<String, Object> params = new HashMap ();
+		params.put (SYSTEM_EDIT, Boolean.TRUE);
+		params.put ("reedit", Boolean.TRUE);
 		if (id != null)
 		{
-			props.put ("id", id);
+			params.put ("id", id);
 		}
-
-		ModelResponse res = ModelTools.callModel (req, model, props);
-
-		return (FormularDescriptor) ModelTools.getOutputContent (res, FORM_KEY);
+		BeanRequest uiRequest = new BeanRequest ();
+		uiRequest.setLocale (req.getLocale ());
+		uiRequest.setBean (controller);
+		uiRequest.setParameters (params);
+		uiRequest.setUserEnvironment ((UserEnvironment) req.getContext ().get (UserEnvironment.CONTEXT_KEY));
+		BeanResponse uiResponse = new BeanResponse ();
+		BeanAction.execute (uiRequest, uiResponse);
+		return (FormularDescriptor) uiResponse.get (FORM_KEY);
 	}
 
 	/**
@@ -644,8 +658,11 @@ public class Edit extends AbstractUIController
 	 * @param req A model request.
 	 * @param model The edit model to call.
 	 * @return The formular descriptor.
+	 * @throws UIControllerException
+	 * @throws AuthorizationException
+	 * @throws ContextException
 	 */
-	public static FormularDescriptor restart (ModelRequest req, String model) throws ModelException
+	public static FormularDescriptor restart (ModelRequest req, String model) throws ModelException, AuthorizationException, UIControllerException, ContextException
 	{
 		return restart (req, model, null);
 	}
@@ -654,22 +671,27 @@ public class Edit extends AbstractUIController
 	 * Call this method to finish a system internal edit process.
 	 *
 	 * @param req A model request.
-	 * @param model The save model to call.
+	 * @param controller The save model to call.
 	 * @param id The id of the persistent to save.
-	 * @return The formular descriptor.
+	 * @throws ContextException
+	 * @throws UIControllerException
+	 * @throws AuthorizationException
 	 */
-	public static ModelResponse finish (ModelRequest req, String model, Object id) throws ModelException
+	public static void finish (ModelRequest req, String controller, Object id) throws ModelException, ContextException, AuthorizationException, UIControllerException
 	{
-		Properties props = new Properties ();
-
-		props.put (SYSTEM_EDIT, Boolean.TRUE);
-
+		Map<String, Object> params = new HashMap ();
+		params.put (SYSTEM_EDIT, Boolean.TRUE);
 		if (id != null)
 		{
-			props.put ("id", id);
+			params.put ("id", id);
 		}
-
-		return ModelTools.callModel (req, model, props);
+		BeanRequest uiRequest = new BeanRequest ();
+		uiRequest.setLocale (req.getLocale ());
+		uiRequest.setBean (controller);
+		uiRequest.setParameters (params);
+		uiRequest.setUserEnvironment ((UserEnvironment) req.getContext ().get (UserEnvironment.CONTEXT_KEY));
+		BeanResponse uiResponse = new BeanResponse ();
+		BeanAction.execute (uiRequest, uiResponse);
 	}
 
 	/**
@@ -677,29 +699,37 @@ public class Edit extends AbstractUIController
 	 *
 	 * @param req A model request.
 	 * @param model The save model to call.
-	 * @return The formular descriptor.
+	 * @throws UIControllerException
+	 * @throws AuthorizationException
+	 * @throws ContextException
 	 */
-	public static ModelResponse finish (ModelRequest req, String model) throws ModelException
+	public static void finish (ModelRequest req, String model) throws ModelException, ContextException, AuthorizationException, UIControllerException
 	{
-		return finish (req, model, null);
+		finish (req, model, null);
 	}
 
 	/**
 	 * Call this method to perform a system internal delete process.
 	 *
 	 * @param req A model request.
-	 * @param model The delete model to call.
+	 * @param controller The delete model to call.
 	 * @param id The id of the persistent to delete.
-	 * @return The formular descriptor.
+	 * @throws UIControllerException
+	 * @throws AuthorizationException
+	 * @throws ContextException
 	 */
-	public static ModelResponse delete (ModelRequest req, String model, Object id) throws ModelException
+	public static void delete (ModelRequest req, String controller, Object id) throws ModelException, AuthorizationException, UIControllerException, ContextException
 	{
-		Properties props = new Properties ();
-
-		props.put (Delete.SYSTEM_DELETE, Boolean.TRUE);
-		props.put ("id", id);
-
-		return ModelTools.callModel (req, model, props);
+		Map<String, Object> params = new HashMap ();
+		params.put (Delete.SYSTEM_DELETE, Boolean.TRUE);
+		params.put ("id", id);
+		BeanRequest uiRequest = new BeanRequest ();
+		uiRequest.setLocale (req.getLocale ());
+		uiRequest.setBean (controller);
+		uiRequest.setParameters (params);
+		uiRequest.setUserEnvironment ((UserEnvironment) req.getContext ().get (UserEnvironment.CONTEXT_KEY));
+		BeanResponse uiResponse = new BeanResponse ();
+		BeanAction.execute (uiRequest, uiResponse);
 	}
 
 	/**
