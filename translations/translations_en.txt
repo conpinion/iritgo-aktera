@@ -226,7 +226,7 @@
 "Antigua und Barbuda";"Antigua and Barbuda"
 "Anwahloptionen";"Calling options"
 "Anwesend";"Present"
-"Anwesendheit-Status ändern";"Edit presence state"
+"Anwesenheits-Status ändern";"Edit presence state"
 "Anzahl Benutzer";"Number of users"
 "Anzahl abzuschneidender Ziffern";"Number of digits to truncate"
 "Anzahl der Audio-Samples";""
