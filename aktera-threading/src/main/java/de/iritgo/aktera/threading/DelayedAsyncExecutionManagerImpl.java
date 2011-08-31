@@ -27,8 +27,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 public class DelayedAsyncExecutionManagerImpl implements DelayedAsyncExecutionManager
 {
-	@Value("1")
-	private int poolSize;
+	static private int poolSize = 1;
 
 	private ScheduledExecutorService scheduler;
 
