@@ -27,7 +27,6 @@ import lombok.Setter;
 public class ThreadManagerImpl implements ThreadManager
 {
 	@Setter
-	@Autowired
 	private DelayedAsyncExecutionManager delayedAsyncExecutionManager;
 
 	public void addDelayedAsyncExecution (long delay, Runnable runnable)
