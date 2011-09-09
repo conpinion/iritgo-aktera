@@ -27,6 +27,7 @@ import javax.naming.directory.*;
 import javax.naming.ldap.*;
 import javax.persistence.*;
 import javax.validation.constraints.*;
+
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.Configurable;
