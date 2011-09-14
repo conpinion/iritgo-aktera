@@ -89,8 +89,8 @@ public class DefaultFormularHandler extends FormularHandler
 	public void loadPersistents (ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents,
 					List<Configuration> persistentConfig, Integer id) throws ModelException, PersistenceException
 	{
-		PersistentFactory persistentManager = (PersistentFactory) request.getService (PersistentFactory.ROLE, request
-						.getDomain ());
+		PersistentFactory persistentManager = (PersistentFactory) request.getService (PersistentFactory.ROLE,
+						request.getDomain ());
 
 		try
 		{
@@ -122,9 +122,9 @@ public class DefaultFormularHandler extends FormularHandler
 
 							if (id.intValue () != - 1)
 							{
-								persistent.setField (aPersistentConfig.getAttribute ("myKey"), persistents
-												.getPersistent (aPersistentConfig.getAttribute ("join")).getField (
-																aPersistentConfig.getAttribute ("otherKey")));
+								persistent.setField (aPersistentConfig.getAttribute ("myKey"),
+												persistents.getPersistent (aPersistentConfig.getAttribute ("join"))
+																.getField (aPersistentConfig.getAttribute ("otherKey")));
 
 								persistent.find ();
 							}
@@ -366,9 +366,20 @@ public class DefaultFormularHandler extends FormularHandler
 						{
 							String fieldName = violation.getPropertyPath ().toString ();
 							FieldDescriptor field = formular.getField (id + "." + fieldName);
-							result.addError (id + "_" + fieldName.replace ('.', '_'), i18n.msg (request, field
-											.getBundle (), field.getLabel () != null ? field.getLabel () : fieldName)
-											+ " " + violation.getMessage ());
+							if (field != null)
+							{
+								result.addError (
+												id + "_" + fieldName.replace ('.', '_'),
+												i18n.msg (request, field.getBundle (),
+																field.getLabel () != null ? field.getLabel ()
+																				: fieldName)
+																+ " " + violation.getMessage ());
+							}
+							else
+							{
+								result.addError (id + "_" + fieldName.replace ('.', '_'),
+												fieldName + " " + violation.getMessage ());
+							}
 						}
 					}
 				}
