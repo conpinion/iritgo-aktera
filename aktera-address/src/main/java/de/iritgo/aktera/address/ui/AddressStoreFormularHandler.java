@@ -21,18 +21,20 @@ package de.iritgo.aktera.address.ui;
 
 
 import java.util.*;
-import lombok.*;
-import org.apache.avalon.framework.configuration.*;
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.transaction.annotation.*;
+import lombok.Setter;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import de.iritgo.aktera.address.*;
 import de.iritgo.aktera.address.entity.*;
 import de.iritgo.aktera.model.*;
-import de.iritgo.aktera.persist.*;
+import de.iritgo.aktera.persist.PersistenceException;
 import de.iritgo.aktera.ui.form.*;
-import de.iritgo.simplelife.tools.*;
+import de.iritgo.simplelife.tools.Option;
 
 
+@Component ("de.iritgo.aktera.address.AddressStoreFormularHandler")
 public class AddressStoreFormularHandler extends FormularHandler
 {
 	@Setter
@@ -84,6 +86,15 @@ public class AddressStoreFormularHandler extends FormularHandler
 
 	@Override
 	@Transactional(readOnly = false)
+	public void preStorePersistents (ModelRequest request, FormularDescriptor formular,
+					PersistentDescriptor persistents, boolean modified) throws ModelException, PersistenceException
+	{
+		AddressStore store = (AddressStore) persistents.get ("store");
+		store.setPosition (addressDAO.calculateMaxAddressStorePosition () + 1);
+	}
+
+	@Override
+	@Transactional(readOnly = false)
 	public int createPersistents (ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents,
 					List<Configuration> persistentConfig) throws ModelException, PersistenceException
 	{
@@ -92,7 +103,6 @@ public class AddressStoreFormularHandler extends FormularHandler
 		{
 			addressDAO.resetDefaultStoreFlagOnAllAddressStores ();
 		}
-		store.setPosition (addressDAO.calculateMaxAddressStorePosition () + 1);
 		int id = super.createPersistents (request, formular, persistents, persistentConfig);
 		addressManager.initializeAddressStores ();
 		return id;
