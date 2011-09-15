@@ -150,7 +150,7 @@ public class AddressLDAPStore extends AddressStore
 			searchAttributesList.add ("cn");
 			searchAttributesList.add ("sn");
 			searchAttributesList.add ("telephoneNumber");
-			searchAttributesList.add ("telexNumber");
+			searchAttributesList.add ("facsimileTelephoneNumber");
 			searchAttributesList.add ("mobile");
 		}
 
