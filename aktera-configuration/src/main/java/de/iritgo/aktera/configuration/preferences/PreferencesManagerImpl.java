@@ -60,6 +60,14 @@ public class PreferencesManagerImpl implements PreferencesManager
 	}
 
 	/**
+	 * @see de.iritgo.aktera.configuration.preferences.PreferencesManager#createDefaultPrefrenceConfigsForUserId(java.lang.Integer)
+	 */
+	public void createDefaultPrefrenceConfigsForUserId (Integer userId)
+	{
+		KeelPreferencesManager.createDefaultValues (userId);
+	}
+
+	/**
 	 * @see de.iritgo.aktera.configuration.preferences.PreferencesManager#get(java.lang.Integer, java.lang.String, java.lang.String)
 	 */
 	public Object get (Integer userId, String category, String name)

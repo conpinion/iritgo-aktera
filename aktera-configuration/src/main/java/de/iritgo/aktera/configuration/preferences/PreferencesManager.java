@@ -35,6 +35,14 @@ public interface PreferencesManager
 	 */
 	public void clearCache (Integer userId);
 
+
+	/**
+	 * Create the default prefrence configs for the given user id
+	 *
+	 * @param userId The user id
+	 */
+	public void createDefaultPrefrenceConfigsForUserId (Integer userId);
+
 	/**
 	 * Retrieve a preference value.
 	 *

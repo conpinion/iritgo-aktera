@@ -28,9 +28,13 @@ import de.iritgo.aktera.model.StandardLogEnabledModel;
 import de.iritgo.aktera.persist.PersistenceException;
 import de.iritgo.aktera.persist.Persistent;
 import de.iritgo.aktera.persist.PersistentFactory;
+import de.iritgo.aktera.tools.*;
+
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.service.*;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -103,6 +107,20 @@ public class KeelPreferencesManager extends StandardLogEnabledModel implements I
 		ModelResponse res = req.createResponse ();
 
 		return res;
+	}
+
+	public static void createDefaultValues (Integer userId)
+	{
+		try
+		{
+			ModelRequest modelReq = ModelTools.createModelRequest();
+			createDefaultValues (modelReq, userId);
+		}
+		catch (Exception x)
+		{
+			//TODO: get a logger
+			x.printStackTrace();
+		}
 	}
 
 	/**
