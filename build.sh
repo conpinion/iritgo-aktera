@@ -79,6 +79,9 @@ function processOptions
 
 processOptions $options
 
+MVN="mvn $optMavenSettings"
+BUILD="./build.sh $optSettings"
+
 if [ ! -z "$optMavenSettings" ]
 then
 	MVN="mvn $optMavenSettings"
