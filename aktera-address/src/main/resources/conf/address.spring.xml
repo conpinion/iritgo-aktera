@@ -148,39 +148,6 @@
 		</bean>
 	</util:list>
 
-	<util:map id="de.iritgo.aktera.permissions.PermissionFormParts-Address">
-		<entry key="de.iritgo.aktera.address.*">
-			<bean class="de.iritgo.aktera.address.ui.AddressStorePermissionFormPart">
-				<property name="addressDAO" ref="de.iritgo.aktera.address.AddressDAO" />
-			</bean>
-		</entry>
-		<entry key="de.iritgo.aktera.address.view">
-			<bean class="de.iritgo.aktera.address.ui.AddressStorePermissionFormPart">
-				<property name="addressDAO" ref="de.iritgo.aktera.address.AddressDAO" />
-			</bean>
-		</entry>
-		<entry key="de.iritgo.aktera.address.create">
-			<bean class="de.iritgo.aktera.address.ui.AddressStorePermissionFormPart">
-				<property name="addressDAO" ref="de.iritgo.aktera.address.AddressDAO" />
-			</bean>
-		</entry>
-		<entry key="de.iritgo.aktera.address.edit">
-			<bean class="de.iritgo.aktera.address.ui.AddressStorePermissionFormPart">
-				<property name="addressDAO" ref="de.iritgo.aktera.address.AddressDAO" />
-			</bean>
-		</entry>
-		<entry key="de.iritgo.aktera.address.delete">
-			<bean class="de.iritgo.aktera.address.ui.AddressStorePermissionFormPart">
-				<property name="addressDAO" ref="de.iritgo.aktera.address.AddressDAO" />
-			</bean>
-		</entry>
-		<entry key="de.iritgo.aktera.address.import">
-			<bean class="de.iritgo.aktera.address.ui.AddressStorePermissionFormPart">
-				<property name="addressDAO" ref="de.iritgo.aktera.address.AddressDAO" />
-			</bean>
-		</entry>
-	</util:map>
-
 	<util:list id="de.iritgo.aktera.permissions.PermissionFormularGroups-Address">
 		<ui:formularGroup>
 			<ui:group name="de.iritgo.aktera.address.*" label="permissionAddressAll" bundle="AkteraAddress">
@@ -295,8 +262,6 @@
 			<ui:param name="reedit" value="true" />
 		</ui:command-ok>
 	</ui:save>
-
-	<bean id="de.iritgo.aktera.address.AddressStoreFormularHandler" class="de.iritgo.aktera.address.ui.AddressStoreFormularHandler" />
 
 	<ui:formular id="de.iritgo.aktera.address.AddressStoreFormular">
 		<ui:key>store.id</ui:key>

@@ -69,6 +69,8 @@ public interface AddressDAO
 
 	public Option<AddressStore> findAddressStoreByName (String storeName);
 
+	public Option<AddressStore> findAddressStoreById (Integer id);
+
 	public Option<Address> findAddressByPartyId (int partyId);
 
 	public Option<Address> findAddressByOwnerAndCategoryAndContactNumber (Integer ownerId, String category,

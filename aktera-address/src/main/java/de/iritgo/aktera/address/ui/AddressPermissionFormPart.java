@@ -20,28 +20,43 @@
 package de.iritgo.aktera.address.ui;
 
 
-import java.util.*;
-import lombok.*;
-import de.iritgo.aktera.address.*;
-import de.iritgo.aktera.address.entity.*;
+import java.util.TreeMap;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import de.iritgo.aktera.address.AddressDAO;
+import de.iritgo.aktera.address.entity.AddressStore;
 import de.iritgo.aktera.model.*;
-import de.iritgo.aktera.permissions.ui.*;
-import de.iritgo.aktera.persist.*;
+import de.iritgo.aktera.permissions.ui.PermissionFormPart;
+import de.iritgo.aktera.persist.PersistenceException;
 import de.iritgo.aktera.ui.form.*;
-import de.iritgo.aktera.ui.listing.*;
-import de.iritgo.simplelife.math.*;
+import de.iritgo.aktera.ui.listing.RowData;
+import de.iritgo.simplelife.math.NumberTools;
 
 
-public class AddressStorePermissionFormPart extends PermissionFormPart
+@Component("de.iritgo.aktera.address.AddressPermissionFormPart")
+public class AddressPermissionFormPart extends PermissionFormPart
 {
+	@Override
+	public String[] getPermissionKeys ()
+	{
+		return new String[]
+		{
+						"de.iritgo.aktera.address.*", "de.iritgo.aktera.address.create",
+						"de.iritgo.aktera.address.delete", "de.iritgo.aktera.address.edit",
+						"de.iritgo.aktera.address.import", "de.iritgo.aktera.address.view"
+		};
+	}
+
 	@Setter
+	@Autowired
 	private AddressDAO addressDAO;
 
 	@Override
 	public String createListInfo (ModelRequest request, RowData data) throws PersistenceException, ModelException
 	{
 		AddressStore store = addressDAO.getAddressStoreById (NumberTools.toInt (data.get ("objectId"), - 1));
-		return "addressStorePermissionInfo|" + (store != null ? store.getDisplayedTitle () : "---");
+		return "addressStorePermissionInfo|" + store.getDisplayedTitle ();
 	}
 
 	@Override

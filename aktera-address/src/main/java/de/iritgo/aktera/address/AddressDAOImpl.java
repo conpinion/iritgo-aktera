@@ -335,6 +335,12 @@ public class AddressDAOImpl extends HibernateDaoSupport implements AddressDAO
 		return res.size () > 0 ? new Full (res.get (0)) : new Empty ();
 	}
 
+	public Option<AddressStore> findAddressStoreById (Integer id)
+	{
+		List<AddressStore> res = getHibernateTemplate ().find ("from AddressStore s where s.id = ?", id);
+		return res.size () > 0 ? new Full (res.get (0)) : new Empty ();
+	}
+
 	public AddressStore getAddressStoreById (Integer id)
 	{
 		AddressStore store = getHibernateTemplate ().get (AddressStore.class, id);
