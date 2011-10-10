@@ -20,48 +20,22 @@
 package de.iritgo.aktera.model;
 
 
+import java.io.*;
+import java.lang.reflect.Array;
+import java.util.*;
+import org.apache.avalon.excalibur.pool.*;
+import org.apache.avalon.framework.configuration.*;
+import org.apache.avalon.framework.context.*;
+import org.apache.avalon.framework.logger.*;
+import org.apache.avalon.framework.service.*;
+import org.apache.commons.beanutils.*;
 import de.iritgo.aktera.authentication.UserEnvironment;
 import de.iritgo.aktera.authorization.AuthorizationException;
 import de.iritgo.aktera.context.KeelContextualizable;
-import de.iritgo.aktera.core.container.KeelContainer;
-import de.iritgo.aktera.core.container.KeelServiceable;
-import de.iritgo.aktera.core.container.KeelServiceableDelegate;
-import de.iritgo.aktera.model.Command;
-import de.iritgo.aktera.model.KeelRequest;
-import de.iritgo.aktera.model.Model;
-import de.iritgo.aktera.model.ModelException;
-import de.iritgo.aktera.model.ModelRequest;
-import de.iritgo.aktera.model.ModelResponse;
-import de.iritgo.aktera.model.ModelValidator;
+import de.iritgo.aktera.core.container.*;
 import de.iritgo.aktera.models.util.SequenceContext;
 import de.iritgo.aktera.util.string.SuperString;
-import org.apache.avalon.excalibur.pool.Poolable;
-import org.apache.avalon.excalibur.pool.Recyclable;
-import org.apache.avalon.framework.configuration.Configurable;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.context.ContextException;
-import org.apache.avalon.framework.logger.LogEnabled;
-import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.service.ServiceException;
-import org.apache.avalon.framework.service.ServiceManager;
-import org.apache.commons.beanutils.ConvertUtils;
-import org.apache.commons.beanutils.Converter;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
+import de.iritgo.simplelife.string.StringTools;
 
 
 /**
@@ -128,8 +102,8 @@ public class DefaultModelRequest implements LogEnabled, KeelServiceable, ModelRe
 	}
 
 	/**
-	 * Model requests can be "recycled", that is, cleared and
-	 * used again for a new request.
+	 * Model requests can be "recycled", that is, cleared and used again for a
+	 * new request.
 	 */
 	public void recycle ()
 	{
@@ -151,11 +125,12 @@ public class DefaultModelRequest implements LogEnabled, KeelServiceable, ModelRe
 	}
 
 	/**
-	 * Retrieve the named parameter as a "raw" object - e.g.
-	 * attempt no type conversion.
+	 * Retrieve the named parameter as a "raw" object - e.g. attempt no type
+	 * conversion.
+	 *
 	 * @param paramKey The name of the requested parameter
-	 * @return The value of the specified parameter, or null if there
-	 * is no parameter with that name.
+	 * @return The value of the specified parameter, or null if there is no
+	 *         parameter with that name.
 	 */
 	public Object getParameter (String paramKey)
 	{
@@ -171,6 +146,7 @@ public class DefaultModelRequest implements LogEnabled, KeelServiceable, ModelRe
 
 	/**
 	 * Retrieve the entire mapping of parameters and values
+	 *
 	 * @return A Map of parameter names and their values
 	 */
 	public Map getParameters ()
@@ -203,9 +179,9 @@ public class DefaultModelRequest implements LogEnabled, KeelServiceable, ModelRe
 	}
 
 	/**
-	 * The name of the model and the state allow us to determine the actual
-	 * Java class that is going to be invoked, and how we're going to
-	 * communicate with it
+	 * The name of the model and the state allow us to determine the actual Java
+	 * class that is going to be invoked, and how we're going to communicate
+	 * with it
 	 */
 	public void setModel (String modelName)
 	{
@@ -378,9 +354,9 @@ public class DefaultModelRequest implements LogEnabled, KeelServiceable, ModelRe
 
 			Configuration[] children = modelConfig.getChildren ();
 
-			//             if (children.length == 0) {
-			//                 log.warn("No configuration for model '" + myModel + "'");
-			//             }
+			// if (children.length == 0) {
+			// log.warn("No configuration for model '" + myModel + "'");
+			// }
 			int addedAttribCount = 0;
 
 			for (int i = 0; i < children.length; i++)
@@ -412,7 +388,7 @@ public class DefaultModelRequest implements LogEnabled, KeelServiceable, ModelRe
 			throw new ModelException (ce);
 		}
 
-		//New logic to redirect back to the "sequence" if we were running one
+		// New logic to redirect back to the "sequence" if we were running one
 		try
 		{
 			SequenceContext scon = (SequenceContext) getKeelContext ().get (SequenceContext.CONTEXT_KEY);
@@ -426,28 +402,27 @@ public class DefaultModelRequest implements LogEnabled, KeelServiceable, ModelRe
 				if (! getModel ().equals (scon.getSequenceName ()))
 				{
 					scon.setCurrentResponse (res);
-					//       runSeq.setParameter( "seq", new
+					// runSeq.setParameter( "seq", new
 					// Integer(scon.getSeq()).toString());
-					//expirimenting with the seq problems. When we transition,
+					// expirimenting with the seq problems. When we transition,
 					// we should be setting the seq back....
-					log
-									.debug ("Model name was not the same. Transitioning to new model or first step of new sequence....");
+					log.debug ("Model name was not the same. Transitioning to new model or first step of new sequence....");
 
-					//The code below was commented out by ACR. Not sure how
-					//this was useful, as a user can never "break out" of a
+					// The code below was commented out by ACR. Not sure how
+					// this was useful, as a user can never "break out" of a
 					// sequence....
-					//Command runSeq =
+					// Command runSeq =
 					// res.createCommand(scon.getSequenceModel());
-					//runSeq.setParameter( "seq", "1");
-					//return runSeq.execute(this, res);
+					// runSeq.setParameter( "seq", "1");
+					// return runSeq.execute(this, res);
 				}
 			}
 		}
 		catch (ContextException ce)
 		{
 			/* Do nothing, no sequence */
-			//--- quikdraw: Why? If ContextException is general it seems there
-			//	should be a more specific exception here to identify NoSequence.
+			// --- quikdraw: Why? If ContextException is general it seems there
+			// should be a more specific exception here to identify NoSequence.
 		}
 
 		return res;
@@ -506,9 +481,9 @@ public class DefaultModelRequest implements LogEnabled, KeelServiceable, ModelRe
 	}
 
 	/**
-	 * This method first checks if the current model is securable. If it is
-	 * then it uses the AuthorizationManager class to check for authorization.
-	 * If authorized then it passes on the model, otherwise throws
+	 * This method first checks if the current model is securable. If it is then
+	 * it uses the AuthorizationManager class to check for authorization. If
+	 * authorized then it passes on the model, otherwise throws
 	 * SecurityException.
 	 */
 	public Object getService (String role, String hint) throws ModelException
@@ -596,7 +571,9 @@ public class DefaultModelRequest implements LogEnabled, KeelServiceable, ModelRe
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see org.apache.avalon.framework.logger.LogEnabled#enableLogging(org.apache.avalon.framework.logger.Logger)
+	 * @see
+	 * org.apache.avalon.framework.logger.LogEnabled#enableLogging(org.apache
+	 * .avalon.framework.logger.Logger)
 	 */
 	public void enableLogging (Logger logger)
 	{
@@ -606,7 +583,8 @@ public class DefaultModelRequest implements LogEnabled, KeelServiceable, ModelRe
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see de.iritgo.aktera.model.ModelRequest#getDefaultService(java.lang.String)
+	 * @see
+	 * de.iritgo.aktera.model.ModelRequest#getDefaultService(java.lang.String)
 	 */
 	public Object getDefaultService (String role) throws ModelException
 	{
@@ -632,7 +610,7 @@ public class DefaultModelRequest implements LogEnabled, KeelServiceable, ModelRe
 	 * (non-Javadoc)
 	 *
 	 * @see de.iritgo.aktera.model.ModelRequest#getService(java.lang.String,
-	 *      java.lang.String, org.apache.avalon.framework.context.Context)
+	 * java.lang.String, org.apache.avalon.framework.context.Context)
 	 */
 	public Object getService (String role, String hint, Context ctx) throws ModelException
 	{
@@ -649,7 +627,9 @@ public class DefaultModelRequest implements LogEnabled, KeelServiceable, ModelRe
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see org.apache.avalon.framework.service.Serviceable#service(org.apache.avalon.framework.service.ServiceManager)
+	 * @see
+	 * org.apache.avalon.framework.service.Serviceable#service(org.apache.avalon
+	 * .framework.service.ServiceManager)
 	 */
 	public void service (ServiceManager manager) throws ServiceException
 	{
@@ -735,16 +715,16 @@ public class DefaultModelRequest implements LogEnabled, KeelServiceable, ModelRe
 
 		if (val == null)
 		{
-			//No parameter by this name?
+			// No parameter by this name?
 			return (null);
-		} //else
+		} // else
 
 		final Class valClass = val.getClass ();
 		final Class valType = valClass.getComponentType ();
 
 		if (valType == null)
 		{
-			//Val Class is not an Array
+			// Val Class is not an Array
 			Object[] retVal = (Object[]) Array.newInstance (val.getClass (), 1);
 
 			retVal[0] = val;
@@ -758,11 +738,11 @@ public class DefaultModelRequest implements LogEnabled, KeelServiceable, ModelRe
 			for (int i = 0; i < Array.getLength (val); i++)
 			{
 				retVal[i] = Array.get (val, i);
-			} //end for
+			} // end for
 
 			return retVal;
-		} //end else
-	} //end getParameterAsArray
+		} // end else
+	} // end getParameterAsArray
 
 	public Date getParameterAsDate (String name)
 	{
@@ -867,9 +847,9 @@ public class DefaultModelRequest implements LogEnabled, KeelServiceable, ModelRe
 	}
 
 	/**
-	 * Add a validation error to the collection of errors in this request.
-	 * This method called by a ModelValidator component, not by the Model
-	 * itself (normally)
+	 * Add a validation error to the collection of errors in this request. This
+	 * method called by a ModelValidator component, not by the Model itself
+	 * (normally)
 	 */
 	public void addError (String name, String message)
 	{
