@@ -78,12 +78,4 @@
 		<ui:handler bean="de.iritgo.aktera.permissions.PermissionFormularHandler"/>
 	</ui:save>
 
-	<bean id="de.iritgo.aktera.permissions.PermissionFormularHandler" class="de.iritgo.aktera.permissions.ui.PermissionFormularHandler">
-		<property name="permissionManager" ref="de.iritgo.aktera.permissions.PermissionManager" />
-		<property name="permissionFormParts" ref="de.iritgo.aktera.permissions.PermissionFormParts" />
-	</bean>
-
-	<util:map id="de.iritgo.aktera.permissions.PermissionFormParts">
-	</util:map>
-
 </beans>

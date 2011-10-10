@@ -21,8 +21,9 @@ package de.iritgo.aktera.permissions.ui;
 
 
 import java.sql.SQLException;
-import java.util.Map;
-import javax.annotation.Resource;
+import java.util.*;
+import java.util.List;
+import javax.annotation.PostConstruct;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import de.iritgo.aktera.model.*;
@@ -38,8 +39,22 @@ public class PermissionListingHandler extends ListingHandler
 	private PermissionManager permissionManager;
 
 	@Setter
-	@Resource(name="de.iritgo.aktera.permissions.PermissionFormParts")
-	private Map<String, PermissionFormPart> permissionFormParts;
+	@Autowired
+	private List<PermissionFormPart> permissionFormParts;
+
+	private Map<String, PermissionFormPart> permissionFormPartsByKey = new HashMap ();
+
+	@PostConstruct
+	public void init ()
+	{
+		for (PermissionFormPart part : permissionFormParts)
+		{
+			for (String key : part.getPermissionKeys ())
+			{
+				permissionFormPartsByKey.put (key, part);
+			}
+		}
+	}
 
 	@Override
 	public CellData handleResult (ModelRequest request, ModelResponse response, ListingDescriptor listing,
@@ -62,11 +77,11 @@ public class PermissionListingHandler extends ListingHandler
 		}
 		else if ("permissionInfo".equals (column.getName ()))
 		{
-			PermissionFormPart part = permissionFormParts.get (permissionType);
+			PermissionFormPart part = permissionFormPartsByKey.get (permissionType);
 			if (part != null)
 			{
-				return new CellData (part.createListInfo (request, data), ListingColumnViewer.MESSAGE, part
-								.getBundle ());
+				return new CellData (part.createListInfo (request, data), ListingColumnViewer.MESSAGE,
+								part.getBundle ());
 			}
 		}
 		return new CellData ();

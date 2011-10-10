@@ -20,30 +20,20 @@
 package de.iritgo.aktera.permissions.ui;
 
 
-import de.iritgo.aktera.model.ModelException;
-import de.iritgo.aktera.model.ModelRequest;
-import de.iritgo.aktera.model.ModelResponse;
+import de.iritgo.aktera.model.*;
 import de.iritgo.aktera.persist.PersistenceException;
-import de.iritgo.aktera.ui.form.FormularDescriptor;
-import de.iritgo.aktera.ui.form.PersistentDescriptor;
-import de.iritgo.aktera.ui.form.ValidationResult;
+import de.iritgo.aktera.ui.form.*;
 import de.iritgo.aktera.ui.listing.RowData;
 
 
-public class PermissionFormPart
+public abstract class PermissionFormPart
 {
-	/** The resource bundle */
-	private String bundle = "Aktera";
-
-	public void setBundle (String bundle)
-	{
-		this.bundle = bundle;
-	}
-
 	public String getBundle ()
 	{
-		return bundle;
+		return "Aktera";
 	}
+
+	public abstract String[] getPermissionKeys ();
 
 	/**
 	 * Create an detail info string for the permission list.

@@ -21,7 +21,11 @@ package de.iritgo.aktera.permissions.ui;
 
 
 import java.util.*;
+import javax.annotation.PostConstruct;
+import lombok.Setter;
 import org.apache.avalon.framework.configuration.Configuration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import de.iritgo.aktera.model.*;
 import de.iritgo.aktera.permissions.*;
 import de.iritgo.aktera.persist.*;
@@ -29,42 +33,38 @@ import de.iritgo.aktera.ui.form.*;
 import de.iritgo.simplelife.string.StringTools;
 
 
-/**
- * Handler for permission formulars.
- */
+@Component("de.iritgo.aktera.permissions.PermissionFormularHandler")
 public class PermissionFormularHandler extends FormularHandler
 {
-	/** The permission manager */
+	@Setter
+	@Autowired
 	private PermissionManager permissionManager;
 
-	public void setPermissionManager (PermissionManager permissionManager)
-	{
-		this.permissionManager = permissionManager;
-	}
+	@Setter
+	@Autowired
+	private List<PermissionFormPart> permissionFormParts;
 
-	/** Formular handler for specific permission groups */
-	private Map<String, PermissionFormPart> permissionFormParts;
+	private Map<String, PermissionFormPart> permissionFormPartsByKey = new HashMap ();
 
-	public void setPermissionFormParts (Map<String, PermissionFormPart> permissionFormParts)
-	{
-		this.permissionFormParts = permissionFormParts;
-	}
-
-	/**
-	 * Create a new formular handler.
-	 */
 	public PermissionFormularHandler ()
 	{
 	}
 
-	/**
-	 * Copy construct a new formular handler.
-	 *
-	 * @param handler Another formular handler.
-	 */
 	public PermissionFormularHandler (PermissionFormularHandler handler)
 	{
 		super (handler);
+	}
+
+	@PostConstruct
+	public void init ()
+	{
+		for (PermissionFormPart part : permissionFormParts)
+		{
+			for (String key : part.getPermissionKeys ())
+			{
+				permissionFormPartsByKey.put (key, part);
+			}
+		}
 	}
 
 	@Override
@@ -87,16 +87,13 @@ public class PermissionFormularHandler extends FormularHandler
 			group.setVisible (group.getName ().equals ("permission") || group.getName ().equals (permission));
 		}
 
-		PermissionFormPart part = permissionFormParts.get (permission);
+		PermissionFormPart part = permissionFormPartsByKey.get (permission);
 		if (part != null)
 		{
 			part.adjustFormular (request, formular, persistents);
 		}
 	}
 
-	/**
-	 * @see de.iritgo.aktera.ui.form.FormularHandler
-	 */
 	@Override
 	public void loadPersistents (ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents,
 					List<Configuration> persistentConfig, Integer id) throws ModelException, PersistenceException
@@ -118,16 +115,13 @@ public class PermissionFormularHandler extends FormularHandler
 					boolean create, ValidationResult result) throws ModelException, PersistenceException
 	{
 		String permission = (String) persistents.getAttribute ("permission.permission");
-		PermissionFormPart part = permissionFormParts.get (permission);
+		PermissionFormPart part = permissionFormPartsByKey.get (permission);
 		if (part != null)
 		{
 			part.validatePersistents (request, response, formular, persistents, create, result);
 		}
 	}
 
-	/**
-	 * @see de.iritgo.aktera.ui.form.FormularHandler
-	 */
 	@Override
 	public void updatePersistents (ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents,
 					List<Configuration> persistentConfig, boolean modified) throws ModelException, PersistenceException
@@ -144,9 +138,6 @@ public class PermissionFormularHandler extends FormularHandler
 		permissionManager.clear ();
 	}
 
-	/**
-	 * @see de.iritgo.aktera.ui.form.FormularHandler
-	 */
 	@Override
 	public int createPersistents (ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents,
 					List<Configuration> persistentConfig) throws ModelException, PersistenceException
@@ -165,9 +156,6 @@ public class PermissionFormularHandler extends FormularHandler
 		return res;
 	}
 
-	/**
-	 * @see de.iritgo.aktera.ui.form.FormularHandler
-	 */
 	@Override
 	public void deletePersistent (ModelRequest request, ModelResponse response, Object id, Persistent persistent,
 					boolean systemDelete) throws ModelException, PersistenceException
