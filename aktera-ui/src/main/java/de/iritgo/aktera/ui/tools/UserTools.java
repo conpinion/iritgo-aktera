@@ -25,7 +25,9 @@ import de.iritgo.aktera.authorization.AuthorizationException;
 import de.iritgo.aktera.configuration.preferences.Preferences;
 import de.iritgo.aktera.model.ModelException;
 import de.iritgo.aktera.model.ModelRequest;
-import de.iritgo.aktera.permissions.PermissionManager;
+import de.iritgo.aktera.permissions.*;
+import de.iritgo.aktera.persist.*;
+import de.iritgo.simplelife.string.StringTools;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import java.util.Iterator;
@@ -80,7 +82,8 @@ public class UserTools
 	 * Get the current user's system name.
 	 *
 	 * @param req The model request.
-	 * @return The user's system name null if no user exists in the current session.
+	 * @return The user's system name null if no user exists in the current
+	 *         session.
 	 */
 	public static String getCurrentUserName (ModelRequest req)
 	{
@@ -377,5 +380,50 @@ public class UserTools
 		{
 			return null;
 		}
+	}
+
+	public static Integer getActualRequestUserId (ModelRequest request)
+		throws PersistenceException, PermissionException, ModelException
+	{
+		if (! StringTools.isTrimEmpty (request.getParameter ("userId")))
+		{
+			int userId = request.getParameterAsInt ("userId", - 1);
+
+			if (! UserTools.currentUserIsInGroup (request, "manager") && UserTools.getCurrentUserId (request) != userId)
+			{
+				throw new PermissionException ("Permission denied to edit com device function keys of user " + userId);
+			}
+
+			return userId;
+		}
+
+		return UserTools.getCurrentUserId (request);
+	}
+
+	public static String getActualRequestUserName (ModelRequest request)
+		throws PersistenceException, PermissionException, ModelException
+	{
+		PersistentFactory pf = (PersistentFactory) request.getService (PersistentFactory.ROLE, request.getDomain ());
+		String userName = UserTools.getCurrentUserName (request);
+		if (! StringTools.isTrimEmpty (request.getParameter ("userId")))
+		{
+			int userId = request.getParameterAsInt ("userId", - 1);
+			if (! UserTools.currentUserIsInGroup (request, "manager") && UserTools.getCurrentUserId (request) != userId)
+			{
+				throw new PermissionException ("Permission denied to edit com device function keys of user " + userId);
+			}
+
+			try
+			{
+				Persistent user = pf.create ("keel.user");
+				user.setField ("uid", userId);
+				user.find ();
+				userName = user.getFieldString ("name");
+			}
+			catch (PersistenceException x)
+			{
+			}
+		}
+		return userName;
 	}
 }

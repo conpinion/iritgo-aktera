@@ -257,8 +257,10 @@ public class ListTools
 							outColumn.setAttribute ("viewer", cellData.getViewer ().toString ());
 							outColumn.setAttribute ("bundle", cellData.getBundle ());
 						}
-						catch (SQLException ignored)
+						catch (Exception x)
 						{
+							outColumn.setAttribute ("viewer", "error");
+							outColumn.setContent (x.getMessage ());
 						}
 					}
 					else
