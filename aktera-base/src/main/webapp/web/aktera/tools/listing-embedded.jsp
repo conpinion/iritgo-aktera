@@ -210,6 +210,7 @@
 
 							<bean:define id="align" type="java.lang.String">
 								<xlogic:switch name="column" property="attributes.viewer">
+									<xlogic:case value="error">left</xlogic:case>
 									<xlogic:case value="text">left</xlogic:case>
 									<xlogic:case value="date">left</xlogic:case>
 									<xlogic:case value="time">left</xlogic:case>
@@ -247,6 +248,10 @@
 							<bean:define id="value" type="java.lang.String">
 
 								<xlogic:switch name="column" property="attributes.viewer">
+
+									<xlogic:case value="error">
+										<span class="error"><bean:write name="column" property="content"/></span>&nbsp;
+									</xlogic:case>
 
 									<xlogic:case value="text">
 										<bean:write name="column" property="content"/>&nbsp;
