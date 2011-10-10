@@ -20,10 +20,8 @@
 package de.iritgo.aktera.model;
 
 
+import java.util.*;
 import org.apache.avalon.framework.context.Context;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 
 public interface ModelRequest extends KeelRequest
