@@ -30,7 +30,8 @@ import javax.validation.constraints.*;
 
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.beans.factory.annotation.*;
+
 import de.iritgo.simplelife.constants.SortOrder;
 import de.iritgo.simplelife.math.NumberTools;
 import de.iritgo.simplelife.string.StringTools;
@@ -83,10 +84,12 @@ public class AddressLDAPStore extends AddressStore
 
 	/** Size of a result page (0 or null disables paging) */
 	@Min(value = 0)
+	@Value("100")
 	private Integer pageSize;
 
 	/** Maximum number of entries returned per search (0 or null means infinite) */
 	@Min(value = 0)
+	@Value("1000")
 	private Integer maxEntries;
 
 	/** Attribute names */
