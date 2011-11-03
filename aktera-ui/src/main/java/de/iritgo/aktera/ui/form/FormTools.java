@@ -846,11 +846,16 @@ public class FormTools
 				if (getAttributeFromDataObject (persistent, fieldName) != null)
 				{
 					Object value = getAttributeFromDataObject (persistent, fieldName);
+/*
+ * kann weg
 					if (value.getClass().isEnum ())
 					{
 						value = value.toString();
 					}
-					if (! (value instanceof String) && ! (value instanceof Integer))
+
+*/
+					if (! value.getClass().isEnum () &&
+					    ! (value instanceof String) && ! (value instanceof Integer))
 					{
 						value = getAttributeFromDataObject (persistent, fieldName + ".id");
 					}
