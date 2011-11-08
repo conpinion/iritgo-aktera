@@ -109,7 +109,9 @@
 						<configuration>
 							<src>${basedir}/src/main/resources</src>
 							<dest>${project.build.outputDirectory}</dest>
-							<includes>**/*.properties</includes>
+							<includes>
+								<include>**/*.properties</include>
+							</includes>
 							<encoding>UTF-8</encoding>
 						</configuration>
 					</execution>
