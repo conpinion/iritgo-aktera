@@ -101,6 +101,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>native2ascii-maven-plugin</artifactId>
+				<version>1.0-alpha-1</version>
 				<executions>
 					<execution>
 						<goals>
@@ -109,9 +110,7 @@
 						<configuration>
 							<src>${basedir}/src/main/resources</src>
 							<dest>${project.build.outputDirectory}</dest>
-							<includes>
-								<include>**/*.properties</include>
-							</includes>
+							<includes>**/*.properties</includes>
 							<encoding>UTF-8</encoding>
 						</configuration>
 					</execution>
