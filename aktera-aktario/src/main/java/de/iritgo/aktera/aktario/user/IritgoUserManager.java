@@ -33,5 +33,5 @@ public interface IritgoUserManager
 	 *
 	 * @param event The rename event
 	 */
-	public void onUserRenamed (Event event);
+	public void onUserRenamed(Event event);
 }

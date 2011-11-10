@@ -27,17 +27,17 @@ import de.iritgo.aktera.spring.SpringTools;
 
 public class Authenticate extends Command
 {
-	public Authenticate ()
+	public Authenticate()
 	{
-		super ("Authenticate");
+		super("Authenticate");
 	}
 
 	@Override
-	public Object performWithResult ()
+	public Object performWithResult()
 	{
-		String userName = properties.getProperty ("userName");
-		String password = properties.getProperty ("password");
-		Authenticator authenticator = (Authenticator) SpringTools.getBean (Authenticator.ID);
-		return authenticator.authenticate (userName, password);
+		String userName = properties.getProperty("userName");
+		String password = properties.getProperty("password");
+		Authenticator authenticator = (Authenticator) SpringTools.getBean(Authenticator.ID);
+		return authenticator.authenticate(userName, password);
 	}
 }

@@ -35,11 +35,11 @@ public class DefaultOutput extends AbstractResponseElement implements Output
 {
 	private Object content = null;
 
-	public synchronized void setContent (Object newContent)
+	public synchronized void setContent(Object newContent)
 	{
 		if (newContent == null)
 		{
-			content = new String ();
+			content = new String();
 		}
 		else
 		{
@@ -48,33 +48,33 @@ public class DefaultOutput extends AbstractResponseElement implements Output
 		}
 	}
 
-	public Object getContent ()
+	public Object getContent()
 	{
 		if (content == null)
 		{
-			return new String ();
+			return new String();
 		}
 
 		return content;
 	}
 
-	public String toString ()
+	public String toString()
 	{
-		StringBuffer ret = new StringBuffer (super.toString ());
+		StringBuffer ret = new StringBuffer(super.toString());
 
 		if (content == null)
 		{
-			ret.append ("<content null>\n");
+			ret.append("<content null>\n");
 		}
 		else
 		{
-			ret.append ("<content type='" + content.getClass ().getName () + "'>\n");
-			ret.append (content.toString () + "\n");
-			ret.append ("</content>");
+			ret.append("<content type='" + content.getClass().getName() + "'>\n");
+			ret.append(content.toString() + "\n");
+			ret.append("</content>");
 		}
 
-		ret.append ("\t</" + getClass ().getName () + ">\n");
+		ret.append("\t</" + getClass().getName() + ">\n");
 
-		return ret.toString ();
+		return ret.toString();
 	}
 }

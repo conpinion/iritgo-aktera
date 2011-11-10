@@ -67,7 +67,7 @@ public class PingRequest
 	 * Gets the value of the sequence property.
 	 * 
 	 */
-	public long getSequence ()
+	public long getSequence()
 	{
 		return sequence;
 	}
@@ -76,7 +76,7 @@ public class PingRequest
 	 * Sets the value of the sequence property.
 	 * 
 	 */
-	public void setSequence (long value)
+	public void setSequence(long value)
 	{
 		this.sequence = value;
 	}

@@ -59,190 +59,189 @@ public class Login extends LoginBase
 	 * @param req The model request.
 	 * @return The model response.
 	 */
-	public ModelResponse execute (ModelRequest req) throws ModelException
+	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
-		ModelResponse res = req.createResponse ();
+		ModelResponse res = req.createResponse();
 
 		String originalURL = null;
 		try
 		{
-			originalURL = (String) req.getContext ().get ("originalURL");
+			originalURL = (String) req.getContext().get("originalURL");
 		}
 		catch (ContextException x)
 		{
 		}
 		if (originalURL != null)
 		{
-			res.addOutput ("originalURL", originalURL.toString ());
+			res.addOutput("originalURL", originalURL.toString());
 		}
 
-		String domain = (String) req.getParameter ("domain");
+		String domain = (String) req.getParameter("domain");
 
-		String loginName = (String) req.getParameter ("loginName");
-		if (loginName.equals (""))
+		String loginName = (String) req.getParameter("loginName");
+		if (loginName.equals(""))
 		{
-			res.addError ("GLOBAL_loginError", "$youNeedToProvideALoginName");
-			return res.createCommand (Constants.PROMPT_LOGIN).execute (req, res);
+			res.addError("GLOBAL_loginError", "$youNeedToProvideALoginName");
+			return res.createCommand(Constants.PROMPT_LOGIN).execute(req, res);
 		}
 
-		PermissionManager permissionManager = (PermissionManager) SpringTools.getBean (PermissionManager.ID);
-		if (! permissionManager.hasPermission (loginName, "de.iritgo.aktera.web.login"))
+		PermissionManager permissionManager = (PermissionManager) SpringTools.getBean(PermissionManager.ID);
+		if (! permissionManager.hasPermission(loginName, "de.iritgo.aktera.web.login"))
 		{
-			res.addError ("GLOBAL_loginError", "$youAreNotAllowedToLogin");
-			return res.createCommand (Constants.PROMPT_LOGIN).execute (req, res);
+			res.addError("GLOBAL_loginError", "$youAreNotAllowedToLogin");
+			return res.createCommand(Constants.PROMPT_LOGIN).execute(req, res);
 		}
 
 		try
 		{
-			String providedPassword = (String) req.getParameter ("password");
-			if (providedPassword.equals (""))
+			String providedPassword = (String) req.getParameter("password");
+			if (providedPassword.equals(""))
 			{
-				res.addError ("GLOBAL_loginError", "$youNeedToProvideAPassword");
-				return res.createCommand (Constants.PROMPT_LOGIN).execute (req, res);
+				res.addError("GLOBAL_loginError", "$youNeedToProvideAPassword");
+				return res.createCommand(Constants.PROMPT_LOGIN).execute(req, res);
 			}
 			boolean remember = false;
-			if (req.getParameters ().containsKey ("remember"))
+			if (req.getParameters().containsKey("remember"))
 			{
 				remember = true;
 			}
 
-			AuthenticationManager authMgr = (AuthenticationManager) req.getService (AuthenticationManager.ROLE, domain);
-			authMgr.setUsername (loginName);
-			authMgr.setPassword (providedPassword);
-			authMgr.setDomain (domain);
+			AuthenticationManager authMgr = (AuthenticationManager) req.getService(AuthenticationManager.ROLE, domain);
+			authMgr.setUsername(loginName);
+			authMgr.setPassword(providedPassword);
+			authMgr.setDomain(domain);
 
-			HashMap map = new HashMap ();
-			map.put ("request", req);
-			map.put ("response", res);
-			map.put ("remember", new Boolean (remember));
-			map.put ("configuration", getConfiguration ());
-			authMgr.setOtherConfig (map);
+			HashMap map = new HashMap();
+			map.put("request", req);
+			map.put("response", res);
+			map.put("remember", new Boolean(remember));
+			map.put("configuration", getConfiguration());
+			authMgr.setOtherConfig(map);
 
 			UserEnvironment ue = null;
-			Context c = req.getContext ();
+			Context c = req.getContext();
 
 			try
 			{
-				ue = (UserEnvironment) c.get (UserEnvironment.CONTEXT_KEY);
+				ue = (UserEnvironment) c.get(UserEnvironment.CONTEXT_KEY);
 			}
 			catch (ContextException e)
 			{
 				if (c instanceof DefaultContext)
 				{
-					ue = new DefaultUserEnvironment ();
-					((DefaultContext) c).put (UserEnvironment.CONTEXT_KEY, ue);
+					ue = new DefaultUserEnvironment();
+					((DefaultContext) c).put(UserEnvironment.CONTEXT_KEY, ue);
 				}
 				else
 				{
-					throw new ModelException ("Unable to write user env. to context, was '" + c.getClass ().getName ());
+					throw new ModelException("Unable to write user env. to context, was '" + c.getClass().getName());
 				}
 			}
 
-			authMgr.login (ue);
+			authMgr.login(ue);
 
 			try
 			{
-				HashMap cookies = new HashMap ();
+				HashMap cookies = new HashMap();
 
 				if (remember)
 				{
-					String[] cookieSeq = getCryptSeq (configuration, "cookie");
-					cookies.put (getLoginCookieName (configuration), encodeWithSeq (cookieSeq, loginName, req));
-					cookies.put (getPasswordCookieName (configuration),
-									encodeWithSeq (cookieSeq, providedPassword, req));
-					cookies.put (getDomainCookieName (configuration), encodeWithSeq (cookieSeq, domain, req));
-					res.addOutput ("remembered", "$loginRemembered");
+					String[] cookieSeq = getCryptSeq(configuration, "cookie");
+					cookies.put(getLoginCookieName(configuration), encodeWithSeq(cookieSeq, loginName, req));
+					cookies.put(getPasswordCookieName(configuration), encodeWithSeq(cookieSeq, providedPassword, req));
+					cookies.put(getDomainCookieName(configuration), encodeWithSeq(cookieSeq, domain, req));
+					res.addOutput("remembered", "$loginRemembered");
 				}
 				else
 				{
-					cookies.put (getLoginCookieName (configuration), "");
-					cookies.put (getPasswordCookieName (configuration), "");
-					cookies.put (getDomainCookieName (configuration), "");
-					res.addOutput ("remembered", "$loginNotRemembered");
+					cookies.put(getLoginCookieName(configuration), "");
+					cookies.put(getPasswordCookieName(configuration), "");
+					cookies.put(getDomainCookieName(configuration), "");
+					res.addOutput("remembered", "$loginNotRemembered");
 				}
 
-				res.setAttribute ("cookies", cookies);
+				res.setAttribute("cookies", cookies);
 			}
 			catch (ModelException e)
 			{
-				throw new LoginException ("Error setting cookies - " + e.getMessage ());
+				throw new LoginException("Error setting cookies - " + e.getMessage());
 			}
 
-			if (log.isDebugEnabled ())
+			if (log.isDebugEnabled())
 			{
-				log.debug ("Logged in authenticated user: " + loginName + " domain: " + domain);
-				log.debug ("\tPrincipals:");
+				log.debug("Logged in authenticated user: " + loginName + " domain: " + domain);
+				log.debug("\tPrincipals:");
 
-				Iterator i = ue.getSubject ().getPrincipals ().iterator ();
-				while (i.hasNext ())
+				Iterator i = ue.getSubject().getPrincipals().iterator();
+				while (i.hasNext())
 				{
-					Principal p = (Principal) i.next ();
-					log.debug (p.toString ());
+					Principal p = (Principal) i.next();
+					log.debug(p.toString());
 				}
 			}
 		}
 		catch (LoginException e)
 		{
-			if (e.getMessage ().matches (".*([Ll]ogin|[Aa]ccount).*"))
+			if (e.getMessage().matches(".*([Ll]ogin|[Aa]ccount).*"))
 			{
-				res.addError ("GLOBAL_loginError", "$badLoginName");
+				res.addError("GLOBAL_loginError", "$badLoginName");
 			}
-			else if (e.getMessage ().matches (".*[Pp]assword.*"))
+			else if (e.getMessage().matches(".*[Pp]assword.*"))
 			{
-				res.addError ("GLOBAL_loginError", "$badPassword");
+				res.addError("GLOBAL_loginError", "$badPassword");
 			}
 			else
 			{
-				res.addError ("GLOBAL_loginError", "$loginError");
+				res.addError("GLOBAL_loginError", "$loginError");
 			}
 
-			log.warn ("Login error for user '" + loginName + "': " + e.getMessage ());
+			log.warn("Login error for user '" + loginName + "': " + e.getMessage());
 
-			return res.createCommand (Constants.PROMPT_LOGIN).execute (req, res);
+			return res.createCommand(Constants.PROMPT_LOGIN).execute(req, res);
 		}
 		catch (Exception dbe)
 		{
-			res.addError ("GLOBAL_loginError", dbe);
-			log.error ("loginError", dbe);
+			res.addError("GLOBAL_loginError", dbe);
+			log.error("loginError", dbe);
 
-			return res.createCommand (Constants.PROMPT_LOGIN).execute (req, res);
+			return res.createCommand(Constants.PROMPT_LOGIN).execute(req, res);
 		}
 
 		try
 		{
-			log.debug (loginName + " logged in successfully");
+			log.debug(loginName + " logged in successfully");
 
-			res.addCommand (Constants.LOGOFF, "Log Off");
+			res.addCommand(Constants.LOGOFF, "Log Off");
 		}
 		catch (Exception x)
 		{
-			log.error ("Login Error", x);
-			throw new ModelException (x);
+			log.error("Login Error", x);
+			throw new ModelException(x);
 		}
 
-		if (res.getErrors ().size () == 0)
+		if (res.getErrors().size() == 0)
 		{
-			Properties props = new Properties ();
+			Properties props = new Properties();
 
-			props.put ("command", "login");
-			ModelTools.callModel (req, "aktera.session.session-manager", props);
+			props.put("command", "login");
+			ModelTools.callModel(req, "aktera.session.session-manager", props);
 
-			Configuration[] loginHandlerConfigs = getConfiguration ().getChildren ("handler");
+			Configuration[] loginHandlerConfigs = getConfiguration().getChildren("handler");
 
 			for (int i = 0; i < loginHandlerConfigs.length; ++i)
 			{
-				String handlerClassName = loginHandlerConfigs[i].getAttribute ("class", null);
+				String handlerClassName = loginHandlerConfigs[i].getAttribute("class", null);
 
 				try
 				{
-					Class handlerClass = Class.forName (handlerClassName);
+					Class handlerClass = Class.forName(handlerClassName);
 
 					if (handlerClass != null)
 					{
-						handlerClass.getMethod ("login", new Class[]
+						handlerClass.getMethod("login", new Class[]
 						{
 										ModelRequest.class, String.class
-						}).invoke (null, new Object[]
+						}).invoke(null, new Object[]
 						{
 										req, loginName
 						});
@@ -250,11 +249,11 @@ public class Login extends LoginBase
 				}
 				catch (Exception x)
 				{
-					log.error ("Login: Unable to retrieve login handler class " + handlerClassName + ": " + x);
+					log.error("Login: Unable to retrieve login handler class " + handlerClassName + ": " + x);
 				}
 			}
 
-			UserTools.removeContextObject (req, "aktera.currentMenuItem");
+			UserTools.removeContextObject(req, "aktera.currentMenuItem");
 		}
 
 		return res;

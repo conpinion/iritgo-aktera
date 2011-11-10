@@ -33,46 +33,46 @@ public class PhoneNumber
 
 	private String canonicalNumber;
 
-	public PhoneNumber ()
+	public PhoneNumber()
 	{
 	}
 
-	public PhoneNumber (String category)
+	public PhoneNumber(String category)
 	{
 		this.category = category;
 	}
 
-	public String getCategory ()
+	public String getCategory()
 	{
 		return category;
 	}
 
-	public void setCategory (String category)
+	public void setCategory(String category)
 	{
 		this.category = category;
 	}
 
-	public void setCategory (Category category)
+	public void setCategory(Category category)
 	{
-		this.category = category.toString ();
+		this.category = category.toString();
 	}
 
-	public String getDisplayNumber ()
+	public String getDisplayNumber()
 	{
 		return displayNumber;
 	}
 
-	public void setDisplayNumber (String displayNumber)
+	public void setDisplayNumber(String displayNumber)
 	{
 		this.displayNumber = displayNumber;
 	}
 
-	public String getCanonicalNumber ()
+	public String getCanonicalNumber()
 	{
 		return canonicalNumber;
 	}
 
-	public void setCanonicalNumber (String canonicalNumber)
+	public void setCanonicalNumber(String canonicalNumber)
 	{
 		this.canonicalNumber = canonicalNumber;
 	}

@@ -77,7 +77,7 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 	 * The class that takes the actual Perl5 Compiled Pattern and matches it
 	 * against a string.
 	 */
-	transient private static PatternMatcher patternMatcher = new Perl5Matcher ();
+	transient private static PatternMatcher patternMatcher = new Perl5Matcher();
 
 	/**
 	 * This map holds a per-persistent mutex used for granting exclusive
@@ -171,23 +171,23 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 	 * was related to a specific field, or just a sequential number if the
 	 * error was in fact not related to one particular field
 	 */
-	protected Map currentErrors = new HashMap ();
+	protected Map currentErrors = new HashMap();
 
-	protected final void addError (Throwable t)
+	protected final void addError(Throwable t)
 	{
-		int nofErrors = currentErrors.size ();
+		int nofErrors = currentErrors.size();
 
-		currentErrors.put ("" + (nofErrors + 1), t);
+		currentErrors.put("" + (nofErrors + 1), t);
 	}
 
-	protected final void addError (String fieldName, Throwable t)
+	protected final void addError(String fieldName, Throwable t)
 	{
-		currentErrors.put (fieldName, t);
+		currentErrors.put(fieldName, t);
 	}
 
-	protected final void addError (String fieldName, String errorMsg)
+	protected final void addError(String fieldName, String errorMsg)
 	{
-		currentErrors.put (fieldName, new PersistenceException (errorMsg));
+		currentErrors.put(fieldName, new PersistenceException(errorMsg));
 	}
 
 	/**
@@ -202,9 +202,9 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 	 * @deprecated Use buildWhereClauseBuffer instead
 	 * @return The where clause
 	 */
-	protected String buildWhereClause (boolean useAllFields) throws PersistenceException
+	protected String buildWhereClause(boolean useAllFields) throws PersistenceException
 	{
-		return buildWhereClauseBuffer (useAllFields).toString ();
+		return buildWhereClauseBuffer(useAllFields).toString();
 	} /* buildWhereClause(boolean) */
 
 	/**
@@ -219,18 +219,18 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 	 * @return A SuperString containing the "where" clause for the SQL
 	 *         statement
 	 */
-	protected SuperString buildWhereClauseBuffer (boolean useAllFields) throws PersistenceException
+	protected SuperString buildWhereClauseBuffer(boolean useAllFields) throws PersistenceException
 	{
 		Iterator fieldsToUse = null;
-		SuperString myStatement = new SuperString (32);
+		SuperString myStatement = new SuperString(32);
 
 		if (useAllFields)
 		{
-			fieldsToUse = myMetaData.getFieldNames ().iterator ();
+			fieldsToUse = myMetaData.getFieldNames().iterator();
 		}
 		else
 		{
-			fieldsToUse = myMetaData.getKeyFieldNames ().iterator ();
+			fieldsToUse = myMetaData.getKeyFieldNames().iterator();
 		}
 
 		/* Now go thru each field - if it is non-empty, add it's criteria */
@@ -240,26 +240,26 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 		String oneFieldName = null;
 		String oneFieldValue = null;
 
-		boolean skipText = myMetaData.getDatabaseType ().allowTextQueries ();
+		boolean skipText = myMetaData.getDatabaseType().allowTextQueries();
 
 		boolean skipField = false;
 
-		while (fieldsToUse.hasNext ())
+		while (fieldsToUse.hasNext())
 		{
-			oneFieldName = (String) fieldsToUse.next ();
+			oneFieldName = (String) fieldsToUse.next();
 			skipField = false;
 
-			oneFieldValue = SuperString.notNull (getFieldString (oneFieldName));
+			oneFieldValue = SuperString.notNull(getFieldString(oneFieldName));
 
-			String rangeString = myMetaData.getDatabaseType ().denotesRange (oneFieldValue);
+			String rangeString = myMetaData.getDatabaseType().denotesRange(oneFieldValue);
 
-			if (! oneFieldValue.equals (""))
+			if (! oneFieldValue.equals(""))
 			{
 				//Changed by Adam. Do formatting here for date/time types, or
 				// quote
 				//if needed.
 				//oneFieldValue = quoteIfNeeded(oneFieldName, rangeString);
-				oneFieldValue = getValueForUpdate (oneFieldName, rangeString);
+				oneFieldValue = getValueForUpdate(oneFieldName, rangeString);
 			}
 
 			if (oneFieldValue == null)
@@ -267,41 +267,41 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 				skipField = true;
 			}
 
-			if (oneFieldValue.trim ().equals ("\'\'"))
+			if (oneFieldValue.trim().equals("\'\'"))
 			{
 				skipField = true;
 			}
 
-			if (myMetaData.getType (oneFieldName).equalsIgnoreCase ("text"))
+			if (myMetaData.getType(oneFieldName).equalsIgnoreCase("text"))
 			{
 				if (skipText)
 				{
 					skipField = true;
 
-					if (log.isDebugEnabled ())
+					if (log.isDebugEnabled())
 					{
-						log.debug ("Skipping criteria in text field '" + oneFieldName + "'");
+						log.debug("Skipping criteria in text field '" + oneFieldName + "'");
 					}
 				}
 				else
 				{
-					if (oneFieldValue.indexOf ("\n") > 0)
+					if (oneFieldValue.indexOf("\n") > 0)
 					{
-						oneFieldValue = SuperString.replace (oneFieldValue, "\n", "");
+						oneFieldValue = SuperString.replace(oneFieldValue, "\n", "");
 					}
 
-					if (oneFieldValue.indexOf ("\r") > 0)
+					if (oneFieldValue.indexOf("\r") > 0)
 					{
-						oneFieldValue = SuperString.replace (oneFieldValue, "\r", "");
+						oneFieldValue = SuperString.replace(oneFieldValue, "\r", "");
 					}
 
-					if (oneFieldValue.equals ("\'\'"))
+					if (oneFieldValue.equals("\'\'"))
 					{
 						skipField = true;
 					}
 				}
 			} /* if text field */
-			if (oneFieldValue.trim ().equals (""))
+			if (oneFieldValue.trim().equals(""))
 			{
 				skipField = true;
 			}
@@ -310,39 +310,39 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 			{
 				if (addWhere)
 				{
-					myStatement.append (" WHERE ");
+					myStatement.append(" WHERE ");
 					addWhere = false;
 				}
 
 				if (addAnd)
 				{
-					myStatement.append (" AND ");
+					myStatement.append(" AND ");
 				}
 
-				if (containsWildCards (oneFieldValue))
+				if (containsWildCards(oneFieldValue))
 				{
-					myStatement.append (myMetaData.getDBFieldName (oneFieldName));
-					myStatement.append (" LIKE ");
-					myStatement.append (oneFieldValue);
+					myStatement.append(myMetaData.getDBFieldName(oneFieldName));
+					myStatement.append(" LIKE ");
+					myStatement.append(oneFieldValue);
 				}
 				else if (rangeString != null)
 				{
-					myStatement.append (myMetaData.getDBFieldName (oneFieldName));
-					myStatement.append (" " + rangeString + " ");
-					myStatement.append (oneFieldValue);
+					myStatement.append(myMetaData.getDBFieldName(oneFieldName));
+					myStatement.append(" " + rangeString + " ");
+					myStatement.append(oneFieldValue);
 				}
-				else if ((oneFieldValue.trim ().equalsIgnoreCase ("is null"))
-								|| (oneFieldValue.trim ().equalsIgnoreCase ("is not null")))
+				else if ((oneFieldValue.trim().equalsIgnoreCase("is null"))
+								|| (oneFieldValue.trim().equalsIgnoreCase("is not null")))
 				{
-					myStatement.append (myMetaData.getDBFieldName (oneFieldName));
-					myStatement.append (" ");
-					myStatement.append (oneFieldValue.trim ());
+					myStatement.append(myMetaData.getDBFieldName(oneFieldName));
+					myStatement.append(" ");
+					myStatement.append(oneFieldValue.trim());
 				}
 				else
 				{
-					myStatement.append (myMetaData.getDBFieldName (oneFieldName));
-					myStatement.append (" = ");
-					myStatement.append (oneFieldValue);
+					myStatement.append(myMetaData.getDBFieldName(oneFieldName));
+					myStatement.append(" = ");
+					myStatement.append(oneFieldValue);
 				}
 
 				addAnd = true;
@@ -352,9 +352,9 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 		}
 
 		/* for each field */
-		if (log.isDebugEnabled ())
+		if (log.isDebugEnabled())
 		{
-			log.debug ("Built where clause '" + myStatement.toString () + "'");
+			log.debug("Built where clause '" + myStatement.toString() + "'");
 		}
 
 		return myStatement;
@@ -374,29 +374,29 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 	 * @throws PersistenceException
 	 *             If the value is not valid
 	 */
-	protected synchronized void checkField (String fieldName, Object fieldValue) throws PersistenceException
+	protected synchronized void checkField(String fieldName, Object fieldValue) throws PersistenceException
 	{
-		assertField (fieldName);
+		assertField(fieldName);
 
 		// Allow autoinc fields through since they're added last minute and may
 		// not
 		// currently have a valid value
-		if (myMetaData.isAutoIncremented (fieldName))
+		if (myMetaData.isAutoIncremented(fieldName))
 		{
 			return;
 		}
 
-		if (! myMetaData.allowsNull (fieldName))
+		if (! myMetaData.allowsNull(fieldName))
 		{
 			if (fieldValue == null)
 			{
-				throw new PersistenceException ("$keelNullNotAllowed|" + myMetaData.getTableName () + "."
-								+ myMetaData.getDescription (fieldName));
+				throw new PersistenceException("$keelNullNotAllowed|" + myMetaData.getTableName() + "."
+								+ myMetaData.getDescription(fieldName));
 			}
-			else if (fieldValue.toString ().equals (""))
+			else if (fieldValue.toString().equals(""))
 			{
-				throw new PersistenceException ("$keelNullNotAllowed|" + myMetaData.getTableName () + "."
-								+ myMetaData.getDescription (fieldName));
+				throw new PersistenceException("$keelNullNotAllowed|" + myMetaData.getTableName() + "."
+								+ myMetaData.getDescription(fieldName));
 			}
 		}
 		else
@@ -408,13 +408,13 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 			}
 		}
 
-		Pattern mask = myMetaData.getPattern (fieldName);
+		Pattern mask = myMetaData.getPattern(fieldName);
 
 		if (mask != null)
 		{
-			if (! patternMatcher.matches (fieldValue.toString (), mask))
+			if (! patternMatcher.matches(fieldValue.toString(), mask))
 			{
-				throw new PersistenceException ("$keelFieldNotMatch|" + fieldName + "|" + mask.getPattern ());
+				throw new PersistenceException("$keelFieldNotMatch|" + fieldName + "|" + mask.getPattern());
 			}
 		}
 
@@ -426,46 +426,45 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 		 * as "multiValued". In other words, a mutlivalued, allowsnull field
 		 * should pass the checkField method if it has a null value. - Adam
 		 */
-		if (myMetaData.isMultiValued (fieldName) && (! fieldValue.equals ("")))
+		if (myMetaData.isMultiValued(fieldName) && (! fieldValue.equals("")))
 		{
 			//Added this line to fix object comparison problems - ACR
-			String stringFieldValue = fieldValue.toString ();
-			Map values = getValidValues (fieldName);
+			String stringFieldValue = fieldValue.toString();
+			Map values = getValidValues(fieldName);
 
 			if (values == null)
 			{
-				throw new PersistenceException ("(" + getName () + ") '" + myMetaData.getDescription (fieldName)
-								+ "' is set as multi-valued, but there are no defined " + "valid values" + toString ());
+				throw new PersistenceException("(" + getName() + ") '" + myMetaData.getDescription(fieldName)
+								+ "' is set as multi-valued, but there are no defined " + "valid values" + toString());
 			}
 
 			Object oneValue = null;
 
-			for (Iterator e = values.keySet ().iterator (); e.hasNext ();)
+			for (Iterator e = values.keySet().iterator(); e.hasNext();)
 			{
-				oneValue = (String) e.next ();
+				oneValue = (String) e.next();
 
 				//Changed this line to fix object comparison issues. - ACR
-				if (stringFieldValue.equals (oneValue))
+				if (stringFieldValue.equals(oneValue))
 				{
 					return;
 				}
 			} /* for each valid value */
-			throw new PersistenceException ("(" + getName () + ") '" + fieldValue
-							+ "' is not a valid value for field '" + fieldName + "("
-							+ myMetaData.getDescription (fieldName) + ")' " + toString ());
+			throw new PersistenceException("(" + getName() + ") '" + fieldValue + "' is not a valid value for field '"
+							+ fieldName + "(" + myMetaData.getDescription(fieldName) + ")' " + toString());
 		} /* if field is multi-valued */
-		if (isDateType (myMetaData.getType (fieldName)))
+		if (isDateType(myMetaData.getType(fieldName)))
 		{
-			String stringDate = fieldValue.toString ();
+			String stringDate = fieldValue.toString();
 
 			String format = "yyyy-MM-dd hh:mm:ss";
-			String type = myMetaData.getType (fieldName);
+			String type = myMetaData.getType(fieldName);
 
-			if (type.equalsIgnoreCase ("date"))
+			if (type.equalsIgnoreCase("date"))
 			{
 				format = "yyyy-MM-dd";
 			}
-			else if (type.equalsIgnoreCase ("time"))
+			else if (type.equalsIgnoreCase("time"))
 			{
 				format = "hh:mm:ss";
 			}
@@ -473,12 +472,12 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 			//--- quikdraw: This is doing exactly what?
 			try
 			{
-				new SimpleDateFormat (format).parse (stringDate);
+				new SimpleDateFormat(format).parse(stringDate);
 			}
 			catch (ParseException pe)
 			{
-				throw new PersistenceException ("Value '" + stringDate + "' for field '"
-								+ myMetaData.getDescription (fieldName) + "' cannot be parsed as a date");
+				throw new PersistenceException("Value '" + stringDate + "' for field '"
+								+ myMetaData.getDescription(fieldName) + "' cannot be parsed as a date");
 			}
 		}
 	} /* checkField(String, String) */
@@ -494,7 +493,7 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 	 * @throws PersistenceException
 	 *             If there is an error accessing meta-data
 	 */
-	protected synchronized boolean containsWildCards (String fieldValue) throws PersistenceException
+	protected synchronized boolean containsWildCards(String fieldValue) throws PersistenceException
 	{
 		String fieldVal = fieldValue;
 
@@ -503,9 +502,9 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 			fieldVal = "";
 		}
 
-		for (Iterator it = myMetaData.getDatabaseType ().getWildCards ().iterator (); it.hasNext ();)
+		for (Iterator it = myMetaData.getDatabaseType().getWildCards().iterator(); it.hasNext();)
 		{
-			if (fieldVal.indexOf ((String) it.next ()) > 0)
+			if (fieldVal.indexOf((String) it.next()) > 0)
 			{
 				return true;
 			}
@@ -519,55 +518,55 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 	 * related detail records and delete them as well. This is a "cascading
 	 * delete" process.
 	 */
-	protected void deleteDetails () throws PersistenceException
+	protected void deleteDetails() throws PersistenceException
 	{
 		String oneDet = null;
 
-		for (Iterator ee = myMetaData.getDetailNames ().iterator (); ee.hasNext ();)
+		for (Iterator ee = myMetaData.getDetailNames().iterator(); ee.hasNext();)
 		{
-			oneDet = (String) ee.next ();
+			oneDet = (String) ee.next();
 
-			Relation oneDetRelation = myMetaData.getRelation (oneDet);
+			Relation oneDetRelation = myMetaData.getRelation(oneDet);
 			Persistent detailObj = null;
 
 			try
 			{
-				detailObj = getFactory ().create (oneDetRelation.getToPersistent ());
+				detailObj = getFactory().create(oneDetRelation.getToPersistent());
 			}
 			catch (Exception e)
 			{
-				throw new PersistenceException ("Unable to instantiate " + "detail db object '"
-								+ oneDetRelation.getToPersistent () + "'", e);
+				throw new PersistenceException("Unable to instantiate " + "detail db object '"
+								+ oneDetRelation.getToPersistent() + "'", e);
 			}
 
 			if (currentTransaction != null)
 			{
-				detailObj.setTransaction (currentTransaction);
+				detailObj.setTransaction(currentTransaction);
 			}
 
-			if (! detailObj.allowed (Persistent.DELETE))
+			if (! detailObj.allowed(Persistent.DELETE))
 			{
-				throw new PersistenceException ("Delete of '" + oneDetRelation.getToPersistent () + "' not allowed");
+				throw new PersistenceException("Delete of '" + oneDetRelation.getToPersistent() + "' not allowed");
 			}
 
-			Iterator stkLocal = oneDetRelation.getFromFields ().iterator ();
-			Iterator stkForeign = oneDetRelation.getToFields ().iterator ();
+			Iterator stkLocal = oneDetRelation.getFromFields().iterator();
+			Iterator stkForeign = oneDetRelation.getToFields().iterator();
 
-			while (stkLocal.hasNext ())
+			while (stkLocal.hasNext())
 			{
-				String localField = (String) stkLocal.next ();
-				String foreignField = (String) stkForeign.next ();
+				String localField = (String) stkLocal.next();
+				String foreignField = (String) stkForeign.next();
 
-				detailObj.setField (foreignField, getField (localField));
+				detailObj.setField(foreignField, getField(localField));
 			}
 
 			Persistent oneDetailObj = null;
 
-			for (Iterator di = detailObj.query ().iterator (); di.hasNext ();)
+			for (Iterator di = detailObj.query().iterator(); di.hasNext();)
 			{
-				oneDetailObj = (Persistent) di.next ();
-				oneDetailObj.setTransaction (currentTransaction);
-				oneDetailObj.delete (true);
+				oneDetailObj = (Persistent) di.next();
+				oneDetailObj.setTransaction(currentTransaction);
+				oneDetailObj.delete(true);
 			}
 		} /* for each detail */
 	} /* deleteDetails */
@@ -581,30 +580,30 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 	 * @return String - a string ready for use in an INSERT SQL statement.
 	 * @throws PersistenceException
 	 */
-	protected String getValueForDelete (String fieldName, String rangeString) throws PersistenceException
+	protected String getValueForDelete(String fieldName, String rangeString) throws PersistenceException
 	{
 		String returnString = null;
 
-		if (getField (fieldName) == null)
+		if (getField(fieldName) == null)
 		{
 			return null;
 		}
 
-		if (getField (fieldName).equals (""))
+		if (getField(fieldName).equals(""))
 		{
 			return null;
 		}
 
-		String myType = myMetaData.getType (fieldName);
+		String myType = myMetaData.getType(fieldName);
 
-		if (myType.equalsIgnoreCase ("date") || myType.equalsIgnoreCase ("datetime")
-						|| myType.equalsIgnoreCase ("time") || myType.equalsIgnoreCase ("timestamp"))
+		if (myType.equalsIgnoreCase("date") || myType.equalsIgnoreCase("datetime") || myType.equalsIgnoreCase("time")
+						|| myType.equalsIgnoreCase("timestamp"))
 		{
-			returnString = formatDateTime (fieldName);
+			returnString = formatDateTime(fieldName);
 		}
 		else
 		{
-			returnString = quoteIfNeeded (fieldName, rangeString);
+			returnString = quoteIfNeeded(fieldName, rangeString);
 		}
 
 		return returnString;
@@ -619,9 +618,9 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 	 * @return String
 	 * @throws PersistenceException
 	 */
-	protected String getValueForUpdate (String fieldName, String rangeString) throws PersistenceException
+	protected String getValueForUpdate(String fieldName, String rangeString) throws PersistenceException
 	{
-		return getValueForDelete (fieldName, rangeString);
+		return getValueForDelete(fieldName, rangeString);
 	}
 
 	/**
@@ -629,38 +628,38 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 	 *
 	 * @return The String representation of the current object's character set.
 	 */
-	protected synchronized String getCharset () throws PersistenceException
+	protected synchronized String getCharset() throws PersistenceException
 	{
-		return myMetaData.getCharset ();
+		return myMetaData.getCharset();
 	} /* getCharset() */
 
 	/**
 	 * Return the default value for a field, if any. Return null if no default
 	 * value specified.
 	 */
-	protected String getDefaultValue (String fieldName) throws PersistenceException
+	protected String getDefaultValue(String fieldName) throws PersistenceException
 	{
-		return myMetaData.getDefaultValue (fieldName);
+		return myMetaData.getDefaultValue(fieldName);
 	}
 
 	/**
 	 * Access the "raw" field data for the named field.
 	 */
-	protected Object getFieldData (String fieldName)
+	protected Object getFieldData(String fieldName)
 	{
 		if (fieldData == null)
 		{
-			fieldData = new HashMap ();
+			fieldData = new HashMap();
 		}
 
-		return fieldData.get (fieldName);
+		return fieldData.get(fieldName);
 	}
 
-	protected void assertField (String fieldName) throws PersistenceException
+	protected void assertField(String fieldName) throws PersistenceException
 	{
-		if (! myMetaData.hasField (fieldName))
+		if (! myMetaData.hasField(fieldName))
 		{
-			throw new PersistenceException ("Persistent '" + getName () + "' contains no such field as " + fieldName);
+			throw new PersistenceException("Persistent '" + getName() + "' contains no such field as " + fieldName);
 		}
 	}
 
@@ -672,23 +671,23 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 	 * @throws PersistenceException
 	 *             If the key list cannot be built.
 	 */
-	protected String getMyKeys () throws PersistenceException
+	protected String getMyKeys() throws PersistenceException
 	{
-		StringBuffer myKeys = new StringBuffer ();
+		StringBuffer myKeys = new StringBuffer();
 		boolean needPipe = false;
 
-		for (Iterator i = myMetaData.getKeyFieldNames ().iterator (); i.hasNext ();)
+		for (Iterator i = myMetaData.getKeyFieldNames().iterator(); i.hasNext();)
 		{
 			if (needPipe)
 			{
-				myKeys.append ("|");
+				myKeys.append("|");
 			}
 
-			myKeys.append (getFieldString ((String) i.next ()));
+			myKeys.append(getFieldString((String) i.next()));
 			needPipe = true;
 		}
 
-		return myKeys.toString ();
+		return myKeys.toString();
 	} /* getMyKeys() */
 
 	/**
@@ -697,9 +696,9 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 	 * @return String The Persistent name, which may or may not bear any
 	 *         relationship to the table name
 	 */
-	public String getName ()
+	public String getName()
 	{
-		return myMetaData.getSchemaName () + "." + myMetaData.getName ();
+		return myMetaData.getSchemaName() + "." + myMetaData.getName();
 	} /* getName() */
 
 	/**
@@ -710,25 +709,25 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 	 * @throws PersistenceException
 	 * @return the value to write to the data source.
 	 */
-	protected String getSerializedForm (String fieldName) throws PersistenceException
+	protected String getSerializedForm(String fieldName) throws PersistenceException
 	{
 		String returnValue = null;
 
 		try
 		{
-			if (! myMetaData.isEncrypted (fieldName))
+			if (! myMetaData.isEncrypted(fieldName))
 			{
-				Object o = getFieldData (fieldName);
+				Object o = getFieldData(fieldName);
 
 				if (o != null)
 				{
-					returnValue = o.toString ();
+					returnValue = o.toString();
 				}
 			}
 		}
 		catch (Exception e)
 		{
-			throw new PersistenceException (e);
+			throw new PersistenceException(e);
 		}
 
 		return returnValue;
@@ -747,16 +746,16 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 	 * @return True if all key fields have a value, false if not
 	 * @throws PersistenceException
 	 */
-	protected boolean haveAllKeys (boolean withAuto, boolean throwException) throws PersistenceException
+	protected boolean haveAllKeys(boolean withAuto, boolean throwException) throws PersistenceException
 	{
 		Object fieldValue = null;
 		String strVal = null;
 		String oneFieldName = null;
 
-		for (Iterator i = myMetaData.getKeyFieldNames ().iterator (); i.hasNext ();)
+		for (Iterator i = myMetaData.getKeyFieldNames().iterator(); i.hasNext();)
 		{
-			oneFieldName = (String) i.next ();
-			fieldValue = getField (oneFieldName);
+			oneFieldName = (String) i.next();
+			fieldValue = getField(oneFieldName);
 
 			if (fieldValue == null)
 			{
@@ -764,28 +763,26 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 			}
 			else
 			{
-				strVal = fieldValue.toString ();
+				strVal = fieldValue.toString();
 			}
 
-			if (strVal.equals (""))
+			if (strVal.equals(""))
 			{
 				if (withAuto)
 				{
 					if (throwException)
 					{
-						throw new PersistenceException ("$keelNullNotAllowed|"
-										+ myMetaData.getDescription (oneFieldName));
+						throw new PersistenceException("$keelNullNotAllowed|" + myMetaData.getDescription(oneFieldName));
 					}
 
 					return false;
 				}
 
-				if (! myMetaData.isAutoIncremented (oneFieldName))
+				if (! myMetaData.isAutoIncremented(oneFieldName))
 				{
 					if (throwException)
 					{
-						throw new PersistenceException ("$keelNullNotAllowed|"
-										+ myMetaData.getDescription (oneFieldName));
+						throw new PersistenceException("$keelNullNotAllowed|" + myMetaData.getDescription(oneFieldName));
 					}
 
 					return false;
@@ -802,12 +799,12 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 	 * @param theType
 	 * @return
 	 */
-	protected static boolean isDateType (String theType)
+	protected static boolean isDateType(String theType)
 	{
 		boolean returnValue = false;
 
-		if (theType.equalsIgnoreCase ("date") || theType.equalsIgnoreCase ("time")
-						|| theType.equalsIgnoreCase ("datetime") || theType.equalsIgnoreCase ("timestamp"))
+		if (theType.equalsIgnoreCase("date") || theType.equalsIgnoreCase("time")
+						|| theType.equalsIgnoreCase("datetime") || theType.equalsIgnoreCase("timestamp"))
 		{
 			returnValue = true;
 		}
@@ -823,15 +820,15 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 	 * @throws PersistenceException
 	 *             If the list of fields cannot be traversed
 	 */
-	protected synchronized boolean isEmpty () throws PersistenceException
+	protected synchronized boolean isEmpty() throws PersistenceException
 	{
 		String oneName = null;
 
-		for (Iterator i = myMetaData.getFieldNames ().iterator (); i.hasNext ();)
+		for (Iterator i = myMetaData.getFieldNames().iterator(); i.hasNext();)
 		{
-			oneName = (String) i.next ();
+			oneName = (String) i.next();
 
-			if (! getFieldString (oneName).equalsIgnoreCase (""))
+			if (! getFieldString(oneName).equalsIgnoreCase(""))
 			{
 				return false;
 			}
@@ -871,16 +868,16 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 	 * @see #setOffsetRecord( int )
 	 * @see #setMaxRecords( int )
 	 */
-	protected String makeSubSetStub ()
+	protected String makeSubSetStub()
 	{
-		String limit = myMetaData.getDatabaseType ().getSubSetSyntax ();
+		String limit = myMetaData.getDatabaseType().getSubSetSyntax();
 		int endrec = offsetRecord + maxRecords - 1;
 
-		limit = SuperString.replace (limit, "%offset%", Integer.toString (offsetRecord));
-		limit = SuperString.replace (limit, "%maxrecords%", Integer.toString (maxRecords));
+		limit = SuperString.replace(limit, "%offset%", Integer.toString(offsetRecord));
+		limit = SuperString.replace(limit, "%maxrecords%", Integer.toString(maxRecords));
 		// limit = SuperString.replace( limit, "%length%", Integer.toString(
 		// maxRecords ) );
-		limit = SuperString.replace (limit, "%endrecord%", Integer.toString (endrec));
+		limit = SuperString.replace(limit, "%endrecord%", Integer.toString(endrec));
 
 		return limit;
 	} /* makeSubSetStub() */
@@ -896,13 +893,13 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 	 * @throws PersistenceException
 	 *             If there is no such field or it's value cannot be determined
 	 */
-	protected String quoteIfNeeded (String fieldName, String rangeString) throws PersistenceException
+	protected String quoteIfNeeded(String fieldName, String rangeString) throws PersistenceException
 	{
 		String fieldValue = null;
 
-		assertField (fieldName);
+		assertField(fieldName);
 
-		fieldValue = getSerializedForm (fieldName);
+		fieldValue = getSerializedForm(fieldName);
 
 		/* if the field is null, we don't need to worry about quotes */
 		if (fieldValue == null)
@@ -912,35 +909,35 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 
 		if (rangeString != null)
 		{
-			fieldValue = fieldValue.substring (rangeString.length ());
+			fieldValue = fieldValue.substring(rangeString.length());
 		}
 
-		if (myMetaData.getDatabaseType ().isNumericType (myMetaData.getType (fieldName)))
+		if (myMetaData.getDatabaseType().isNumericType(myMetaData.getType(fieldName)))
 		{
-			if (fieldValue.equals ("") || fieldValue.equals (" "))
+			if (fieldValue.equals("") || fieldValue.equals(" "))
 			{
 				return "0";
 			}
 
-			return fieldValue.trim ();
+			return fieldValue.trim();
 		} /* if a numeric type */
-		if (myMetaData.getDatabaseType ().isQuotedType (myMetaData.getType (fieldName)))
+		if (myMetaData.getDatabaseType().isQuotedType(myMetaData.getType(fieldName)))
 		{
-			if ((fieldValue.indexOf ("\'") != - 1) || (fieldValue.indexOf ("\"") != - 1))
+			if ((fieldValue.indexOf("\'") != - 1) || (fieldValue.indexOf("\"") != - 1))
 			{
-				return "\'" + SuperString.noQuotes (fieldValue.trim ()) + "\'";
+				return "\'" + SuperString.noQuotes(fieldValue.trim()) + "\'";
 			}
 			else
 			{
-				return "\'" + fieldValue.trim () + "\'";
+				return "\'" + fieldValue.trim() + "\'";
 			}
 		} /* if a quoted type */
-		if (myMetaData.getDatabaseType ().isDateType (myMetaData.getType (fieldName)))
+		if (myMetaData.getDatabaseType().isDateType(myMetaData.getType(fieldName)))
 		{
 			return "\'" + fieldValue + "\'";
 		}
 
-		return fieldValue.trim ();
+		return fieldValue.trim();
 	} /* quoteIfNeeded(String) */
 
 	/**
@@ -953,34 +950,34 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 	 *            The name of the field to be handled
 	 * @throws PersistenceException
 	 */
-	protected String selectFieldString (String fieldName) throws PersistenceException
+	protected String selectFieldString(String fieldName) throws PersistenceException
 	{
-		String dbFieldName = myMetaData.getDBFieldName (fieldName);
-		DatabaseType myDBType = myMetaData.getDatabaseType ();
+		String dbFieldName = myMetaData.getDBFieldName(fieldName);
+		DatabaseType myDBType = myMetaData.getDatabaseType();
 
-		String fieldType = myMetaData.getType (fieldName);
+		String fieldType = myMetaData.getType(fieldName);
 
-		if (fieldType.equalsIgnoreCase ("date"))
+		if (fieldType.equalsIgnoreCase("date"))
 		{
-			if (! SuperString.notNull (myDBType.getDateSelectFunction ()).equals (""))
+			if (! SuperString.notNull(myDBType.getDateSelectFunction()).equals(""))
 			{
-				return (SuperString.replace (myDBType.getDateSelectFunction (), "%s", dbFieldName));
+				return (SuperString.replace(myDBType.getDateSelectFunction(), "%s", dbFieldName));
 			}
 		}
 
-		if (fieldType.equalsIgnoreCase ("time"))
+		if (fieldType.equalsIgnoreCase("time"))
 		{
-			if (! SuperString.notNull (myDBType.getTimeSelectFunction ()).equals (""))
+			if (! SuperString.notNull(myDBType.getTimeSelectFunction()).equals(""))
 			{
-				return (SuperString.replace (myDBType.getTimeSelectFunction (), "%s", dbFieldName));
+				return (SuperString.replace(myDBType.getTimeSelectFunction(), "%s", dbFieldName));
 			}
 		}
 
-		if (fieldType.equalsIgnoreCase ("datetime"))
+		if (fieldType.equalsIgnoreCase("datetime"))
 		{
-			if (! SuperString.notNull (myDBType.getDateTimeSelectFunction ()).equals (""))
+			if (! SuperString.notNull(myDBType.getDateTimeSelectFunction()).equals(""))
 			{
-				return (SuperString.replace (myDBType.getDateTimeSelectFunction (), "%s", dbFieldName));
+				return (SuperString.replace(myDBType.getDateTimeSelectFunction(), "%s", dbFieldName));
 			}
 		}
 
@@ -996,18 +993,18 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 	 * @param attribValue
 	 *            The object to store under this attribute name
 	 */
-	public synchronized void setAttribute (String attribName, Object attribValue)
+	public synchronized void setAttribute(String attribName, Object attribValue)
 	{
 		if (attributes == null)
 		{
-			attributes = new HashMap ();
+			attributes = new HashMap();
 		}
 
-		attributes.put (attribName, attribValue);
+		attributes.put(attribName, attribValue);
 
-		if (attribName.equalsIgnoreCase ("checkzeroupdate"))
+		if (attribName.equalsIgnoreCase("checkzeroupdate"))
 		{
-			setCheckZeroUpdate (new Boolean (attribValue.toString ()).booleanValue ());
+			setCheckZeroUpdate(new Boolean(attribValue.toString()).booleanValue());
 		}
 	} /* setAttribute(String, Object) */
 
@@ -1017,7 +1014,7 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 	 * @return boolean value that denotes if check zero update is on or off.
 	 *
 	 */
-	protected synchronized boolean getCheckZeroUpdate ()
+	protected synchronized boolean getCheckZeroUpdate()
 	{
 		return checkZeroUpdate;
 	} /* setCheckZeroUpdate(boolean) */
@@ -1033,39 +1030,38 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 	 * @param newFlag
 	 *            True to turn on checking, false to turn it off
 	 */
-	protected synchronized void setCheckZeroUpdate (boolean newFlag)
+	protected synchronized void setCheckZeroUpdate(boolean newFlag)
 	{
 		checkZeroUpdate = newFlag;
 	} /* setCheckZeroUpdate(boolean) */
 
-	protected synchronized void setFieldData (String fieldName, Object fieldValue) throws PersistenceException
+	protected synchronized void setFieldData(String fieldName, Object fieldValue) throws PersistenceException
 	{
 		if (fieldData == null)
 		{
-			fieldData = new HashMap ();
+			fieldData = new HashMap();
 		}
 
-		fieldData.put (fieldName, fieldValue);
-		setBeanField (fieldName, fieldValue);
+		fieldData.put(fieldName, fieldValue);
+		setBeanField(fieldName, fieldValue);
 	}
 
-	protected void setPreparedStatementObject (PreparedStatement ps, int index, String fieldName)
+	protected void setPreparedStatementObject(PreparedStatement ps, int index, String fieldName)
 		throws PersistenceException, SQLException
 	{
-		int typeToUse = JDBCDatabaseType.stringToType (myMetaData.getType (fieldName));
+		int typeToUse = JDBCDatabaseType.stringToType(myMetaData.getType(fieldName));
 
-		if (log.isDebugEnabled ())
+		if (log.isDebugEnabled())
 		{
-			log.debug ("Setting Field #/FieldName/Value" + index + '/' + fieldName + '/'
-							+ this.getFieldData (fieldName));
-			log.debug ("FieldType: " + typeToUse);
+			log.debug("Setting Field #/FieldName/Value" + index + '/' + fieldName + '/' + this.getFieldData(fieldName));
+			log.debug("FieldType: " + typeToUse);
 		}
 
-		Object o = this.getFieldData (fieldName);
+		Object o = this.getFieldData(fieldName);
 
 		if (o == null)
 		{
-			ps.setNull (index, typeToUse);
+			ps.setNull(index, typeToUse);
 
 			return;
 		}
@@ -1075,193 +1071,193 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 			switch (typeToUse)
 			{
 				case java.sql.Types.VARCHAR:
-					log.debug ("FieldTypeName: VARCHAR");
-					ps.setString (index, this.getFieldString (fieldName));
+					log.debug("FieldTypeName: VARCHAR");
+					ps.setString(index, this.getFieldString(fieldName));
 
 					break;
 
 				case java.sql.Types.ARRAY:
-					log.debug ("FieldTypeName: ARRAY");
-					ps.setArray (index, (Array) this.getFieldData (fieldName));
+					log.debug("FieldTypeName: ARRAY");
+					ps.setArray(index, (Array) this.getFieldData(fieldName));
 
 					break;
 
 				case java.sql.Types.BIGINT: // No getBigInt?
-					log.debug ("FieldTypeName: BIGINT");
-					ps.setLong (index, this.getFieldLong (fieldName));
+					log.debug("FieldTypeName: BIGINT");
+					ps.setLong(index, this.getFieldLong(fieldName));
 
 					break;
 
 				case java.sql.Types.BIT:
-					log.debug ("FieldTypeName: BIT");
-					ps.setBoolean (index, this.getFieldBoolean (fieldName));
+					log.debug("FieldTypeName: BIT");
+					ps.setBoolean(index, this.getFieldBoolean(fieldName));
 
 					break;
 
 				//really not sure here....
 				case java.sql.Types.BLOB:
-					log.debug ("FieldTypeName: BLOB");
-					ps.setBlob (index, (Blob) this.getFieldData (fieldName));
+					log.debug("FieldTypeName: BLOB");
+					ps.setBlob(index, (Blob) this.getFieldData(fieldName));
 
 					break;
 
 				case java.sql.Types.BOOLEAN:
-					log.debug ("FieldTypeName: BOOLEAN");
-					ps.setBoolean (index, this.getFieldBoolean (fieldName));
+					log.debug("FieldTypeName: BOOLEAN");
+					ps.setBoolean(index, this.getFieldBoolean(fieldName));
 
 					break;
 
 				case java.sql.Types.CHAR:
-					log.debug ("FieldTypeName: CHAR");
-					ps.setString (index, this.getFieldString (fieldName));
+					log.debug("FieldTypeName: CHAR");
+					ps.setString(index, this.getFieldString(fieldName));
 
 					break;
 
 				case java.sql.Types.CLOB:
-					log.debug ("FieldTypeName: CLOB");
-					ps.setClob (index, (Clob) this.getFieldData (fieldName));
+					log.debug("FieldTypeName: CLOB");
+					ps.setClob(index, (Clob) this.getFieldData(fieldName));
 
 					break;
 
 				case java.sql.Types.DATE:
-					log.debug ("FieldTypeName: DATE");
-					ps.setDate (index, getFieldDate (fieldName));
+					log.debug("FieldTypeName: DATE");
+					ps.setDate(index, getFieldDate(fieldName));
 
 					break;
 
 				case java.sql.Types.DECIMAL:
-					log.debug ("FieldTypeName: DECIMAL");
-					ps.setBigDecimal (index, new BigDecimal (getFieldString (fieldName)));
+					log.debug("FieldTypeName: DECIMAL");
+					ps.setBigDecimal(index, new BigDecimal(getFieldString(fieldName)));
 
 					break;
 
 				//case java.sql.Types.DISTINCT :
 				//	return rs.getObject(index);
 				case java.sql.Types.DOUBLE:
-					log.debug ("FieldTypeName: DOUBLE");
-					ps.setDouble (index, new Double (getFieldString (fieldName)).doubleValue ());
+					log.debug("FieldTypeName: DOUBLE");
+					ps.setDouble(index, new Double(getFieldString(fieldName)).doubleValue());
 
 					break;
 
 				case java.sql.Types.FLOAT:
-					log.debug ("FieldTypeName: FLOAT");
-					ps.setFloat (index, new Float (getFieldString (fieldName)).floatValue ());
+					log.debug("FieldTypeName: FLOAT");
+					ps.setFloat(index, new Float(getFieldString(fieldName)).floatValue());
 
 					break;
 
 				case java.sql.Types.INTEGER:
-					log.debug ("FieldTypeName: INTEGER");
+					log.debug("FieldTypeName: INTEGER");
 
 					try
 					{
-						ps.setInt (index, new Integer (getFieldString (fieldName)).intValue ());
+						ps.setInt(index, new Integer(getFieldString(fieldName)).intValue());
 					}
 					catch (NumberFormatException x)
 					{
-						ps.setNull (index, java.sql.Types.INTEGER);
+						ps.setNull(index, java.sql.Types.INTEGER);
 					}
 
 					break;
 
 				case java.sql.Types.JAVA_OBJECT:
-					log.debug ("FieldTypeName: JAVA_OBJECT");
-					ps.setObject (index, getFieldData (fieldName));
+					log.debug("FieldTypeName: JAVA_OBJECT");
+					ps.setObject(index, getFieldData(fieldName));
 
 					break;
 
 				case java.sql.Types.LONGVARBINARY:
-					log.debug ("FieldTypeName: LONGVARBINARY");
-					ps.setObject (index, getFieldData (fieldName), java.sql.Types.LONGVARBINARY);
+					log.debug("FieldTypeName: LONGVARBINARY");
+					ps.setObject(index, getFieldData(fieldName), java.sql.Types.LONGVARBINARY);
 
 					break;
 
 				case java.sql.Types.LONGVARCHAR:
-					log.debug ("FieldTypeName: LONGVARCHAR");
-					ps.setString (index, this.getFieldString (fieldName));
+					log.debug("FieldTypeName: LONGVARCHAR");
+					ps.setString(index, this.getFieldString(fieldName));
 
 					break;
 
 				case java.sql.Types.NULL:
-					log.debug ("FieldTypeName: NULL");
-					ps.setNull (index, java.sql.Types.NULL);
+					log.debug("FieldTypeName: NULL");
+					ps.setNull(index, java.sql.Types.NULL);
 
 					break;
 
 				case java.sql.Types.NUMERIC:
-					log.debug ("FieldTypeName: NUMBERIC");
-					ps.setLong (index, this.getFieldLong (fieldName));
+					log.debug("FieldTypeName: NUMBERIC");
+					ps.setLong(index, this.getFieldLong(fieldName));
 
 					break;
 
 				case java.sql.Types.OTHER:
-					log.debug ("FieldTypeName: OTHER");
-					ps.setObject (index, getFieldData (fieldName), java.sql.Types.OTHER);
+					log.debug("FieldTypeName: OTHER");
+					ps.setObject(index, getFieldData(fieldName), java.sql.Types.OTHER);
 
 					break;
 
 				case java.sql.Types.REAL:
-					log.debug ("FieldTypeName: REAL");
-					ps.setFloat (index, new Float (getFieldString (fieldName)).floatValue ());
+					log.debug("FieldTypeName: REAL");
+					ps.setFloat(index, new Float(getFieldString(fieldName)).floatValue());
 
 					break;
 
 				case java.sql.Types.REF:
-					log.debug ("FieldTypeName: REF");
-					ps.setObject (index, getFieldData (fieldName), java.sql.Types.REF);
+					log.debug("FieldTypeName: REF");
+					ps.setObject(index, getFieldData(fieldName), java.sql.Types.REF);
 
 					break;
 
 				case java.sql.Types.SMALLINT:
-					log.debug ("FieldTypeName: SMALLINT");
-					ps.setShort (index, new Short (getFieldString (fieldName)).shortValue ());
+					log.debug("FieldTypeName: SMALLINT");
+					ps.setShort(index, new Short(getFieldString(fieldName)).shortValue());
 
 					break;
 
 				case java.sql.Types.STRUCT:
-					log.debug ("FieldTypeName: STRUCT");
-					ps.setObject (index, getFieldData (fieldName), java.sql.Types.STRUCT);
+					log.debug("FieldTypeName: STRUCT");
+					ps.setObject(index, getFieldData(fieldName), java.sql.Types.STRUCT);
 
 					break;
 
 				case java.sql.Types.TIME:
-					log.debug ("FieldTypeName: TIME");
-					ps.setTime (index, new java.sql.Time (getFieldDate (fieldName).getTime ()));
+					log.debug("FieldTypeName: TIME");
+					ps.setTime(index, new java.sql.Time(getFieldDate(fieldName).getTime()));
 
 					break;
 
 				case java.sql.Types.TIMESTAMP:
-					log.debug ("FieldTypeName: TIMESTAMP");
+					log.debug("FieldTypeName: TIMESTAMP");
 
-					java.util.Date fieldDate = this.getFieldDate (fieldName);
+					java.util.Date fieldDate = this.getFieldDate(fieldName);
 					java.sql.Timestamp ts = null;
 
 					if (fieldDate != null)
 					{
-						ts = new Timestamp (fieldDate.getTime ());
-						ps.setTimestamp (index, ts);
+						ts = new Timestamp(fieldDate.getTime());
+						ps.setTimestamp(index, ts);
 					}
 					else
 					{
-						ps.setNull (index, Types.TIMESTAMP);
+						ps.setNull(index, Types.TIMESTAMP);
 					}
 
 					break;
 
 				case java.sql.Types.TINYINT:
-					log.debug ("FieldTypeName: TINYINT");
-					ps.setShort (index, new Short (getFieldString (fieldName)).shortValue ());
+					log.debug("FieldTypeName: TINYINT");
+					ps.setShort(index, new Short(getFieldString(fieldName)).shortValue());
 
 					break;
 
 				case java.sql.Types.VARBINARY:
-					log.debug ("FieldTypeName: VARBINARY");
-					ps.setBlob (index, (Blob) this.getFieldData (fieldName));
+					log.debug("FieldTypeName: VARBINARY");
+					ps.setBlob(index, (Blob) this.getFieldData(fieldName));
 
 					break;
 
 				default:
-					log.debug ("FieldTypeName: DEFAULT");
-					ps.setObject (index, this.getFieldData (fieldName));
+					log.debug("FieldTypeName: DEFAULT");
+					ps.setObject(index, this.getFieldData(fieldName));
 
 					break;
 			}
@@ -1269,26 +1265,26 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 		catch (ClassCastException cce)
 		{
 			String msg = "Error on field " + fieldName + ".  Cannot cast data of type "
-							+ this.getFieldData (fieldName).getClass ().getName ()
-							+ " to the data type used by java.sql.Types " + myMetaData.getType (fieldName) + ".";
+							+ this.getFieldData(fieldName).getClass().getName()
+							+ " to the data type used by java.sql.Types " + myMetaData.getType(fieldName) + ".";
 
-			cce.printStackTrace ();
+			cce.printStackTrace();
 			//Screen is not always logged, esepcially on MS, so record in
 			// application log for later analysis.
-			log.error (msg, cce);
-			throw new PersistenceException (msg, cce);
+			log.error(msg, cce);
+			throw new PersistenceException(msg, cce);
 		}
 		catch (NumberFormatException ne)
 		{
-			String msg = "Error on field " + fieldName + ". Cannot parse value '" + getFieldString (fieldName) + "'"
-							+ " into type " + myMetaData.getType (fieldName);
+			String msg = "Error on field " + fieldName + ". Cannot parse value '" + getFieldString(fieldName) + "'"
+							+ " into type " + myMetaData.getType(fieldName);
 
-			throw new PersistenceException (msg, ne);
+			throw new PersistenceException(msg, ne);
 		}
 
-		if (log.isDebugEnabled ())
+		if (log.isDebugEnabled())
 		{
-			log.debug ("Set Field #/FieldName/Value" + index + '/' + fieldName + '/' + this.getFieldData (fieldName));
+			log.debug("Set Field #/FieldName/Value" + index + '/' + fieldName + '/' + this.getFieldData(fieldName));
 		}
 	}
 
@@ -1310,7 +1306,7 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 	 *            to the database
 	 *            </p>
 	 */
-	protected void setStatus (int newStatus)
+	protected void setStatus(int newStatus)
 	{
 		if ((newStatus == Persistent.NEW) || (newStatus == Persistent.CURRENT) || (newStatus == Persistent.MODIFIED)
 						|| (newStatus == Persistent.DELETED))
@@ -1319,7 +1315,7 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 		}
 		else
 		{
-			throw new IllegalArgumentException ("Unknown status '" + newStatus + "'");
+			throw new IllegalArgumentException("Unknown status '" + newStatus + "'");
 		}
 	} /* setStatus(int) */
 
@@ -1341,17 +1337,17 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 	 * @throws PersistenceException
 	 *             If the function could not be completed
 	 */
-	protected synchronized double sqlAggrFunction (String func, String fieldName) throws PersistenceException
+	protected synchronized double sqlAggrFunction(String func, String fieldName) throws PersistenceException
 	{
-		checkAllowed ("L");
+		checkAllowed("L");
 
-		SuperString myStatement = new SuperString (48);
+		SuperString myStatement = new SuperString(48);
 
-		myStatement.append ("SELECT " + func);
-		myStatement.append ("(" + fieldName + ") FROM ");
-		myStatement.append (myMetaData.getTableName ());
+		myStatement.append("SELECT " + func);
+		myStatement.append("(" + fieldName + ") FROM ");
+		myStatement.append(myMetaData.getTableName());
 
-		myStatement.append (buildWhereClauseBuffer (true));
+		myStatement.append(buildWhereClauseBuffer(true));
 
 		Connection myConnection = null;
 		Statement s = null;
@@ -1361,34 +1357,34 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 		{
 			if (currentTransaction != null)
 			{
-				myConnection = currentTransaction.getConnection ();
+				myConnection = currentTransaction.getConnection();
 			}
 			else
 			{
-				myConnection = myDataSource.getConnection ();
+				myConnection = myDataSource.getConnection();
 			}
 
-			s = myConnection.createStatement ();
+			s = myConnection.createStatement();
 
-			if (log.isDebugEnabled ())
+			if (log.isDebugEnabled())
 			{
-				log.debug ("Executing: " + myStatement.toString ());
+				log.debug("Executing: " + myStatement.toString());
 			}
 
-			rs = s.executeQuery (myStatement.toString ());
+			rs = s.executeQuery(myStatement.toString());
 
-			if (rs.next ())
+			if (rs.next())
 			{
-				return rs.getDouble (1);
+				return rs.getDouble(1);
 			}
 		}
 		catch (SQLException se)
 		{
-			throw new PersistenceException (se);
+			throw new PersistenceException(se);
 		}
 		finally
 		{
-			cleanUp (myConnection, s, rs, null);
+			cleanUp(myConnection, s, rs, null);
 		}
 
 		return 0.0;
@@ -1400,12 +1396,12 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 	 * transaction. If we are in a transaction, we use the Connection from the
 	 * transaction instead
 	 */
-	protected void setDataSource (DataSourceComponent newDataSource)
+	protected void setDataSource(DataSourceComponent newDataSource)
 	{
 		myDataSource = newDataSource;
 	}
 
-	public void setLogger (Logger newLog)
+	public void setLogger(Logger newLog)
 	{
 		assert newLog != null;
 		log = newLog;
@@ -1415,87 +1411,86 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 	 * Called by the factory to pass this persistent it's meta data. We take
 	 * this opportunity to initialize our underlying bean, if one is defined.
 	 */
-	public void setMetaData (PersistentMetaData newMeta)
+	public void setMetaData(PersistentMetaData newMeta)
 	{
 		myMetaData = newMeta;
-		setDataSource (myMetaData.getDataSource ());
+		setDataSource(myMetaData.getDataSource());
 
 		try
 		{
-			createBean ();
+			createBean();
 		}
 		catch (PersistenceException pe)
 		{
-			log.error ("Unable to create bean:", pe);
-			throw new IllegalArgumentException (pe.getMessage ());
+			log.error("Unable to create bean:", pe);
+			throw new IllegalArgumentException(pe.getMessage());
 		}
 	}
 
-	protected DefaultPersistentFactory getFactory () throws PersistenceException
+	protected DefaultPersistentFactory getFactory() throws PersistenceException
 	{
 		return myFactory;
 	}
 
-	protected void setAutoIncrement (String fieldName) throws PersistenceException
+	protected void setAutoIncrement(String fieldName) throws PersistenceException
 	{
-		IdGenerator myIdGenerator = myMetaData.getIdGenerator (fieldName);
+		IdGenerator myIdGenerator = myMetaData.getIdGenerator(fieldName);
 
 		try
 		{
-			setField (fieldName, myIdGenerator.getNextIntegerId ());
+			setField(fieldName, myIdGenerator.getNextIntegerId());
 		}
 		catch (IdException ie)
 		{
-			log.error ("Unable to auto-increment field", ie);
-			throw new PersistenceException ("$keelFieldNoAutoInc|" + myMetaData.getDescription (fieldName), ie);
+			log.error("Unable to auto-increment field", ie);
+			throw new PersistenceException("$keelFieldNoAutoInc|" + myMetaData.getDescription(fieldName), ie);
 		}
 	}
 
-	protected Object retrieveField (String fieldName, ResultSet rs, int index)
-		throws SQLException, PersistenceException
+	protected Object retrieveField(String fieldName, ResultSet rs, int index) throws SQLException, PersistenceException
 	{
-		int typeToUse = JDBCDatabaseType.stringToType (myMetaData.getType (fieldName));
+		int typeToUse = JDBCDatabaseType.stringToType(myMetaData.getType(fieldName));
 		Object returnValue = null;
 
 		switch (typeToUse)
 		{
 			case java.sql.Types.ARRAY:
-				returnValue = rs.getArray (index);
+				returnValue = rs.getArray(index);
 
 				break;
 
 			case java.sql.Types.BIGINT: // No getBigInt?
-				returnValue = rs.getBigDecimal (index);
+				returnValue = rs.getBigDecimal(index);
 
 				break;
 
 			case java.sql.Types.BINARY:
-				returnValue = rs.getBinaryStream (index);
+				returnValue = rs.getBinaryStream(index);
 
 				break;
 
 			case java.sql.Types.BIT:
-				returnValue = new Boolean (rs.getBoolean (index));
+				returnValue = new Boolean(rs.getBoolean(index));
 
 				break;
 
 			case java.sql.Types.BLOB:
-				returnValue = rs.getBlob (index);
+				returnValue = rs.getBlob(index);
 
 				break;
 
 			case java.sql.Types.BOOLEAN:
-				returnValue = new Boolean (rs.getBoolean (index));
+				returnValue = new Boolean(rs.getBoolean(index));
 
 				break;
 
 			case java.sql.Types.CHAR:
-				returnValue = rs.getString (index);
+				returnValue = rs.getString(index);
 
 				break;
 
 			case java.sql.Types.CLOB:
-				returnValue = rs.getClob (index);
+				returnValue = rs.getClob(index);
 
 				break;
 
@@ -1504,143 +1499,143 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 			//  returnValue = "DATALINK";
 			//  break;
 			case java.sql.Types.DATE:
-				returnValue = rs.getDate (index);
+				returnValue = rs.getDate(index);
 
 				break;
 
 			case java.sql.Types.DECIMAL:
-				returnValue = rs.getBigDecimal (index);
+				returnValue = rs.getBigDecimal(index);
 
 				break;
 
 			case java.sql.Types.DISTINCT:
-				returnValue = rs.getObject (index);
+				returnValue = rs.getObject(index);
 
 				break;
 
 			case java.sql.Types.DOUBLE:
-				returnValue = new Double (rs.getDouble (index));
+				returnValue = new Double(rs.getDouble(index));
 
 				break;
 
 			case java.sql.Types.FLOAT:
-				returnValue = new Float (rs.getFloat (index));
+				returnValue = new Float(rs.getFloat(index));
 
 				break;
 
 			case java.sql.Types.INTEGER:
-				returnValue = new Integer (rs.getInt (index));
+				returnValue = new Integer(rs.getInt(index));
 
 				break;
 
 			case java.sql.Types.JAVA_OBJECT:
-				returnValue = rs.getString (index);
+				returnValue = rs.getString(index);
 
 				break;
 
 			case java.sql.Types.LONGVARBINARY:
-				returnValue = rs.getBlob (index);
+				returnValue = rs.getBlob(index);
 
 				break;
 
 			case java.sql.Types.LONGVARCHAR:
-				returnValue = rs.getString (index);
+				returnValue = rs.getString(index);
 
 				break;
 
 			case java.sql.Types.NULL:
-				returnValue = rs.getObject (index);
+				returnValue = rs.getObject(index);
 
 				break;
 
 			case java.sql.Types.NUMERIC:
-				returnValue = new Long (rs.getLong (index));
+				returnValue = new Long(rs.getLong(index));
 
 				break;
 
 			case java.sql.Types.OTHER:
-				returnValue = rs.getObject (index);
+				returnValue = rs.getObject(index);
 
 				break;
 
 			case java.sql.Types.REAL:
-				returnValue = new Float (rs.getFloat (index));
+				returnValue = new Float(rs.getFloat(index));
 
 				break;
 
 			case java.sql.Types.REF:
-				returnValue = rs.getObject (index);
+				returnValue = rs.getObject(index);
 
 				break;
 
 			case java.sql.Types.SMALLINT:
-				returnValue = new Short (rs.getShort (index));
+				returnValue = new Short(rs.getShort(index));
 
 				break;
 
 			case java.sql.Types.STRUCT:
-				returnValue = rs.getObject (index);
+				returnValue = rs.getObject(index);
 
 				break;
 
 			case java.sql.Types.TIME:
-				returnValue = rs.getTime (index);
+				returnValue = rs.getTime(index);
 
 				break;
 
 			case java.sql.Types.TIMESTAMP:
-				returnValue = rs.getTimestamp (index);
+				returnValue = rs.getTimestamp(index);
 
 				break;
 
 			case java.sql.Types.TINYINT:
-				returnValue = new Short (rs.getShort (index));
+				returnValue = new Short(rs.getShort(index));
 
 				break;
 
 			case java.sql.Types.VARBINARY:
-				returnValue = rs.getBlob (index);
+				returnValue = rs.getBlob(index);
 
 				break;
 
 			case java.sql.Types.VARCHAR:
-				returnValue = rs.getString (index);
+				returnValue = rs.getString(index);
 
 				break;
 
 			default:
-				throw new PersistenceException ("Unknown type " + myMetaData.getType (fieldName));
+				throw new PersistenceException("Unknown type " + myMetaData.getType(fieldName));
 		} // switch
 
 		return returnValue;
 	}
 
-	void setFactory (DefaultPersistentFactory newFactory)
+	void setFactory(DefaultPersistentFactory newFactory)
 	{
 		myFactory = newFactory;
 	}
 
-	protected boolean isAllowed (String operationCode) throws SecurityException
+	protected boolean isAllowed(String operationCode) throws SecurityException
 	{
-		if (! getMetaData ().isSecurable ())
+		if (! getMetaData().isSecurable())
 		{
-			if (log.isDebugEnabled ())
+			if (log.isDebugEnabled())
 			{
-				log.debug ("Persistent " + getName () + " is not securable - operation allowed");
+				log.debug("Persistent " + getName() + " is not securable - operation allowed");
 			}
 
 			return true;
 		}
 
-		Operation o = new DefaultOperation ();
+		Operation o = new DefaultOperation();
 
-		o.setOperationCode (operationCode);
+		o.setOperationCode(operationCode);
 
-		o.setService (this);
+		o.setService(this);
 
 		try
 		{
-			DefaultPersistentFactory dpf = getFactory ();
+			DefaultPersistentFactory dpf = getFactory();
 			Context c = null;
 			AuthorizationManager am = myAuthManager;
 
@@ -1650,56 +1645,56 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 			}
 			else
 			{
-				c = dpf.getKeelContext ();
+				c = dpf.getKeelContext();
 
 				if (c == null)
 				{
-					throw new SecurityException (
+					throw new SecurityException(
 									"No context available and no bypass auth manager specified - unable to access secure persistent object "
-													+ getInstanceIdentifier ());
+													+ getInstanceIdentifier());
 				}
 			}
 
 			if (am == null)
 			{
-				String msg = "Authmanager was not set for " + getName () + ", unable to verify authorization";
+				String msg = "Authmanager was not set for " + getName() + ", unable to verify authorization";
 
-				log.error (msg);
-				throw new SecurityException (msg);
+				log.error(msg);
+				throw new SecurityException(msg);
 			}
 
-			return am.allowed (o, c);
+			return am.allowed(o, c);
 		}
 		catch (PersistenceException pe)
 		{
-			log.error ("DB Error, unable to verify authorization", pe);
-			throw new SecurityException ("DB error, unable to verify authorization");
+			log.error("DB Error, unable to verify authorization", pe);
+			throw new SecurityException("DB error, unable to verify authorization");
 		}
 		catch (AuthorizationException e)
 		{
-			log.error ("Unable to verify authorization", e);
-			throw new SecurityException ("Unable to verify authorization");
+			log.error("Unable to verify authorization", e);
+			throw new SecurityException("Unable to verify authorization");
 		}
 	}
 
-	public void setAuthorizationManager (AuthorizationManager am)
+	public void setAuthorizationManager(AuthorizationManager am)
 	{
 		myAuthManager = am;
 	}
 
-	public String getInstanceIdentifier ()
+	public String getInstanceIdentifier()
 	{
-		return myMetaData.getSchemaName () + "." + myMetaData.getName ();
+		return myMetaData.getSchemaName() + "." + myMetaData.getName();
 	}
 
-	protected void checkAllowed (String operation) throws SecurityException
+	protected void checkAllowed(String operation) throws SecurityException
 	{
-		if (log.isDebugEnabled ())
+		if (log.isDebugEnabled())
 		{
-			log.debug ("Checking access to " + this.toString ());
+			log.debug("Checking access to " + this.toString());
 		}
 
-		if (isAllowed (operation))
+		if (isAllowed(operation))
 		{
 			return;
 		}
@@ -1709,12 +1704,12 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 
 		try
 		{
-			DefaultPersistentFactory dpf = getFactory ();
-			Context c = dpf.getKeelContext ();
+			DefaultPersistentFactory dpf = getFactory();
+			Context c = dpf.getKeelContext();
 
 			if (c != null)
 			{
-				UserEnvironment ue = (UserEnvironment) c.get (UserEnvironment.CONTEXT_KEY);
+				UserEnvironment ue = (UserEnvironment) c.get(UserEnvironment.CONTEXT_KEY);
 
 				if (ue == null)
 				{
@@ -1722,117 +1717,117 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 				}
 				else
 				{
-					failedUserName = ue.getLoginName ();
-					failedUserId = "" + ue.getUid ();
+					failedUserName = ue.getLoginName();
+					failedUserId = "" + ue.getUid();
 				}
 			}
 		}
 		catch (Exception pe)
 		{
-			log.error ("Unable to determine id of rejected user", pe);
+			log.error("Unable to determine id of rejected user", pe);
 		}
 
-		StringBuffer failMessage = new StringBuffer ();
+		StringBuffer failMessage = new StringBuffer();
 
-		if (operation.equals ("A"))
+		if (operation.equals("A"))
 		{
-			failMessage.append ("Add operation");
+			failMessage.append("Add operation");
 		}
-		else if (operation.equals ("L"))
+		else if (operation.equals("L"))
 		{
-			failMessage.append ("Select operation");
+			failMessage.append("Select operation");
 		}
-		else if (operation.equals ("U"))
+		else if (operation.equals("U"))
 		{
-			failMessage.append ("Update operation");
+			failMessage.append("Update operation");
 		}
-		else if (operation.equals ("D"))
+		else if (operation.equals("D"))
 		{
-			failMessage.append ("Delete operation");
+			failMessage.append("Delete operation");
 		}
 
-		failMessage.append (" not authorized for user " + failedUserName + " (uid=" + failedUserId
-						+ ") for persistent " + toString ());
-		throw new SecurityException (failMessage.toString ());
+		failMessage.append(" not authorized for user " + failedUserName + " (uid=" + failedUserId + ") for persistent "
+						+ toString());
+		throw new SecurityException(failMessage.toString());
 	}
 
 	/**
 	 * Create the underlying bean - bean may be replaced with a setBean call
 	 */
-	protected void createBean () throws PersistenceException
+	protected void createBean() throws PersistenceException
 	{
-		String className = myMetaData.getClassName ();
+		String className = myMetaData.getClassName();
 
 		if (className == null)
 		{
 			className = "";
 		}
 
-		if (! className.equals (""))
+		if (! className.equals(""))
 		{
 			/* Use an instance of class name supplied */
 			try
 			{
-				Class c = Class.forName (className);
+				Class c = Class.forName(className);
 
-				myBean = c.newInstance ();
+				myBean = c.newInstance();
 			}
 			catch (Exception e)
 			{
-				throw new PersistenceException ("Unable to create bean '" + className + "'", e);
+				throw new PersistenceException("Unable to create bean '" + className + "'", e);
 			}
 		}
 		else
 		{
-			log.warn ("No bean class defined for '" + getName () + "'");
+			log.warn("No bean class defined for '" + getName() + "'");
 		}
 	}
 
-	protected void setBeanField (String fieldName, Object fieldValue) throws PersistenceException
+	protected void setBeanField(String fieldName, Object fieldValue) throws PersistenceException
 	{
 		if (myBean == null)
 		{
 			return;
 		}
 
-		String propertyName = getPropertyNameIgnoreCase (fieldName);
+		String propertyName = getPropertyNameIgnoreCase(fieldName);
 
 		PropertyDescriptor oneProp = null;
 
 		try
 		{
-			oneProp = PropertyUtils.getPropertyDescriptor (myBean, propertyName);
+			oneProp = PropertyUtils.getPropertyDescriptor(myBean, propertyName);
 		}
 		catch (Exception ne)
 		{
-			log.warn ("Bean for '" + getName () + "' does not declare field '" + propertyName + "'", ne);
+			log.warn("Bean for '" + getName() + "' does not declare field '" + propertyName + "'", ne);
 
 			return;
 		}
 
 		if (oneProp == null)
 		{
-			log.warn ("Bean for '" + getName () + "' does not declare field '" + propertyName + "'");
+			log.warn("Bean for '" + getName() + "' does not declare field '" + propertyName + "'");
 
 			return;
 		}
 
-		if (oneProp.getWriteMethod () == null)
+		if (oneProp.getWriteMethod() == null)
 		{
-			log.warn ("Property '" + propertyName + "' for bean of '" + getName () + "' is not writable");
+			log.warn("Property '" + propertyName + "' for bean of '" + getName() + "' is not writable");
 
 			return;
 		}
 
-		Class oneType = oneProp.getPropertyType ();
-		String typeString = oneType.getName ();
+		Class oneType = oneProp.getPropertyType();
+		String typeString = oneType.getName();
 		String convertedType = "";
 		String origValue = null;
 		String strVal = null;
 
-		if (oneProp.getName () == null)
+		if (oneProp.getName() == null)
 		{
-			throw new PersistenceException ("Null property name for field '" + fieldName + "'");
+			throw new PersistenceException("Null property name for field '" + fieldName + "'");
 		}
 
 		try
@@ -1841,41 +1836,41 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 
 			if (oneValue != null)
 			{
-				origValue = oneValue.toString ();
-				strVal = ConvertUtils.convert (oneValue);
+				origValue = oneValue.toString();
+				strVal = ConvertUtils.convert(oneValue);
 
-				Object converted = ConvertUtils.convert (strVal, oneType);
+				Object converted = ConvertUtils.convert(strVal, oneType);
 
 				if (converted != null)
 				{
-					convertedType = converted.getClass ().getName ();
+					convertedType = converted.getClass().getName();
 				}
 
-				PropertyUtils.setProperty (myBean, oneProp.getName (), converted);
+				PropertyUtils.setProperty(myBean, oneProp.getName(), converted);
 			}
 			else
 			{
-				PropertyUtils.setProperty (myBean, oneProp.getName (), null);
+				PropertyUtils.setProperty(myBean, oneProp.getName(), null);
 			}
 		}
 		catch (Exception ie)
 		{
-			addError (fieldName, "Unable to set property '" + oneProp.getName () + "' (of type " + typeString
-							+ ") original value '" + origValue + "' in object of class '"
-							+ myBean.getClass ().getName () + "'. Converted to string '" + strVal
-							+ "', Converted value of type " + convertedType + ":" + ie.getMessage ());
+			addError(fieldName, "Unable to set property '" + oneProp.getName() + "' (of type " + typeString
+							+ ") original value '" + origValue + "' in object of class '" + myBean.getClass().getName()
+							+ "'. Converted to string '" + strVal + "', Converted value of type " + convertedType + ":"
+							+ ie.getMessage());
 		}
 	}
 
-	protected String getFieldNameIgnoreCase (String fieldName)
+	protected String getFieldNameIgnoreCase(String fieldName)
 	{
 		String oneFieldName = null;
 
-		for (Iterator i = myMetaData.getFieldNames ().iterator (); i.hasNext ();)
+		for (Iterator i = myMetaData.getFieldNames().iterator(); i.hasNext();)
 		{
-			oneFieldName = (String) i.next ();
+			oneFieldName = (String) i.next();
 
-			if (oneFieldName.equalsIgnoreCase (fieldName))
+			if (oneFieldName.equalsIgnoreCase(fieldName))
 			{
 				return oneFieldName;
 			}
@@ -1884,13 +1879,13 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 		return fieldName;
 	}
 
-	protected String getPropertyNameIgnoreCase (String fieldName) throws PersistenceException
+	protected String getPropertyNameIgnoreCase(String fieldName) throws PersistenceException
 	{
-		PropertyDescriptor[] props = PropertyUtils.getPropertyDescriptors (myBean);
+		PropertyDescriptor[] props = PropertyUtils.getPropertyDescriptors(myBean);
 
 		if (props.length == 0)
 		{
-			throw new PersistenceException ("Class '" + myBean.getClass ().getName () + "' declares no fields");
+			throw new PersistenceException("Class '" + myBean.getClass().getName() + "' declares no fields");
 		}
 
 		PropertyDescriptor oneProp = null;
@@ -1899,27 +1894,27 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 		{
 			oneProp = props[i];
 
-			if (oneProp.getName ().equalsIgnoreCase (fieldName))
+			if (oneProp.getName().equalsIgnoreCase(fieldName))
 			{
-				return oneProp.getName ();
+				return oneProp.getName();
 			}
 		}
 
 		return fieldName;
 	}
 
-	protected void cleanUp (Connection c, Statement s, ResultSet rs, PreparedStatement ps) throws PersistenceException
+	protected void cleanUp(Connection c, Statement s, ResultSet rs, PreparedStatement ps) throws PersistenceException
 	{
 		if (rs != null)
 		{
 			try
 			{
-				rs.close ();
+				rs.close();
 				rs = null;
 			}
 			catch (SQLException se)
 			{
-				throw new PersistenceException ("Unable to close result set", se);
+				throw new PersistenceException("Unable to close result set", se);
 			}
 		}
 
@@ -1927,12 +1922,12 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 		{
 			try
 			{
-				ps.close ();
+				ps.close();
 				ps = null;
 			}
 			catch (SQLException se)
 			{
-				throw new PersistenceException ("Unable to close prepared statement", se);
+				throw new PersistenceException("Unable to close prepared statement", se);
 			}
 		}
 
@@ -1940,12 +1935,12 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 		{
 			try
 			{
-				s.close ();
+				s.close();
 				s = null;
 			}
 			catch (SQLException se)
 			{
-				throw new PersistenceException ("Unable to close statement", se);
+				throw new PersistenceException("Unable to close statement", se);
 			}
 		}
 
@@ -1953,12 +1948,12 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 		{
 			try
 			{
-				c.close ();
+				c.close();
 				c = null;
 			}
 			catch (SQLException se)
 			{
-				throw new PersistenceException ("Unable to close connection", se);
+				throw new PersistenceException("Unable to close connection", se);
 			}
 		}
 	}
@@ -1974,82 +1969,82 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 	 *            java.lang.String The value for the date/time field.
 	 * @throws PersistenceException
 	 */
-	protected String formatDateTime (String fieldName) throws PersistenceException
+	protected String formatDateTime(String fieldName) throws PersistenceException
 	{
-		Date originalDate = getFieldDate (fieldName);
+		Date originalDate = getFieldDate(fieldName);
 
-		String convertFormat = new String ("");
-		String convertFunction = new String ("");
+		String convertFormat = new String("");
+		String convertFunction = new String("");
 
-		if (! myMetaData.hasField (fieldName))
+		if (! myMetaData.hasField(fieldName))
 		{
-			throw new PersistenceException ("(" + getName () + ") No such field as " + fieldName);
+			throw new PersistenceException("(" + getName() + ") No such field as " + fieldName);
 		}
 
-		if (getField (fieldName) == null)
+		if (getField(fieldName) == null)
 		{
 			return null;
 		}
 
-		if (getField (fieldName).equals (""))
+		if (getField(fieldName).equals(""))
 		{
 			return null;
 		}
 
-		String myType = myMetaData.getType (fieldName);
+		String myType = myMetaData.getType(fieldName);
 
-		if (myType.equalsIgnoreCase ("date"))
+		if (myType.equalsIgnoreCase("date"))
 		{
-			convertFormat = myMetaData.getDatabaseType ().getDateUpdateFormat ();
-			convertFunction = myMetaData.getDatabaseType ().getDateUpdateFunction ();
+			convertFormat = myMetaData.getDatabaseType().getDateUpdateFormat();
+			convertFunction = myMetaData.getDatabaseType().getDateUpdateFunction();
 		}
-		else if (myType.equalsIgnoreCase ("datetime") || myType.equalsIgnoreCase ("timestamp"))
+		else if (myType.equalsIgnoreCase("datetime") || myType.equalsIgnoreCase("timestamp"))
 		{
-			convertFormat = myMetaData.getDatabaseType ().getDateTimeUpdateFormat ();
-			convertFunction = myMetaData.getDatabaseType ().getDateTimeUpdateFunction ();
+			convertFormat = myMetaData.getDatabaseType().getDateTimeUpdateFormat();
+			convertFunction = myMetaData.getDatabaseType().getDateTimeUpdateFunction();
 		}
-		else if (myType.equalsIgnoreCase ("time"))
+		else if (myType.equalsIgnoreCase("time"))
 		{
-			convertFormat = myMetaData.getDatabaseType ().getTimeUpdateFormat ();
-			convertFunction = myMetaData.getDatabaseType ().getTimeUpdateFunction ();
+			convertFormat = myMetaData.getDatabaseType().getTimeUpdateFormat();
+			convertFunction = myMetaData.getDatabaseType().getTimeUpdateFunction();
 		}
 		else
 		{
-			throw new PersistenceException ("Field '" + fieldName + "' is not a date, datetime or time - it is a "
+			throw new PersistenceException("Field '" + fieldName + "' is not a date, datetime or time - it is a "
 							+ myType + ", which cannot be formatted " + "as a Date/Time type");
 		}
 
-		convertFormat = SuperString.notNull (convertFormat);
-		convertFunction = SuperString.notNull (convertFunction);
+		convertFormat = SuperString.notNull(convertFormat);
+		convertFunction = SuperString.notNull(convertFunction);
 
 		/* If no format was specified, don't change the existing field */
-		if (convertFormat.equals (""))
+		if (convertFormat.equals(""))
 		{
-			if (! convertFunction.equals (""))
+			if (! convertFunction.equals(""))
 			{
-				return SuperString.replace (convertFunction, "%s", "'" + getField (fieldName) + "'");
+				return SuperString.replace(convertFunction, "%s", "'" + getField(fieldName) + "'");
 			}
 			else
 			{
-				return "'" + getField (fieldName) + "'";
+				return "'" + getField(fieldName) + "'";
 			}
 		}
 
 		String returnValue = null;
 
-		SimpleDateFormat formatter = new SimpleDateFormat (convertFormat);
+		SimpleDateFormat formatter = new SimpleDateFormat(convertFormat);
 
-		returnValue = "'" + formatter.format (originalDate) + "'";
+		returnValue = "'" + formatter.format(originalDate) + "'";
 
 		if (returnValue == null)
 		{
-			throw new PersistenceException ("(" + getName () + ") Unable to format date value from field " + fieldName
-							+ ", value was " + getField (fieldName));
+			throw new PersistenceException("(" + getName() + ") Unable to format date value from field " + fieldName
+							+ ", value was " + getField(fieldName));
 		}
 
-		if (! convertFunction.equals (""))
+		if (! convertFunction.equals(""))
 		{
-			return SuperString.replace (convertFunction, "%s", returnValue);
+			return SuperString.replace(convertFunction, "%s", returnValue);
 		}
 
 		return returnValue;
@@ -2065,32 +2060,32 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 	 *             if there is no such field or it's value cannot be converted
 	 *             to an long.
 	 */
-	public long getFieldLong (String fieldName) throws PersistenceException
+	public long getFieldLong(String fieldName) throws PersistenceException
 	{
-		Object o = getFieldData (fieldName);
+		Object o = getFieldData(fieldName);
 
 		if (o == null)
 		{
-			return Long.parseLong ("0");
+			return Long.parseLong("0");
 		}
 
 		String strVal = "";
 
 		try
 		{
-			strVal = o.toString ();
+			strVal = o.toString();
 
 			if (strVal == null)
 			{
-				throw new PersistenceException ("(" + getName () + ") Unable to get int value from field " + fieldName
+				throw new PersistenceException("(" + getName() + ") Unable to get int value from field " + fieldName
 								+ ", value was '" + strVal + "'");
 			}
 
-			return Long.parseLong (strVal);
+			return Long.parseLong(strVal);
 		}
 		catch (NumberFormatException ex)
 		{
-			throw new PersistenceException ("(" + getName () + ") Unable to parse an integer value from field "
+			throw new PersistenceException("(" + getName() + ") Unable to parse an integer value from field "
 							+ fieldName + " which contained '" + strVal, ex);
 		}
 	} /* getFieldLong(String) */
@@ -2098,27 +2093,27 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 	/**
 	 * Boolean typesafe version of setField
 	 */
-	public synchronized void setField (String fieldName, boolean fieldValue) throws PersistenceException
+	public synchronized void setField(String fieldName, boolean fieldValue) throws PersistenceException
 	{
 		if (fieldValue == true)
 		{
-			setField (fieldName, "true");
+			setField(fieldName, "true");
 		}
 		else
 		{
-			setField (fieldName, "false");
+			setField(fieldName, "false");
 		}
 	}
 
 	/**
 	 * Integer Typesafe version of setField
 	 */
-	public synchronized void setField (String fieldName, int fieldValue) throws PersistenceException
+	public synchronized void setField(String fieldName, int fieldValue) throws PersistenceException
 	{
-		setField (fieldName, Integer.toString (fieldValue));
+		setField(fieldName, Integer.toString(fieldValue));
 	}
 
-	public PersistentMetaData getMetaData ()
+	public PersistentMetaData getMetaData()
 	{
 		return myMetaData;
 	}
@@ -2136,21 +2131,21 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 	 *             If the given field does not exist in this object or the
 	 *             value supplied is not allowed for this field
 	 */
-	public synchronized void setField (String fieldName, Object fieldValue) throws PersistenceException
+	public synchronized void setField(String fieldName, Object fieldValue) throws PersistenceException
 	{
 		Object useValue = fieldValue;
 
-		SuperString.assertNotBlank (fieldName, "Field name may not be blank");
-		assertField (fieldName);
+		SuperString.assertNotBlank(fieldName, "Field name may not be blank");
+		assertField(fieldName);
 
-		if (getHelper () != null)
+		if (getHelper() != null)
 		{
-			getHelper ().beforeSetField (fieldName, getField (fieldName), useValue);
+			getHelper().beforeSetField(fieldName, getField(fieldName), useValue);
 		}
 
-		if (getStatus () == Persistent.CURRENT)
+		if (getStatus() == Persistent.CURRENT)
 		{
-			setStatus (Persistent.MODIFIED);
+			setStatus(Persistent.MODIFIED);
 		}
 
 		/*
@@ -2159,27 +2154,27 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 		 */
 		if (useValue != null)
 		{
-			String thisType = myMetaData.getType (fieldName);
+			String thisType = myMetaData.getType(fieldName);
 
-			if (thisType.equalsIgnoreCase ("varchar") || thisType.equalsIgnoreCase ("char"))
+			if (thisType.equalsIgnoreCase("varchar") || thisType.equalsIgnoreCase("char"))
 			{
-				useValue = SuperString.noNewLine (useValue.toString ());
+				useValue = SuperString.noNewLine(useValue.toString());
 			} /* if not a text field */
 			/* Check for returns or newlines in key fields - remove if found */
-			if (myMetaData.getType (fieldName).equalsIgnoreCase ("text") && myMetaData.isKeyField (fieldName))
+			if (myMetaData.getType(fieldName).equalsIgnoreCase("text") && myMetaData.isKeyField(fieldName))
 			{
-				useValue = SuperString.noNewLine (useValue.toString ());
+				useValue = SuperString.noNewLine(useValue.toString());
 			}
 
 			//Used to help mesh boolean values with checkboxes in html
 			//fields
-			if (myMetaData.getType (fieldName).equalsIgnoreCase ("boolean"))
+			if (myMetaData.getType(fieldName).equalsIgnoreCase("boolean"))
 			{
-				if (useValue.toString ().equalsIgnoreCase ("Y"))
+				if (useValue.toString().equalsIgnoreCase("Y"))
 				{
 					useValue = "true";
 				}
-				else if (useValue.toString ().equalsIgnoreCase ("N"))
+				else if (useValue.toString().equalsIgnoreCase("N"))
 				{
 					useValue = "false";
 				}
@@ -2189,35 +2184,35 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 			 * If it's a date, and the value was an empty string, use null
 			 * instead
 			 */
-			if (isDateType (myMetaData.getType (fieldName)))
+			if (isDateType(myMetaData.getType(fieldName)))
 			{
-				if (useValue.toString ().trim ().equals (""))
+				if (useValue.toString().trim().equals(""))
 				{
 					useValue = null;
 				}
 			}
 		} /* if field was not null */
-		setFieldData (fieldName, useValue);
+		setFieldData(fieldName, useValue);
 
-		if (getHelper () != null)
+		if (getHelper() != null)
 		{
-			getHelper ().afterSetField (fieldName, getField (fieldName), useValue);
+			getHelper().afterSetField(fieldName, getField(fieldName), useValue);
 		}
 	} /* setField(String, String) */
 
-	protected Helper getHelper () throws PersistenceException
+	protected Helper getHelper() throws PersistenceException
 	{
 		if (myHelper == null)
 		{
-			if ((getMetaData ().getClassName () != null) && (getMetaData ().getClassName ().equals ("")))
+			if ((getMetaData().getClassName() != null) && (getMetaData().getClassName().equals("")))
 			{
-				if (getBean () instanceof Helper)
+				if (getBean() instanceof Helper)
 				{
-					return (Helper) getBean ();
+					return (Helper) getBean();
 				}
 			}
 
-			if (SuperString.notNull (myMetaData.getHelperClassName ()).equals (""))
+			if (SuperString.notNull(myMetaData.getHelperClassName()).equals(""))
 			{
 				return null;
 			}
@@ -2225,13 +2220,13 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 			/* create the class and return it */
 			try
 			{
-				Class c = Class.forName (myMetaData.getHelperClassName ());
+				Class c = Class.forName(myMetaData.getHelperClassName());
 
-				myHelper = (Helper) c.newInstance ();
+				myHelper = (Helper) c.newInstance();
 			}
 			catch (Exception e)
 			{
-				throw new PersistenceException (e);
+				throw new PersistenceException(e);
 			}
 		}
 
@@ -2242,38 +2237,38 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 	 * If this persistent has a "class" defined for it populate it with the
 	 * persistent data, then return it to the caller.
 	 */
-	public Object getBean () throws PersistenceException
+	public Object getBean() throws PersistenceException
 	{
-		final boolean debugging = log.isDebugEnabled ();
+		final boolean debugging = log.isDebugEnabled();
 
 		/* If the bean has not already been created, do so now */
 		if (myBean == null)
 		{
 			if (debugging)
 			{
-				log.debug ("No bean present, creating bean");
+				log.debug("No bean present, creating bean");
 			}
 
-			createBean ();
+			createBean();
 		}
 
 		if (myBean == null)
 		{
-			throw new PersistenceException ("No bean class defined for " + getName ());
+			throw new PersistenceException("No bean class defined for " + getName());
 		}
 
 		String oneFieldName = null;
 
-		for (Iterator i = myMetaData.getFieldNames ().iterator (); i.hasNext ();)
+		for (Iterator i = myMetaData.getFieldNames().iterator(); i.hasNext();)
 		{
-			oneFieldName = (String) i.next ();
+			oneFieldName = (String) i.next();
 
 			if (debugging)
 			{
-				log.debug ("Setting Bean key/value: " + oneFieldName + '/' + getField (oneFieldName));
+				log.debug("Setting Bean key/value: " + oneFieldName + '/' + getField(oneFieldName));
 			}
 
-			setBeanField (oneFieldName, getField (oneFieldName));
+			setBeanField(oneFieldName, getField(oneFieldName));
 		}
 
 		return myBean;
@@ -2289,13 +2284,13 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 	 * @throws PersistenceException
 	 *             If there is no such field or it's value cannot be accessed
 	 */
-	public synchronized Object getField (String fieldName) throws PersistenceException
+	public synchronized Object getField(String fieldName) throws PersistenceException
 	{
 		assert fieldName != null;
 
-		assertField (fieldName);
+		assertField(fieldName);
 
-		Object returnValue = getFieldData (fieldName);
+		Object returnValue = getFieldData(fieldName);
 
 		return returnValue;
 	} /* getField(String) */
@@ -2303,15 +2298,15 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 	/**
 	 * @see de.iritgo.aktera.persist.Persistent#setBypassAuthorizationManager(de.iritgo.aktera.authorization.AuthorizationManager)
 	 */
-	public void setBypassAuthorizationManager (AuthorizationManager bypassAm) throws PersistenceException
+	public void setBypassAuthorizationManager(AuthorizationManager bypassAm) throws PersistenceException
 	{
-		if (myMetaData.isAuthManagerBypassAllowed ())
+		if (myMetaData.isAuthManagerBypassAllowed())
 		{
 			myBypassAuthManager = bypassAm;
 		}
 		else
 		{
-			throw new PersistenceException ("Bypass of AuthorizationManager not allowed for " + getName ());
+			throw new PersistenceException("Bypass of AuthorizationManager not allowed for " + getName());
 		}
 	}
 
@@ -2347,64 +2342,64 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 	 * @return A Map of ValidValue objects
 	 * @throws PersistenceException
 	 */
-	public synchronized Map getValidValues (String fieldName) throws PersistenceException
+	public synchronized Map getValidValues(String fieldName) throws PersistenceException
 	{
-		if (! myMetaData.isMultiValued (fieldName))
+		if (! myMetaData.isMultiValued(fieldName))
 		{
-			throw new PersistenceException ("Field '" + fieldName + "' in object '" + getName ()
+			throw new PersistenceException("Field '" + fieldName + "' in object '" + getName()
 							+ "' is not specified as multi-valued, so you cannot "
 							+ "call getValidValues for this field");
 		}
 
 		//First look for static values. These take precedence.
-		Map vvMap = myMetaData.getStaticValidValues (fieldName);
+		Map vvMap = myMetaData.getStaticValidValues(fieldName);
 
-		if (vvMap.size () > 0)
+		if (vvMap.size() > 0)
 		{
 			return vvMap;
 		}
 
 		//Now look for ListValidValues (from the database tables).
-		if (myMetaData.hasListValidValues (fieldName))
+		if (myMetaData.hasListValidValues(fieldName))
 		{
-			vvMap = myMetaData.getListValidValues (fieldName);
+			vvMap = myMetaData.getListValidValues(fieldName);
 
-			if (vvMap.size () > 0)
+			if (vvMap.size() > 0)
 			{
 				return vvMap;
 			}
 		}
 
 		//finally we try the lookup method.
-		String lookupObjName = myMetaData.getLookupObject (fieldName);
+		String lookupObjName = myMetaData.getLookupObject(fieldName);
 
-		if (log.isDebugEnabled ())
+		if (log.isDebugEnabled())
 		{
-			log.debug ("Lookup is " + lookupObjName);
+			log.debug("Lookup is " + lookupObjName);
 		}
 
-		if (SuperString.notNull (lookupObjName).equals (""))
+		if (SuperString.notNull(lookupObjName).equals(""))
 		{
 			//return an empty map.
-			return (Map) new HashMap ();
+			return (Map) new HashMap();
 		}
 
 		//Ok, look for the lookup.
-		Persistent lookupObj = getFactory ().create (myMetaData.getSchemaName () + "." + lookupObjName);
+		Persistent lookupObj = getFactory().create(myMetaData.getSchemaName() + "." + lookupObjName);
 
 		//Added by Santanu Dutt to build validValues Map from lookup object
-		String lookUpField = myMetaData.getLookupField (fieldName);
-		String lookUpFieldDisplay = myMetaData.getLookupFieldDisplay (fieldName);
+		String lookUpField = myMetaData.getLookupField(fieldName);
+		String lookUpFieldDisplay = myMetaData.getLookupFieldDisplay(fieldName);
 
-		List lookups = lookupObj.query ();
+		List lookups = lookupObj.query();
 
-		vvMap = new HashMap ();
+		vvMap = new HashMap();
 
-		for (Iterator i = lookups.iterator (); i.hasNext ();)
+		for (Iterator i = lookups.iterator(); i.hasNext();)
 		{
-			Persistent oneLookUp = (Persistent) i.next ();
+			Persistent oneLookUp = (Persistent) i.next();
 
-			vvMap.put (oneLookUp.getFieldString (lookUpField), oneLookUp.getFieldString (lookUpFieldDisplay));
+			vvMap.put(oneLookUp.getFieldString(lookUpField), oneLookUp.getFieldString(lookUpFieldDisplay));
 		}
 
 		return vvMap;
@@ -2432,14 +2427,14 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 	 *
 	 * @return String
 	 */
-	public int getStatus ()
+	public int getStatus()
 	{
 		return currentStatus;
 	} /* getStatus() */
 
-	public String getFieldString (String fieldName) throws PersistenceException
+	public String getFieldString(String fieldName) throws PersistenceException
 	{
-		Object o = getField (fieldName);
+		Object o = getField(fieldName);
 
 		if (o == null)
 		{
@@ -2447,7 +2442,7 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 		}
 
 		String returnString = null;
-		int typeToUse = JDBCDatabaseType.stringToType (myMetaData.getType (fieldName));
+		int typeToUse = JDBCDatabaseType.stringToType(myMetaData.getType(fieldName));
 
 		if (Types.CLOB == typeToUse)
 		{
@@ -2455,9 +2450,9 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 			{
 				Clob fieldClob = (Clob) o;
 				long myLong = 1;
-				int len = new Long (fieldClob.length ()).intValue ();
+				int len = new Long(fieldClob.length()).intValue();
 
-				returnString = fieldClob.getSubString (myLong, len);
+				returnString = fieldClob.getSubString(myLong, len);
 			}
 			catch (SQLException sqe)
 			{
@@ -2466,7 +2461,7 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 		}
 		else
 		{
-			returnString = getField (fieldName).toString ();
+			returnString = getField(fieldName).toString();
 		}
 
 		return returnString;
@@ -2482,11 +2477,11 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 	 *             If the field does not exist or it's value is not a date or
 	 *             cannot be converted to a date
 	 */
-	public Date getFieldDate (String fieldName) throws PersistenceException
+	public Date getFieldDate(String fieldName) throws PersistenceException
 	{
-		assertField (fieldName);
+		assertField(fieldName);
 
-		Object o = getFieldData (fieldName);
+		Object o = getFieldData(fieldName);
 
 		if (o == null)
 		{
@@ -2501,7 +2496,7 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 		{
 			java.util.Date myDate = (java.util.Date) o;
 
-			return new Date (myDate.getTime ());
+			return new Date(myDate.getTime());
 		}
 		else if (o instanceof java.sql.Timestamp)
 		{
@@ -2509,9 +2504,9 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 		}
 
 		/** If it's not one of the above types, try to get it from the string */
-		String strVal = o.toString ();
+		String strVal = o.toString();
 
-		if (strVal.equals (""))
+		if (strVal.equals(""))
 		{
 			return null;
 		}
@@ -2520,41 +2515,41 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 		{
 			//DateFormat df = DateFormat.getDateTimeInstance();
 			//changed by Adam...this was not working for timestamps...
-			String type = myMetaData.getType (fieldName);
+			String type = myMetaData.getType(fieldName);
 			String format = "yyyy-MM-dd hh:mm:ss";
 
-			if (type.equalsIgnoreCase ("date"))
+			if (type.equalsIgnoreCase("date"))
 			{
 				format = "yyyy-MM-dd";
 			}
-			else if (type.equalsIgnoreCase ("time"))
+			else if (type.equalsIgnoreCase("time"))
 			{
 				format = "hh:mm:ss";
 			}
 
-			SimpleDateFormat formatter = new SimpleDateFormat (format);
-			java.util.Date myDate = formatter.parse (o.toString ());
+			SimpleDateFormat formatter = new SimpleDateFormat(format);
+			java.util.Date myDate = formatter.parse(o.toString());
 
-			return new Date (myDate.getTime ());
+			return new Date(myDate.getTime());
 		}
 		catch (Exception de)
 		{
-			throw new PersistenceException ("Could not extract a date value from " + o.getClass ().getName () + " '"
-							+ o.toString () + "' for field '" + fieldName + "'", de);
+			throw new PersistenceException("Could not extract a date value from " + o.getClass().getName() + " '"
+							+ o.toString() + "' for field '" + fieldName + "'", de);
 		}
 	} /* getFieldDate(String) */
 
 	/**
 	 * Boolean typesafe getField
 	 */
-	public boolean getFieldBoolean (String fieldName) throws PersistenceException
+	public boolean getFieldBoolean(String fieldName) throws PersistenceException
 	{
-		if (! myMetaData.hasField (fieldName))
+		if (! myMetaData.hasField(fieldName))
 		{
-			throw new PersistenceException ("(" + getName () + ") No such field as " + fieldName);
+			throw new PersistenceException("(" + getName() + ") No such field as " + fieldName);
 		}
 
-		Object o = getFieldData (fieldName);
+		Object o = getFieldData(fieldName);
 
 		if (o == null)
 		{
@@ -2565,18 +2560,18 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 		{
 			Boolean b = (Boolean) o;
 
-			return b.booleanValue ();
+			return b.booleanValue();
 		}
 
-		String strVal = o.toString ();
+		String strVal = o.toString();
 
-		return SuperString.toBoolean (strVal);
+		return SuperString.toBoolean(strVal);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.authorization.Securable#getAuthorizationManager()
 	 */
-	public AuthorizationManager getAuthorizationManager ()
+	public AuthorizationManager getAuthorizationManager()
 	{
 		return myAuthManager;
 	}
@@ -2590,11 +2585,11 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 	 *             If the field is not of the correct type, or a value which
 	 *             can be converted to the correct type.
 	 */
-	protected void validateType (String fieldName) throws PersistenceException
+	protected void validateType(String fieldName) throws PersistenceException
 	{
-		int typeToUse = JDBCDatabaseType.stringToType (myMetaData.getType (fieldName));
+		int typeToUse = JDBCDatabaseType.stringToType(myMetaData.getType(fieldName));
 
-		String value = getFieldString (fieldName);
+		String value = getFieldString(fieldName);
 
 		switch (typeToUse)
 		{
@@ -2603,9 +2598,9 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 			case java.sql.Types.SMALLINT:
 			case java.sql.Types.TINYINT:
 
-				if (! SuperString.isNumber (value))
+				if (! SuperString.isNumber(value))
 				{
-					throw new PersistenceException ("Value '" + value + "' is not a number");
+					throw new PersistenceException("Value '" + value + "' is not a number");
 				}
 
 				break;
@@ -2615,11 +2610,11 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 
 				try
 				{
-					SuperString.assertBoolean (value, "Value '" + value + "' is not boolean");
+					SuperString.assertBoolean(value, "Value '" + value + "' is not boolean");
 				}
 				catch (IllegalArgumentException ie)
 				{
-					throw new PersistenceException (ie.getMessage ());
+					throw new PersistenceException(ie.getMessage());
 				}
 
 				break;
@@ -2631,13 +2626,13 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 				try
 				{
 					//                     SuperString ss = new SuperString(value);
-					SuperString ss = new SuperString (getFieldDate (fieldName).toString ());
+					SuperString ss = new SuperString(getFieldDate(fieldName).toString());
 
-					ss.toDate ();
+					ss.toDate();
 				}
 				catch (IllegalArgumentException ie)
 				{
-					throw new PersistenceException (ie.getMessage ());
+					throw new PersistenceException(ie.getMessage());
 				}
 
 				break;
@@ -2648,9 +2643,9 @@ public abstract class DefaultPersistentBase implements InstanceSecurable
 			case java.sql.Types.NUMERIC:
 			case java.sql.Types.REAL:
 
-				if (! SuperString.isRealNumber (value))
+				if (! SuperString.isRealNumber(value))
 				{
-					throw new PersistenceException ("Value '" + value + "' is not a number");
+					throw new PersistenceException("Value '" + value + "' is not a number");
 				}
 
 				break;

@@ -72,13 +72,13 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 	protected static String uniqueRowKeyword = "DISTINCT";
 
 	/** Driver object name to use for JDBC connection */
-	protected String dbDriver = new String ("");
+	protected String dbDriver = new String("");
 
 	/** URL to use when connecting via the given driver */
-	protected String dbURL = new String ("");
+	protected String dbURL = new String("");
 
 	/** Format to use for the connect statement */
-	protected String dbConnectFormat = new String ("");
+	protected String dbConnectFormat = new String("");
 
 	protected int subsetPosition = DatabaseType.SUBSET_NOT_SUPPORTED;
 
@@ -89,7 +89,7 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 	/**
 	 * Data type mappings indexed by the java.sql.Types type as a string
 	 */
-	protected Map mapByType = new HashMap ();
+	protected Map mapByType = new HashMap();
 
 	protected Configuration myConfig = null;
 
@@ -104,7 +104,7 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 	 * that cannot, but some databases allow/require "null" after other fields - some
 	 * (notably mysql) don't allow it.
 	 */
-	protected boolean useExplicitNull ()
+	protected boolean useExplicitNull()
 	{
 		return true;
 	}
@@ -113,45 +113,44 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 	 * Given an object, return the database type mapped for this database when storing objects
 	 * of this type. Return null if no type is mapped at all.
 	 */
-	public String getTypeFor (Object o)
+	public String getTypeFor(Object o)
 	{
 		return null;
 	}
 
-	public String getDBType (String type) throws PersistenceException
+	public String getDBType(String type) throws PersistenceException
 	{
-		TypeMapEntry tm = (TypeMapEntry) mapByType.get (type.toUpperCase ());
+		TypeMapEntry tm = (TypeMapEntry) mapByType.get(type.toUpperCase());
 
 		if (tm == null)
 		{
 			String t = "Type '" + type + "' is not mapped to any valid type";
 
-			log.error (t);
-			log.error ("Type map is: -----------------");
+			log.error(t);
+			log.error("Type map is: -----------------");
 
 			String oneTypeString = null;
 
 			log
-							.error ("\tDB Type\tSQL Type\tPrecision\tPrefix\tSuffix\tCreateParams\tNullable\tCaseSensitive\tSearchable\tUnsigned\tFixedPrecision\tAutoIncrement\tLocalName\tMinScale\tMaxScale\tNumPrecRadix");
+							.error("\tDB Type\tSQL Type\tPrecision\tPrefix\tSuffix\tCreateParams\tNullable\tCaseSensitive\tSearchable\tUnsigned\tFixedPrecision\tAutoIncrement\tLocalName\tMinScale\tMaxScale\tNumPrecRadix");
 
-			for (Iterator i = mapByType.keySet ().iterator (); i.hasNext ();)
+			for (Iterator i = mapByType.keySet().iterator(); i.hasNext();)
 			{
-				oneTypeString = (String) i.next ();
-				tm = (TypeMapEntry) mapByType.get (oneTypeString);
-				log.error (oneTypeString + ":" + tm.getTypeName () + "\t" + typeToString (tm.getDataType ()) + "\t"
-								+ tm.getPrecision () + "\t" + tm.getLiteralPrefix () + "\t" + tm.getLiteralSuffix ()
-								+ "\t" + tm.getCreateParams () + "\t" + tm.getNullable () + "\t"
-								+ tm.getCaseSensitive () + "\t" + tm.getSearchable () + "\t" + tm.getUnsigned () + "\t"
-								+ tm.getFixedPrecision () + "\t" + tm.getAutoIncrement () + "\t"
-								+ tm.getLocalTypeName () + "\t" + tm.getMinScale () + "\t" + tm.getMaxScale () + "\t"
-								+ tm.getNumPrecRadix ());
+				oneTypeString = (String) i.next();
+				tm = (TypeMapEntry) mapByType.get(oneTypeString);
+				log.error(oneTypeString + ":" + tm.getTypeName() + "\t" + typeToString(tm.getDataType()) + "\t"
+								+ tm.getPrecision() + "\t" + tm.getLiteralPrefix() + "\t" + tm.getLiteralSuffix()
+								+ "\t" + tm.getCreateParams() + "\t" + tm.getNullable() + "\t" + tm.getCaseSensitive()
+								+ "\t" + tm.getSearchable() + "\t" + tm.getUnsigned() + "\t" + tm.getFixedPrecision()
+								+ "\t" + tm.getAutoIncrement() + "\t" + tm.getLocalTypeName() + "\t" + tm.getMinScale()
+								+ "\t" + tm.getMaxScale() + "\t" + tm.getNumPrecRadix());
 			}
 
-			log.error ("----------------");
-			throw new PersistenceException ("Type '" + type + "' is not mapped to any valid type");
+			log.error("----------------");
+			throw new PersistenceException("Type '" + type + "' is not mapped to any valid type");
 		}
 
-		return tm.getTypeName ();
+		return tm.getTypeName();
 	}
 
 	/**
@@ -161,12 +160,12 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 	 * @return    String The name of the driver class being used
 	 *     to connect to the database.
 	 */
-	public String getDriverClass ()
+	public String getDriverClass()
 	{
 		return dbDriver;
 	}
 
-	public boolean supportsTransactions ()
+	public boolean supportsTransactions()
 	{
 		return supportsTransactions;
 	} // supportsTransactions
@@ -174,14 +173,14 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 	/**
 	 *
 	 */
-	public int getSubSetPosition ()
+	public int getSubSetPosition()
 	{
 		return subsetPosition;
 	}
 
 	/**
 	 */
-	void setSubSetPosition (int pos) throws PersistenceException
+	void setSubSetPosition(int pos) throws PersistenceException
 	{
 		subsetPosition = pos;
 	}
@@ -189,7 +188,7 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 	/**
 	 *
 	 */
-	public synchronized String getSubSetSyntax ()
+	public synchronized String getSubSetSyntax()
 	{
 		return subsetSyntax;
 	}
@@ -200,7 +199,7 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 	 *
 	 * @return
 	 */
-	public Map getTypeMap ()
+	public Map getTypeMap()
 	{
 		return mapByType;
 	}
@@ -215,24 +214,24 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 	 * @return    A list of the wild-card characters used by
 	 *            this database connection
 	 */
-	public Set getWildCards ()
+	public Set getWildCards()
 	{
-		HashSet newChars = new HashSet (4);
+		HashSet newChars = new HashSet(4);
 
-		newChars.add (new String ("%"));
-		newChars.add (new String ("_"));
-		newChars.add (new String ("["));
-		newChars.add (new String ("]"));
+		newChars.add(new String("%"));
+		newChars.add(new String("_"));
+		newChars.add(new String("["));
+		newChars.add(new String("]"));
 
 		return newChars;
 	}
 
-	public void enableLogging (Logger newLog)
+	public void enableLogging(Logger newLog)
 	{
 		log = newLog;
 	}
 
-	public boolean allowTextQueries ()
+	public boolean allowTextQueries()
 	{
 		return true;
 	}
@@ -243,39 +242,39 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 	 * @param fieldValue
 	 * @return The "range" string if the value starts with a range indicator, null if not
 	 */
-	public String denotesRange (String fieldValue)
+	public String denotesRange(String fieldValue)
 	{
 		String returnValue = null;
 
-		if (fieldValue.startsWith ("between "))
+		if (fieldValue.startsWith("between "))
 		{
 			returnValue = "between ";
 		}
-		else if (fieldValue.startsWith ("BETWEEN "))
+		else if (fieldValue.startsWith("BETWEEN "))
 		{
 			returnValue = "BETWEEN ";
 		}
-		else if (fieldValue.startsWith ("<> "))
+		else if (fieldValue.startsWith("<> "))
 		{
 			returnValue = "<> ";
 		}
-		else if (fieldValue.startsWith ("< "))
+		else if (fieldValue.startsWith("< "))
 		{
 			returnValue = "< ";
 		}
-		else if (fieldValue.startsWith ("> "))
+		else if (fieldValue.startsWith("> "))
 		{
 			returnValue = "> ";
 		}
-		else if (fieldValue.startsWith ("<>"))
+		else if (fieldValue.startsWith("<>"))
 		{
 			returnValue = "<>";
 		}
-		else if (fieldValue.startsWith ("<"))
+		else if (fieldValue.startsWith("<"))
 		{
 			returnValue = "<";
 		}
-		else if (fieldValue.startsWith (">"))
+		else if (fieldValue.startsWith(">"))
 		{
 			returnValue = ">";
 		}
@@ -288,14 +287,14 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 	 * @param theType
 	 * @return
 	 */
-	public boolean isNumericType (String theType)
+	public boolean isNumericType(String theType)
 	{
 		boolean returnValue = false;
 
-		if (theType.equalsIgnoreCase ("numeric") || theType.equalsIgnoreCase ("int")
-						|| theType.equalsIgnoreCase ("integer") || theType.equalsIgnoreCase ("long")
-						|| theType.equalsIgnoreCase ("double") || theType.equalsIgnoreCase ("float")
-						|| theType.equalsIgnoreCase ("money") || theType.equalsIgnoreCase ("decimal"))
+		if (theType.equalsIgnoreCase("numeric") || theType.equalsIgnoreCase("int")
+						|| theType.equalsIgnoreCase("integer") || theType.equalsIgnoreCase("long")
+						|| theType.equalsIgnoreCase("double") || theType.equalsIgnoreCase("float")
+						|| theType.equalsIgnoreCase("money") || theType.equalsIgnoreCase("decimal"))
 		{
 			returnValue = true;
 		}
@@ -309,13 +308,13 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 	 * @param theType
 	 * @return
 	 */
-	public boolean isQuotedType (String theType)
+	public boolean isQuotedType(String theType)
 	{
 		boolean returnValue = false;
 
-		if (theType.equalsIgnoreCase ("char") || theType.equalsIgnoreCase ("varchar")
-						|| theType.equalsIgnoreCase ("varchar2") || theType.equalsIgnoreCase ("longvarchar")
-						|| theType.equalsIgnoreCase ("text") || isDateType (theType))
+		if (theType.equalsIgnoreCase("char") || theType.equalsIgnoreCase("varchar")
+						|| theType.equalsIgnoreCase("varchar2") || theType.equalsIgnoreCase("longvarchar")
+						|| theType.equalsIgnoreCase("text") || isDateType(theType))
 		{
 			returnValue = true;
 		}
@@ -323,82 +322,82 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 		return returnValue;
 	} /* isQuotedType(String) */
 
-	public Set getReservedWords ()
+	public Set getReservedWords()
 	{
-		return new HashSet ();
+		return new HashSet();
 	}
 
-	public String getDistinctKeyWord ()
+	public String getDistinctKeyWord()
 	{
 		return uniqueRowKeyword;
 	}
 
-	public String getDateUpdateFormat ()
+	public String getDateUpdateFormat()
 	{
 		return null;
 	}
 
-	public String getDateTimeUpdateFormat ()
+	public String getDateTimeUpdateFormat()
 	{
 		return null;
 	}
 
-	public String getTimeUpdateFormat ()
+	public String getTimeUpdateFormat()
 	{
 		return null;
 	}
 
-	public String getDateUpdateFunction ()
+	public String getDateUpdateFunction()
 	{
 		return null;
 	}
 
-	public String getDateTimeUpdateFunction ()
+	public String getDateTimeUpdateFunction()
 	{
 		return null;
 	}
 
-	public String getTimeUpdateFunction ()
+	public String getTimeUpdateFunction()
 	{
 		return null;
 	}
 
-	public String getDateSelectFormat ()
+	public String getDateSelectFormat()
 	{
 		return null;
 	}
 
-	public String getDateSelectFunction ()
+	public String getDateSelectFunction()
 	{
 		return null;
 	}
 
-	public String getDateTimeSelectFormat ()
+	public String getDateTimeSelectFormat()
 	{
 		return null;
 	}
 
-	public String getDateTimeSelectFunction ()
+	public String getDateTimeSelectFunction()
 	{
 		return null;
 	}
 
-	public String getTimeSelectFormat ()
+	public String getTimeSelectFormat()
 	{
 		return null;
 	}
 
-	public String getTimeSelectFunction ()
+	public String getTimeSelectFunction()
 	{
 		return null;
 	}
 
-	public boolean isDateType (String s)
+	public boolean isDateType(String s)
 	{
 		boolean returnValue = false;
 
-		if (s.equalsIgnoreCase ("DATE") || s.equalsIgnoreCase ("DATETIME") || s.equalsIgnoreCase ("TIME")
-						|| s.equalsIgnoreCase ("TIMESTAMP"))
+		if (s.equalsIgnoreCase("DATE") || s.equalsIgnoreCase("DATETIME") || s.equalsIgnoreCase("TIME")
+						|| s.equalsIgnoreCase("TIMESTAMP"))
 		{
 			returnValue = true;
 		}
@@ -406,7 +405,7 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 		return returnValue;
 	}
 
-	public void configure (Configuration conf) throws ConfigurationException
+	public void configure(Configuration conf) throws ConfigurationException
 	{
 		if (configured)
 		{
@@ -416,7 +415,7 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 		configured = true;
 		myConfig = conf;
 
-		Configuration[] children = conf.getChildren ();
+		Configuration[] children = conf.getChildren();
 		Configuration oneChild = null;
 
 		for (int i = 0; i < children.length; i++)
@@ -424,72 +423,72 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 			oneChild = children[i];
 
 			/* Type mappings */
-			if (oneChild.getName ().equals ("type"))
+			if (oneChild.getName().equals("type"))
 			{
-				TypeMapEntry oneType = new TypeMapEntry ();
+				TypeMapEntry oneType = new TypeMapEntry();
 
-				oneType.setTypeName (oneChild.getAttribute ("to"));
-				oneType.setDataType (stringToType (oneChild.getAttribute ("from")));
-				oneType.setPrecision (oneChild.getAttributeAsInteger ("precision", 0));
-				oneType.setLiteralPrefix (oneChild.getAttribute ("prefix", ""));
-				oneType.setLiteralSuffix (oneChild.getAttribute ("suffix", ""));
-				oneType.setCreateParams (oneChild.getAttribute ("create-params", ""));
+				oneType.setTypeName(oneChild.getAttribute("to"));
+				oneType.setDataType(stringToType(oneChild.getAttribute("from")));
+				oneType.setPrecision(oneChild.getAttributeAsInteger("precision", 0));
+				oneType.setLiteralPrefix(oneChild.getAttribute("prefix", ""));
+				oneType.setLiteralSuffix(oneChild.getAttribute("suffix", ""));
+				oneType.setCreateParams(oneChild.getAttribute("create-params", ""));
 
-				String nullable = oneChild.getAttribute ("nullable", "");
+				String nullable = oneChild.getAttribute("nullable", "");
 
 				/** Explanation of the below strangeness: believe it or not, the valid values for the "nullable" attribute, which
 				 * is defined by JDBC as a "short", are actually "int"s. We do the below in order to turn the int into a short... :-)
 				 */
-				if (nullable.equals (""))
+				if (nullable.equals(""))
 				{
-					oneType.setNullable (new Short (Integer.toString (java.sql.DatabaseMetaData.typeNullableUnknown))
-									.shortValue ());
+					oneType.setNullable(new Short(Integer.toString(java.sql.DatabaseMetaData.typeNullableUnknown))
+									.shortValue());
 				}
 				else
 				{
-					if (SuperString.toBoolean (nullable))
+					if (SuperString.toBoolean(nullable))
 					{
-						oneType.setNullable (new Short (Integer.toString (java.sql.DatabaseMetaData.typeNullable))
-										.shortValue ());
+						oneType.setNullable(new Short(Integer.toString(java.sql.DatabaseMetaData.typeNullable))
+										.shortValue());
 					}
 					else
 					{
-						oneType.setNullable (new Short (Integer.toString (java.sql.DatabaseMetaData.typeNoNulls))
-										.shortValue ());
+						oneType.setNullable(new Short(Integer.toString(java.sql.DatabaseMetaData.typeNoNulls))
+										.shortValue());
 					}
 				}
 
-				oneType.setCaseSensitive (oneChild.getAttributeAsBoolean ("case-sensitive", false));
+				oneType.setCaseSensitive(oneChild.getAttributeAsBoolean("case-sensitive", false));
 
-				if (oneChild.getAttributeAsBoolean ("searchable", true))
+				if (oneChild.getAttributeAsBoolean("searchable", true))
 				{
-					oneType.setSearchable (new Short (Integer.toString (java.sql.DatabaseMetaData.typeSearchable))
-									.shortValue ());
+					oneType.setSearchable(new Short(Integer.toString(java.sql.DatabaseMetaData.typeSearchable))
+									.shortValue());
 				}
 				else
 				{
-					oneType.setSearchable (new Short (Integer.toString (java.sql.DatabaseMetaData.typePredNone))
-									.shortValue ());
+					oneType.setSearchable(new Short(Integer.toString(java.sql.DatabaseMetaData.typePredNone))
+									.shortValue());
 				}
 
-				oneType.setUnsigned (oneChild.getAttributeAsBoolean ("unsigned", false));
-				oneType.setFixedPrecision (oneChild.getAttributeAsBoolean ("fixed-precision", false));
-				oneType.setAutoIncrement (oneChild.getAttributeAsBoolean ("auto-increment", false));
+				oneType.setUnsigned(oneChild.getAttributeAsBoolean("unsigned", false));
+				oneType.setFixedPrecision(oneChild.getAttributeAsBoolean("fixed-precision", false));
+				oneType.setAutoIncrement(oneChild.getAttributeAsBoolean("auto-increment", false));
 
-				oneType.setLocalTypeName (oneChild.getAttribute ("local-name", ""));
-				oneType.setMinScale (new Short (oneChild.getAttribute ("min-scale", "0")).shortValue ());
-				oneType.setMaxScale (new Short (oneChild.getAttribute ("max-scale", "0")).shortValue ());
-				oneType.setNumPrecRadix (oneChild.getAttributeAsInteger ("num-prec-radix", 0));
-				mapByType.put (typeToString (oneType.getDataType ()), oneType);
+				oneType.setLocalTypeName(oneChild.getAttribute("local-name", ""));
+				oneType.setMinScale(new Short(oneChild.getAttribute("min-scale", "0")).shortValue());
+				oneType.setMaxScale(new Short(oneChild.getAttribute("max-scale", "0")).shortValue());
+				oneType.setNumPrecRadix(oneChild.getAttributeAsInteger("num-prec-radix", 0));
+				mapByType.put(typeToString(oneType.getDataType()), oneType);
 			}
 		}
 	}
 
-	public boolean isSubSetSupported ()
+	public boolean isSubSetSupported()
 	{
 		boolean returnValue = false;
 
-		if (getSubSetPosition () != DatabaseType.SUBSET_NOT_SUPPORTED)
+		if (getSubSetPosition() != DatabaseType.SUBSET_NOT_SUPPORTED)
 		{
 			returnValue = false;
 		}
@@ -497,48 +496,48 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 		return returnValue;
 	}
 
-	public void createTable (PersistentMetaData pmd, DataSourceComponent dataSource) throws PersistenceException
+	public void createTable(PersistentMetaData pmd, DataSourceComponent dataSource) throws PersistenceException
 	{
-		if (tableExists (pmd.getTableName (), dataSource))
+		if (tableExists(pmd.getTableName(), dataSource))
 		{
 			// TODO: Read existing table definition, report on differences
-			log.info ("Table " + pmd.getTableName () + " already exists. No action taken");
+			log.info("Table " + pmd.getTableName() + " already exists. No action taken");
 
 			return;
 		}
 
 		Connection myConnection = null;
-		StringBuffer createStatement = new StringBuffer ("");
+		StringBuffer createStatement = new StringBuffer("");
 
 		try
 		{
 			/* Create the table itself
 			 */
-			createStatement = getCreateTableStatement (pmd, dataSource);
-			myConnection = dataSource.getConnection ();
-			log.info ("Running Create:" + createStatement.toString ());
+			createStatement = getCreateTableStatement(pmd, dataSource);
+			myConnection = dataSource.getConnection();
+			log.info("Running Create:" + createStatement.toString());
 
-			Statement s = myConnection.createStatement ();
+			Statement s = myConnection.createStatement();
 
-			s.executeUpdate (createStatement.toString ());
+			s.executeUpdate(createStatement.toString());
 
 			/* If the ALTER TABLE syntax is supported, then
 			 * specify columns
 			 */
-			if (isAlterKeySupported ())
+			if (isAlterKeySupported())
 			{
-				createKeys (pmd, myConnection);
+				createKeys(pmd, myConnection);
 			}
 
 			/* Create indexes as necessary
 			 */
-			createIndices (pmd, myConnection, true);
+			createIndices(pmd, myConnection, true);
 		}
 		catch (Exception e)
 		{
-			log.error ("Error building create statement", e);
-			throw new PersistenceException ("Unable to build/execute create statement '" + createStatement.toString ()
-							+ "' for table '" + pmd.getTableName () + "'", e);
+			log.error("Error building create statement", e);
+			throw new PersistenceException("Unable to build/execute create statement '" + createStatement.toString()
+							+ "' for table '" + pmd.getTableName() + "'", e);
 		}
 		finally
 		{
@@ -546,12 +545,12 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 			{
 				if (myConnection != null)
 				{
-					myConnection.close ();
+					myConnection.close();
 				}
 			}
 			catch (SQLException se)
 			{
-				throw new PersistenceException ("Unable to close/release connection", se);
+				throw new PersistenceException("Unable to close/release connection", se);
 			}
 		}
 	}
@@ -567,36 +566,36 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 	 *
 	 * @throws PersistenceException
 	 */
-	protected void createIndices (PersistentMetaData pmd, Connection myConnection, boolean duringTableCreation)
+	protected void createIndices(PersistentMetaData pmd, Connection myConnection, boolean duringTableCreation)
 		throws PersistenceException
 	{
 		Statement stmt = null;
 
 		try
 		{
-			stmt = myConnection.createStatement ();
+			stmt = myConnection.createStatement();
 
-			Set indicies = pmd.getIndicies ();
+			Set indicies = pmd.getIndicies();
 
-			for (Iterator ii = indicies.iterator (); ii.hasNext ();)
+			for (Iterator ii = indicies.iterator(); ii.hasNext();)
 			{
-				Index index = (Index) ii.next ();
+				Index index = (Index) ii.next();
 
-				if (! duringTableCreation || index.createWithTable ())
+				if (! duringTableCreation || index.createWithTable())
 				{
-					String oneIndexName = index.getIndexName ();
+					String oneIndexName = index.getIndexName();
 					String createIndex = null;
 
 					try
 					{
-						createIndex = constructIndexSQL (pmd, index, true);
-						log.debug ("Creating index " + index.getIndexName () + " with sql syntax: " + createIndex);
-						stmt.executeUpdate (createIndex);
+						createIndex = constructIndexSQL(pmd, index, true);
+						log.debug("Creating index " + index.getIndexName() + " with sql syntax: " + createIndex);
+						stmt.executeUpdate(createIndex);
 					}
 					catch (SQLException s)
 					{
-						log.error ("Could not create index " + oneIndexName + " on table " + pmd.getTableName () + ".");
-						log.error ("Error creating index:", s);
+						log.error("Could not create index " + oneIndexName + " on table " + pmd.getTableName() + ".");
+						log.error("Error creating index:", s);
 					}
 				}
 			}
@@ -605,17 +604,17 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 		}
 		catch (SQLException s)
 		{
-			throw new PersistenceException (s);
+			throw new PersistenceException(s);
 		}
 		finally
 		{
 			try
 			{
-				stmt.close ();
+				stmt.close();
 			}
 			catch (SQLException s)
 			{
-				throw new PersistenceException ("Unable to close statement when creating index", s);
+				throw new PersistenceException("Unable to close statement when creating index", s);
 			}
 		}
 	}
@@ -629,28 +628,28 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 	 *
 	 * @throws PersistenceException
 	 */
-	public void createIndices (PersistentMetaData pmd, DataSourceComponent dataSource) throws PersistenceException
+	public void createIndices(PersistentMetaData pmd, DataSourceComponent dataSource) throws PersistenceException
 	{
 		Connection myConnection = null;
 
 		try
 		{
-			myConnection = dataSource.getConnection ();
-			createIndices (pmd, myConnection, false);
+			myConnection = dataSource.getConnection();
+			createIndices(pmd, myConnection, false);
 		}
 		catch (SQLException s)
 		{
-			throw new PersistenceException (s);
+			throw new PersistenceException(s);
 		}
 		finally
 		{
 			try
 			{
-				myConnection.close ();
+				myConnection.close();
 			}
 			catch (SQLException s)
 			{
-				throw new PersistenceException ("Unable to close connection when creating indices", s);
+				throw new PersistenceException("Unable to close connection when creating indices", s);
 			}
 		}
 	}
@@ -664,35 +663,35 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 	 *
 	 * @throws PersistenceException
 	 */
-	public void dropIndices (PersistentMetaData pmd, DataSourceComponent dataSource) throws PersistenceException
+	public void dropIndices(PersistentMetaData pmd, DataSourceComponent dataSource) throws PersistenceException
 	{
 		Connection myConnection = null;
 		Statement stmt = null;
 
 		try
 		{
-			myConnection = dataSource.getConnection ();
-			stmt = myConnection.createStatement ();
+			myConnection = dataSource.getConnection();
+			stmt = myConnection.createStatement();
 
-			Set indicies = pmd.getIndicies ();
+			Set indicies = pmd.getIndicies();
 
-			for (Iterator ii = indicies.iterator (); ii.hasNext ();)
+			for (Iterator ii = indicies.iterator(); ii.hasNext();)
 			{
-				Index index = (Index) ii.next ();
-				String oneIndexName = index.getIndexName ();
+				Index index = (Index) ii.next();
+				String oneIndexName = index.getIndexName();
 				String dropIndex = null;
 
 				try
 				{
-					dropIndex = constructIndexSQL (pmd, index, false);
-					log.debug ("Dropping index " + index.getIndexName () + " with sql syntax: " + dropIndex);
-					stmt.executeUpdate (dropIndex);
+					dropIndex = constructIndexSQL(pmd, index, false);
+					log.debug("Dropping index " + index.getIndexName() + " with sql syntax: " + dropIndex);
+					stmt.executeUpdate(dropIndex);
 				}
 				catch (SQLException s)
 				{
-					log.error ("Could not drop index " + oneIndexName + " on table " + pmd.getTableName () + ".");
-					log.error ("SQL syntax = " + dropIndex);
-					log.error ("Error: " + s.getMessage ());
+					log.error("Could not drop index " + oneIndexName + " on table " + pmd.getTableName() + ".");
+					log.error("SQL syntax = " + dropIndex);
+					log.error("Error: " + s.getMessage());
 				}
 			}
 
@@ -700,13 +699,13 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 		}
 		catch (SQLException s)
 		{
-			throw new PersistenceException (s);
+			throw new PersistenceException(s);
 		}
 		finally
 		{
 			try
 			{
-				stmt.close ();
+				stmt.close();
 			}
 			catch (SQLException s)
 			{
@@ -715,7 +714,7 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 
 			try
 			{
-				myConnection.close ();
+				myConnection.close();
 			}
 			catch (SQLException s)
 			{
@@ -724,28 +723,28 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 		}
 	}
 
-	protected void createKeys (PersistentMetaData pmd, Connection myConnection)
+	protected void createKeys(PersistentMetaData pmd, Connection myConnection)
 		throws SQLException, PersistenceException
 	{
-		StringBuffer pkStatement = new StringBuffer ("alter table " + pmd.getTableName () + " add primary key(");
+		StringBuffer pkStatement = new StringBuffer("alter table " + pmd.getTableName() + " add primary key(");
 
 		boolean addComma = false;
 		short keyCount = 0;
 		short keySkipCount = 0;
 
-		Iterator i = pmd.getKeyFieldNames ().iterator ();
+		Iterator i = pmd.getKeyFieldNames().iterator();
 
-		while (i.hasNext ())
+		while (i.hasNext())
 		{
-			String oneKey = (String) i.next ();
+			String oneKey = (String) i.next();
 
 			/* If we are using a db-based sequence, instead of the ids */
 			/* table, we skip auto-incremented fields */
 			boolean skipField = false;
 
-			if (pmd.isAutoIncremented (oneKey))
+			if (pmd.isAutoIncremented(oneKey))
 			{
-				if (pmd.getIdGenerator (oneKey) == null)
+				if (pmd.getIdGenerator(oneKey) == null)
 				{
 					/* then we're using a sequence - skip this one field */
 					skipField = true;
@@ -756,10 +755,10 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 			{
 				if (addComma)
 				{
-					pkStatement.append (", ");
+					pkStatement.append(", ");
 				}
 
-				pkStatement.append (pmd.getDBFieldName (oneKey));
+				pkStatement.append(pmd.getDBFieldName(oneKey));
 				addComma = true;
 				keyCount++;
 			}
@@ -769,29 +768,29 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 			}
 		} // while
 
-		pkStatement.append (")");
+		pkStatement.append(")");
 
 		if (keyCount > 0)
 		{
-			if (log.isDebugEnabled ())
+			if (log.isDebugEnabled())
 			{
-				log.debug ("Executing:" + pkStatement.toString ());
+				log.debug("Executing:" + pkStatement.toString());
 			}
 
-			Statement ss = myConnection.createStatement ();
+			Statement ss = myConnection.createStatement();
 
-			ss.executeUpdate (pkStatement.toString ());
+			ss.executeUpdate(pkStatement.toString());
 		}
 		else
 		{
 			if (keySkipCount == 0)
 			{
-				log.warn ("No primary key on table '" + pmd.getTableName () + "'");
+				log.warn("No primary key on table '" + pmd.getTableName() + "'");
 			}
 		}
 	}
 
-	protected StringBuffer getCreateTableStatement (PersistentMetaData pmd, DataSourceComponent dataSource)
+	protected StringBuffer getCreateTableStatement(PersistentMetaData pmd, DataSourceComponent dataSource)
 		throws PersistenceException
 	{
 		String fieldName = null;
@@ -799,70 +798,70 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 		boolean addComma = false;
 		String identityFieldName = null;
 
-		StringBuffer createStatement = new StringBuffer ("CREATE TABLE ");
+		StringBuffer createStatement = new StringBuffer("CREATE TABLE ");
 
-		createStatement.append (pmd.getTableName () + " (");
+		createStatement.append(pmd.getTableName() + " (");
 
-		StringBuffer oneType = new StringBuffer ("");
+		StringBuffer oneType = new StringBuffer("");
 
-		for (Iterator lf = pmd.getFieldNames ().iterator (); lf.hasNext ();)
+		for (Iterator lf = pmd.getFieldNames().iterator(); lf.hasNext();)
 		{
-			fieldName = (String) lf.next ();
+			fieldName = (String) lf.next();
 
 			if (addComma)
 			{
-				createStatement.append (", ");
+				createStatement.append(", ");
 			}
 
-			if (pmd.isAutoIncremented (fieldName))
+			if (pmd.isAutoIncremented(fieldName))
 			{
-				if (pmd.isKeyField (fieldName) && (identityFieldName == null) && isIdentitySupported ()
-								&& (pmd.getIdGenerator (fieldName) == null))
+				if (pmd.isKeyField(fieldName) && (identityFieldName == null) && isIdentitySupported()
+								&& (pmd.getIdGenerator(fieldName) == null))
 				{
 					identityFieldName = fieldName;
-					createStatement.append (pmd.getDBFieldName (fieldName) + " ");
-					createStatement.append (getCreateIdentitySyntax ());
+					createStatement.append(pmd.getDBFieldName(fieldName) + " ");
+					createStatement.append(getCreateIdentitySyntax());
 				}
-				else if (isSequenceSupported ())
+				else if (isSequenceSupported())
 				{
-					createStatement.append (getCreateSequenceSyntax (fieldName));
+					createStatement.append(getCreateSequenceSyntax(fieldName));
 				}
 				else
 				{
-					createStatement.append (pmd.getDBFieldName (fieldName) + " ");
-					createStatement.append (pmd.getDBType (fieldName));
-					createStatement.append (" not null");
+					createStatement.append(pmd.getDBFieldName(fieldName) + " ");
+					createStatement.append(pmd.getDBType(fieldName));
+					createStatement.append(" not null");
 				}
 			}
 			else
 			{
-				createStatement.append (pmd.getDBFieldName (fieldName) + " ");
-				oneType = new StringBuffer ("");
-				oneType.append (pmd.getDBType (fieldName));
+				createStatement.append(pmd.getDBFieldName(fieldName) + " ");
+				oneType = new StringBuffer("");
+				oneType.append(pmd.getDBType(fieldName));
 
-				if (pmd.getLength (fieldName) != 0)
+				if (pmd.getLength(fieldName) != 0)
 				{
-					oneType.append ("(" + pmd.getLength (fieldName));
+					oneType.append("(" + pmd.getLength(fieldName));
 
-					if (pmd.getPrecision (fieldName) > 0)
+					if (pmd.getPrecision(fieldName) > 0)
 					{
-						oneType.append (", " + pmd.getPrecision (fieldName));
+						oneType.append(", " + pmd.getPrecision(fieldName));
 					}
 
-					oneType.append (")");
+					oneType.append(")");
 				}
 
-				createStatement.append (oneType.toString ());
+				createStatement.append(oneType.toString());
 
-				if (! pmd.allowsNull (fieldName))
+				if (! pmd.allowsNull(fieldName))
 				{
-					createStatement.append (" not null");
+					createStatement.append(" not null");
 				}
 				else
 				{
-					if (useExplicitNull ())
+					if (useExplicitNull())
 					{
-						createStatement.append (" null");
+						createStatement.append(" null");
 					}
 
 					//Added for compatability w/Sybase...sql-92 standard?
@@ -877,46 +876,46 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 		 * the particular DBType in use doesn't support that syntax.
 		 * In that case, the key is specified as part of the CREATE TABLE syntax
 		 */
-		if (! isAlterKeySupported ())
+		if (! isAlterKeySupported())
 		{
 			short keyCount = 0;
 
 			addComma = false;
 
-			for (Iterator kf = pmd.getKeyFieldNames ().iterator (); kf.hasNext ();)
+			for (Iterator kf = pmd.getKeyFieldNames().iterator(); kf.hasNext();)
 			{
-				fieldName = (String) kf.next ();
+				fieldName = (String) kf.next();
 
-				if (! (pmd.isAutoIncremented (fieldName) && isIdentitySupported ()))
+				if (! (pmd.isAutoIncremented(fieldName) && isIdentitySupported()))
 				{
 					keyCount++;
 
 					if (addComma)
 					{
-						createStatement.append (",");
+						createStatement.append(",");
 					}
 					else
 					{
-						createStatement.append (", PRIMARY KEY (");
+						createStatement.append(", PRIMARY KEY (");
 					}
 
-					createStatement.append (pmd.getDBFieldName (fieldName));
+					createStatement.append(pmd.getDBFieldName(fieldName));
 					addComma = true;
 				}
 			}
 
 			if (keyCount != 0)
 			{
-				createStatement.append (")");
+				createStatement.append(")");
 			}
 
-			if (pmd.getKeyFieldNames ().size () == 0)
+			if (pmd.getKeyFieldNames().size() == 0)
 			{
-				log.warn ("No primary key on table '" + pmd.getTableName () + "'");
+				log.warn("No primary key on table '" + pmd.getTableName() + "'");
 			}
 		}
 
-		createStatement.append (")");
+		createStatement.append(")");
 
 		return createStatement;
 	}
@@ -924,7 +923,7 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 	/**
 	 * Initialize the default type map from this datasource.
 	 */
-	public void setDataSource (DataSourceComponent ds) throws PersistenceException
+	public void setDataSource(DataSourceComponent ds) throws PersistenceException
 	{
 		if (typesMapped)
 		{
@@ -932,20 +931,20 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 		}
 
 		Connection myConnection = null;
-		Set dups = new HashSet ();
+		Set dups = new HashSet();
 
 		try
 		{
-			myConnection = ds.getConnection ();
+			myConnection = ds.getConnection();
 
 			if (myConnection == null)
 			{
-				throw new PersistenceException ("Got a null connection from data source " + ds.toString ());
+				throw new PersistenceException("Got a null connection from data source " + ds.toString());
 			}
 
-			DatabaseMetaData dm = myConnection.getMetaData ();
+			DatabaseMetaData dm = myConnection.getMetaData();
 
-			if (dm.supportsTransactions ())
+			if (dm.supportsTransactions())
 			{
 				supportsTransactions = true;
 			}
@@ -954,60 +953,60 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 				supportsTransactions = false;
 			}
 
-			ResultSet rsx = dm.getTypeInfo ();
+			ResultSet rsx = dm.getTypeInfo();
 
-			while (rsx.next ())
+			while (rsx.next())
 			{
-				TypeMapEntry oneType = new TypeMapEntry ();
+				TypeMapEntry oneType = new TypeMapEntry();
 
 				//--- quikdraw: Changed the resultSet extraction from indexes to
 				//	column names as defined in the Sun JavaDoc for JDBC.
-				oneType.setTypeName (rsx.getString ("TYPE_NAME"));
-				oneType.setDataType (rsx.getShort ("DATA_TYPE"));
+				oneType.setTypeName(rsx.getString("TYPE_NAME"));
+				oneType.setDataType(rsx.getShort("DATA_TYPE"));
 
 				try
 				{
-					oneType.setPrecision (rsx.getInt ("PRECISION"));
+					oneType.setPrecision(rsx.getInt("PRECISION"));
 				}
 				catch (Exception e)
 				{
-					log.warn ("Driver returned bad precision, setting to 0");
-					oneType.setPrecision (0);
+					log.warn("Driver returned bad precision, setting to 0");
+					oneType.setPrecision(0);
 				}
 
-				oneType.setLiteralPrefix (rsx.getString ("LITERAL_PREFIX"));
-				oneType.setLiteralSuffix (rsx.getString ("LITERAL_SUFFIX"));
-				oneType.setCreateParams (rsx.getString ("CREATE_PARAMS"));
-				oneType.setNullable (rsx.getShort ("NULLABLE"));
-				oneType.setCaseSensitive (rsx.getBoolean ("CASE_SENSITIVE"));
-				oneType.setSearchable (rsx.getShort ("SEARCHABLE"));
-				oneType.setUnsigned (rsx.getBoolean ("UNSIGNED_ATTRIBUTE"));
-				oneType.setFixedPrecision (rsx.getBoolean ("FIXED_PREC_SCALE"));
-				oneType.setAutoIncrement (rsx.getBoolean ("AUTO_INCREMENT"));
-				oneType.setLocalTypeName (rsx.getString ("LOCAL_TYPE_NAME"));
-				oneType.setMinScale (rsx.getShort ("MINIMUM_SCALE"));
-				oneType.setMaxScale (rsx.getShort ("MAXIMUM_SCALE"));
+				oneType.setLiteralPrefix(rsx.getString("LITERAL_PREFIX"));
+				oneType.setLiteralSuffix(rsx.getString("LITERAL_SUFFIX"));
+				oneType.setCreateParams(rsx.getString("CREATE_PARAMS"));
+				oneType.setNullable(rsx.getShort("NULLABLE"));
+				oneType.setCaseSensitive(rsx.getBoolean("CASE_SENSITIVE"));
+				oneType.setSearchable(rsx.getShort("SEARCHABLE"));
+				oneType.setUnsigned(rsx.getBoolean("UNSIGNED_ATTRIBUTE"));
+				oneType.setFixedPrecision(rsx.getBoolean("FIXED_PREC_SCALE"));
+				oneType.setAutoIncrement(rsx.getBoolean("AUTO_INCREMENT"));
+				oneType.setLocalTypeName(rsx.getString("LOCAL_TYPE_NAME"));
+				oneType.setMinScale(rsx.getShort("MINIMUM_SCALE"));
+				oneType.setMaxScale(rsx.getShort("MAXIMUM_SCALE"));
 				//--- quikdraw: This was index 16, but the JavaDoc for DatabaseMetaData
 				//	states the index for the Radix is 18.
-				oneType.setNumPrecRadix (rsx.getInt ("NUM_PREC_RADIX"));
+				oneType.setNumPrecRadix(rsx.getInt("NUM_PREC_RADIX"));
 
-				String typeAsString = typeToString (oneType.getDataType ());
+				String typeAsString = typeToString(oneType.getDataType());
 
-				TypeMapEntry oldType = (TypeMapEntry) mapByType.get (typeAsString);
+				TypeMapEntry oldType = (TypeMapEntry) mapByType.get(typeAsString);
 
 				if (oldType == null)
 				{
-					mapByType.put (typeAsString, oneType);
+					mapByType.put(typeAsString, oneType);
 				}
 				else
 				{
-					dups.add (typeAsString);
+					dups.add(typeAsString);
 				}
 			}
 		}
 		catch (SQLException se)
 		{
-			throw new PersistenceException (se);
+			throw new PersistenceException(se);
 		}
 		finally
 		{
@@ -1015,32 +1014,32 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 			{
 				if (myConnection != null)
 				{
-					myConnection.close ();
+					myConnection.close();
 				}
 			}
 			catch (SQLException se)
 			{
-				throw new PersistenceException (se);
+				throw new PersistenceException(se);
 			}
 		}
 
-		if (dups.size () > 0)
+		if (dups.size() > 0)
 		{
-			for (Iterator i = dups.iterator (); i.hasNext ();)
+			for (Iterator i = dups.iterator(); i.hasNext();)
 			{
-				String typeAsString = (String) i.next ();
+				String typeAsString = (String) i.next();
 
-				log.debug ("Type '" + typeAsString + "' overridden by configuration or mapped twice");
+				log.debug("Type '" + typeAsString + "' overridden by configuration or mapped twice");
 			}
 		}
 
-		if (dups.size () > 0)
+		if (dups.size() > 0)
 		{
-			log.debug ("Configuration was:" + KeelConfigurationUtil.list (myConfig, "database type"));
+			log.debug("Configuration was:" + KeelConfigurationUtil.list(myConfig, "database type"));
 		}
 	}
 
-	public static String typeToString (int sqlType)
+	public static String typeToString(int sqlType)
 	{
 		String returnValue = null;
 
@@ -1197,174 +1196,174 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 				break;
 
 			default:
-				throw new IllegalArgumentException ("Unknown java.sql.Types type " + sqlType);
+				throw new IllegalArgumentException("Unknown java.sql.Types type " + sqlType);
 		} // switch
 
 		return returnValue;
 	}
 
-	public static short stringToType (String stringType)
+	public static short stringToType(String stringType)
 	{
 		short returnValue = - 1;
 
-		if (stringType.equalsIgnoreCase ("ARRAY"))
+		if (stringType.equalsIgnoreCase("ARRAY"))
 		{
 			returnValue = java.sql.Types.ARRAY;
 		}
-		else if (stringType.equalsIgnoreCase ("BIGINT"))
+		else if (stringType.equalsIgnoreCase("BIGINT"))
 		{
 			returnValue = java.sql.Types.BIGINT;
 
 			// Allow "long" to be used as a synonym for BIGINT
 		}
-		else if (stringType.equalsIgnoreCase ("LONG"))
+		else if (stringType.equalsIgnoreCase("LONG"))
 		{
 			returnValue = java.sql.Types.BIGINT;
 		}
-		else if (stringType.equalsIgnoreCase ("BINARY"))
+		else if (stringType.equalsIgnoreCase("BINARY"))
 		{
 			returnValue = java.sql.Types.BINARY;
 		}
-		else if (stringType.equalsIgnoreCase ("BIT"))
+		else if (stringType.equalsIgnoreCase("BIT"))
 		{
 			returnValue = java.sql.Types.BIT;
 		}
-		else if (stringType.equalsIgnoreCase ("BLOB"))
+		else if (stringType.equalsIgnoreCase("BLOB"))
 		{
 			returnValue = java.sql.Types.BLOB;
 		}
-		else if (stringType.equalsIgnoreCase ("BOOLEAN"))
+		else if (stringType.equalsIgnoreCase("BOOLEAN"))
 		{
 			returnValue = java.sql.Types.BOOLEAN;
 		}
-		else if (stringType.equalsIgnoreCase ("CHAR"))
+		else if (stringType.equalsIgnoreCase("CHAR"))
 		{
 			returnValue = java.sql.Types.CHAR;
 		}
-		else if (stringType.equalsIgnoreCase ("CLOB"))
+		else if (stringType.equalsIgnoreCase("CLOB"))
 		{
 			returnValue = java.sql.Types.CLOB;
 		}
-		else if (stringType.equalsIgnoreCase ("DATALINK"))
+		else if (stringType.equalsIgnoreCase("DATALINK"))
 		{
 			return java.sql.Types.DATALINK;
 		}
-		else if (stringType.equalsIgnoreCase ("DATE"))
+		else if (stringType.equalsIgnoreCase("DATE"))
 		{
 			returnValue = java.sql.Types.DATE;
 		}
-		else if (stringType.equalsIgnoreCase ("DECIMAL"))
+		else if (stringType.equalsIgnoreCase("DECIMAL"))
 		{
 			returnValue = java.sql.Types.DECIMAL;
 		}
-		else if (stringType.equalsIgnoreCase ("DISTINCT"))
+		else if (stringType.equalsIgnoreCase("DISTINCT"))
 		{
 			returnValue = java.sql.Types.DISTINCT;
 		}
-		else if (stringType.equalsIgnoreCase ("DOUBLE"))
+		else if (stringType.equalsIgnoreCase("DOUBLE"))
 		{
 			returnValue = java.sql.Types.DOUBLE;
 		}
-		else if (stringType.equalsIgnoreCase ("FLOAT"))
+		else if (stringType.equalsIgnoreCase("FLOAT"))
 		{
 			returnValue = java.sql.Types.FLOAT;
 		}
-		else if (stringType.equalsIgnoreCase ("INTEGER"))
+		else if (stringType.equalsIgnoreCase("INTEGER"))
 		{
 			returnValue = java.sql.Types.INTEGER;
 
 			// Allow "int" to be used as a synonym for INTEGER
 		}
-		else if (stringType.equalsIgnoreCase ("INT"))
+		else if (stringType.equalsIgnoreCase("INT"))
 		{
 			returnValue = java.sql.Types.INTEGER;
 		}
-		else if (stringType.equalsIgnoreCase ("JAVA_OBJECT"))
+		else if (stringType.equalsIgnoreCase("JAVA_OBJECT"))
 		{
 			returnValue = java.sql.Types.JAVA_OBJECT;
 		}
-		else if (stringType.equalsIgnoreCase ("LONGVARBINARY"))
+		else if (stringType.equalsIgnoreCase("LONGVARBINARY"))
 		{
 			returnValue = java.sql.Types.LONGVARBINARY;
 
 			// Allow "text" to be used as a synonym for LONGVARCHAR
 		}
-		else if (stringType.equalsIgnoreCase ("TEXT"))
+		else if (stringType.equalsIgnoreCase("TEXT"))
 		{
 			returnValue = java.sql.Types.LONGVARCHAR;
 		}
-		else if (stringType.equalsIgnoreCase ("LONGVARCHAR"))
+		else if (stringType.equalsIgnoreCase("LONGVARCHAR"))
 		{
 			returnValue = java.sql.Types.LONGVARCHAR;
 		}
-		else if (stringType.equalsIgnoreCase ("NULL"))
+		else if (stringType.equalsIgnoreCase("NULL"))
 		{
 			returnValue = java.sql.Types.NULL;
 		}
-		else if (stringType.equalsIgnoreCase ("NUMERIC"))
+		else if (stringType.equalsIgnoreCase("NUMERIC"))
 		{
 			returnValue = java.sql.Types.NUMERIC;
 		}
-		else if (stringType.equalsIgnoreCase ("OTHER"))
+		else if (stringType.equalsIgnoreCase("OTHER"))
 		{
 			returnValue = java.sql.Types.OTHER;
 		}
-		else if (stringType.equalsIgnoreCase ("REAL"))
+		else if (stringType.equalsIgnoreCase("REAL"))
 		{
 			returnValue = java.sql.Types.REAL;
 		}
-		else if (stringType.equalsIgnoreCase ("REF"))
+		else if (stringType.equalsIgnoreCase("REF"))
 		{
 			returnValue = java.sql.Types.REF;
 		}
-		else if (stringType.equalsIgnoreCase ("SMALLINT"))
+		else if (stringType.equalsIgnoreCase("SMALLINT"))
 		{
 			returnValue = java.sql.Types.SMALLINT;
 		}
-		else if (stringType.equalsIgnoreCase ("STRUCT"))
+		else if (stringType.equalsIgnoreCase("STRUCT"))
 		{
 			returnValue = java.sql.Types.STRUCT;
 		}
-		else if (stringType.equalsIgnoreCase ("TIME"))
+		else if (stringType.equalsIgnoreCase("TIME"))
 		{
 			returnValue = java.sql.Types.TIME;
 		}
-		else if (stringType.equalsIgnoreCase ("TIMESTAMP"))
+		else if (stringType.equalsIgnoreCase("TIMESTAMP"))
 		{
 			returnValue = java.sql.Types.TIMESTAMP;
 		}
-		else if (stringType.equalsIgnoreCase ("TINYINT"))
+		else if (stringType.equalsIgnoreCase("TINYINT"))
 		{
 			returnValue = java.sql.Types.TINYINT;
 		}
-		else if (stringType.equalsIgnoreCase ("VARBINARY"))
+		else if (stringType.equalsIgnoreCase("VARBINARY"))
 		{
 			returnValue = java.sql.Types.VARBINARY;
 		}
-		else if (stringType.equalsIgnoreCase ("VARCHAR"))
+		else if (stringType.equalsIgnoreCase("VARCHAR"))
 		{
 			returnValue = java.sql.Types.VARCHAR;
 		}
 		else
 		{
-			throw new IllegalArgumentException ("Unknown type '" + stringType + "'");
+			throw new IllegalArgumentException("Unknown type '" + stringType + "'");
 		}
 
 		return returnValue;
 	}
 
-	public boolean tableExists (String tableName, DataSourceComponent ds) throws PersistenceException
+	public boolean tableExists(String tableName, DataSourceComponent ds) throws PersistenceException
 	{
 		Connection myConnection = null;
 		boolean returnValue = false;
 
 		try
 		{
-			myConnection = ds.getConnection ();
+			myConnection = ds.getConnection();
 
-			Statement s = myConnection.createStatement ();
+			Statement s = myConnection.createStatement();
 
-			s.execute ("SELECT COUNT(*) FROM " + tableName);
+			s.execute("SELECT COUNT(*) FROM " + tableName);
 
 			returnValue = true;
 		}
@@ -1378,11 +1377,11 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 			{
 				try
 				{
-					myConnection.close ();
+					myConnection.close();
 				}
 				catch (SQLException se)
 				{
-					throw new PersistenceException (se);
+					throw new PersistenceException(se);
 				}
 			}
 		}
@@ -1392,18 +1391,18 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 
 	/* @see de.iritgo.aktera.persist.DatabaseType#getBlobResult()
 	 */
-	public byte[] getBlobResult (String fieldName, ResultSet rs, int index) throws PersistenceException
+	public byte[] getBlobResult(String fieldName, ResultSet rs, int index) throws PersistenceException
 	{
 		byte[] bArray = null;
 
 		try
 		{
-			bArray = rs.getBytes (index);
+			bArray = rs.getBytes(index);
 		}
 		catch (java.sql.SQLException sqe)
 		{
-			throw new PersistenceException ("An error occured while trying to fetch a BLOB from field " + fieldName
-							+ ", error: " + sqe.toString ());
+			throw new PersistenceException("An error occured while trying to fetch a BLOB from field " + fieldName
+							+ ", error: " + sqe.toString());
 		}
 
 		return bArray;
@@ -1411,7 +1410,7 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 
 	/* @see de.iritgo.aktera.persist.DatabaseType#getBlobResult()
 	 */
-	public List getClobResult (String fieldName, ResultSet rs, int index) throws PersistenceException
+	public List getClobResult(String fieldName, ResultSet rs, int index) throws PersistenceException
 	{
 		String oneLine = null;
 		ArrayList allLines = null;
@@ -1420,23 +1419,23 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 		//If we return the BufferedReader, will it die when the connection is closed?
 		try
 		{
-			Clob clob = (Clob) rs.getBlob ("CLOBFIELD");
-			BufferedReader clobData = new BufferedReader (clob.getCharacterStream ());
+			Clob clob = (Clob) rs.getBlob("CLOBFIELD");
+			BufferedReader clobData = new BufferedReader(clob.getCharacterStream());
 
-			while ((oneLine = clobData.readLine ()) != null)
+			while ((oneLine = clobData.readLine()) != null)
 			{
-				allLines.add (oneLine);
+				allLines.add(oneLine);
 			}
 		}
 		catch (java.sql.SQLException sqe)
 		{
-			throw new PersistenceException ("An error occured while trying to fetch a BLOB from field " + fieldName
-							+ ", error: " + sqe.toString ());
+			throw new PersistenceException("An error occured while trying to fetch a BLOB from field " + fieldName
+							+ ", error: " + sqe.toString());
 		}
 		catch (java.io.IOException ioe)
 		{
-			throw new PersistenceException ("An error occured while trying to fetch a BLOB from field " + fieldName
-							+ ", error: " + ioe.toString ());
+			throw new PersistenceException("An error occured while trying to fetch a BLOB from field " + fieldName
+							+ ", error: " + ioe.toString());
 		}
 
 		return allLines;
@@ -1444,71 +1443,71 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 
 	/* @see de.iritgo.aktera.persist.DatabaseType#getCreateIdentitySyntax()
 	 */
-	public String getCreateIdentitySyntax () throws PersistenceException
+	public String getCreateIdentitySyntax() throws PersistenceException
 	{
-		throw new PersistenceException ("SQL Identity not supported");
+		throw new PersistenceException("SQL Identity not supported");
 	}
 
 	/* @see de.iritgo.aktera.persist.DatabaseType#getCreateSequenceSyntax(String)
 	 */
-	public String getCreateSequenceSyntax (String sequenceName) throws PersistenceException
+	public String getCreateSequenceSyntax(String sequenceName) throws PersistenceException
 	{
-		throw new PersistenceException ("SQL Sequence not supported");
+		throw new PersistenceException("SQL Sequence not supported");
 	}
 
 	/* (non-Javadoc)
 	 * @see de.iritgo.aktera.persist.DatabaseType#getDropSequenceSyntax(String)
 	 */
-	public String getDropSequenceSyntax (String sequenceName) throws PersistenceException
+	public String getDropSequenceSyntax(String sequenceName) throws PersistenceException
 	{
-		throw new PersistenceException ("SQL Sequence not supported");
+		throw new PersistenceException("SQL Sequence not supported");
 	}
 
 	/* @see de.iritgo.aktera.persist.DatabaseType#getInsertIdentitySyntax()
 	 */
-	public String getInsertIdentitySyntax () throws PersistenceException
+	public String getInsertIdentitySyntax() throws PersistenceException
 	{
-		throw new PersistenceException ("SQL Identity not supported");
+		throw new PersistenceException("SQL Identity not supported");
 	}
 
 	/* @see de.iritgo.aktera.persist.DatabaseType#getRetrieveIdentitySyntax()
 	 */
-	public String getRetrieveIdentitySyntax (PersistentMetaData pmd, String idFieldName) throws PersistenceException
+	public String getRetrieveIdentitySyntax(PersistentMetaData pmd, String idFieldName) throws PersistenceException
 	{
-		throw new PersistenceException ("SQL Identity not supported");
+		throw new PersistenceException("SQL Identity not supported");
 	}
 
 	/* @see de.iritgo.aktera.persist.DatabaseType#getRetrieveSequenceSyntax(String)
 	 */
-	public String getRetrieveSequenceSyntax (String sequenceName) throws PersistenceException
+	public String getRetrieveSequenceSyntax(String sequenceName) throws PersistenceException
 	{
-		throw new PersistenceException ("SQL Sequence not supported");
+		throw new PersistenceException("SQL Sequence not supported");
 	}
 
 	/* @see de.iritgo.aktera.persist.DatabaseType#isIdentitySupported()
 	 */
-	public boolean isIdentitySupported ()
+	public boolean isIdentitySupported()
 	{
 		return false;
 	}
 
 	/* @see de.iritgo.aktera.persist.DatabaseType#isSequenceSupported()
 	 */
-	public boolean isSequenceSupported ()
+	public boolean isSequenceSupported()
 	{
 		return false;
 	}
 
 	/* @see de.iritgo.aktera.persist.DatabaseType#isAlterKeySupported()
 	 */
-	public boolean isAlterKeySupported ()
+	public boolean isAlterKeySupported()
 	{
 		return true;
 	}
 
 	/* @see de.iritgo.aktera.persist.DatabaseType#skipIdentityInAlterKey()
 	 */
-	public boolean skipIdentityInAlterKey ()
+	public boolean skipIdentityInAlterKey()
 	{
 		return false;
 	}
@@ -1525,75 +1524,74 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 	 * @return A sql statement that creates or drops an index.
 	 * @throws PersistenceException
 	 */
-	protected String constructIndexSQL (PersistentMetaData pmd, Index index, boolean create)
-		throws PersistenceException
+	protected String constructIndexSQL(PersistentMetaData pmd, Index index, boolean create) throws PersistenceException
 	{
-		String indexName = index.getIndexName ();
-		String tableName = index.getTableName ();
-		String fieldNames = index.getFieldNames ();
+		String indexName = index.getIndexName();
+		String tableName = index.getTableName();
+		String fieldNames = index.getFieldNames();
 
 		if (indexName == null)
 		{
-			throw new PersistenceException ("Index_ConstructSQL_IllegalArgument");
+			throw new PersistenceException("Index_ConstructSQL_IllegalArgument");
 		}
 
 		if (tableName == null)
 		{
-			throw new PersistenceException ("Index_ConstructSQL_IllegalArgument");
+			throw new PersistenceException("Index_ConstructSQL_IllegalArgument");
 		}
 
 		if (fieldNames == null)
 		{
-			throw new PersistenceException ("Index_ConstructSQL_IllegalArgument");
+			throw new PersistenceException("Index_ConstructSQL_IllegalArgument");
 		}
 
-		StringBuffer statement = new StringBuffer (100);
+		StringBuffer statement = new StringBuffer(100);
 
 		if (create)
 		{
-			statement.append ("CREATE ");
+			statement.append("CREATE ");
 
-			if (index.isUnique () == true)
+			if (index.isUnique() == true)
 			{
-				statement.append ("UNIQUE ");
+				statement.append("UNIQUE ");
 			}
 		}
 		else
 		{
-			statement.append ("DROP ");
+			statement.append("DROP ");
 		}
 
-		statement.append ("INDEX ");
-		statement.append (indexName);
-		statement.append (" ON ");
-		statement.append (tableName);
+		statement.append("INDEX ");
+		statement.append(indexName);
+		statement.append(" ON ");
+		statement.append(tableName);
 
 		if (create)
 		{
-			statement.append ("(");
+			statement.append("(");
 
-			StringBuffer dbFieldNames = new StringBuffer ();
+			StringBuffer dbFieldNames = new StringBuffer();
 			boolean firstTime = true;
 			String oneFieldName = null;
-			StringTokenizer stk = new StringTokenizer (fieldNames, ",");
+			StringTokenizer stk = new StringTokenizer(fieldNames, ",");
 
-			while (stk.hasMoreTokens ())
+			while (stk.hasMoreTokens())
 			{
 				if (! firstTime)
 				{
-					dbFieldNames.append (",");
+					dbFieldNames.append(",");
 				}
 
-				oneFieldName = stk.nextToken ();
-				dbFieldNames.append (pmd.getDBFieldName (oneFieldName));
+				oneFieldName = stk.nextToken();
+				dbFieldNames.append(pmd.getDBFieldName(oneFieldName));
 				firstTime = false;
 			}
 
-			statement.append (fieldNames);
-			statement.append (")");
+			statement.append(fieldNames);
+			statement.append(")");
 		}
 
-		return statement.toString ();
+		return statement.toString();
 	}
 
 	/**
@@ -1603,61 +1601,61 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 	 * @param fieldName Field name.
 	 * @return The database type.
 	 */
-	public String getCompleteDBType (PersistentMetaData pmd, String fieldName) throws PersistenceException
+	public String getCompleteDBType(PersistentMetaData pmd, String fieldName) throws PersistenceException
 	{
-		StringBuffer sb = new StringBuffer ();
+		StringBuffer sb = new StringBuffer();
 
-		if (pmd.isAutoIncremented (fieldName))
+		if (pmd.isAutoIncremented(fieldName))
 		{
-			if (pmd.isKeyField (fieldName) && isIdentitySupported () && (pmd.getIdGenerator (fieldName) == null))
+			if (pmd.isKeyField(fieldName) && isIdentitySupported() && (pmd.getIdGenerator(fieldName) == null))
 			{
-				sb.append (getCreateIdentitySyntax ());
+				sb.append(getCreateIdentitySyntax());
 			}
-			else if (isSequenceSupported ())
+			else if (isSequenceSupported())
 			{
-				sb.append (getCreateSequenceSyntax (fieldName));
+				sb.append(getCreateSequenceSyntax(fieldName));
 			}
 			else
 			{
-				sb.append (pmd.getDBType (fieldName));
-				sb.append (" NOT NULL");
+				sb.append(pmd.getDBType(fieldName));
+				sb.append(" NOT NULL");
 			}
 		}
 		else
 		{
-			StringBuffer oneType = new StringBuffer ("");
+			StringBuffer oneType = new StringBuffer("");
 
-			oneType = new StringBuffer ("");
-			oneType.append (pmd.getDBType (fieldName));
+			oneType = new StringBuffer("");
+			oneType.append(pmd.getDBType(fieldName));
 
-			if (pmd.getLength (fieldName) != 0)
+			if (pmd.getLength(fieldName) != 0)
 			{
-				oneType.append ("(" + pmd.getLength (fieldName));
+				oneType.append("(" + pmd.getLength(fieldName));
 
-				if (pmd.getPrecision (fieldName) > 0)
+				if (pmd.getPrecision(fieldName) > 0)
 				{
-					oneType.append (", " + pmd.getPrecision (fieldName));
+					oneType.append(", " + pmd.getPrecision(fieldName));
 				}
 
-				oneType.append (")");
+				oneType.append(")");
 			}
 
-			sb.append (oneType.toString ());
+			sb.append(oneType.toString());
 
-			if (! pmd.allowsNull (fieldName))
+			if (! pmd.allowsNull(fieldName))
 			{
-				sb.append (" NOT NULL");
+				sb.append(" NOT NULL");
 			}
 			else
 			{
-				if (useExplicitNull ())
+				if (useExplicitNull())
 				{
-					sb.append (" NULL");
+					sb.append(" NULL");
 				}
 			}
 		}
 
-		return sb.toString ();
+		return sb.toString();
 	}
 
 	/**
@@ -1667,48 +1665,48 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 	 * @param fieldName Field name.
 	 * @return The database type.
 	 */
-	public String getDBTypeWithPrecision (PersistentMetaData pmd, String fieldName) throws PersistenceException
+	public String getDBTypeWithPrecision(PersistentMetaData pmd, String fieldName) throws PersistenceException
 	{
-		StringBuffer sb = new StringBuffer ();
+		StringBuffer sb = new StringBuffer();
 
-		if (pmd.isAutoIncremented (fieldName))
+		if (pmd.isAutoIncremented(fieldName))
 		{
-			if (pmd.isKeyField (fieldName) && isIdentitySupported () && (pmd.getIdGenerator (fieldName) == null))
+			if (pmd.isKeyField(fieldName) && isIdentitySupported() && (pmd.getIdGenerator(fieldName) == null))
 			{
-				sb.append (getCreateIdentitySyntax ());
+				sb.append(getCreateIdentitySyntax());
 			}
-			else if (isSequenceSupported ())
+			else if (isSequenceSupported())
 			{
-				sb.append (getCreateSequenceSyntax (fieldName));
+				sb.append(getCreateSequenceSyntax(fieldName));
 			}
 			else
 			{
-				sb.append (pmd.getDBType (fieldName));
+				sb.append(pmd.getDBType(fieldName));
 			}
 		}
 		else
 		{
-			StringBuffer oneType = new StringBuffer ("");
+			StringBuffer oneType = new StringBuffer("");
 
-			oneType = new StringBuffer ("");
-			oneType.append (pmd.getDBType (fieldName));
+			oneType = new StringBuffer("");
+			oneType.append(pmd.getDBType(fieldName));
 
-			if (pmd.getLength (fieldName) != 0)
+			if (pmd.getLength(fieldName) != 0)
 			{
-				oneType.append ("(" + pmd.getLength (fieldName));
+				oneType.append("(" + pmd.getLength(fieldName));
 
-				if (pmd.getPrecision (fieldName) > 0)
+				if (pmd.getPrecision(fieldName) > 0)
 				{
-					oneType.append (", " + pmd.getPrecision (fieldName));
+					oneType.append(", " + pmd.getPrecision(fieldName));
 				}
 
-				oneType.append (")");
+				oneType.append(")");
 			}
 
-			sb.append (oneType.toString ());
+			sb.append(oneType.toString());
 		}
 
-		return sb.toString ();
+		return sb.toString();
 	}
 
 	/**
@@ -1719,10 +1717,10 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 	 * @param newFieldName New field name.
 	 * @return The rename statement.
 	 */
-	public String getRenameFieldStatement (PersistentMetaData pmd, String oldFieldName, String newFieldName)
+	public String getRenameFieldStatement(PersistentMetaData pmd, String oldFieldName, String newFieldName)
 		throws PersistenceException
 	{
-		throw new PersistenceException ("[JDBCDatabaseType] No getRenameFieldStatement() method defined.");
+		throw new PersistenceException("[JDBCDatabaseType] No getRenameFieldStatement() method defined.");
 	}
 
 	/**
@@ -1732,27 +1730,27 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 	 * @param oldFieldName Old field name.
 	 * @param newFieldName New field name.
 	 */
-	public void renameField (PersistentMetaData pmd, String oldFieldName, String newFieldName)
+	public void renameField(PersistentMetaData pmd, String oldFieldName, String newFieldName)
 		throws PersistenceException
 	{
 		Connection myConnection = null;
 
 		try
 		{
-			myConnection = pmd.getDataSource ().getConnection ();
+			myConnection = pmd.getDataSource().getConnection();
 
-			Statement s = myConnection.createStatement ();
-			String sql = getRenameFieldStatement (pmd, oldFieldName, newFieldName);
+			Statement s = myConnection.createStatement();
+			String sql = getRenameFieldStatement(pmd, oldFieldName, newFieldName);
 
 			//  			System.out.println ("JDBCDatabaseType.renameField: " + sql);
-			s.executeUpdate (sql);
+			s.executeUpdate(sql);
 		}
 		catch (SQLException se)
 		{
-			log.error (se.toString ());
+			log.error(se.toString());
 
-			throw new PersistenceException ("Unable to rename field '" + oldFieldName + "' in table '"
-							+ pmd.getTableName () + "' to '" + newFieldName + "'");
+			throw new PersistenceException("Unable to rename field '" + oldFieldName + "' in table '"
+							+ pmd.getTableName() + "' to '" + newFieldName + "'");
 		}
 		finally
 		{
@@ -1760,11 +1758,11 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 			{
 				try
 				{
-					myConnection.close ();
+					myConnection.close();
 				}
 				catch (SQLException se)
 				{
-					throw new PersistenceException (se);
+					throw new PersistenceException(se);
 				}
 			}
 		}
@@ -1777,20 +1775,20 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 	 * @param fieldName The field name.
 	 * @return True if the table contains the field.
 	 */
-	public boolean containsField (PersistentMetaData pmd, String fieldName) throws PersistenceException
+	public boolean containsField(PersistentMetaData pmd, String fieldName) throws PersistenceException
 	{
 		Connection connection = null;
 		ResultSet res = null;
 
 		try
 		{
-			connection = pmd.getDataSource ().getConnection ();
+			connection = pmd.getDataSource().getConnection();
 
-			DatabaseMetaData dmd = connection.getMetaData ();
+			DatabaseMetaData dmd = connection.getMetaData();
 
-			res = dmd.getColumns (null, null, pmd.getTableName (), fieldName);
+			res = dmd.getColumns(null, null, pmd.getTableName(), fieldName);
 
-			if (res.next ())
+			if (res.next())
 			{
 				return true;
 			}
@@ -1799,10 +1797,10 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 		}
 		catch (SQLException se)
 		{
-			log.error (se.toString ());
+			log.error(se.toString());
 
-			throw new PersistenceException ("Unable to check for field '" + fieldName + "' in table '"
-							+ pmd.getTableName ());
+			throw new PersistenceException("Unable to check for field '" + fieldName + "' in table '"
+							+ pmd.getTableName());
 		}
 		finally
 		{
@@ -1810,11 +1808,11 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 			{
 				try
 				{
-					res.close ();
+					res.close();
 				}
 				catch (SQLException se)
 				{
-					throw new PersistenceException (se);
+					throw new PersistenceException(se);
 				}
 			}
 
@@ -1822,11 +1820,11 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 			{
 				try
 				{
-					connection.close ();
+					connection.close();
 				}
 				catch (SQLException se)
 				{
-					throw new PersistenceException (se);
+					throw new PersistenceException(se);
 				}
 			}
 		}
@@ -1839,16 +1837,16 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 	 * @param newTableName Old table name.
 	 * @return The rename statement.
 	 */
-	public String getRenameTableStatement (String oldTableName, String newTableName) throws PersistenceException
+	public String getRenameTableStatement(String oldTableName, String newTableName) throws PersistenceException
 	{
-		StringBuffer sb = new StringBuffer ();
+		StringBuffer sb = new StringBuffer();
 
-		sb.append ("ALTER TABLE ");
-		sb.append (oldTableName);
-		sb.append (" RENAME TO ");
-		sb.append (newTableName);
+		sb.append("ALTER TABLE ");
+		sb.append(oldTableName);
+		sb.append(" RENAME TO ");
+		sb.append(newTableName);
 
-		return sb.toString ();
+		return sb.toString();
 	}
 
 	/**
@@ -1858,26 +1856,26 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 	 * @param oldTableName Old table name.
 	 * @param newTableName Old table name.
 	 */
-	public void renameTable (PersistentMetaData pmd, String oldTableName, String newTableName)
+	public void renameTable(PersistentMetaData pmd, String oldTableName, String newTableName)
 		throws PersistenceException
 	{
 		Connection connection = null;
 
 		try
 		{
-			connection = pmd.getDataSource ().getConnection ();
+			connection = pmd.getDataSource().getConnection();
 
-			Statement s = connection.createStatement ();
-			String sql = getRenameTableStatement (oldTableName, newTableName);
+			Statement s = connection.createStatement();
+			String sql = getRenameTableStatement(oldTableName, newTableName);
 
 			// 			System.out.println ("JDBCDatabaseType.renameTable: " + sql);
-			s.executeUpdate (sql);
+			s.executeUpdate(sql);
 		}
 		catch (SQLException se)
 		{
-			log.error (se.toString ());
+			log.error(se.toString());
 
-			throw new PersistenceException ("Unable to rename table '" + oldTableName + "' to '" + newTableName + "'");
+			throw new PersistenceException("Unable to rename table '" + oldTableName + "' to '" + newTableName + "'");
 		}
 		finally
 		{
@@ -1885,11 +1883,11 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 			{
 				try
 				{
-					connection.close ();
+					connection.close();
 				}
 				catch (SQLException se)
 				{
-					throw new PersistenceException (se);
+					throw new PersistenceException(se);
 				}
 			}
 		}
@@ -1900,23 +1898,23 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 	 *
 	 * @param pmd Persistent meta data.
 	 */
-	public void dropTable (PersistentMetaData pmd) throws PersistenceException
+	public void dropTable(PersistentMetaData pmd) throws PersistenceException
 	{
 		Connection connection = null;
 
 		try
 		{
-			connection = pmd.getDataSource ().getConnection ();
+			connection = pmd.getDataSource().getConnection();
 
-			Statement s = connection.createStatement ();
-			String sql = "DROP TABLE " + pmd.getTableName ();
+			Statement s = connection.createStatement();
+			String sql = "DROP TABLE " + pmd.getTableName();
 
 			// 			System.out.println ("JDBCDatabaseType.dropTable: " + sql);
-			s.executeUpdate (sql);
+			s.executeUpdate(sql);
 		}
 		catch (SQLException se)
 		{
-			log.error (se.toString ());
+			log.error(se.toString());
 		}
 		finally
 		{
@@ -1924,11 +1922,11 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 			{
 				try
 				{
-					connection.close ();
+					connection.close();
 				}
 				catch (SQLException se)
 				{
-					throw new PersistenceException (se);
+					throw new PersistenceException(se);
 				}
 			}
 		}
@@ -1941,18 +1939,18 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 	 * @param fieldName The name of the field to add.
 	 * @return The add field statement.
 	 */
-	public String getAddFieldStatement (PersistentMetaData pmd, String fieldName) throws PersistenceException
+	public String getAddFieldStatement(PersistentMetaData pmd, String fieldName) throws PersistenceException
 	{
-		StringBuffer sb = new StringBuffer ();
+		StringBuffer sb = new StringBuffer();
 
-		sb.append ("ALTER TABLE ");
-		sb.append (pmd.getTableName ());
-		sb.append (" ADD COLUMN ");
-		sb.append (fieldName);
-		sb.append (" ");
-		sb.append (getCompleteDBType (pmd, fieldName));
+		sb.append("ALTER TABLE ");
+		sb.append(pmd.getTableName());
+		sb.append(" ADD COLUMN ");
+		sb.append(fieldName);
+		sb.append(" ");
+		sb.append(getCompleteDBType(pmd, fieldName));
 
-		return sb.toString ();
+		return sb.toString();
 	}
 
 	/**
@@ -1962,18 +1960,18 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 	 * @param fieldName The name of the field to add.
 	 * @return The update field statement.
 	 */
-	public String getUpdateFieldDefaultValueStatement (PersistentMetaData pmd, String fieldName)
+	public String getUpdateFieldDefaultValueStatement(PersistentMetaData pmd, String fieldName)
 		throws PersistenceException
 	{
-		StringBuffer sb = new StringBuffer ();
+		StringBuffer sb = new StringBuffer();
 
-		sb.append ("UPDATE ");
-		sb.append (pmd.getTableName ());
-		sb.append (" SET ");
-		sb.append (fieldName);
-		sb.append (" = ?");
+		sb.append("UPDATE ");
+		sb.append(pmd.getTableName());
+		sb.append(" SET ");
+		sb.append(fieldName);
+		sb.append(" = ?");
 
-		return sb.toString ();
+		return sb.toString();
 	}
 
 	/**
@@ -1982,7 +1980,7 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 	 * @param pmd Persistent meta data.
 	 * @param fieldName The name of the field to add.
 	 */
-	public void addField (PersistentMetaData pmd, String fieldName) throws PersistenceException
+	public void addField(PersistentMetaData pmd, String fieldName) throws PersistenceException
 	{
 		Connection myConnection = null;
 		Statement stmt = null;
@@ -1990,26 +1988,26 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 
 		try
 		{
-			myConnection = pmd.getDataSource ().getConnection ();
-			stmt = myConnection.createStatement ();
+			myConnection = pmd.getDataSource().getConnection();
+			stmt = myConnection.createStatement();
 
-			String sql = getAddFieldStatement (pmd, fieldName);
+			String sql = getAddFieldStatement(pmd, fieldName);
 
 			//  			System.out.println ("JDBCDatabaseType.addField: " + sql);
-			stmt.executeUpdate (sql);
+			stmt.executeUpdate(sql);
 
-			if (pmd.getDefaultValue (fieldName) != null)
+			if (pmd.getDefaultValue(fieldName) != null)
 			{
-				pstmt = myConnection.prepareStatement (getUpdateFieldDefaultValueStatement (pmd, fieldName));
-				pstmt.setString (1, pmd.getDefaultValue (fieldName));
-				pstmt.executeUpdate ();
+				pstmt = myConnection.prepareStatement(getUpdateFieldDefaultValueStatement(pmd, fieldName));
+				pstmt.setString(1, pmd.getDefaultValue(fieldName));
+				pstmt.executeUpdate();
 			}
 		}
 		catch (SQLException se)
 		{
-			log.error (se.toString ());
+			log.error(se.toString());
 
-			throw new PersistenceException ("Unable to add field '" + fieldName + "' in table '" + pmd.getTableName ()
+			throw new PersistenceException("Unable to add field '" + fieldName + "' in table '" + pmd.getTableName()
 							+ "'");
 		}
 		finally
@@ -2018,11 +2016,11 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 			{
 				try
 				{
-					stmt.close ();
+					stmt.close();
 				}
 				catch (SQLException se)
 				{
-					throw new PersistenceException (se);
+					throw new PersistenceException(se);
 				}
 			}
 
@@ -2030,11 +2028,11 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 			{
 				try
 				{
-					pstmt.close ();
+					pstmt.close();
 				}
 				catch (SQLException se)
 				{
-					throw new PersistenceException (se);
+					throw new PersistenceException(se);
 				}
 			}
 
@@ -2042,11 +2040,11 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 			{
 				try
 				{
-					myConnection.close ();
+					myConnection.close();
 				}
 				catch (SQLException se)
 				{
-					throw new PersistenceException (se);
+					throw new PersistenceException(se);
 				}
 			}
 		}
@@ -2058,7 +2056,7 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 	 * @param pmd Persistent meta data.
 	 * @param fieldNames A string array of field names to add.
 	 */
-	public void addFields (PersistentMetaData pmd, String[] fieldNames) throws PersistenceException
+	public void addFields(PersistentMetaData pmd, String[] fieldNames) throws PersistenceException
 	{
 		Connection myConnection = null;
 		Statement stmt = null;
@@ -2067,33 +2065,33 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 
 		try
 		{
-			myConnection = pmd.getDataSource ().getConnection ();
+			myConnection = pmd.getDataSource().getConnection();
 
 			for (int i = 0; i < fieldNames.length; ++i)
 			{
-				stmt = myConnection.createStatement ();
+				stmt = myConnection.createStatement();
 				fieldName = fieldNames[i];
 
-				String sql = getAddFieldStatement (pmd, fieldName);
+				String sql = getAddFieldStatement(pmd, fieldName);
 
 				// 				System.out.println ("JDBCDatabaseType.addField: " + sql);
-				stmt.executeUpdate (sql);
+				stmt.executeUpdate(sql);
 
-				if (pmd.getDefaultValue (fieldName) != null)
+				if (pmd.getDefaultValue(fieldName) != null)
 				{
-					pstmt = myConnection.prepareStatement (getUpdateFieldDefaultValueStatement (pmd, fieldName));
-					pstmt.setString (1, pmd.getDefaultValue (fieldName));
-					pstmt.executeUpdate ();
+					pstmt = myConnection.prepareStatement(getUpdateFieldDefaultValueStatement(pmd, fieldName));
+					pstmt.setString(1, pmd.getDefaultValue(fieldName));
+					pstmt.executeUpdate();
 				}
 
-				stmt.close ();
+				stmt.close();
 			}
 		}
 		catch (SQLException se)
 		{
-			log.error (se.toString ());
+			log.error(se.toString());
 
-			throw new PersistenceException ("Unable to add field '" + fieldName + "' in table '" + pmd.getTableName ()
+			throw new PersistenceException("Unable to add field '" + fieldName + "' in table '" + pmd.getTableName()
 							+ "'");
 		}
 		finally
@@ -2102,11 +2100,11 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 			{
 				try
 				{
-					stmt.close ();
+					stmt.close();
 				}
 				catch (SQLException se)
 				{
-					throw new PersistenceException (se);
+					throw new PersistenceException(se);
 				}
 			}
 
@@ -2114,11 +2112,11 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 			{
 				try
 				{
-					pstmt.close ();
+					pstmt.close();
 				}
 				catch (SQLException se)
 				{
-					throw new PersistenceException (se);
+					throw new PersistenceException(se);
 				}
 			}
 
@@ -2126,11 +2124,11 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 			{
 				try
 				{
-					myConnection.close ();
+					myConnection.close();
 				}
 				catch (SQLException se)
 				{
-					throw new PersistenceException (se);
+					throw new PersistenceException(se);
 				}
 			}
 		}
@@ -2143,9 +2141,9 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 	 * @param fieldName Field name.
 	 * @return The update statement.
 	 */
-	public String getUpdateTypeFieldStatement (PersistentMetaData pmd, String fieldName) throws PersistenceException
+	public String getUpdateTypeFieldStatement(PersistentMetaData pmd, String fieldName) throws PersistenceException
 	{
-		throw new PersistenceException ("[JDBCDatabaseType] No getUpdateTypeFieldStatement() method defined.");
+		throw new PersistenceException("[JDBCDatabaseType] No getUpdateTypeFieldStatement() method defined.");
 	}
 
 	/**
@@ -2156,7 +2154,7 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 	 * @param fieldName Field name.
 	 * @return The update statement.
 	 */
-	public String getUpdateNotNullFieldStatement (PersistentMetaData pmd, String fieldName) throws PersistenceException
+	public String getUpdateNotNullFieldStatement(PersistentMetaData pmd, String fieldName) throws PersistenceException
 	{
 		return null;
 	}
@@ -2168,36 +2166,36 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 	 * @param oldFieldName Old field name.
 	 * @param newFieldName New field name.
 	 */
-	public void updateTypeField (PersistentMetaData pmd, String fieldName) throws PersistenceException
+	public void updateTypeField(PersistentMetaData pmd, String fieldName) throws PersistenceException
 	{
 		Connection myConnection = null;
 
 		try
 		{
-			myConnection = pmd.getDataSource ().getConnection ();
+			myConnection = pmd.getDataSource().getConnection();
 
-			Statement s = myConnection.createStatement ();
-			String sql = getUpdateTypeFieldStatement (pmd, fieldName);
+			Statement s = myConnection.createStatement();
+			String sql = getUpdateTypeFieldStatement(pmd, fieldName);
 
 			//  			System.out.println ("JDBCDatabaseType.updateTypeField: " + sql);
-			s.executeUpdate (sql);
+			s.executeUpdate(sql);
 
-			sql = getUpdateNotNullFieldStatement (pmd, fieldName);
+			sql = getUpdateNotNullFieldStatement(pmd, fieldName);
 
 			if (sql != null)
 			{
-				s.close ();
-				s = myConnection.createStatement ();
+				s.close();
+				s = myConnection.createStatement();
 				// 				System.out.println ("JDBCDatabaseType.updateTypeField: " + sql);
-				s.executeUpdate (sql);
+				s.executeUpdate(sql);
 			}
 		}
 		catch (SQLException se)
 		{
-			log.error (se.toString ());
+			log.error(se.toString());
 
-			throw new PersistenceException ("Unable to update type of field '" + fieldName + "' in table '"
-							+ pmd.getTableName () + "'");
+			throw new PersistenceException("Unable to update type of field '" + fieldName + "' in table '"
+							+ pmd.getTableName() + "'");
 		}
 		finally
 		{
@@ -2205,11 +2203,11 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 			{
 				try
 				{
-					myConnection.close ();
+					myConnection.close();
 				}
 				catch (SQLException se)
 				{
-					throw new PersistenceException (se);
+					throw new PersistenceException(se);
 				}
 			}
 		}
@@ -2222,16 +2220,16 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 	 * @param fieldName The name of the field to add.
 	 * @return The add field statement.
 	 */
-	public String getDeleteFieldStatement (PersistentMetaData pmd, String fieldName) throws PersistenceException
+	public String getDeleteFieldStatement(PersistentMetaData pmd, String fieldName) throws PersistenceException
 	{
-		StringBuffer sb = new StringBuffer ();
+		StringBuffer sb = new StringBuffer();
 
-		sb.append ("ALTER TABLE ");
-		sb.append (pmd.getTableName ());
-		sb.append (" DROP COLUMN ");
-		sb.append (fieldName);
+		sb.append("ALTER TABLE ");
+		sb.append(pmd.getTableName());
+		sb.append(" DROP COLUMN ");
+		sb.append(fieldName);
 
-		return sb.toString ();
+		return sb.toString();
 	}
 
 	/**
@@ -2240,7 +2238,7 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 	 * @param pmd Persistent meta data.
 	 * @param fieldName The name of the field to add.
 	 */
-	public void deleteField (PersistentMetaData pmd, String fieldName) throws PersistenceException
+	public void deleteField(PersistentMetaData pmd, String fieldName) throws PersistenceException
 	{
 		Connection myConnection = null;
 		Statement stmt = null;
@@ -2248,29 +2246,29 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 
 		try
 		{
-			myConnection = pmd.getDataSource ().getConnection ();
-			stmt = myConnection.createStatement ();
+			myConnection = pmd.getDataSource().getConnection();
+			stmt = myConnection.createStatement();
 
-			String sql = "SELECT COUNT(" + fieldName + ") FROM " + pmd.getTableName ();
+			String sql = "SELECT COUNT(" + fieldName + ") FROM " + pmd.getTableName();
 
 			//  			System.out.println ("JDBCDatabaseType.deleteField: " + sql);
-			stmt.executeQuery (sql);
+			stmt.executeQuery(sql);
 
-			stmt.close ();
+			stmt.close();
 
 			try
 			{
-				stmt = myConnection.createStatement ();
-				sql = getDeleteFieldStatement (pmd, fieldName);
+				stmt = myConnection.createStatement();
+				sql = getDeleteFieldStatement(pmd, fieldName);
 				// 				System.out.println ("JDBCDatabaseType.deleteField: " + sql);
-				stmt.executeUpdate (sql);
+				stmt.executeUpdate(sql);
 			}
 			catch (SQLException se)
 			{
-				log.error (se.toString ());
+				log.error(se.toString());
 
-				throw new PersistenceException ("Unable to delete field '" + fieldName + "' in table '"
-								+ pmd.getTableName () + "'");
+				throw new PersistenceException("Unable to delete field '" + fieldName + "' in table '"
+								+ pmd.getTableName() + "'");
 			}
 			finally
 			{
@@ -2278,11 +2276,11 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 				{
 					try
 					{
-						stmt.close ();
+						stmt.close();
 					}
 					catch (SQLException se)
 					{
-						throw new PersistenceException (se);
+						throw new PersistenceException(se);
 					}
 				}
 
@@ -2290,11 +2288,11 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 				{
 					try
 					{
-						pstmt.close ();
+						pstmt.close();
 					}
 					catch (SQLException se)
 					{
-						throw new PersistenceException (se);
+						throw new PersistenceException(se);
 					}
 				}
 
@@ -2302,11 +2300,11 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 				{
 					try
 					{
-						myConnection.close ();
+						myConnection.close();
 					}
 					catch (SQLException se)
 					{
-						throw new PersistenceException (se);
+						throw new PersistenceException(se);
 					}
 				}
 			}
@@ -2320,7 +2318,7 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 			{
 				try
 				{
-					stmt.close ();
+					stmt.close();
 				}
 				catch (SQLException se)
 				{
@@ -2331,11 +2329,11 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 			{
 				try
 				{
-					myConnection.close ();
+					myConnection.close();
 				}
 				catch (SQLException se)
 				{
-					throw new PersistenceException (se);
+					throw new PersistenceException(se);
 				}
 			}
 		}
@@ -2348,19 +2346,19 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 	 * @param fieldName The name of the field to add.
 	 * @return True if the field exists.
 	 */
-	public boolean hasField (PersistentMetaData pmd, String fieldName) throws PersistenceException
+	public boolean hasField(PersistentMetaData pmd, String fieldName) throws PersistenceException
 	{
 		Connection myConnection = null;
 		Statement stmt = null;
 
 		try
 		{
-			myConnection = pmd.getDataSource ().getConnection ();
-			stmt = myConnection.createStatement ();
+			myConnection = pmd.getDataSource().getConnection();
+			stmt = myConnection.createStatement();
 
-			String sql = "SELECT COUNT(" + fieldName + ") FROM " + pmd.getTableName ();
+			String sql = "SELECT COUNT(" + fieldName + ") FROM " + pmd.getTableName();
 
-			stmt.executeQuery (sql);
+			stmt.executeQuery(sql);
 		}
 		catch (SQLException se)
 		{
@@ -2372,7 +2370,7 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 			{
 				try
 				{
-					stmt.close ();
+					stmt.close();
 				}
 				catch (SQLException se)
 				{
@@ -2388,7 +2386,7 @@ public class JDBCDatabaseType implements DatabaseType, LogEnabled, Configurable,
 	 *
 	 * @return The 'like' condition statement.
 	 */
-	public String getLikeStatement () throws PersistenceException
+	public String getLikeStatement() throws PersistenceException
 	{
 		return "LIKE";
 	}

@@ -31,26 +31,26 @@ public interface DashboardGroup extends DashboardItem
 	 *
 	 * @return The title
 	 */
-	public String getTitle ();
+	public String getTitle();
 
 	/**
 	 * Return the number of columns
 	 *
 	 * @return The number of columns
 	 */
-	public int getNumberOfColumns ();
+	public int getNumberOfColumns();
 
 	/**
 	 * Return the dashboard items
 	 *
 	 * @return The list of all dashboard items
 	 */
-	public List<DashboardItem> getDashboardItems ();
+	public List<DashboardItem> getDashboardItems();
 
 	/**
 	 * Return a new instance of the bean.
 	 *
 	 * @return The new instance
 	 */
-	public DashboardGroup newInstance ();
+	public DashboardGroup newInstance();
 }

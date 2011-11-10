@@ -30,35 +30,35 @@ public interface SimpleNumberItem extends DashboardItem
 	 *
 	 * @return The label
 	 */
-	public String getLabel ();
+	public String getLabel();
 
 	/**
 	 * Return the description of the board
 	 *
 	 * @return
 	 */
-	public String getDescription ();
+	public String getDescription();
 
 	/**
 	 * Return the measuring unit for the board.
 	 *
 	 * @return The measuring unit
 	 */
-	public String getMeasuringUnit ();
+	public String getMeasuringUnit();
 
 	/**
 	 * The current value for the board
 	 *
 	 * @return The value
 	 */
-	public int getValue ();
+	public int getValue();
 
 	/**
 	 * The max value
 	 *
 	 * @return The max value
 	 */
-	public int getMaxValue ();
+	public int getMaxValue();
 
 	/**
 	 * Return true if the given value is a green value.
@@ -66,7 +66,7 @@ public interface SimpleNumberItem extends DashboardItem
 	 * @param value The value
 	 * @return True if a green value
 	 */
-	public boolean isGreenValue (int value);
+	public boolean isGreenValue(int value);
 
 	/**
 	 * Return true if the given value is a yellow value.
@@ -74,7 +74,7 @@ public interface SimpleNumberItem extends DashboardItem
 	 * @param value The value
 	 * @return True if a yellow value
 	 */
-	public boolean isYellowValue (int value);
+	public boolean isYellowValue(int value);
 
 	/**
 	 * Return true if the given value is a red value.
@@ -82,5 +82,5 @@ public interface SimpleNumberItem extends DashboardItem
 	 * @param value The value
 	 * @return True if a red value
 	 */
-	public boolean isRedValue (int value);
+	public boolean isRedValue(int value);
 }

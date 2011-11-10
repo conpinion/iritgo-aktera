@@ -38,12 +38,12 @@ public class PromptDashboard extends AbstractUIController
 	 *
 	 * @param dashboardManager The manager
 	 */
-	public void setDashboardManager (DashboardManager dashboardManager)
+	public void setDashboardManager(DashboardManager dashboardManager)
 	{
 		this.dashboardManager = dashboardManager;
 	}
 
-	public void setUiResponseVisitor (UIResponseVisitor uiResponseVisitor)
+	public void setUiResponseVisitor(UIResponseVisitor uiResponseVisitor)
 	{
 		this.uiResponseVisitor = uiResponseVisitor;
 	}
@@ -52,16 +52,16 @@ public class PromptDashboard extends AbstractUIController
 	 * Execute the model.
 	 *
 	 **/
-	public void execute (UIRequest request, UIResponse response) throws UIControllerException
+	public void execute(UIRequest request, UIResponse response) throws UIControllerException
 	{
-		uiResponseVisitor.init (response);
+		uiResponseVisitor.init(response);
 
-		for (DashboardGroup dashboardGroup : dashboardManager.getDashboardGroups ())
+		for (DashboardGroup dashboardGroup : dashboardManager.getDashboardGroups())
 		{
-			DashboardGroup freshDashboardGroup = dashboardGroup.newInstance ();
+			DashboardGroup freshDashboardGroup = dashboardGroup.newInstance();
 
-			freshDashboardGroup.setLocale (request.getLocale ());
-			freshDashboardGroup.generate (uiResponseVisitor);
+			freshDashboardGroup.setLocale(request.getLocale());
+			freshDashboardGroup.generate(uiResponseVisitor);
 		}
 	}
 }

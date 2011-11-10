@@ -52,5 +52,5 @@ public interface ModelValidator
 	 * @throws ConfigurationException In the event the configuration for this validator is incorrect
 	 * @throws ModelException If there is something seriously wrong with the ModelRequest or the Model itself
 	 */
-	public Command validate (ModelRequest req, Model theModel) throws ConfigurationException, ModelException;
+	public Command validate(ModelRequest req, Model theModel) throws ConfigurationException, ModelException;
 }

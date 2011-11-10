@@ -33,49 +33,49 @@ public class ContainerFactoryLoader
 
 	public static String DEFAULT_FACTORY_CLASS = "de.iritgo.aktera.core.container.KeelContainerFactory";
 
-	public ContainerFactory getContainerFactory (String className) throws ContainerException
+	public ContainerFactory getContainerFactory(String className) throws ContainerException
 	{
 		ContainerFactory factory = null;
 
 		if (className == null)
 		{
-			throw new ContainerException ("Factory class name cannot be null");
+			throw new ContainerException("Factory class name cannot be null");
 		}
 
-		ClassLoader loader = Thread.currentThread ().getContextClassLoader ();
+		ClassLoader loader = Thread.currentThread().getContextClassLoader();
 
 		if (loader == null)
 		{
-			loader = this.getClass ().getClassLoader ();
+			loader = this.getClass().getClassLoader();
 		}
 
 		Class clazz;
 
 		try
 		{
-			clazz = loader.loadClass (className);
-			factory = (ContainerFactory) clazz.newInstance ();
+			clazz = loader.loadClass(className);
+			factory = (ContainerFactory) clazz.newInstance();
 		}
 		catch (ClassNotFoundException e)
 		{
-			throw new ContainerException ("Could not find container factory class " + className, e);
+			throw new ContainerException("Could not find container factory class " + className, e);
 		}
 		catch (InstantiationException e)
 		{
-			throw new ContainerException ("Could not instantiate container factory class " + className, e);
+			throw new ContainerException("Could not instantiate container factory class " + className, e);
 		}
 		catch (IllegalAccessException e)
 		{
-			throw new ContainerException ("Access violation instantiating container factory class " + className, e);
+			throw new ContainerException("Access violation instantiating container factory class " + className, e);
 		}
 
 		return factory;
 	}
 
-	public ContainerFactory getContainerFactory () throws ContainerException
+	public ContainerFactory getContainerFactory() throws ContainerException
 	{
-		String className = System.getProperty (FACTORY_CLASS_PROPERTY, DEFAULT_FACTORY_CLASS);
+		String className = System.getProperty(FACTORY_CLASS_PROPERTY, DEFAULT_FACTORY_CLASS);
 
-		return getContainerFactory (className);
+		return getContainerFactory(className);
 	}
 }

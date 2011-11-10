@@ -79,7 +79,7 @@ public class Preferences implements Serializable
 	 *   primary-key="true"
 	 *   null-allowed="false"
 	 */
-	public Integer getUserId ()
+	public Integer getUserId()
 	{
 		return userId;
 	}
@@ -87,7 +87,7 @@ public class Preferences implements Serializable
 	/**
 	 * Set the user key.
 	 */
-	public void setUserId (Integer userId)
+	public void setUserId(Integer userId)
 	{
 		this.userId = userId;
 	}
@@ -101,7 +101,7 @@ public class Preferences implements Serializable
 	 *   type="boolean"
 	 *   descrip="Protect"
 	 */
-	public Boolean getProtect ()
+	public Boolean getProtect()
 	{
 		return protect;
 	}
@@ -109,7 +109,7 @@ public class Preferences implements Serializable
 	/**
 	 * Set the protect flag.
 	 */
-	public void setProtect (Boolean protect)
+	public void setProtect(Boolean protect)
 	{
 		this.protect = protect;
 	}
@@ -123,7 +123,7 @@ public class Preferences implements Serializable
 	 *   type="varchar"
 	 *   length="16"
 	 */
-	public String getSecurity ()
+	public String getSecurity()
 	{
 		return security;
 	}
@@ -131,7 +131,7 @@ public class Preferences implements Serializable
 	/**
 	 * Set the security flags.
 	 */
-	public void setSecurity (String security)
+	public void setSecurity(String security)
 	{
 		this.security = security;
 	}
@@ -146,7 +146,7 @@ public class Preferences implements Serializable
 	 *   length="8"
 	 *   default-value="de"
 	 */
-	public String getLanguage ()
+	public String getLanguage()
 	{
 		return language;
 	}
@@ -154,7 +154,7 @@ public class Preferences implements Serializable
 	/**
 	 * Set the interface language.
 	 */
-	public void setLanguage (String language)
+	public void setLanguage(String language)
 	{
 		this.language = language;
 	}
@@ -168,7 +168,7 @@ public class Preferences implements Serializable
 	 *   type="boolean"
 	 *   default-value="false"
 	 */
-	public Boolean getPowerUser ()
+	public Boolean getPowerUser()
 	{
 		return powerUser;
 	}
@@ -176,7 +176,7 @@ public class Preferences implements Serializable
 	/**
 	 * Set the power user flag.
 	 */
-	public void setPowerUser (Boolean powerUser)
+	public void setPowerUser(Boolean powerUser)
 	{
 		this.powerUser = powerUser;
 	}
@@ -190,7 +190,7 @@ public class Preferences implements Serializable
 	 *   type="boolean"
 	 *   default-value="true"
 	 */
-	public Boolean getCanChangePassword ()
+	public Boolean getCanChangePassword()
 	{
 		return canChangePassword;
 	}
@@ -198,7 +198,7 @@ public class Preferences implements Serializable
 	/**
 	 * Set the can change password flag.
 	 */
-	public void setCanChangePassword (Boolean canChangePassword)
+	public void setCanChangePassword(Boolean canChangePassword)
 	{
 		this.canChangePassword = canChangePassword;
 	}
@@ -213,7 +213,7 @@ public class Preferences implements Serializable
 	 *   length="32"
 	 *   default-value="iritgong"
 	 */
-	public String getTheme ()
+	public String getTheme()
 	{
 		return theme;
 	}
@@ -221,7 +221,7 @@ public class Preferences implements Serializable
 	/**
 	 * Set the interface theme.
 	 */
-	public void setTheme (String theme)
+	public void setTheme(String theme)
 	{
 		this.theme = theme;
 	}
@@ -235,7 +235,7 @@ public class Preferences implements Serializable
 	 *   type="varchar"
 	 *   length="16"
 	 */
-	public String getPin ()
+	public String getPin()
 	{
 		return pin;
 	}
@@ -243,7 +243,7 @@ public class Preferences implements Serializable
 	/**
 	 * Set the pin number.
 	 */
-	public void setPin (String pin)
+	public void setPin(String pin)
 	{
 		this.pin = pin;
 	}

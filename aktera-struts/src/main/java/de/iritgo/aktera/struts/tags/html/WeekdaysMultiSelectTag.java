@@ -63,7 +63,7 @@ public class WeekdaysMultiSelectTag extends org.apache.struts.taglib.html.BaseIn
 	/**
 	 * Get the bean name.
 	 */
-	public String getName ()
+	public String getName()
 	{
 		return this.name;
 	}
@@ -71,7 +71,7 @@ public class WeekdaysMultiSelectTag extends org.apache.struts.taglib.html.BaseIn
 	/**
 	 * Set the bean name.
 	 */
-	public void setName (String name)
+	public void setName(String name)
 	{
 		this.name = name;
 	}
@@ -79,7 +79,7 @@ public class WeekdaysMultiSelectTag extends org.apache.struts.taglib.html.BaseIn
 	/**
 	 * Get the bundle name.
 	 */
-	public String getBundle ()
+	public String getBundle()
 	{
 		return this.bundle;
 	}
@@ -87,7 +87,7 @@ public class WeekdaysMultiSelectTag extends org.apache.struts.taglib.html.BaseIn
 	/**
 	 * Set the bundle name.
 	 */
-	public void setBundle (String bundle)
+	public void setBundle(String bundle)
 	{
 		this.bundle = bundle;
 	}
@@ -97,7 +97,7 @@ public class WeekdaysMultiSelectTag extends org.apache.struts.taglib.html.BaseIn
 	 *
 	 * @return The locale.
 	 */
-	public String getLocale ()
+	public String getLocale()
 	{
 		return this.locale;
 	}
@@ -107,7 +107,7 @@ public class WeekdaysMultiSelectTag extends org.apache.struts.taglib.html.BaseIn
 	 *
 	 * @param locale The new locale.
 	 */
-	public void setLocale (String locale)
+	public void setLocale(String locale)
 	{
 		this.locale = locale;
 	}
@@ -117,7 +117,7 @@ public class WeekdaysMultiSelectTag extends org.apache.struts.taglib.html.BaseIn
 	 *
 	 * @param readOnly Read only flag.
 	 */
-	public void setReadOnly (boolean readOnly)
+	public void setReadOnly(boolean readOnly)
 	{
 		this.readOnly = readOnly;
 	}
@@ -127,7 +127,7 @@ public class WeekdaysMultiSelectTag extends org.apache.struts.taglib.html.BaseIn
 	 *
 	 * @retrun The read only flag.
 	 */
-	public boolean getReadOnly ()
+	public boolean getReadOnly()
 	{
 		return readOnly;
 	}
@@ -135,9 +135,9 @@ public class WeekdaysMultiSelectTag extends org.apache.struts.taglib.html.BaseIn
 	/**
 	 * Reset all tag attributes to their default values.
 	 */
-	public void release ()
+	public void release()
 	{
-		super.release ();
+		super.release();
 
 		name = null;
 		readOnly = false;
@@ -149,52 +149,51 @@ public class WeekdaysMultiSelectTag extends org.apache.struts.taglib.html.BaseIn
 	 *
 	 * @exception JspException if a JSP exception has occurred
 	 */
-	public int doStartTag () throws JspException
+	public int doStartTag() throws JspException
 	{
 		String selectedWeekdays = "";
 
 		if (value != null)
 		{
-			selectedWeekdays = "," + value.toString () + ",";
+			selectedWeekdays = "," + value.toString() + ",";
 		}
 		else
 		{
-			Object val = TagUtils.getInstance ().lookup (pageContext, name, property, null);
+			Object val = TagUtils.getInstance().lookup(pageContext, name, property, null);
 
 			if (val != null)
 			{
-				selectedWeekdays = "," + val.toString () + ",";
+				selectedWeekdays = "," + val.toString() + ",";
 			}
 		}
 
-		StringBuffer results = new StringBuffer ();
+		StringBuffer results = new StringBuffer();
 
-		results.append ("<table><tr>\n");
+		results.append("<table><tr>\n");
 
 		int weekday = 2;
 
 		for (int i = 0; i < 2; ++i)
 		{
-			results.append ("<td valign=\"top\"><select multiple=\"true\" size=\"3\" name=\"" + prepareName ()
-							+ "\">\n");
+			results.append("<td valign=\"top\"><select multiple=\"true\" size=\"3\" name=\"" + prepareName() + "\">\n");
 
 			for (int j = 0; j < 3; ++j)
 			{
-				results.append ("<option value=\"" + weekday + "\"");
+				results.append("<option value=\"" + weekday + "\"");
 
-				if (selectedWeekdays.indexOf ("," + weekday + ",") != - 1)
+				if (selectedWeekdays.indexOf("," + weekday + ",") != - 1)
 				{
-					results.append (" selected=\"true\"");
+					results.append(" selected=\"true\"");
 				}
 
-				results.append (">");
-				results.append (TagUtils.getInstance ().message (pageContext, bundle, locale, weekdays[weekday - 1]));
-				results.append ("</option>");
+				results.append(">");
+				results.append(TagUtils.getInstance().message(pageContext, bundle, locale, weekdays[weekday - 1]));
+				results.append("</option>");
 				++weekday;
 			}
 		}
 
-		results.append ("<td valign=\"top\"><select multiple=\"true\" size=\"3\" name=\"" + prepareName () + "\">\n");
+		results.append("<td valign=\"top\"><select multiple=\"true\" size=\"3\" name=\"" + prepareName() + "\">\n");
 
 		for (int j = 0; j < 1; ++j)
 		{
@@ -203,22 +202,22 @@ public class WeekdaysMultiSelectTag extends org.apache.struts.taglib.html.BaseIn
 				weekday = 1;
 			}
 
-			results.append ("<option value=\"" + weekday + "\"");
+			results.append("<option value=\"" + weekday + "\"");
 
-			if (selectedWeekdays.indexOf ("," + weekday + ",") != - 1)
+			if (selectedWeekdays.indexOf("," + weekday + ",") != - 1)
 			{
-				results.append (" selected=\"true\"");
+				results.append(" selected=\"true\"");
 			}
 
-			results.append (">");
-			results.append (TagUtils.getInstance ().message (pageContext, bundle, locale, weekdays[weekday - 1]));
-			results.append ("</option>");
+			results.append(">");
+			results.append(TagUtils.getInstance().message(pageContext, bundle, locale, weekdays[weekday - 1]));
+			results.append("</option>");
 			++weekday;
 		}
 
-		results.append ("</select></td>\n");
-		results.append ("</tr></table>\n");
-		TagUtils.getInstance ().write (pageContext, results.toString ());
+		results.append("</select></td>\n");
+		results.append("</tr></table>\n");
+		TagUtils.getInstance().write(pageContext, results.toString());
 
 		return SKIP_BODY;
 	}

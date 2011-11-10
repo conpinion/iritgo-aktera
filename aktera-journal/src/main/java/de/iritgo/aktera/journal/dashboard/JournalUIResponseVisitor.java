@@ -32,29 +32,29 @@ import java.util.List;
 
 public class JournalUIResponseVisitor extends UIResponseVisitor
 {
-	public JournalUIResponseVisitor ()
+	public JournalUIResponseVisitor()
 	{
 	}
 
 	/**
 	 * @see de.iritgo.aktera.dashboard.GroupVisitor#generate(de.iritgo.aktera.dashboard.items.SimpleTextItem)
 	 */
-	public void generate (JournalItem journalItem)
+	public void generate(JournalItem journalItem)
 	{
-		while (journalItem.hasNext ())
+		while (journalItem.hasNext())
 		{
-			journalItem.next ();
+			journalItem.next();
 
-			Output item = response.createOutput (journalItem.getJournalId ());
+			Output item = response.createOutput(journalItem.getJournalId());
 
-			item.setAttribute ("imageUrl", journalItem.getRawData ());
-			item.setAttribute ("typeOfNews", journalItem.getSecondaryType ());
-			item.setAttribute ("headerLine", journalItem.getShortMessage ());
-			item.setAttribute ("message", journalItem.getMessage ());
-			item.setAttribute ("date", journalItem.getOccurredAt ());
-			item.setAttribute ("producer", journalItem.getMisc ());
-			item.setAttribute ("renderInclude", journalItem.getRenderFile ());
-			currentGroupItems.add (item);
+			item.setAttribute("imageUrl", journalItem.getRawData());
+			item.setAttribute("typeOfNews", journalItem.getSecondaryType());
+			item.setAttribute("headerLine", journalItem.getShortMessage());
+			item.setAttribute("message", journalItem.getMessage());
+			item.setAttribute("date", journalItem.getOccurredAt());
+			item.setAttribute("producer", journalItem.getMisc());
+			item.setAttribute("renderInclude", journalItem.getRenderFile());
+			currentGroupItems.add(item);
 		}
 	}
 }

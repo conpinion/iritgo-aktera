@@ -33,12 +33,12 @@ public class LoggerCallback implements Callback, Serializable
 {
 	private Logger log;
 
-	public void setLog (Logger newLog)
+	public void setLog(Logger newLog)
 	{
 		log = newLog;
 	}
 
-	public Logger getLog ()
+	public Logger getLog()
 	{
 		return log;
 	}

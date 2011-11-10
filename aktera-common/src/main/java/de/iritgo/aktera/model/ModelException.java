@@ -55,9 +55,9 @@ public class ModelException extends NestedException
 	/**
 	 * Default constructor
 	 */
-	public ModelException ()
+	public ModelException()
 	{
-		super ();
+		super();
 	} /* ModelException() */
 
 	/**
@@ -65,17 +65,17 @@ public class ModelException extends NestedException
 	 *
 	 * @param   s exception message
 	 */
-	public ModelException (String s)
+	public ModelException(String s)
 	{
-		super (s);
+		super(s);
 	} /*  ModelException */
 
 	/**
 	 * String message and error key
 	 */
-	public ModelException (String s, String newErrorKey)
+	public ModelException(String s, String newErrorKey)
 	{
-		super (s, newErrorKey);
+		super(s, newErrorKey);
 	}
 
 	/**
@@ -84,9 +84,9 @@ public class ModelException extends NestedException
 	 * @param   s The exception message
 	 * @param   newNested The nested item
 	 */
-	public ModelException (String message, Throwable newNested)
+	public ModelException(String message, Throwable newNested)
 	{
-		super (message, newNested);
+		super(message, newNested);
 	} /* ModelException(String, Throwable) */
 
 	/**
@@ -96,9 +96,9 @@ public class ModelException extends NestedException
 	 * @param   newNested The nested item
 	 * @param   errorKey A string key to the messages bundle
 	 */
-	public ModelException (String message, Throwable newNested, String newErrorKey)
+	public ModelException(String message, Throwable newNested, String newErrorKey)
 	{
-		super (message, newNested, newErrorKey);
+		super(message, newNested, newErrorKey);
 	} /* ModelException(String, Throwable, String) */
 
 	/**
@@ -106,9 +106,9 @@ public class ModelException extends NestedException
 	 *
 	 * @param   newNested The nested exception
 	 */
-	public ModelException (Throwable newNested)
+	public ModelException(Throwable newNested)
 	{
-		super (newNested);
+		super(newNested);
 	} /* ModelException(Throwable) */
 
 	/**
@@ -116,8 +116,8 @@ public class ModelException extends NestedException
 	 *
 	 * @param   newNested The nested exception
 	 */
-	public ModelException (Throwable newNested, String newErrorKey)
+	public ModelException(Throwable newNested, String newErrorKey)
 	{
-		super (newNested, newErrorKey);
+		super(newNested, newErrorKey);
 	} /* ModelException(Throwable) */
 } /* ModelException */

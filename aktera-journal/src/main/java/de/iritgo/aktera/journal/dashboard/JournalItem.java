@@ -31,67 +31,67 @@ public interface JournalItem extends DashboardItem
 	 *
 	 * @return The label
 	 */
-	public String getLabel ();
+	public String getLabel();
 
 	/**
 	 * Return the primary journal id key
 	 *
 	 * @return The id
 	 */
-	public String getJournalId ();
+	public String getJournalId();
 
 	/**
 	 * Return the description of the board
 	 *
 	 * @return
 	 */
-	public String getDescription ();
+	public String getDescription();
 
-	public boolean hasNext ();
+	public boolean hasNext();
 
-	public void next ();
+	public void next();
 
 	/**
 	 * Return the raw data field
 	 *
 	 * @return The raw data
 	 */
-	public String getRawData ();
+	public String getRawData();
 
 	/**
 	 * The scondary type
 	 *
 	 * @return The secondary type
 	 */
-	public String getSecondaryType ();
+	public String getSecondaryType();
 
 	/**
 	 * Rerturn short message field
 	 *
 	 * @return The short message field
 	 */
-	public String getShortMessage ();
+	public String getShortMessage();
 
 	/**
 	 * Return the message field
 	 *
 	 * @return The message field
 	 */
-	public String getMessage ();
+	public String getMessage();
 
 	/**
 	 * OccurredAt
 	 *
 	 * @return Occurred at
 	 */
-	public String getOccurredAt ();
+	public String getOccurredAt();
 
 	/**
 	 * Return the misc field
 	 *
 	 * @return The misc field
 	 */
-	public String getMisc ();
+	public String getMisc();
 
-	public void init (String primaryType, Integer ownerId);
+	public void init(String primaryType, Integer ownerId);
 }

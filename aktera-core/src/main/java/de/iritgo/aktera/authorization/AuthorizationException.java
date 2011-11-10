@@ -43,9 +43,9 @@ public class AuthorizationException extends NestedException
 	/**
 	 * Default constructor
 	 */
-	public AuthorizationException ()
+	public AuthorizationException()
 	{
-		super ();
+		super();
 	} /* AuthorizationException() */
 
 	/**
@@ -53,17 +53,17 @@ public class AuthorizationException extends NestedException
 	 *
 	 * @param   s exception message
 	 */
-	public AuthorizationException (String s)
+	public AuthorizationException(String s)
 	{
-		super (s);
+		super(s);
 	} /*  AuthorizationException */
 
 	/**
 	 * String message and error key
 	 */
-	public AuthorizationException (String s, String newErrorKey)
+	public AuthorizationException(String s, String newErrorKey)
 	{
-		super (s, newErrorKey);
+		super(s, newErrorKey);
 	}
 
 	/**
@@ -72,9 +72,9 @@ public class AuthorizationException extends NestedException
 	 * @param   s The exception message
 	 * @param   newNested The nested item
 	 */
-	public AuthorizationException (String message, Throwable newNested)
+	public AuthorizationException(String message, Throwable newNested)
 	{
-		super (message, newNested);
+		super(message, newNested);
 	} /* AuthorizationException(String, Throwable) */
 
 	/**
@@ -84,9 +84,9 @@ public class AuthorizationException extends NestedException
 	 * @param   newNested The nested item
 	 * @param   errorKey A string key to the messages bundle
 	 */
-	public AuthorizationException (String message, Throwable newNested, String newErrorKey)
+	public AuthorizationException(String message, Throwable newNested, String newErrorKey)
 	{
-		super (message, newNested, newErrorKey);
+		super(message, newNested, newErrorKey);
 	} /* AuthorizationException(String, Throwable, String) */
 
 	/**
@@ -94,9 +94,9 @@ public class AuthorizationException extends NestedException
 	 *
 	 * @param   newNested The nested exception
 	 */
-	public AuthorizationException (Throwable newNested)
+	public AuthorizationException(Throwable newNested)
 	{
-		super (newNested);
+		super(newNested);
 	} /* AuthorizationException(Throwable) */
 
 	/**
@@ -104,8 +104,8 @@ public class AuthorizationException extends NestedException
 	 *
 	 * @param   newNested The nested exception
 	 */
-	public AuthorizationException (Throwable newNested, String newErrorKey)
+	public AuthorizationException(Throwable newNested, String newErrorKey)
 	{
-		super (newNested, newErrorKey);
+		super(newNested, newErrorKey);
 	} /* AuthorizationException(Throwable) */
 } /* AuthorizationException */

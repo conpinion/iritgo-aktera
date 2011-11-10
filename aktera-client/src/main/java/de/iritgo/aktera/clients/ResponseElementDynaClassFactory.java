@@ -43,11 +43,11 @@ public class ResponseElementDynaClassFactory
 	/**
 	 * Static singleton pattern
 	 */
-	private ResponseElementDynaClassFactory ()
+	private ResponseElementDynaClassFactory()
 	{
 	}
 
-	public static BasicDynaClass getInstance (ResponseElement re)
+	public static BasicDynaClass getInstance(ResponseElement re)
 	{
 		try
 		{
@@ -56,7 +56,7 @@ public class ResponseElementDynaClassFactory
 			/** Account for the name and type */
 			int totalPropCount = 2;
 
-			List allNested = re.getAll ();
+			List allNested = re.getAll();
 
 			totalPropCount = totalPropCount + 1; //allNested.size();
 
@@ -68,9 +68,9 @@ public class ResponseElementDynaClassFactory
 				totalPropCount = totalPropCount + 3;
 
 				Input i = (Input) re;
-				Map valids = i.getValidValues ();
+				Map valids = i.getValidValues();
 
-				if (valids.size () == 0)
+				if (valids.size() == 0)
 				{
 					totalPropCount = totalPropCount - 1;
 				}
@@ -87,15 +87,15 @@ public class ResponseElementDynaClassFactory
 			}
 
 			DynaProperty[] props = new DynaProperty[totalPropCount];
-			DynaProperty nameProp = new DynaProperty ("name", Class.forName ("java.lang.String"));
+			DynaProperty nameProp = new DynaProperty("name", Class.forName("java.lang.String"));
 
 			props[propCount++] = nameProp;
 
-			DynaProperty typeProp = new DynaProperty ("type", Class.forName ("java.lang.String"));
+			DynaProperty typeProp = new DynaProperty("type", Class.forName("java.lang.String"));
 
 			props[propCount++] = typeProp;
 
-			DynaProperty nested = new DynaProperty ("nested", allNested.getClass ());
+			DynaProperty nested = new DynaProperty("nested", allNested.getClass());
 
 			props[propCount++] = nested;
 
@@ -111,8 +111,8 @@ public class ResponseElementDynaClassFactory
 			        props[propCount++] = nestedProp;
 			    }
 			} */
-			DynaProperty attribProp = new DynaProperty ("attributes", Class
-							.forName ("org.apache.commons.beanutils.BasicDynaBean"));
+			DynaProperty attribProp = new DynaProperty("attributes", Class
+							.forName("org.apache.commons.beanutils.BasicDynaBean"));
 
 			props[propCount++] = attribProp;
 
@@ -136,16 +136,16 @@ public class ResponseElementDynaClassFactory
 			if (re instanceof Input)
 			{
 				Input i = (Input) re;
-				Object defValue = i.getDefaultValue ();
+				Object defValue = i.getDefaultValue();
 				DynaProperty defProp = null;
 
 				if (defValue != null)
 				{
-					defProp = new DynaProperty ("defaultValue", i.getDefaultValue ().getClass ());
+					defProp = new DynaProperty("defaultValue", i.getDefaultValue().getClass());
 				}
 				else
 				{
-					defProp = new DynaProperty ("defaultValue", Class.forName ("java.lang.String"));
+					defProp = new DynaProperty("defaultValue", Class.forName("java.lang.String"));
 				}
 
 				props[propCount++] = defProp;
@@ -156,16 +156,16 @@ public class ResponseElementDynaClassFactory
 				 * populated by a HashSet of dynabeans, where each bean has attributes
 				 * name and label
 				 */
-				Map valids = i.getValidValues ();
+				Map valids = i.getValidValues();
 
-				if (valids.size () > 0)
+				if (valids.size() > 0)
 				{
-					DynaProperty validsProp = new DynaProperty ("validValues", Class.forName ("java.util.TreeSet"));
+					DynaProperty validsProp = new DynaProperty("validValues", Class.forName("java.util.TreeSet"));
 
 					props[propCount++] = validsProp;
 				}
 
-				DynaProperty labelProp = new DynaProperty ("label", Class.forName ("java.lang.String"));
+				DynaProperty labelProp = new DynaProperty("label", Class.forName("java.lang.String"));
 
 				props[propCount++] = labelProp;
 			}
@@ -173,16 +173,16 @@ public class ResponseElementDynaClassFactory
 			if (re instanceof Output)
 			{
 				Output o = (Output) re;
-				Object content = o.getContent ();
+				Object content = o.getContent();
 				DynaProperty contentProp = null;
 
 				if (content != null)
 				{
-					contentProp = new DynaProperty ("content", content.getClass ());
+					contentProp = new DynaProperty("content", content.getClass());
 				}
 				else
 				{
-					contentProp = new DynaProperty ("content", Class.forName ("java.lang.String"));
+					contentProp = new DynaProperty("content", Class.forName("java.lang.String"));
 				}
 
 				props[propCount++] = contentProp;
@@ -192,32 +192,32 @@ public class ResponseElementDynaClassFactory
 			{
 				Command c = (Command) re;
 
-				DynaProperty modelProp = new DynaProperty ("model", Class.forName ("java.lang.String"));
+				DynaProperty modelProp = new DynaProperty("model", Class.forName("java.lang.String"));
 
 				props[propCount++] = modelProp;
 
-				DynaProperty beanProp = new DynaProperty ("bean", Class.forName ("java.lang.String"));
+				DynaProperty beanProp = new DynaProperty("bean", Class.forName("java.lang.String"));
 
 				props[propCount++] = beanProp;
 
-				DynaProperty labelProp = new DynaProperty ("label", Class.forName ("java.lang.String"));
+				DynaProperty labelProp = new DynaProperty("label", Class.forName("java.lang.String"));
 
 				props[propCount++] = labelProp;
 
-				Map params = c.getParameters ();
-				DynaProperty paramsProp = new DynaProperty ("parameters", params.getClass ());
+				Map params = c.getParameters();
+				DynaProperty paramsProp = new DynaProperty("parameters", params.getClass());
 
 				props[propCount++] = paramsProp;
 			}
 
-			return new BasicDynaClass (re.getName (), Class
-							.forName ("de.iritgo.aktera.clients.ResponseElementDynaBean"), props);
+			return new BasicDynaClass(re.getName(), Class.forName("de.iritgo.aktera.clients.ResponseElementDynaBean"),
+							props);
 		}
 		catch (Exception e)
 		{
-			System.err.println ("ResponseElementDynaClassFactory: Unable to get instance of dynaclass:");
-			e.printStackTrace (System.err);
-			throw new IllegalArgumentException (e.getMessage ());
+			System.err.println("ResponseElementDynaClassFactory: Unable to get instance of dynaclass:");
+			e.printStackTrace(System.err);
+			throw new IllegalArgumentException(e.getMessage());
 		}
 	}
 }

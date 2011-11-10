@@ -46,7 +46,7 @@ public interface Reader
 	 * thing to do would be to call read, repeatedly if necessary.
 	 * @throws NestedException
 	 */
-	public void connect () throws NestedException;
+	public void connect() throws NestedException;
 
 	/**
 	 * Connect while overriding the user and password supplied by configuration
@@ -56,27 +56,27 @@ public interface Reader
 	 * @param password Password to use to authenticate user - leave null to use configuration default
 	 * @throws NestedException If the connect does not succeed
 	 */
-	public void connect (String host, String user, String password) throws NestedException;
+	public void connect(String host, String user, String password) throws NestedException;
 
 	/**
 	 * Close the client-server connection.  Messages can
 	 * no longer be accessed.
 	 * @throws NestedException
 	 */
-	public void disconnect () throws NestedException;
+	public void disconnect() throws NestedException;
 
 	/**
 	 * Retrieve all messages from the server
 	 * @throws NestedException
 	 */
-	public void read () throws NestedException;
+	public void read() throws NestedException;
 
 	/**
 	 * Return a count of messages retrieved from the server.
 	 * Can only be called after a read().
 	 * @return int
 	 */
-	public int count ();
+	public int count();
 
 	/**
 	 * Get the size of a message
@@ -84,7 +84,7 @@ public interface Reader
 	 * @return int The size of the message in bytes
 	 * @throws NestedException
 	 */
-	public int getSize (int msgIndex) throws NestedException;
+	public int getSize(int msgIndex) throws NestedException;
 
 	/**
 	 * Get the number of lines in a message (meaningless for multi-part
@@ -93,7 +93,7 @@ public interface Reader
 	 * @return int The number of lines in the message (can return -1)
 	 * @throws NestedException
 	 */
-	public int getLineCount (int msgIndex) throws NestedException;
+	public int getLineCount(int msgIndex) throws NestedException;
 
 	/**
 	 * Get the subject header from a message
@@ -101,7 +101,7 @@ public interface Reader
 	 * @return String The value of the subject header
 	 * @throws NestedException
 	 */
-	public String getSubject (int msgIndex) throws NestedException;
+	public String getSubject(int msgIndex) throws NestedException;
 
 	/**
 	 * Get the date a message was sent (Date header)
@@ -109,7 +109,7 @@ public interface Reader
 	 * @return Date The date the message was sent
 	 * @throws NestedException
 	 */
-	public Date getSentDate (int msgIndex) throws NestedException;
+	public Date getSentDate(int msgIndex) throws NestedException;
 
 	/**
 	 * Get the contents of the To: header
@@ -117,7 +117,7 @@ public interface Reader
 	 * @return String[] A string array of addresses, can be null
 	 * @throws NestedException
 	 */
-	public String[] getTo (int msgIndex) throws NestedException;
+	public String[] getTo(int msgIndex) throws NestedException;
 
 	/**
 	 * Get the contents of the From: header
@@ -125,7 +125,7 @@ public interface Reader
 	 * @return String[] A string array of addresses, can be null
 	 * @throws NestedException
 	 */
-	public String[] getFrom (int msgIndex) throws NestedException;
+	public String[] getFrom(int msgIndex) throws NestedException;
 
 	/**
 	 * Get the contents of the ReplyTo: header
@@ -133,7 +133,7 @@ public interface Reader
 	 * @return String[] A string array of addresses, can be null
 	 * @throws NestedException
 	 */
-	public String[] getReplyTo (int msgIndex) throws NestedException;
+	public String[] getReplyTo(int msgIndex) throws NestedException;
 
 	/**
 	 * Get the contents of the Cc: header
@@ -141,7 +141,7 @@ public interface Reader
 	 * @return String[] A string array of addresses, can be null
 	 * @throws NestedException
 	 */
-	public String[] getCc (int msgIndex) throws NestedException;
+	public String[] getCc(int msgIndex) throws NestedException;
 
 	/**
 	 * Get the contents of the Bcc: header
@@ -149,7 +149,7 @@ public interface Reader
 	 * @return String[] A string array of addresses, can be null
 	 * @throws NestedException
 	 */
-	public String[] getBcc (int msgIndex) throws NestedException;
+	public String[] getBcc(int msgIndex) throws NestedException;
 
 	/**
 	 * Get all headers for a message
@@ -158,7 +158,7 @@ public interface Reader
 	 * name/value pairs
 	 * @throws NestedException
 	 */
-	public Enumeration getHeaders (int msgIndex) throws NestedException;
+	public Enumeration getHeaders(int msgIndex) throws NestedException;
 
 	/**
 	 * Check if this message has already been read or not
@@ -166,7 +166,7 @@ public interface Reader
 	 * @return boolean true if already read
 	 * @throws NestedException
 	 */
-	public boolean isSeen (int msgIndex) throws NestedException;
+	public boolean isSeen(int msgIndex) throws NestedException;
 
 	/**
 	 * Mark a message as "read"
@@ -174,7 +174,7 @@ public interface Reader
 	 * @param state true=set, false=clear
 	 * @throws NestedException
 	 */
-	public void setSeen (int msgIndex, boolean state) throws NestedException;
+	public void setSeen(int msgIndex, boolean state) throws NestedException;
 
 	/**
 	 * Check if this message has been marked by a client as "deleted" or not
@@ -182,7 +182,7 @@ public interface Reader
 	 * @return boolean true if deleted
 	 * @throws NestedException
 	 */
-	public boolean isDeleted (int msgIndex) throws NestedException;
+	public boolean isDeleted(int msgIndex) throws NestedException;
 
 	/**
 	 * Mark a message as "deleted"
@@ -190,7 +190,7 @@ public interface Reader
 	 * @param state true=set, false=clear
 	 * @throws NestedException
 	 */
-	public void setDeleted (int msgIndex, boolean state) throws NestedException;
+	public void setDeleted(int msgIndex, boolean state) throws NestedException;
 
 	/**
 	 * Check if this message has been marked as "answered" by a client
@@ -198,7 +198,7 @@ public interface Reader
 	 * @return boolean true if answered
 	 * @throws NestedException
 	 */
-	public boolean isAnswered (int msgIndex) throws NestedException;
+	public boolean isAnswered(int msgIndex) throws NestedException;
 
 	/**
 	 * Mark a message as "answered"
@@ -206,7 +206,7 @@ public interface Reader
 	 * @param state true=set, false=clear
 	 * @throws NestedException
 	 */
-	public void setAnswered (int msgIndex, boolean state) throws NestedException;
+	public void setAnswered(int msgIndex, boolean state) throws NestedException;
 
 	/**
 	 * Check if this message has been marked by a client as "flagged"
@@ -214,7 +214,7 @@ public interface Reader
 	 * @return boolean true if flagged
 	 * @throws NestedException
 	 */
-	public boolean isFlagged (int msgIndex) throws NestedException;
+	public boolean isFlagged(int msgIndex) throws NestedException;
 
 	/**
 	 * Mark a message as "flagged
@@ -222,7 +222,7 @@ public interface Reader
 	 * @param state true=set, false=clear
 	 * @throws NestedException
 	 */
-	public void setFlagged (int msgIndex, boolean state) throws NestedException;
+	public void setFlagged(int msgIndex, boolean state) throws NestedException;
 
 	/**
 	 * Check if this message  is amrked by the server as "recent" or not
@@ -230,7 +230,7 @@ public interface Reader
 	 * @return boolean true if recent
 	 * @throws NestedException
 	 */
-	public boolean isRecent (int msgIndex) throws NestedException;
+	public boolean isRecent(int msgIndex) throws NestedException;
 
 	/**
 	 * Check if this message has been marked by some client as "draft" or not
@@ -238,7 +238,7 @@ public interface Reader
 	 * @return boolean true if draft
 	 * @throws NestedException
 	 */
-	public boolean isDraft (int msgIndex) throws NestedException;
+	public boolean isDraft(int msgIndex) throws NestedException;
 
 	/**
 	 * Mark a message as "draft
@@ -246,7 +246,7 @@ public interface Reader
 	 * @param state true=set, false=clear
 	 * @throws NestedException
 	 */
-	public void setDraft (int msgIndex, boolean state) throws NestedException;
+	public void setDraft(int msgIndex, boolean state) throws NestedException;
 
 	/**
 	 * Check if the message content is formatted as MIME multi-part
@@ -254,7 +254,7 @@ public interface Reader
 	 * @return boolean true if multipart
 	 * @throws NestedException
 	 */
-	public boolean isMultiPart (int msgIndex) throws NestedException;
+	public boolean isMultiPart(int msgIndex) throws NestedException;
 
 	/**
 	 * Check if the message content is formatted as MIME single-part
@@ -262,7 +262,7 @@ public interface Reader
 	 * @return boolean true if single-part
 	 * @throws NestedException
 	 */
-	public boolean isSinglePart (int msgIndex) throws NestedException;
+	public boolean isSinglePart(int msgIndex) throws NestedException;
 
 	/**
 	 * Check if the message content is inline
@@ -270,7 +270,7 @@ public interface Reader
 	 * @return boolean true if inline
 	 * @throws NestedException
 	 */
-	public boolean isInline (int msgIndex) throws NestedException;
+	public boolean isInline(int msgIndex) throws NestedException;
 
 	/**
 	 * Get the number of parts in a multi-part message
@@ -278,7 +278,7 @@ public interface Reader
 	 * @return int The number of parts in the message
 	 * @throws NestedException
 	 */
-	public int getMultiPartCount (int msgIndex) throws NestedException;
+	public int getMultiPartCount(int msgIndex) throws NestedException;
 
 	/**
 	 * Get the contents of a particular part of a multi-part message
@@ -287,7 +287,7 @@ public interface Reader
 	 * @return File
 	 * @throws NestedException
 	 */
-	public File getFile (int msgIndex, int partIndex) throws NestedException;
+	public File getFile(int msgIndex, int partIndex) throws NestedException;
 
 	/**
 	 * Get the file name in the header of a part in the multi-part message
@@ -296,7 +296,7 @@ public interface Reader
 	 * @return String
 	 * @throws NestedException
 	 */
-	public String getFileName (int msgIndex, int partIndex) throws NestedException;
+	public String getFileName(int msgIndex, int partIndex) throws NestedException;
 
 	/**
 	 * Get the content of the disposition header of a part of a multi-part
@@ -306,7 +306,7 @@ public interface Reader
 	 * @return String
 	 * @throws NestedException
 	 */
-	public String getDisposition (int msgIndex, int partIndex) throws NestedException;
+	public String getDisposition(int msgIndex, int partIndex) throws NestedException;
 
 	/**
 	 * Get the content of the ContentType header of a part of a multi-part
@@ -316,7 +316,7 @@ public interface Reader
 	 * @return String
 	 * @throws NestedException
 	 */
-	public String getContentType (int msgIndex, int partIndex) throws NestedException;
+	public String getContentType(int msgIndex, int partIndex) throws NestedException;
 
 	/**
 	 * Get the contents of a single-part message
@@ -324,7 +324,7 @@ public interface Reader
 	 * @return File
 	 * @throws NestedException
 	 */
-	public File getFile (int msgIndex) throws NestedException;
+	public File getFile(int msgIndex) throws NestedException;
 
 	/**
 	 * Get the file name in the header of a single-part message
@@ -332,7 +332,7 @@ public interface Reader
 	 * @return String
 	 * @throws NestedException
 	 */
-	public String getFileName (int msgIndex) throws NestedException;
+	public String getFileName(int msgIndex) throws NestedException;
 
 	/**
 	 * Get the content of the disposition header of a single-part message
@@ -340,7 +340,7 @@ public interface Reader
 	 * @return String
 	 * @throws NestedException
 	 */
-	public String getDisposition (int msgIndex) throws NestedException;
+	public String getDisposition(int msgIndex) throws NestedException;
 
 	/**
 	 * Get the content of the ContentType header of a single-part message
@@ -348,7 +348,7 @@ public interface Reader
 	 * @return String
 	 * @throws NestedException
 	 */
-	public String getContentType (int msgIndex) throws NestedException;
+	public String getContentType(int msgIndex) throws NestedException;
 
 	/**
 	 * Get the content of an inline message
@@ -356,5 +356,5 @@ public interface Reader
 	 * @return String
 	 * @throws NestedException
 	 */
-	public String getInline (int msgIndex) throws NestedException;
+	public String getInline(int msgIndex) throws NestedException;
 }

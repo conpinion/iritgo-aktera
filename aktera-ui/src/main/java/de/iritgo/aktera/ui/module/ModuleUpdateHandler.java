@@ -34,23 +34,23 @@ import java.sql.Connection;
 public class ModuleUpdateHandler extends UpdateHandler
 {
 	@Override
-	public void updateDatabase (ModelRequest req, Logger logger, Connection connection, PersistentFactory pf,
+	public void updateDatabase(ModelRequest req, Logger logger, Connection connection, PersistentFactory pf,
 					ModuleVersion currentVersion, ModuleVersion newVersion) throws Exception
 	{
-		if (currentVersion.between ("0.0.0", "2.1.2"))
+		if (currentVersion.between("0.0.0", "2.1.2"))
 		{
 			// Some model ids have changed. Update the security tables.
-			update ("UPDATE instancesecurity SET component = 'de.iritgo.aktera.ui.form.Edit' where component = 'de.buerobyte.aktera.formular.Edit'");
-			update ("UPDATE instancesecurity SET component = 'de.iritgo.aktera.ui.form.Save' where component = 'de.buerobyte.aktera.formular.Save'");
-			update ("UPDATE instancesecurity SET component = 'de.iritgo.aktera.ui.form.Delete' where component = 'de.buerobyte.aktera.formular.Delete'");
-			update ("UPDATE instancesecurity SET component = 'de.iritgo.aktera.ui.listing.List' where component = 'de.buerobyte.aktera.listing.List'");
+			update("UPDATE instancesecurity SET component = 'de.iritgo.aktera.ui.form.Edit' where component = 'de.buerobyte.aktera.formular.Edit'");
+			update("UPDATE instancesecurity SET component = 'de.iritgo.aktera.ui.form.Save' where component = 'de.buerobyte.aktera.formular.Save'");
+			update("UPDATE instancesecurity SET component = 'de.iritgo.aktera.ui.form.Delete' where component = 'de.buerobyte.aktera.formular.Delete'");
+			update("UPDATE instancesecurity SET component = 'de.iritgo.aktera.ui.listing.List' where component = 'de.buerobyte.aktera.listing.List'");
 
-			currentVersion.setVersion ("2.1.2");
+			currentVersion.setVersion("2.1.2");
 		}
 
-		if (currentVersion.lessThan ("2.2.1"))
+		if (currentVersion.lessThan("2.2.1"))
 		{
-			currentVersion.setVersion ("2.2.1");
+			currentVersion.setVersion("2.2.1");
 		}
 	}
 }

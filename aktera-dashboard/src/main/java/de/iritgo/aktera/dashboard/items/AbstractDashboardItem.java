@@ -42,7 +42,7 @@ public abstract class AbstractDashboardItem implements DashboardItem
 
 	protected String description;
 
-	public void setLocale (Locale locale)
+	public void setLocale(Locale locale)
 	{
 		this.locale = locale;
 	}
@@ -52,7 +52,7 @@ public abstract class AbstractDashboardItem implements DashboardItem
 	 *
 	 * @param i18n The i18n service
 	 */
-	public void setI18n (I18N i18n)
+	public void setI18n(I18N i18n)
 	{
 		this.i18n = i18n;
 	}
@@ -60,7 +60,7 @@ public abstract class AbstractDashboardItem implements DashboardItem
 	/**
 	 * @see de.iritgo.aktera.dashboard.DashboardItem#getId()
 	 */
-	public String getId ()
+	public String getId()
 	{
 		return id;
 	}
@@ -70,7 +70,7 @@ public abstract class AbstractDashboardItem implements DashboardItem
 	 *
 	 * @param id The id
 	 */
-	public void setId (String id)
+	public void setId(String id)
 	{
 		this.id = id;
 	}
@@ -80,7 +80,7 @@ public abstract class AbstractDashboardItem implements DashboardItem
 	 *
 	 * @return The label
 	 */
-	public String getLabel ()
+	public String getLabel()
 	{
 		return label;
 	}
@@ -90,7 +90,7 @@ public abstract class AbstractDashboardItem implements DashboardItem
 	 *
 	 * @param label
 	 */
-	public void setLabel (String label)
+	public void setLabel(String label)
 	{
 		this.label = label;
 	}
@@ -100,12 +100,12 @@ public abstract class AbstractDashboardItem implements DashboardItem
 	 *
 	 * @return The bundle
 	 */
-	public String getBundle ()
+	public String getBundle()
 	{
 		return bundle;
 	}
 
-	public void setBundle (String bundle)
+	public void setBundle(String bundle)
 	{
 		this.bundle = bundle;
 	}
@@ -115,7 +115,7 @@ public abstract class AbstractDashboardItem implements DashboardItem
 	 *
 	 * @param description The description
 	 */
-	public void setDescription (String description)
+	public void setDescription(String description)
 	{
 		this.description = description;
 	}
@@ -125,7 +125,7 @@ public abstract class AbstractDashboardItem implements DashboardItem
 	 *
 	 * @return
 	 */
-	public String getDescription ()
+	public String getDescription()
 	{
 		return description;
 	}

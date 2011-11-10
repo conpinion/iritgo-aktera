@@ -49,12 +49,12 @@ public abstract class StandardModel implements Model, Configurable
 	/**
 	 * @see org.apache.avalon.framework.configuration.Configurable#configure(org.apache.avalon.framework.configuration.Configuration)
 	 */
-	public void configure (Configuration configuration) throws ConfigurationException
+	public void configure(Configuration configuration) throws ConfigurationException
 	{
 		this.configuration = configuration;
 	}
 
-	public Configuration getConfiguration ()
+	public Configuration getConfiguration()
 	{
 		return configuration;
 	}

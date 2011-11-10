@@ -44,26 +44,26 @@ public interface AuthorizationManager
 	 * Is the specified operation allowed for the given
 	 * principal?
 	 */
-	public boolean allowed (Operation o, UserEnvironment ue) throws AuthorizationException;
+	public boolean allowed(Operation o, UserEnvironment ue) throws AuthorizationException;
 
 	/**
 	 * If we are supplied with a context then we can determine the subject
 	 * by getting the UserEnvironment from the context.
 	 */
-	public boolean allowed (Operation o, Context c) throws AuthorizationException;
+	public boolean allowed(Operation o, Context c) throws AuthorizationException;
 
 	/**
 	 * If we don't specify an operation, determine if the
 	 * user is allowed to do *anything* with this
 	 * service. This is used for securing the entire service - e.g. a Model
 	 */
-	public boolean allowed (Object service, UserEnvironment ue) throws AuthorizationException;
+	public boolean allowed(Object service, UserEnvironment ue) throws AuthorizationException;
 
 	/**
 	 * Same as allowed(Principal), but supplied with a Context, we can determine the subject
 	 * on our own by reading it from the UserEnvironment
 	 */
-	public boolean allowed (Object service, Context c) throws AuthorizationException;
+	public boolean allowed(Object service, Context c) throws AuthorizationException;
 
 	/**
 	 * Describe method allowed() here.
@@ -74,5 +74,5 @@ public interface AuthorizationManager
 	 * @return
 	 * @throws AuthorizationException
 	 */
-	public boolean allowed (Object service, String serviceId, UserEnvironment ue) throws AuthorizationException;
+	public boolean allowed(Object service, String serviceId, UserEnvironment ue) throws AuthorizationException;
 }

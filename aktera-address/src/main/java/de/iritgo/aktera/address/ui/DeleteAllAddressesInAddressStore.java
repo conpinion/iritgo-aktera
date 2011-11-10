@@ -36,16 +36,16 @@ public class DeleteAllAddressesInAddressStore extends AbstractListCommandUIContr
 	private AddressManager addressManager;
 
 	@Override
-	protected void execute (UIRequest request, UIResponse response, String id) throws UIControllerException
+	protected void execute(UIRequest request, UIResponse response, String id) throws UIControllerException
 	{
 		try
 		{
-			AddressStore store = addressManager.getAddressStoreById (NumberTools.toInt (id, - 1));
-			store.deleteAllAddresses ();
+			AddressStore store = addressManager.getAddressStoreById(NumberTools.toInt(id, - 1));
+			store.deleteAllAddresses();
 		}
 		catch (AddressStoreNotFoundException x)
 		{
-			throw new UIControllerException (x);
+			throw new UIControllerException(x);
 		}
 	}
 }

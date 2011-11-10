@@ -20,9 +20,10 @@
 package de.iritgo.aktera.address.wsclient;
 
 
+import java.util.List;
 import de.iritgo.simplelife.collection.CollectionTools;
 import de.iritgo.simplelife.math.Predicate;
-import java.util.List;
+import de.iritgo.simplelife.tools.Option;
 
 
 public class Address
@@ -63,208 +64,208 @@ public class Address
 
 	private List<PhoneNumber> phoneNumbers;
 
-	public void setStoreId (String storeId)
+	public void setStoreId(String storeId)
 	{
 		this.storeId = storeId;
 	}
 
-	public String getStoreId ()
+	public String getStoreId()
 	{
 		return storeId;
 	}
 
-	public String getId ()
+	public String getId()
 	{
 		return id;
 	}
 
-	public void setId (String id)
+	public void setId(String id)
 	{
 		this.id = id;
 	}
 
-	public void setSalutation (String salutation)
+	public void setSalutation(String salutation)
 	{
 		this.salutation = salutation;
 	}
 
-	public String getSalutation ()
+	public String getSalutation()
 	{
 		return salutation;
 	}
 
-	public String getFirstName ()
+	public String getFirstName()
 	{
 		return firstName;
 	}
 
-	public void setFirstName (String firstName)
+	public void setFirstName(String firstName)
 	{
 		this.firstName = firstName;
 	}
 
-	public String getLastName ()
+	public String getLastName()
 	{
 		return lastName;
 	}
 
-	public void setLastName (String lastName)
+	public void setLastName(String lastName)
 	{
 		this.lastName = lastName;
 	}
 
-	public String getCompany ()
+	public String getCompany()
 	{
 		return company;
 	}
 
-	public void setCompany (String company)
+	public void setCompany(String company)
 	{
 		this.company = company;
 	}
 
-	public void setDivision (String division)
+	public void setDivision(String division)
 	{
 		this.division = division;
 	}
 
-	public String getDivision ()
+	public String getDivision()
 	{
 		return division;
 	}
 
-	public void setPosition (String position)
+	public void setPosition(String position)
 	{
 		this.position = position;
 	}
 
-	public String getPosition ()
+	public String getPosition()
 	{
 		return position;
 	}
 
-	public void setPostalCode (String postalCode)
+	public void setPostalCode(String postalCode)
 	{
 		this.postalCode = postalCode;
 	}
 
-	public String getPostalCode ()
+	public String getPostalCode()
 	{
 		return postalCode;
 	}
 
-	public void setStreet (String street)
+	public void setStreet(String street)
 	{
 		this.street = street;
 	}
 
-	public String getStreet ()
+	public String getStreet()
 	{
 		return street;
 	}
 
-	public void setCity (String city)
+	public void setCity(String city)
 	{
 		this.city = city;
 	}
 
-	public String getCity ()
+	public String getCity()
 	{
 		return city;
 	}
 
-	public void setCountry (String country)
+	public void setCountry(String country)
 	{
 		this.country = country;
 	}
 
-	public String getCountry ()
+	public String getCountry()
 	{
 		return country;
 	}
 
-	public String getEmail ()
+	public String getEmail()
 	{
 		return email;
 	}
 
-	public void setEmail (String email)
+	public void setEmail(String email)
 	{
 		this.email = email;
 	}
 
-	public String getHomepage ()
+	public String getHomepage()
 	{
 		return homepage;
 	}
 
-	public void setHomepage (String homepage)
+	public void setHomepage(String homepage)
 	{
 		this.homepage = homepage;
 	}
 
-	public void setContactNumber (String contactNumber)
+	public void setContactNumber(String contactNumber)
 	{
 		this.contactNumber = contactNumber;
 	}
 
-	public String getContactNumber ()
+	public String getContactNumber()
 	{
 		return contactNumber;
 	}
 
-	public void setCompanyNumber (String companyNumber)
+	public void setCompanyNumber(String companyNumber)
 	{
 		this.companyNumber = companyNumber;
 	}
 
-	public String getCompanyNumber ()
+	public String getCompanyNumber()
 	{
 		return companyNumber;
 	}
 
-	public void setRemark (String remark)
+	public void setRemark(String remark)
 	{
 		this.remark = remark;
 	}
 
-	public String getRemark ()
+	public String getRemark()
 	{
 		return remark;
 	}
 
 	@Override
-	public String toString ()
+	public String toString()
 	{
-		return super.toString () + "[id=" + id + ",lastName=" + lastName + ",firstName=" + firstName + ",company="
+		return super.toString() + "[id=" + id + ",lastName=" + lastName + ",firstName=" + firstName + ",company="
 						+ company + "]";
 	}
 
-	public List<PhoneNumber> getPhoneNumbers ()
+	public List<PhoneNumber> getPhoneNumbers()
 	{
 		return phoneNumbers;
 	}
 
-	public void setPhoneNumbers (List<PhoneNumber> phoneNumbers)
+	public void setPhoneNumbers(List<PhoneNumber> phoneNumbers)
 	{
 		this.phoneNumbers = phoneNumbers;
 	}
 
-	public PhoneNumber getPhoneNumberWithCategory (final String category)
+	public PhoneNumber getPhoneNumberWithCategory(final String category)
 	{
-		PhoneNumber phoneNumber = CollectionTools.find (phoneNumbers, new Predicate<PhoneNumber> ()
+		Option<PhoneNumber> phoneNumber = CollectionTools.find(phoneNumbers, new Predicate<PhoneNumber>()
 		{
-			public Boolean eval (PhoneNumber pn)
+			public Boolean eval(PhoneNumber pn)
 			{
-				return category.equals (pn.getCategory ());
+				return category.equals(pn.getCategory());
 			}
 		});
 
-		return phoneNumber != null ? phoneNumber : new PhoneNumber (category);
+		return phoneNumber.full() ? phoneNumber.get() : new PhoneNumber(category);
 	}
 
-	public PhoneNumber getPhoneNumberWithCategory (PhoneNumber.Category category)
+	public PhoneNumber getPhoneNumberWithCategory(PhoneNumber.Category category)
 	{
-		return getPhoneNumberWithCategory (category.toString ());
+		return getPhoneNumberWithCategory(category.toString());
 	}
 }

@@ -53,7 +53,7 @@ public class ScriptFormularHandler extends FormularHandler
 	/**
 	 * @param scriptManager The new scriptManager.
 	 */
-	public void setScriptManager (ScriptManager scriptManager)
+	public void setScriptManager(ScriptManager scriptManager)
 	{
 		this.scriptManager = scriptManager;
 	}
@@ -63,7 +63,7 @@ public class ScriptFormularHandler extends FormularHandler
 	 *
 	 * @param em The event manager
 	 */
-	public void setEventManager (EventManager em)
+	public void setEventManager(EventManager em)
 	{
 		this.em = em;
 	}
@@ -72,46 +72,46 @@ public class ScriptFormularHandler extends FormularHandler
 	 * @see de.iritgo.aktera.ui.form.FormularHandler#loadPersistents(de.iritgo.aktera.model.ModelRequest, de.iritgo.aktera.ui.form.FormularDescriptor, de.iritgo.aktera.ui.form.PersistentDescriptor, java.util.List, java.lang.Integer)
 	 */
 	@Override
-	public void loadPersistents (ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents,
+	public void loadPersistents(ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents,
 					List<Configuration> persistentConfig, Integer id) throws ModelException, PersistenceException
 	{
-		super.loadPersistents (request, formular, persistents, persistentConfig, id);
-		persistents.putAttribute ("oldName", persistents.getPersistent ("script").getFieldString ("name"));
+		super.loadPersistents(request, formular, persistents, persistentConfig, id);
+		persistents.putAttribute("oldName", persistents.getPersistent("script").getFieldString("name"));
 	}
 
 	/**
 	 * @see de.iritgo.aktera.ui.form.FormularHandler
 	 */
-	public void adjustFormular (final ModelRequest request, final FormularDescriptor formular,
+	public void adjustFormular(final ModelRequest request, final FormularDescriptor formular,
 					final PersistentDescriptor persistents) throws ModelException, PersistenceException
 	{
-		TreeMap<String, String> languages = new TreeMap<String, String> ();
+		TreeMap<String, String> languages = new TreeMap<String, String>();
 
-		persistents.putAttributeValidValues ("script.language", languages);
+		persistents.putAttributeValidValues("script.language", languages);
 
-		for (String language : scriptManager.listCompilerNames ())
+		for (String language : scriptManager.listCompilerNames())
 		{
-			languages.put (language, "$" + language);
+			languages.put(language, "$" + language);
 		}
 	}
 
 	/**
 	 * @see de.iritgo.aktera.ui.form.FormularHandler
 	 */
-	public void validatePersistents (List<Configuration> persistentConfig, ModelRequest request,
-					ModelResponse response, FormularDescriptor formular, PersistentDescriptor persistents,
-					boolean create, ValidationResult result) throws ModelException, PersistenceException
+	public void validatePersistents(List<Configuration> persistentConfig, ModelRequest request, ModelResponse response,
+					FormularDescriptor formular, PersistentDescriptor persistents, boolean create,
+					ValidationResult result) throws ModelException, PersistenceException
 	{
-		Persistent script = persistents.getPersistent ("script");
+		Persistent script = persistents.getPersistent("script");
 
 		try
 		{
-			scriptManager.check (script.getFieldString ("code"), script.getFieldString ("language"));
+			scriptManager.check(script.getFieldString("code"), script.getFieldString("language"));
 		}
 		catch (ScriptCompilerException x)
 		{
-			FormTools.addError (response, result, "script.code", "#\n" + x.getMessage ());
-			FormTools.addError (response, result, "script.aaa", "aktera-script:scriptCodeContainsErrors");
+			FormTools.addError(response, result, "script.code", "#\n" + x.getMessage());
+			FormTools.addError(response, result, "script.aaa", "aktera-script:scriptCodeContainsErrors");
 		}
 		catch (Exception ignored)
 		{
@@ -121,34 +121,34 @@ public class ScriptFormularHandler extends FormularHandler
 	/**
 	 * @see de.iritgo.aktera.ui.form.FormularHandler
 	 */
-	public void updatePersistents (ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents,
+	public void updatePersistents(ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents,
 					List<Configuration> persistentConfig, boolean modified) throws ModelException, PersistenceException
 	{
-		super.updatePersistents (request, formular, persistents, persistentConfig, modified);
-		scriptManager.invalidate (persistents.getPersistent ("script").getFieldString ("name"));
+		super.updatePersistents(request, formular, persistents, persistentConfig, modified);
+		scriptManager.invalidate(persistents.getPersistent("script").getFieldString("name"));
 
-		String oldScriptName = (String) persistents.getAttribute ("oldName");
-		String newScriptName = (String) persistents.getPersistent ("script").getFieldString ("name");
+		String oldScriptName = (String) persistents.getAttribute("oldName");
+		String newScriptName = (String) persistents.getPersistent("script").getFieldString("name");
 
-		if (newScriptName.equals (oldScriptName))
+		if (newScriptName.equals(oldScriptName))
 		{
 			return;
 		}
 
-		Properties eventProps = new Properties ();
+		Properties eventProps = new Properties();
 
-		eventProps.put ("oldName", oldScriptName);
-		eventProps.put ("newName", newScriptName);
-		em.fire ("aktera.script.script-rename", eventProps);
+		eventProps.put("oldName", oldScriptName);
+		eventProps.put("newName", newScriptName);
+		em.fire("aktera.script.script-rename", eventProps);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.ui.form.FormularHandler
 	 */
-	public void deletePersistent (ModelRequest request, ModelResponse response, Object id, Persistent persistent,
+	public void deletePersistent(ModelRequest request, ModelResponse response, Object id, Persistent persistent,
 					boolean systemDelete) throws ModelException, PersistenceException
 	{
-		super.deletePersistent (request, response, id, persistent, systemDelete);
-		scriptManager.invalidate (persistent.getFieldString ("name"));
+		super.deletePersistent(request, response, id, persistent, systemDelete);
+		scriptManager.invalidate(persistent.getFieldString("name"));
 	}
 }

@@ -53,96 +53,95 @@ public class VideoList extends StandardLogEnabledModel
 	 * @param request The model request.
 	 * @return The model response.
 	 */
-	public ModelResponse execute (ModelRequest request) throws ModelException
+	public ModelResponse execute(ModelRequest request) throws ModelException
 	{
-		ModelResponse response = request.createResponse ();
+		ModelResponse response = request.createResponse();
 
-		String downloadDir = getConfiguration ().getChild ("directory").getValue (null);
-		String alternativeForward = getConfiguration ().getChild ("forward").getValue (null);
-		final String filetype = getConfiguration ().getChild ("filetype").getValue (null) == null ? ".flv"
-						: getConfiguration ().getChild ("filetype").getValue (null);
+		String downloadDir = getConfiguration().getChild("directory").getValue(null);
+		String alternativeForward = getConfiguration().getChild("forward").getValue(null);
+		final String filetype = getConfiguration().getChild("filetype").getValue(null) == null ? ".flv"
+						: getConfiguration().getChild("filetype").getValue(null);
 
 		if (downloadDir == null)
 		{
-			log.error ("No download directory specified");
-			throw new ModelException ("No download directory specified");
+			log.error("No download directory specified");
+			throw new ModelException("No download directory specified");
 		}
 
-		String urlBase = getConfiguration ().getChild ("url").getValue (null);
+		String urlBase = getConfiguration().getChild("url").getValue(null);
 
 		if (urlBase == null)
 		{
-			log.error ("No URL base specified");
-			throw new ModelException ("No URL base specified");
+			log.error("No URL base specified");
+			throw new ModelException("No URL base specified");
 		}
 
-		Output player = response.createOutput ("player");
+		Output player = response.createOutput("player");
 
-		player.setAttribute ("playerUrl", getConfiguration ().getChild ("playerUrl").getValue (null));
-		player.setAttribute ("urlBase", urlBase);
-		player.setAttribute ("server", request.getServerName ());
+		player.setAttribute("playerUrl", getConfiguration().getChild("playerUrl").getValue(null));
+		player.setAttribute("urlBase", urlBase);
+		player.setAttribute("server", request.getServerName());
 
-		response.add (player);
+		response.add(player);
 
-		Output outList = response.createOutput ("list");
+		Output outList = response.createOutput("list");
 
-		response.add (outList);
+		response.add(outList);
 
-		List<File> files = new LinkedList (FileUtils.listFiles (FileTools.newAkteraFile (downloadDir),
-						new IOFileFilter ()
-						{
-							public boolean accept (File file)
-							{
-								return file.getName ().endsWith (filetype);
-							}
-
-							public boolean accept (File arg0, String arg1)
-							{
-								return false;
-							}
-						}, null));
-
-		Collections.sort (files, new Comparator<File> ()
+		List<File> files = new LinkedList(FileUtils.listFiles(FileTools.newAkteraFile(downloadDir), new IOFileFilter()
 		{
-			public int compare (File o1, File o2)
+			public boolean accept(File file)
 			{
-				return o1.getName ().compareToIgnoreCase (o2.getName ());
+				return file.getName().endsWith(filetype);
+			}
+
+			public boolean accept(File arg0, String arg1)
+			{
+				return false;
+			}
+		}, null));
+
+		Collections.sort(files, new Comparator<File>()
+		{
+			public int compare(File o1, File o2)
+			{
+				return o1.getName().compareToIgnoreCase(o2.getName());
 			}
 		});
 
 		for (File file : files)
 		{
-			Output outFile = response.createOutput ("file" + file.hashCode ());
+			Output outFile = response.createOutput("file" + file.hashCode());
 
 			try
 			{
-				outFile.setContent (file.getName ());
-				outFile.setAttribute ("extension", FilenameUtils.getExtension (file.getName ()));
-				outFile.setAttribute ("url", urlBase + "/" + file.getName ());
-				outFile.setAttribute ("filename", file.getName ());
+				outFile.setContent(file.getName());
+				outFile.setAttribute("extension", FilenameUtils.getExtension(file.getName()));
+				outFile.setAttribute("url", urlBase + "/" + file.getName());
+				outFile.setAttribute("filename", file.getName());
 
-				String videoNameFile = FilenameUtils.removeExtension (file.getName ()) + ".name";
-				String descriptionFile = FilenameUtils.removeExtension (file.getName ()) + ".description";
+				String videoNameFile = FilenameUtils.removeExtension(file.getName()) + ".name";
+				String descriptionFile = FilenameUtils.removeExtension(file.getName()) + ".description";
 
-				outFile.setAttribute ("videoName", FileUtils.readFileToString (new File (downloadDir + "/"
-								+ videoNameFile)));
-				outFile.setAttribute ("description", FileUtils.readFileToString (new File (downloadDir + "/"
+				outFile.setAttribute("videoName", FileUtils
+								.readFileToString(new File(downloadDir + "/" + videoNameFile)));
+				outFile.setAttribute("description", FileUtils.readFileToString(new File(downloadDir + "/"
 								+ descriptionFile)));
 			}
 			catch (IOException x)
 			{
 			}
 
-			outList.add (outFile);
+			outList.add(outFile);
 		}
 
 		if (alternativeForward == null)
 		{
-			response.setAttribute ("forward", "aktera.tools.video-list");
+			response.setAttribute("forward", "aktera.tools.video-list");
 		}
 		else
 		{
-			response.setAttribute ("forward", alternativeForward);
+			response.setAttribute("forward", alternativeForward);
 		}
 
 		return response;

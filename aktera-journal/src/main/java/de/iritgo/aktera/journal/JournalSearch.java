@@ -32,7 +32,7 @@ public interface JournalSearch
 	 *
 	 * @return The category id
 	 */
-	public String getCategoryId ();
+	public String getCategoryId();
 
 	/**
 	 * Return the condition sql string for the listing query
@@ -41,7 +41,7 @@ public interface JournalSearch
 	 * @param search The search param
 	 * @return The query
 	 */
-	public String getCondition (String search, AkteraUser user);
+	public String getCondition(String search, AkteraUser user);
 
 	/**
 	 * Return the translated category label
@@ -49,7 +49,7 @@ public interface JournalSearch
 	 * @param The user object
 	 * @return The translated label for the category
 	 */
-	public String getCategoryLabel (AkteraUser user);
+	public String getCategoryLabel(AkteraUser user);
 
 	/**
 	 * Return a map with the key and objects for the condition
@@ -58,5 +58,5 @@ public interface JournalSearch
 	 * @param user The user
 	 * @return The contition map
 	 */
-	public Map<String, Object> getConditionMap (String search, AkteraUser user);
+	public Map<String, Object> getConditionMap(String search, AkteraUser user);
 }

@@ -32,7 +32,7 @@ public class AuthenticatorImpl implements Authenticator
 {
 	private UserDAO userDAO;
 
-	public void setUserDAO (UserDAO userDAO)
+	public void setUserDAO(UserDAO userDAO)
 	{
 		this.userDAO = userDAO;
 	}
@@ -41,11 +41,11 @@ public class AuthenticatorImpl implements Authenticator
 	 * @see de.iritgo.aktera.authentication.Authenticator#authenticate(java.lang.String,
 	 *      java.lang.String)
 	 */
-	public boolean authenticate (String userName, String loginPassword)
+	public boolean authenticate(String userName, String loginPassword)
 	{
-		AkteraUser user = userDAO.findUserByName (userName);
+		AkteraUser user = userDAO.findUserByName(userName);
 
-		if (user == null || ! StringTools.digest (loginPassword).equals (user.getPassword ()))
+		if (user == null || ! StringTools.digest(loginPassword).equals(user.getPassword()))
 		{
 			return false;
 		}

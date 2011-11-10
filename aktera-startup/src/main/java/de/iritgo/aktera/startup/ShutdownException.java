@@ -32,32 +32,32 @@ public class ShutdownException extends Exception
 	/**
 	 *
 	 */
-	public ShutdownException ()
+	public ShutdownException()
 	{
 	}
 
 	/**
 	 * @param message
 	 */
-	public ShutdownException (String message)
+	public ShutdownException(String message)
 	{
-		super (message);
+		super(message);
 	}
 
 	/**
 	 * @param cause
 	 */
-	public ShutdownException (Throwable cause)
+	public ShutdownException(Throwable cause)
 	{
-		super (cause);
+		super(cause);
 	}
 
 	/**
 	 * @param message
 	 * @param cause
 	 */
-	public ShutdownException (String message, Throwable cause)
+	public ShutdownException(String message, Throwable cause)
 	{
-		super (message, cause);
+		super(message, cause);
 	}
 }

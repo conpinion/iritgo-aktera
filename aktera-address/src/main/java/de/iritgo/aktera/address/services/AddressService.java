@@ -27,5 +27,5 @@ public interface AddressService
 {
 	public static final String ID = "de.iritgo.aktera.services.address.AddressService";
 
-	public void deleteAllAddresses (String storeName) throws AddressStoreNotFoundException;
+	public void deleteAllAddresses(String storeName) throws AddressStoreNotFoundException;
 }

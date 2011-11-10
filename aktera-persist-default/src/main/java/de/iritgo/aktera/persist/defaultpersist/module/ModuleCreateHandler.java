@@ -39,11 +39,11 @@ public class ModuleCreateHandler extends CreateHandler
 	 * @see de.iritgo.aktera.persist.CreateHandler#createData(de.iritgo.aktera.persist.PersistentFactory, java.sql.Connection, Logger, ModelRequest)
 	 */
 	@Override
-	public void createData (PersistentFactory persistentFactory, Connection connection, Logger logger,
+	public void createData(PersistentFactory persistentFactory, Connection connection, Logger logger,
 					ModelRequest request) throws ModelException, PersistenceException, SQLException
 	{
-		createInstanceSecurity ("de.iritgo.aktera.persist.defaultpersist.DefaultPersistent", "*", "root", "*");
-		createInvokationSecurity ("de.iritgo.aktera.persist.defaultpersist.RowSecurablePersistent", "*", "any", "ok",
+		createInstanceSecurity("de.iritgo.aktera.persist.defaultpersist.DefaultPersistent", "*", "root", "*");
+		createInvokationSecurity("de.iritgo.aktera.persist.defaultpersist.RowSecurablePersistent", "*", "any", "ok",
 						"*", "root", "*");
 	}
 }

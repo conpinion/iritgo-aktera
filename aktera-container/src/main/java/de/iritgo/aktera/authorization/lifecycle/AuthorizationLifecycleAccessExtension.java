@@ -48,9 +48,9 @@ public class AuthorizationLifecycleAccessExtension extends AbstractAccessor impl
 	 * @param context a Context instance
 	 * @exception Exception if an error occurs
 	 */
-	public void access (Object component, Context context) throws Exception
+	public void access(Object component, Context context) throws Exception
 	{
-		super.access (component, context);
+		super.access(component, context);
 	}
 
 	/**
@@ -58,16 +58,16 @@ public class AuthorizationLifecycleAccessExtension extends AbstractAccessor impl
 	 * @throws ServiceException
 	 * @see org.apache.avalon.framework.service.Serviceable#service(org.apache.avalon.framework.service.ServiceManager)
 	 */
-	public void service (ServiceManager manager) throws ServiceException
+	public void service(ServiceManager manager) throws ServiceException
 	{
-		m_delegate = new KeelServiceableDelegate (manager);
+		m_delegate = new KeelServiceableDelegate(manager);
 	}
 
 	/**
 	 * Release all services retrieved so far
 	 */
-	public synchronized void releaseServices ()
+	public synchronized void releaseServices()
 	{
-		m_delegate.releaseServices ();
+		m_delegate.releaseServices();
 	}
 }

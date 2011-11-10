@@ -35,11 +35,11 @@ public class AddressStoreType
 
 	private String className;
 
-	public AddressStore newAddressStore ()
+	public AddressStore newAddressStore()
 		throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException,
 		ClassNotFoundException
 	{
-		return (AddressStore) ConstructorUtils.invokeConstructor (Class.forName (className), new Object[]
+		return (AddressStore) ConstructorUtils.invokeConstructor(Class.forName(className), new Object[]
 		{});
 	}
 }

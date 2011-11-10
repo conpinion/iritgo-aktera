@@ -50,7 +50,7 @@ public class HasErrorTag extends BaseBodyTagSupport
 	 *
 	 * @return The request attribute key.
 	 */
-	public String getName ()
+	public String getName()
 	{
 		return name;
 	}
@@ -60,7 +60,7 @@ public class HasErrorTag extends BaseBodyTagSupport
 	 *
 	 * @param name The new request attribute key.
 	 */
-	public void setName (String name)
+	public void setName(String name)
 	{
 		this.name = name;
 	}
@@ -70,7 +70,7 @@ public class HasErrorTag extends BaseBodyTagSupport
 	 *
 	 * @return The name of the property.
 	 */
-	public String getProperty ()
+	public String getProperty()
 	{
 		return property;
 	}
@@ -80,7 +80,7 @@ public class HasErrorTag extends BaseBodyTagSupport
 	 *
 	 * @param property The new name of the property.
 	 */
-	public void setProperty (String property)
+	public void setProperty(String property)
 	{
 		this.property = property;
 	}
@@ -90,28 +90,28 @@ public class HasErrorTag extends BaseBodyTagSupport
 	 *
 	 * @exception JspException if a JSP exception has occurred
 	 */
-	public int doStartTag () throws JspException
+	public int doStartTag() throws JspException
 	{
 		ActionMessages errors = null;
 
 		try
 		{
-			errors = TagUtils.getInstance ().getActionMessages (pageContext, name);
+			errors = TagUtils.getInstance().getActionMessages(pageContext, name);
 		}
 		catch (JspException x)
 		{
-			TagUtils.getInstance ().saveException (pageContext, x);
+			TagUtils.getInstance().saveException(pageContext, x);
 			throw x;
 		}
 
-		if ((errors == null) || errors.isEmpty () || property == null)
+		if ((errors == null) || errors.isEmpty() || property == null)
 		{
 			return SKIP_BODY;
 		}
 
-		Iterator reports = errors.get (property);
+		Iterator reports = errors.get(property);
 
-		if (reports.hasNext ())
+		if (reports.hasNext())
 		{
 			return EVAL_BODY_INCLUDE;
 		}

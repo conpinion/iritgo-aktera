@@ -39,7 +39,7 @@ public interface EventManager
 	 *
 	 * @param eventId The event id.
 	 */
-	public void fire (String eventId);
+	public void fire(String eventId);
 
 	/**
 	 * Fire an event.
@@ -47,7 +47,9 @@ public interface EventManager
 	 * @param eventId The event id.
 	 * @param properties Additional event properties.
 	 */
-	public void fire (String eventId, Properties properties);
+	public void fire(String eventId, Properties properties);
+
+	public void fire(String eventId, Logger logger, Properties properties);
 
 	/**
 	 * Fire an event.
@@ -55,7 +57,7 @@ public interface EventManager
 	 * @param eventId The event id.
 	 * @param req A model request.
 	 */
-	public void fire (String eventId, ModelRequest req);
+	public void fire(String eventId, ModelRequest req);
 
 	/**
 	 * Fire an event.
@@ -64,7 +66,7 @@ public interface EventManager
 	 * @param req A model request.
 	 * @param log A logger.
 	 */
-	public void fire (String eventId, ModelRequest req, Logger log);
+	public void fire(String eventId, ModelRequest req, Logger log);
 
 	/**
 	 * Fire an event.
@@ -73,7 +75,7 @@ public interface EventManager
 	 * @param req A model request.
 	 * @param properties Additional event properties.
 	 */
-	public void fire (String eventId, ModelRequest req, Properties properties);
+	public void fire(String eventId, ModelRequest req, Properties properties);
 
 	/**
 	 * Fire an event.
@@ -83,5 +85,5 @@ public interface EventManager
 	 * @param log A logger.
 	 * @param properties Additional event properties.
 	 */
-	public void fire (String eventId, ModelRequest req, Logger log, Properties properties);
+	public void fire(String eventId, ModelRequest req, Logger log, Properties properties);
 }

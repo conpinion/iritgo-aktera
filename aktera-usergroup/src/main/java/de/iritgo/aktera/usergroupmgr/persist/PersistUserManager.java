@@ -63,47 +63,47 @@ public class PersistUserManager extends AbstractKeelServiceable implements UserM
 	 * @see de.iritgo.aktera.usergroupmgr.UserManager#find(de.iritgo.aktera.usergroupmgr.User.Property,
 	 *      java.lang.Object)
 	 */
-	public User find (Property property, Object value) throws UserMgrException
+	public User find(Property property, Object value) throws UserMgrException
 	{
 		User user = null;
 
 		try
 		{
-			Persistent u = getUserPersistent ();
+			Persistent u = getUserPersistent();
 
 			if (property == User.Property.UID)
 			{
-				u.setField (FLD_UID, value);
+				u.setField(FLD_UID, value);
 			}
 			else if (property == User.Property.NAME)
 			{
-				u.setField (FLD_NAME, value);
+				u.setField(FLD_NAME, value);
 			}
 			else if (property == User.Property.PASSWORD)
 			{
-				u.setField (FLD_PASSWORD, value);
+				u.setField(FLD_PASSWORD, value);
 			}
 			else if (property == User.Property.EMAIL)
 			{
-				u.setField (FLD_EMAIL, value);
+				u.setField(FLD_EMAIL, value);
 			}
 			else
 			{
-				log.warn ("Don't know how to find using property " + property);
+				log.warn("Don't know how to find using property " + property);
 			}
 
-			if (u.find ())
+			if (u.find())
 			{
-				user = createUserFromPersistent (u);
+				user = createUserFromPersistent(u);
 			}
 		}
 		catch (PersistenceException e)
 		{
-			throw new UserMgrException ("Error from underlying persistence engine while finding user", e);
+			throw new UserMgrException("Error from underlying persistence engine while finding user", e);
 		}
 		catch (ServiceException e)
 		{
-			throw new UserMgrException ("Internal error getting user service while finding user", e);
+			throw new UserMgrException("Internal error getting user service while finding user", e);
 		}
 
 		return user;
@@ -116,15 +116,14 @@ public class PersistUserManager extends AbstractKeelServiceable implements UserM
 	 * @throws UserMgrException
 	 * @throws PersistenceException
 	 */
-	private User createUserFromPersistent (Persistent u)
-		throws ServiceException, UserMgrException, PersistenceException
+	private User createUserFromPersistent(Persistent u) throws ServiceException, UserMgrException, PersistenceException
 	{
-		User user = (User) getService (User.ROLE, "persist-user");
+		User user = (User) getService(User.ROLE, "persist-user");
 
-		user.set (User.Property.UID, u.getFieldString (FLD_UID));
-		user.set (User.Property.NAME, u.getFieldString (FLD_NAME));
-		user.set (User.Property.PASSWORD, u.getFieldString (FLD_PASSWORD));
-		user.set (User.Property.EMAIL, u.getFieldString (FLD_EMAIL));
+		user.set(User.Property.UID, u.getFieldString(FLD_UID));
+		user.set(User.Property.NAME, u.getFieldString(FLD_NAME));
+		user.set(User.Property.PASSWORD, u.getFieldString(FLD_PASSWORD));
+		user.set(User.Property.EMAIL, u.getFieldString(FLD_EMAIL));
 
 		return user;
 	}
@@ -132,71 +131,71 @@ public class PersistUserManager extends AbstractKeelServiceable implements UserM
 	/**
 	 * @see de.iritgo.aktera.usergroupmgr.UserManager#list()
 	 */
-	public User[] list () throws UserMgrException
+	public User[] list() throws UserMgrException
 	{
-		ArrayList<User> userList = new ArrayList<User> (0);
+		ArrayList<User> userList = new ArrayList<User>(0);
 
 		try
 		{
-			Persistent u = getUserPersistent ();
+			Persistent u = getUserPersistent();
 
 			//u.setField(FLD_UID, user.get(User.Property.UID));
-			List<Persistent> users = u.query ();
+			List<Persistent> users = u.query();
 
-			userList = new ArrayList<User> (users.size ());
+			userList = new ArrayList<User>(users.size());
 
-			Iterator<Persistent> i = users.iterator ();
+			Iterator<Persistent> i = users.iterator();
 
-			while (i.hasNext ())
+			while (i.hasNext())
 			{
-				u = (Persistent) i.next ();
+				u = (Persistent) i.next();
 
-				User nextUser = createUserFromPersistent (u);
+				User nextUser = createUserFromPersistent(u);
 
-				userList.add (nextUser);
+				userList.add(nextUser);
 			}
 		}
 		catch (PersistenceException e)
 		{
-			throw new UserMgrException ("Error from underlying persistence engine while adding user", e);
+			throw new UserMgrException("Error from underlying persistence engine while adding user", e);
 		}
 		catch (ServiceException e)
 		{
-			throw new UserMgrException ("Internal error getting user service while adding user", e);
+			throw new UserMgrException("Internal error getting user service while adding user", e);
 		}
 
 		User[] type =
 		{};
 
-		return (User[]) userList.toArray (type);
+		return (User[]) userList.toArray(type);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.usergroupmgr.UserManager#add(de.iritgo.aktera.usergroupmgr.User)
 	 */
-	public User add (User user) throws UserMgrException
+	public User add(User user) throws UserMgrException
 	{
 		User newUser = user;
 
 		try
 		{
-			Persistent u = getUserPersistent ();
+			Persistent u = getUserPersistent();
 
 			//u.setField(FLD_UID, user.get(User.Property.UID));
-			u.setField (FLD_NAME, user.get (User.Property.NAME));
-			u.setField (FLD_PASSWORD, user.get (User.Property.PASSWORD));
-			u.setField (FLD_EMAIL, user.get (User.Property.EMAIL));
-			u.add ();
-			u.find ();
-			newUser = createUserFromPersistent (u);
+			u.setField(FLD_NAME, user.get(User.Property.NAME));
+			u.setField(FLD_PASSWORD, user.get(User.Property.PASSWORD));
+			u.setField(FLD_EMAIL, user.get(User.Property.EMAIL));
+			u.add();
+			u.find();
+			newUser = createUserFromPersistent(u);
 		}
 		catch (PersistenceException e)
 		{
-			throw new UserMgrException ("Error from underlying persistence engine while adding user", e);
+			throw new UserMgrException("Error from underlying persistence engine while adding user", e);
 		}
 		catch (ServiceException e)
 		{
-			throw new UserMgrException ("Internal error getting user service while adding user", e);
+			throw new UserMgrException("Internal error getting user service while adding user", e);
 		}
 
 		return newUser;
@@ -205,28 +204,28 @@ public class PersistUserManager extends AbstractKeelServiceable implements UserM
 	/**
 	 * @see de.iritgo.aktera.usergroupmgr.UserManager#delete(de.iritgo.aktera.usergroupmgr.User)
 	 */
-	public boolean delete (User user) throws UserMgrException
+	public boolean delete(User user) throws UserMgrException
 	{
 		try
 		{
-			Persistent u = getUserPersistent ();
+			Persistent u = getUserPersistent();
 
-			u.setField (FLD_NAME, user.get (User.Property.NAME));
-			u.setField (FLD_PASSWORD, user.get (User.Property.PASSWORD));
-			u.setField (FLD_EMAIL, user.get (User.Property.EMAIL));
+			u.setField(FLD_NAME, user.get(User.Property.NAME));
+			u.setField(FLD_PASSWORD, user.get(User.Property.PASSWORD));
+			u.setField(FLD_EMAIL, user.get(User.Property.EMAIL));
 
-			if (u.find ())
+			if (u.find())
 			{
-				u.delete ();
+				u.delete();
 			}
 			else
 			{
-				throw new UserMgrException ("Cannot delete, user not found");
+				throw new UserMgrException("Cannot delete, user not found");
 			}
 		}
 		catch (PersistenceException e)
 		{
-			throw new UserMgrException ("Error from underlying persistence engine while deleting user", e);
+			throw new UserMgrException("Error from underlying persistence engine while deleting user", e);
 		}
 
 		return true;
@@ -235,57 +234,57 @@ public class PersistUserManager extends AbstractKeelServiceable implements UserM
 	/**
 	 * @see de.iritgo.aktera.usergroupmgr.UserManager#update(de.iritgo.aktera.usergroupmgr.User)
 	 */
-	public boolean update (User user) throws UserMgrException
+	public boolean update(User user) throws UserMgrException
 	{
 		try
 		{
-			Persistent u = getUserPersistent ();
-			String uidString = (String) user.get (User.Property.UID);
+			Persistent u = getUserPersistent();
+			String uidString = (String) user.get(User.Property.UID);
 
-			if ((uidString == null) || uidString.trim ().equals (""))
+			if ((uidString == null) || uidString.trim().equals(""))
 			{
-				throw new UserMgrException ("Cannot update, no uid specified");
+				throw new UserMgrException("Cannot update, no uid specified");
 			}
 
-			u.setField (FLD_UID, uidString);
+			u.setField(FLD_UID, uidString);
 
-			if (u.find ())
+			if (u.find())
 			{
-				u.setField (FLD_NAME, user.get (User.Property.NAME));
-				u.setField (FLD_PASSWORD, user.get (User.Property.PASSWORD));
-				u.setField (FLD_EMAIL, user.get (User.Property.EMAIL));
-				u.update ();
+				u.setField(FLD_NAME, user.get(User.Property.NAME));
+				u.setField(FLD_PASSWORD, user.get(User.Property.PASSWORD));
+				u.setField(FLD_EMAIL, user.get(User.Property.EMAIL));
+				u.update();
 			}
 			else
 			{
-				throw new UserMgrException ("Cannot update, user not found");
+				throw new UserMgrException("Cannot update, user not found");
 			}
 		}
 		catch (PersistenceException e)
 		{
-			throw new UserMgrException ("Error from underlying persistence engine while updating user", e);
+			throw new UserMgrException("Error from underlying persistence engine while updating user", e);
 		}
 
 		return true;
 	}
 
-	protected Persistent getUserPersistent () throws UserMgrException
+	protected Persistent getUserPersistent() throws UserMgrException
 	{
 		PersistentFactory pf = null;
 		Persistent myUser = null;
 
 		try
 		{
-			pf = (PersistentFactory) getService (PersistentFactory.ROLE);
-			myUser = pf.create ("keel.user");
+			pf = (PersistentFactory) getService(PersistentFactory.ROLE);
+			myUser = pf.create("keel.user");
 		}
 		catch (ServiceException e)
 		{
-			throw new UserMgrException (e);
+			throw new UserMgrException(e);
 		}
 		catch (PersistenceException e)
 		{
-			throw new UserMgrException (e);
+			throw new UserMgrException(e);
 		}
 
 		return myUser;
@@ -294,7 +293,7 @@ public class PersistUserManager extends AbstractKeelServiceable implements UserM
 	/**
 	 * @see org.apache.avalon.framework.logger.LogEnabled#enableLogging(org.apache.avalon.framework.logger.Logger)
 	 */
-	public void enableLogging (Logger logger)
+	public void enableLogging(Logger logger)
 	{
 		log = logger;
 	}
@@ -302,22 +301,22 @@ public class PersistUserManager extends AbstractKeelServiceable implements UserM
 	/**
 	 * @see de.iritgo.aktera.usergroupmgr.UserManager#createUser(java.lang.String, java.lang.String, java.lang.String)
 	 */
-	public User createUser (String name, String password, String email) throws UserMgrException
+	public User createUser(String name, String password, String email) throws UserMgrException
 	{
 		User user;
 
 		try
 		{
-			user = (User) getService (User.ROLE, "persist-user");
+			user = (User) getService(User.ROLE, "persist-user");
 		}
 		catch (ServiceException e)
 		{
-			throw new UserMgrException ("Error getting user service from container", e);
+			throw new UserMgrException("Error getting user service from container", e);
 		}
 
-		user.set (User.Property.NAME, name);
-		user.set (User.Property.PASSWORD, password);
-		user.set (User.Property.EMAIL, email);
+		user.set(User.Property.NAME, name);
+		user.set(User.Property.PASSWORD, password);
+		user.set(User.Property.EMAIL, email);
 
 		return user;
 	}

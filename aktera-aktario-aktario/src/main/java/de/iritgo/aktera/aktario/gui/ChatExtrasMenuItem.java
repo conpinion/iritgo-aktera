@@ -40,43 +40,43 @@ public class ChatExtrasMenuItem extends IAction implements OtherFrameCloseListen
 {
 	private boolean forwardingToggle = true;
 
-	public ChatExtrasMenuItem ()
+	public ChatExtrasMenuItem()
 	{
-		super ("chatConference", new ImageIcon (ChatExtrasMenuItem.class.getResource ("/resources/chat.png")));
+		super("chatConference", new ImageIcon(ChatExtrasMenuItem.class.getResource("/resources/chat.png")));
 	}
 
-	public void actionPerformed (ActionEvent e)
+	public void actionPerformed(ActionEvent e)
 	{
 		if (forwardingToggle)
 		{
-			Properties props = new Properties ();
+			Properties props = new Properties();
 
-			props.put ("closable", Boolean.FALSE);
-			props.put ("iconifiable", Boolean.FALSE);
-			props.put ("maximizable", Boolean.FALSE);
-			props.put ("maximized", Boolean.TRUE);
-			props.put ("titlebar", Boolean.FALSE);
-			CommandTools.performSimple (new ShowOtherFrame (this, "common.chatview", "common.chatview",
+			props.put("closable", Boolean.FALSE);
+			props.put("iconifiable", Boolean.FALSE);
+			props.put("maximizable", Boolean.FALSE);
+			props.put("maximized", Boolean.TRUE);
+			props.put("titlebar", Boolean.FALSE);
+			CommandTools.performSimple(new ShowOtherFrame(this, "common.chatview", "common.chatview",
 							OtherFrame.SIZE_PACK));
 
-			CommandTools.performAsync (new ShowWindow ("common.chatview", "common.chatview"), props);
+			CommandTools.performAsync(new ShowWindow("common.chatview", "common.chatview"), props);
 
 			forwardingToggle = false;
 		}
 		else
 		{
-			IDisplay display = (IDisplay) Client.instance ().getClientGUI ().getDesktopManager ().getDisplay (
+			IDisplay display = (IDisplay) Client.instance().getClientGUI().getDesktopManager().getDisplay(
 							"common.chatview");
-			OtherJDesktopPane odp = (OtherJDesktopPane) ((SwingDesktopManager) Client.instance ().getClientGUI ()
-							.getDesktopManager ()).getDesktopPane (display.getDesktopId ());
+			OtherJDesktopPane odp = (OtherJDesktopPane) ((SwingDesktopManager) Client.instance().getClientGUI()
+							.getDesktopManager()).getDesktopPane(display.getDesktopId());
 
-			odp.closeAll ();
+			odp.closeAll();
 
 			forwardingToggle = true;
 		}
 	}
 
-	public void otherFrameClosed (OtherFrame otherFrame)
+	public void otherFrameClosed(OtherFrame otherFrame)
 	{
 		forwardingToggle = true;
 	}

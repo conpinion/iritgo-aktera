@@ -53,21 +53,21 @@ public class Validate extends SecurableStandardLogEnabledModel
 	 * @return a ModelResponse from the specified model
 	 * @throws ModelException If the model is not configured correctly
 	 */
-	public ModelResponse execute (ModelRequest req) throws ModelException
+	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
-		ModelResponse res = req.createResponse ();
+		ModelResponse res = req.createResponse();
 
 		try
 		{
-			Command c = res.createCommand (getConfiguration ().getChild ("model").getValue ());
+			Command c = res.createCommand(getConfiguration().getChild("model").getValue());
 
-			res.addErrors (req.getErrors ());
+			res.addErrors(req.getErrors());
 
-			return c.execute (req, res, true, true);
+			return c.execute(req, res, true, true);
 		}
 		catch (ConfigurationException ce)
 		{
-			throw new ModelException (ce);
+			throw new ModelException(ce);
 		}
 	}
 }

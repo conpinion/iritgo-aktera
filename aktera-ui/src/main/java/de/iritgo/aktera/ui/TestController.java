@@ -36,8 +36,8 @@ import javax.servlet.http.HttpServletResponse;
 public class TestController extends AbstractController
 {
 	@Override
-	protected ModelAndView handleRequestInternal (HttpServletRequest arg0, HttpServletResponse arg1) throws Exception
+	protected ModelAndView handleRequestInternal(HttpServletRequest arg0, HttpServletResponse arg1) throws Exception
 	{
-		return new ModelAndView ("index.jsp", "date", new Long (System.currentTimeMillis ()));
+		return new ModelAndView("index.jsp", "date", new Long(System.currentTimeMillis()));
 	}
 }

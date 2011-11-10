@@ -87,73 +87,73 @@ public class CommandTag extends SubmitTag
 
 	protected String params;
 
-	public void setLink (String newLink)
+	public void setLink(String newLink)
 	{
 		link = newLink;
 	}
 
-	public String getLink ()
+	public String getLink()
 	{
 		return link;
 	}
 
-	public void setName (String newName)
+	public void setName(String newName)
 	{
 		name = newName;
 	}
 
-	public String getName ()
+	public String getName()
 	{
 		return name;
 	}
 
 	// Added by Brian Rosenthal - 01/29/03
-	public void setCommandImagePath (String pathToImage)
+	public void setCommandImagePath(String pathToImage)
 	{
 		commandImagePath = pathToImage;
 	}
 
-	public String getCommandImagePath ()
+	public String getCommandImagePath()
 	{
 		return commandImagePath;
 	}
 
-	public String getTarget ()
+	public String getTarget()
 	{
 		return target;
 	}
 
-	public void setTarget (String newTarget)
+	public void setTarget(String newTarget)
 	{
 		target = newTarget;
 	}
 
-	public void setProperty (String newProperty)
+	public void setProperty(String newProperty)
 	{
 		property = newProperty;
 	}
 
-	public String getProperty ()
+	public String getProperty()
 	{
 		return property;
 	}
 
-	public void setBundle (String bundle)
+	public void setBundle(String bundle)
 	{
 		this.bundle = bundle;
 	}
 
-	public String getBundle ()
+	public String getBundle()
 	{
 		return bundle;
 	}
 
-	public String getIcon ()
+	public String getIcon()
 	{
 		return icon;
 	}
 
-	public void setIcon (String icon)
+	public void setIcon(String icon)
 	{
 		this.icon = icon;
 	}
@@ -163,67 +163,67 @@ public class CommandTag extends SubmitTag
 	 *
 	 * @exception JspException if a JSP exception has occurred
 	 */
-	public int doStartTag () throws JspException
+	public int doStartTag() throws JspException
 	{
-		StringBuffer results = new StringBuffer ();
+		StringBuffer results = new StringBuffer();
 
-		Object o = TagUtils.getInstance ().lookup (pageContext, name, property, null);
+		Object o = TagUtils.getInstance().lookup(pageContext, name, property, null);
 
 		if (o instanceof ResponseElementDynaBean)
 		{
 			ResponseElementDynaBean bean = (ResponseElementDynaBean) o;
-			String type = (String) bean.get ("type");
+			String type = (String) bean.get("type");
 
-			if (! type.equals ("command"))
+			if (! type.equals("command"))
 			{
-				throw new JspException ("Element '" + name + "/" + property + "' was not a command, it was a '" + type
+				throw new JspException("Element '" + name + "/" + property + "' was not a command, it was a '" + type
 								+ "'");
 			}
 
-			commandName = (String) bean.get ("name");
-			commandModel = (String) bean.get ("model");
-			commandBean = (String) bean.get ("bean");
-			commandLabel = (String) bean.get ("label");
-			cp = (Map) bean.get ("parameters");
+			commandName = (String) bean.get("name");
+			commandModel = (String) bean.get("model");
+			commandBean = (String) bean.get("bean");
+			commandLabel = (String) bean.get("label");
+			cp = (Map) bean.get("parameters");
 		}
 		else if (o instanceof Command)
 		{
 			Command c = (Command) o;
 
-			commandName = c.getName ();
-			commandModel = c.getModel ();
-			commandBean = c.getBean ();
-			commandLabel = c.getLabel ();
-			cp = c.getParameters ();
+			commandName = c.getName();
+			commandModel = c.getModel();
+			commandBean = c.getBean();
+			commandLabel = c.getLabel();
+			cp = c.getParameters();
 		}
 		else
 		{
-			throw new JspException ("Element '" + name + "/" + property
-							+ "' was not a ResponseElementDynaBean or a Command, it was a '" + o.getClass ().getName ()
+			throw new JspException("Element '" + name + "/" + property
+							+ "' was not a ResponseElementDynaBean or a Command, it was a '" + o.getClass().getName()
 							+ "'");
 		}
 
 		if (icon != null)
 		{
-			String browser = ((HttpServletRequest) pageContext.getRequest ()).getHeader ("User-Agent");
+			String browser = ((HttpServletRequest) pageContext.getRequest()).getHeader("User-Agent");
 
 			if (browser == null)
 			{
 				browser = "unknown";
 			}
 
-			browser = browser.toLowerCase ();
+			browser = browser.toLowerCase();
 
-			String url = ((HttpServletRequest) pageContext.getRequest ()).getContextPath () + icon;
+			String url = ((HttpServletRequest) pageContext.getRequest()).getContextPath() + icon;
 
-			if (! url.endsWith (".gif") && ! url.endsWith (".png") && ! url.endsWith (".jpg"))
+			if (! url.endsWith(".gif") && ! url.endsWith(".png") && ! url.endsWith(".jpg"))
 			{
-				url = url + ((browser.indexOf ("msie") != - 1) && (browser.indexOf ("opera") == - 1) ? ".gif" : ".png");
+				url = url + ((browser.indexOf("msie") != - 1) && (browser.indexOf("opera") == - 1) ? ".gif" : ".png");
 			}
 
-			if (getStyle () == null || ! getStyle ().contains ("visibility:hidden"))
+			if (getStyle() == null || ! getStyle().contains("visibility:hidden"))
 			{
-				setStyle ("background-image:url(" + url + ");" + StringTools.trim (getStyle ()));
+				setStyle("background-image:url(" + url + ");" + StringTools.trim(getStyle()));
 			}
 		}
 
@@ -233,101 +233,101 @@ public class CommandTag extends SubmitTag
 
 		//         setTitle(commandLabel);
 		// 		setTitle(null);
-		if (bundle != null && getTitleKey () != null)
+		if (bundle != null && getTitleKey() != null)
 		{
-			String titleMessage = TagUtils.getInstance ().message (pageContext, bundle, getLocale (), getTitleKey ());
+			String titleMessage = TagUtils.getInstance().message(pageContext, bundle, getLocale(), getTitleKey());
 
-			setTitle (titleMessage);
+			setTitle(titleMessage);
 		}
 
 		if (link == null)
 		{
-			results.append ("<input type=\"hidden\" name=\"PARAMS_");
-			results.append (commandName);
+			results.append("<input type=\"hidden\" name=\"PARAMS_");
+			results.append(commandName);
 
-			modelWithParams = new StringBuffer (commandBean != null ? commandBean : commandModel);
+			modelWithParams = new StringBuffer(commandBean != null ? commandBean : commandModel);
 
 			String oneKey = null;
 			Object oneValue = null;
 
-			for (Iterator i = cp.keySet ().iterator (); i.hasNext ();)
+			for (Iterator i = cp.keySet().iterator(); i.hasNext();)
 			{
-				oneKey = (String) i.next ();
-				oneValue = cp.get (oneKey);
+				oneKey = (String) i.next();
+				oneValue = cp.get(oneKey);
 
 				if (oneValue != null)
 				{
-					modelWithParams.append ("&");
-					modelWithParams.append (oneKey);
-					modelWithParams.append ("=");
-					modelWithParams.append (oneValue.toString ());
+					modelWithParams.append("&");
+					modelWithParams.append(oneKey);
+					modelWithParams.append("=");
+					modelWithParams.append(oneValue.toString());
 				}
 			}
 
-			results.append ("\" value=\"");
-			results.append (commandBean != null ? "bean=" : "model=");
-			results.append (modelWithParams);
-			results.append ("\"");
-			results.append (prepareEventHandlers ());
-			results.append (prepareStyles ());
-			results.append ("/>\n");
+			results.append("\" value=\"");
+			results.append(commandBean != null ? "bean=" : "model=");
+			results.append(modelWithParams);
+			results.append("\"");
+			results.append(prepareEventHandlers());
+			results.append(prepareStyles());
+			results.append("/>\n");
 
-			TagUtils.getInstance ().write (pageContext, results.toString ());
+			TagUtils.getInstance().write(pageContext, results.toString());
 			this.text = null;
 
 			return (EVAL_BODY_BUFFERED);
 		}
 		else
 		{
-			HttpServletRequest request = (HttpServletRequest) pageContext.getRequest ();
+			HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
 
-			StringBuffer urlString = new StringBuffer (request.getContextPath ()
+			StringBuffer urlString = new StringBuffer(request.getContextPath()
 							+ (commandBean != null ? "/bean.do?" : "/model.do?"));
 
-			results.append ("<a href=\"");
+			results.append("<a href=\"");
 
 			String oneKey = null;
 			Object oneValue = null;
 
-			modelWithParams = new StringBuffer (commandBean != null ? commandBean : commandModel);
+			modelWithParams = new StringBuffer(commandBean != null ? commandBean : commandModel);
 
-			for (Iterator i = cp.keySet ().iterator (); i.hasNext ();)
+			for (Iterator i = cp.keySet().iterator(); i.hasNext();)
 			{
-				oneKey = (String) i.next ();
-				oneValue = cp.get (oneKey);
+				oneKey = (String) i.next();
+				oneValue = cp.get(oneKey);
 
 				if (oneValue != null)
 				{
-					modelWithParams.append ("&");
-					modelWithParams.append (oneKey);
-					modelWithParams.append ("=");
-					modelWithParams.append (oneValue.toString ());
+					modelWithParams.append("&");
+					modelWithParams.append(oneKey);
+					modelWithParams.append("=");
+					modelWithParams.append(oneValue.toString());
 				}
 			}
 
 			if (params != null)
 			{
-				modelWithParams.append ("&" + params.replace (',', '&'));
+				modelWithParams.append("&" + params.replace(',', '&'));
 			}
 
-			urlString.append (commandBean != null ? "bean=" : "model=");
-			urlString.append (modelWithParams);
+			urlString.append(commandBean != null ? "bean=" : "model=");
+			urlString.append(modelWithParams);
 
-			HttpServletResponse response = (HttpServletResponse) pageContext.getResponse ();
+			HttpServletResponse response = (HttpServletResponse) pageContext.getResponse();
 
-			results.append (response.encodeURL (urlString.toString ()));
-			results.append ("\"");
+			results.append(response.encodeURL(urlString.toString()));
+			results.append("\"");
 
 			if (target != null)
 			{
-				results.append (" target=\"" + target + "\"");
+				results.append(" target=\"" + target + "\"");
 			}
 
-			results.append (prepareEventHandlers ());
-			results.append (prepareStyles ());
-			results.append ("/>\n");
+			results.append(prepareEventHandlers());
+			results.append(prepareStyles());
+			results.append("/>\n");
 
-			TagUtils.getInstance ().write (pageContext, results.toString ());
+			TagUtils.getInstance().write(pageContext, results.toString());
 
 			return (EVAL_BODY_INCLUDE);
 		}
@@ -338,13 +338,13 @@ public class CommandTag extends SubmitTag
 	 *
 	 * @exception JspException if a JSP exception has occurred
 	 */
-	public int doAfterBody () throws JspException
+	public int doAfterBody() throws JspException
 	{
 		if (bodyContent != null)
 		{
-			String value = bodyContent.getString ().trim ();
+			String value = bodyContent.getString().trim();
 
-			if (value.length () > 0)
+			if (value.length() > 0)
 			{
 				commandLabel = value;
 			}
@@ -364,7 +364,7 @@ public class CommandTag extends SubmitTag
 	 *
 	 * @exception JspException if a JSP exception has occurred
 	 */
-	public int doEndTag () throws JspException
+	public int doEndTag() throws JspException
 	{
 		if (link == null)
 		{
@@ -376,82 +376,82 @@ public class CommandTag extends SubmitTag
 				label = text;
 			}
 
-			if ((label == null) || (label.length () < 1))
+			if ((label == null) || (label.length() < 1))
 			{
 				label = "Submit";
 			}
 
 			// Generate an HTML element
-			StringBuffer results = new StringBuffer ();
+			StringBuffer results = new StringBuffer();
 
 			// Added by Brian Rosenthal - 01/29/03
 			// If specified, make the button of type "image."
 			if (commandImagePath != null)
 			{
-				results.append ("<input type=\"image\" src=\"" + commandImagePath + "\" border=\"0\" name=\"");
+				results.append("<input type=\"image\" src=\"" + commandImagePath + "\" border=\"0\" name=\"");
 			}
 			else
 			{
-				results.append ("<input type=\"submit\" name=\"");
+				results.append("<input type=\"submit\" name=\"");
 			}
 
-			results.append ("COMMAND_" + commandName);
+			results.append("COMMAND_" + commandName);
 
 			// since 1.1
 			if (indexed)
 			{
-				prepareIndex (results, null);
+				prepareIndex(results, null);
 			}
 
-			results.append ("\"");
+			results.append("\"");
 
 			if (accesskey != null)
 			{
-				results.append (" accesskey=\"");
-				results.append (accesskey);
-				results.append ("\"");
+				results.append(" accesskey=\"");
+				results.append(accesskey);
+				results.append("\"");
 			}
 
 			if (tabindex != null)
 			{
-				results.append (" tabindex=\"");
-				results.append (tabindex);
-				results.append ("\"");
+				results.append(" tabindex=\"");
+				results.append(tabindex);
+				results.append("\"");
 			}
 
 			if (scriptMethod != null)
 			{
-				results.append (" onclick=\"");
-				results.append (scriptMethod);
-				results.append ("('");
-				results.append (modelWithParams);
-				results.append ("');");
-				results.append ("\"");
+				results.append(" onclick=\"");
+				results.append(scriptMethod);
+				results.append("('");
+				results.append(modelWithParams);
+				results.append("');");
+				results.append("\"");
 			}
 
-			results.append (" value=\"");
-			results.append (commandLabel);
-			results.append ("\"");
+			results.append(" value=\"");
+			results.append(commandLabel);
+			results.append("\"");
 			//             setAlt(commandLabel);
-			results.append (prepareEventHandlers ());
-			results.append (prepareStyles ());
-			results.append ("/>");
+			results.append(prepareEventHandlers());
+			results.append(prepareStyles());
+			results.append("/>");
 
 			// Render this element to our writer
-			TagUtils.getInstance ().write (pageContext, results.toString ());
+			TagUtils.getInstance().write(pageContext, results.toString());
 		}
 		else
 		{
-			TagUtils.getInstance ().write (pageContext, "</a>");
+			TagUtils.getInstance().write(pageContext, "</a>");
 		}
 
-		setStyle (null);
+		setStyle(null);
 
 		// Evaluate the remainder of this page
 		return (EVAL_PAGE);
 	}
 
-	protected String message (String literal, String key) throws JspException
+	protected String message(String literal, String key) throws JspException
 	{
 		return literal;
 	}
@@ -459,9 +459,9 @@ public class CommandTag extends SubmitTag
 	/**
 	 * Release any acquired resources.
 	 */
-	public void release ()
+	public void release()
 	{
-		super.release ();
+		super.release();
 		name = null;
 		property = null;
 		text = null;
@@ -469,14 +469,14 @@ public class CommandTag extends SubmitTag
 		link = null;
 		bundle = null;
 		icon = null;
-		setStyle (null);
-		setStyleId (null);
+		setStyle(null);
+		setStyleId(null);
 	}
 
 	/**
 	 * @return
 	 */
-	public String getScriptMethod ()
+	public String getScriptMethod()
 	{
 		return scriptMethod;
 	}
@@ -484,17 +484,17 @@ public class CommandTag extends SubmitTag
 	/**
 	 * @param string
 	 */
-	public void setScriptMethod (String string)
+	public void setScriptMethod(String string)
 	{
 		scriptMethod = string;
 	}
 
-	public String getParams ()
+	public String getParams()
 	{
 		return params;
 	}
 
-	public void setParams (String params)
+	public void setParams(String params)
 	{
 		this.params = params;
 	}

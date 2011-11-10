@@ -99,7 +99,7 @@ public class Holiday implements Serializable
 	 *   auto-increment="identity"
 	 *   null-allowed="false"
 	 */
-	public Integer getId ()
+	public Integer getId()
 	{
 		return id;
 	}
@@ -107,7 +107,7 @@ public class Holiday implements Serializable
 	/**
 	 * Set the holiday Id.
 	 */
-	public void setId (Integer id)
+	public void setId(Integer id)
 	{
 		this.id = id;
 	}
@@ -122,7 +122,7 @@ public class Holiday implements Serializable
 	 *   length="80"
 	 *   null-allowed="false"
 	 */
-	public String getName ()
+	public String getName()
 	{
 		return name;
 	}
@@ -130,7 +130,7 @@ public class Holiday implements Serializable
 	/**
 	 * Set the holiday name.
 	 */
-	public void setName (String name)
+	public void setName(String name)
 	{
 		this.name = name;
 	}
@@ -145,7 +145,7 @@ public class Holiday implements Serializable
 	 *   length="8"
 	 *   null-allowed="false"
 	 */
-	public String getCountry ()
+	public String getCountry()
 	{
 		return country;
 	}
@@ -153,7 +153,7 @@ public class Holiday implements Serializable
 	/**
 	 * Set the country.
 	 */
-	public void setCountry (String country)
+	public void setCountry(String country)
 	{
 		this.country = country;
 	}
@@ -167,7 +167,7 @@ public class Holiday implements Serializable
 	 *   type="varchar"
 	 *   length="8"
 	 */
-	public String getProvince ()
+	public String getProvince()
 	{
 		return province;
 	}
@@ -175,7 +175,7 @@ public class Holiday implements Serializable
 	/**
 	 * Set the province.
 	 */
-	public void setProvince (String province)
+	public void setProvince(String province)
 	{
 		this.province = province;
 	}
@@ -189,7 +189,7 @@ public class Holiday implements Serializable
 	 *   type="integer"
 	 *   null-allowed="false"
 	 */
-	public Integer getDay ()
+	public Integer getDay()
 	{
 		return day;
 	}
@@ -197,7 +197,7 @@ public class Holiday implements Serializable
 	/**
 	 * Set the day.
 	 */
-	public void setDay (Integer day)
+	public void setDay(Integer day)
 	{
 		this.day = day;
 	}
@@ -211,7 +211,7 @@ public class Holiday implements Serializable
 	 *   type="integer"
 	 *   null-allowed="false"
 	 */
-	public Integer getMonth ()
+	public Integer getMonth()
 	{
 		return month;
 	}
@@ -219,7 +219,7 @@ public class Holiday implements Serializable
 	/**
 	 * Set the month.
 	 */
-	public void setMonth (Integer month)
+	public void setMonth(Integer month)
 	{
 		this.month = month;
 	}
@@ -232,7 +232,7 @@ public class Holiday implements Serializable
 	 *   db-name="year"
 	 *   type="integer"
 	 */
-	public Integer getYear ()
+	public Integer getYear()
 	{
 		return year;
 	}
@@ -240,7 +240,7 @@ public class Holiday implements Serializable
 	/**
 	 * Set the year.
 	 */
-	public void setYear (Integer year)
+	public void setYear(Integer year)
 	{
 		this.year = year;
 	}
@@ -253,7 +253,7 @@ public class Holiday implements Serializable
 	 *   db-name="description"
 	 *   type="text"
 	 */
-	public String getDescription ()
+	public String getDescription()
 	{
 		return description;
 	}
@@ -261,7 +261,7 @@ public class Holiday implements Serializable
 	/**
 	 * Set the description.
 	 */
-	public void setDescription (String description)
+	public void setDescription(String description)
 	{
 		this.description = description;
 	}
@@ -271,9 +271,9 @@ public class Holiday implements Serializable
 	 *
 	 * @return A string representation of a holiday.
 	 */
-	public String toString ()
+	public String toString()
 	{
-		return "Holiday@" + hashCode () + "[" + "name=" + name + ",country=" + country + ",province=" + province
+		return "Holiday@" + hashCode() + "[" + "name=" + name + ",country=" + country + ",province=" + province
 						+ ",day=" + day + ",month=" + month + ",year=" + year + "]";
 	}
 
@@ -281,18 +281,18 @@ public class Holiday implements Serializable
 	 * Retrieve the date of a holiday. In case of continues holidays (which
 	 * have a null year) a date for the current year is returned.
 	 */
-	public Date toDate ()
+	public Date toDate()
 	{
-		Calendar cal = GregorianCalendar.getInstance ();
+		Calendar cal = GregorianCalendar.getInstance();
 
-		cal.set (Calendar.MONTH, month);
-		cal.set (Calendar.DAY_OF_MONTH, day);
+		cal.set(Calendar.MONTH, month);
+		cal.set(Calendar.DAY_OF_MONTH, day);
 
 		if (year != null)
 		{
-			cal.set (Calendar.YEAR, year);
+			cal.set(Calendar.YEAR, year);
 		}
 
-		return cal.getTime ();
+		return cal.getTime();
 	}
 }

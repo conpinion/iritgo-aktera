@@ -36,33 +36,33 @@ public class AddAkteraGroupEntry extends AbstractListCommandUIController
 {
 	private UserDAO userDAO;
 
-	public void setUserDAO (UserDAO userDAO)
+	public void setUserDAO(UserDAO userDAO)
 	{
 		this.userDAO = userDAO;
 	}
 
 	private PermissionManager permissionManager;
 
-	public void setPermissionManager (PermissionManager permissionManager)
+	public void setPermissionManager(PermissionManager permissionManager)
 	{
 		this.permissionManager = permissionManager;
 	}
 
-	public AddAkteraGroupEntry ()
+	public AddAkteraGroupEntry()
 	{
-		super ("uid");
+		super("uid");
 	}
 
 	@Override
-	protected void execute (UIRequest request, UIResponse response, String[] ids) throws UIControllerException
+	protected void execute(UIRequest request, UIResponse response, String[] ids) throws UIControllerException
 	{
 		for (String id : ids)
 		{
-			AkteraGroupEntry entry = new AkteraGroupEntry ();
-			entry.setGroupId (request.getParameterAsInt ("id"));
-			entry.setUserId (Integer.valueOf (id));
-			userDAO.createAkteraGroupEntry (entry);
+			AkteraGroupEntry entry = new AkteraGroupEntry();
+			entry.setGroupId(request.getParameterAsInt("id"));
+			entry.setUserId(Integer.valueOf(id));
+			userDAO.createAkteraGroupEntry(entry);
 		}
-		permissionManager.clear ();
+		permissionManager.clear();
 	}
 }

@@ -43,7 +43,7 @@ public interface PermissionManager
 	 *
 	 * @return A meta data collection
 	 */
-	public List<PermissionMetaData> getPermissionMetaData ();
+	public List<PermissionMetaData> getPermissionMetaData();
 
 	/**
 	 * Get a specific permission meta data by it's id.
@@ -51,29 +51,21 @@ public interface PermissionManager
 	 * @param id The permission id
 	 * @return The permission meta data
 	 */
-	public PermissionMetaData getMetaDataById (String id);
+	public PermissionMetaData getMetaDataById(String id);
 
 	/**
 	 * Check if a given user has the specified permission granted.
 	 *
 	 * @return True if the specified permission is granted.
 	 */
-	public boolean hasPermission (String userName, String permission);
+	public boolean hasPermission(String userName, String permission);
 
 	/**
 	 * Check if a given user has the specified permission granted.
 	 *
 	 * @return True if the specified permission is granted.
 	 */
-	public boolean hasPermission (Integer userId, String permission);
-
-	/**
-	 * Check if a given user has the specified permission granted.
-	 *
-	 * @param params Permission specific parameters.
-	 * @return True if the specified permission is granted.
-	 */
-	public boolean hasPermission (String userName, String permission, String objectType, Integer objectId);
+	public boolean hasPermission(Integer userId, String permission);
 
 	/**
 	 * Check if a given user has the specified permission granted.
@@ -81,7 +73,15 @@ public interface PermissionManager
 	 * @param params Permission specific parameters.
 	 * @return True if the specified permission is granted.
 	 */
-	public boolean hasPermission (Integer userId, String permission, String objectType, Integer objectId);
+	public boolean hasPermission(String userName, String permission, String objectType, Integer objectId);
+
+	/**
+	 * Check if a given user has the specified permission granted.
+	 *
+	 * @param params Permission specific parameters.
+	 * @return True if the specified permission is granted.
+	 */
+	public boolean hasPermission(Integer userId, String permission, String objectType, Integer objectId);
 
 	/**
 	 * Describe method hasPermissionOnUserOrGroup() here.
@@ -91,12 +91,12 @@ public interface PermissionManager
 	 * @param userId
 	 * @return
 	 */
-	public boolean hasPermissionOnUserOrGroup (String userName, String permission, Integer userId);
+	public boolean hasPermissionOnUserOrGroup(String userName, String permission, Integer userId);
 
 	/**
 	 * Remove all cached permissions.
 	 */
-	public void clear ();
+	public void clear();
 
 	/**
 	 * Delete all permissions for the specified principal.
@@ -104,5 +104,5 @@ public interface PermissionManager
 	 * @param principalId The principal id.
 	 * @param principalType The principal type.
 	 */
-	public void deleteAllPermissionsOfPrincipal (Integer principalId, String principalType) throws PersistenceException;
+	public void deleteAllPermissionsOfPrincipal(Integer principalId, String principalType) throws PersistenceException;
 }

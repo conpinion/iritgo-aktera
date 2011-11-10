@@ -69,7 +69,7 @@ public class DefaultModelRequest implements LogEnabled, KeelServiceable, ModelRe
 
 	private Map previousRequest = null;
 
-	private Map validationErrors = new HashMap ();
+	private Map validationErrors = new HashMap();
 
 	private Map headers = null;
 
@@ -91,12 +91,12 @@ public class DefaultModelRequest implements LogEnabled, KeelServiceable, ModelRe
 
 	private String myBean;
 
-	public DefaultModelRequest ()
+	public DefaultModelRequest()
 	{
-		super ();
+		super();
 	}
 
-	public String getModel ()
+	public String getModel()
 	{
 		return myModel;
 	}
@@ -105,7 +105,7 @@ public class DefaultModelRequest implements LogEnabled, KeelServiceable, ModelRe
 	 * Model requests can be "recycled", that is, cleared and used again for a
 	 * new request.
 	 */
-	public void recycle ()
+	public void recycle()
 	{
 		params = null;
 		configured = false;
@@ -113,14 +113,14 @@ public class DefaultModelRequest implements LogEnabled, KeelServiceable, ModelRe
 		myConfig = null;
 		previousRequest = null;
 		myModel = null;
-		validationErrors = new HashMap ();
+		validationErrors = new HashMap();
 		headers = null;
 		source = null;
 		locale = null;
 
-		if (log.isDebugEnabled ())
+		if (log.isDebugEnabled())
 		{
-			log.debug ("Request " + toString () + " recycled");
+			log.debug("Request " + toString() + " recycled");
 		}
 	}
 
@@ -132,13 +132,13 @@ public class DefaultModelRequest implements LogEnabled, KeelServiceable, ModelRe
 	 * @return The value of the specified parameter, or null if there is no
 	 *         parameter with that name.
 	 */
-	public Object getParameter (String paramKey)
+	public Object getParameter(String paramKey)
 	{
 		Object returnValue = null;
 
 		if (params != null)
 		{
-			returnValue = params.get (paramKey);
+			returnValue = params.get(paramKey);
 		}
 
 		return returnValue;
@@ -149,13 +149,13 @@ public class DefaultModelRequest implements LogEnabled, KeelServiceable, ModelRe
 	 *
 	 * @return A Map of parameter names and their values
 	 */
-	public Map getParameters ()
+	public Map getParameters()
 	{
 		Map returnValue = null;
 
 		if (params == null)
 		{
-			returnValue = new HashMap ();
+			returnValue = new HashMap();
 		}
 		else
 		{
@@ -165,16 +165,16 @@ public class DefaultModelRequest implements LogEnabled, KeelServiceable, ModelRe
 		return returnValue;
 	}
 
-	public void setParameter (String paramKey, Object param)
+	public void setParameter(String paramKey, Object param)
 	{
 		if (paramKey != null)
 		{
 			if (params == null)
 			{
-				params = new HashMap ();
+				params = new HashMap();
 			}
 
-			params.put (paramKey, param);
+			params.put(paramKey, param);
 		}
 	}
 
@@ -183,39 +183,39 @@ public class DefaultModelRequest implements LogEnabled, KeelServiceable, ModelRe
 	 * class that is going to be invoked, and how we're going to communicate
 	 * with it
 	 */
-	public void setModel (String modelName)
+	public void setModel(String modelName)
 	{
 		myModel = modelName;
 	}
 
-	public ModelResponse execute () throws ModelException
+	public ModelResponse execute() throws ModelException
 	{
 		/* Create the appropriate model */
 		assert myModel != null;
 
 		if (! configured)
 		{
-			throw new ModelException ("Model request not configured");
+			throw new ModelException("Model request not configured");
 		}
 
 		Model newModel = null;
 
 		try
 		{
-			newModel = (Model) getService (Model.ROLE, myModel, getContext ());
+			newModel = (Model) getService(Model.ROLE, myModel, getContext());
 
-			Command redirect = validate (newModel);
+			Command redirect = validate(newModel);
 			ModelResponse res = null;
 
 			try
 			{
 				if (redirect == null)
 				{
-					res = newModel.execute (this);
+					res = newModel.execute(this);
 				}
 				else
 				{
-					res = redirect.execute (this, createResponse ());
+					res = redirect.execute(this, createResponse());
 				}
 			}
 			catch (Exception ee)
@@ -223,91 +223,91 @@ public class DefaultModelRequest implements LogEnabled, KeelServiceable, ModelRe
 				/* Any error during the actual execute is stored */
 				if (res == null)
 				{
-					res = createResponse ();
+					res = createResponse();
 				}
 
-				res.addError ("Exception during model execution", ee);
+				res.addError("Exception during model execution", ee);
 			}
 
 			if (res == null)
 			{
-				res = createResponse ();
+				res = createResponse();
 			}
 
-			return afterExecute (res, newModel.getConfiguration ());
+			return afterExecute(res, newModel.getConfiguration());
 		}
 		catch (Exception ce)
 		{
-			throw new ModelException ("Could not run model '" + myModel + "' for role '" + Model.ROLE + "'", ce);
+			throw new ModelException("Could not run model '" + myModel + "' for role '" + Model.ROLE + "'", ce);
 		}
 		finally
 		{
-			svcDelegate.releaseServices ();
+			svcDelegate.releaseServices();
 		}
 	}
 
 	/*
 	 * Used by the Model (only) to create the empty response
 	 */
-	public ModelResponse createResponse () throws ModelException
+	public ModelResponse createResponse() throws ModelException
 	{
-		ModelResponse newResponse = new DefaultModelResponse ();
+		ModelResponse newResponse = new DefaultModelResponse();
 
-		newResponse.setRequest (this);
+		newResponse.setRequest(this);
 
 		return newResponse;
 	}
 
-	public Context getContext ()
+	public Context getContext()
 	{
-		return getKeelContext ();
+		return getKeelContext();
 	}
 
-	public int getUid ()
+	public int getUid()
 	{
 		int returnValue = UserEnvironment.ANONYMOUS_UID;
 
 		try
 		{
-			Context c = getContext ();
+			Context c = getContext();
 
-			UserEnvironment ue = (UserEnvironment) c.get (UserEnvironment.CONTEXT_KEY);
+			UserEnvironment ue = (UserEnvironment) c.get(UserEnvironment.CONTEXT_KEY);
 
 			if (ue != null)
 			{
-				returnValue = ue.getUid ();
+				returnValue = ue.getUid();
 			}
 		}
 		catch (ContextException ce)
 		{
-			log.error ("No user information in context");
+			log.error("No user information in context");
 		}
 		catch (AuthorizationException e)
 		{
-			log.warn ("Authroization error");
+			log.warn("Authroization error");
 		}
 
 		return returnValue;
 	}
 
-	public String getDomain ()
+	public String getDomain()
 	{
 		String returnValue = UserEnvironment.ANONYMOUS_DOMAIN;
 
 		try
 		{
-			Context c = getContext ();
+			Context c = getContext();
 
 			if (c == null)
 			{
-				throw new IllegalArgumentException ("No context");
+				throw new IllegalArgumentException("No context");
 			}
 
-			UserEnvironment ue = (UserEnvironment) c.get (UserEnvironment.CONTEXT_KEY);
+			UserEnvironment ue = (UserEnvironment) c.get(UserEnvironment.CONTEXT_KEY);
 
 			if (ue != null)
 			{
-				returnValue = ue.getDomain ();
+				returnValue = ue.getDomain();
 			}
 		}
 		catch (ContextException ignored)
@@ -320,39 +320,39 @@ public class DefaultModelRequest implements LogEnabled, KeelServiceable, ModelRe
 		return returnValue;
 	}
 
-	public Map getPreviousRequest ()
+	public Map getPreviousRequest()
 	{
 		return previousRequest;
 	}
 
-	public void setPreviousRequest (Map newPrevious)
+	public void setPreviousRequest(Map newPrevious)
 	{
 		previousRequest = newPrevious;
 	}
 
-	public void configure (Configuration conf) throws ConfigurationException
+	public void configure(Configuration conf) throws ConfigurationException
 	{
 		if (conf == null)
 		{
-			throw new ConfigurationException ("Null configuration not allowed");
+			throw new ConfigurationException("Null configuration not allowed");
 		}
 
 		configured = true;
 		myConfig = conf;
 	}
 
-	public Object getConfiguration ()
+	public Object getConfiguration()
 	{
 		return myConfig;
 	}
 
-	protected ModelResponse afterExecute (ModelResponse res, Configuration modelConfig) throws ModelException
+	protected ModelResponse afterExecute(ModelResponse res, Configuration modelConfig) throws ModelException
 	{
 		try
 		{
-			Map currentAttributes = res.getAttributes ();
+			Map currentAttributes = res.getAttributes();
 
-			Configuration[] children = modelConfig.getChildren ();
+			Configuration[] children = modelConfig.getChildren();
 
 			// if (children.length == 0) {
 			// log.warn("No configuration for model '" + myModel + "'");
@@ -363,50 +363,51 @@ public class DefaultModelRequest implements LogEnabled, KeelServiceable, ModelRe
 			{
 				Configuration attrib = children[i];
 
-				if (attrib.getName ().equals ("attribute"))
+				if (attrib.getName().equals("attribute"))
 				{
-					String attName = attrib.getAttribute ("name");
-					String attVal = attrib.getAttribute ("value");
+					String attName = attrib.getAttribute("name");
+					String attVal = attrib.getAttribute("value");
 
-					if (! currentAttributes.containsKey (attName))
+					if (! currentAttributes.containsKey(attName))
 					{
-						res.setAttribute (attName, attVal);
+						res.setAttribute(attName, attVal);
 						addedAttribCount++;
 					}
 					else
 					{
-						log.debug ("Attribute '" + attName + "' for model '" + myModel
+						log.debug("Attribute '" + attName + "' for model '" + myModel
 										+ "' was already supplied by the model");
 					}
 				}
 			}
 
-			log.debug ("Added " + addedAttribCount + " configuration attributes for model '" + myModel + "'");
+			log.debug("Added " + addedAttribCount + " configuration attributes for model '" + myModel + "'");
 		}
 		catch (ConfigurationException ce)
 		{
-			throw new ModelException (ce);
+			throw new ModelException(ce);
 		}
 
 		// New logic to redirect back to the "sequence" if we were running one
 		try
 		{
-			SequenceContext scon = (SequenceContext) getKeelContext ().get (SequenceContext.CONTEXT_KEY);
+			SequenceContext scon = (SequenceContext) getKeelContext().get(SequenceContext.CONTEXT_KEY);
 
 			if (scon != null)
 			{
-				log.debug ("SequenceContext is not null. Current Model = " + getModel () + ", model in sequence = "
-								+ scon.getSequenceName () + ".");
+				log.debug("SequenceContext is not null. Current Model = " + getModel() + ", model in sequence = "
+								+ scon.getSequenceName() + ".");
 
 				/* Make sure we didn't just come from the same sequence */
-				if (! getModel ().equals (scon.getSequenceName ()))
+				if (! getModel().equals(scon.getSequenceName()))
 				{
-					scon.setCurrentResponse (res);
+					scon.setCurrentResponse(res);
 					// runSeq.setParameter( "seq", new
 					// Integer(scon.getSeq()).toString());
 					// expirimenting with the seq problems. When we transition,
 					// we should be setting the seq back....
-					log.debug ("Model name was not the same. Transitioning to new model or first step of new sequence....");
+					log
+									.debug("Model name was not the same. Transitioning to new model or first step of new sequence....");
 
 					// The code below was commented out by ACR. Not sure how
 					// this was useful, as a user can never "break out" of a
@@ -428,7 +429,7 @@ public class DefaultModelRequest implements LogEnabled, KeelServiceable, ModelRe
 		return res;
 	}
 
-	public Object getAttribute (String key)
+	public Object getAttribute(String key)
 	{
 		Object returnValue = null;
 
@@ -436,20 +437,20 @@ public class DefaultModelRequest implements LogEnabled, KeelServiceable, ModelRe
 		{
 			if (attributes != null)
 			{
-				returnValue = attributes.get (key);
+				returnValue = attributes.get(key);
 			}
 		}
 
 		return returnValue;
 	}
 
-	public Map getAttributes ()
+	public Map getAttributes()
 	{
 		Map returnValue = null;
 
 		if (attributes == null)
 		{
-			returnValue = new HashMap ();
+			returnValue = new HashMap();
 		}
 		else
 		{
@@ -459,23 +460,23 @@ public class DefaultModelRequest implements LogEnabled, KeelServiceable, ModelRe
 		return returnValue;
 	}
 
-	public void setAttribute (String key, Object value)
+	public void setAttribute(String key, Object value)
 	{
 		if (attributes == null)
 		{
-			attributes = new HashMap ();
+			attributes = new HashMap();
 		}
 
 		if (key != null)
 		{
 			synchronized (attributes)
 			{
-				attributes.put (key, value);
+				attributes.put(key, value);
 			}
 		}
 	}
 
-	public Set getOperations ()
+	public Set getOperations()
 	{
 		return null;
 	}
@@ -486,85 +487,85 @@ public class DefaultModelRequest implements LogEnabled, KeelServiceable, ModelRe
 	 * authorized then it passes on the model, otherwise throws
 	 * SecurityException.
 	 */
-	public Object getService (String role, String hint) throws ModelException
+	public Object getService(String role, String hint) throws ModelException
 	{
 		Object o = null;
 
 		try
 		{
-			o = svcDelegate.getService (role, hint, getContext ());
+			o = svcDelegate.getService(role, hint, getContext());
 		}
 		catch (ServiceException e)
 		{
-			throw new ModelException (e);
+			throw new ModelException(e);
 		}
 
 		return o;
 	}
 
-	public byte[] serialize () throws IOException
+	public byte[] serialize() throws IOException
 	{
-		ByteArrayOutputStream baos = new ByteArrayOutputStream ();
-		ObjectOutputStream oos = new ObjectOutputStream (baos);
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ObjectOutputStream oos = new ObjectOutputStream(baos);
 
-		oos.writeObject (this);
+		oos.writeObject(this);
 
-		return baos.toByteArray ();
+		return baos.toByteArray();
 	}
 
-	public KeelRequest deserialize (byte[] bytes) throws IOException
+	public KeelRequest deserialize(byte[] bytes) throws IOException
 	{
-		ByteArrayInputStream bais = new ByteArrayInputStream (bytes);
-		ObjectInputStream ois = new ObjectInputStream (bais);
+		ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
+		ObjectInputStream ois = new ObjectInputStream(bais);
 		KeelRequest myObject;
 
 		try
 		{
-			myObject = (KeelRequest) ois.readObject ();
+			myObject = (KeelRequest) ois.readObject();
 		}
 		catch (ClassNotFoundException e)
 		{
-			throw new IOException (e.getMessage ());
+			throw new IOException(e.getMessage());
 		}
 
 		return myObject;
 	}
 
-	public void copyFrom (KeelRequest newRequest) throws ModelException
+	public void copyFrom(KeelRequest newRequest) throws ModelException
 	{
-		setModel (newRequest.getModel ());
+		setModel(newRequest.getModel());
 
 		String oneParamName = null;
 
-		for (Iterator i = newRequest.getParameters ().keySet ().iterator (); i.hasNext ();)
+		for (Iterator i = newRequest.getParameters().keySet().iterator(); i.hasNext();)
 		{
-			oneParamName = (String) i.next ();
-			setParameter (oneParamName, newRequest.getParameter (oneParamName));
+			oneParamName = (String) i.next();
+			setParameter(oneParamName, newRequest.getParameter(oneParamName));
 		}
 
 		String oneAttributeName = null;
 
-		for (Iterator ia = newRequest.getAttributes ().keySet ().iterator (); ia.hasNext ();)
+		for (Iterator ia = newRequest.getAttributes().keySet().iterator(); ia.hasNext();)
 		{
-			oneAttributeName = (String) ia.next ();
-			setAttribute (oneAttributeName, newRequest.getAttribute (oneAttributeName));
+			oneAttributeName = (String) ia.next();
+			setAttribute(oneAttributeName, newRequest.getAttribute(oneAttributeName));
 		}
 
-		setSource (newRequest.getSource ());
-		setLocale (newRequest.getLocale ());
-		setScheme (newRequest.getScheme ());
-		setServerName (newRequest.getServerName ());
-		setServerPort (newRequest.getServerPort ());
-		setContextPath (newRequest.getContextPath ());
-		setRequestUrl (newRequest.getRequestUrl ());
-		setQueryString (newRequest.getQueryString ());
+		setSource(newRequest.getSource());
+		setLocale(newRequest.getLocale());
+		setScheme(newRequest.getScheme());
+		setServerName(newRequest.getServerName());
+		setServerPort(newRequest.getServerPort());
+		setContextPath(newRequest.getContextPath());
+		setRequestUrl(newRequest.getRequestUrl());
+		setQueryString(newRequest.getQueryString());
 
 		String oneHeaderName = null;
 
-		for (Iterator ia = newRequest.getHeaders ().keySet ().iterator (); ia.hasNext ();)
+		for (Iterator ia = newRequest.getHeaders().keySet().iterator(); ia.hasNext();)
 		{
-			oneHeaderName = (String) ia.next ();
-			setHeader (oneHeaderName, newRequest.getHeader (oneHeaderName));
+			oneHeaderName = (String) ia.next();
+			setHeader(oneHeaderName, newRequest.getHeader(oneHeaderName));
 		}
 	}
 
@@ -575,7 +576,7 @@ public class DefaultModelRequest implements LogEnabled, KeelServiceable, ModelRe
 	 * org.apache.avalon.framework.logger.LogEnabled#enableLogging(org.apache
 	 * .avalon.framework.logger.Logger)
 	 */
-	public void enableLogging (Logger logger)
+	public void enableLogging(Logger logger)
 	{
 		log = logger;
 	}
@@ -586,24 +587,24 @@ public class DefaultModelRequest implements LogEnabled, KeelServiceable, ModelRe
 	 * @see
 	 * de.iritgo.aktera.model.ModelRequest#getDefaultService(java.lang.String)
 	 */
-	public Object getDefaultService (String role) throws ModelException
+	public Object getDefaultService(String role) throws ModelException
 	{
 		try
 		{
-			return svcDelegate.getService (role);
+			return svcDelegate.getService(role);
 		}
 		catch (ServiceException e)
 		{
-			throw new ModelException (e);
+			throw new ModelException(e);
 		}
 	}
 
 	/**
 	 * @see de.iritgo.aktera.model.ModelRequest#getService(java.lang.String)
 	 */
-	public Object getService (String role) throws ModelException
+	public Object getService(String role) throws ModelException
 	{
-		return getService (role, "default");
+		return getService(role, "default");
 	}
 
 	/*
@@ -612,15 +613,15 @@ public class DefaultModelRequest implements LogEnabled, KeelServiceable, ModelRe
 	 * @see de.iritgo.aktera.model.ModelRequest#getService(java.lang.String,
 	 * java.lang.String, org.apache.avalon.framework.context.Context)
 	 */
-	public Object getService (String role, String hint, Context ctx) throws ModelException
+	public Object getService(String role, String hint, Context ctx) throws ModelException
 	{
 		try
 		{
-			return svcDelegate.getService (role, hint, ctx);
+			return svcDelegate.getService(role, hint, ctx);
 		}
 		catch (ServiceException e)
 		{
-			throw new ModelException (e);
+			throw new ModelException(e);
 		}
 	}
 
@@ -631,15 +632,15 @@ public class DefaultModelRequest implements LogEnabled, KeelServiceable, ModelRe
 	 * org.apache.avalon.framework.service.Serviceable#service(org.apache.avalon
 	 * .framework.service.ServiceManager)
 	 */
-	public void service (ServiceManager manager) throws ServiceException
+	public void service(ServiceManager manager) throws ServiceException
 	{
-		svcDelegate = new KeelServiceableDelegate (manager);
+		svcDelegate = new KeelServiceableDelegate(manager);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.context.KeelContextualizable#getKeelContext()
 	 */
-	public Context getKeelContext ()
+	public Context getKeelContext()
 	{
 		return keelContext;
 	}
@@ -647,40 +648,40 @@ public class DefaultModelRequest implements LogEnabled, KeelServiceable, ModelRe
 	/**
 	 * @see de.iritgo.aktera.context.KeelContextualizable#setKeelContext(org.apache.avalon.framework.context.Context)
 	 */
-	public void setKeelContext (Context keelContext) throws ContextException
+	public void setKeelContext(Context keelContext) throws ContextException
 	{
 		this.keelContext = keelContext;
 	}
 
 	/** *** Type-specific access to request parameters ***** */
-	public int getParameterAsInt (String name)
+	public int getParameterAsInt(String name)
 	{
 		assert name != null;
 
-		Converter c = ConvertUtils.lookup (java.lang.Integer.class);
+		Converter c = ConvertUtils.lookup(java.lang.Integer.class);
 
-		return ((Integer) c.convert (java.lang.Integer.class, getParameterAsString (name))).intValue ();
+		return ((Integer) c.convert(java.lang.Integer.class, getParameterAsString(name))).intValue();
 	}
 
-	public int getParameterAsInt (String name, int defaultValue)
+	public int getParameterAsInt(String name, int defaultValue)
 	{
 		assert name != null;
 
-		Object val = getParameter (name);
+		Object val = getParameter(name);
 
-		if (val == null || "".equals (val))
+		if (val == null || "".equals(val))
 		{
 			return defaultValue;
 		}
 
-		return getParameterAsInt (name);
+		return getParameterAsInt(name);
 	}
 
-	public String getParameterAsString (String name)
+	public String getParameterAsString(String name)
 	{
 		assert name != null;
 
-		Object val = getParameter (name);
+		Object val = getParameter(name);
 
 		if (val == null)
 		{
@@ -692,26 +693,26 @@ public class DefaultModelRequest implements LogEnabled, KeelServiceable, ModelRe
 			val = ((String[]) val)[0];
 		}
 
-		return val.toString ();
+		return val.toString();
 	}
 
-	public String getParameterAsString (String name, String defaultValue)
+	public String getParameterAsString(String name, String defaultValue)
 	{
 		assert name != null;
 
-		Object val = getParameter (name);
+		Object val = getParameter(name);
 
 		if (val == null)
 		{
 			return defaultValue;
 		}
 
-		return val.toString ();
+		return val.toString();
 	}
 
-	public Object[] getParameterAsArray (String name)
+	public Object[] getParameterAsArray(String name)
 	{
-		final Object val = getParameter (name);
+		final Object val = getParameter(name);
 
 		if (val == null)
 		{
@@ -719,13 +720,13 @@ public class DefaultModelRequest implements LogEnabled, KeelServiceable, ModelRe
 			return (null);
 		} // else
 
-		final Class valClass = val.getClass ();
-		final Class valType = valClass.getComponentType ();
+		final Class valClass = val.getClass();
+		final Class valType = valClass.getComponentType();
 
 		if (valType == null)
 		{
 			// Val Class is not an Array
-			Object[] retVal = (Object[]) Array.newInstance (val.getClass (), 1);
+			Object[] retVal = (Object[]) Array.newInstance(val.getClass(), 1);
 
 			retVal[0] = val;
 
@@ -733,117 +734,117 @@ public class DefaultModelRequest implements LogEnabled, KeelServiceable, ModelRe
 		}
 		else
 		{
-			Object[] retVal = (Object[]) Array.newInstance (valType, Array.getLength (val));
+			Object[] retVal = (Object[]) Array.newInstance(valType, Array.getLength(val));
 
-			for (int i = 0; i < Array.getLength (val); i++)
+			for (int i = 0; i < Array.getLength(val); i++)
 			{
-				retVal[i] = Array.get (val, i);
+				retVal[i] = Array.get(val, i);
 			} // end for
 
 			return retVal;
 		} // end else
 	} // end getParameterAsArray
 
-	public Date getParameterAsDate (String name)
+	public Date getParameterAsDate(String name)
 	{
 		assert name != null;
 
-		return new SuperString (getParameterAsString (name)).toDate ();
+		return new SuperString(getParameterAsString(name)).toDate();
 	}
 
-	public Date getParameterAsDate (String name, Date defaultValue)
+	public Date getParameterAsDate(String name, Date defaultValue)
 	{
 		assert name != null;
 
-		Object val = getParameter (name);
+		Object val = getParameter(name);
 
 		if (val == null)
 		{
 			return defaultValue;
 		}
 
-		return getParameterAsDate (name);
+		return getParameterAsDate(name);
 	}
 
-	public List getParameterAsList (String name)
+	public List getParameterAsList(String name)
 	{
-		Object[] arr = getParameterAsArray (name);
-		ArrayList l = new ArrayList ();
+		Object[] arr = getParameterAsArray(name);
+		ArrayList l = new ArrayList();
 
 		for (int i = 0; i < arr.length; i++)
 		{
-			l.add (arr[i]);
+			l.add(arr[i]);
 		}
 
 		return l;
 	}
 
-	public List getParameterAsList (String name, List defaultValue)
+	public List getParameterAsList(String name, List defaultValue)
 	{
-		Object val = getParameter (name);
+		Object val = getParameter(name);
 
 		if (val == null)
 		{
 			return defaultValue;
 		}
 
-		return getParameterAsList (name);
+		return getParameterAsList(name);
 	}
 
-	public long getParameterAsLong (String name, long defaultValue)
+	public long getParameterAsLong(String name, long defaultValue)
 	{
-		if (getParameter (name) == null)
+		if (getParameter(name) == null)
 		{
 			return defaultValue;
 		}
 
-		return getParameterAsLong (name);
+		return getParameterAsLong(name);
 	}
 
-	public Map getErrors ()
+	public Map getErrors()
 	{
 		return validationErrors;
 	}
 
-	public double getParameterAsDouble (String name)
+	public double getParameterAsDouble(String name)
 	{
-		Converter c = ConvertUtils.lookup (java.lang.Double.class);
+		Converter c = ConvertUtils.lookup(java.lang.Double.class);
 
-		return ((Double) c.convert (java.lang.Double.class, getParameterAsString (name))).doubleValue ();
+		return ((Double) c.convert(java.lang.Double.class, getParameterAsString(name))).doubleValue();
 	}
 
-	public float getParameterAsFloat (String name)
+	public float getParameterAsFloat(String name)
 	{
-		Converter c = ConvertUtils.lookup (java.lang.Float.class);
+		Converter c = ConvertUtils.lookup(java.lang.Float.class);
 
-		return ((Float) c.convert (java.lang.Float.class, getParameterAsString (name))).floatValue ();
+		return ((Float) c.convert(java.lang.Float.class, getParameterAsString(name))).floatValue();
 	}
 
-	public float getParameterAsFloat (String name, float defaultValue)
+	public float getParameterAsFloat(String name, float defaultValue)
 	{
-		if (getParameter (name) == null)
+		if (getParameter(name) == null)
 		{
 			return defaultValue;
 		}
 
-		return getParameterAsFloat (name);
+		return getParameterAsFloat(name);
 	}
 
-	public double getParameterAsDouble (String name, double defaultValue)
+	public double getParameterAsDouble(String name, double defaultValue)
 	{
-		if (getParameter (name) == null)
+		if (getParameter(name) == null)
 		{
 			return defaultValue;
 		}
 
-		return getParameterAsDouble (name);
+		return getParameterAsDouble(name);
 	}
 
-	public long getParameterAsLong (String name)
+	public long getParameterAsLong(String name)
 	{
-		Converter c = ConvertUtils.lookup (java.lang.Long.class);
+		Converter c = ConvertUtils.lookup(java.lang.Long.class);
 
-		return ((Long) c.convert (java.lang.Long.class, getParameterAsString (name))).longValue ();
+		return ((Long) c.convert(java.lang.Long.class, getParameterAsString(name))).longValue();
 	}
 
 	/**
@@ -851,39 +852,39 @@ public class DefaultModelRequest implements LogEnabled, KeelServiceable, ModelRe
 	 * method called by a ModelValidator component, not by the Model itself
 	 * (normally)
 	 */
-	public void addError (String name, String message)
+	public void addError(String name, String message)
 	{
-		validationErrors.put (name, message);
+		validationErrors.put(name, message);
 	}
 
-	private Command validate (Model newModel) throws ModelException, ConfigurationException
+	private Command validate(Model newModel) throws ModelException, ConfigurationException
 	{
-		String useValidator = newModel.getConfiguration ().getChild ("validator").getValue (null);
+		String useValidator = newModel.getConfiguration().getChild("validator").getValue(null);
 
 		if (useValidator == null)
 		{
 			if (myDefaultValidator == null)
 			{
-				myDefaultValidator = (ModelValidator) getService (ModelValidator.ROLE, "*");
+				myDefaultValidator = (ModelValidator) getService(ModelValidator.ROLE, "*");
 			}
 
-			return myDefaultValidator.validate (this, newModel);
+			return myDefaultValidator.validate(this, newModel);
 		}
 
-		ModelValidator mv = (ModelValidator) getService (ModelValidator.ROLE, useValidator);
+		ModelValidator mv = (ModelValidator) getService(ModelValidator.ROLE, useValidator);
 
-		return mv.validate (this, newModel);
+		return mv.validate(this, newModel);
 	}
 
 	/**
 	 * Release all services retrieved so far
 	 */
-	public synchronized void releaseServices ()
+	public synchronized void releaseServices()
 	{
-		svcDelegate.releaseServices ();
+		svcDelegate.releaseServices();
 	}
 
-	public String getHeader (String key)
+	public String getHeader(String key)
 	{
 		String returnValue = null;
 
@@ -891,20 +892,20 @@ public class DefaultModelRequest implements LogEnabled, KeelServiceable, ModelRe
 		{
 			if (headers != null)
 			{
-				returnValue = (String) headers.get (key);
+				returnValue = (String) headers.get(key);
 			}
 		}
 
 		return returnValue;
 	}
 
-	public Map getHeaders ()
+	public Map getHeaders()
 	{
 		Map returnValue = null;
 
 		if (headers == null)
 		{
-			returnValue = new HashMap ();
+			returnValue = new HashMap();
 		}
 		else
 		{
@@ -914,38 +915,38 @@ public class DefaultModelRequest implements LogEnabled, KeelServiceable, ModelRe
 		return returnValue;
 	}
 
-	public void setHeader (String key, String value)
+	public void setHeader(String key, String value)
 	{
 		if (headers == null)
 		{
-			headers = new HashMap ();
+			headers = new HashMap();
 		}
 
 		if (key != null)
 		{
 			synchronized (headers)
 			{
-				headers.put (key, value);
+				headers.put(key, value);
 			}
 		}
 	}
 
-	public void setSource (String source)
+	public void setSource(String source)
 	{
 		this.source = source;
 	}
 
-	public String getSource ()
+	public String getSource()
 	{
 		return source;
 	}
 
-	public void setLocale (Locale locale)
+	public void setLocale(Locale locale)
 	{
 		this.locale = locale;
 	}
 
-	public Locale getLocale ()
+	public Locale getLocale()
 	{
 		return locale;
 	}
@@ -953,74 +954,74 @@ public class DefaultModelRequest implements LogEnabled, KeelServiceable, ModelRe
 	/**
 	 * @see de.iritgo.aktera.model.ModelRequest#getSpringBean(java.lang.String)
 	 */
-	public Object getSpringBean (String name) throws ModelException
+	public Object getSpringBean(String name) throws ModelException
 	{
 		try
 		{
-			return KeelContainer.defaultContainer ().getSpringBean (name);
+			return KeelContainer.defaultContainer().getSpringBean(name);
 		}
 		catch (Exception x)
 		{
-			throw new ModelException ("Unable to retrieve spring bean '" + name, x);
+			throw new ModelException("Unable to retrieve spring bean '" + name, x);
 		}
 	}
 
-	public String getScheme ()
+	public String getScheme()
 	{
 		return scheme;
 	}
 
-	public void setScheme (String scheme)
+	public void setScheme(String scheme)
 	{
 		this.scheme = scheme;
 	}
 
-	public String getServerName ()
+	public String getServerName()
 	{
 		return serverName;
 	}
 
-	public void setServerName (String serverName)
+	public void setServerName(String serverName)
 	{
 		this.serverName = serverName;
 	}
 
-	public int getServerPort ()
+	public int getServerPort()
 	{
 		return serverPort;
 	}
 
-	public void setServerPort (int serverPort)
+	public void setServerPort(int serverPort)
 	{
 		this.serverPort = serverPort;
 	}
 
-	public String getContextPath ()
+	public String getContextPath()
 	{
 		return contextPath;
 	}
 
-	public void setContextPath (String contextPath)
+	public void setContextPath(String contextPath)
 	{
 		this.contextPath = contextPath;
 	}
 
-	public String getRequestUrl ()
+	public String getRequestUrl()
 	{
 		return requestUrl;
 	}
 
-	public void setRequestUrl (String requestUrl)
+	public void setRequestUrl(String requestUrl)
 	{
 		this.requestUrl = requestUrl;
 	}
 
-	public String getQueryString ()
+	public String getQueryString()
 	{
 		return queryString;
 	}
 
-	public void setQueryString (String queryString)
+	public void setQueryString(String queryString)
 	{
 		this.queryString = queryString;
 	}
@@ -1028,24 +1029,24 @@ public class DefaultModelRequest implements LogEnabled, KeelServiceable, ModelRe
 	/**
 	 * @see de.iritgo.aktera.model.ModelRequest#getParams()
 	 */
-	public Map getParams ()
+	public Map getParams()
 	{
 		return params;
 	}
 
-	public boolean hasParameter (String name)
+	public boolean hasParameter(String name)
 	{
 		assert name != null;
 
-		return getParameter (name) != null;
+		return getParameter(name) != null;
 	}
 
-	public String getBean ()
+	public String getBean()
 	{
 		return myBean;
 	}
 
-	public void setBean (String bean)
+	public void setBean(String bean)
 	{
 		this.myBean = bean;
 	}

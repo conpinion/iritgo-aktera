@@ -41,86 +41,86 @@ public class StartIritgoServer extends AbstractStartupHandler
 	 * @see de.iritgo.aktera.startup.AbstractStartupHandler#startup()
 	 */
 	@Override
-	public void startup ()
+	public void startup()
 	{
-		logger.info ("Attempting to start the Iritgo server...");
+		logger.info("Attempting to start the Iritgo server...");
 
-		AppInfo.Info appInfo = AppInfo.getAppInfo (AppInfo.SYSTEM);
+		AppInfo.Info appInfo = AppInfo.getAppInfo(AppInfo.SYSTEM);
 
-		ServerAppContext.serverInstance ().put ("keel.container", KeelContainer.defaultContainer ());
+		ServerAppContext.serverInstance().put("keel.container", KeelContainer.defaultContainer());
 
-		final File systemDir = locateAktarioDir ();
+		final File systemDir = locateAktarioDir();
 
 		if (systemDir != null)
 		{
-			logger.debug ("Using Aktario system dir " + systemDir.getAbsolutePath ());
+			logger.debug("Using Aktario system dir " + systemDir.getAbsolutePath());
 
-			System.setProperty ("iritgo.system.dir", systemDir.getAbsolutePath ());
-			System.setProperty ("iritgo.app.version.long", appInfo.getVersionLong ());
-			System.setProperty ("iritgo.app.id", appInfo.getProductId ());
-			System.setProperty ("iritgo.debug.level", "20");
+			System.setProperty("iritgo.system.dir", systemDir.getAbsolutePath());
+			System.setProperty("iritgo.app.version.long", appInfo.getVersionLong());
+			System.setProperty("iritgo.app.id", appInfo.getProductId());
+			System.setProperty("iritgo.debug.level", "20");
 
-			new Thread (new Runnable ()
+			new Thread(new Runnable()
 			{
-				public void run ()
+				public void run()
 				{
-					IritgoServer.main (new String[]
+					IritgoServer.main(new String[]
 					{});
 				}
-			}).start ();
+			}).start();
 		}
 		else
 		{
-			logger.error ("Unable to find Aktario system dir");
+			logger.error("Unable to find Aktario system dir");
 		}
 
-		while (! IritgoServer.isUpAndRunning ())
+		while (! IritgoServer.isUpAndRunning())
 		{
 			try
 			{
-				Thread.sleep (1000);
+				Thread.sleep(1000);
 			}
 			catch (InterruptedException e)
 			{
 			}
 		}
 
-		logger.info ("Successfully started the Iritgo server");
+		logger.info("Successfully started the Iritgo server");
 	}
 
 	/**
 	 * Find the aktario directory.
 	 */
-	public File locateAktarioDir ()
+	public File locateAktarioDir()
 	{
-		FileFilter dirFilter = new FileFilter ()
+		FileFilter dirFilter = new FileFilter()
 		{
-			public boolean accept (File file)
+			public boolean accept(File file)
 			{
-				return file.isDirectory ();
+				return file.isDirectory();
 			}
 		};
 
-		LinkedList searchQueue = new LinkedList ();
+		LinkedList searchQueue = new LinkedList();
 
-		searchQueue.add (new File (System.getProperty ("keel.config.dir"), "../../../.."));
+		searchQueue.add(new File(System.getProperty("keel.config.dir"), "../../../.."));
 
-		while (searchQueue.size () > 0)
+		while (searchQueue.size() > 0)
 		{
-			File parent = (File) searchQueue.getFirst ();
+			File parent = (File) searchQueue.getFirst();
 
-			searchQueue.removeFirst ();
+			searchQueue.removeFirst();
 
-			File[] dirs = parent.listFiles (dirFilter);
+			File[] dirs = parent.listFiles(dirFilter);
 
 			for (int i = 0; i < dirs.length; ++i)
 			{
-				if ("aktario".equals (dirs[i].getName ()))
+				if ("aktario".equals(dirs[i].getName()))
 				{
 					return dirs[i];
 				}
 
-				searchQueue.add (dirs[i]);
+				searchQueue.add(dirs[i]);
 			}
 		}
 
@@ -131,8 +131,8 @@ public class StartIritgoServer extends AbstractStartupHandler
 	 * @see de.iritgo.aktera.startup.AbstractStartupHandler#shutdown()
 	 */
 	@Override
-	public void shutdown () throws ShutdownException
+	public void shutdown() throws ShutdownException
 	{
-		IritgoEngine.instance ().shutdown ();
+		IritgoEngine.instance().shutdown();
 	}
 }

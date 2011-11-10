@@ -56,7 +56,7 @@ public class HoursMultiSelectTag extends org.apache.struts.taglib.html.BaseInput
 	/**
 	 * Get the bean name.
 	 */
-	public String getName ()
+	public String getName()
 	{
 		return this.name;
 	}
@@ -64,7 +64,7 @@ public class HoursMultiSelectTag extends org.apache.struts.taglib.html.BaseInput
 	/**
 	 * Set the bean name.
 	 */
-	public void setName (String name)
+	public void setName(String name)
 	{
 		this.name = name;
 	}
@@ -72,7 +72,7 @@ public class HoursMultiSelectTag extends org.apache.struts.taglib.html.BaseInput
 	/**
 	 * Get the bundle name.
 	 */
-	public String getBundle ()
+	public String getBundle()
 	{
 		return this.bundle;
 	}
@@ -80,7 +80,7 @@ public class HoursMultiSelectTag extends org.apache.struts.taglib.html.BaseInput
 	/**
 	 * Set the bundle name.
 	 */
-	public void setBundle (String bundle)
+	public void setBundle(String bundle)
 	{
 		this.bundle = bundle;
 	}
@@ -90,7 +90,7 @@ public class HoursMultiSelectTag extends org.apache.struts.taglib.html.BaseInput
 	 *
 	 * @return The locale.
 	 */
-	public String getLocale ()
+	public String getLocale()
 	{
 		return this.locale;
 	}
@@ -100,7 +100,7 @@ public class HoursMultiSelectTag extends org.apache.struts.taglib.html.BaseInput
 	 *
 	 * @param locale The new locale.
 	 */
-	public void setLocale (String locale)
+	public void setLocale(String locale)
 	{
 		this.locale = locale;
 	}
@@ -110,7 +110,7 @@ public class HoursMultiSelectTag extends org.apache.struts.taglib.html.BaseInput
 	 *
 	 * @param readOnly Read only flag.
 	 */
-	public void setReadOnly (boolean readOnly)
+	public void setReadOnly(boolean readOnly)
 	{
 		this.readOnly = readOnly;
 	}
@@ -120,7 +120,7 @@ public class HoursMultiSelectTag extends org.apache.struts.taglib.html.BaseInput
 	 *
 	 * @retrun The read only flag.
 	 */
-	public boolean getReadOnly ()
+	public boolean getReadOnly()
 	{
 		return readOnly;
 	}
@@ -128,9 +128,9 @@ public class HoursMultiSelectTag extends org.apache.struts.taglib.html.BaseInput
 	/**
 	 * Reset all tag attributes to their default values.
 	 */
-	public void release ()
+	public void release()
 	{
-		super.release ();
+		super.release();
 
 		name = null;
 		readOnly = false;
@@ -142,53 +142,52 @@ public class HoursMultiSelectTag extends org.apache.struts.taglib.html.BaseInput
 	 *
 	 * @exception JspException if a JSP exception has occurred
 	 */
-	public int doStartTag () throws JspException
+	public int doStartTag() throws JspException
 	{
 		String selectedHours = "";
 
 		if (value != null)
 		{
-			selectedHours = "," + value.toString () + ",";
+			selectedHours = "," + value.toString() + ",";
 		}
 		else
 		{
-			Object val = TagUtils.getInstance ().lookup (pageContext, name, property, null);
+			Object val = TagUtils.getInstance().lookup(pageContext, name, property, null);
 
 			if (val != null)
 			{
-				selectedHours = "," + val.toString () + ",";
+				selectedHours = "," + val.toString() + ",";
 			}
 		}
 
-		StringBuffer results = new StringBuffer ();
+		StringBuffer results = new StringBuffer();
 
-		results.append ("<table><tr>\n");
+		results.append("<table><tr>\n");
 
 		int hour = 0;
 
 		for (int i = 0; i < 6; ++i)
 		{
-			results.append ("<td valign=\"top\"><select multiple=\"true\" size=\"4\" name=\"" + prepareName ()
-							+ "\">\n");
+			results.append("<td valign=\"top\"><select multiple=\"true\" size=\"4\" name=\"" + prepareName() + "\">\n");
 
 			for (int j = 0; j < 4; ++j)
 			{
-				results.append ("<option value=\"" + hour + "\"");
+				results.append("<option value=\"" + hour + "\"");
 
-				if (selectedHours.indexOf ("," + hour + ",") != - 1)
+				if (selectedHours.indexOf("," + hour + ",") != - 1)
 				{
-					results.append (" selected=\"true\"");
+					results.append(" selected=\"true\"");
 				}
 
-				results.append (">" + hour + "</option>");
+				results.append(">" + hour + "</option>");
 				++hour;
 			}
 
-			results.append ("</select></td>\n");
+			results.append("</select></td>\n");
 		}
 
-		results.append ("</tr></table>\n");
-		TagUtils.getInstance ().write (pageContext, results.toString ());
+		results.append("</tr></table>\n");
+		TagUtils.getInstance().write(pageContext, results.toString());
 
 		return SKIP_BODY;
 	}

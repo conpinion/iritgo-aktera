@@ -39,7 +39,7 @@ public class IritgoUserManagerImpl implements IritgoUserManager
 	/**
 	 * @param iritgoUserDAO The new iritgoUserDAO.
 	 */
-	public void setIritgoUserDAO (IritgoUserDAO iritgoUserDAO)
+	public void setIritgoUserDAO(IritgoUserDAO iritgoUserDAO)
 	{
 		this.iritgoUserDAO = iritgoUserDAO;
 	}
@@ -47,38 +47,37 @@ public class IritgoUserManagerImpl implements IritgoUserManager
 	/**
 	 * @see de.iritgo.aktera.aktario.user.IritgoUserManager#onUserRenamed(de.iritgo.aktera.event.Event)
 	 */
-	public void onUserRenamed (Event event)
+	public void onUserRenamed(Event event)
 	{
-		String oldName = event.getProperties ().getProperty ("oldName");
-		String newName = event.getProperties ().getProperty ("newName");
-		String newFirstName = event.getProperties ().getProperty ("newFirstName");
-		String newLastName = event.getProperties ().getProperty ("newLastName");
-		String newEmail = event.getProperties ().getProperty ("newEmail");
+		String oldName = event.getProperties().getProperty("oldName");
+		String newName = event.getProperties().getProperty("newName");
+		String newFirstName = event.getProperties().getProperty("newFirstName");
+		String newLastName = event.getProperties().getProperty("newLastName");
+		String newEmail = event.getProperties().getProperty("newEmail");
 
-		AktarioUserManager aktarioUserManager = (AktarioUserManager) Engine.instance ().getManager (
-						"AktarioUserManager");
-		AktarioUserRegistry aktarioUserRegistry = aktarioUserManager.getUserRegistry ();
+		AktarioUserManager aktarioUserManager = (AktarioUserManager) Engine.instance().getManager("AktarioUserManager");
+		AktarioUserRegistry aktarioUserRegistry = aktarioUserManager.getUserRegistry();
 
-		AktarioUser aktarioUser = aktarioUserRegistry.getUserByName (oldName);
+		AktarioUser aktarioUser = aktarioUserRegistry.getUserByName(oldName);
 
 		if (aktarioUser != null)
 		{
-			aktarioUser.setAttribute ("name", newName);
+			aktarioUser.setAttribute("name", newName);
 
-			if (StringTools.isNotTrimEmpty (newEmail))
+			if (StringTools.isNotTrimEmpty(newEmail))
 			{
-				aktarioUser.setEmail (newEmail);
+				aktarioUser.setEmail(newEmail);
 			}
 
-			if (StringTools.isNotTrimEmpty (newFirstName) || StringTools.isNotTrimEmpty (newLastName))
+			if (StringTools.isNotTrimEmpty(newFirstName) || StringTools.isNotTrimEmpty(newLastName))
 			{
-				StringBuilder newFullName = new StringBuilder (StringTools.trim (newFirstName));
+				StringBuilder newFullName = new StringBuilder(StringTools.trim(newFirstName));
 
-				StringTools.appendWithDelimiter (newFullName, StringTools.trim (newLastName), " ");
-				aktarioUser.setFullName (newFullName.toString ());
+				StringTools.appendWithDelimiter(newFullName, StringTools.trim(newLastName), " ");
+				aktarioUser.setFullName(newFullName.toString());
 			}
 
-			aktarioUserManager.modifyUser (aktarioUser, oldName);
+			aktarioUserManager.modifyUser(aktarioUser, oldName);
 		}
 	}
 }

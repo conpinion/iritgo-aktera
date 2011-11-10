@@ -37,7 +37,7 @@ public class LoggerOutputStream extends OutputStream
 	private Level level;
 
 	/** Used to collect output lines */
-	private StringBuilder buf = new StringBuilder ();
+	private StringBuilder buf = new StringBuilder();
 
 	/**
 	 * Initialize a new LoggerOutputStream.
@@ -45,7 +45,7 @@ public class LoggerOutputStream extends OutputStream
 	 * @param logger The logger to write to
 	 * @param level The log level to use
 	 */
-	public LoggerOutputStream (Logger logger, Level level)
+	public LoggerOutputStream(Logger logger, Level level)
 	{
 		this.logger = logger;
 		this.level = level;
@@ -55,43 +55,43 @@ public class LoggerOutputStream extends OutputStream
 	 * @see java.io.OutputStream#write(int)
 	 */
 	@Override
-	public void write (int b) throws IOException
+	public void write(int b) throws IOException
 	{
 		if ((int) '\n' != b)
 		{
-			buf.append ((char) b);
+			buf.append((char) b);
 		}
 		else
 		{
 			switch (level)
 			{
 				case DEBUG:
-					logger.debug (buf.toString ());
+					logger.debug(buf.toString());
 
 					break;
 
 				case INFO:
-					logger.info (buf.toString ());
+					logger.info(buf.toString());
 
 					break;
 
 				case WARN:
-					logger.warn (buf.toString ());
+					logger.warn(buf.toString());
 
 					break;
 
 				case ERROR:
-					logger.error (buf.toString ());
+					logger.error(buf.toString());
 
 					break;
 
 				case FATAL_ERROR:
-					logger.fatalError (buf.toString ());
+					logger.fatalError(buf.toString());
 
 					break;
 			}
 
-			buf = new StringBuilder ();
+			buf = new StringBuilder();
 		}
 	}
 }

@@ -38,13 +38,13 @@ import de.iritgo.aktera.journal.gui.JournalQueryCellRenderer;
 public class JournalClientManager extends BaseObject implements Manager
 {
 	/** */
-	private Map<String, ImageIcon> journalPrimaryTypeIcons = new HashMap ();
+	private Map<String, ImageIcon> journalPrimaryTypeIcons = new HashMap();
 
 	/** */
 	private ImageIcon defaultJournalPrimaryTypeIcon;
 
 	/** */
-	private Map<String, ImageIcon> journalSecondaryTypeIcons = new HashMap ();
+	private Map<String, ImageIcon> journalSecondaryTypeIcons = new HashMap();
 
 	/** */
 	private ImageIcon defaultJournalSecondaryTypeIcon;
@@ -52,19 +52,18 @@ public class JournalClientManager extends BaseObject implements Manager
 	/**
 	 * Create a new client manager.
 	 */
-	public JournalClientManager ()
+	public JournalClientManager()
 	{
-		super ("de.iritgo.aktera.journal.JournalClientManager");
+		super("de.iritgo.aktera.journal.JournalClientManager");
 	}
 
-	public void init ()
+	public void init()
 	{
-		Client.instance ().getGUIExtensionManager ().registerExtension ("de.iritgo.aktera.journal.EmbeddedJournal",
-						ExtensionTile.COLUMN, new JournalQueryCellRenderer (JournalQueryCellRenderer.PRIMRARY_TYPE_ID));
+		Client.instance().getGUIExtensionManager().registerExtension("de.iritgo.aktera.journal.EmbeddedJournal",
+						ExtensionTile.COLUMN, new JournalQueryCellRenderer(JournalQueryCellRenderer.PRIMRARY_TYPE_ID));
 
-		Client.instance ().getGUIExtensionManager ()
-						.registerExtension ("de.iritgo.aktera.journal.EmbeddedJournal", ExtensionTile.COLUMN,
-										new JournalQueryCellRenderer (JournalQueryCellRenderer.SECONDARY_TYPE_ID));
+		Client.instance().getGUIExtensionManager().registerExtension("de.iritgo.aktera.journal.EmbeddedJournal",
+						ExtensionTile.COLUMN, new JournalQueryCellRenderer(JournalQueryCellRenderer.SECONDARY_TYPE_ID));
 
 		//		Client.instance ().getGUIExtensionManager ().registerExtension ("de.iritgo.aktera.journal.EmbeddedJournal",
 		//						ExtensionTile.COLUMN,
@@ -75,40 +74,40 @@ public class JournalClientManager extends BaseObject implements Manager
 		//
 		//		Client.instance ().getGUIExtensionManager ().registerExtension ("de.iritgo.aktera.journal.EmbeddedJournal",
 		//						ExtensionTile.COLUMN, new JournalQueryCellRenderer (JournalQueryCellRenderer.OCCURREDAT_ID));
-		Client.instance ().getGUIExtensionManager ().registerExtension ("de.iritgo.aktera.journal.EmbeddedJournal",
-						ExtensionTile.COLUMN, new JournalQueryCellRenderer ("journal_id"));
+		Client.instance().getGUIExtensionManager().registerExtension("de.iritgo.aktera.journal.EmbeddedJournal",
+						ExtensionTile.COLUMN, new JournalQueryCellRenderer("journal_id"));
 
-		Client.instance ().getGUIExtensionManager ().registerExtension ("de.iritgo.aktera.journal.EmbeddedJournal",
-						ExtensionTile.COLUMN, new JournalExecutionExtension ());
+		Client.instance().getGUIExtensionManager().registerExtension("de.iritgo.aktera.journal.EmbeddedJournal",
+						ExtensionTile.COLUMN, new JournalExecutionExtension());
 
-		Client.instance ().getGUIExtensionManager ().registerExtension ("de.iritgo.aktera.journal.EmbeddedJournal",
-						ExtensionTile.LIST_COMMAND, new JournalDoubleClickExtension ("journal_occurredAt"));
+		Client.instance().getGUIExtensionManager().registerExtension("de.iritgo.aktera.journal.EmbeddedJournal",
+						ExtensionTile.LIST_COMMAND, new JournalDoubleClickExtension("journal_occurredAt"));
 
-		Client.instance ().getGUIExtensionManager ().registerExtension ("de.iritgo.aktera.journal.EmbeddedJournal",
-						ExtensionTile.LIST_COMMAND, new JournalDoubleClickExtension ("journal_primaryType"));
+		Client.instance().getGUIExtensionManager().registerExtension("de.iritgo.aktera.journal.EmbeddedJournal",
+						ExtensionTile.LIST_COMMAND, new JournalDoubleClickExtension("journal_primaryType"));
 
-		Client.instance ().getGUIExtensionManager ().registerExtension ("de.iritgo.aktera.journal.EmbeddedJournal",
-						ExtensionTile.LIST_COMMAND, new JournalDoubleClickExtension ("journal_secondaryType"));
+		Client.instance().getGUIExtensionManager().registerExtension("de.iritgo.aktera.journal.EmbeddedJournal",
+						ExtensionTile.LIST_COMMAND, new JournalDoubleClickExtension("journal_secondaryType"));
 
-		Client.instance ().getGUIExtensionManager ().registerExtension ("de.iritgo.aktera.journal.EmbeddedJournal",
-						ExtensionTile.LIST_COMMAND, new JournalDoubleClickExtension ("journal_secondaryTypeText"));
+		Client.instance().getGUIExtensionManager().registerExtension("de.iritgo.aktera.journal.EmbeddedJournal",
+						ExtensionTile.LIST_COMMAND, new JournalDoubleClickExtension("journal_secondaryTypeText"));
 
-		Client.instance ().getGUIExtensionManager ().registerExtension ("de.iritgo.aktera.journal.EmbeddedJournal",
-						ExtensionTile.LIST_COMMAND, new JournalDoubleClickExtension ("journal_message"));
+		Client.instance().getGUIExtensionManager().registerExtension("de.iritgo.aktera.journal.EmbeddedJournal",
+						ExtensionTile.LIST_COMMAND, new JournalDoubleClickExtension("journal_message"));
 
-		Client.instance ().getGUIExtensionManager ().registerExtension ("de.iritgo.aktera.journal.EmbeddedJournal",
-						ExtensionTile.LIST_COMMAND, new JournalExecutionExtension ());
+		Client.instance().getGUIExtensionManager().registerExtension("de.iritgo.aktera.journal.EmbeddedJournal",
+						ExtensionTile.LIST_COMMAND, new JournalExecutionExtension());
 
-		defaultJournalPrimaryTypeIcon = new ImageIcon (JournalClientManager.class
-						.getResource ("/resources/journal-16.png"));
-		defaultJournalSecondaryTypeIcon = new ImageIcon (JournalClientManager.class
-						.getResource ("/resources/journal-16.png"));
+		defaultJournalPrimaryTypeIcon = new ImageIcon(JournalClientManager.class
+						.getResource("/resources/journal-16.png"));
+		defaultJournalSecondaryTypeIcon = new ImageIcon(JournalClientManager.class
+						.getResource("/resources/journal-16.png"));
 	}
 
 	/**
 	 * Free all client manager resources.
 	 */
-	public void unload ()
+	public void unload()
 	{
 	}
 
@@ -120,9 +119,9 @@ public class JournalClientManager extends BaseObject implements Manager
 	 * @param icon
 	 *            The image icon
 	 */
-	public void setJournalPrimaryTypeIcon (String primaryType, ImageIcon icon)
+	public void setJournalPrimaryTypeIcon(String primaryType, ImageIcon icon)
 	{
-		journalPrimaryTypeIcons.put (primaryType, icon);
+		journalPrimaryTypeIcons.put(primaryType, icon);
 	}
 
 	/**
@@ -133,9 +132,9 @@ public class JournalClientManager extends BaseObject implements Manager
 	 * @return The image icon or the default icon if none was found for the
 	 *         specified type
 	 */
-	public ImageIcon getJournalPrimaryTypeIcon (String primaryType)
+	public ImageIcon getJournalPrimaryTypeIcon(String primaryType)
 	{
-		ImageIcon icon = journalPrimaryTypeIcons.get (primaryType);
+		ImageIcon icon = journalPrimaryTypeIcons.get(primaryType);
 
 		if (icon != null)
 		{
@@ -153,9 +152,9 @@ public class JournalClientManager extends BaseObject implements Manager
 	 * @param icon
 	 *            The image icon
 	 */
-	public void setJournalSecondaryTypeIcon (String secondaryType, ImageIcon icon)
+	public void setJournalSecondaryTypeIcon(String secondaryType, ImageIcon icon)
 	{
-		journalSecondaryTypeIcons.put (secondaryType, icon);
+		journalSecondaryTypeIcons.put(secondaryType, icon);
 	}
 
 	/**
@@ -166,9 +165,9 @@ public class JournalClientManager extends BaseObject implements Manager
 	 * @return The image icon or the default icon if none was found for the
 	 *         specified type
 	 */
-	public ImageIcon getJournalSecondaryTypeIcon (String secondaryType)
+	public ImageIcon getJournalSecondaryTypeIcon(String secondaryType)
 	{
-		ImageIcon icon = journalSecondaryTypeIcons.get (secondaryType);
+		ImageIcon icon = journalSecondaryTypeIcons.get(secondaryType);
 
 		if (icon != null)
 		{

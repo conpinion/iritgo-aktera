@@ -48,14 +48,14 @@ public class QuartzScheduler implements Scheduler
 	 * Initialize and start the scheduler.
 	 * @throws SchedulerException
 	 */
-	public void initialize () throws SchedulerException
+	public void initialize() throws SchedulerException
 	{
 		if (scheduler == null)
 		{
-			SchedulerFactory schedulerFactory = new StdSchedulerFactory ();
+			SchedulerFactory schedulerFactory = new StdSchedulerFactory();
 
-			scheduler = schedulerFactory.getScheduler ();
-			scheduler.start ();
+			scheduler = schedulerFactory.getScheduler();
+			scheduler.start();
 		}
 	}
 
@@ -63,11 +63,11 @@ public class QuartzScheduler implements Scheduler
 	 * Stop the scheduler and free all resources.
 	 * @throws SchedulerException
 	 */
-	public void dispose () throws SchedulerException
+	public void dispose() throws SchedulerException
 	{
 		if (scheduler != null)
 		{
-			scheduler.shutdown ();
+			scheduler.shutdown();
 		}
 	}
 
@@ -75,104 +75,104 @@ public class QuartzScheduler implements Scheduler
 	 * @see de.iritgo.aktera.scheduler.Scheduler#scheduleBean(java.lang.String, java.lang.String, java.util.Map, de.iritgo.aktera.scheduler.ScheduleTimes)
 	 */
 	@SuppressWarnings("unchecked")
-	public void scheduleBean (String jobName, String beanName, Map parameters, ScheduleTimes times)
+	public void scheduleBean(String jobName, String beanName, Map parameters, ScheduleTimes times)
 	{
-		scheduleBean (jobName, org.quartz.Scheduler.DEFAULT_GROUP, beanName, parameters, times);
+		scheduleBean(jobName, org.quartz.Scheduler.DEFAULT_GROUP, beanName, parameters, times);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.scheduler.Scheduler#scheduleBean(java.lang.String, java.lang.String, java.lang.String, java.util.Map, de.iritgo.aktera.scheduler.ScheduleTimes)
 	 */
 	@SuppressWarnings("unchecked")
-	public void scheduleBean (String jobName, String groupName, String beanName, Map parameters, ScheduleTimes times)
+	public void scheduleBean(String jobName, String groupName, String beanName, Map parameters, ScheduleTimes times)
 	{
 		try
 		{
-			JobDetail jobDetail = new JobDetail (jobName, groupName, QuartzBeanJob.class);
-			JobDataMap jobData = new JobDataMap ();
+			JobDetail jobDetail = new JobDetail(jobName, groupName, QuartzBeanJob.class);
+			JobDataMap jobData = new JobDataMap();
 
-			jobData.put ("bean", beanName);
-			jobData.put ("parameters", parameters);
-			jobDetail.setJobDataMap (jobData);
+			jobData.put("bean", beanName);
+			jobData.put("parameters", parameters);
+			jobDetail.setJobDataMap(jobData);
 
-			Trigger trigger = createTrigger (jobName, groupName, times);
+			Trigger trigger = createTrigger(jobName, groupName, times);
 
 			synchronized (scheduler)
 			{
-				scheduler.scheduleJob (jobDetail, trigger);
+				scheduler.scheduleJob(jobDetail, trigger);
 			}
 		}
 		catch (Exception x)
 		{
-			System.err.println ("[QuartzScheduler] " + x.toString ());
+			System.err.println("[QuartzScheduler] " + x.toString());
 		}
 	}
 
 	/**
 	 * @see de.iritgo.aktera.scheduler.Scheduler#scheduleModel(java.lang.String, de.iritgo.aktera.model.ModelRequest, de.iritgo.aktera.scheduler.ScheduleTimes)
 	 */
-	public void scheduleModel (String jobName, ModelRequest request, ScheduleTimes times)
+	public void scheduleModel(String jobName, ModelRequest request, ScheduleTimes times)
 	{
-		scheduleModel (jobName, org.quartz.Scheduler.DEFAULT_GROUP, request, times);
+		scheduleModel(jobName, org.quartz.Scheduler.DEFAULT_GROUP, request, times);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.scheduler.Scheduler#scheduleModel(java.lang.String, java.lang.String, de.iritgo.aktera.model.ModelRequest, de.iritgo.aktera.scheduler.ScheduleTimes)
 	 */
-	public void scheduleModel (String jobName, String groupName, ModelRequest request, ScheduleTimes times)
+	public void scheduleModel(String jobName, String groupName, ModelRequest request, ScheduleTimes times)
 	{
 		try
 		{
-			JobDetail jobDetail = new JobDetail (jobName, groupName, QuartzModelJob.class);
-			JobDataMap jobData = new JobDataMap ();
+			JobDetail jobDetail = new JobDetail(jobName, groupName, QuartzModelJob.class);
+			JobDataMap jobData = new JobDataMap();
 
-			jobData.put ("request", request);
-			jobDetail.setJobDataMap (jobData);
+			jobData.put("request", request);
+			jobDetail.setJobDataMap(jobData);
 
-			Trigger trigger = createTrigger (jobName, groupName, times);
+			Trigger trigger = createTrigger(jobName, groupName, times);
 
 			synchronized (scheduler)
 			{
-				scheduler.scheduleJob (jobDetail, trigger);
+				scheduler.scheduleJob(jobDetail, trigger);
 			}
 		}
 		catch (Exception x)
 		{
-			System.err.println ("[QuartzScheduler] " + x.toString ());
+			System.err.println("[QuartzScheduler] " + x.toString());
 		}
 	}
 
 	/**
 	 * @see de.iritgo.aktera.scheduler.Scheduler#scheduleRunable(java.lang.String, java.lang.Runnable, de.iritgo.aktera.scheduler.ScheduleTimes)
 	 */
-	public void scheduleRunnable (String jobName, Runnable runnable, ScheduleTimes times)
+	public void scheduleRunnable(String jobName, Runnable runnable, ScheduleTimes times)
 	{
-		scheduleRunnable (jobName, org.quartz.Scheduler.DEFAULT_GROUP, runnable, times);
+		scheduleRunnable(jobName, org.quartz.Scheduler.DEFAULT_GROUP, runnable, times);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.scheduler.Scheduler#scheduleRunnable(java.lang.String, java.lang.String, java.lang.Runnable, de.iritgo.aktera.scheduler.ScheduleTimes)
 	 */
-	public void scheduleRunnable (String jobName, String groupName, Runnable runnable, ScheduleTimes times)
+	public void scheduleRunnable(String jobName, String groupName, Runnable runnable, ScheduleTimes times)
 	{
 		try
 		{
-			JobDetail jobDetail = new JobDetail (jobName, groupName, QuartzRunnableJob.class);
-			JobDataMap jobData = new JobDataMap ();
+			JobDetail jobDetail = new JobDetail(jobName, groupName, QuartzRunnableJob.class);
+			JobDataMap jobData = new JobDataMap();
 
-			jobData.put ("runnable", runnable);
-			jobDetail.setJobDataMap (jobData);
+			jobData.put("runnable", runnable);
+			jobDetail.setJobDataMap(jobData);
 
-			Trigger trigger = createTrigger (jobName, groupName, times);
+			Trigger trigger = createTrigger(jobName, groupName, times);
 
 			synchronized (scheduler)
 			{
-				scheduler.scheduleJob (jobDetail, trigger);
+				scheduler.scheduleJob(jobDetail, trigger);
 			}
 		}
 		catch (Exception x)
 		{
-			System.err.println ("[QuartzScheduler] " + x.toString ());
+			System.err.println("[QuartzScheduler] " + x.toString());
 		}
 	}
 
@@ -185,52 +185,52 @@ public class QuartzScheduler implements Scheduler
 	 * @return A Quartz trigger
 	 * @throws Exception
 	 */
-	private Trigger createTrigger (String jobName, String groupName, ScheduleTimes times) throws Exception
+	private Trigger createTrigger(String jobName, String groupName, ScheduleTimes times) throws Exception
 	{
 		if (times instanceof ScheduleOn)
 		{
 			ScheduleOn on = (ScheduleOn) times;
 
-			return new CronTrigger (jobName, groupName, jobName, groupName, on.createCronExpression ());
+			return new CronTrigger(jobName, groupName, jobName, groupName, on.createCronExpression());
 		}
 		else if (times instanceof ScheduleRepeated)
 		{
 			ScheduleRepeated repeated = (ScheduleRepeated) times;
 
-			return new SimpleTrigger (jobName, groupName, jobName, groupName, repeated.getFrom (),
-							repeated.getUntil (), repeated.isIndefinitely () ? SimpleTrigger.REPEAT_INDEFINITELY
-											: repeated.getCount (), repeated.getInterval ());
+			return new SimpleTrigger(jobName, groupName, jobName, groupName, repeated.getFrom(), repeated.getUntil(),
+							repeated.isIndefinitely() ? SimpleTrigger.REPEAT_INDEFINITELY : repeated.getCount(),
+							repeated.getInterval());
 		}
 
-		throw new Exception ("Unknown ScheduleTimes instance");
+		throw new Exception("Unknown ScheduleTimes instance");
 	}
 
 	/**
 	 * @see de.iritgo.aktera.scheduler.Scheduler#removeAllJobsInGroup(java.lang.String)
 	 */
-	public void removeAllJobsInGroup (String groupName)
+	public void removeAllJobsInGroup(String groupName)
 	{
 		try
 		{
-			for (String jobName : scheduler.getJobNames (groupName))
+			for (String jobName : scheduler.getJobNames(groupName))
 			{
-				scheduler.deleteJob (jobName, groupName);
+				scheduler.deleteJob(jobName, groupName);
 			}
 		}
 		catch (SchedulerException x)
 		{
-			System.err.println ("[QuartzScheduler] " + x.toString ());
+			System.err.println("[QuartzScheduler] " + x.toString());
 		}
 	}
 
 	/**
 	 * @see de.iritgo.aktera.scheduler.Scheduler#getGroupNames()
 	 */
-	public String[] getGroupNames ()
+	public String[] getGroupNames()
 	{
 		try
 		{
-			return scheduler.getJobGroupNames ();
+			return scheduler.getJobGroupNames();
 		}
 		catch (SchedulerException x)
 		{
@@ -241,11 +241,11 @@ public class QuartzScheduler implements Scheduler
 	/**
 	 * @see de.iritgo.aktera.scheduler.Scheduler#getJobNames(java.lang.String)
 	 */
-	public String[] getJobNames (String groupName)
+	public String[] getJobNames(String groupName)
 	{
 		try
 		{
-			return scheduler.getJobNames (groupName);
+			return scheduler.getJobNames(groupName);
 		}
 		catch (SchedulerException x)
 		{

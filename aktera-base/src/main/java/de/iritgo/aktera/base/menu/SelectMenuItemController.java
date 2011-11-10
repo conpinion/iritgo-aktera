@@ -35,27 +35,26 @@ public class SelectMenuItemController extends AbstractUIController
 	 * @param response
 	 * @throws UIControllerException
 	 */
-	public void execute (UIRequest request, UIResponse response) throws UIControllerException
+	public void execute(UIRequest request, UIResponse response) throws UIControllerException
 	{
-		if (request.getParameter ("menu") != null)
+		if (request.getParameter("menu") != null)
 		{
-			request.getUserEnvironment ().setAttribute ("aktera.currentMenu", request.getParameterAsString ("menu"));
+			request.getUserEnvironment().setAttribute("aktera.currentMenu", request.getParameterAsString("menu"));
 		}
 
-		if (request.getParameter ("menu") != null)
+		if (request.getParameter("menu") != null)
 		{
-			request.getUserEnvironment ().setAttribute ("aktera.currentMenuItem",
-							request.getParameterAsString ("menuItem"));
+			request.getUserEnvironment().setAttribute("aktera.currentMenuItem",
+							request.getParameterAsString("menuItem"));
 		}
 		else
 		{
-			request.getUserEnvironment ()
-							.setAttribute ("aktera.currentMenuItem", request.getParameterAsString ("item"));
+			request.getUserEnvironment().setAttribute("aktera.currentMenuItem", request.getParameterAsString("item"));
 		}
 
-		if (request.getParameter ("targetBean") != null)
+		if (request.getParameter("targetBean") != null)
 		{
-			redirect (request.getParameterAsString ("targetBean"), request, response);
+			redirect(request.getParameterAsString("targetBean"), request, response);
 		}
 	}
 }

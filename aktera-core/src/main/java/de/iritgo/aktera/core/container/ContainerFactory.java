@@ -29,7 +29,7 @@ package de.iritgo.aktera.core.container;
  */
 public interface ContainerFactory
 {
-	public Container createContainer () throws ContainerException;
+	public Container createContainer() throws ContainerException;
 
-	public void disposeContainer () throws ContainerException;
+	public void disposeContainer() throws ContainerException;
 }

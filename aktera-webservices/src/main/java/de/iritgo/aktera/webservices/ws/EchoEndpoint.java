@@ -30,12 +30,12 @@ import de.iritgo.aktera.webservices.webservices.*;
 public class EchoEndpoint
 {
 	@PayloadRoot(localPart = "echoRequest", namespace = "http://aktera.iritgo.de/webservices/webservices")
-	public EchoResponse echo (EchoRequest request)
+	public EchoResponse echo(EchoRequest request)
 	{
-		EchoResponse response = new EchoResponse ();
+		EchoResponse response = new EchoResponse();
 
-		response.setAnswer ("Hello " + request.getName () + "! " + request.getMessage ());
-		response.setTimestamp (DateTimeDateFormat.getDateTimeInstance ().format (new Date ()));
+		response.setAnswer("Hello " + request.getName() + "! " + request.getMessage());
+		response.setTimestamp(DateTimeDateFormat.getDateTimeInstance().format(new Date()));
 
 		return response;
 	}

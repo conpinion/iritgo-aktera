@@ -57,20 +57,20 @@ public class ExecuteListItemCommand extends StandardLogEnabledModel
 	 * @param req The model request.
 	 * @return The model response.
 	 */
-	public ModelResponse execute (ModelRequest req) throws ModelException
+	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
 		String modelName = null;
 
-		for (Iterator i = req.getParameters ().entrySet ().iterator (); i.hasNext ();)
+		for (Iterator i = req.getParameters().entrySet().iterator(); i.hasNext();)
 		{
-			Map.Entry entry = (Map.Entry) i.next ();
-			String key = (String) entry.getKey ();
+			Map.Entry entry = (Map.Entry) i.next();
+			String key = (String) entry.getKey();
 
-			if (! key.startsWith ("_lp") && key.endsWith ("ExecuteModel"))
+			if (! key.startsWith("_lp") && key.endsWith("ExecuteModel"))
 			{
-				modelName = (String) entry.getValue ();
+				modelName = (String) entry.getValue();
 
-				if (modelName != null && ! modelName.equals ("null"))
+				if (modelName != null && ! modelName.equals("null"))
 				{
 					break;
 				}
@@ -79,52 +79,52 @@ public class ExecuteListItemCommand extends StandardLogEnabledModel
 
 		String forward = null;
 
-		ModelResponse res = req.createResponse ();
+		ModelResponse res = req.createResponse();
 
-		if (modelName != null && ! modelName.equals ("null") && ! modelName.startsWith ("_BEAN_."))
+		if (modelName != null && ! modelName.equals("null") && ! modelName.startsWith("_BEAN_."))
 		{
-			Model model = (Model) req.getService (Model.ROLE, modelName);
+			Model model = (Model) req.getService(Model.ROLE, modelName);
 
-			ModelRequest mreq = (ModelRequest) req.getService (ModelRequest.ROLE, "default");
+			ModelRequest mreq = (ModelRequest) req.getService(ModelRequest.ROLE, "default");
 
-			mreq.copyFrom (req);
+			mreq.copyFrom(req);
 
-			for (Iterator i = req.getParameters ().keySet ().iterator (); i.hasNext ();)
+			for (Iterator i = req.getParameters().keySet().iterator(); i.hasNext();)
 			{
-				String key = (String) i.next ();
+				String key = (String) i.next();
 
-				if (key.startsWith ("_lep"))
+				if (key.startsWith("_lep"))
 				{
-					String keyName = key.substring (4);
+					String keyName = key.substring(4);
 
-					if (req.getParameter (keyName) == null)
+					if (req.getParameter(keyName) == null)
 					{
-						mreq.setParameter (keyName, req.getParameter (key));
+						mreq.setParameter(keyName, req.getParameter(key));
 					}
 				}
 
-				if (key.startsWith ("_lp"))
+				if (key.startsWith("_lp"))
 				{
-					String keyName = key.substring (3);
+					String keyName = key.substring(3);
 
-					if (req.getParameter (keyName) == null)
+					if (req.getParameter(keyName) == null)
 					{
-						mreq.setParameter (keyName, req.getParameter (key));
+						mreq.setParameter(keyName, req.getParameter(key));
 					}
 				}
 			}
 
-			res = model.execute (mreq);
+			res = model.execute(mreq);
 
 			try
 			{
-				Configuration[] attributes = model.getConfiguration ().getChildren ("attribute");
+				Configuration[] attributes = model.getConfiguration().getChildren("attribute");
 
 				for (int i = 0; i < attributes.length; ++i)
 				{
-					if ("forward".equals (attributes[i].getAttribute ("name", null)))
+					if ("forward".equals(attributes[i].getAttribute("name", null)))
 					{
-						forward = attributes[i].getAttribute ("value");
+						forward = attributes[i].getAttribute("value");
 					}
 				}
 			}
@@ -132,101 +132,101 @@ public class ExecuteListItemCommand extends StandardLogEnabledModel
 			{
 			}
 		}
-		else if (modelName != null && modelName.startsWith ("_BEAN_."))
+		else if (modelName != null && modelName.startsWith("_BEAN_."))
 		{
 			try
 			{
-				Map<String, Object> parameters = new HashMap ();
+				Map<String, Object> parameters = new HashMap();
 
-				for (Iterator i = req.getParameters ().keySet ().iterator (); i.hasNext ();)
+				for (Iterator i = req.getParameters().keySet().iterator(); i.hasNext();)
 				{
-					String key = (String) i.next ();
+					String key = (String) i.next();
 
-					if (key.startsWith ("_lep"))
+					if (key.startsWith("_lep"))
 					{
-						String keyName = key.substring (4);
+						String keyName = key.substring(4);
 
-						if (req.getParameter (keyName) == null)
+						if (req.getParameter(keyName) == null)
 						{
-							parameters.put (keyName, req.getParameter (key));
+							parameters.put(keyName, req.getParameter(key));
 						}
 					}
-					else if (key.startsWith ("_lp"))
+					else if (key.startsWith("_lp"))
 					{
-						String keyName = key.substring (3);
+						String keyName = key.substring(3);
 
-						if (req.getParameter (keyName) == null)
+						if (req.getParameter(keyName) == null)
 						{
-							parameters.put (keyName, req.getParameter (key));
+							parameters.put(keyName, req.getParameter(key));
 						}
 					}
 					else
 					{
-						parameters.put (key, req.getParameter (key));
+						parameters.put(key, req.getParameter(key));
 					}
 				}
 
-				BeanRequest uiRequest = new BeanRequest ();
+				BeanRequest uiRequest = new BeanRequest();
 
-				uiRequest.setLocale (req.getLocale ());
-				uiRequest.setBean (modelName.replace ("_BEAN_.", ""));
-				uiRequest.setParameters (parameters);
-				uiRequest.setUserEnvironment ((UserEnvironment) req.getContext ().get (UserEnvironment.CONTEXT_KEY));
+				uiRequest.setLocale(req.getLocale());
+				uiRequest.setBean(modelName.replace("_BEAN_.", ""));
+				uiRequest.setParameters(parameters);
+				uiRequest.setUserEnvironment((UserEnvironment) req.getContext().get(UserEnvironment.CONTEXT_KEY));
 
-				BeanResponse uiResponse = new BeanResponse ();
+				BeanResponse uiResponse = new BeanResponse();
 
-				BeanAction.execute (uiRequest, uiResponse);
+				BeanAction.execute(uiRequest, uiResponse);
 
-				if (! UIController.DEFAULT_FORWARD.equals (uiResponse.getForward ()))
+				if (! UIController.DEFAULT_FORWARD.equals(uiResponse.getForward()))
 				{
-					res.setAttribute ("forward", uiResponse.getForward ());
+					res.setAttribute("forward", uiResponse.getForward());
 				}
 
-				for (Map.Entry<String, ResponseElement> re : uiResponse.getElements ().entrySet ())
+				for (Map.Entry<String, ResponseElement> re : uiResponse.getElements().entrySet())
 				{
-					res.add (re.getValue ());
+					res.add(re.getValue());
 				}
 			}
 			catch (ContextException x)
 			{
-				throw new ModelException (x);
+				throw new ModelException(x);
 			}
 			catch (AuthorizationException x)
 			{
-				throw new ModelException (x);
+				throw new ModelException(x);
 			}
 			catch (UIControllerException x)
 			{
-				throw new ModelException (x);
+				throw new ModelException(x);
 			}
 		}
 
 		if (forward == null)
 		{
-			forward = (String) res.getAttribute ("forward");
+			forward = (String) res.getAttribute("forward");
 		}
 
 		if (forward != null)
 		{
-			res.setAttribute ("forward", forward);
+			res.setAttribute("forward", forward);
 
 			return res;
 		}
 		else
 		{
-			Command cmd = res.createCommand ((String) req.getParameter ("_lm"));
+			Command cmd = res.createCommand((String) req.getParameter("_lm"));
 
-			for (Iterator i = req.getParameters ().keySet ().iterator (); i.hasNext ();)
+			for (Iterator i = req.getParameters().keySet().iterator(); i.hasNext();)
 			{
-				String key = (String) i.next ();
+				String key = (String) i.next();
 
-				if (key.startsWith ("_lp"))
+				if (key.startsWith("_lp"))
 				{
-					cmd.setParameter (key.substring (3), req.getParameter (key));
+					cmd.setParameter(key.substring(3), req.getParameter(key));
 				}
 			}
 
-			return cmd.execute (req, res);
+			return cmd.execute(req, res);
 		}
 	}
 }

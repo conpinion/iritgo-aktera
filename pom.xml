@@ -19,7 +19,7 @@
 	<url>http://code.google.com/p/iritgo-aktera/</url>
 	<properties>
 		<aktera.version>2.2</aktera.version>
-		<aktera.copyright>(C) 2007-2009 Iritgo Technologies.\n(C) 2003-2007 BueroByte GbR.</aktera.copyright>
+		<aktera.copyright>(C) 2007-2011 Iritgo Technologies.\n(C) 2003-2007 BueroByte GbR.</aktera.copyright>
 		<main.basedir>${project.basedir}</main.basedir>
 	</properties>
 	<repositories>

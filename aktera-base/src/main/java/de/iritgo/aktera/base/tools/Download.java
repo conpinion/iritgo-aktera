@@ -46,25 +46,25 @@ public class Download extends SecurableStandardLogEnabledModel
 	 * @param req The model request.
 	 * @return The model response.
 	 */
-	public ModelResponse execute (ModelRequest req) throws ModelException
+	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
-		ModelResponse res = req.createResponse ();
+		ModelResponse res = req.createResponse();
 
 		try
 		{
-			Output out = res.createOutput ("data");
+			Output out = res.createOutput("data");
 
-			Configuration fileConfig = getConfiguration ().getChild ("file", false);
+			Configuration fileConfig = getConfiguration().getChild("file", false);
 
 			if (fileConfig != null)
 			{
-				BinaryWrapper data = new BinaryWrapper (fileConfig.getAttribute ("name"), fileConfig
-								.getAttribute ("type"), fileConfig.getAttribute ("path"), 1024 * 1024, null);
+				BinaryWrapper data = new BinaryWrapper(fileConfig.getAttribute("name"),
+								fileConfig.getAttribute("type"), fileConfig.getAttribute("path"), 1024 * 1024, null);
 
-				out.setContent (data);
+				out.setContent(data);
 			}
 
-			res.add (out);
+			res.add(out);
 		}
 		catch (ConfigurationException x)
 		{

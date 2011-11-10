@@ -36,20 +36,20 @@ public class UpAkteraGroupEntry extends AbstractListCommandUIController
 {
 	private UserDAO userDAO;
 
-	public void setUserDAO (UserDAO userDAO)
+	public void setUserDAO(UserDAO userDAO)
 	{
 		this.userDAO = userDAO;
 	}
 
-	public UpAkteraGroupEntry ()
+	public UpAkteraGroupEntry()
 	{
-		super ("entryId");
+		super("entryId");
 	}
 
 	@Override
-	protected void execute (UIRequest request, UIResponse response, String id) throws UIControllerException
+	protected void execute(UIRequest request, UIResponse response, String id) throws UIControllerException
 	{
-		AkteraGroupEntry entry = userDAO.findAkteraGroupEntryById (NumberTools.toInt (id, - 1));
-		userDAO.moveUpAkteraGroupEntry (entry);
+		AkteraGroupEntry entry = userDAO.findAkteraGroupEntryById(NumberTools.toInt(id, - 1));
+		userDAO.moveUpAkteraGroupEntry(entry);
 	}
 }

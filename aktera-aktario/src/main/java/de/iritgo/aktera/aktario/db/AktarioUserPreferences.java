@@ -56,14 +56,14 @@ public class AktarioUserPreferences implements Serializable
 	 *   primary-key="true"
 	 *   null-allowed="false"
 	 */
-	public Long getId ()
+	public Long getId()
 	{
 		return id;
 	}
 
 	/**
 	 */
-	public void setId (Long id)
+	public void setId(Long id)
 	{
 		this.id = id;
 	}
@@ -76,14 +76,14 @@ public class AktarioUserPreferences implements Serializable
 	 *   length="64"
 	 *   default-value="com.jgoodies.looks.plastic.theme.KDE"
 	 */
-	public String getColorScheme ()
+	public String getColorScheme()
 	{
 		return colorScheme;
 	}
 
 	/**
 	 */
-	public void setColorScheme (String colorScheme)
+	public void setColorScheme(String colorScheme)
 	{
 		this.colorScheme = colorScheme;
 	}
@@ -95,14 +95,14 @@ public class AktarioUserPreferences implements Serializable
 	 *   type="integer"
 	 *   default-value="1"
 	 */
-	public Integer getAlwaysDrawWindowContents ()
+	public Integer getAlwaysDrawWindowContents()
 	{
 		return alwaysDrawWindowContents;
 	}
 
 	/**
 	 */
-	public void setAlwaysDrawWindowContents (Integer alwaysDrawWindowContents)
+	public void setAlwaysDrawWindowContents(Integer alwaysDrawWindowContents)
 	{
 		this.alwaysDrawWindowContents = alwaysDrawWindowContents;
 	}
@@ -115,14 +115,14 @@ public class AktarioUserPreferences implements Serializable
 	 *   length="16"
 	 *   default-value="de"
 	 */
-	public String getLanguage ()
+	public String getLanguage()
 	{
 		return language;
 	}
 
 	/**
 	 */
-	public void setLanguage (String language)
+	public void setLanguage(String language)
 	{
 		this.language = language;
 	}

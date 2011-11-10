@@ -38,7 +38,7 @@ public class JournalDoubleClickExtension implements ExtensionTile
 	/**
 	 * @param tileId
 	 */
-	public JournalDoubleClickExtension (String tileId)
+	public JournalDoubleClickExtension(String tileId)
 	{
 		this.tileId = tileId;
 	}
@@ -46,7 +46,7 @@ public class JournalDoubleClickExtension implements ExtensionTile
 	/**
 	 * @see de.iritgo.aktario.framework.dataobject.gui.ExtensionTile#getTile(de.iritgo.aktario.core.gui.GUIPane, de.iritgo.aktario.core.iobject.IObject, java.util.Properties)
 	 */
-	public JComponent getTile (GUIPane guiPane, IObject iObject, Properties properties)
+	public JComponent getTile(GUIPane guiPane, IObject iObject, Properties properties)
 	{
 		return null;
 	}
@@ -54,14 +54,14 @@ public class JournalDoubleClickExtension implements ExtensionTile
 	/**
 	 * @see de.iritgo.aktario.framework.dataobject.gui.ExtensionTile#command(de.iritgo.aktario.core.gui.GUIPane, de.iritgo.aktario.core.iobject.IObject, java.util.Properties)
 	 */
-	public void command (GUIPane guiPane, IObject iObject, Properties properties)
+	public void command(GUIPane guiPane, IObject iObject, Properties properties)
 	{
 	}
 
 	/**
 	 * @see de.iritgo.aktario.framework.dataobject.gui.ExtensionTile#isDoubleClickCommand()
 	 */
-	public boolean isDoubleClickCommand ()
+	public boolean isDoubleClickCommand()
 	{
 		return true;
 	}
@@ -69,7 +69,7 @@ public class JournalDoubleClickExtension implements ExtensionTile
 	/**
 	 * @see de.iritgo.aktario.framework.dataobject.gui.ExtensionTile#getTileId()
 	 */
-	public String getTileId ()
+	public String getTileId()
 	{
 		return tileId;
 	}
@@ -77,7 +77,7 @@ public class JournalDoubleClickExtension implements ExtensionTile
 	/**
 	 * @see de.iritgo.aktario.framework.dataobject.gui.ExtensionTile#getLabel()
 	 */
-	public String getLabel ()
+	public String getLabel()
 	{
 		return "";
 	}
@@ -85,7 +85,7 @@ public class JournalDoubleClickExtension implements ExtensionTile
 	/**
 	 * @see de.iritgo.aktario.framework.dataobject.gui.ExtensionTile#getConstraints()
 	 */
-	public Object getConstraints ()
+	public Object getConstraints()
 	{
 		return null;
 	}

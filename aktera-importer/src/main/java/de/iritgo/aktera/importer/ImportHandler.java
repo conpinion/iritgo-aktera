@@ -48,7 +48,7 @@ public interface ImportHandler
 	 * @param i18n I18N service.
 	 * @return False in case of a failure.
 	 */
-	public boolean analyze (ModelRequest req, Document doc, Node importElem, PrintWriter reporter, I18N i18n,
+	public boolean analyze(ModelRequest req, Document doc, Node importElem, PrintWriter reporter, I18N i18n,
 					Properties properties) throws ModelException, XPathExpressionException;
 
 	/**
@@ -61,7 +61,7 @@ public interface ImportHandler
 	 * @param i18n I18N service.
 	 * @param properties TODO
 	 */
-	public boolean perform (ModelRequest req, Document doc, Node importElem, PrintWriter reporter, I18N i18n,
+	public boolean perform(ModelRequest req, Document doc, Node importElem, PrintWriter reporter, I18N i18n,
 					Properties properties) throws ModelException, XPathExpressionException;
 
 	/**
@@ -74,7 +74,7 @@ public interface ImportHandler
 	 * @param reporter TODO
 	 * @param properties TODO
 	 */
-	public void startRootElement (String uri, String localName, String name, Attributes attributes,
+	public void startRootElement(String uri, String localName, String name, Attributes attributes,
 					PrintWriter reporter, Properties properties);
 
 	/**
@@ -87,7 +87,7 @@ public interface ImportHandler
 	 * @param properties TODO
 	 * @throws SAXException In case of an error
 	 */
-	public void endRootElement (String uri, String localName, String name, PrintWriter reporter, Properties properties)
+	public void endRootElement(String uri, String localName, String name, PrintWriter reporter, Properties properties)
 		throws SAXException;
 
 	/**
@@ -100,7 +100,7 @@ public interface ImportHandler
 	 * @param reporter TODO
 	 * @param properties TODO
 	 */
-	public void startElement (String uri, String localName, String name, Attributes attributes, PrintWriter reporter,
+	public void startElement(String uri, String localName, String name, Attributes attributes, PrintWriter reporter,
 					Properties properties);
 
 	/**
@@ -113,7 +113,7 @@ public interface ImportHandler
 	 * @param properties TODO
 	 * @throws SAXException In case of an error
 	 */
-	public void endElement (String uri, String localName, String name, PrintWriter reporter, Properties properties)
+	public void endElement(String uri, String localName, String name, PrintWriter reporter, Properties properties)
 		throws SAXException;
 
 	/**
@@ -126,6 +126,6 @@ public interface ImportHandler
 	 * @param properties TODO
 	 * @throws SAXException In case of an error
 	 */
-	public void elementContent (String uri, String localName, String name, String content, PrintWriter reporter,
+	public void elementContent(String uri, String localName, String name, String content, PrintWriter reporter,
 					Properties properties) throws SAXException;
 }

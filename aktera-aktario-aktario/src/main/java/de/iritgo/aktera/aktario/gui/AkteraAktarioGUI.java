@@ -120,32 +120,32 @@ public class AkteraAktarioGUI extends AktarioGUI implements ClientGUI
 		private int height;
 
 		@Override
-		public void setBounds (int newX, int newY, int newWidth, int newHeight)
+		public void setBounds(int newX, int newY, int newWidth, int newHeight)
 		{
 			width = newWidth;
 			height = newHeight;
-			layout ();
+			layout();
 		}
 
 		@Override
-		public void setBoundsForFrame (JComponent f, int newX, int newY, int newWidth, int newHeight)
+		public void setBoundsForFrame(JComponent f, int newX, int newY, int newWidth, int newHeight)
 		{
-			layout ();
+			layout();
 		}
 
-		private void layout ()
+		private void layout()
 		{
-			for (JInternalFrame frame : desktopPane.getAllFrames ())
+			for (JInternalFrame frame : desktopPane.getAllFrames())
 			{
-				String id = (((SwingWindowFrame) frame).getWindow ().getTypeId ());
+				String id = (((SwingWindowFrame) frame).getWindow().getTypeId());
 
-				if ("CallManagerInstantCallPane".equals (id))
+				if ("CallManagerInstantCallPane".equals(id))
 				{
-					frame.setBounds (0, height - 40, width, 40);
+					frame.setBounds(0, height - 40, width, 40);
 				}
 				else
 				{
-					frame.setBounds (0, 0, width, height - 40);
+					frame.setBounds(0, 0, width, height - 40);
 				}
 			}
 		}
@@ -185,7 +185,7 @@ public class AkteraAktarioGUI extends AktarioGUI implements ClientGUI
 	protected int pointerY;
 
 	/** Init the GUI-Factory **/
-	private SwingGUIFactory swingGUIFactory = new SwingGUIFactory ();
+	private SwingGUIFactory swingGUIFactory = new SwingGUIFactory();
 
 	/** The current color scheme. */
 	protected String colorScheme;
@@ -220,33 +220,33 @@ public class AkteraAktarioGUI extends AktarioGUI implements ClientGUI
 	/**
 	 * Terminate the client.
 	 */
-	public Action quitAction = new AbstractAction ()
+	public Action quitAction = new AbstractAction()
 	{
-		public void actionPerformed (ActionEvent e)
+		public void actionPerformed(ActionEvent e)
 		{
-			IritgoEngine.instance ().shutdown ();
+			IritgoEngine.instance().shutdown();
 		}
 	};
 
 	/**
 	 * Display the preferences dialog.
 	 */
-	public Action preferencesAction = new AbstractAction ()
+	public Action preferencesAction = new AbstractAction()
 	{
-		public void actionPerformed (ActionEvent e)
+		public void actionPerformed(ActionEvent e)
 		{
 			try
 			{
-				Properties props = new Properties ();
+				Properties props = new Properties();
 
-				props.put ("category", ((Component) e.getSource ()).getName ());
+				props.put("category", ((Component) e.getSource()).getName());
 
-				CommandTools.performAsync (new ShowDialog ("PreferencesGUIPane", "PreferencesGUIPane", AppContext
-								.instance ().getUser ().getUniqueId (), "AktarioUserPreferences"), props);
+				CommandTools.performAsync(new ShowDialog("PreferencesGUIPane", "PreferencesGUIPane", AppContext
+								.instance().getUser().getUniqueId(), "AktarioUserPreferences"), props);
 			}
 			catch (Exception x)
 			{
-				Log.logError ("client", "AktarioGUI.preferencesAction", "Unable to find preferences object");
+				Log.logError("client", "AktarioGUI.preferencesAction", "Unable to find preferences object");
 			}
 		}
 	};
@@ -254,13 +254,13 @@ public class AkteraAktarioGUI extends AktarioGUI implements ClientGUI
 	/**
 	 * Display the user administration dialog.
 	 */
-	public Action manageUsers = new AbstractAction ()
+	public Action manageUsers = new AbstractAction()
 	{
-		public void actionPerformed (ActionEvent e)
+		public void actionPerformed(ActionEvent e)
 		{
 			try
 			{
-				CommandTools.performAsync (new ShowDialog ("UserListGUIPane", "UserListGUIPane", 11000,
+				CommandTools.performAsync(new ShowDialog("UserListGUIPane", "UserListGUIPane", 11000,
 								"AkteraUserRegistry"));
 			}
 			catch (Exception x)
@@ -272,78 +272,78 @@ public class AkteraAktarioGUI extends AktarioGUI implements ClientGUI
 	/**
 	 * Display the about dialog.
 	 */
-	public Action aboutAction = new AbstractAction ()
+	public Action aboutAction = new AbstractAction()
 	{
-		public void actionPerformed (ActionEvent e)
+		public void actionPerformed(ActionEvent e)
 		{
-			CommandTools.performAsync (new ShowDialog ("AboutGUIPane"));
+			CommandTools.performAsync(new ShowDialog("AboutGUIPane"));
 		}
 	};
 
 	/**
 	 * Display the system info dialog.
 	 */
-	public Action systemAction = new AbstractAction ()
+	public Action systemAction = new AbstractAction()
 	{
-		public void actionPerformed (ActionEvent e)
+		public void actionPerformed(ActionEvent e)
 		{
-			CommandTools.performAsync ("ShowSystemMonitor");
+			CommandTools.performAsync("ShowSystemMonitor");
 		}
 	};
 
 	/**
 	 */
-	public Action phoneAction = new AbstractAction ()
+	public Action phoneAction = new AbstractAction()
 	{
-		public void actionPerformed (ActionEvent e)
+		public void actionPerformed(ActionEvent e)
 		{
-			getDesktopManager ().getDisplay ("SipPhonePane").bringToFront ();
+			getDesktopManager().getDisplay("SipPhonePane").bringToFront();
 		}
 	};
 
 	/**
 	 */
-	public Action disconnectAction = new AbstractAction ()
+	public Action disconnectAction = new AbstractAction()
 	{
-		public void actionPerformed (ActionEvent e)
+		public void actionPerformed(ActionEvent e)
 		{
 			manualDisconnect = true;
 
-			Client.instance ().getNetworkService ().closeAllChannels ();
+			Client.instance().getNetworkService().closeAllChannels();
 		}
 	};
 
 	/**
 	 * Create the main aktario gui.
 	 */
-	public AkteraAktarioGUI ()
+	public AkteraAktarioGUI()
 	{
-		icons = new HashMap ();
-		icons.put ("loginBackground", new ImageIcon (getClass ().getResource ("/resources/app-login.png")));
-		icons.put ("aboutBackground", new ImageIcon (getClass ().getResource ("/resources/app-splash.png")));
-		icons.put ("icon16", new ImageIcon (getClass ().getResource ("/resources/app-icon-16.png")));
-		icons.put ("icon24", new ImageIcon (getClass ().getResource ("/resources/app-logo-24.png")));
+		icons = new HashMap();
+		icons.put("loginBackground", new ImageIcon(getClass().getResource("/resources/app-login.png")));
+		icons.put("aboutBackground", new ImageIcon(getClass().getResource("/resources/app-splash.png")));
+		icons.put("icon16", new ImageIcon(getClass().getResource("/resources/app-icon-16.png")));
+		icons.put("icon24", new ImageIcon(getClass().getResource("/resources/app-logo-24.png")));
 	}
 
 	/**
 	 * Initialize the main gui.
 	 */
-	public void init () throws InitIritgoException
+	public void init() throws InitIritgoException
 	{
 		try
 		{
-			SwingUtilities.invokeAndWait (new Runnable ()
+			SwingUtilities.invokeAndWait(new Runnable()
 			{
-				public void run ()
+				public void run()
 				{
 					try
 					{
-						initGui ();
+						initGui();
 					}
 					catch (Exception x)
 					{
-						Log.logError ("client", "AkteraAktarioGUI.initDesktop", x.toString ());
-						x.printStackTrace ();
+						Log.logError("client", "AkteraAktarioGUI.initDesktop", x.toString());
+						x.printStackTrace();
 					}
 				}
 			});
@@ -359,61 +359,61 @@ public class AkteraAktarioGUI extends AktarioGUI implements ClientGUI
 	/**
 	 * Show the client gui.
 	 */
-	public void show ()
+	public void show()
 	{
-		Properties props = Engine.instance ().getSystemProperties ();
-		int sizeX = NumberTools.toInt (props.getProperty ("iritgoConnectSizeX"), 320);
-		int sizeY = NumberTools.toInt (props.getProperty ("iritgoConnectSizeY"), 480);
-		int posX = NumberTools.toInt (props.getProperty ("iritgoConnectPosX"), 48);
-		int posY = NumberTools.toInt (props.getProperty ("iritgoConnectPosY"), 48);
+		Properties props = Engine.instance().getSystemProperties();
+		int sizeX = NumberTools.toInt(props.getProperty("iritgoConnectSizeX"), 320);
+		int sizeY = NumberTools.toInt(props.getProperty("iritgoConnectSizeY"), 480);
+		int posX = NumberTools.toInt(props.getProperty("iritgoConnectPosX"), 48);
+		int posY = NumberTools.toInt(props.getProperty("iritgoConnectPosY"), 48);
 
-		desktopFrame.setSize (sizeX, sizeY);
-		desktopFrame.setLocation (posX, posY);
+		desktopFrame.setSize(sizeX, sizeY);
+		desktopFrame.setLocation(posX, posY);
 
-		if (NumberTools.toBool (props.getProperty ("startMinimized"), false))
+		if (NumberTools.toBool(props.getProperty("startMinimized"), false))
 		{
-			desktopFrame.setExtendedState (JFrame.ICONIFIED);
+			desktopFrame.setExtendedState(JFrame.ICONIFIED);
 		}
 
-		desktopFrame.setVisible ();
+		desktopFrame.setVisible();
 
-		if (NumberTools.toBool (props.getProperty ("startMinimized"), false))
+		if (NumberTools.toBool(props.getProperty("startMinimized"), false))
 		{
-			desktopFrame.setVisible (false);
-			desktopFrame.setExtendedState (JFrame.NORMAL);
+			desktopFrame.setVisible(false);
+			desktopFrame.setExtendedState(JFrame.NORMAL);
 		}
 
-		if (checkSystemOSOfWindowsOrLinux ())
+		if (checkSystemOSOfWindowsOrLinux())
 		{
-			trayIcon = new AkteraTrayIcon (getIcon ("icon24").getImage (), getAppTitle (), systemTrayMenu);
+			trayIcon = new AkteraTrayIcon(getIcon("icon24").getImage(), getAppTitle(), systemTrayMenu);
 
 			if (trayIcon != null)
 			{
-				trayIcon.addActionListener (new ActionListener ()
+				trayIcon.addActionListener(new ActionListener()
 				{
-					public void actionPerformed (ActionEvent e)
+					public void actionPerformed(ActionEvent e)
 					{
-						if (desktopFrame.isVisible () && ! desktopFrame.isActive ())
+						if (desktopFrame.isVisible() && ! desktopFrame.isActive())
 						{
-							desktopFrame.setVisible (false);
-							desktopFrame.setExtendedState (JFrame.NORMAL);
-							desktopFrame.setVisible (true);
-							desktopFrame.toFront ();
+							desktopFrame.setVisible(false);
+							desktopFrame.setExtendedState(JFrame.NORMAL);
+							desktopFrame.setVisible(true);
+							desktopFrame.toFront();
 						}
-						else if ((desktopFrame.getExtendedState () & JFrame.ICONIFIED) != 0)
+						else if ((desktopFrame.getExtendedState() & JFrame.ICONIFIED) != 0)
 						{
-							desktopFrame.setVisible (false);
-							desktopFrame.setExtendedState (JFrame.NORMAL);
-							desktopFrame.setVisible (true);
-							desktopFrame.toFront ();
+							desktopFrame.setVisible(false);
+							desktopFrame.setExtendedState(JFrame.NORMAL);
+							desktopFrame.setVisible(true);
+							desktopFrame.toFront();
 						}
 						else
 						{
-							desktopFrame.setVisible (! desktopFrame.isVisible ());
+							desktopFrame.setVisible(! desktopFrame.isVisible());
 
-							if (desktopFrame.isVisible ())
+							if (desktopFrame.isVisible())
 							{
-								desktopFrame.toFront ();
+								desktopFrame.toFront();
 							}
 						}
 					}
@@ -423,11 +423,11 @@ public class AkteraAktarioGUI extends AktarioGUI implements ClientGUI
 				{
 					try
 					{
-						tray.add (trayIcon);
+						tray.add(trayIcon);
 					}
 					catch (AWTException x)
 					{
-						System.out.println (x);
+						System.out.println(x);
 					}
 				}
 			}
@@ -439,7 +439,7 @@ public class AkteraAktarioGUI extends AktarioGUI implements ClientGUI
 	 *
 	 * @return The desktop manager.
 	 */
-	public IDesktopManager getDesktopManager ()
+	public IDesktopManager getDesktopManager()
 	{
 		return desktopManager;
 	}
@@ -447,59 +447,59 @@ public class AkteraAktarioGUI extends AktarioGUI implements ClientGUI
 	/**
 	 * Start the client gui.
 	 */
-	public void startGUI ()
+	public void startGUI()
 	{
-		final SystemProperties sysProperties = Engine.instance ().getSystemProperties ();
+		final SystemProperties sysProperties = Engine.instance().getSystemProperties();
 
-		if (sysProperties.getBool ("autoLogin", false))
+		if (sysProperties.getBool("autoLogin", false))
 		{
-			CommandTools.performAsync (new Command ()
+			CommandTools.performAsync(new Command()
 			{
-				public void perform ()
+				public void perform()
 				{
-					UserLoginHelper.login (null, sysProperties.getString ("autoLoginServer", null), sysProperties
-									.getString ("autoLoginUser", null), StringTools.decode (sysProperties.getString (
+					UserLoginHelper.login(null, sysProperties.getString("autoLoginServer", null), sysProperties
+									.getString("autoLoginUser", null), StringTools.decode(sysProperties.getString(
 									"autoLoginPassword", null)), false, false);
 				}
 			});
 		}
 		else
 		{
-			CommandTools.performAsync (new ShowDialog ("AktarioUserLoginDialog"));
+			CommandTools.performAsync(new ShowDialog("AktarioUserLoginDialog"));
 		}
 	}
 
 	/**
 	 * Stop the client gui.
 	 */
-	public void stopGUI ()
+	public void stopGUI()
 	{
-		Properties props = Engine.instance ().getSystemProperties ();
+		Properties props = Engine.instance().getSystemProperties();
 
-		props.setProperty ("iritgoConnectSizeX", "" + (int) desktopFrame.getBounds ().getWidth ());
-		props.setProperty ("iritgoConnectSizeY", "" + (int) desktopFrame.getBounds ().getHeight ());
-		props.setProperty ("iritgoConnectPosX", "" + (int) desktopFrame.getBounds ().getX ());
-		props.setProperty ("iritgoConnectPosY", "" + (int) desktopFrame.getBounds ().getY ());
+		props.setProperty("iritgoConnectSizeX", "" + (int) desktopFrame.getBounds().getWidth());
+		props.setProperty("iritgoConnectSizeY", "" + (int) desktopFrame.getBounds().getHeight());
+		props.setProperty("iritgoConnectPosX", "" + (int) desktopFrame.getBounds().getX());
+		props.setProperty("iritgoConnectPosY", "" + (int) desktopFrame.getBounds().getY());
 
 		if (tray != null && trayIcon != null)
 		{
-			tray.remove (trayIcon);
+			tray.remove(trayIcon);
 		}
 
-		desktopFrame.close ();
+		desktopFrame.close();
 	}
 
 	/**
 	 * Start the client application.
 	 */
-	public void startApplication ()
+	public void startApplication()
 	{
 	}
 
 	/**
 	 * Stop the client application.
 	 */
-	public void stopApplication ()
+	public void stopApplication()
 	{
 	}
 
@@ -508,9 +508,9 @@ public class AkteraAktarioGUI extends AktarioGUI implements ClientGUI
 	 *
 	 * @param userName The user name text to set.
 	 */
-	public void setStatusUser (String userName)
+	public void setStatusUser(String userName)
 	{
-		statusUser.setText (userName);
+		statusUser.setText(userName);
 	}
 
 	/**
@@ -518,9 +518,9 @@ public class AkteraAktarioGUI extends AktarioGUI implements ClientGUI
 	 *
 	 * @param text The status text to set.
 	 */
-	public void setStatusText (String text)
+	public void setStatusText(String text)
 	{
-		statusText.setText (text);
+		statusText.setText(text);
 	}
 
 	/**
@@ -528,7 +528,7 @@ public class AkteraAktarioGUI extends AktarioGUI implements ClientGUI
 	 *
 	 * @return The desktop pane.
 	 */
-	public JDesktopPane getDesktopPane ()
+	public JDesktopPane getDesktopPane()
 	{
 		return desktopPane;
 	}
@@ -539,11 +539,11 @@ public class AkteraAktarioGUI extends AktarioGUI implements ClientGUI
 	 *
 	 * @param e The event.
 	 */
-	public void processApplicationPaneEvent (AWTEvent e)
+	public void processApplicationPaneEvent(AWTEvent e)
 	{
-		WhiteBoardServerAction action = new WhiteBoardServerAction (AppContext.instance ().getUser ());
+		WhiteBoardServerAction action = new WhiteBoardServerAction(AppContext.instance().getUser());
 
-		GUIPane guiPane = (GUIPane) AppContext.instance ().getObject ("applicationPane");
+		GUIPane guiPane = (GUIPane) AppContext.instance().getObject("applicationPane");
 
 		if (! (guiPane instanceof ApplicationPane))
 		{
@@ -552,17 +552,17 @@ public class AkteraAktarioGUI extends AktarioGUI implements ClientGUI
 
 		ApplicationPane appPane = (ApplicationPane) guiPane;
 
-		switch (e.getID ())
+		switch (e.getID())
 		{
 			case MouseEvent.MOUSE_MOVED:
 			{
 				MouseEvent event = (MouseEvent) e;
-				Point glassPanePos = ((SwingGUIPane) appPane).getPanel ().getLocationOnScreen ();
-				Point compPos = ((JComponent) e.getSource ()).getLocationOnScreen ();
+				Point glassPanePos = ((SwingGUIPane) appPane).getPanel().getLocationOnScreen();
+				Point compPos = ((JComponent) e.getSource()).getLocationOnScreen();
 
-				pointerX = (int) (compPos.getX () - glassPanePos.getX () + event.getX ());
-				pointerY = (int) (compPos.getY () - glassPanePos.getY () + event.getY ());
-				action.sendMouseMove (pointerX, pointerY);
+				pointerX = (int) (compPos.getX() - glassPanePos.getX() + event.getX());
+				pointerY = (int) (compPos.getY() - glassPanePos.getY() + event.getY());
+				action.sendMouseMove(pointerX, pointerY);
 
 				break;
 			}
@@ -571,46 +571,46 @@ public class AkteraAktarioGUI extends AktarioGUI implements ClientGUI
 			{
 				KeyEvent event = (KeyEvent) e;
 
-				switch (event.getKeyCode ())
+				switch (event.getKeyCode())
 				{
 					case KeyEvent.VK_F1:
-						appPane.contextHelp ();
+						appPane.contextHelp();
 
 						break;
 
 					case KeyEvent.VK_F5:
-						action.sendPaint (pointerX, pointerY, WhiteBoardAction.PAINT_EXCLAMATION);
+						action.sendPaint(pointerX, pointerY, WhiteBoardAction.PAINT_EXCLAMATION);
 
 						break;
 
 					case KeyEvent.VK_F6:
-						action.sendPaint (pointerX, pointerY, WhiteBoardAction.PAINT_INFO);
+						action.sendPaint(pointerX, pointerY, WhiteBoardAction.PAINT_INFO);
 
 						break;
 
 					case KeyEvent.VK_F7:
-						action.sendPaint (pointerX, pointerY, WhiteBoardAction.PAINT_OK);
+						action.sendPaint(pointerX, pointerY, WhiteBoardAction.PAINT_OK);
 
 						break;
 
 					case KeyEvent.VK_F8:
-						action.sendPaint (pointerX, pointerY, WhiteBoardAction.PAINT_QUESTION);
+						action.sendPaint(pointerX, pointerY, WhiteBoardAction.PAINT_QUESTION);
 
 						break;
 
 					case KeyEvent.VK_F9:
-						action.sendPaint (pointerX, pointerY, WhiteBoardAction.PAINT_ERASE);
+						action.sendPaint(pointerX, pointerY, WhiteBoardAction.PAINT_ERASE);
 
 						break;
 				}
 			}
 		}
 
-		ClientTransceiver transceiver = new ClientTransceiver (AppContext.instance ().getChannelNumber ());
+		ClientTransceiver transceiver = new ClientTransceiver(AppContext.instance().getChannelNumber());
 
-		transceiver.addReceiver (AppContext.instance ().getChannelNumber ());
-		action.setTransceiver (transceiver);
-		ActionTools.sendToServer (action);
+		transceiver.addReceiver(AppContext.instance().getChannelNumber());
+		action.setTransceiver(transceiver);
+		ActionTools.sendToServer(action);
 	}
 
 	/**
@@ -618,7 +618,7 @@ public class AkteraAktarioGUI extends AktarioGUI implements ClientGUI
 	 *
 	 * @retrurn The color scheme name.
 	 */
-	public String getColorScheme ()
+	public String getColorScheme()
 	{
 		return colorScheme;
 	}
@@ -628,43 +628,41 @@ public class AkteraAktarioGUI extends AktarioGUI implements ClientGUI
 	 *
 	 * @param colorScheme The new color scheme.
 	 */
-	public void setColorScheme (String colorScheme)
+	public void setColorScheme(String colorScheme)
 	{
 		try
 		{
 			this.colorScheme = colorScheme;
 			com.jgoodies.looks.plastic.PlasticXPLookAndFeelIritgo
-							.setCurrentTheme ((com.jgoodies.looks.plastic.PlasticTheme) Class.forName (colorScheme)
-											.newInstance ());
-			com.jgoodies.looks.Options.setPopupDropShadowEnabled (true);
-			UIManager.put ("jgoodies.popupDropShadowEnabled", Boolean.TRUE);
+							.setCurrentTheme((com.jgoodies.looks.plastic.PlasticTheme) Class.forName(colorScheme)
+											.newInstance());
+			com.jgoodies.looks.Options.setPopupDropShadowEnabled(true);
+			UIManager.put("jgoodies.popupDropShadowEnabled", Boolean.TRUE);
 
-			LookAndFeel lnf = (LookAndFeel) getClass ().getClassLoader ().loadClass (
-							"com.jgoodies.looks.plastic.PlasticXPLookAndFeelIritgo").newInstance ();
+			LookAndFeel lnf = (LookAndFeel) getClass().getClassLoader().loadClass(
+							"com.jgoodies.looks.plastic.PlasticXPLookAndFeelIritgo").newInstance();
 
-			UIManager.setLookAndFeel (lnf);
+			UIManager.setLookAndFeel(lnf);
 
-			UIManager.getLookAndFeelDefaults ().put ("ClassLoader", getClass ().getClassLoader ());
+			UIManager.getLookAndFeelDefaults().put("ClassLoader", getClass().getClassLoader());
 
-			UIManager.put ("TaskPane.useGradient", Boolean.TRUE);
-			UIManager.put ("TaskPane.backgroundGradientStart", UIManager.getColor ("Panel.background").brighter ());
-			UIManager.put ("TaskPane.backgroundGradientEnd", UIManager.getColor ("Panel.background").darker ());
-			UIManager.put ("TaskPaneGroup.titleOver", UIManager.getColor ("Label.foreground"));
-			UIManager.put ("TaskPaneGroup.specialTitleOver", UIManager.getColor ("Label.foreground"));
+			UIManager.put("TaskPane.useGradient", Boolean.TRUE);
+			UIManager.put("TaskPane.backgroundGradientStart", UIManager.getColor("Panel.background").brighter());
+			UIManager.put("TaskPane.backgroundGradientEnd", UIManager.getColor("Panel.background").darker());
+			UIManager.put("TaskPaneGroup.titleOver", UIManager.getColor("Label.foreground"));
+			UIManager.put("TaskPaneGroup.specialTitleOver", UIManager.getColor("Label.foreground"));
 
 			if (desktopFrame != null)
 			{
-				SwingUtilities.updateComponentTreeUI (desktopFrame);
+				SwingUtilities.updateComponentTreeUI(desktopFrame);
 
-				for (Iterator i = desktopManager.getDisplayIterator (); i.hasNext ();)
+				for (Iterator i = desktopManager.getDisplayIterator(); i.hasNext();)
 				{
-					IDisplay display = (IDisplay) i.next ();
+					IDisplay display = (IDisplay) i.next();
 
 					if (display instanceof IDialog)
 					{
-						SwingUtilities
-										.updateComponentTreeUI (((SwingDialogFrame) ((IDialog) display)
-														.getDialogFrame ()));
+						SwingUtilities.updateComponentTreeUI(((SwingDialogFrame) ((IDialog) display).getDialogFrame()));
 					}
 				}
 			}
@@ -673,17 +671,17 @@ public class AkteraAktarioGUI extends AktarioGUI implements ClientGUI
 		{
 			final Exception error = x;
 
-			new Thread (new Runnable ()
+			new Thread(new Runnable()
 			{
-				public void run ()
+				public void run()
 				{
-					JOptionPane.showMessageDialog (desktopFrame.getJFrame (), error.toString (), getAppTitle (),
+					JOptionPane.showMessageDialog(desktopFrame.getJFrame(), error.toString(), getAppTitle(),
 									JOptionPane.OK_OPTION);
 				}
-			}).start ();
+			}).start();
 
-			x.printStackTrace ();
-			Log.logError ("client", "AktarioGUI.setColorScheme", x.toString ());
+			x.printStackTrace();
+			Log.logError("client", "AktarioGUI.setColorScheme", x.toString());
 		}
 	}
 
@@ -692,19 +690,19 @@ public class AkteraAktarioGUI extends AktarioGUI implements ClientGUI
 	 * This method is called after a change to the language to reload
 	 * the menu labels.
 	 */
-	public void reloadMenuBar ()
+	public void reloadMenuBar()
 	{
-		JFrame frame = desktopFrame.getJFrame ();
+		JFrame frame = desktopFrame.getJFrame();
 
-		((IMenuBar) frame.getJMenuBar ()).reloadText ();
+		((IMenuBar) frame.getJMenuBar()).reloadText();
 
 		try
 		{
-			SwingEngine swingEngine = new SwingEngine (this);
+			SwingEngine swingEngine = new SwingEngine(this);
 
-			if (checkSystemOSOfWindowsOrLinux ())
+			if (checkSystemOSOfWindowsOrLinux())
 			{
-				systemTrayMenu = (JPopupMenu) swingEngine.render (getClass ().getResource ("/swixml/TrayMenu.xml"));
+				systemTrayMenu = (JPopupMenu) swingEngine.render(getClass().getResource("/swixml/TrayMenu.xml"));
 
 				if (trayIcon != null)
 				{
@@ -722,9 +720,9 @@ public class AkteraAktarioGUI extends AktarioGUI implements ClientGUI
 	 * This method is called after a change to the language to reload
 	 * the menu labels.
 	 */
-	public void reloadToolBar ()
+	public void reloadToolBar()
 	{
-		toolbar.reloadText ();
+		toolbar.reloadText();
 	}
 
 	/**
@@ -732,7 +730,7 @@ public class AkteraAktarioGUI extends AktarioGUI implements ClientGUI
 	 *
 	 * @param visible If true the admin menu is visible.
 	 */
-	public void setAdminMenuVisible (boolean visible)
+	public void setAdminMenuVisible(boolean visible)
 	{
 		// 		adminMenu.setVisible (visible);
 	}
@@ -742,7 +740,7 @@ public class AkteraAktarioGUI extends AktarioGUI implements ClientGUI
 	 *
 	 * @param enabled If true the application menu is enabled.
 	 */
-	public void setApplicationMenuEnabled (boolean enabled)
+	public void setApplicationMenuEnabled(boolean enabled)
 	{
 		// 		applicationMenu.setEnabled (enabled);
 	}
@@ -751,12 +749,12 @@ public class AkteraAktarioGUI extends AktarioGUI implements ClientGUI
 	 * Called when the server connection was lost.
 	 * This method shuts down the client and redisplays the login dialog.
 	 */
-	public void lostNetworkConnection ()
+	public void lostNetworkConnection()
 	{
 		// Sleep 4 seconds... the server need the time to set the user offline
 		try
 		{
-			Thread.sleep (4000);
+			Thread.sleep(4000);
 		}
 		catch (InterruptedException x)
 		{
@@ -764,27 +762,27 @@ public class AkteraAktarioGUI extends AktarioGUI implements ClientGUI
 
 		manualDisconnect = false;
 
-		getDesktopManager ().closeAllDisplays ();
+		getDesktopManager().closeAllDisplays();
 
-		desktopFrame.setVisible (false);
+		desktopFrame.setVisible(false);
 
 		if (tray != null)
 		{
-			tray.remove (trayIcon);
+			tray.remove(trayIcon);
 		}
 
-		User user = AppContext.instance ().getUser ();
-		String password = AppContext.instance ().getUserPassword ();
+		User user = AppContext.instance().getUser();
+		String password = AppContext.instance().getUserPassword();
 
-		UserLoginHelper.login (null, AppContext.instance ().getServerIP (), user.getName (), password, false, false);
+		UserLoginHelper.login(null, AppContext.instance().getServerIP(), user.getName(), password, false, false);
 	}
 
 	/**
 	 * Remove all desktops.
 	 */
-	public void removeAllDesktops ()
+	public void removeAllDesktops()
 	{
-		desktopManager.removeAllDesktopPanes ();
+		desktopManager.removeAllDesktopPanes();
 	}
 
 	/**
@@ -792,9 +790,9 @@ public class AkteraAktarioGUI extends AktarioGUI implements ClientGUI
 	 *
 	 * @return The background image.
 	 */
-	public ImageIcon getLoginBackground ()
+	public ImageIcon getLoginBackground()
 	{
-		return (ImageIcon) icons.get ("loginBackground");
+		return (ImageIcon) icons.get("loginBackground");
 	}
 
 	/**
@@ -802,9 +800,9 @@ public class AkteraAktarioGUI extends AktarioGUI implements ClientGUI
 	 *
 	 * @return The background image.
 	 */
-	public ImageIcon getAboutBackground ()
+	public ImageIcon getAboutBackground()
 	{
-		return (ImageIcon) icons.get ("aboutBackground");
+		return (ImageIcon) icons.get("aboutBackground");
 	}
 
 	/**
@@ -812,7 +810,7 @@ public class AkteraAktarioGUI extends AktarioGUI implements ClientGUI
 	 *
 	 * @return The participant indicator icon.
 	 */
-	public IOverlayIcon getParticipantIndicator ()
+	public IOverlayIcon getParticipantIndicator()
 	{
 		return participantIndicator;
 	}
@@ -822,7 +820,7 @@ public class AkteraAktarioGUI extends AktarioGUI implements ClientGUI
 	 *
 	 * @return The system tray popup menu.
 	 */
-	public JPopupMenu getSystemTrayMenu ()
+	public JPopupMenu getSystemTrayMenu()
 	{
 		return systemTrayMenu;
 	}
@@ -830,15 +828,15 @@ public class AkteraAktarioGUI extends AktarioGUI implements ClientGUI
 	/**
 	 * Update the system tray.
 	 */
-	public void updateSystemTray ()
+	public void updateSystemTray()
 	{
 		if (trayIcon != null)
 		{
-			trayIcon.setImage (getIcon ("icon24").getImage ());
+			trayIcon.setImage(getIcon("icon24").getImage());
 		}
 	}
 
-	public JPanel getToolPanel ()
+	public JPanel getToolPanel()
 	{
 		return toolPanel;
 	}
@@ -856,10 +854,10 @@ public class AkteraAktarioGUI extends AktarioGUI implements ClientGUI
 	 * @param insets The cell insets.
 	 * @return The gridbag constraints.
 	 */
-	protected GridBagConstraints createConstraints (int x, int y, int width, int height, int fill, int wx, int wy,
+	protected GridBagConstraints createConstraints(int x, int y, int width, int height, int fill, int wx, int wy,
 					Insets insets)
 	{
-		GridBagConstraints gbc = new GridBagConstraints ();
+		GridBagConstraints gbc = new GridBagConstraints();
 
 		gbc.gridx = x;
 		gbc.gridy = y;
@@ -872,7 +870,7 @@ public class AkteraAktarioGUI extends AktarioGUI implements ClientGUI
 
 		if (insets == null)
 		{
-			gbc.insets = new Insets (0, 0, 0, 0);
+			gbc.insets = new Insets(0, 0, 0, 0);
 		}
 		else
 		{
@@ -887,12 +885,12 @@ public class AkteraAktarioGUI extends AktarioGUI implements ClientGUI
 	 *
 	 * @return The systray icon position.
 	 */
-	public Point getSystemTrayIconPosition ()
+	public Point getSystemTrayIconPosition()
 	{
 		if (trayIcon != null)
 		{
 			//			return trayIcon.getLocationOnScreen ();
-			return new Point (0, 0);
+			return new Point(0, 0);
 		}
 
 		return null;
@@ -903,11 +901,11 @@ public class AkteraAktarioGUI extends AktarioGUI implements ClientGUI
 	 *
 	 * @return The systray icon size.
 	 */
-	public Dimension getSystemTrayIconSize ()
+	public Dimension getSystemTrayIconSize()
 	{
 		if (trayIcon != null)
 		{
-			return new Dimension (participantIndicator.getIconWidth (), participantIndicator.getIconHeight ());
+			return new Dimension(participantIndicator.getIconWidth(), participantIndicator.getIconHeight());
 		}
 
 		return null;
@@ -918,9 +916,9 @@ public class AkteraAktarioGUI extends AktarioGUI implements ClientGUI
 	 *
 	 * @return The application title.
 	 */
-	public String getAppTitle ()
+	public String getAppTitle()
 	{
-		return Engine.instance ().getResourceService ().getString ("app.title");
+		return Engine.instance().getResourceService().getString("app.title");
 	}
 
 	/**
@@ -929,9 +927,9 @@ public class AkteraAktarioGUI extends AktarioGUI implements ClientGUI
 	 * @param key The icon key.
 	 * @param icon The icon to set.
 	 */
-	public void setIcon (String key, ImageIcon icon)
+	public void setIcon(String key, ImageIcon icon)
 	{
-		icons.put (key, icon);
+		icons.put(key, icon);
 	}
 
 	/**
@@ -940,40 +938,40 @@ public class AkteraAktarioGUI extends AktarioGUI implements ClientGUI
 	 * @param key The icon key.
 	 * @return The icon.
 	 */
-	public ImageIcon getIcon (String key)
+	public ImageIcon getIcon(String key)
 	{
-		return (ImageIcon) icons.get (key);
+		return (ImageIcon) icons.get(key);
 	}
 
-	private boolean checkSystemOSOfWindowsOrLinux ()
+	private boolean checkSystemOSOfWindowsOrLinux()
 	{
-		return (System.getProperty ("os.name").indexOf ("Windows") != - 1)
-						|| (System.getProperty ("os.name").indexOf ("Linux") != - 1);
+		return (System.getProperty("os.name").indexOf("Windows") != - 1)
+						|| (System.getProperty("os.name").indexOf("Linux") != - 1);
 	}
 
 	/**
 	 * Make the client gui the foreground window.
 	 */
-	public void bringToFront ()
+	public void bringToFront()
 	{
-		if (desktopFrame.isVisible () && ! desktopFrame.isActive ())
+		if (desktopFrame.isVisible() && ! desktopFrame.isActive())
 		{
-			desktopFrame.setVisible (false);
-			desktopFrame.setExtendedState (JFrame.NORMAL);
-			desktopFrame.setVisible (true);
-			desktopFrame.toFront ();
+			desktopFrame.setVisible(false);
+			desktopFrame.setExtendedState(JFrame.NORMAL);
+			desktopFrame.setVisible(true);
+			desktopFrame.toFront();
 		}
-		else if ((desktopFrame.getExtendedState () & JFrame.ICONIFIED) != 0)
+		else if ((desktopFrame.getExtendedState() & JFrame.ICONIFIED) != 0)
 		{
-			desktopFrame.setVisible (false);
-			desktopFrame.setExtendedState (JFrame.NORMAL);
-			desktopFrame.setVisible (true);
-			desktopFrame.toFront ();
+			desktopFrame.setVisible(false);
+			desktopFrame.setExtendedState(JFrame.NORMAL);
+			desktopFrame.setVisible(true);
+			desktopFrame.toFront();
 		}
 		else
 		{
-			desktopFrame.setVisible (true);
-			desktopFrame.toFront ();
+			desktopFrame.setVisible(true);
+			desktopFrame.toFront();
 		}
 	}
 
@@ -982,31 +980,31 @@ public class AkteraAktarioGUI extends AktarioGUI implements ClientGUI
 	 *
 	 * @return The application window.
 	 */
-	public Window getMainWindow ()
+	public Window getMainWindow()
 	{
 		return desktopFrame;
 	}
 
-	private void initGui () throws Exception
+	private void initGui() throws Exception
 	{
-		Engine.instance ().setGUIFactory (swingGUIFactory);
+		Engine.instance().setGUIFactory(swingGUIFactory);
 
-		SwingEngine swingEngine = new SwingEngine (this);
+		SwingEngine swingEngine = new SwingEngine(this);
 
-		if (checkSystemOSOfWindowsOrLinux ())
+		if (checkSystemOSOfWindowsOrLinux())
 		{
 			if (tray == null)
 			{
 				try
 				{
-					tray = SystemTray.getSystemTray ();
-					participantIndicator = new IOverlayIcon (getIcon ("icon24"));
+					tray = SystemTray.getSystemTray();
+					participantIndicator = new IOverlayIcon(getIcon("icon24"));
 
-					participantIndicator.addOverlay ("message", 0, 12);
-					participantIndicator.addIcon ("message", "new", new ImageIcon (getClass ().getResource (
+					participantIndicator.addOverlay("message", 0, 12);
+					participantIndicator.addIcon("message", "new", new ImageIcon(getClass().getResource(
 									"/resources/emblem-message-12.png")));
 
-					systemTrayMenu = (JPopupMenu) swingEngine.render (getClass ().getResource ("/swixml/TrayMenu.xml"));
+					systemTrayMenu = (JPopupMenu) swingEngine.render(getClass().getResource("/swixml/TrayMenu.xml"));
 				}
 				catch (Exception ignored)
 				{
@@ -1014,109 +1012,109 @@ public class AkteraAktarioGUI extends AktarioGUI implements ClientGUI
 			}
 		}
 
-		SwingTagLibrary.getInstance ().registerTag ("filebrowser", FileBrowser.class);
+		SwingTagLibrary.getInstance().registerTag("filebrowser", FileBrowser.class);
 
-		swingEngine.setClassLoader (AkteraAktarioGUI.class.getClassLoader ());
+		swingEngine.setClassLoader(AkteraAktarioGUI.class.getClassLoader());
 
-		desktopFrame = new SwingDesktopFrame ();
-		desktopFrame.setTitle (getAppTitle ());
-		desktopFrame.setIconImage (getIcon ("icon16").getImage ());
-		desktopFrame.init ();
-		desktopFrame.addCloseListener (new ActionListener ()
+		desktopFrame = new SwingDesktopFrame();
+		desktopFrame.setTitle(getAppTitle());
+		desktopFrame.setIconImage(getIcon("icon16").getImage());
+		desktopFrame.init();
+		desktopFrame.addCloseListener(new ActionListener()
 		{
-			public void actionPerformed (ActionEvent e)
+			public void actionPerformed(ActionEvent e)
 			{
 				if (tray == null)
 				{
-					quitAction.actionPerformed (e);
+					quitAction.actionPerformed(e);
 				}
 				else
 				{
-					desktopFrame.setVisible (false);
+					desktopFrame.setVisible(false);
 				}
 			}
 		});
 
-		desktopFrame.addWindowListener (new WindowAdapter ()
+		desktopFrame.addWindowListener(new WindowAdapter()
 		{
 			@Override
-			public void windowIconified (WindowEvent e)
+			public void windowIconified(WindowEvent e)
 			{
-				desktopFrame.setExtendedState (JFrame.NORMAL);
-				desktopFrame.setVisible (true);
-				desktopFrame.setVisible (false);
+				desktopFrame.setExtendedState(JFrame.NORMAL);
+				desktopFrame.setVisible(true);
+				desktopFrame.setVisible(false);
 			}
 		});
 
-		desktopManager = new SwingDesktopManager ();
-		desktopManager.setDesktopFrame (desktopFrame);
+		desktopManager = new SwingDesktopManager();
+		desktopManager.setDesktopFrame(desktopFrame);
 
-		JFrame jframe = desktopFrame.getJFrame ();
+		JFrame jframe = desktopFrame.getJFrame();
 
-		jframe.getContentPane ().setLayout (new BorderLayout ());
+		jframe.getContentPane().setLayout(new BorderLayout());
 
-		IMenuBar menubar = (IMenuBar) swingEngine.render (getClass ().getResource ("/swixml/MenuBar.xml"));
+		IMenuBar menubar = (IMenuBar) swingEngine.render(getClass().getResource("/swixml/MenuBar.xml"));
 
-		jframe.setJMenuBar (menubar);
+		jframe.setJMenuBar(menubar);
 
-		toolbar = (IToolBar) swingEngine.render (getClass ().getResource ("/swixml/ToolBar.xml"));
+		toolbar = (IToolBar) swingEngine.render(getClass().getResource("/swixml/ToolBar.xml"));
 
-		desktopPane = new IDesktopPane ();
-		desktopPane.setDesktopManager (new MyDesktopLayouter ());
-		desktopManager.addDesktopPane (desktopPane);
-		jframe.getContentPane ().add (desktopPane, BorderLayout.CENTER);
+		desktopPane = new IDesktopPane();
+		desktopPane.setDesktopManager(new MyDesktopLayouter());
+		desktopManager.addDesktopPane(desktopPane);
+		jframe.getContentPane().add(desktopPane, BorderLayout.CENTER);
 
-		toolPanel = new JPanel ();
-		toolPanel.setLayout (new FlowLayout ());
-		addToolBarItems ();
-		toolPanel.revalidate ();
+		toolPanel = new JPanel();
+		toolPanel.setLayout(new FlowLayout());
+		addToolBarItems();
+		toolPanel.revalidate();
 
-		jframe.getContentPane ().add (toolPanel, BorderLayout.NORTH);
+		jframe.getContentPane().add(toolPanel, BorderLayout.NORTH);
 
-		JPanel statusBar = (JPanel) swingEngine.render (getClass ().getResource ("/swixml/StatusBar.xml"));
+		JPanel statusBar = (JPanel) swingEngine.render(getClass().getResource("/swixml/StatusBar.xml"));
 
-		jframe.getContentPane ().add (statusBar, BorderLayout.SOUTH);
+		jframe.getContentPane().add(statusBar, BorderLayout.SOUTH);
 
-		jframe.getToolkit ().addAWTEventListener (new AWTEventListener ()
+		jframe.getToolkit().addAWTEventListener(new AWTEventListener()
 		{
-			public void eventDispatched (AWTEvent e)
+			public void eventDispatched(AWTEvent e)
 			{
-				if (e.getSource () instanceof JComponent)
+				if (e.getSource() instanceof JComponent)
 				{
-					JRootPane root = ((JComponent) e.getSource ()).getRootPane ();
+					JRootPane root = ((JComponent) e.getSource()).getRootPane();
 
-					if (root != null && root.getGlassPane () instanceof ApplicationGlassPane)
+					if (root != null && root.getGlassPane() instanceof ApplicationGlassPane)
 					{
-						if (((ApplicationGlassPane) root.getGlassPane ()).isEnabled ())
+						if (((ApplicationGlassPane) root.getGlassPane()).isEnabled())
 						{
-							processApplicationPaneEvent (e);
+							processApplicationPaneEvent(e);
 						}
 					}
 				}
 			}
 		}, AWTEvent.MOUSE_EVENT_MASK | AWTEvent.MOUSE_MOTION_EVENT_MASK | AWTEvent.KEY_EVENT_MASK);
 
-		addExtrasMenuItems ();
+		addExtrasMenuItems();
 
-		addSystemTrayMenuItems ();
+		addSystemTrayMenuItems();
 
-		AppContext.instance ().put ("aktarioGui", this);
+		AppContext.instance().put("aktarioGui", this);
 
-		setColorScheme ("com.jgoodies.looks.plastic.theme.KDE");
+		setColorScheme("com.jgoodies.looks.plastic.theme.KDE");
 	}
 
 	/**
 	 * Describe method addToolMenuItems() here.
 	 *
 	 */
-	private void addExtrasMenuItems ()
+	private void addExtrasMenuItems()
 	{
-		AkteraAktarioClientManager aacm = (AkteraAktarioClientManager) Engine.instance ().getManager (
+		AkteraAktarioClientManager aacm = (AkteraAktarioClientManager) Engine.instance().getManager(
 						AkteraAktarioClientManager.ID);
 
-		for (IAction item : aacm.getExtrasMenuItems ())
+		for (IAction item : aacm.getExtrasMenuItems())
 		{
-			extrasMenu.add (item);
+			extrasMenu.add(item);
 		}
 	}
 
@@ -1124,18 +1122,18 @@ public class AkteraAktarioGUI extends AktarioGUI implements ClientGUI
 	 * Describe method addSystemTrayMenuItems() here.
 	 *
 	 */
-	private void addSystemTrayMenuItems ()
+	private void addSystemTrayMenuItems()
 	{
-		AkteraAktarioClientManager aacm = (AkteraAktarioClientManager) Engine.instance ().getManager (
+		AkteraAktarioClientManager aacm = (AkteraAktarioClientManager) Engine.instance().getManager(
 						AkteraAktarioClientManager.ID);
 
-		if (aacm.getSystemTrayMenuItems ().size () > 0)
+		if (aacm.getSystemTrayMenuItems().size() > 0)
 		{
-			systemTrayMenu.add (new JSeparator (JSeparator.HORIZONTAL), 0);
+			systemTrayMenu.add(new JSeparator(JSeparator.HORIZONTAL), 0);
 
-			for (JMenuItem item : aacm.getSystemTrayMenuItems ())
+			for (JMenuItem item : aacm.getSystemTrayMenuItems())
 			{
-				systemTrayMenu.add (item, 0);
+				systemTrayMenu.add(item, 0);
 			}
 		}
 	}
@@ -1144,18 +1142,18 @@ public class AkteraAktarioGUI extends AktarioGUI implements ClientGUI
 	 * Describe method addToolBarItems() here.
 	 *
 	 */
-	private void addToolBarItems ()
+	private void addToolBarItems()
 	{
-		AkteraAktarioClientManager aacm = (AkteraAktarioClientManager) Engine.instance ().getManager (
+		AkteraAktarioClientManager aacm = (AkteraAktarioClientManager) Engine.instance().getManager(
 						AkteraAktarioClientManager.ID);
 
-		for (IAction action : aacm.getToolBarItems ())
+		for (IAction action : aacm.getToolBarItems())
 		{
-			JButton button = new JButton (action);
+			JButton button = new JButton(action);
 
-			button.setBorderPainted (false);
-			button.setBorder (new EmptyBorder (new Insets (0, 4, 0, 4)));
-			toolPanel.add (button);
+			button.setBorderPainted(false);
+			button.setBorder(new EmptyBorder(new Insets(0, 4, 0, 4)));
+			toolPanel.add(button);
 		}
 	}
 }

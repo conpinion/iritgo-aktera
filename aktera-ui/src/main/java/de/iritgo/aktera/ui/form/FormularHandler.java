@@ -44,12 +44,12 @@ public class FormularHandler
 	private FormularHandler defaultHandler;
 
 	/** Our logger. */
-	protected Logger log = new NullLogger ();
+	protected Logger log = new NullLogger();
 
 	/**
 	 * Create a new formular handler.
 	 */
-	public FormularHandler ()
+	public FormularHandler()
 	{
 	}
 
@@ -58,15 +58,15 @@ public class FormularHandler
 	 *
 	 * @param handler Another formular handler.
 	 */
-	public FormularHandler (FormularHandler handler)
+	public FormularHandler(FormularHandler handler)
 	{
-		defaultHandler = new DefaultFormularHandler ();
+		defaultHandler = new DefaultFormularHandler();
 	}
 
 	/**
 	 * Set the default handler.
 	 */
-	public void setDefaultHandler (FormularHandler defaultHandler)
+	public void setDefaultHandler(FormularHandler defaultHandler)
 	{
 		this.defaultHandler = defaultHandler;
 	}
@@ -74,7 +74,7 @@ public class FormularHandler
 	/**
 	 * Get the default handler.
 	 */
-	public FormularHandler getDefaultHandler ()
+	public FormularHandler getDefaultHandler()
 	{
 		return defaultHandler;
 	}
@@ -86,15 +86,15 @@ public class FormularHandler
 	 * @param keyName Alternate id name.
 	 * @return The persistent id.
 	 */
-	public Object getPersistentId (ModelRequest request, String formName, String keyName)
+	public Object getPersistentId(ModelRequest request, String formName, String keyName)
 	{
-		if (! "Y".equals (request.getParameter ("new")))
+		if (! "Y".equals(request.getParameter("new")))
 		{
-			return defaultHandler.getPersistentId (request, formName, keyName);
+			return defaultHandler.getPersistentId(request, formName, keyName);
 		}
 		else
 		{
-			return new Integer (- 1);
+			return new Integer(- 1);
 		}
 	}
 
@@ -107,7 +107,7 @@ public class FormularHandler
 	 * @param response The model response.
 	 * @param formular The formular.
 	 */
-	public void prepareFormular (ModelRequest request, ModelResponse response, FormularDescriptor formular)
+	public void prepareFormular(ModelRequest request, ModelResponse response, FormularDescriptor formular)
 		throws ModelException, PersistenceException
 	{
 	}
@@ -119,7 +119,7 @@ public class FormularHandler
 	 * @param formular The formular.
 	 * @param persistents The persistent objects.
 	 */
-	public void afterLoad (ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents)
+	public void afterLoad(ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents)
 		throws ModelException, PersistenceException
 	{
 	}
@@ -133,7 +133,7 @@ public class FormularHandler
 	 * @param formular The formular.
 	 * @param persistents The persistent objects.
 	 */
-	public void adjustFormular (ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents)
+	public void adjustFormular(ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents)
 		throws ModelException, PersistenceException
 	{
 	}
@@ -148,10 +148,10 @@ public class FormularHandler
 	 * @param persistentConfig TODO
 	 * @param id The base id of the persistents to load.
 	 */
-	public void loadPersistents (ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents,
+	public void loadPersistents(ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents,
 					List<Configuration> persistentConfig, Integer id) throws ModelException, PersistenceException
 	{
-		defaultHandler.loadPersistents (request, formular, persistents, persistentConfig, id);
+		defaultHandler.loadPersistents(request, formular, persistents, persistentConfig, id);
 	}
 
 	/**
@@ -162,10 +162,10 @@ public class FormularHandler
 	 * @param formular The formular.
 	 * @param persistents The persistent objects.
 	 */
-	public void preStorePersistents (ModelRequest request, FormularDescriptor formular,
+	public void preStorePersistents(ModelRequest request, FormularDescriptor formular,
 					PersistentDescriptor persistents, boolean modified) throws ModelException, PersistenceException
 	{
-		defaultHandler.preStorePersistents (request, formular, persistents, modified);
+		defaultHandler.preStorePersistents(request, formular, persistents, modified);
 	}
 
 	/**
@@ -177,10 +177,10 @@ public class FormularHandler
 	 * @param persistents The persistent objects.
 	 * @param persistentConfig TODO
 	 */
-	public void updatePersistents (ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents,
+	public void updatePersistents(ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents,
 					List<Configuration> persistentConfig, boolean modified) throws ModelException, PersistenceException
 	{
-		defaultHandler.updatePersistents (request, formular, persistents, persistentConfig, modified);
+		defaultHandler.updatePersistents(request, formular, persistents, persistentConfig, modified);
 	}
 
 	/**
@@ -193,10 +193,10 @@ public class FormularHandler
 	 * @param persistentConfig TODO
 	 * @return Return The primary key of the new base persistent.
 	 */
-	public int createPersistents (ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents,
+	public int createPersistents(ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents,
 					List<Configuration> persistentConfig) throws ModelException, PersistenceException
 	{
-		return defaultHandler.createPersistents (request, formular, persistents, persistentConfig);
+		return defaultHandler.createPersistents(request, formular, persistents, persistentConfig);
 	}
 
 	/**
@@ -210,11 +210,11 @@ public class FormularHandler
 	 * @param create True if the persistents are about to be created.
 	 * @param result The validation result.
 	 */
-	public void validatePersistents (List<Configuration> persistentConfig, ModelRequest request,
-					ModelResponse response, FormularDescriptor formular, PersistentDescriptor persistents,
-					boolean create, ValidationResult result) throws ModelException, PersistenceException
+	public void validatePersistents(List<Configuration> persistentConfig, ModelRequest request, ModelResponse response,
+					FormularDescriptor formular, PersistentDescriptor persistents, boolean create,
+					ValidationResult result) throws ModelException, PersistenceException
 	{
-		defaultHandler.validatePersistents (persistentConfig, request, response, formular, persistents, create, result);
+		defaultHandler.validatePersistents(persistentConfig, request, response, formular, persistents, create, result);
 	}
 
 	/**
@@ -226,10 +226,10 @@ public class FormularHandler
 	 * @param persistent The persistent object.
 	 * @param systemDelete True if this is an internal system delete.
 	 */
-	public void deletePersistent (ModelRequest request, ModelResponse response, Object id, Persistent persistent,
+	public void deletePersistent(ModelRequest request, ModelResponse response, Object id, Persistent persistent,
 					boolean systemDelete) throws ModelException, PersistenceException
 	{
-		defaultHandler.deletePersistent (request, response, id, persistent, systemDelete);
+		defaultHandler.deletePersistent(request, response, id, persistent, systemDelete);
 	}
 
 	/**
@@ -241,10 +241,10 @@ public class FormularHandler
 	 * @param entity The persistent entity.
 	 * @param systemDelete True if this is an internal system delete.
 	 */
-	public void deletePersistent (ModelRequest request, ModelResponse response, Object id, Object entity,
+	public void deletePersistent(ModelRequest request, ModelResponse response, Object id, Object entity,
 					boolean systemDelete) throws ModelException, PersistenceException
 	{
-		defaultHandler.deletePersistent (request, response, id, entity, systemDelete);
+		defaultHandler.deletePersistent(request, response, id, entity, systemDelete);
 	}
 
 	/**
@@ -256,10 +256,10 @@ public class FormularHandler
 	 * @param systemDelete True if this is an internal system delete.
 	 * @param result True if the domain object was deleted
 	 */
-	public boolean canDeletePersistent (ModelRequest request, Object id, Persistent persistent, boolean systemDelete,
+	public boolean canDeletePersistent(ModelRequest request, Object id, Persistent persistent, boolean systemDelete,
 					ValidationResult result) throws ModelException, PersistenceException
 	{
-		return defaultHandler.canDeletePersistent (request, id, persistent, systemDelete, result);
+		return defaultHandler.canDeletePersistent(request, id, persistent, systemDelete, result);
 	}
 
 	/**
@@ -271,10 +271,10 @@ public class FormularHandler
 	 * @param systemDelete True if this is an internal system delete.
 	 * @param result True if the domain object was deleted
 	 */
-	public boolean canDeletePersistent (ModelRequest request, Object id, Object entity, boolean systemDelete,
+	public boolean canDeletePersistent(ModelRequest request, Object id, Object entity, boolean systemDelete,
 					ValidationResult result) throws ModelException, PersistenceException
 	{
-		return defaultHandler.canDeletePersistent (request, id, entity, systemDelete, result);
+		return defaultHandler.canDeletePersistent(request, id, entity, systemDelete, result);
 	}
 
 	/**
@@ -285,9 +285,9 @@ public class FormularHandler
 	 * @param field The error field.
 	 * @param message The error message.
 	 */
-	protected void addError (ModelResponse response, ValidationResult result, String field, String message)
+	protected void addError(ModelResponse response, ValidationResult result, String field, String message)
 	{
-		FormTools.addError (response, result, field, message);
+		FormTools.addError(response, result, field, message);
 	}
 
 	/**
@@ -299,10 +299,9 @@ public class FormularHandler
 	 * @param message The error message.
 	 * @param bundle The error message's resource bundle.
 	 */
-	protected void addError (ModelResponse response, ValidationResult result, String field, String message,
-					String bundle)
+	protected void addError(ModelResponse response, ValidationResult result, String field, String message, String bundle)
 	{
-		FormTools.addError (response, result, field, bundle + ":" + message);
+		FormTools.addError(response, result, field, bundle + ":" + message);
 	}
 
 	/**
@@ -310,9 +309,9 @@ public class FormularHandler
 	 *
 	 * @param log The new logger.
 	 */
-	public void setLogger (Logger log)
+	public void setLogger(Logger log)
 	{
-		this.log = log != null ? log : new NullLogger ();
+		this.log = log != null ? log : new NullLogger();
 	}
 
 	/**
@@ -320,7 +319,7 @@ public class FormularHandler
 	 *
 	 * @return The logger.
 	 */
-	public Logger getLogger ()
+	public Logger getLogger()
 	{
 		return log;
 	}
@@ -335,22 +334,22 @@ public class FormularHandler
 	 * @throws PermissionException If the current user has no permission to upload files
 	 * for another user
 	 */
-	protected Integer getActualUserId (ModelRequest request)
+	protected Integer getActualUserId(ModelRequest request)
 		throws PersistenceException, PermissionException, ModelException
 	{
-		if (! StringTools.isTrimEmpty (request.getParameter ("userId")))
+		if (! StringTools.isTrimEmpty(request.getParameter("userId")))
 		{
-			int userId = request.getParameterAsInt ("userId", - 1);
+			int userId = request.getParameterAsInt("userId", - 1);
 
-			if (! UserTools.currentUserIsInGroup (request, "manager") && UserTools.getCurrentUserId (request) != userId)
+			if (! UserTools.currentUserIsInGroup(request, "manager") && UserTools.getCurrentUserId(request) != userId)
 			{
-				throw new PermissionException ("Permission denied to edit com device function keys of user " + userId);
+				throw new PermissionException("Permission denied to edit com device function keys of user " + userId);
 			}
 
 			return userId;
 		}
 
-		return UserTools.getCurrentUserId (request);
+		return UserTools.getCurrentUserId(request);
 	}
 
 	/**
@@ -363,29 +362,29 @@ public class FormularHandler
 	 * @throws PermissionException If the current user has no permission to upload files
 	 * for another user
 	 */
-	protected String getActualUserName (ModelRequest request)
+	protected String getActualUserName(ModelRequest request)
 		throws PersistenceException, PermissionException, ModelException
 	{
-		PersistentFactory pf = (PersistentFactory) request.getService (PersistentFactory.ROLE, request.getDomain ());
+		PersistentFactory pf = (PersistentFactory) request.getService(PersistentFactory.ROLE, request.getDomain());
 
-		String userName = UserTools.getCurrentUserName (request);
+		String userName = UserTools.getCurrentUserName(request);
 
-		if (! StringTools.isTrimEmpty (request.getParameter ("userId")))
+		if (! StringTools.isTrimEmpty(request.getParameter("userId")))
 		{
-			int userId = request.getParameterAsInt ("userId", - 1);
+			int userId = request.getParameterAsInt("userId", - 1);
 
-			if (! UserTools.currentUserIsInGroup (request, "manager") && UserTools.getCurrentUserId (request) != userId)
+			if (! UserTools.currentUserIsInGroup(request, "manager") && UserTools.getCurrentUserId(request) != userId)
 			{
-				throw new PermissionException ("Permission denied to edit com device function keys of user " + userId);
+				throw new PermissionException("Permission denied to edit com device function keys of user " + userId);
 			}
 
 			try
 			{
-				Persistent user = pf.create ("keel.user");
+				Persistent user = pf.create("keel.user");
 
-				user.setField ("uid", userId);
-				user.find ();
-				userName = user.getFieldString ("name");
+				user.setField("uid", userId);
+				user.find();
+				userName = user.getFieldString("name");
 			}
 			catch (PersistenceException x)
 			{

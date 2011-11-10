@@ -59,14 +59,14 @@ public class IritgoObjectList implements Serializable
 	 *   null-allowed="false"
 	 *   primary-key="true"
 	 */
-	public Long getId ()
+	public Long getId()
 	{
 		return id;
 	}
 
 	/**
 	 */
-	public void setId (Long id)
+	public void setId(Long id)
 	{
 		this.id = id;
 	}
@@ -80,14 +80,14 @@ public class IritgoObjectList implements Serializable
 	 *   primary-key="true"
 	 *   length="64"
 	 */
-	public String getType ()
+	public String getType()
 	{
 		return type;
 	}
 
 	/**
 	 */
-	public void setType (String type)
+	public void setType(String type)
 	{
 		this.type = type;
 	}
@@ -101,14 +101,14 @@ public class IritgoObjectList implements Serializable
 	 *   null-allowed="false"
 	 *   primary-key="true"
 	 */
-	public String getAttribute ()
+	public String getAttribute()
 	{
 		return attribute;
 	}
 
 	/**
 	 */
-	public void setAttribute (String attribute)
+	public void setAttribute(String attribute)
 	{
 		this.attribute = attribute;
 	}
@@ -122,14 +122,14 @@ public class IritgoObjectList implements Serializable
 	 *   null-allowed="false"
 	 *   primary-key="true"
 	 */
-	public String getElemType ()
+	public String getElemType()
 	{
 		return elemType;
 	}
 
 	/**
 	 */
-	public void setElemType (String elemType)
+	public void setElemType(String elemType)
 	{
 		this.elemType = elemType;
 	}
@@ -142,14 +142,14 @@ public class IritgoObjectList implements Serializable
 	 *   null-allowed="false"
 	 *   primary-key="true"
 	 */
-	public Long getElemId ()
+	public Long getElemId()
 	{
 		return elemId;
 	}
 
 	/**
 	 */
-	public void setElemId (Long elemId)
+	public void setElemId(Long elemId)
 	{
 		this.elemId = elemId;
 	}

@@ -31,41 +31,41 @@ public class JavaScriptScriptCompiler implements ScriptCompiler
 
 		private org.mozilla.javascript.Script script;
 
-		public CompiledJavaScriptScript (String scriptName, org.mozilla.javascript.Script script)
+		public CompiledJavaScriptScript(String scriptName, org.mozilla.javascript.Script script)
 		{
 			this.scriptName = scriptName;
 			this.script = script;
 		}
 
 		@Override
-		public Object execute (String methodName, Object... args)
+		public Object execute(String methodName, Object... args)
 			throws ScriptMethodNotFoundException, ScriptExecutionException
 		{
-			Context ctx = Context.enter ();
-			Scriptable scope = new ImporterTopLevel (ctx);
-			script.exec (ctx, scope);
-			Function function = (Function) scope.get (methodName, scope);
-			return function.call (ctx, scope, scope, args);
+			Context ctx = Context.enter();
+			Scriptable scope = new ImporterTopLevel(ctx);
+			script.exec(ctx, scope);
+			Function function = (Function) scope.get(methodName, scope);
+			return function.call(ctx, scope, scope, args);
 		}
 	}
 
-	public CompiledScript compile (String scriptName, String scriptCode) throws ScriptCompilerException
+	public CompiledScript compile(String scriptName, String scriptCode) throws ScriptCompilerException
 	{
-		Context ctx = Context.enter ();
-		return new CompiledJavaScriptScript (scriptName, ctx.compileString (scriptCode, scriptName, 1, null));
+		Context ctx = Context.enter();
+		return new CompiledJavaScriptScript(scriptName, ctx.compileString(scriptCode, scriptName, 1, null));
 	}
 
-	public void check (String scriptCode) throws ScriptCompilerException
+	public void check(String scriptCode) throws ScriptCompilerException
 	{
-		Context ctx = Context.enter ();
-		Scriptable scope = new ImporterTopLevel (ctx);
+		Context ctx = Context.enter();
+		Scriptable scope = new ImporterTopLevel(ctx);
 		try
 		{
-			ctx.evaluateString (scope, scriptCode, "", 1, null);
+			ctx.evaluateString(scope, scriptCode, "", 1, null);
 		}
 		catch (Exception x)
 		{
-			throw new ScriptCompilerException (x);
+			throw new ScriptCompilerException(x);
 		}
 	}
 }

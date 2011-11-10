@@ -64,7 +64,7 @@ public class PersistentDescriptor implements Serializable
 		 * @param myKey The name of the our key attribute
 		 * @param condition Additional join condition
 		 */
-		public JoinInfo (String persistent, String key, String myKey, String condition)
+		public JoinInfo(String persistent, String key, String myKey, String condition)
 		{
 			this.persistent = persistent;
 			this.key = key;
@@ -79,9 +79,9 @@ public class PersistentDescriptor implements Serializable
 		 * @param key The name of the foreign key attribute
 		 * @param myKey The name of the our key attribute
 		 */
-		public JoinInfo (String persistent, String key, String myKey)
+		public JoinInfo(String persistent, String key, String myKey)
 		{
-			this (persistent, key, myKey, null);
+			this(persistent, key, myKey, null);
 		}
 
 		/**
@@ -89,7 +89,7 @@ public class PersistentDescriptor implements Serializable
 		 *
 		 * @return The persistent name
 		 */
-		public String getPersistent ()
+		public String getPersistent()
 		{
 			return persistent;
 		}
@@ -99,7 +99,7 @@ public class PersistentDescriptor implements Serializable
 		 *
 		 * @return The foreign key attribute
 		 */
-		public String getKey ()
+		public String getKey()
 		{
 			return key;
 		}
@@ -109,7 +109,7 @@ public class PersistentDescriptor implements Serializable
 		 *
 		 * @return Our key attribute
 		 */
-		public String getMyKey ()
+		public String getMyKey()
 		{
 			return myKey;
 		}
@@ -119,7 +119,7 @@ public class PersistentDescriptor implements Serializable
 		 *
 		 * @return The additional join condition
 		 */
-		public String getCondition ()
+		public String getCondition()
 		{
 			return condition;
 		}
@@ -151,21 +151,21 @@ public class PersistentDescriptor implements Serializable
 	 *
 	 * @param id The descriptor id
 	 */
-	public PersistentDescriptor (String id)
+	public PersistentDescriptor(String id)
 	{
 		this.id = id;
-		persistentMap = new HashMap<String, Persistent> ();
-		keys = new LinkedList<String> ();
-		attributes = new HashMap<String, Object> ();
-		joins = new HashMap<String, JoinInfo> ();
+		persistentMap = new HashMap<String, Persistent>();
+		keys = new LinkedList<String>();
+		attributes = new HashMap<String, Object>();
+		joins = new HashMap<String, JoinInfo>();
 	}
 
 	/**
 	 * Create a new PersistentDescriptor.
 	 */
-	public PersistentDescriptor ()
+	public PersistentDescriptor()
 	{
-		this (null);
+		this(null);
 	}
 
 	/**
@@ -173,7 +173,7 @@ public class PersistentDescriptor implements Serializable
 	 *
 	 * @return The descriptor id
 	 */
-	public String getId ()
+	public String getId()
 	{
 		return id;
 	}
@@ -185,11 +185,11 @@ public class PersistentDescriptor implements Serializable
 	 * @param persistent The persistent object
 	 * @return This descriptor
 	 */
-	public PersistentDescriptor put (String key, Persistent persistent)
+	public PersistentDescriptor put(String key, Persistent persistent)
 	{
 		lastKey = key;
-		persistentMap.put (key, persistent);
-		keys.add (key);
+		persistentMap.put(key, persistent);
+		keys.add(key);
 
 		return this;
 	}
@@ -201,9 +201,9 @@ public class PersistentDescriptor implements Serializable
 	 * @param bean The bean object
 	 * @return This descriptor
 	 */
-	public PersistentDescriptor put (String key, Object bean)
+	public PersistentDescriptor put(String key, Object bean)
 	{
-		attributes.put (key, bean);
+		attributes.put(key, bean);
 
 		return this;
 	}
@@ -214,9 +214,9 @@ public class PersistentDescriptor implements Serializable
 	 * @param key The attribute key
 	 * @param value The attribute value
 	 */
-	public void putAttribute (String key, Object value)
+	public void putAttribute(String key, Object value)
 	{
-		attributes.put (key.replace ('.', '_'), value);
+		attributes.put(key.replace('.', '_'), value);
 	}
 
 	/**
@@ -227,16 +227,16 @@ public class PersistentDescriptor implements Serializable
 	 * @param key The attribute key
 	 * @param value The attribute value
 	 */
-	public void putAttribute (Persistent persistent, String persistentName, String key, Object value)
+	public void putAttribute(Persistent persistent, String persistentName, String key, Object value)
 		throws PersistenceException
 	{
 		if (persistent != null)
 		{
-			persistent.setField (key, value);
+			persistent.setField(key, value);
 		}
 		else
 		{
-			putAttribute (! StringTools.isTrimEmpty (persistentName) ? persistentName + "_" + key : key, value);
+			putAttribute(! StringTools.isTrimEmpty(persistentName) ? persistentName + "_" + key : key, value);
 		}
 	}
 
@@ -246,9 +246,9 @@ public class PersistentDescriptor implements Serializable
 	 * @param key The attribute key
 	 * @param validValues The valid values
 	 */
-	public void putAttributeValidValues (String key, Map validValues)
+	public void putAttributeValidValues(String key, Map validValues)
 	{
-		putAttribute (key + "ValidValues", validValues);
+		putAttribute(key + "ValidValues", validValues);
 	}
 
 	/**
@@ -257,9 +257,9 @@ public class PersistentDescriptor implements Serializable
 	 * @param key The attribute key
 	 * @param validValues The valid values
 	 */
-	public void putValidValues (String key, Map validValues)
+	public void putValidValues(String key, Map validValues)
 	{
-		putAttributeValidValues (key, validValues);
+		putAttributeValidValues(key, validValues);
 	}
 
 	/**
@@ -269,23 +269,23 @@ public class PersistentDescriptor implements Serializable
 	 * @return The persistent or bean
 	 * @throws ModelException If the no persistent or bean was found
 	 */
-	public Object get (String name) throws ModelException
+	public Object get(String name) throws ModelException
 	{
-		Persistent persistent = persistentMap.get (name);
+		Persistent persistent = persistentMap.get(name);
 
 		if (persistent != null)
 		{
 			return persistent;
 		}
 
-		Object bean = attributes.get (name);
+		Object bean = attributes.get(name);
 
 		if (bean != null)
 		{
 			return bean;
 		}
 
-		throw new ModelException ("Unable to find persistent or bean '" + name + "' in persistent descriptor '" + id
+		throw new ModelException("Unable to find persistent or bean '" + name + "' in persistent descriptor '" + id
 						+ "'");
 	}
 
@@ -294,9 +294,9 @@ public class PersistentDescriptor implements Serializable
 	 *
 	 * @return True if there are persistent objects
 	 */
-	public boolean hasPersistents ()
+	public boolean hasPersistents()
 	{
-		return ! persistentMap.isEmpty ();
+		return ! persistentMap.isEmpty();
 	}
 
 	/**
@@ -305,9 +305,9 @@ public class PersistentDescriptor implements Serializable
 	 * @param name The name of the persistent
 	 * @return True if the persistent exists
 	 */
-	public boolean hasPersistent (String name) throws ModelException
+	public boolean hasPersistent(String name) throws ModelException
 	{
-		return persistentMap.containsKey (name);
+		return persistentMap.containsKey(name);
 	}
 
 	/**
@@ -317,16 +317,16 @@ public class PersistentDescriptor implements Serializable
 	 * @return The persistent or bean
 	 * @throws ModelException If the no persistent was found
 	 */
-	public Persistent getPersistent (String name) throws ModelException
+	public Persistent getPersistent(String name) throws ModelException
 	{
-		Persistent persistent = persistentMap.get (name);
+		Persistent persistent = persistentMap.get(name);
 
 		if (persistent != null)
 		{
 			return persistent;
 		}
 
-		throw new ModelException ("Unable to find persistent '" + name + "' in persistent descriptor '" + id + "'");
+		throw new ModelException("Unable to find persistent '" + name + "' in persistent descriptor '" + id + "'");
 	}
 
 	/**
@@ -335,15 +335,15 @@ public class PersistentDescriptor implements Serializable
 	 * @param name The name of the persistent
 	 * @return The persistent meta data or null if it wasn't found
 	 */
-	public PersistentMetaData getMetaData (String name)
+	public PersistentMetaData getMetaData(String name)
 	{
 		try
 		{
-			Persistent persistent = persistentMap.get (name);
+			Persistent persistent = persistentMap.get(name);
 
 			if (persistent != null)
 			{
-				return persistent.getMetaData ();
+				return persistent.getMetaData();
 			}
 		}
 		catch (PersistenceException ignored)
@@ -360,9 +360,9 @@ public class PersistentDescriptor implements Serializable
 	 * @return The attribute value
 	 * @throws ModelException If the persistent wasn't found
 	 */
-	public Object getAttribute (String key) throws ModelException
+	public Object getAttribute(String key) throws ModelException
 	{
-		return attributes.get (key.replace ('.', '_'));
+		return attributes.get(key.replace('.', '_'));
 	}
 
 	/**
@@ -370,7 +370,7 @@ public class PersistentDescriptor implements Serializable
 	 *
 	 * @return The attributes.
 	 */
-	public Map getAttributes ()
+	public Map getAttributes()
 	{
 		return attributes;
 	}
@@ -380,9 +380,9 @@ public class PersistentDescriptor implements Serializable
 	 *
 	 * @param key The attribute key
 	 */
-	public void removeAttribute (String key)
+	public void removeAttribute(String key)
 	{
-		attributes.remove (key.replace ('.', '_'));
+		attributes.remove(key.replace('.', '_'));
 	}
 
 	/**
@@ -391,9 +391,9 @@ public class PersistentDescriptor implements Serializable
 	 * @param key The attribute key
 	 * @return True if the descriptor contains the attribute
 	 */
-	public boolean containsAttribute (String key)
+	public boolean containsAttribute(String key)
 	{
-		return attributes.get (key.replace ('.', '_')) != null;
+		return attributes.get(key.replace('.', '_')) != null;
 	}
 
 	/**
@@ -402,9 +402,9 @@ public class PersistentDescriptor implements Serializable
 	 * @param key The attribute key
 	 * @return True if the descriptor contains the attribute
 	 */
-	public boolean hasAttribute (String key)
+	public boolean hasAttribute(String key)
 	{
-		return containsAttribute (key);
+		return containsAttribute(key);
 	}
 
 	/**
@@ -412,9 +412,9 @@ public class PersistentDescriptor implements Serializable
 	 *
 	 * @return A persistent key iterator.
 	 */
-	public Iterator keyIterator ()
+	public Iterator keyIterator()
 	{
-		return keys.iterator ();
+		return keys.iterator();
 	}
 
 	/**
@@ -424,11 +424,11 @@ public class PersistentDescriptor implements Serializable
 	 * @param key The name of the foreign key attribute
 	 * @param myKey The name of the our key attribute
 	 */
-	public PersistentDescriptor join (String persistent, String key, String myKey)
+	public PersistentDescriptor join(String persistent, String key, String myKey)
 	{
 		if (lastKey != null)
 		{
-			joins.put (lastKey, new JoinInfo (persistent, key, myKey));
+			joins.put(lastKey, new JoinInfo(persistent, key, myKey));
 		}
 
 		return this;
@@ -442,11 +442,11 @@ public class PersistentDescriptor implements Serializable
 	 * @param myKey The name of the our key attribute
 	 * @param condition Additional join condition
 	 */
-	public PersistentDescriptor join (String persistent, String key, String myKey, String condition)
+	public PersistentDescriptor join(String persistent, String key, String myKey, String condition)
 	{
 		if (lastKey != null)
 		{
-			joins.put (lastKey, new JoinInfo (persistent, key, myKey, condition));
+			joins.put(lastKey, new JoinInfo(persistent, key, myKey, condition));
 		}
 
 		return this;
@@ -461,9 +461,9 @@ public class PersistentDescriptor implements Serializable
 	 * @param myKey The name of the our key attribute
 	 * @param condition Additional join condition
 	 */
-	public void setJoin (String id, String persistent, String key, String myKey, String condition)
+	public void setJoin(String id, String persistent, String key, String myKey, String condition)
 	{
-		joins.put (id, new JoinInfo (persistent, key, myKey, condition));
+		joins.put(id, new JoinInfo(persistent, key, myKey, condition));
 	}
 
 	/**
@@ -472,9 +472,9 @@ public class PersistentDescriptor implements Serializable
 	 * @param key The persistent key
 	 * @return The join info
 	 */
-	public JoinInfo getJoin (String key)
+	public JoinInfo getJoin(String key)
 	{
-		return (JoinInfo) joins.get (key);
+		return (JoinInfo) joins.get(key);
 	}
 
 	/**
@@ -483,15 +483,15 @@ public class PersistentDescriptor implements Serializable
 	 * @param attributenName The attribute name
 	 * @param selected True if the attribute is selected
 	 */
-	public void setAttributeSelected (String attributeName, boolean selected)
+	public void setAttributeSelected(String attributeName, boolean selected)
 	{
 		if (selected)
 		{
-			putAttribute (attributeName + "_Selected", true);
+			putAttribute(attributeName + "_Selected", true);
 		}
 		else
 		{
-			removeAttribute (attributeName);
+			removeAttribute(attributeName);
 		}
 	}
 
@@ -503,8 +503,8 @@ public class PersistentDescriptor implements Serializable
 	 * @throws ModelException
 	 * @throws ModelException If the persistent wasn't found
 	 */
-	public boolean isAttributeSelected (String attributeName) throws ModelException
+	public boolean isAttributeSelected(String attributeName) throws ModelException
 	{
-		return getAttribute (attributeName + "_Selected") != null;
+		return getAttribute(attributeName + "_Selected") != null;
 	}
 }

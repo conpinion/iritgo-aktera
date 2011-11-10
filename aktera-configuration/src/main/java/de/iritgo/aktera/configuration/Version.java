@@ -62,7 +62,7 @@ public class Version implements Serializable
 	 *
 	 * @return The type.
 	 */
-	public String getType ()
+	public String getType()
 	{
 		return type;
 	}
@@ -72,7 +72,7 @@ public class Version implements Serializable
 	 *
 	 * @param type The new type.
 	 */
-	public void setType (String type)
+	public void setType(String type)
 	{
 		this.type = type;
 	}
@@ -91,7 +91,7 @@ public class Version implements Serializable
 	 *
 	 * @return The name.
 	 */
-	public String getName ()
+	public String getName()
 	{
 		return name;
 	}
@@ -101,7 +101,7 @@ public class Version implements Serializable
 	 *
 	 * @param name The new name.
 	 */
-	public void setName (String name)
+	public void setName(String name)
 	{
 		this.name = name;
 	}
@@ -120,7 +120,7 @@ public class Version implements Serializable
 	 *
 	 * @return The version.
 	 */
-	public String getVersion ()
+	public String getVersion()
 	{
 		return version;
 	}
@@ -130,7 +130,7 @@ public class Version implements Serializable
 	 *
 	 * @param version The new version.
 	 */
-	public void setVersion (String version)
+	public void setVersion(String version)
 	{
 		this.version = version;
 	}

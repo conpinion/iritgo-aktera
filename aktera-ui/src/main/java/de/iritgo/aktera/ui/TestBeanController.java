@@ -25,15 +25,15 @@ import de.iritgo.aktera.model.Command;
 
 public class TestBeanController extends AbstractUIController
 {
-	public void execute (UIRequest request, UIResponse response) throws UIControllerException
+	public void execute(UIRequest request, UIResponse response) throws UIControllerException
 	{
-		int num = request.getParameterAsInt ("num", 1);
+		int num = request.getParameterAsInt("num", 1);
 
-		response.addOutput ("name", "Alice-" + num);
+		response.addOutput("name", "Alice-" + num);
 
-		Command reload = response.createCommand ("reload", "de.iritgo.aktera.ui.TestBeanController");
+		Command reload = response.createCommand("reload", "de.iritgo.aktera.ui.TestBeanController");
 
-		reload.setParameter ("num", num + 1);
-		response.add (reload);
+		reload.setParameter("num", num + 1);
+		response.add(reload);
 	}
 }

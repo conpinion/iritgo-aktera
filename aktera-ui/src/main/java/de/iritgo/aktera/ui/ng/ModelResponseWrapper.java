@@ -41,164 +41,164 @@ public class ModelResponseWrapper implements ModelResponse
 
 	private transient int nextName = 0;
 
-	public ModelResponseWrapper (UIResponse response)
+	public ModelResponseWrapper(UIResponse response)
 	{
 		this.response = response;
 	}
 
-	public void add (ResponseElement re) throws ModelException
+	public void add(ResponseElement re) throws ModelException
 	{
-		response.add (re);
+		response.add(re);
 	}
 
-	public void addCommand (String model, String label) throws ModelException
+	public void addCommand(String model, String label) throws ModelException
 	{
-		response.addCommand (model, label);
+		response.addCommand(model, label);
 	}
 
-	public void addError (String errorName, String errorMessage)
+	public void addError(String errorName, String errorMessage)
 	{
-		response.addError (errorName, errorMessage);
+		response.addError(errorName, errorMessage);
 	}
 
-	public void addError (String errorName, String errorMessage, Throwable t)
+	public void addError(String errorName, String errorMessage, Throwable t)
 	{
-		response.addError (errorName, errorMessage, t);
+		response.addError(errorName, errorMessage, t);
 	}
 
-	public void addError (String errorName, Throwable t)
+	public void addError(String errorName, Throwable t)
 	{
-		response.addError (errorName, t);
+		response.addError(errorName, t);
 	}
 
-	public void addErrors (Map errors)
+	public void addErrors(Map errors)
 	{
-		response.addErrors (errors);
+		response.addErrors(errors);
 	}
 
-	public void addInput (String name, String label) throws ModelException
+	public void addInput(String name, String label) throws ModelException
 	{
-		response.addInput (name, label);
+		response.addInput(name, label);
 	}
 
-	public void addOutput (String name, String content) throws ModelException
+	public void addOutput(String name, String content) throws ModelException
 	{
-		response.addOutput (name, content);
+		response.addOutput(name, content);
 	}
 
-	public void addOutput (String content) throws ModelException
+	public void addOutput(String content) throws ModelException
 	{
 		String assignedName = "output_" + nextName;
 
 		nextName++;
-		addOutput (assignedName, content);
+		addOutput(assignedName, content);
 	}
 
-	public void clearErrors ()
+	public void clearErrors()
 	{
-		response.clearErrors ();
+		response.clearErrors();
 	}
 
-	public Command createCommand (String model) throws ModelException
+	public Command createCommand(String model) throws ModelException
 	{
 		Command newCommand = null;
 
-		newCommand = new DefaultCommand ();
-		newCommand.setName ("command_" + nextName);
+		newCommand = new DefaultCommand();
+		newCommand.setName("command_" + nextName);
 		nextName++;
-		newCommand.setBean (model);
+		newCommand.setBean(model);
 
 		return newCommand;
 	}
 
-	public Command createCommandRelativeSequence (int numberOfSteps) throws ModelException
+	public Command createCommandRelativeSequence(int numberOfSteps) throws ModelException
 	{
 		return null;
 	}
 
-	public Input createInput (String name) throws ModelException
+	public Input createInput(String name) throws ModelException
 	{
-		return response.createInput (name);
+		return response.createInput(name);
 	}
 
-	public Output createOutput (String name) throws ModelException
+	public Output createOutput(String name) throws ModelException
 	{
-		return response.createOutput (name);
+		return response.createOutput(name);
 	}
 
-	public Output createOutput (String name, String content) throws ModelException
+	public Output createOutput(String name, String content) throws ModelException
 	{
-		return response.createOutput (name, content);
+		return response.createOutput(name, content);
 	}
 
-	public KeelResponse deserialize (byte[] bytes) throws IOException
-	{
-		return null;
-	}
-
-	public ResponseElement get (String elementLocator)
-	{
-		return response.get (elementLocator);
-	}
-
-	public Iterator getAll ()
-	{
-		return response.getAll ();
-	}
-
-	public Object getAttribute (String key)
+	public KeelResponse deserialize(byte[] bytes) throws IOException
 	{
 		return null;
 	}
 
-	public Map getAttributes ()
+	public ResponseElement get(String elementLocator)
+	{
+		return response.get(elementLocator);
+	}
+
+	public Iterator getAll()
+	{
+		return response.getAll();
+	}
+
+	public Object getAttribute(String key)
 	{
 		return null;
 	}
 
-	public String getErrorType (String errorName)
-	{
-		return response.getErrorType (errorName);
-	}
-
-	public Map getErrors ()
-	{
-		return response.getErrors ();
-	}
-
-	public String getStackTrace (String errorName)
-	{
-		return response.getStackTrace (errorName);
-	}
-
-	public Throwable getThrowable (String oneKey)
-	{
-		return response.getThrowable (oneKey);
-	}
-
-	public void remove (ResponseElement re) throws ModelException
-	{
-		response.remove (re);
-	}
-
-	public void removeAttribute (String key)
-	{
-	}
-
-	public byte[] serialize () throws IOException
+	public Map getAttributes()
 	{
 		return null;
 	}
 
-	public void setAttribute (String key, Object value)
+	public String getErrorType(String errorName)
+	{
+		return response.getErrorType(errorName);
+	}
+
+	public Map getErrors()
+	{
+		return response.getErrors();
+	}
+
+	public String getStackTrace(String errorName)
+	{
+		return response.getStackTrace(errorName);
+	}
+
+	public Throwable getThrowable(String oneKey)
+	{
+		return response.getThrowable(oneKey);
+	}
+
+	public void remove(ResponseElement re) throws ModelException
+	{
+		response.remove(re);
+	}
+
+	public void removeAttribute(String key)
 	{
 	}
 
-	public void setDefaultsFromPrevious ()
+	public byte[] serialize() throws IOException
+	{
+		return null;
+	}
+
+	public void setAttribute(String key, Object value)
 	{
 	}
 
-	public void setRequest (ModelRequest req)
+	public void setDefaultsFromPrevious()
+	{
+	}
+
+	public void setRequest(ModelRequest req)
 	{
 	}
 }

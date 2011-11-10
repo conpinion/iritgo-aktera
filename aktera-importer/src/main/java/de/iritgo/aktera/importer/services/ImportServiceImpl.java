@@ -34,33 +34,33 @@ public class ImportServiceImpl implements ImportService
 	/** The import manager does the real work */
 	private ImportManager importManager;
 
-	public void setImportManager (ImportManager importManager)
+	public void setImportManager(ImportManager importManager)
 	{
 		this.importManager = importManager;
 	}
 
-	public void importXmlFile (File importFile, PrintWriter reporter)
+	public void importXmlFile(File importFile, PrintWriter reporter)
 	{
-		importManager.importXmlFile (importFile, reporter);
+		importManager.importXmlFile(importFile, reporter);
 	}
 
-	public void importXmlFile (File importFile, PrintWriter reporter, Properties properties)
+	public void importXmlFile(File importFile, PrintWriter reporter, Properties properties)
 	{
-		importManager.importXmlFile (importFile, reporter, properties);
+		importManager.importXmlFile(importFile, reporter, properties);
 	}
 
-	public void importXmlFile (File importFile, String importHandler, PrintWriter reporter)
+	public void importXmlFile(File importFile, String importHandler, PrintWriter reporter)
 	{
-		importManager.importXmlFile (importFile, importHandler, reporter);
+		importManager.importXmlFile(importFile, importHandler, reporter);
 	}
 
-	public void importXmlFile (File importFile, String importHandler, PrintWriter reporter, Properties properties)
+	public void importXmlFile(File importFile, String importHandler, PrintWriter reporter, Properties properties)
 	{
-		importManager.importXmlFile (importFile, importHandler, reporter, properties);
+		importManager.importXmlFile(importFile, importHandler, reporter, properties);
 	}
 
-	public boolean validateXmlFile (File importFile)
+	public boolean validateXmlFile(File importFile)
 	{
-		return importManager.validateXmlFile (importFile);
+		return importManager.validateXmlFile(importFile);
 	}
 }

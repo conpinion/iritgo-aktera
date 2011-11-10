@@ -49,107 +49,106 @@ public class UserDAOImpl extends HibernateDaoSupport implements UserDAO, UserDet
 	/**
 	 * @see de.iritgo.aktera.authentication.defaultauth.entity.UserDAO#findUserByName(java.lang.String)
 	 */
-	public AkteraUser findUserByName (String name)
+	public AkteraUser findUserByName(String name)
 	{
-		List<AkteraUser> res = getHibernateTemplate ().find ("from AkteraUser where name = ?", name);
-		return res.size () > 0 ? res.get (0) : null;
+		List<AkteraUser> res = getHibernateTemplate().find("from AkteraUser where name = ?", name);
+		return res.size() > 0 ? res.get(0) : null;
 	}
 
 	/**
 	 * @see de.iritgo.aktera.authentication.defaultauth.entity.UserDAO#findUserById(java.lang.Integer)
 	 */
-	public AkteraUser findUserById (Integer id)
+	public AkteraUser findUserById(Integer id)
 	{
-		return (AkteraUser) getHibernateTemplate ().get (AkteraUser.class, id);
+		return (AkteraUser) getHibernateTemplate().get(AkteraUser.class, id);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.authentication.defaultauth.entity.UserDAO#findAllUsers()
 	 */
-	public List<AkteraUser> findAllUsers ()
+	public List<AkteraUser> findAllUsers()
 	{
-		return getHibernateTemplate ().find ("from AkteraUser");
+		return getHibernateTemplate().find("from AkteraUser");
 	}
 
 	/**
 	 * @see de.iritgo.aktera.authentication.defaultauth.entity.UserDAO#listUsersOverview()
 	 */
-	public List<Tuple2<Integer, String>> listUsersOverview ()
+	public List<Tuple2<Integer, String>> listUsersOverview()
 	{
-		return getHibernateTemplate ()
-						.find ("select new de.iritgo.simplelife.data.Tuple2 (uid, name ) from AkteraUser");
+		return getHibernateTemplate().find("select new de.iritgo.simplelife.data.Tuple2 (uid, name ) from AkteraUser");
 	}
 
 	/**
 	 * @see de.iritgo.aktera.authentication.defaultauth.entity.UserDAO#listGroupIdsOfUserId(java.lang.Integer)
 	 */
-	public List<Integer> listGroupIdsOfUserId (Integer userId)
+	public List<Integer> listGroupIdsOfUserId(Integer userId)
 	{
-		return getHibernateTemplate ().find ("select groupId from AkteraGroupEntry where userId = ?", userId);
+		return getHibernateTemplate().find("select groupId from AkteraGroupEntry where userId = ?", userId);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.authentication.defaultauth.entity.UserDAO#updateUser(de.iritgo.aktera.authentication.defaultauth.entity.AkteraUser)
 	 */
 	@Transactional(readOnly = false)
-	public void updateUser (AkteraUser user)
+	public void updateUser(AkteraUser user)
 	{
-		getHibernateTemplate ().update (user);
+		getHibernateTemplate().update(user);
 	}
 
 	/**
 	 * @see org.springframework.security.userdetails.UserDetailsService#loadUserByUsername(java.lang.String)
 	 */
-	public UserDetails loadUserByUsername (String username) throws UsernameNotFoundException, DataAccessException
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, DataAccessException
 	{
-		AkteraUser user = findUserByName (username);
+		AkteraUser user = findUserByName(username);
 		if (user == null)
 		{
-			throw new UsernameNotFoundException ("User " + username + " not found");
+			throw new UsernameNotFoundException("User " + username + " not found");
 		}
-		return new UserDetailsImpl (user.getName (), user.getPassword ());
+		return new UserDetailsImpl(user.getName(), user.getPassword());
 	}
 
 	/**
 	 * @see de.iritgo.aktera.authentication.defaultauth.entity.UserDAO#findAllGroups()
 	 */
-	public List<AkteraGroup> findAllGroups ()
+	public List<AkteraGroup> findAllGroups()
 	{
-		return getHibernateTemplate ().find ("from AkteraGroup");
+		return getHibernateTemplate().find("from AkteraGroup");
 	}
 
 	/**
 	 * @see de.iritgo.aktera.authentication.defaultauth.entity.UserDAO#findGroupById(java.lang.Integer)
 	 */
-	public AkteraGroup findGroupById (Integer id)
+	public AkteraGroup findGroupById(Integer id)
 	{
-		List<AkteraGroup> res = getHibernateTemplate ().find ("from AkteraGroup where id = ?", id);
-		return res.size () > 0 ? res.get (0) : null;
+		List<AkteraGroup> res = getHibernateTemplate().find("from AkteraGroup where id = ?", id);
+		return res.size() > 0 ? res.get(0) : null;
 	}
 
 	/**
 	 * @see de.iritgo.aktera.authentication.defaultauth.entity.UserDAO#findGroupByName(java.lang.String)
 	 */
-	public AkteraGroup findGroupByName (String name)
+	public AkteraGroup findGroupByName(String name)
 	{
-		List<AkteraGroup> res = getHibernateTemplate ().find ("from AkteraGroup where name = ?", name);
-		return res.size () > 0 ? res.get (0) : null;
+		List<AkteraGroup> res = getHibernateTemplate().find("from AkteraGroup where name = ?", name);
+		return res.size() > 0 ? res.get(0) : null;
 	}
 
 	/**
 	 * @see de.iritgo.aktera.authentication.defaultauth.entity.UserDAO#findGroupsByUser(de.iritgo.aktera.authentication.defaultauth.entity.AkteraUser)
 	 */
-	public List<AkteraGroup> findGroupsByUser (AkteraUser user)
+	public List<AkteraGroup> findGroupsByUser(AkteraUser user)
 	{
-		HibernateTemplate htl = getHibernateTemplate ();
-		List<AkteraGroup> groups = new LinkedList ();
-		List<AkteraGroupEntry> entries = htl.find ("from AkteraGroupEntry where userId = ?", user.getId ());
+		HibernateTemplate htl = getHibernateTemplate();
+		List<AkteraGroup> groups = new LinkedList();
+		List<AkteraGroupEntry> entries = htl.find("from AkteraGroupEntry where userId = ?", user.getId());
 
 		for (AkteraGroupEntry entry : entries)
 		{
-			AkteraGroup group = (AkteraGroup) htl.get (AkteraGroup.class, entry.getGroupId ());
+			AkteraGroup group = (AkteraGroup) htl.get(AkteraGroup.class, entry.getGroupId());
 
-			groups.add (group);
+			groups.add(group);
 		}
 
 		return groups;
@@ -158,16 +157,16 @@ public class UserDAOImpl extends HibernateDaoSupport implements UserDAO, UserDet
 	/**
 	 * @see de.iritgo.aktera.authentication.defaultauth.entity.UserDAO#findUsersByGroup(de.iritgo.aktera.authentication.defaultauth.entity.AkteraGroup)
 	 */
-	public List<AkteraUser> findUsersByGroup (AkteraGroup group)
+	public List<AkteraUser> findUsersByGroup(AkteraGroup group)
 	{
-		HibernateTemplate htl = getHibernateTemplate ();
-		List<AkteraUser> users = new LinkedList ();
-		List<AkteraGroupEntry> entries = htl.find ("from AkteraGroupEntry where groupId = ?", group.getId ());
+		HibernateTemplate htl = getHibernateTemplate();
+		List<AkteraUser> users = new LinkedList();
+		List<AkteraGroupEntry> entries = htl.find("from AkteraGroupEntry where groupId = ?", group.getId());
 		for (AkteraGroupEntry entry : entries)
 		{
-			AkteraUser user = (AkteraUser) htl.get (AkteraUser.class, entry.getUserId ());
+			AkteraUser user = (AkteraUser) htl.get(AkteraUser.class, entry.getUserId());
 
-			users.add (user);
+			users.add(user);
 		}
 		return users;
 	}
@@ -176,43 +175,43 @@ public class UserDAOImpl extends HibernateDaoSupport implements UserDAO, UserDet
 	 * @see de.iritgo.aktera.authentication.defaultauth.entity.UserDAO#createUser(de.iritgo.aktera.authentication.defaultauth.entity.AkteraUser)
 	 */
 	@Transactional(readOnly = false)
-	public void createUser (AkteraUser user)
+	public void createUser(AkteraUser user)
 	{
-		getHibernateTemplate ().saveOrUpdate (user);
+		getHibernateTemplate().saveOrUpdate(user);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.authentication.defaultauth.entity.UserDAO#createGroupMember(de.iritgo.aktera.authentication.defaultauth.entity.GroupMembers)
 	 */
 	@Transactional(readOnly = false)
-	public void createGroupMember (GroupMembers groupMembers)
+	public void createGroupMember(GroupMembers groupMembers)
 	{
-		getHibernateTemplate ().saveOrUpdate (groupMembers);
+		getHibernateTemplate().saveOrUpdate(groupMembers);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.authentication.defaultauth.entity.UserDAO#userHasRole(de.iritgo.aktera.authentication.defaultauth.entity.AkteraUser, java.lang.String)
 	 */
-	public boolean userHasRole (AkteraUser user, String role)
+	public boolean userHasRole(AkteraUser user, String role)
 	{
-		return getHibernateTemplate ().find ("from GroupMembers where uid = ? and groupName = ?", new Object[]
+		return getHibernateTemplate().find("from GroupMembers where uid = ? and groupName = ?", new Object[]
 		{
-						user.getId (), role
-		}).size () > 0;
+						user.getId(), role
+		}).size() > 0;
 	}
 
 	/**
 	 * @see de.iritgo.aktera.authentication.defaultauth.entity.UserDAO#countNotSystemUsers()
 	 */
-	public long countNonSystemUsers ()
+	public long countNonSystemUsers()
 	{
-		return (Long) getHibernateTemplate ().execute (new HibernateCallback ()
+		return (Long) getHibernateTemplate().execute(new HibernateCallback()
 		{
-			public Object doInHibernate (Session session) throws HibernateException, SQLException
+			public Object doInHibernate(Session session) throws HibernateException, SQLException
 			{
-				Query query = session.createQuery ("select count (*) from AkteraUser where"
+				Query query = session.createQuery("select count (*) from AkteraUser where"
 								+ " name <> 'anonymous' and name <> 'admin' and name <> 'manager'");
-				return query.uniqueResult ();
+				return query.uniqueResult();
 			}
 		});
 	}
@@ -221,51 +220,49 @@ public class UserDAOImpl extends HibernateDaoSupport implements UserDAO, UserDet
 	 * @see de.iritgo.aktera.authentication.defaultauth.entity.UserDAO#createAkteraGroupEntry(de.iritgo.aktera.authentication.defaultauth.entity.AkteraGroupEntry)
 	 */
 	@Transactional(readOnly = false)
-	public void createAkteraGroupEntry (AkteraGroupEntry entry)
+	public void createAkteraGroupEntry(AkteraGroupEntry entry)
 	{
-		int maxPos = NumberTools
-						.toInt (getHibernateTemplate ().find (
-										"select max(position) from AkteraGroupEntry where groupId = ?",
-										entry.getGroupId ()).get (0), 0);
-		entry.setPosition (maxPos + 1);
-		getHibernateTemplate ().save (entry);
+		int maxPos = NumberTools.toInt(getHibernateTemplate().find(
+						"select max(position) from AkteraGroupEntry where groupId = ?", entry.getGroupId()).get(0), 0);
+		entry.setPosition(maxPos + 1);
+		getHibernateTemplate().save(entry);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.authentication.defaultauth.entity.UserDAO#findAkteraGroupEntryById(java.lang.Integer)
 	 */
-	public AkteraGroupEntry findAkteraGroupEntryById (Integer id)
+	public AkteraGroupEntry findAkteraGroupEntryById(Integer id)
 	{
-		return (AkteraGroupEntry) getHibernateTemplate ().get (AkteraGroupEntry.class, id);
+		return (AkteraGroupEntry) getHibernateTemplate().get(AkteraGroupEntry.class, id);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.authentication.defaultauth.entity.UserDAO#findAkteraGroupEntryByUserIdAndGroupId(java.lang.Integer, java.lang.Integer)
 	 */
-	public AkteraGroupEntry findAkteraGroupEntryByUserIdAndGroupId (Integer userId, Integer groupId)
+	public AkteraGroupEntry findAkteraGroupEntryByUserIdAndGroupId(Integer userId, Integer groupId)
 	{
-		List<AkteraGroupEntry> res = getHibernateTemplate ().find (
+		List<AkteraGroupEntry> res = getHibernateTemplate().find(
 						"from AkteraGroupEntry where userId = ? and groupId = ?", new Object[]
 						{
 										userId, groupId
 						});
-		return res.size () > 0 ? res.get (0) : null;
+		return res.size() > 0 ? res.get(0) : null;
 	}
 
 	/**
 	 * @see de.iritgo.aktera.authentication.defaultauth.entity.UserDAO#deleteAkteraGroupEntry(de.iritgo.aktera.authentication.defaultauth.entity.AkteraGroupEntry)
 	 */
 	@Transactional(readOnly = false)
-	public void deleteAkteraGroupEntry (AkteraGroupEntry entry)
+	public void deleteAkteraGroupEntry(AkteraGroupEntry entry)
 	{
-		getHibernateTemplate ().delete (entry);
-		for (AkteraGroupEntry otherEntry : (List<AkteraGroupEntry>) getHibernateTemplate ().find (
-						"from AkteraGroupEntry where groupId = ?", entry.getGroupId ()))
+		getHibernateTemplate().delete(entry);
+		for (AkteraGroupEntry otherEntry : (List<AkteraGroupEntry>) getHibernateTemplate().find(
+						"from AkteraGroupEntry where groupId = ?", entry.getGroupId()))
 		{
-			if (otherEntry.getPosition () > entry.getPosition ())
+			if (otherEntry.getPosition() > entry.getPosition())
 			{
-				otherEntry.setPosition (otherEntry.getPosition () - 1);
-				getHibernateTemplate ().update (otherEntry);
+				otherEntry.setPosition(otherEntry.getPosition() - 1);
+				getHibernateTemplate().update(otherEntry);
 			}
 		}
 
@@ -275,12 +272,12 @@ public class UserDAOImpl extends HibernateDaoSupport implements UserDAO, UserDet
 	 * @see de.iritgo.aktera.authentication.defaultauth.entity.UserDAO#deleteAkteraGroupEntriesOfUser(int)
 	 */
 	@Transactional(readOnly = false)
-	public void deleteAkteraGroupEntriesByUserId (int userId)
+	public void deleteAkteraGroupEntriesByUserId(int userId)
 	{
-		for (AkteraGroupEntry entry : (List<AkteraGroupEntry>) getHibernateTemplate ().find (
+		for (AkteraGroupEntry entry : (List<AkteraGroupEntry>) getHibernateTemplate().find(
 						"from AkteraGroupEntry where userId = ?", userId))
 		{
-			deleteAkteraGroupEntry (entry);
+			deleteAkteraGroupEntry(entry);
 		}
 	}
 
@@ -288,21 +285,21 @@ public class UserDAOImpl extends HibernateDaoSupport implements UserDAO, UserDet
 	 * @see de.iritgo.aktera.authentication.defaultauth.entity.UserDAO#moveDownAkteraGroupEntry(de.iritgo.aktera.authentication.defaultauth.entity.AkteraGroupEntry)
 	 */
 	@Transactional(readOnly = false)
-	public void moveDownAkteraGroupEntry (AkteraGroupEntry entry)
+	public void moveDownAkteraGroupEntry(AkteraGroupEntry entry)
 	{
-		int maxPos = (Integer) getHibernateTemplate ().find (
-						"select max(position) from AkteraGroupEntry where groupId = ?", entry.getGroupId ()).get (0);
-		if (entry.getPosition () < maxPos)
+		int maxPos = (Integer) getHibernateTemplate().find(
+						"select max(position) from AkteraGroupEntry where groupId = ?", entry.getGroupId()).get(0);
+		if (entry.getPosition() < maxPos)
 		{
-			AkteraGroupEntry nextEntry = (AkteraGroupEntry) getHibernateTemplate ().find (
+			AkteraGroupEntry nextEntry = (AkteraGroupEntry) getHibernateTemplate().find(
 							"from AkteraGroupEntry where groupId = ? and position = ?", new Object[]
 							{
-											entry.getGroupId (), entry.getPosition () + 1
-							}).get (0);
-			nextEntry.setPosition (entry.getPosition ());
-			getHibernateTemplate ().update (nextEntry);
-			entry.setPosition (entry.getPosition () + 1);
-			getHibernateTemplate ().update (entry);
+											entry.getGroupId(), entry.getPosition() + 1
+							}).get(0);
+			nextEntry.setPosition(entry.getPosition());
+			getHibernateTemplate().update(nextEntry);
+			entry.setPosition(entry.getPosition() + 1);
+			getHibernateTemplate().update(entry);
 		}
 	}
 
@@ -310,19 +307,19 @@ public class UserDAOImpl extends HibernateDaoSupport implements UserDAO, UserDet
 	 * @see de.iritgo.aktera.authentication.defaultauth.entity.UserDAO#moveUpAkteraGroupEntry(de.iritgo.aktera.authentication.defaultauth.entity.AkteraGroupEntry)
 	 */
 	@Transactional(readOnly = false)
-	public void moveUpAkteraGroupEntry (AkteraGroupEntry entry)
+	public void moveUpAkteraGroupEntry(AkteraGroupEntry entry)
 	{
-		if (entry.getPosition () > 1)
+		if (entry.getPosition() > 1)
 		{
-			AkteraGroupEntry prevEntry = (AkteraGroupEntry) getHibernateTemplate ().find (
+			AkteraGroupEntry prevEntry = (AkteraGroupEntry) getHibernateTemplate().find(
 							"from AkteraGroupEntry where groupId = ? and position = ?", new Object[]
 							{
-											entry.getGroupId (), entry.getPosition () - 1
-							}).get (0);
-			prevEntry.setPosition (entry.getPosition ());
-			getHibernateTemplate ().update (prevEntry);
-			entry.setPosition (entry.getPosition () - 1);
-			getHibernateTemplate ().update (entry);
+											entry.getGroupId(), entry.getPosition() - 1
+							}).get(0);
+			prevEntry.setPosition(entry.getPosition());
+			getHibernateTemplate().update(prevEntry);
+			entry.setPosition(entry.getPosition() - 1);
+			getHibernateTemplate().update(entry);
 		}
 	}
 }

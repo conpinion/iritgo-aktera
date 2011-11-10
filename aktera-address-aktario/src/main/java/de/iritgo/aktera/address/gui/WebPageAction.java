@@ -34,26 +34,26 @@ public class WebPageAction extends AbstractAction
 
 	private String homepage;
 
-	public WebPageAction (String homepage)
+	public WebPageAction(String homepage)
 	{
-		super ();
+		super();
 		this.homepage = homepage;
 	}
 
-	public void actionPerformed (ActionEvent e)
+	public void actionPerformed(ActionEvent e)
 	{
-		if (StringTools.isTrimEmpty (homepage))
+		if (StringTools.isTrimEmpty(homepage))
 		{
 			return;
 		}
 
 		try
 		{
-			Desktop.getDesktop ().browse (new URI (homepage));
+			Desktop.getDesktop().browse(new URI(homepage));
 		}
 		catch (Exception x)
 		{
-			System.err.println ("Error starting web client: " + x);
+			System.err.println("Error starting web client: " + x);
 		}
 	}
 }

@@ -123,162 +123,162 @@ public class TypeMapEntry
 	 */
 	private int numPrecRadix = 0;
 
-	public void setTypeName (String newName)
+	public void setTypeName(String newName)
 	{
 		typeName = newName;
 	}
 
-	public String getTypeName ()
+	public String getTypeName()
 	{
 		return typeName;
 	}
 
-	public void setDataType (short newType)
+	public void setDataType(short newType)
 	{
 		dataType = newType;
 	}
 
-	public int getDataType ()
+	public int getDataType()
 	{
 		return dataType;
 	}
 
-	public void setPrecision (int newPrecision)
+	public void setPrecision(int newPrecision)
 	{
 		precision = newPrecision;
 	}
 
-	public int getPrecision ()
+	public int getPrecision()
 	{
 		return precision;
 	}
 
-	public void setLiteralPrefix (String newPrefix)
+	public void setLiteralPrefix(String newPrefix)
 	{
 		literalPrefix = newPrefix;
 	}
 
-	public String getLiteralPrefix ()
+	public String getLiteralPrefix()
 	{
 		return literalPrefix;
 	}
 
-	public void setLiteralSuffix (String newSuffix)
+	public void setLiteralSuffix(String newSuffix)
 	{
 		literalSuffix = newSuffix;
 	}
 
-	public String getLiteralSuffix ()
+	public String getLiteralSuffix()
 	{
 		return literalSuffix;
 	}
 
-	public void setCreateParams (String newParams)
+	public void setCreateParams(String newParams)
 	{
 		createParams = newParams;
 	}
 
-	public String getCreateParams ()
+	public String getCreateParams()
 	{
 		return createParams;
 	}
 
-	public void setNullable (short newNullable)
+	public void setNullable(short newNullable)
 	{
 		nullable = newNullable;
 	}
 
-	public short getNullable ()
+	public short getNullable()
 	{
 		return nullable;
 	}
 
-	public void setCaseSensitive (boolean newCase)
+	public void setCaseSensitive(boolean newCase)
 	{
 		caseSensitive = newCase;
 	}
 
-	public boolean getCaseSensitive ()
+	public boolean getCaseSensitive()
 	{
 		return caseSensitive;
 	}
 
-	public void setSearchable (short newSearchable)
+	public void setSearchable(short newSearchable)
 	{
 		searchable = newSearchable;
 	}
 
-	public short getSearchable ()
+	public short getSearchable()
 	{
 		return searchable;
 	}
 
-	public void setFixedPrecision (boolean newPrecision)
+	public void setFixedPrecision(boolean newPrecision)
 	{
 		fixedPrecisionScale = newPrecision;
 	}
 
-	public boolean getFixedPrecision ()
+	public boolean getFixedPrecision()
 	{
 		return fixedPrecisionScale;
 	}
 
-	public void setUnsigned (boolean newUnsigned)
+	public void setUnsigned(boolean newUnsigned)
 	{
 		unsigned = newUnsigned;
 	}
 
-	public boolean getUnsigned ()
+	public boolean getUnsigned()
 	{
 		return unsigned;
 	}
 
-	public void setMaxScale (short newMax)
+	public void setMaxScale(short newMax)
 	{
 		maxScale = newMax;
 	}
 
-	public short getMaxScale ()
+	public short getMaxScale()
 	{
 		return maxScale;
 	}
 
-	public void setMinScale (short newMin)
+	public void setMinScale(short newMin)
 	{
 		minScale = newMin;
 	}
 
-	public short getMinScale ()
+	public short getMinScale()
 	{
 		return minScale;
 	}
 
-	public void setNumPrecRadix (int newPrec)
+	public void setNumPrecRadix(int newPrec)
 	{
 		numPrecRadix = newPrec;
 	}
 
-	public int getNumPrecRadix ()
+	public int getNumPrecRadix()
 	{
 		return numPrecRadix;
 	}
 
-	public void setAutoIncrement (boolean newAuto)
+	public void setAutoIncrement(boolean newAuto)
 	{
 		autoIncrement = newAuto;
 	}
 
-	public boolean getAutoIncrement ()
+	public boolean getAutoIncrement()
 	{
 		return autoIncrement;
 	}
 
-	public void setLocalTypeName (String newName)
+	public void setLocalTypeName(String newName)
 	{
 		localTypeName = newName;
 	}
 
-	public String getLocalTypeName ()
+	public String getLocalTypeName()
 	{
 		return localTypeName;
 	}

@@ -42,7 +42,7 @@ public class EmailServiceImpl implements EmailService
 	/**
 	 * Set the logger.
 	 */
-	public void setLogger (Logger logger)
+	public void setLogger(Logger logger)
 	{
 		this.logger = logger;
 	}
@@ -52,7 +52,7 @@ public class EmailServiceImpl implements EmailService
 	 *
 	 * @param debug True enables debugging
 	 */
-	public void setDebug (boolean debug)
+	public void setDebug(boolean debug)
 	{
 		this.debug = debug;
 	}
@@ -60,62 +60,62 @@ public class EmailServiceImpl implements EmailService
 	/**
 	 * @see de.iritgo.aktera.email.EmailService#sendEmail(de.iritgo.aktera.email.Email)
 	 */
-	public void sendEmail (Email email) throws EmailSendFailedException
+	public void sendEmail(Email email) throws EmailSendFailedException
 	{
 		try
 		{
-			org.apache.commons.mail.Email commonsEmail = email.getAttachmentFileName () != null ? new MultiPartEmail ()
-							: new SimpleEmail ();
+			org.apache.commons.mail.Email commonsEmail = email.getAttachmentFileName() != null ? new MultiPartEmail()
+							: new SimpleEmail();
 
-			commonsEmail.setDebug (debug);
+			commonsEmail.setDebug(debug);
 
-			commonsEmail.setHostName (email.getMailHost ());
-			commonsEmail.addTo (email.getTo (), email.getToName ());
+			commonsEmail.setHostName(email.getMailHost());
+			commonsEmail.addTo(email.getTo(), email.getToName());
 
-			if (email.getCC () != null)
+			if (email.getCC() != null)
 			{
-				commonsEmail.addCc (email.getCC ());
+				commonsEmail.addCc(email.getCC());
 			}
 
-			commonsEmail.setFrom (email.getFrom (), email.getName ());
-			commonsEmail.setSubject (email.getSubject ());
-			commonsEmail.setMsg (email.getBody ());
+			commonsEmail.setFrom(email.getFrom(), email.getName());
+			commonsEmail.setSubject(email.getSubject());
+			commonsEmail.setMsg(email.getBody());
 
-			if (! StringTools.isTrimEmpty (email.getReplyTo ()))
+			if (! StringTools.isTrimEmpty(email.getReplyTo()))
 			{
-				commonsEmail.addReplyTo (email.getReplyTo (), email.getReplyToName ());
+				commonsEmail.addReplyTo(email.getReplyTo(), email.getReplyToName());
 			}
 
-			if (! StringTools.isEmpty (email.getAuthName ()))
+			if (! StringTools.isEmpty(email.getAuthName()))
 			{
-				commonsEmail.setAuthentication (email.getAuthName (), email.getAuthPassword ());
+				commonsEmail.setAuthentication(email.getAuthName(), email.getAuthPassword());
 			}
 
-			if (StringTools.isTrimEmpty (email.getPort ()))
+			if (StringTools.isTrimEmpty(email.getPort()))
 			{
-				commonsEmail.setSmtpPort (25);
+				commonsEmail.setSmtpPort(25);
 			}
 			else
 			{
-				commonsEmail.setSmtpPort (NumberTools.toInt (email.getPort (), 25));
+				commonsEmail.setSmtpPort(NumberTools.toInt(email.getPort(), 25));
 			}
 
-			if (email.getAttachmentFileName () != null)
+			if (email.getAttachmentFileName() != null)
 			{
-				EmailAttachment attachment = new EmailAttachment ();
+				EmailAttachment attachment = new EmailAttachment();
 
-				attachment.setPath (email.getAttachmentFileName ());
-				attachment.setDisposition (EmailAttachment.ATTACHMENT);
-				attachment.setDescription (email.getAttachmentDescription ());
-				attachment.setName (email.getAttachmentName ());
-				commonsEmail = ((MultiPartEmail) commonsEmail).attach (attachment);
+				attachment.setPath(email.getAttachmentFileName());
+				attachment.setDisposition(EmailAttachment.ATTACHMENT);
+				attachment.setDescription(email.getAttachmentDescription());
+				attachment.setName(email.getAttachmentName());
+				commonsEmail = ((MultiPartEmail) commonsEmail).attach(attachment);
 			}
 
-			commonsEmail.send ();
+			commonsEmail.send();
 		}
 		catch (Exception x)
 		{
-			throw new EmailSendFailedException (x.getCause ().getMessage (), x.getCause ());
+			throw new EmailSendFailedException(x.getCause().getMessage(), x.getCause());
 		}
 	}
 }

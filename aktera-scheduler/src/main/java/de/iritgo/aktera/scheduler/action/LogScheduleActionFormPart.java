@@ -36,8 +36,8 @@ public class LogScheduleActionFormPart extends ScheduleActionFomPart
 	 * @see de.iritgo.aktera.scheduler.ui.ScheduleActionFomPart#createListInfo(ModelRequest, RowData)
 	 */
 	@Override
-	public String createListInfo (ModelRequest request, RowData row) throws PersistenceException, ModelException
+	public String createListInfo(ModelRequest request, RowData row) throws PersistenceException, ModelException
 	{
-		return "scheduleActionLogInfo|" + row.getString ("action.stringParam1");
+		return "scheduleActionLogInfo|" + row.getString("action.stringParam1");
 	}
 }

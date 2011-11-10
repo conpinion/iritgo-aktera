@@ -48,32 +48,32 @@ public class ShowJvmMemoryDiagram extends SecurableStandardLogEnabledModel
 	 * @param req The model request.
 	 * @return The model response.
 	 */
-	public ModelResponse execute (ModelRequest req) throws ModelException
+	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
-		ModelResponse res = req.createResponse ();
+		ModelResponse res = req.createResponse();
 
 		try
 		{
 			AkteraJvmMemoryManager jvmMemoryManager = (AkteraJvmMemoryManager) req
-							.getSpringBean (AkteraJvmMemoryManager.ID);
+							.getSpringBean(AkteraJvmMemoryManager.ID);
 
-			BufferedImage image = new BufferedImage (1024 + 91, 768 + 92, BufferedImage.TYPE_INT_RGB);
-			String name = req.getParameterAsString ("name");
+			BufferedImage image = new BufferedImage(1024 + 91, 768 + 92, BufferedImage.TYPE_INT_RGB);
+			String name = req.getParameterAsString("name");
 
-			jvmMemoryManager.generateGraph (name, image);
+			jvmMemoryManager.generateGraph(name, image);
 
-			ByteArrayOutputStream os = new ByteArrayOutputStream ();
+			ByteArrayOutputStream os = new ByteArrayOutputStream();
 
-			ImageIO.write (image, "jpg", os);
+			ImageIO.write(image, "jpg", os);
 
-			Output out = res.createOutput ("data");
+			Output out = res.createOutput("data");
 
-			out.setContent (os.toByteArray ());
-			res.add (out);
-			os.close ();
+			out.setContent(os.toByteArray());
+			res.add(out);
+			os.close();
 
-			res.addOutput ("contentType", "image/png");
-			res.addOutput ("diagram", "diagram.png");
+			res.addOutput("contentType", "image/png");
+			res.addOutput("diagram", "diagram.png");
 		}
 		catch (Exception x)
 		{

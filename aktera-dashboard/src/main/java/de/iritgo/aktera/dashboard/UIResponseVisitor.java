@@ -37,21 +37,21 @@ public class UIResponseVisitor extends GroupVisitor
 
 	protected List<ResponseElement> currentGroupItems;
 
-	public UIResponseVisitor ()
+	public UIResponseVisitor()
 	{
 	}
 
-	public UIResponseVisitor (UIResponse response)
+	public UIResponseVisitor(UIResponse response)
 	{
 		this.response = response;
 	}
 
-	public UIResponse getResponse ()
+	public UIResponse getResponse()
 	{
 		return response;
 	}
 
-	public Output getDashboardGroups ()
+	public Output getDashboardGroups()
 	{
 		return dashboardGroups;
 	}
@@ -60,7 +60,7 @@ public class UIResponseVisitor extends GroupVisitor
 	 * @see de.iritgo.aktera.dashboard.GroupVisitor#generate(de.iritgo.aktera.dashboard.items.SimpleNumberItem)
 	 */
 	@Override
-	public void generate (SimpleNumberItem simpleNumberItem)
+	public void generate(SimpleNumberItem simpleNumberItem)
 	{
 	}
 
@@ -69,42 +69,42 @@ public class UIResponseVisitor extends GroupVisitor
 	 *
 	 * @param dashboardGroup The dashboard group
 	 */
-	public void generate (DashboardGroup dashboardGroup)
+	public void generate(DashboardGroup dashboardGroup)
 	{
-		currentGroupItems = new LinkedList<ResponseElement> ();
+		currentGroupItems = new LinkedList<ResponseElement>();
 
 		if (response == null && parentVisitor != null)
 		{
-			response = ((UIResponseVisitor) parentVisitor).getResponse ();
-			dashboardGroups = ((UIResponseVisitor) parentVisitor).getDashboardGroups ();
+			response = ((UIResponseVisitor) parentVisitor).getResponse();
+			dashboardGroups = ((UIResponseVisitor) parentVisitor).getDashboardGroups();
 		}
 
-		Output group = response.createOutput (dashboardGroup.getId ());
+		Output group = response.createOutput(dashboardGroup.getId());
 
-		group.setContent (currentGroupItems);
-		group.setAttribute ("title", dashboardGroup.getTitle ());
-		group.setAttribute ("renderInclude", dashboardGroup.getRenderFile ());
-		dashboardGroups.add (group);
+		group.setContent(currentGroupItems);
+		group.setAttribute("title", dashboardGroup.getTitle());
+		group.setAttribute("renderInclude", dashboardGroup.getRenderFile());
+		dashboardGroups.add(group);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.dashboard.GroupVisitor#generate(de.iritgo.aktera.dashboard.items.SimpleTextItem)
 	 */
-	public void generate (SimpleTextItem simpleTextItem)
+	public void generate(SimpleTextItem simpleTextItem)
 	{
-		Output item = response.createOutput (simpleTextItem.getId ());
+		Output item = response.createOutput(simpleTextItem.getId());
 
-		item.setAttribute ("label", simpleTextItem.getLabel ());
-		item.setAttribute ("text", simpleTextItem.getText ());
-		item.setAttribute ("measuringUnit", simpleTextItem.getMeasuringUnit ());
-		item.setAttribute ("renderInclude", simpleTextItem.getRenderFile ());
-		currentGroupItems.add (item);
+		item.setAttribute("label", simpleTextItem.getLabel());
+		item.setAttribute("text", simpleTextItem.getText());
+		item.setAttribute("measuringUnit", simpleTextItem.getMeasuringUnit());
+		item.setAttribute("renderInclude", simpleTextItem.getRenderFile());
+		currentGroupItems.add(item);
 	}
 
-	public void init (UIResponse response)
+	public void init(UIResponse response)
 	{
 		this.response = response;
-		dashboardGroups = response.createOutput ("dashboardGroups");
-		response.add (dashboardGroups);
+		dashboardGroups = response.createOutput("dashboardGroups");
+		response.add(dashboardGroups);
 	}
 }

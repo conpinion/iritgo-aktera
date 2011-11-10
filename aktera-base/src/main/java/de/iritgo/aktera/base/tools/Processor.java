@@ -25,7 +25,7 @@ package de.iritgo.aktera.base.tools;
  */
 public class Processor
 {
-	public Object process (Object o, Object[] args)
+	public Object process(Object o, Object[] args)
 	{
 		return o;
 	}

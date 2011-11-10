@@ -33,28 +33,28 @@ public interface SecurityContext
 	 *
 	 * @return A security context
 	 */
-	org.springframework.security.core.context.SecurityContext getContext ();
+	org.springframework.security.core.context.SecurityContext getContext();
 
 	/**
 	 * Set the current security context.
 	 *
 	 * @param securityContext A security context
 	 */
-	void setContext (org.springframework.security.core.context.SecurityContext securityContext);
+	void setContext(org.springframework.security.core.context.SecurityContext securityContext);
 
 	/**
 	 * Get the name of the authenticated user.
 	 *
 	 * @return The user name
 	 */
-	public String getUserName ();
+	public String getUserName();
 
 	/**
 	 * Get the authenticated user DAO.
 	 *
 	 * @return The user DAO
 	 */
-	public AkteraUser getUser ();
+	public AkteraUser getUser();
 
 	/**
 	 * Check if the user has the specified role.
@@ -63,7 +63,7 @@ public interface SecurityContext
 	 * @param role The role name
 	 * @return True if the user has this role
 	 */
-	public boolean hasRole (AkteraUser user, String role);
+	public boolean hasRole(AkteraUser user, String role);
 
 	/**
 	 * Check if the user has got the specified role.
@@ -72,5 +72,5 @@ public interface SecurityContext
 	 * @param role The role name
 	 * @throws SecurityException If the user hasn't got the specified role
 	 */
-	public void checkRole (AkteraUser user, String role) throws SecurityException;
+	public void checkRole(AkteraUser user, String role) throws SecurityException;
 }

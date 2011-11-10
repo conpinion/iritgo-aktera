@@ -35,24 +35,24 @@ public class DatabaseScriptProvider extends HibernateDaoSupport implements Scrip
 	/**
 	 * @see de.iritgo.aktera.base.configuration.ScriptProvider#find(java.lang.String)
 	 */
-	public Script find (String scriptName) throws ScriptNotFoundException
+	public Script find(String scriptName) throws ScriptNotFoundException
 	{
-		List<Script> res = getHibernateTemplate ().find ("from Script where name = ?", scriptName);
+		List<Script> res = getHibernateTemplate().find("from Script where name = ?", scriptName);
 
-		if (res.size () > 0)
+		if (res.size() > 0)
 		{
-			return res.get (0);
+			return res.get(0);
 		}
 
-		throw new ScriptNotFoundException ("Script with name '" + scriptName + "' not found");
+		throw new ScriptNotFoundException("Script with name '" + scriptName + "' not found");
 	}
 
 	/**
 	 * @see de.iritgo.aktera.base.configuration.ScriptProvider#listScriptNames()
 	 */
-	public List<KeyedValue2<String, Integer, String>> listScriptNames ()
+	public List<KeyedValue2<String, Integer, String>> listScriptNames()
 	{
-		return getHibernateTemplate ().find (
+		return getHibernateTemplate().find(
 						"select new de.iritgo.simplelife.data.KeyedValue2 (name, id, displayName) from Script");
 	}
 
@@ -63,10 +63,10 @@ public class DatabaseScriptProvider extends HibernateDaoSupport implements Scrip
 	 *
 	 * @see de.iritgo.aktera.base.configuration.ScriptProvider#listScriptNamesByImplementedMethod(java.lang.String)
 	 */
-	public List<KeyedValue2<String, Integer, String>> listScriptNamesByImplementedMethod (String methodName)
+	public List<KeyedValue2<String, Integer, String>> listScriptNamesByImplementedMethod(String methodName)
 	{
-		return getHibernateTemplate ()
-						.find (
+		return getHibernateTemplate()
+						.find(
 										"select new de.iritgo.simplelife.data.KeyedValue2 (name, id, displayName) from Script where code like ?",
 										"%" + methodName + "%");
 	}
@@ -74,27 +74,27 @@ public class DatabaseScriptProvider extends HibernateDaoSupport implements Scrip
 	/**
 	 * @see de.iritgo.aktera.base.configuration.ScriptProvider#invalidate(java.lang.String)
 	 */
-	public void invalidate (String scriptName)
+	public void invalidate(String scriptName)
 	{
 	}
 
 	/**
 	 * @see de.iritgo.aktera.script.ScriptProvider#findScriptNameById(java.lang.Integer)
 	 */
-	public String findScriptNameById (Integer id)
+	public String findScriptNameById(Integer id)
 	{
-		List<String> res = getHibernateTemplate ().find ("select name from Script where id = ?", id);
+		List<String> res = getHibernateTemplate().find("select name from Script where id = ?", id);
 
-		return res.size () > 0 ? res.get (0) : null;
+		return res.size() > 0 ? res.get(0) : null;
 	}
 
 	/**
 	 * @see de.iritgo.aktera.script.ScriptProvider#findScriptDisplayNameById(java.lang.Integer)
 	 */
-	public String findScriptDisplayNameById (Integer id)
+	public String findScriptDisplayNameById(Integer id)
 	{
-		List<String> res = getHibernateTemplate ().find ("select displayName from Script where id = ?", id);
+		List<String> res = getHibernateTemplate().find("select displayName from Script where id = ?", id);
 
-		return res.size () > 0 ? res.get (0) : null;
+		return res.size() > 0 ? res.get(0) : null;
 	}
 }

@@ -45,46 +45,46 @@ public class CheckConfigChange extends StandardLogEnabledModel
 	 * @param req The model request.
 	 * @throws ModelException In case of a business failure.
 	 */
-	public ModelResponse execute (ModelRequest req) throws ModelException
+	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
-		ModelResponse res = req.createResponse ();
+		ModelResponse res = req.createResponse();
 
-		if (! UserTools.currentUserIsInGroup (req, "root"))
+		if (! UserTools.currentUserIsInGroup(req, "root"))
 		{
 			return res;
 		}
 
-		SystemConfigManager systemConfigManager = (SystemConfigManager) req.getSpringBean (SystemConfigManager.ID);
+		SystemConfigManager systemConfigManager = (SystemConfigManager) req.getSpringBean(SystemConfigManager.ID);
 
-		String state = systemConfigManager.getConfigState ();
+		String state = systemConfigManager.getConfigState();
 
-		if (SystemConfigManager.CHANGE_REBOOT.equals (state))
+		if (SystemConfigManager.CHANGE_REBOOT.equals(state))
 		{
-			Output out = res.createOutput ("warning", "configurationWasModifiedAndNeedsRebootHint");
+			Output out = res.createOutput("warning", "configurationWasModifiedAndNeedsRebootHint");
 
-			out.setAttribute ("bundle", "IPtellBase");
-			res.add (out);
+			out.setAttribute("bundle", "IPtellBase");
+			res.add(out);
 		}
-		else if (systemConfigManager.isRebootFlagSet ())
+		else if (systemConfigManager.isRebootFlagSet())
 		{
-			Output out = res.createOutput ("warning", "rebootIsNeededHint");
+			Output out = res.createOutput("warning", "rebootIsNeededHint");
 
-			out.setAttribute ("bundle", "IPtellBase");
-			res.add (out);
+			out.setAttribute("bundle", "IPtellBase");
+			res.add(out);
 		}
-		else if (systemConfigManager.configNeedsRestart ())
+		else if (systemConfigManager.configNeedsRestart())
 		{
-			Output out = res.createOutput ("warning", "restartIsNeededHint");
+			Output out = res.createOutput("warning", "restartIsNeededHint");
 
-			out.setAttribute ("bundle", "IPtellBase");
-			res.add (out);
+			out.setAttribute("bundle", "IPtellBase");
+			res.add(out);
 		}
-		else if (! SystemConfigManager.CHANGE_NO.equals (state))
+		else if (! SystemConfigManager.CHANGE_NO.equals(state))
 		{
-			Output out = res.createOutput ("warning", "configurationWasModifiedHint");
+			Output out = res.createOutput("warning", "configurationWasModifiedHint");
 
-			out.setAttribute ("bundle", "IPtellBase");
-			res.add (out);
+			out.setAttribute("bundle", "IPtellBase");
+			res.add(out);
 		}
 
 		return res;

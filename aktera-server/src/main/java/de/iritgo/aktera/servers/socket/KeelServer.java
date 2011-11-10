@@ -37,57 +37,57 @@ public class KeelServer
 
 	private static final String PREFIX = "[KeelServer] ";
 
-	static public void main (String[] args) throws Exception
+	static public void main(String[] args) throws Exception
 	{
-		KeelServer server = new KeelServer ();
+		KeelServer server = new KeelServer();
 
-		server.run (args);
+		server.run(args);
 	}
 
 	/**
 	 * This instance method is synchronized so that the calling thread may invoke wait()
 	 * @param args
 	 */
-	public synchronized void run (String[] args) throws Exception
+	public synchronized void run(String[] args) throws Exception
 	{
-		System.setProperty ("javax.xml.parsers.SAXParserFactory", "org.apache.xerces.jaxp.SAXParserFactoryImpl");
+		System.setProperty("javax.xml.parsers.SAXParserFactory", "org.apache.xerces.jaxp.SAXParserFactoryImpl");
 
-		String configPath = System.getProperty ("keel.config.dir");
+		String configPath = System.getProperty("keel.config.dir");
 
 		if (configPath == null)
 		{
-			System.err.println ("Please specify keel.config.dir system property");
-			System.exit (- 1);
+			System.err.println("Please specify keel.config.dir system property");
+			System.exit(- 1);
 		}
 
 		URL[] myClasspathURLs = null;
-		StringBuffer myClasspath = new StringBuffer ();
-		ClassLoader myClassLoader = this.getClass ().getClassLoader ();
+		StringBuffer myClasspath = new StringBuffer();
+		ClassLoader myClassLoader = this.getClass().getClassLoader();
 
 		//We need a list of URLs.  If classloader is the right type, we
 		// can acquire it's list.  Otherwise, just use the default
 		// classpath provided when this program was started
 		if (myClassLoader instanceof URLClassLoader)
 		{
-			myClasspathURLs = myClasspathURLs = ((URLClassLoader) myClassLoader).getURLs ();
+			myClasspathURLs = myClasspathURLs = ((URLClassLoader) myClassLoader).getURLs();
 
 			for (int i = 0; i < myClasspathURLs.length; i++)
 			{
-				myClasspath.append (myClasspathURLs[i].getFile ()).append (File.pathSeparatorChar);
+				myClasspath.append(myClasspathURLs[i].getFile()).append(File.pathSeparatorChar);
 			}
 		}
 		else
 		{
-			System.out.println (PREFIX + "Using default classpath [" + DEFAULT_CLASSPATH + "]");
-			myClasspath.append (System.getProperty (DEFAULT_CLASSPATH));
-			myClasspathURLs = new URLClassLoaderPath (myClasspath.toString ()).getURLArray ();
+			System.out.println(PREFIX + "Using default classpath [" + DEFAULT_CLASSPATH + "]");
+			myClasspath.append(System.getProperty(DEFAULT_CLASSPATH));
+			myClasspathURLs = new URLClassLoaderPath(myClasspath.toString()).getURLArray();
 		}
 
 		//Support 3rd party ClassLoaders like Forehead, use classpath used in call to main() 
 		//before defaulting to system classpath
-		if ((myClassLoader != ClassLoader.getSystemClassLoader ()) && (myClassLoader instanceof URLClassLoader))
+		if ((myClassLoader != ClassLoader.getSystemClassLoader()) && (myClassLoader instanceof URLClassLoader))
 		{
-			System.out.println ("Using current loader");
+			System.out.println("Using current loader");
 		}
 		else
 		{
@@ -98,10 +98,10 @@ public class KeelServer
 			// was included during deployment.
 			try
 			{
-				c = myClassLoader.loadClass ("de.iritgo.aktera.core.classloader.KeelWeavingClassLoader");
+				c = myClassLoader.loadClass("de.iritgo.aktera.core.classloader.KeelWeavingClassLoader");
 				//System.setProperty("aspectwerkz.transform.verbose", "yes");
 				//System.setProperty("aspectwerkz.transform.dump", "*");
-				System.setProperty ("aspectwerkz.definition.file", configPath + System.getProperty ("file.separator")
+				System.setProperty("aspectwerkz.definition.file", configPath + System.getProperty("file.separator")
 								+ "keelaop.xml");
 			}
 			catch (ClassNotFoundException e)
@@ -116,12 +116,12 @@ public class KeelServer
 			{
 				try
 				{
-					c = myClassLoader.loadClass ("de.iritgo.aktera.core.classloader.KeelURLClassLoader");
+					c = myClassLoader.loadClass("de.iritgo.aktera.core.classloader.KeelURLClassLoader");
 				}
 				catch (ClassNotFoundException e1)
 				{
-					System.err.println (PREFIX + "Could not instantiate KeelURLClassLoader classloader");
-					System.exit (- 1);
+					System.err.println(PREFIX + "Could not instantiate KeelURLClassLoader classloader");
+					System.exit(- 1);
 				}
 			}
 
@@ -130,41 +130,41 @@ public class KeelServer
 			{
 							URL[].class, ClassLoader.class
 			};
-			Constructor constructor = c.getConstructor (parmTypes);
+			Constructor constructor = c.getConstructor(parmTypes);
 			Object[] constructorArgs =
 			{
-							myClasspathURLs, ClassLoader.getSystemClassLoader ().getParent ()
+							myClasspathURLs, ClassLoader.getSystemClassLoader().getParent()
 			};
 
-			myClassLoader = (ClassLoader) constructor.newInstance (constructorArgs);
+			myClassLoader = (ClassLoader) constructor.newInstance(constructorArgs);
 		}
 
-		System.err.println (PREFIX + "Path:'" + myClasspath.toString () + "'");
-		System.err.println (PREFIX + "Server name is:" + System.getProperty ("keel.server.name"));
-		System.err.println (PREFIX + "Loader name is: " + myClassLoader);
-		System.err.println (PREFIX + "Loader parent is: " + myClassLoader.getParent ());
+		System.err.println(PREFIX + "Path:'" + myClasspath.toString() + "'");
+		System.err.println(PREFIX + "Server name is:" + System.getProperty("keel.server.name"));
+		System.err.println(PREFIX + "Loader name is: " + myClassLoader);
+		System.err.println(PREFIX + "Loader parent is: " + myClassLoader.getParent());
 
-		Class clazz = myClassLoader.loadClass ("de.iritgo.aktera.servers.socket.KeelSocketServer");
-		Thread myThread = (Thread) clazz.newInstance ();
+		Class clazz = myClassLoader.loadClass("de.iritgo.aktera.servers.socket.KeelSocketServer");
+		Thread myThread = (Thread) clazz.newInstance();
 
-		myThread.setDaemon (true);
+		myThread.setDaemon(true);
 
 		Class[] parmTypes =
 		{
 			ClassLoader.class
 		};
-		Method m = clazz.getMethod ("setContextClassLoader", parmTypes);
+		Method m = clazz.getMethod("setContextClassLoader", parmTypes);
 		Object[] parms =
 		{
 			myClassLoader
 		};
 
-		m.invoke (myThread, parms);
+		m.invoke(myThread, parms);
 
 		//Need to execute server as its own thread so that it resolves classpath appropriately. 
-		m = clazz.getMethod ("start", (Class[]) null);
-		m.invoke (myThread, (Object[]) null);
+		m = clazz.getMethod("start", (Class[]) null);
+		m.invoke(myThread, (Object[]) null);
 
-		wait ();
+		wait();
 	}
 }

@@ -44,20 +44,20 @@ public class BeanResponse implements UIResponse
 	private String forward;
 
 	/** Response elements */
-	private Map<String, ResponseElement> elements = new LinkedHashMap ();
+	private Map<String, ResponseElement> elements = new LinkedHashMap();
 
-	private Map errors = new LinkedHashMap ();
+	private Map errors = new LinkedHashMap();
 
-	private Map errorTypes = new LinkedHashMap ();
+	private Map errorTypes = new LinkedHashMap();
 
-	private Map throwables = new LinkedHashMap ();
+	private Map throwables = new LinkedHashMap();
 
 	private transient short errorDupCount = 1;
 
 	/**
 	 * @see de.iritgo.aktera.ui.UIResponse#setForward(java.lang.String)
 	 */
-	public void setForward (String forward)
+	public void setForward(String forward)
 	{
 		this.forward = forward;
 	}
@@ -65,7 +65,7 @@ public class BeanResponse implements UIResponse
 	/**
 	 * @see de.iritgo.aktera.ui.UIResponse#getForward()
 	 */
-	public String getForward ()
+	public String getForward()
 	{
 		return forward;
 	}
@@ -73,42 +73,42 @@ public class BeanResponse implements UIResponse
 	/**
 	 * @see de.iritgo.aktera.ui.UIResponse#get(java.lang.String)
 	 */
-	public ResponseElement get (String name)
+	public ResponseElement get(String name)
 	{
-		return elements.get (name);
+		return elements.get(name);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.ui.UIResponse#remove(java.lang.String)
 	 */
-	public void remove (String name)
+	public void remove(String name)
 	{
 		synchronized (elements)
 		{
-			elements.remove (name);
+			elements.remove(name);
 		}
 	}
 
 	/**
 	 * @see de.iritgo.aktera.ui.UIResponse#remove(de.iritgo.aktera.model.ResponseElement)
 	 */
-	public void remove (ResponseElement element)
+	public void remove(ResponseElement element)
 	{
-		remove (element.getName ());
+		remove(element.getName());
 	}
 
 	/**
 	 * @see de.iritgo.aktera.ui.UIResponse#getAll()
 	 */
-	public Iterator<ResponseElement> getAll ()
+	public Iterator<ResponseElement> getAll()
 	{
-		return elements.values ().iterator ();
+		return elements.values().iterator();
 	}
 
 	/**
 	 * @see de.iritgo.aktera.ui.UIResponse#getElements()
 	 */
-	public Map<String, ResponseElement> getElements ()
+	public Map<String, ResponseElement> getElements()
 	{
 		return elements;
 	}
@@ -116,27 +116,27 @@ public class BeanResponse implements UIResponse
 	/**
 	 * @see de.iritgo.aktera.ui.UIResponse#add(de.iritgo.aktera.model.ResponseElement)
 	 */
-	public void add (ResponseElement element)
+	public void add(ResponseElement element)
 	{
 		assert element != null;
-		assert StringTools.isNotTrimEmpty (element.getName ());
+		assert StringTools.isNotTrimEmpty(element.getName());
 
 		synchronized (elements)
 		{
-			elements.put (element.getName (), element);
+			elements.put(element.getName(), element);
 		}
 	}
 
 	/**
 	 * @see de.iritgo.aktera.ui.UIResponse#createOutput(java.lang.String)
 	 */
-	public Output createOutput (String name)
+	public Output createOutput(String name)
 	{
-		assert StringTools.isNotTrimEmpty (name);
+		assert StringTools.isNotTrimEmpty(name);
 
-		Output output = new DefaultOutput ();
+		Output output = new DefaultOutput();
 
-		output.setName (name);
+		output.setName(name);
 
 		return output;
 	}
@@ -145,11 +145,11 @@ public class BeanResponse implements UIResponse
 	 * @see de.iritgo.aktera.ui.UIResponse#createOutput(java.lang.String,
 	 *      java.lang.String)
 	 */
-	public Output createOutput (String name, String content)
+	public Output createOutput(String name, String content)
 	{
-		Output output = createOutput (name);
+		Output output = createOutput(name);
 
-		output.setContent (content);
+		output.setContent(content);
 
 		return output;
 	}
@@ -157,13 +157,13 @@ public class BeanResponse implements UIResponse
 	/**
 	 * @see de.iritgo.aktera.ui.UIResponse#createInput(java.lang.String)
 	 */
-	public Input createInput (String name)
+	public Input createInput(String name)
 	{
-		assert StringTools.isNotTrimEmpty (name);
+		assert StringTools.isNotTrimEmpty(name);
 
-		Input input = new DefaultInput ();
+		Input input = new DefaultInput();
 
-		input.setName (name);
+		input.setName(name);
 
 		return input;
 	}
@@ -172,13 +172,13 @@ public class BeanResponse implements UIResponse
 	 * @see de.iritgo.aktera.ui.UIResponse#createCommand(java.lang.String,
 	 *      java.lang.String)
 	 */
-	public Command createCommand (String name, String bean)
+	public Command createCommand(String name, String bean)
 	{
-		assert StringTools.isNotTrimEmpty (name);
-		Command command = new DefaultCommand ();
-		command.setName (name);
-		command.setBean (bean);
-		command.setLabel (name);
+		assert StringTools.isNotTrimEmpty(name);
+		Command command = new DefaultCommand();
+		command.setName(name);
+		command.setBean(bean);
+		command.setLabel(name);
 		return command;
 	}
 
@@ -186,15 +186,15 @@ public class BeanResponse implements UIResponse
 	 * @see de.iritgo.aktera.ui.UIResponse#createCommand(java.lang.String,
 	 *      java.lang.String, java.lang.String)
 	 */
-	public Command createCommand (String name, String bean, String label)
+	public Command createCommand(String name, String bean, String label)
 	{
-		assert StringTools.isNotTrimEmpty (name);
+		assert StringTools.isNotTrimEmpty(name);
 
-		Command command = new DefaultCommand ();
+		Command command = new DefaultCommand();
 
-		command.setName (name);
-		command.setBean (bean);
-		command.setLabel (label);
+		command.setName(name);
+		command.setBean(bean);
+		command.setLabel(label);
 
 		return command;
 	}
@@ -202,11 +202,11 @@ public class BeanResponse implements UIResponse
 	/**
 	 * @see de.iritgo.aktera.ui.UIResponse#addOutput(java.lang.String)
 	 */
-	public Output addOutput (String name)
+	public Output addOutput(String name)
 	{
-		Output newOutput = createOutput (name);
+		Output newOutput = createOutput(name);
 
-		add (newOutput);
+		add(newOutput);
 
 		return newOutput;
 	}
@@ -215,11 +215,11 @@ public class BeanResponse implements UIResponse
 	 * @see de.iritgo.aktera.ui.UIResponse#addOutput(java.lang.String,
 	 *      java.lang.String)
 	 */
-	public Output addOutput (String name, String content)
+	public Output addOutput(String name, String content)
 	{
-		Output newOutput = addOutput (name);
+		Output newOutput = addOutput(name);
 
-		newOutput.setContent (content);
+		newOutput.setContent(content);
 
 		return newOutput;
 	}
@@ -227,21 +227,21 @@ public class BeanResponse implements UIResponse
 	/**
 	 * @see de.iritgo.aktera.ui.UIResponse#addInput(java.lang.String)
 	 */
-	public Input addInput (String name)
+	public Input addInput(String name)
 	{
-		return addInput (name, name);
+		return addInput(name, name);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.ui.UIResponse#addInput(java.lang.String,
 	 *      java.lang.String)
 	 */
-	public Input addInput (String name, String label)
+	public Input addInput(String name, String label)
 	{
-		Input newInput = createInput (name);
+		Input newInput = createInput(name);
 		assert label != null;
-		newInput.setLabel (label);
-		add (newInput);
+		newInput.setLabel(label);
+		add(newInput);
 
 		return newInput;
 	}
@@ -250,21 +250,21 @@ public class BeanResponse implements UIResponse
 	 * @see de.iritgo.aktera.ui.UIResponse#addCommand(java.lang.String,
 	 *      java.lang.String)
 	 */
-	public Command addCommand (String name, String bean)
+	public Command addCommand(String name, String bean)
 	{
-		return addCommand (name, bean, name);
+		return addCommand(name, bean, name);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.ui.UIResponse#addCommand(java.lang.String,
 	 *      java.lang.String)
 	 */
-	public Command addCommand (String name, String bean, String label)
+	public Command addCommand(String name, String bean, String label)
 	{
-		Command command = createCommand (name, bean);
+		Command command = createCommand(name, bean);
 
-		command.setLabel (label);
-		add (command);
+		command.setLabel(label);
+		add(command);
 
 		return command;
 	}
@@ -273,13 +273,13 @@ public class BeanResponse implements UIResponse
 	 * @see de.iritgo.aktera.ui.UIResponse#addCommandWithModel(java.lang.String,
 	 *      java.lang.String)
 	 */
-	public Command addCommandWithModel (String name, String model)
+	public Command addCommandWithModel(String name, String model)
 	{
-		Command command = createCommand (name, null);
+		Command command = createCommand(name, null);
 
-		command.setLabel (name);
-		command.setModel (model);
-		add (command);
+		command.setLabel(name);
+		command.setModel(model);
+		add(command);
 
 		return command;
 	}
@@ -287,32 +287,32 @@ public class BeanResponse implements UIResponse
 	/**
 	 * @see de.iritgo.aktera.ui.UIResponse#addError(java.lang.String, java.lang.String)
 	 */
-	public void addError (String errorName, String errorMessage)
+	public void addError(String errorName, String errorMessage)
 	{
 		assert errorName != null;
 
-		ModelException ne = new ModelException ("Application Error");
+		ModelException ne = new ModelException("Application Error");
 
-		ne.fillInStackTrace ();
+		ne.fillInStackTrace();
 
-		Throwable existing = (Throwable) throwables.get (errorName);
+		Throwable existing = (Throwable) throwables.get(errorName);
 
-		if ((existing != null) && (! existing.equals (ne)))
+		if ((existing != null) && (! existing.equals(ne)))
 		{
 			synchronized (throwables)
 			{
-				throwables.put (errorName, ne);
+				throwables.put(errorName, ne);
 			}
 		}
 
-		addError (errorName, errorMessage, ne);
+		addError(errorName, errorMessage, ne);
 	}
 
-	private String uniqueErrorName (String errorName)
+	private String uniqueErrorName(String errorName)
 	{
 		String errorNameToUse = errorName;
 
-		if (errors.containsKey (errorName))
+		if (errors.containsKey(errorName))
 		{
 			errorNameToUse = errorNameToUse + errorDupCount;
 			errorDupCount++;
@@ -325,47 +325,47 @@ public class BeanResponse implements UIResponse
 	 * @see de.iritgo.aktera.ui.UIResponse#addError(java.lang.String,
 	 *      java.lang.String, java.lang.Throwable)
 	 */
-	public void addError (String errorName, String errorMessage, Throwable t)
+	public void addError(String errorName, String errorMessage, Throwable t)
 	{
-		String errorNameToUse = uniqueErrorName (errorName);
+		String errorNameToUse = uniqueErrorName(errorName);
 
-		if ((errorMessage == null) || errorMessage.equals (""))
+		if ((errorMessage == null) || errorMessage.equals(""))
 		{
 			errorMessage = "No Message Supplied";
 		}
 
-		String existing = (String) errors.get (errorNameToUse);
+		String existing = (String) errors.get(errorNameToUse);
 
-		if ((existing == null) || (existing.equals (errorMessage)))
+		if ((existing == null) || (existing.equals(errorMessage)))
 		{
 			synchronized (errors)
 			{
-				errors.put (errorNameToUse, errorMessage);
+				errors.put(errorNameToUse, errorMessage);
 			}
 		}
 
 		if (t != null)
 		{
-			Throwable existingThrowable = (Throwable) throwables.get (errorNameToUse);
+			Throwable existingThrowable = (Throwable) throwables.get(errorNameToUse);
 
-			if ((existingThrowable == null) || (! existingThrowable.equals (t)))
+			if ((existingThrowable == null) || (! existingThrowable.equals(t)))
 			{
 				synchronized (throwables)
 				{
-					throwables.put (errorNameToUse, t);
+					throwables.put(errorNameToUse, t);
 				}
 			}
 
-			String errorType = t.getClass ().getName ();
+			String errorType = t.getClass().getName();
 
 			if (t instanceof NestedException)
 			{
-				errorType = ((NestedException) t).getNestedExceptionType ();
+				errorType = ((NestedException) t).getNestedExceptionType();
 			}
 
 			synchronized (errorTypes)
 			{
-				errorTypes.put (errorNameToUse, errorType);
+				errorTypes.put(errorNameToUse, errorType);
 			}
 		}
 	}
@@ -374,15 +374,15 @@ public class BeanResponse implements UIResponse
 	 * @see de.iritgo.aktera.ui.UIResponse#addError(java.lang.String,
 	 *      java.lang.Throwable)
 	 */
-	public void addError (String errorName, Throwable t)
+	public void addError(String errorName, Throwable t)
 	{
-		addError (errorName, t.getMessage (), t);
+		addError(errorName, t.getMessage(), t);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.ui.UIResponse#addErrors(java.util.Map)
 	 */
-	public void addErrors (Map newErrors)
+	public void addErrors(Map newErrors)
 	{
 		if (newErrors == null)
 		{
@@ -392,20 +392,20 @@ public class BeanResponse implements UIResponse
 		String oneKey = null;
 		Object o = null;
 
-		for (Iterator i = newErrors.keySet ().iterator (); i.hasNext ();)
+		for (Iterator i = newErrors.keySet().iterator(); i.hasNext();)
 		{
-			oneKey = (String) i.next ();
-			o = newErrors.get (oneKey);
+			oneKey = (String) i.next();
+			o = newErrors.get(oneKey);
 
 			if (o instanceof Throwable)
 			{
 				Throwable t = (Throwable) o;
 
-				addError (oneKey, t.getMessage (), t);
+				addError(oneKey, t.getMessage(), t);
 			}
 			else if (o instanceof String)
 			{
-				addError (oneKey, (String) o);
+				addError(oneKey, (String) o);
 			}
 		}
 	}
@@ -413,18 +413,18 @@ public class BeanResponse implements UIResponse
 	/**
 	 * @see de.iritgo.aktera.ui.UIResponse#clearErrors()
 	 */
-	public void clearErrors ()
+	public void clearErrors()
 	{
 		synchronized (errors)
 		{
-			errors.clear ();
+			errors.clear();
 		}
 	}
 
 	/**
 	 * @see de.iritgo.aktera.ui.UIResponse#getErrors()
 	 */
-	public Map getErrors ()
+	public Map getErrors()
 	{
 		return errors;
 	}
@@ -432,30 +432,30 @@ public class BeanResponse implements UIResponse
 	/**
 	 * @see de.iritgo.aktera.ui.UIResponse#getThrowable(java.lang.String)
 	 */
-	public Throwable getThrowable (String oneKey)
+	public Throwable getThrowable(String oneKey)
 	{
 		assert oneKey != null;
 
-		return (Throwable) throwables.get (oneKey);
+		return (Throwable) throwables.get(oneKey);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.ui.UIResponse#getStackTrace(java.lang.String)
 	 */
-	public String getStackTrace (String errorName)
+	public String getStackTrace(String errorName)
 	{
 		assert errorName != null;
 
-		Throwable throwable = getThrowable (errorName);
+		Throwable throwable = getThrowable(errorName);
 
 		if (throwable != null)
 		{
-			StringWriter sw = new StringWriter ();
-			PrintWriter pw = new PrintWriter (sw);
+			StringWriter sw = new StringWriter();
+			PrintWriter pw = new PrintWriter(sw);
 
-			throwable.printStackTrace (pw);
+			throwable.printStackTrace(pw);
 
-			return sw.toString ();
+			return sw.toString();
 		}
 
 		return null;
@@ -464,8 +464,8 @@ public class BeanResponse implements UIResponse
 	/**
 	 * @see de.iritgo.aktera.ui.UIResponse#getErrorType(java.lang.String)
 	 */
-	public String getErrorType (String errorName)
+	public String getErrorType(String errorName)
 	{
-		return (String) errorTypes.get (errorName);
+		return (String) errorTypes.get(errorName);
 	}
 }

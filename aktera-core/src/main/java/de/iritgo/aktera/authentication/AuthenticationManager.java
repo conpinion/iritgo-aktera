@@ -46,25 +46,25 @@ public interface AuthenticationManager
 	/**
 	 * The Avalon role for the authentication service
 	 */
-	public static String ROLE = AuthenticationManager.class.getName ();
+	public static String ROLE = AuthenticationManager.class.getName();
 
 	/**
 	 * Set the user's login-name prior to login/logout
 	 * @param name The login name
 	 */
-	public void setUsername (String name);
+	public void setUsername(String name);
 
 	/**
 	 * Set the unencoded, text password prior to login/logout
 	 * @param password The supplied passowrd
 	 */
-	public void setPassword (String password);
+	public void setPassword(String password);
 
 	/**
 	 * The login domain.  Each domain has a unique schema and user/group mappings
 	 * @param domain The login domain
 	 */
-	public void setDomain (String domain);
+	public void setDomain(String domain);
 
 	/**
 	 * A place to hold arbitrary data that might be required by the various
@@ -72,23 +72,23 @@ public interface AuthenticationManager
 	 * should be passed in this map.
 	 * @param config Extra config items
 	 */
-	public void setOtherConfig (Map config);
+	public void setOtherConfig(Map config);
 
 	/**
 	 * Attempt to log the user in
 	 * @param ue The user environment which holds the login-context and JAAS subject
 	 * @throws LoginException
 	 */
-	public void login (UserEnvironment ue) throws LoginException;
+	public void login(UserEnvironment ue) throws LoginException;
 
 	/**
 	 * Attempt to log the user out
 	 * @param ue The user environment which holds the login-context and JAAS subject
 	 * @throws LoginException
 	 */
-	public void logout (UserEnvironment ue) throws LoginException;
+	public void logout(UserEnvironment ue) throws LoginException;
 
-	public String getDomainDescrip (String domainName);
+	public String getDomainDescrip(String domainName);
 
-	public List getAllowedDomains (String loginName);
+	public List getAllowedDomains(String loginName);
 }

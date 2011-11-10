@@ -28,17 +28,17 @@ package de.iritgo.aktera.usergroupmgr;
  */
 public interface UserManager
 {
-	public final static String ROLE = UserManager.class.getName ();
+	public final static String ROLE = UserManager.class.getName();
 
-	public User find (User.Property property, Object value) throws UserMgrException;
+	public User find(User.Property property, Object value) throws UserMgrException;
 
-	public User[] list () throws UserMgrException;
+	public User[] list() throws UserMgrException;
 
-	public User add (User user) throws UserMgrException;
+	public User add(User user) throws UserMgrException;
 
-	public boolean delete (User user) throws UserMgrException;
+	public boolean delete(User user) throws UserMgrException;
 
-	public boolean update (User user) throws UserMgrException;
+	public boolean update(User user) throws UserMgrException;
 
-	public User createUser (String name, String password, String email) throws UserMgrException;
+	public User createUser(String name, String password, String email) throws UserMgrException;
 }

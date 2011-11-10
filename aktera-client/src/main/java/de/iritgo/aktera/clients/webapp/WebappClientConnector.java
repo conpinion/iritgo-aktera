@@ -53,12 +53,12 @@ public interface WebappClientConnector extends ClientConnector
 	 * @throws ClientException
 	 * @throws ModelException
 	 */
-	public KeelResponse execute () throws ClientException, ModelException;
+	public KeelResponse execute() throws ClientException, ModelException;
 
 	/**
 	 * Determine a string that tells the client where to navigate next
 	 * @param kres The Keel response returned by execute()
 	 * @return
 	 */
-	public String getForward (KeelResponse kres);
+	public String getForward(KeelResponse kres);
 }

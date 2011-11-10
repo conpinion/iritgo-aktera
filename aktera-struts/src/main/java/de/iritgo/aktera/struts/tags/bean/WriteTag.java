@@ -39,7 +39,7 @@ public class WriteTag extends org.apache.struts.taglib.bean.WriteTag
 	/**
 	 * Get the convert newlines to br flag.
 	 */
-	public boolean getConvertNewlinesToBr ()
+	public boolean getConvertNewlinesToBr()
 	{
 		return convertNewlinesToBr;
 	}
@@ -47,7 +47,7 @@ public class WriteTag extends org.apache.struts.taglib.bean.WriteTag
 	/**
 	 * Set the convert newlines to br flag.
 	 */
-	public void setConvertNewlinesToBr (boolean convertNewlinesToBr)
+	public void setConvertNewlinesToBr(boolean convertNewlinesToBr)
 	{
 		this.convertNewlinesToBr = convertNewlinesToBr;
 	}
@@ -56,36 +56,36 @@ public class WriteTag extends org.apache.struts.taglib.bean.WriteTag
 	 * @see org.apache.struts.taglib.bean.WriteTag#doStartTag()
 	 */
 	@Override
-	public int doStartTag () throws JspException
+	public int doStartTag() throws JspException
 	{
 		if (ignore)
 		{
-			if (TagUtils.getInstance ().lookup (pageContext, name, scope) == null)
+			if (TagUtils.getInstance().lookup(pageContext, name, scope) == null)
 			{
 				return SKIP_BODY;
 			}
 		}
 
-		Object value = TagUtils.getInstance ().lookup (pageContext, name, property, scope);
+		Object value = TagUtils.getInstance().lookup(pageContext, name, property, scope);
 
 		if (value == null)
 		{
 			return SKIP_BODY;
 		}
 
-		String output = formatValue (value);
+		String output = formatValue(value);
 
 		if (filter)
 		{
-			output = ResponseUtils.filter (output);
+			output = ResponseUtils.filter(output);
 		}
 
 		if (convertNewlinesToBr)
 		{
-			output = output.replaceAll ("\n", "<br>");
+			output = output.replaceAll("\n", "<br>");
 		}
 
-		TagUtils.getInstance ().write (pageContext, output);
+		TagUtils.getInstance().write(pageContext, output);
 
 		return SKIP_BODY;
 	}

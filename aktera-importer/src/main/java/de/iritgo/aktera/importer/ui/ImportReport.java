@@ -49,64 +49,64 @@ public class ImportReport extends SecurableStandardLogEnabledModel
 	 * @param req The model request.
 	 * @return The model response.
 	 */
-	public ModelResponse execute (ModelRequest req) throws ModelException
+	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
-		I18N i18n = (I18N) req.getSpringBean (I18N.ID);
+		I18N i18n = (I18N) req.getSpringBean(I18N.ID);
 
-		ModelResponse res = req.createResponse ();
+		ModelResponse res = req.createResponse();
 
-		String backModel = req.getParameterAsString ("backModel");
+		String backModel = req.getParameterAsString("backModel");
 
-		res.setAttribute ("forward", "aktera.import.import-report");
+		res.setAttribute("forward", "aktera.import.import-report");
 
-		Output report = res.createOutput ("report");
+		Output report = res.createOutput("report");
 
-		res.add (report);
+		res.add(report);
 
 		String lastLine = null;
 
 		try
 		{
-			StringBuffer reportBuf = new StringBuffer ();
-			File reportFile = FileTools.newAkteraFile ("/var/tmp/iritgo/import-report.txt");
-			BufferedReader in = new BufferedReader (new FileReader (reportFile));
+			StringBuffer reportBuf = new StringBuffer();
+			File reportFile = FileTools.newAkteraFile("/var/tmp/iritgo/import-report.txt");
+			BufferedReader in = new BufferedReader(new FileReader(reportFile));
 			String line = null;
 
-			while ((line = in.readLine ()) != null)
+			while ((line = in.readLine()) != null)
 			{
-				reportBuf.append (line + "\n");
+				reportBuf.append(line + "\n");
 				lastLine = line;
 			}
 
-			report.setContent (reportBuf.toString ());
+			report.setContent(reportBuf.toString());
 		}
 		catch (IOException x)
 		{
 		}
 
-		if (i18n.msg (req, "Aktera", "reportFileResult", "OK").equals (lastLine))
+		if (i18n.msg(req, "Aktera", "reportFileResult", "OK").equals(lastLine))
 		{
-			Command cmdBack = res.createCommand (backModel);
+			Command cmdBack = res.createCommand(backModel);
 
-			cmdBack.setName ("cmdBack");
-			res.add (cmdBack);
+			cmdBack.setName("cmdBack");
+			res.add(cmdBack);
 		}
-		else if (i18n.msg (req, "Aktera", "reportFileResult", "ERROR").equals (lastLine))
+		else if (i18n.msg(req, "Aktera", "reportFileResult", "ERROR").equals(lastLine))
 		{
-			Command cmdBack = res.createCommand (backModel);
+			Command cmdBack = res.createCommand(backModel);
 
-			cmdBack.setName ("cmdBack");
-			res.add (cmdBack);
+			cmdBack.setName("cmdBack");
+			res.add(cmdBack);
 
-			res.add (res.createOutput ("error", "Y"));
+			res.add(res.createOutput("error", "Y"));
 		}
 		else
 		{
-			Command cmdReport = res.createCommand ("aktera.import.report");
+			Command cmdReport = res.createCommand("aktera.import.report");
 
-			cmdReport.setName ("cmdReport");
-			cmdReport.setParameter ("backModel", backModel);
-			res.add (cmdReport);
+			cmdReport.setName("cmdReport");
+			cmdReport.setParameter("backModel", backModel);
+			res.add(cmdReport);
 		}
 
 		return res;

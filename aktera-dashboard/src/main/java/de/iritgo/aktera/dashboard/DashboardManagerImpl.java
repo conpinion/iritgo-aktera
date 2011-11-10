@@ -32,7 +32,7 @@ public class DashboardManagerImpl implements DashboardManager
 	 *
 	 * @param dashboardBox Th
 	 */
-	public void setDashboardGroups (List<DashboardGroup> dashboardBoxes)
+	public void setDashboardGroups(List<DashboardGroup> dashboardBoxes)
 	{
 		this.dashboardBoxes = dashboardBoxes;
 	}
@@ -40,7 +40,7 @@ public class DashboardManagerImpl implements DashboardManager
 	/**
 	 * @see de.iritgo.aktera.dashboard.DashboardManager#getDashboardGroups()
 	 */
-	public List<DashboardGroup> getDashboardGroups ()
+	public List<DashboardGroup> getDashboardGroups()
 	{
 		return dashboardBoxes;
 	}

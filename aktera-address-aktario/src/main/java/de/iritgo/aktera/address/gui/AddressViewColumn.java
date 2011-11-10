@@ -30,17 +30,17 @@ import java.awt.event.MouseEvent;
 
 public class AddressViewColumn extends ITableColumn
 {
-	public AddressViewColumn ()
+	public AddressViewColumn()
 	{
-		setCellIcon (new ImageIcon (AddressClientManager.class.getResource ("/resources/find-12.png")));
+		setCellIcon(new ImageIcon(AddressClientManager.class.getResource("/resources/find-12.png")));
 	}
 
 	@Override
-	public void onCellClicked (Object item, JTable addressTable, MouseEvent e)
+	public void onCellClicked(Object item, JTable addressTable, MouseEvent e)
 	{
-		AddressViewDialog dialog = new AddressViewDialog ();
+		AddressViewDialog dialog = new AddressViewDialog();
 		Address address = (Address) item;
 
-		dialog.show (address.getStoreId (), address.getId ());
+		dialog.show(address.getStoreId(), address.getId());
 	}
 }

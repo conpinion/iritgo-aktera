@@ -38,7 +38,7 @@ import de.iritgo.simplelife.math.NumberTools;
 public class AddressPermissionFormPart extends PermissionFormPart
 {
 	@Override
-	public String[] getPermissionKeys ()
+	public String[] getPermissionKeys()
 	{
 		return new String[]
 		{
@@ -53,27 +53,27 @@ public class AddressPermissionFormPart extends PermissionFormPart
 	private AddressDAO addressDAO;
 
 	@Override
-	public String createListInfo (ModelRequest request, RowData data) throws PersistenceException, ModelException
+	public String createListInfo(ModelRequest request, RowData data) throws PersistenceException, ModelException
 	{
-		AddressStore store = addressDAO.getAddressStoreById (NumberTools.toInt (data.get ("objectId"), - 1));
-		return "addressStorePermissionInfo|" + store.getDisplayedTitle ();
+		AddressStore store = addressDAO.getAddressStoreById(NumberTools.toInt(data.get("objectId"), - 1));
+		return "addressStorePermissionInfo|" + store.getDisplayedTitle();
 	}
 
 	@Override
-	public void adjustFormular (ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents)
+	public void adjustFormular(ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents)
 		throws ModelException, PersistenceException
 	{
-		TreeMap stores = new TreeMap ();
-		persistents.putAttributeValidValues ("permission.objectId", stores);
-		stores.put ("", "$opt-");
-		for (AddressStore store : addressDAO.findAllAddressStores ())
+		TreeMap stores = new TreeMap();
+		persistents.putAttributeValidValues("permission.objectId", stores);
+		stores.put("", "$opt-");
+		for (AddressStore store : addressDAO.findAllAddressStores())
 		{
-			stores.put (store.getId ().toString (), store.getDisplayedTitle ());
+			stores.put(store.getId().toString(), store.getDisplayedTitle());
 		}
 	}
 
 	@Override
-	public void validatePersistents (ModelRequest request, ModelResponse response, FormularDescriptor formular,
+	public void validatePersistents(ModelRequest request, ModelResponse response, FormularDescriptor formular,
 					PersistentDescriptor persistents, boolean create, ValidationResult result)
 		throws ModelException, PersistenceException
 	{

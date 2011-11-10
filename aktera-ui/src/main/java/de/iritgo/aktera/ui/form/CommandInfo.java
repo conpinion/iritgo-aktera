@@ -80,7 +80,7 @@ public class CommandInfo implements Cloneable
 	/**
 	 * Create an empty Command.
 	 */
-	protected CommandInfo ()
+	protected CommandInfo()
 	{
 	}
 
@@ -93,15 +93,15 @@ public class CommandInfo implements Cloneable
 	 * @param icon The command icon.
 	 * @param style The command style.
 	 */
-	public CommandInfo (String model, String name, String label, String icon, String style)
+	public CommandInfo(String model, String name, String label, String icon, String style)
 	{
 		this.model = model;
 		this.name = name;
 		this.label = label;
 		this.icon = icon;
 		this.style = style;
-		parameters = new HashMap<String, Object> ();
-		attributes = new HashMap<String, Object> ();
+		parameters = new HashMap<String, Object>();
+		attributes = new HashMap<String, Object>();
 	}
 
 	/**
@@ -112,9 +112,9 @@ public class CommandInfo implements Cloneable
 	 * @param label The command label.
 	 * @param icon The command icon.
 	 */
-	public CommandInfo (String model, String name, String label, String icon)
+	public CommandInfo(String model, String name, String label, String icon)
 	{
-		this (model, name, label, icon, null);
+		this(model, name, label, icon, null);
 	}
 
 	/**
@@ -124,9 +124,9 @@ public class CommandInfo implements Cloneable
 	 * @param name The command name.
 	 * @param label The command label.
 	 */
-	public CommandInfo (String model, String name, String label)
+	public CommandInfo(String model, String name, String label)
 	{
-		this (model, name, label, null);
+		this(model, name, label, null);
 	}
 
 	/**
@@ -135,9 +135,9 @@ public class CommandInfo implements Cloneable
 	 * @param model The command model.
 	 * @param label The command label.
 	 */
-	public CommandInfo (String model, String label)
+	public CommandInfo(String model, String label)
 	{
-		this (model, null, label, null);
+		this(model, null, label, null);
 	}
 
 	/**
@@ -145,7 +145,7 @@ public class CommandInfo implements Cloneable
 	 *
 	 * @return The new command model.
 	 */
-	public void setModel (String model)
+	public void setModel(String model)
 	{
 		this.model = model;
 	}
@@ -155,7 +155,7 @@ public class CommandInfo implements Cloneable
 	 *
 	 * @return The command model.
 	 */
-	public String getModel ()
+	public String getModel()
 	{
 		return model;
 	}
@@ -165,7 +165,7 @@ public class CommandInfo implements Cloneable
 	 *
 	 * @return The command name.
 	 */
-	public String getName ()
+	public String getName()
 	{
 		return name;
 	}
@@ -175,7 +175,7 @@ public class CommandInfo implements Cloneable
 	 *
 	 * @return The command label.
 	 */
-	public String getLabel ()
+	public String getLabel()
 	{
 		return label;
 	}
@@ -185,7 +185,7 @@ public class CommandInfo implements Cloneable
 	 *
 	 * @return The resource bundle.
 	 */
-	public String getBundle ()
+	public String getBundle()
 	{
 		return bundle;
 	}
@@ -195,7 +195,7 @@ public class CommandInfo implements Cloneable
 	 *
 	 * @param bundle The new resource bundle.
 	 */
-	public void setBundle (String bundle)
+	public void setBundle(String bundle)
 	{
 		this.bundle = bundle;
 	}
@@ -205,7 +205,7 @@ public class CommandInfo implements Cloneable
 	 *
 	 * @return The command icon.
 	 */
-	public String getIcon ()
+	public String getIcon()
 	{
 		return icon;
 	}
@@ -215,7 +215,7 @@ public class CommandInfo implements Cloneable
 	 *
 	 * @param icon The new command icon.
 	 */
-	public void setIcon (String icon)
+	public void setIcon(String icon)
 	{
 		this.icon = icon;
 	}
@@ -225,7 +225,7 @@ public class CommandInfo implements Cloneable
 	 *
 	 * @param visible True for a visible command.
 	 */
-	public void setVisible (boolean visible)
+	public void setVisible(boolean visible)
 	{
 		this.visible = visible;
 	}
@@ -235,7 +235,7 @@ public class CommandInfo implements Cloneable
 	 *
 	 * @return True for a visible command.
 	 */
-	public boolean isVisible ()
+	public boolean isVisible()
 	{
 		return visible;
 	}
@@ -247,9 +247,9 @@ public class CommandInfo implements Cloneable
 	 * @param value Parameter value.
 	 * @return This command info.
 	 */
-	public CommandInfo addParameter (String name, Object value)
+	public CommandInfo addParameter(String name, Object value)
 	{
-		parameters.put (name, value);
+		parameters.put(name, value);
 
 		return this;
 	}
@@ -259,7 +259,7 @@ public class CommandInfo implements Cloneable
 	 *
 	 * @return The command parameters.
 	 */
-	public Map getParameters ()
+	public Map getParameters()
 	{
 		return parameters;
 	}
@@ -269,9 +269,9 @@ public class CommandInfo implements Cloneable
 	 *
 	 * @return A parameter iterator (map entries).
 	 */
-	public Iterator parameterIterator ()
+	public Iterator parameterIterator()
 	{
-		return parameters.entrySet ().iterator ();
+		return parameters.entrySet().iterator();
 	}
 
 	/**
@@ -280,9 +280,9 @@ public class CommandInfo implements Cloneable
 	 * @param name Attribute name.
 	 * @param value Attribute value.
 	 */
-	public void addAttribute (String name, Object value)
+	public void addAttribute(String name, Object value)
 	{
-		attributes.put (name, value);
+		attributes.put(name, value);
 	}
 
 	/**
@@ -290,9 +290,9 @@ public class CommandInfo implements Cloneable
 	 *
 	 * @return An attribute iterator (map entries).
 	 */
-	public Iterator attributeIterator ()
+	public Iterator attributeIterator()
 	{
-		return attributes.entrySet ().iterator ();
+		return attributes.entrySet().iterator();
 	}
 
 	/**
@@ -300,7 +300,7 @@ public class CommandInfo implements Cloneable
 	 *
 	 * @return The command style.
 	 */
-	public String getStyle ()
+	public String getStyle()
 	{
 		return style;
 	}
@@ -310,7 +310,7 @@ public class CommandInfo implements Cloneable
 	 *
 	 * @return The command style.
 	 */
-	public void setStyle (String style)
+	public void setStyle(String style)
 	{
 		this.style = style;
 	}
@@ -323,10 +323,10 @@ public class CommandInfo implements Cloneable
 	 * @param context The expression language context
 	 * @return The keel command.
 	 */
-	public Command createCommand (ModelRequest req, ModelResponse res, ExpressionLanguageContext context)
+	public Command createCommand(ModelRequest req, ModelResponse res, ExpressionLanguageContext context)
 		throws ModelException
 	{
-		return createCommand (req, res, "", context);
+		return createCommand(req, res, "", context);
 	}
 
 	/**
@@ -337,49 +337,49 @@ public class CommandInfo implements Cloneable
 	 * @param context The expression language context
 	 * @return The keel command.
 	 */
-	public Command createCancelCommand (ModelRequest req, ModelResponse res, ExpressionLanguageContext context)
+	public Command createCancelCommand(ModelRequest req, ModelResponse res, ExpressionLanguageContext context)
 		throws ModelException
 	{
-		Command command = res.createCommand ("aktera.cancel");
+		Command command = res.createCommand("aktera.cancel");
 
-		command.setName (name);
+		command.setName(name);
 
-		command.setLabel (StringTools.trim (label));
+		command.setLabel(StringTools.trim(label));
 
-		if (! StringTools.isTrimEmpty (icon))
+		if (! StringTools.isTrimEmpty(icon))
 		{
-			command.setAttribute ("icon", icon);
+			command.setAttribute("icon", icon);
 		}
 
-		if (! StringTools.isTrimEmpty (bundle))
+		if (! StringTools.isTrimEmpty(bundle))
 		{
-			command.setAttribute ("bundle", bundle);
+			command.setAttribute("bundle", bundle);
 		}
 
-		command.setAttribute ("style", StringTools.isTrimEmpty (style) ? "" : style);
+		command.setAttribute("style", StringTools.isTrimEmpty(style) ? "" : style);
 
 		if (! visible)
 		{
-			command.setAttribute ("hide", "Y");
+			command.setAttribute("hide", "Y");
 		}
 
-		for (Map.Entry<String, Object> parameter : parameters.entrySet ())
+		for (Map.Entry<String, Object> parameter : parameters.entrySet())
 		{
-			Object value = parameter.getValue ();
+			Object value = parameter.getValue();
 
 			if (value instanceof String)
 			{
-				value = context.evalExpressionLanguageValue ((String) value);
+				value = context.evalExpressionLanguageValue((String) value);
 			}
 
-			command.setParameter ("_cp" + parameter.getKey (), value);
+			command.setParameter("_cp" + parameter.getKey(), value);
 		}
 
-		command.setParameter ("_cmodel", model);
+		command.setParameter("_cmodel", model);
 
-		for (Map.Entry<String, Object> attribute : attributes.entrySet ())
+		for (Map.Entry<String, Object> attribute : attributes.entrySet())
 		{
-			command.setAttribute (attribute.getKey (), attribute.getValue ());
+			command.setAttribute(attribute.getKey(), attribute.getValue());
 		}
 
 		return command;
@@ -394,45 +394,45 @@ public class CommandInfo implements Cloneable
 	 * @param context The expression language context
 	 * @return The keel command.
 	 */
-	public Command createCommand (ModelRequest req, ModelResponse res, String paramPrefix,
+	public Command createCommand(ModelRequest req, ModelResponse res, String paramPrefix,
 					ExpressionLanguageContext context) throws ModelException
 	{
-		String myModel = StringTools.trim (context.evalExpressionLanguageValue (model));
+		String myModel = StringTools.trim(context.evalExpressionLanguageValue(model));
 
-		Command command = res.createCommand (myModel);
+		Command command = res.createCommand(myModel);
 
 		if (bean)
 		{
-			command.setBean (myModel);
-			command.setModel (null);
+			command.setBean(myModel);
+			command.setModel(null);
 		}
 
-		command.setName (name);
+		command.setName(name);
 
-		command.setLabel (StringTools.trim (label));
+		command.setLabel(StringTools.trim(label));
 
-		if (! StringTools.isTrimEmpty (icon))
+		if (! StringTools.isTrimEmpty(icon))
 		{
-			command.setAttribute ("icon", icon);
+			command.setAttribute("icon", icon);
 		}
 
-		if (! StringTools.isTrimEmpty (bundle))
+		if (! StringTools.isTrimEmpty(bundle))
 		{
-			command.setAttribute ("bundle", bundle);
+			command.setAttribute("bundle", bundle);
 		}
 
-		command.setAttribute ("style", StringTools.isTrimEmpty (style) ? "" : style);
+		command.setAttribute("style", StringTools.isTrimEmpty(style) ? "" : style);
 
 		if (! visible)
 		{
-			command.setAttribute ("hide", "Y");
+			command.setAttribute("hide", "Y");
 		}
 
-		setParameters (req, command, paramPrefix, context);
+		setParameters(req, command, paramPrefix, context);
 
-		for (Map.Entry<String, Object> attribute : attributes.entrySet ())
+		for (Map.Entry<String, Object> attribute : attributes.entrySet())
 		{
-			command.setAttribute (attribute.getKey (), attribute.getValue ());
+			command.setAttribute(attribute.getKey(), attribute.getValue());
 		}
 
 		return command;
@@ -446,20 +446,20 @@ public class CommandInfo implements Cloneable
 	 * @param paramPrefix Prefix for parameter names.
 	 * @param context The expression language context
 	 */
-	public void setParameters (ModelRequest req, Command command, String paramPrefix, ExpressionLanguageContext context)
+	public void setParameters(ModelRequest req, Command command, String paramPrefix, ExpressionLanguageContext context)
 	{
-		for (Map.Entry<String, Object> parameter : parameters.entrySet ())
+		for (Map.Entry<String, Object> parameter : parameters.entrySet())
 		{
-			Object value = parameter.getValue ();
+			Object value = parameter.getValue();
 
 			if (value instanceof String)
 			{
-				value = context.evalExpressionLanguageValue ((String) value);
+				value = context.evalExpressionLanguageValue((String) value);
 			}
 
 			if (value != null)
 			{
-				command.setParameter (paramPrefix + parameter.getKey (), value);
+				command.setParameter(paramPrefix + parameter.getKey(), value);
 			}
 		}
 	}
@@ -470,20 +470,20 @@ public class CommandInfo implements Cloneable
 	 * @param request
 	 * @param context
 	 */
-	public void setParameters (BeanRequest request, ExpressionLanguageContext context)
+	public void setParameters(BeanRequest request, ExpressionLanguageContext context)
 	{
-		for (Map.Entry<String, Object> parameter : ((Map<String, Object>) getParameters ()).entrySet ())
+		for (Map.Entry<String, Object> parameter : ((Map<String, Object>) getParameters()).entrySet())
 		{
-			Object value = parameter.getValue ();
+			Object value = parameter.getValue();
 
 			if (value instanceof String)
 			{
-				value = context.evalExpressionLanguageValue ((String) value);
+				value = context.evalExpressionLanguageValue((String) value);
 			}
 
 			if (value != null)
 			{
-				request.setParameter (parameter.getKey (), value);
+				request.setParameter(parameter.getKey(), value);
 			}
 		}
 	}
@@ -493,9 +493,9 @@ public class CommandInfo implements Cloneable
 	 *
 	 * @return The clone.
 	 */
-	public Object clone ()
+	public Object clone()
 	{
-		CommandInfo clone = new CommandInfo ();
+		CommandInfo clone = new CommandInfo();
 
 		clone.model = model;
 		clone.name = name;
@@ -504,19 +504,19 @@ public class CommandInfo implements Cloneable
 		clone.style = style;
 		clone.visible = visible;
 		clone.position = position;
-		clone.parameters = new HashMap ();
+		clone.parameters = new HashMap();
 		clone.bean = bean;
 
-		for (Map.Entry<String, Object> param : parameters.entrySet ())
+		for (Map.Entry<String, Object> param : parameters.entrySet())
 		{
-			clone.parameters.put (param.getKey (), param.getValue ());
+			clone.parameters.put(param.getKey(), param.getValue());
 		}
 
-		clone.attributes = new HashMap ();
+		clone.attributes = new HashMap();
 
-		for (Map.Entry<String, Object> attribute : attributes.entrySet ())
+		for (Map.Entry<String, Object> attribute : attributes.entrySet())
 		{
-			clone.attributes.put (attribute.getKey (), attribute.getValue ());
+			clone.attributes.put(attribute.getKey(), attribute.getValue());
 		}
 
 		return clone;
@@ -527,7 +527,7 @@ public class CommandInfo implements Cloneable
 	 *
 	 * @return The command position.
 	 */
-	public int getPosition ()
+	public int getPosition()
 	{
 		return position;
 	}
@@ -537,7 +537,7 @@ public class CommandInfo implements Cloneable
 	 *
 	 * @param position The new command position.
 	 */
-	public void setPosition (int position)
+	public void setPosition(int position)
 	{
 		this.position = position;
 	}
@@ -547,41 +547,41 @@ public class CommandInfo implements Cloneable
 	 *
 	 * @param position The new command position.
 	 */
-	public void setPosition (String position)
+	public void setPosition(String position)
 	{
 		this.position = 0;
 
-		if ("SS".equals (position))
+		if ("SS".equals(position))
 		{
 			this.position = - 100000;
 		}
-		else if ("S".equals (position))
+		else if ("S".equals(position))
 		{
 			this.position = - 10000;
 		}
-		else if ("L".equals (position))
+		else if ("L".equals(position))
 		{
 			this.position = - 1000;
 		}
-		else if ("C".equals (position))
+		else if ("C".equals(position))
 		{
 			this.position = 0;
 		}
-		else if ("R".equals (position))
+		else if ("R".equals(position))
 		{
 			this.position = 1000;
 		}
-		else if ("E".equals (position))
+		else if ("E".equals(position))
 		{
 			this.position = 10000;
 		}
-		else if ("EE".equals (position))
+		else if ("EE".equals(position))
 		{
 			this.position = 100000;
 		}
 		else
 		{
-			this.position = NumberTools.toInt (position, 0);
+			this.position = NumberTools.toInt(position, 0);
 		}
 	}
 
@@ -590,7 +590,7 @@ public class CommandInfo implements Cloneable
 	 *
 	 * @param bean The controller bean name
 	 */
-	public void setBean (boolean bean)
+	public void setBean(boolean bean)
 	{
 		this.bean = bean;
 	}
@@ -600,7 +600,7 @@ public class CommandInfo implements Cloneable
 	 *
 	 * @return bean The controller bean name
 	 */
-	public boolean isBean ()
+	public boolean isBean()
 	{
 		return bean;
 	}
@@ -610,7 +610,7 @@ public class CommandInfo implements Cloneable
 	 *
 	 * @param permission The new permission
 	 */
-	public void setPermission (String permission)
+	public void setPermission(String permission)
 	{
 		this.permission = permission;
 	}
@@ -620,7 +620,7 @@ public class CommandInfo implements Cloneable
 	 *
 	 * @return The permission
 	 */
-	public String getPermission ()
+	public String getPermission()
 	{
 		return permission;
 	}
@@ -631,19 +631,19 @@ public class CommandInfo implements Cloneable
 	 * @param request A model request
 	 * @return True if the permissions are met
 	 */
-	public boolean checkPermission (ModelRequest request)
+	public boolean checkPermission(ModelRequest request)
 	{
 		if (permission == null)
 		{
 			return true;
 		}
 
-		PermissionManager permissionManager = (PermissionManager) SpringTools.getBean (PermissionManager.ID);
+		PermissionManager permissionManager = (PermissionManager) SpringTools.getBean(PermissionManager.ID);
 		boolean hasPermission = false;
 
-		for (String p : permission.split ("\\|"))
+		for (String p : permission.split("\\|"))
 		{
-			if (permissionManager.hasPermission (UserTools.getCurrentUserName (request), p))
+			if (permissionManager.hasPermission(UserTools.getCurrentUserName(request), p))
 			{
 				hasPermission = true;
 

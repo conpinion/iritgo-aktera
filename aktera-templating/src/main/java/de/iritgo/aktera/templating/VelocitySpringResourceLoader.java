@@ -22,7 +22,7 @@ package de.iritgo.aktera.templating;
 
 public interface VelocitySpringResourceLoader
 {
-	public void addTemplate (String name, String template);
+	public void addTemplate(String name, String template);
 
-	public void remoteTemplate (String name);
+	public void remoteTemplate(String name);
 }

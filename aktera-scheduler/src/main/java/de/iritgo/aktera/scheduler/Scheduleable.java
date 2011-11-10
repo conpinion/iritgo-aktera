@@ -32,5 +32,5 @@ public interface Scheduleable
 	/**
 	 * The scheduled method.
 	 */
-	public void schedule (Map parameters);
+	public void schedule(Map parameters);
 }

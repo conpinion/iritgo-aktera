@@ -34,9 +34,9 @@ public class SessionInfo extends OutputAdapter
 	/**
 	 * Create a new <code>SessionInfo</code>.
 	 */
-	public SessionInfo ()
+	public SessionInfo()
 	{
-		super ("sessionInfo");
+		super("sessionInfo");
 	}
 
 	/**
@@ -44,9 +44,9 @@ public class SessionInfo extends OutputAdapter
 	 *
 	 * @param name The name of this output element.
 	 */
-	public SessionInfo (String name)
+	public SessionInfo(String name)
 	{
-		super (name);
+		super(name);
 	}
 
 	/**
@@ -54,7 +54,7 @@ public class SessionInfo extends OutputAdapter
 	 *
 	 * @return The user's login name.
 	 */
-	public String getLoginName ()
+	public String getLoginName()
 	{
 		return "# " + loginName + " #";
 	}
@@ -64,7 +64,7 @@ public class SessionInfo extends OutputAdapter
 	 *
 	 * @param loginName The new login name.
 	 */
-	public void setLoginName (String loginName)
+	public void setLoginName(String loginName)
 	{
 		this.loginName = loginName;
 	}

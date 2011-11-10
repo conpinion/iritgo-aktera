@@ -52,37 +52,37 @@ public class GetCalendar extends SecurableStandardLogEnabledModel
 	 * @param req The model request.
 	 * @return The model response.
 	 */
-	public ModelResponse execute (ModelRequest req) throws ModelException
+	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
-		int showMonth = req.getParameterAsInt ("showMonth", - 1);
-		int showYear = req.getParameterAsInt ("showYear", - 1);
-		String dayModel = req.getParameterAsString ("dayModel", null);
+		int showMonth = req.getParameterAsInt("showMonth", - 1);
+		int showYear = req.getParameterAsInt("showYear", - 1);
+		String dayModel = req.getParameterAsString("dayModel", null);
 
-		ModelResponse res = req.createResponse ();
+		ModelResponse res = req.createResponse();
 
-		Output outCalendar = res.createOutput ("calendar");
+		Output outCalendar = res.createOutput("calendar");
 
-		res.add (outCalendar);
+		res.add(outCalendar);
 
-		Calendar cal = new GregorianCalendar ();
+		Calendar cal = new GregorianCalendar();
 
-		cal.setFirstDayOfWeek (Calendar.MONDAY);
+		cal.setFirstDayOfWeek(Calendar.MONDAY);
 
-		int currentDayOfYear = cal.get (Calendar.DAY_OF_YEAR);
-		int currentMonth = cal.get (Calendar.MONTH);
-		int currentYear = cal.get (Calendar.YEAR);
+		int currentDayOfYear = cal.get(Calendar.DAY_OF_YEAR);
+		int currentMonth = cal.get(Calendar.MONTH);
+		int currentYear = cal.get(Calendar.YEAR);
 
-		outCalendar.setAttribute ("currentDate", cal.getTime ());
+		outCalendar.setAttribute("currentDate", cal.getTime());
 
-		Command cmdCurrentMonth = ModelTools.createPreviousModelCommand (req, res);
+		Command cmdCurrentMonth = ModelTools.createPreviousModelCommand(req, res);
 
-		cmdCurrentMonth.setParameter ("showMonth", new Integer (cal.get (Calendar.MONTH)));
-		cmdCurrentMonth.setParameter ("showYear", new Integer (cal.get (Calendar.YEAR)));
-		outCalendar.setAttribute ("cmdCurrentMonth", cmdCurrentMonth);
+		cmdCurrentMonth.setParameter("showMonth", new Integer(cal.get(Calendar.MONTH)));
+		cmdCurrentMonth.setParameter("showYear", new Integer(cal.get(Calendar.YEAR)));
+		outCalendar.setAttribute("cmdCurrentMonth", cmdCurrentMonth);
 
 		if (showMonth != - 1)
 		{
-			cal.set (Calendar.MONTH, showMonth);
+			cal.set(Calendar.MONTH, showMonth);
 		}
 		else
 		{
@@ -91,88 +91,88 @@ public class GetCalendar extends SecurableStandardLogEnabledModel
 
 		if (showYear != - 1)
 		{
-			cal.set (Calendar.YEAR, showYear);
+			cal.set(Calendar.YEAR, showYear);
 		}
 
-		outCalendar.setAttribute ("showDate", cal.getTime ());
+		outCalendar.setAttribute("showDate", cal.getTime());
 
-		cal.add (Calendar.MONTH, - 1);
+		cal.add(Calendar.MONTH, - 1);
 
-		Command cmdPrevMonth = ModelTools.createPreviousModelCommand (req, res);
+		Command cmdPrevMonth = ModelTools.createPreviousModelCommand(req, res);
 
-		cmdPrevMonth.setParameter ("showMonth", new Integer (cal.get (Calendar.MONTH)));
-		cmdPrevMonth.setParameter ("showYear", new Integer (cal.get (Calendar.YEAR)));
-		outCalendar.setAttribute ("cmdPrevMonth", cmdPrevMonth);
+		cmdPrevMonth.setParameter("showMonth", new Integer(cal.get(Calendar.MONTH)));
+		cmdPrevMonth.setParameter("showYear", new Integer(cal.get(Calendar.YEAR)));
+		outCalendar.setAttribute("cmdPrevMonth", cmdPrevMonth);
 
-		cal.add (Calendar.MONTH, 2);
+		cal.add(Calendar.MONTH, 2);
 
-		Command cmdNextMonth = ModelTools.createPreviousModelCommand (req, res);
+		Command cmdNextMonth = ModelTools.createPreviousModelCommand(req, res);
 
-		cmdNextMonth.setParameter ("showMonth", new Integer (cal.get (Calendar.MONTH)));
-		cmdNextMonth.setParameter ("showYear", new Integer (cal.get (Calendar.YEAR)));
-		outCalendar.setAttribute ("cmdNextMonth", cmdNextMonth);
+		cmdNextMonth.setParameter("showMonth", new Integer(cal.get(Calendar.MONTH)));
+		cmdNextMonth.setParameter("showYear", new Integer(cal.get(Calendar.YEAR)));
+		outCalendar.setAttribute("cmdNextMonth", cmdNextMonth);
 
-		cal.add (Calendar.MONTH, - 1);
-		cal.add (Calendar.YEAR, - 1);
+		cal.add(Calendar.MONTH, - 1);
+		cal.add(Calendar.YEAR, - 1);
 
-		Command cmdPrevYear = ModelTools.createPreviousModelCommand (req, res);
+		Command cmdPrevYear = ModelTools.createPreviousModelCommand(req, res);
 
-		cmdPrevYear.setParameter ("showMonth", new Integer (cal.get (Calendar.MONTH)));
-		cmdPrevYear.setParameter ("showYear", new Integer (cal.get (Calendar.YEAR)));
-		outCalendar.setAttribute ("cmdPrevYear", cmdPrevYear);
+		cmdPrevYear.setParameter("showMonth", new Integer(cal.get(Calendar.MONTH)));
+		cmdPrevYear.setParameter("showYear", new Integer(cal.get(Calendar.YEAR)));
+		outCalendar.setAttribute("cmdPrevYear", cmdPrevYear);
 
-		cal.add (Calendar.YEAR, 2);
+		cal.add(Calendar.YEAR, 2);
 
-		Command cmdNextYear = ModelTools.createPreviousModelCommand (req, res);
+		Command cmdNextYear = ModelTools.createPreviousModelCommand(req, res);
 
-		cmdNextYear.setParameter ("showMonth", new Integer (cal.get (Calendar.MONTH)));
-		cmdNextYear.setParameter ("showYear", new Integer (cal.get (Calendar.YEAR)));
-		outCalendar.setAttribute ("cmdNextYear", cmdNextYear);
+		cmdNextYear.setParameter("showMonth", new Integer(cal.get(Calendar.MONTH)));
+		cmdNextYear.setParameter("showYear", new Integer(cal.get(Calendar.YEAR)));
+		outCalendar.setAttribute("cmdNextYear", cmdNextYear);
 
-		cal.add (Calendar.YEAR, - 1);
+		cal.add(Calendar.YEAR, - 1);
 
-		Output outWeeks = res.createOutput ("weeks");
+		Output outWeeks = res.createOutput("weeks");
 
-		outCalendar.setAttribute ("weeks", outWeeks);
+		outCalendar.setAttribute("weeks", outWeeks);
 
-		cal.set (Calendar.WEEK_OF_MONTH, 1);
-		cal.set (Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+		cal.set(Calendar.WEEK_OF_MONTH, 1);
+		cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
 
 		for (int i = 0; i < 6; ++i)
 		{
-			Output outWeek = res.createOutput ("week");
+			Output outWeek = res.createOutput("week");
 
-			outWeeks.add (outWeek);
-			outWeek.setAttribute ("num", new Integer (cal.get (Calendar.WEEK_OF_YEAR)));
+			outWeeks.add(outWeek);
+			outWeek.setAttribute("num", new Integer(cal.get(Calendar.WEEK_OF_YEAR)));
 
 			for (int j = 0; j < 7; ++j)
 			{
-				Output outDay = res.createOutput ("day");
+				Output outDay = res.createOutput("day");
 
-				outWeek.add (outDay);
+				outWeek.add(outDay);
 
-				outDay.setAttribute ("num", new Integer (cal.get (Calendar.DAY_OF_MONTH)));
+				outDay.setAttribute("num", new Integer(cal.get(Calendar.DAY_OF_MONTH)));
 
-				if (cal.get (Calendar.YEAR) == currentYear && cal.get (Calendar.DAY_OF_YEAR) == currentDayOfYear)
+				if (cal.get(Calendar.YEAR) == currentYear && cal.get(Calendar.DAY_OF_YEAR) == currentDayOfYear)
 				{
-					outDay.setAttribute ("isCurrent", Boolean.TRUE);
+					outDay.setAttribute("isCurrent", Boolean.TRUE);
 				}
 
-				if (cal.get (Calendar.MONTH) == showMonth)
+				if (cal.get(Calendar.MONTH) == showMonth)
 				{
 					if (dayModel != null)
 					{
-						Command cmdDoDay = res.createCommand (dayModel);
+						Command cmdDoDay = res.createCommand(dayModel);
 
-						outDay.setAttribute ("cmdDoDay", cmdDoDay);
+						outDay.setAttribute("cmdDoDay", cmdDoDay);
 					}
 				}
 				else
 				{
-					outDay.setAttribute ("isSecondary", Boolean.TRUE);
+					outDay.setAttribute("isSecondary", Boolean.TRUE);
 				}
 
-				cal.add (Calendar.DAY_OF_MONTH, 1);
+				cal.add(Calendar.DAY_OF_MONTH, 1);
 			}
 		}
 

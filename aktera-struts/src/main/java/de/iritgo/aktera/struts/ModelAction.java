@@ -54,7 +54,7 @@ public class ModelAction extends Action
 	/**
 	 * Commons Logging instance.
 	 */
-	private static Log log = LogFactory.getFactory ().getInstance ("de.iritgo.aktera.struts.ModelAction");
+	private static Log log = LogFactory.getFactory().getInstance("de.iritgo.aktera.struts.ModelAction");
 
 	/**
 	 * Process the specified HTTP request, and create the corresponding HTTP
@@ -74,33 +74,33 @@ public class ModelAction extends Action
 	 *                if the application business logic throws an exception
 	 */
 	@Override
-	public ActionForward execute (ActionMapping mapping, ActionForm form, HttpServletRequest request,
+	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 					HttpServletResponse response) throws Exception
 	{
-		String model = request.getParameter ("model");
+		String model = request.getParameter("model");
 
-		if (model != null && model.startsWith ("_BEAN_."))
+		if (model != null && model.startsWith("_BEAN_."))
 		{
-			response.sendRedirect (request.getRequestURL ().toString ().replace ("model.do", "bean.do") + "?"
-							+ request.getQueryString ().replace ("model=", "bean=").replace ("_BEAN_.", ""));
+			response.sendRedirect(request.getRequestURL().toString().replace("model.do", "bean.do") + "?"
+							+ request.getQueryString().replace("model=", "bean=").replace("_BEAN_.", ""));
 
 			return null;
 		}
 
 		try
 		{
-			WebappClientConnector connector = new StrutsClientConnector (request, response, form, getServlet ());
+			WebappClientConnector connector = new StrutsClientConnector(request, response, form, getServlet());
 
-			connector.setLogger (log);
+			connector.setLogger(log);
 
-			KeelResponse kres = connector.execute ();
+			KeelResponse kres = connector.execute();
 
 			/* Now determine what the appropriate ActionForward to return is */
 			/*
 			 * If we have an output called "forward", we use this name as the
 			 * forward. If not, we use the default
 			 */
-			return mapping.findForward (connector.getForward (kres));
+			return mapping.findForward(connector.getForward(kres));
 		}
 		catch (Exception ee)
 		{
@@ -109,9 +109,9 @@ public class ModelAction extends Action
 				throw ee;
 			}
 
-			log.error ("Exception during model execution", ee);
-			ee.printStackTrace ();
-			throw new ServletException ("Exception during model execution", ee);
+			log.error("Exception during model execution", ee);
+			ee.printStackTrace();
+			throw new ServletException("Exception during model execution", ee);
 		}
 	}
 }

@@ -30,11 +30,11 @@ public interface Transaction
 {
 	public static String ROLE = "de.iritgo.aktera.persist.Transaction";
 
-	public void begin () throws PersistenceException;
+	public void begin() throws PersistenceException;
 
-	public void commit () throws PersistenceException;
+	public void commit() throws PersistenceException;
 
-	public void rollback () throws PersistenceException;
+	public void rollback() throws PersistenceException;
 
-	public Connection getConnection () throws PersistenceException;
+	public Connection getConnection() throws PersistenceException;
 }

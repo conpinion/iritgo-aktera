@@ -63,39 +63,39 @@ public class PersistGroupManager extends AbstractKeelServiceable implements Grou
 	/**
 	 * @see de.iritgo.aktera.usergroupmgr.GroupManager#find(de.iritgo.aktera.usergroupmgr.Group.Property, java.lang.Object)
 	 */
-	public Group find (Property property, Object value) throws UserMgrException
+	public Group find(Property property, Object value) throws UserMgrException
 	{
 		Group group = null;
 
 		try
 		{
-			Persistent g = getGroupPersistent ();
+			Persistent g = getGroupPersistent();
 
 			if (property == Group.Property.NAME)
 			{
-				g.setField (FLD_GROUPNAME, value);
+				g.setField(FLD_GROUPNAME, value);
 			}
 			else if (property == Group.Property.DESCRIPTION)
 			{
-				g.setField (FLD_DESCRIPTION, value);
+				g.setField(FLD_DESCRIPTION, value);
 			}
 			else
 			{
-				log.warn ("Don't know how to find using property " + property);
+				log.warn("Don't know how to find using property " + property);
 			}
 
-			if (g.find ())
+			if (g.find())
 			{
-				group = createGroupFromPersistent (g);
+				group = createGroupFromPersistent(g);
 			}
 		}
 		catch (PersistenceException e)
 		{
-			throw new UserMgrException ("Error from underlying persistence engine while finding user", e);
+			throw new UserMgrException("Error from underlying persistence engine while finding user", e);
 		}
 		catch (ServiceException e)
 		{
-			throw new UserMgrException ("Internal error getting user service while finding user", e);
+			throw new UserMgrException("Internal error getting user service while finding user", e);
 		}
 
 		return group;
@@ -104,23 +104,23 @@ public class PersistGroupManager extends AbstractKeelServiceable implements Grou
 	/**
 	 * @return
 	 */
-	private Persistent getGroupPersistent () throws UserMgrException
+	private Persistent getGroupPersistent() throws UserMgrException
 	{
 		PersistentFactory pf = null;
 		Persistent myGroup = null;
 
 		try
 		{
-			pf = (PersistentFactory) getService (PersistentFactory.ROLE);
-			myGroup = pf.create ("keel.usergroup");
+			pf = (PersistentFactory) getService(PersistentFactory.ROLE);
+			myGroup = pf.create("keel.usergroup");
 		}
 		catch (ServiceException e)
 		{
-			throw new UserMgrException (e);
+			throw new UserMgrException(e);
 		}
 		catch (PersistenceException e)
 		{
-			throw new UserMgrException (e);
+			throw new UserMgrException(e);
 		}
 
 		return myGroup;
@@ -130,13 +130,13 @@ public class PersistGroupManager extends AbstractKeelServiceable implements Grou
 	 * @param g
 	 * @return
 	 */
-	private Group createGroupFromPersistent (Persistent g)
+	private Group createGroupFromPersistent(Persistent g)
 		throws ServiceException, UserMgrException, PersistenceException
 	{
-		Group group = (Group) getService (Group.ROLE, "persist-group");
+		Group group = (Group) getService(Group.ROLE, "persist-group");
 
-		group.set (Group.Property.NAME, g.getFieldString (FLD_GROUPNAME));
-		group.set (Group.Property.DESCRIPTION, g.getFieldString (FLD_DESCRIPTION));
+		group.set(Group.Property.NAME, g.getFieldString(FLD_GROUPNAME));
+		group.set(Group.Property.DESCRIPTION, g.getFieldString(FLD_DESCRIPTION));
 
 		return group;
 	}
@@ -144,69 +144,69 @@ public class PersistGroupManager extends AbstractKeelServiceable implements Grou
 	/**
 	 * @see de.iritgo.aktera.usergroupmgr.GroupManager#list()
 	 */
-	public Group[] list () throws UserMgrException
+	public Group[] list() throws UserMgrException
 	{
-		ArrayList<Group> groupList = new ArrayList<Group> (0);
+		ArrayList<Group> groupList = new ArrayList<Group>(0);
 
 		try
 		{
-			Persistent g = getGroupPersistent ();
+			Persistent g = getGroupPersistent();
 
 			//g.setField(FLD_GID", group.get(Group.Property.GID));
-			List<Persistent> groups = g.query ();
+			List<Persistent> groups = g.query();
 
-			groupList = new ArrayList<Group> (groups.size ());
+			groupList = new ArrayList<Group>(groups.size());
 
-			Iterator<Persistent> i = groups.iterator ();
+			Iterator<Persistent> i = groups.iterator();
 
-			while (i.hasNext ())
+			while (i.hasNext())
 			{
-				g = (Persistent) i.next ();
+				g = (Persistent) i.next();
 
-				Group nextGroup = createGroupFromPersistent (g);
+				Group nextGroup = createGroupFromPersistent(g);
 
-				groupList.add (nextGroup);
+				groupList.add(nextGroup);
 			}
 		}
 		catch (PersistenceException e)
 		{
-			throw new UserMgrException ("Error from underlying persistence engine while adding group", e);
+			throw new UserMgrException("Error from underlying persistence engine while adding group", e);
 		}
 		catch (ServiceException e)
 		{
-			throw new UserMgrException ("Internal error getting user service while adding group", e);
+			throw new UserMgrException("Internal error getting user service while adding group", e);
 		}
 
 		Group[] type =
 		{};
 
-		return (Group[]) groupList.toArray (type);
+		return (Group[]) groupList.toArray(type);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.usergroupmgr.GroupManager#add(de.iritgo.aktera.usergroupmgr.Group)
 	 */
-	public Group add (Group group) throws UserMgrException
+	public Group add(Group group) throws UserMgrException
 	{
 		Group newGroup = group;
 
 		try
 		{
-			Persistent g = getGroupPersistent ();
+			Persistent g = getGroupPersistent();
 
 			//g.setField(FLD_GID, group.get(Group.Property.GID));
-			g.setField (FLD_GROUPNAME, group.get (Group.Property.NAME));
-			g.setField (FLD_DESCRIPTION, group.get (Group.Property.DESCRIPTION));
-			g.add ();
-			newGroup = createGroupFromPersistent (g);
+			g.setField(FLD_GROUPNAME, group.get(Group.Property.NAME));
+			g.setField(FLD_DESCRIPTION, group.get(Group.Property.DESCRIPTION));
+			g.add();
+			newGroup = createGroupFromPersistent(g);
 		}
 		catch (PersistenceException e)
 		{
-			throw new UserMgrException ("Error from underlying persistence engine while adding group", e);
+			throw new UserMgrException("Error from underlying persistence engine while adding group", e);
 		}
 		catch (ServiceException e)
 		{
-			throw new UserMgrException ("Internal error getting user service while adding group", e);
+			throw new UserMgrException("Internal error getting user service while adding group", e);
 		}
 
 		return newGroup;
@@ -215,27 +215,27 @@ public class PersistGroupManager extends AbstractKeelServiceable implements Grou
 	/**
 	 * @see de.iritgo.aktera.usergroupmgr.GroupManager#delete(de.iritgo.aktera.usergroupmgr.Group)
 	 */
-	public boolean delete (Group group) throws UserMgrException
+	public boolean delete(Group group) throws UserMgrException
 	{
 		try
 		{
-			Persistent g = getGroupPersistent ();
+			Persistent g = getGroupPersistent();
 
-			g.setField (FLD_GROUPNAME, group.get (Group.Property.NAME));
-			g.setField (FLD_DESCRIPTION, group.get (Group.Property.DESCRIPTION));
+			g.setField(FLD_GROUPNAME, group.get(Group.Property.NAME));
+			g.setField(FLD_DESCRIPTION, group.get(Group.Property.DESCRIPTION));
 
-			if (g.find ())
+			if (g.find())
 			{
-				g.delete ();
+				g.delete();
 			}
 			else
 			{
-				throw new UserMgrException ("Cannot delete, group not found");
+				throw new UserMgrException("Cannot delete, group not found");
 			}
 		}
 		catch (PersistenceException e)
 		{
-			throw new UserMgrException ("Error from underlying persistence engine while deleting group", e);
+			throw new UserMgrException("Error from underlying persistence engine while deleting group", e);
 		}
 
 		return true;
@@ -244,27 +244,27 @@ public class PersistGroupManager extends AbstractKeelServiceable implements Grou
 	/**
 	 * @see de.iritgo.aktera.usergroupmgr.GroupManager#update(de.iritgo.aktera.usergroupmgr.Group)
 	 */
-	public boolean update (Group group) throws UserMgrException
+	public boolean update(Group group) throws UserMgrException
 	{
 		try
 		{
-			Persistent g = getGroupPersistent ();
+			Persistent g = getGroupPersistent();
 
-			g.setField (FLD_GROUPNAME, group.get (Group.Property.NAME));
+			g.setField(FLD_GROUPNAME, group.get(Group.Property.NAME));
 
-			if (g.find ())
+			if (g.find())
 			{
-				g.setField (FLD_DESCRIPTION, group.get (Group.Property.DESCRIPTION));
-				g.update ();
+				g.setField(FLD_DESCRIPTION, group.get(Group.Property.DESCRIPTION));
+				g.update();
 			}
 			else
 			{
-				throw new UserMgrException ("Cannot update, group not found");
+				throw new UserMgrException("Cannot update, group not found");
 			}
 		}
 		catch (PersistenceException e)
 		{
-			throw new UserMgrException ("Error from underlying persistence engine while updating group", e);
+			throw new UserMgrException("Error from underlying persistence engine while updating group", e);
 		}
 
 		return true;
@@ -273,7 +273,7 @@ public class PersistGroupManager extends AbstractKeelServiceable implements Grou
 	/**
 	 * @see org.apache.avalon.framework.logger.LogEnabled#enableLogging(org.apache.avalon.framework.logger.Logger)
 	 */
-	public void enableLogging (Logger logger)
+	public void enableLogging(Logger logger)
 	{
 		log = logger;
 	}
@@ -281,23 +281,23 @@ public class PersistGroupManager extends AbstractKeelServiceable implements Grou
 	/**
 	 * @return
 	 */
-	private Persistent getGroupMembersPersistent () throws UserMgrException
+	private Persistent getGroupMembersPersistent() throws UserMgrException
 	{
 		PersistentFactory pf = null;
 		Persistent myGroupMembers = null;
 
 		try
 		{
-			pf = (PersistentFactory) getService (PersistentFactory.ROLE);
-			myGroupMembers = pf.create ("keel.groupmembers");
+			pf = (PersistentFactory) getService(PersistentFactory.ROLE);
+			myGroupMembers = pf.create("keel.groupmembers");
 		}
 		catch (ServiceException e)
 		{
-			throw new UserMgrException (e);
+			throw new UserMgrException(e);
 		}
 		catch (PersistenceException e)
 		{
-			throw new UserMgrException (e);
+			throw new UserMgrException(e);
 		}
 
 		return myGroupMembers;
@@ -306,58 +306,58 @@ public class PersistGroupManager extends AbstractKeelServiceable implements Grou
 	/**
 	 * @see de.iritgo.aktera.usergroupmgr.GroupManager#listUsers(de.iritgo.aktera.usergroupmgr.Group, de.iritgo.aktera.usergroupmgr.User)
 	 */
-	public User[] listUsers (Group group) throws UserMgrException
+	public User[] listUsers(Group group) throws UserMgrException
 	{
-		ArrayList<User> userList = new ArrayList<User> (0);
+		ArrayList<User> userList = new ArrayList<User>(0);
 
 		try
 		{
-			Persistent gm = getGroupMembersPersistent ();
+			Persistent gm = getGroupMembersPersistent();
 
-			gm.setField (FLD_GROUPNAME, group.get (Group.Property.NAME));
+			gm.setField(FLD_GROUPNAME, group.get(Group.Property.NAME));
 
-			List<Persistent> groupmembers = gm.query ();
+			List<Persistent> groupmembers = gm.query();
 
-			userList = new ArrayList<User> (groupmembers.size ());
+			userList = new ArrayList<User>(groupmembers.size());
 
-			Iterator<Persistent> i = groupmembers.iterator ();
+			Iterator<Persistent> i = groupmembers.iterator();
 
-			while (i.hasNext ())
+			while (i.hasNext())
 			{
-				gm = (Persistent) i.next ();
+				gm = (Persistent) i.next();
 
-				User nextUser = getUserManager ().find (User.Property.UID, gm.getField (FLD_UID));
+				User nextUser = getUserManager().find(User.Property.UID, gm.getField(FLD_UID));
 
-				userList.add (nextUser);
+				userList.add(nextUser);
 			}
 		}
 		catch (PersistenceException e)
 		{
-			throw new UserMgrException ("Error from underlying persistence engine while listing users", e);
+			throw new UserMgrException("Error from underlying persistence engine while listing users", e);
 		}
 
 		User[] type =
 		{};
 
-		return (User[]) userList.toArray (type);
+		return (User[]) userList.toArray(type);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.usergroupmgr.GroupManager#addUser(de.iritgo.aktera.usergroupmgr.Group, de.iritgo.aktera.usergroupmgr.User)
 	 */
-	public boolean addUser (Group group, User user) throws UserMgrException
+	public boolean addUser(Group group, User user) throws UserMgrException
 	{
-		Persistent gm = getGroupMembersPersistent ();
+		Persistent gm = getGroupMembersPersistent();
 
 		try
 		{
-			gm.setField (FLD_GROUPNAME, group.get (Group.Property.NAME));
-			gm.setField (FLD_UID, user.get (User.Property.UID));
-			gm.add ();
+			gm.setField(FLD_GROUPNAME, group.get(Group.Property.NAME));
+			gm.setField(FLD_UID, user.get(User.Property.UID));
+			gm.add();
 		}
 		catch (PersistenceException e)
 		{
-			throw new UserMgrException ("Error adding user to group", e);
+			throw new UserMgrException("Error adding user to group", e);
 		}
 
 		return true;
@@ -366,19 +366,19 @@ public class PersistGroupManager extends AbstractKeelServiceable implements Grou
 	/**
 	 * @see de.iritgo.aktera.usergroupmgr.GroupManager#deleteUser(de.iritgo.aktera.usergroupmgr.Group, de.iritgo.aktera.usergroupmgr.User)
 	 */
-	public boolean deleteUser (Group group, User user) throws UserMgrException
+	public boolean deleteUser(Group group, User user) throws UserMgrException
 	{
-		Persistent gm = getGroupMembersPersistent ();
+		Persistent gm = getGroupMembersPersistent();
 
 		try
 		{
-			gm.setField (FLD_GROUPNAME, group.get (Group.Property.NAME));
-			gm.setField (FLD_UID, user.get (User.Property.UID));
-			gm.delete ();
+			gm.setField(FLD_GROUPNAME, group.get(Group.Property.NAME));
+			gm.setField(FLD_UID, user.get(User.Property.UID));
+			gm.delete();
 		}
 		catch (PersistenceException e)
 		{
-			throw new UserMgrException ("Error deleting user from group", e);
+			throw new UserMgrException("Error deleting user from group", e);
 		}
 
 		return true;
@@ -387,67 +387,67 @@ public class PersistGroupManager extends AbstractKeelServiceable implements Grou
 	/**
 	 * @see de.iritgo.aktera.usergroupmgr.GroupManager#listGroups(de.iritgo.aktera.usergroupmgr.User)
 	 */
-	public Group[] listGroups (User user) throws UserMgrException
+	public Group[] listGroups(User user) throws UserMgrException
 	{
-		ArrayList<Group> groupList = new ArrayList<Group> (0);
+		ArrayList<Group> groupList = new ArrayList<Group>(0);
 
 		try
 		{
-			Persistent gm = getGroupMembersPersistent ();
+			Persistent gm = getGroupMembersPersistent();
 
-			gm.setField (FLD_UID, user.get (User.Property.UID));
+			gm.setField(FLD_UID, user.get(User.Property.UID));
 
-			List<Persistent> groupmembers = gm.query ();
+			List<Persistent> groupmembers = gm.query();
 
-			Persistent g = getGroupPersistent ();
+			Persistent g = getGroupPersistent();
 
-			groupList = new ArrayList<Group> (groupmembers.size ());
+			groupList = new ArrayList<Group>(groupmembers.size());
 
-			Iterator<Persistent> i = groupmembers.iterator ();
+			Iterator<Persistent> i = groupmembers.iterator();
 
-			while (i.hasNext ())
+			while (i.hasNext())
 			{
-				gm = (Persistent) i.next ();
-				g.clear ();
-				g.setField (FLD_GROUPNAME, gm.getField (FLD_GROUPNAME));
+				gm = (Persistent) i.next();
+				g.clear();
+				g.setField(FLD_GROUPNAME, gm.getField(FLD_GROUPNAME));
 
-				if (g.find ())
+				if (g.find())
 				{
-					Group nextGroup = createGroupFromPersistent (g);
+					Group nextGroup = createGroupFromPersistent(g);
 
-					groupList.add (nextGroup);
+					groupList.add(nextGroup);
 				}
 			}
 		}
 		catch (PersistenceException e)
 		{
-			throw new UserMgrException ("Error from underlying persistence engine while listing groups", e);
+			throw new UserMgrException("Error from underlying persistence engine while listing groups", e);
 		}
 		catch (ServiceException e)
 		{
-			throw new UserMgrException ("Internal error getting user service while listing groups", e);
+			throw new UserMgrException("Internal error getting user service while listing groups", e);
 		}
 
 		Group[] type =
 		{};
 
-		return (Group[]) groupList.toArray (type);
+		return (Group[]) groupList.toArray(type);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.usergroupmgr.User#getUserManager()
 	 */
-	public UserManager getUserManager () throws UserMgrException
+	public UserManager getUserManager() throws UserMgrException
 	{
 		UserManager um;
 
 		try
 		{
-			um = (UserManager) getService (UserManager.ROLE, "persist-user-manager");
+			um = (UserManager) getService(UserManager.ROLE, "persist-user-manager");
 		}
 		catch (ServiceException e)
 		{
-			throw new UserMgrException ("Error getting user manager service", e);
+			throw new UserMgrException("Error getting user manager service", e);
 		}
 
 		return um;
@@ -456,21 +456,21 @@ public class PersistGroupManager extends AbstractKeelServiceable implements Grou
 	/**
 	 * @see de.iritgo.aktera.usergroupmgr.GroupManager#createGroup(java.lang.String, java.lang.String)
 	 */
-	public Group createGroup (String name, String description) throws UserMgrException
+	public Group createGroup(String name, String description) throws UserMgrException
 	{
 		Group group;
 
 		try
 		{
-			group = (Group) getService (Group.ROLE, "persist-group");
+			group = (Group) getService(Group.ROLE, "persist-group");
 		}
 		catch (ServiceException e)
 		{
-			throw new UserMgrException ("Error getting group service from container", e);
+			throw new UserMgrException("Error getting group service from container", e);
 		}
 
-		group.set (Group.Property.NAME, name);
-		group.set (Group.Property.DESCRIPTION, description);
+		group.set(Group.Property.NAME, name);
+		group.set(Group.Property.DESCRIPTION, description);
 
 		return group;
 	}

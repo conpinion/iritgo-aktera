@@ -62,7 +62,7 @@ public class Message implements Serializable
 	 *
 	 * @param key Message key for this message
 	 */
-	public Message (String key)
+	public Message(String key)
 	{
 		this.key = key;
 	}
@@ -73,7 +73,7 @@ public class Message implements Serializable
 	 * @param key Message key for this message
 	 * @param value0 First replacement value
 	 */
-	public Message (String key, Object value0)
+	public Message(String key, Object value0)
 	{
 		this.key = key;
 		values = new Object[]
@@ -89,7 +89,7 @@ public class Message implements Serializable
 	 * @param value0 First replacement value
 	 * @param value1 Second replacement value
 	 */
-	public Message (String key, Object value0, Object value1)
+	public Message(String key, Object value0, Object value1)
 	{
 		this.key = key;
 		values = new Object[]
@@ -106,7 +106,7 @@ public class Message implements Serializable
 	 * @param value1 Second replacement value
 	 * @param value2 Third replacement value
 	 */
-	public Message (String key, Object value0, Object value1, Object value2)
+	public Message(String key, Object value0, Object value1, Object value2)
 	{
 		this.key = key;
 		values = new Object[]
@@ -124,7 +124,7 @@ public class Message implements Serializable
 	 * @param value2 Third replacement value
 	 * @param value3 Fourth replacement value
 	 */
-	public Message (String key, Object value0, Object value1, Object value2, Object value3)
+	public Message(String key, Object value0, Object value1, Object value2, Object value3)
 	{
 		this.key = key;
 		values = new Object[]
@@ -141,18 +141,18 @@ public class Message implements Serializable
 	 * @param key Message key for this message
 	 * @param values Array of replacement values
 	 */
-	public Message (String key, Object[] values)
+	public Message(String key, Object[] values)
 	{
 		this.key = key;
 		this.values = values;
 	}
 
-	public void setBundle (String newBundle)
+	public void setBundle(String newBundle)
 	{
 		bundle = newBundle;
 	}
 
-	public String getBundle ()
+	public String getBundle()
 	{
 		return bundle;
 	}
@@ -162,7 +162,7 @@ public class Message implements Serializable
 	/**
 	 * Get the message key for this message.
 	 */
-	public String getKey ()
+	public String getKey()
 	{
 		return (key);
 	}
@@ -170,22 +170,22 @@ public class Message implements Serializable
 	/**
 	 * Get the replacement values for this message.
 	 */
-	public Object[] getValues ()
+	public Object[] getValues()
 	{
 		return (values);
 	}
 
-	public void setValues (Object[] newValues)
+	public void setValues(Object[] newValues)
 	{
 		values = newValues;
 	}
 
-	public synchronized void setResultString (String newString)
+	public synchronized void setResultString(String newString)
 	{
 		resultString = newString;
 	}
 
-	public String toString ()
+	public String toString()
 	{
 		String returnValue = null;
 
@@ -195,7 +195,7 @@ public class Message implements Serializable
 		}
 		else
 		{
-			returnValue = super.toString ();
+			returnValue = super.toString();
 		}
 
 		return returnValue;

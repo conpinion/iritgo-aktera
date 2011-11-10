@@ -50,18 +50,18 @@ public class SaveAkteraObjectRequest extends FrameworkServerAction
 	/**
 	 * Standard constructor
 	 */
-	public SaveAkteraObjectRequest ()
+	public SaveAkteraObjectRequest()
 	{
 	}
 
 	/**
 	 * Standard constructor
 	 */
-	public SaveAkteraObjectRequest (String model, DataObject dataObject, String onScreenUniqueId, String queryPaneId)
+	public SaveAkteraObjectRequest(String model, DataObject dataObject, String onScreenUniqueId, String queryPaneId)
 	{
 		this.model = model;
-		this.keelObjectUniqueId = dataObject.getStringAttribute ("keelObjectId");
-		this.dataObjectTypeId = dataObject.getTypeId ();
+		this.keelObjectUniqueId = dataObject.getStringAttribute("keelObjectId");
+		this.dataObjectTypeId = dataObject.getTypeId();
 		this.onScreenUniqueId = onScreenUniqueId;
 		this.dataObject = dataObject;
 		this.queryPaneId = queryPaneId;
@@ -70,49 +70,49 @@ public class SaveAkteraObjectRequest extends FrameworkServerAction
 	/**
 	 * Read the attributes from the given stream.
 	 */
-	public void readObject (FrameworkInputStream stream) throws IOException, ClassNotFoundException
+	public void readObject(FrameworkInputStream stream) throws IOException, ClassNotFoundException
 	{
-		model = stream.readUTF ();
-		keelObjectUniqueId = stream.readUTF ();
-		onScreenUniqueId = stream.readUTF ();
-		dataObjectTypeId = stream.readUTF ();
-		queryPaneId = stream.readUTF ();
+		model = stream.readUTF();
+		keelObjectUniqueId = stream.readUTF();
+		onScreenUniqueId = stream.readUTF();
+		dataObjectTypeId = stream.readUTF();
+		queryPaneId = stream.readUTF();
 
 		try
 		{
-			dataObject = (DynDataObject) Engine.instance ().getIObjectFactory ().newInstance (dataObjectTypeId);
+			dataObject = (DynDataObject) Engine.instance().getIObjectFactory().newInstance(dataObjectTypeId);
 		}
 		catch (Exception x)
 		{
 		}
 
-		dataObject.readObject (stream);
+		dataObject.readObject(stream);
 	}
 
 	/**
 	 * Write the attributes to the given stream.
 	 */
-	public void writeObject (FrameworkOutputStream stream) throws IOException
+	public void writeObject(FrameworkOutputStream stream) throws IOException
 	{
-		stream.writeUTF (model);
-		stream.writeUTF (keelObjectUniqueId);
-		stream.writeUTF (onScreenUniqueId);
-		stream.writeUTF (dataObjectTypeId);
-		stream.writeUTF (queryPaneId);
-		dataObject.writeObject (stream);
+		stream.writeUTF(model);
+		stream.writeUTF(keelObjectUniqueId);
+		stream.writeUTF(onScreenUniqueId);
+		stream.writeUTF(dataObjectTypeId);
+		stream.writeUTF(queryPaneId);
+		dataObject.writeObject(stream);
 	}
 
 	/**
 	 * Perform the action.
 	 */
-	public void perform ()
+	public void perform()
 	{
-		ConnectorServerManager connectorServerManager = (ConnectorServerManager) Engine.instance ()
-						.getManagerRegistry ().getManager ("ConnectorServerManager");
+		ConnectorServerManager connectorServerManager = (ConnectorServerManager) Engine.instance().getManagerRegistry()
+						.getManager("ConnectorServerManager");
 
-		connectorServerManager.saveKeelObject (model, keelObjectUniqueId, dataObject, userUniqueId);
+		connectorServerManager.saveKeelObject(model, keelObjectUniqueId, dataObject, userUniqueId);
 
-		ActionTools.sendToClient (userUniqueId, new SaveAkteraObjectResponse (model, keelObjectUniqueId,
+		ActionTools.sendToClient(userUniqueId, new SaveAkteraObjectResponse(model, keelObjectUniqueId,
 						onScreenUniqueId, queryPaneId));
 	}
 }

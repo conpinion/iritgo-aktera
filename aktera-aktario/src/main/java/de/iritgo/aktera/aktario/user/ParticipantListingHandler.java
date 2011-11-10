@@ -48,77 +48,76 @@ public class ParticipantListingHandler extends ListingHandler
 	 *      de.iritgo.aktera.ui.listing.ListingHandler, ListContext)
 	 */
 	@Override
-	public ListFiller createListing (ModelRequest request, final ListingDescriptor listing, ListingHandler handler,
+	public ListFiller createListing(ModelRequest request, final ListingDescriptor listing, ListingHandler handler,
 					ListContext context) throws ModelException, PersistenceException
 	{
-		Properties props = new Properties ();
-		List aktarioUsers = (List) CommandTools.performSimple ("aktario-participant.GetParticipantList", props);
+		Properties props = new Properties();
+		List aktarioUsers = (List) CommandTools.performSimple("aktario-participant.GetParticipantList", props);
 
-		Collections.sort (aktarioUsers, new Comparator ()
+		Collections.sort(aktarioUsers, new Comparator()
 		{
-			public int compare (Object o1, Object o2)
+			public int compare(Object o1, Object o2)
 			{
-				return ((String) ((Map) o1).get ("aktarioUserName")).compareTo ((String) ((Map) o2)
-								.get ("aktarioUserName"));
+				return ((String) ((Map) o1).get("aktarioUserName")).compareTo((String) ((Map) o2)
+								.get("aktarioUserName"));
 			}
 		});
 
 		final List users = aktarioUsers;
 
-		Collections.sort (users, new Comparator ()
+		Collections.sort(users, new Comparator()
 		{
-			public int compare (Object o1, Object o2)
+			public int compare(Object o1, Object o2)
 			{
-				SortOrder sort = listing.getSortOrder ();
-				String column = listing.getSortColumnName ();
+				SortOrder sort = listing.getSortOrder();
+				String column = listing.getSortColumnName();
 
-				column = column.substring (column.indexOf ('.') + 1);
+				column = column.substring(column.indexOf('.') + 1);
 
 				Map m1 = sort == SortOrder.ASCENDING ? (Map) o1 : (Map) o2;
 				Map m2 = sort == SortOrder.ASCENDING ? (Map) o2 : (Map) o1;
 
-				if ("online".equals (column))
+				if ("online".equals(column))
 				{
-					return ((Integer) m1.get ("onlineUser")).intValue ()
-									- ((Integer) m2.get ("onlineUser")).intValue ();
+					return ((Integer) m1.get("onlineUser")).intValue() - ((Integer) m2.get("onlineUser")).intValue();
 				}
-				else if ("name".equals (column))
+				else if ("name".equals(column))
 				{
-					return ((String) m1.get ("aktarioUserName")).compareTo ((String) m2.get ("aktarioUserName"));
+					return ((String) m1.get("aktarioUserName")).compareTo((String) m2.get("aktarioUserName"));
 				}
 
 				return 0;
 			}
 		});
 
-		return new ListFiller ()
+		return new ListFiller()
 		{
-			Iterator i = users.iterator ();
+			Iterator i = users.iterator();
 
 			Map current = null;
 
-			public int getRowCount ()
+			public int getRowCount()
 			{
-				return users.size ();
+				return users.size();
 			}
 
-			public boolean next ()
+			public boolean next()
 			{
-				boolean more = i.hasNext ();
+				boolean more = i.hasNext();
 
 				if (more)
 				{
-					current = (Map) i.next ();
+					current = (Map) i.next();
 				}
 
 				return more;
 			}
 
-			public Object getValue (String column)
+			public Object getValue(String column)
 			{
-				if ("online".equals (column))
+				if ("online".equals(column))
 				{
-					switch ((Integer) current.get ("availableState"))
+					switch ((Integer) current.get("availableState"))
 					{
 						case - 1:
 							return "user-offline-24";
@@ -154,9 +153,9 @@ public class ParticipantListingHandler extends ListingHandler
 							return "user-online-forward-24";
 					}
 				}
-				else if ("name".equals (column))
+				else if ("name".equals(column))
 				{
-					return current.get ("aktarioUserName");
+					return current.get("aktarioUserName");
 				}
 
 				return null;

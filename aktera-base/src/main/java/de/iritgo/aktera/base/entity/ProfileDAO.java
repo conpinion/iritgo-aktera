@@ -32,5 +32,5 @@ public interface ProfileDAO
 	 *
 	 * @param party The party
 	 */
-	public void createProfile (Profile profile);
+	public void createProfile(Profile profile);
 }

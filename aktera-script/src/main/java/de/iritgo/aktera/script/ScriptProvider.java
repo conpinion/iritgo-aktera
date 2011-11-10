@@ -36,14 +36,14 @@ public interface ScriptProvider
 	 * @return The script
 	 * @throws ScriptNotFoundException If the script was not found
 	 */
-	public Script find (String scriptName) throws ScriptNotFoundException;
+	public Script find(String scriptName) throws ScriptNotFoundException;
 
 	/**
 	 * List the names of all scripts known to this provider.
 	 *
 	 * @return A list of script id, name, display names, keyed by name
 	 */
-	public List<KeyedValue2<String, Integer, String>> listScriptNames ();
+	public List<KeyedValue2<String, Integer, String>> listScriptNames();
 
 	/**
 	 * List the names of all scripts that implement a specific method.
@@ -51,7 +51,7 @@ public interface ScriptProvider
 	 * @param methodName The name of the implemented method
 	 * @return A list of script id, name, display names, keyed by name
 	 */
-	public List<KeyedValue2<String, Integer, String>> listScriptNamesByImplementedMethod (String methodName);
+	public List<KeyedValue2<String, Integer, String>> listScriptNamesByImplementedMethod(String methodName);
 
 	/**
 	 * Mark the specified script as invalid. This instructs the script provider
@@ -59,7 +59,7 @@ public interface ScriptProvider
 	 *
 	 * @param scriptName The name of the script
 	 */
-	public void invalidate (String scriptName);
+	public void invalidate(String scriptName);
 
 	/**
 	 * Retrieve a script name by a script id.
@@ -67,7 +67,7 @@ public interface ScriptProvider
 	 * @param id The script id
 	 * @return The script name or null if none was found
 	 */
-	public String findScriptNameById (Integer id);
+	public String findScriptNameById(Integer id);
 
 	/**
 	 * Retrieve a script display name by a script id.
@@ -75,5 +75,5 @@ public interface ScriptProvider
 	 * @param id The script id
 	 * @return The script name or null if none was found
 	 */
-	public String findScriptDisplayNameById (Integer id);
+	public String findScriptDisplayNameById(Integer id);
 }

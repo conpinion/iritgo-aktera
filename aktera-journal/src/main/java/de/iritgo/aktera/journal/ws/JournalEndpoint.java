@@ -50,59 +50,58 @@ public class JournalEndpoint
 	private SecurityContext securityContext;
 
 	@PayloadRoot(localPart = "countJournalRequest", namespace = "http://aktera.iritgo.de/webservices/journal")
-	public CountJournalResponse count (CountJournalRequest request) throws Exception
+	public CountJournalResponse count(CountJournalRequest request) throws Exception
 	{
-		AkteraUser user = securityContext.getUser ();
-		CountJournalResponse response = new CountJournalResponse ();
+		AkteraUser user = securityContext.getUser();
+		CountJournalResponse response = new CountJournalResponse();
 
-		response.setCount ((int) journalManager.countJournalEntries (request.getQuery (), new Timestamp (0),
-						new Timestamp (new Date ().getTime ()), user.getId (), ""));
+		response.setCount((int) journalManager.countJournalEntries(request.getQuery(), new Timestamp(0), new Timestamp(
+						new Date().getTime()), user.getId(), ""));
 
 		return response;
 	}
 
 	@PayloadRoot(localPart = "listJournalRequest", namespace = "http://aktera.iritgo.de/webservices/journal")
-	public ListJournalResponse list (ListJournalRequest request) throws Exception
+	public ListJournalResponse list(ListJournalRequest request) throws Exception
 	{
-		AkteraUser user = securityContext.getUser ();
-		int firstResult = request.getFirstResult () != null ? request.getFirstResult ().intValue () : 0;
-		int maxResults = request.getMaxResults () != null ? request.getMaxResults ().intValue () : 100;
-		SortOrder orderDir = request.getOrderDir () != null ? SortOrder.byId (request.getOrderDir ())
+		AkteraUser user = securityContext.getUser();
+		int firstResult = request.getFirstResult() != null ? request.getFirstResult().intValue() : 0;
+		int maxResults = request.getMaxResults() != null ? request.getMaxResults().intValue() : 100;
+		SortOrder orderDir = request.getOrderDir() != null ? SortOrder.byId(request.getOrderDir())
 						: SortOrder.ASCENDING;
-		String orderBy = StringTools.isNotTrimEmpty (request.getOrderBy ()) ? request.getOrderBy ()
-						: "journal.occurredAt";
+		String orderBy = StringTools.isNotTrimEmpty(request.getOrderBy()) ? request.getOrderBy() : "journal.occurredAt";
 
-		ListJournalResponse response = new ListJournalResponse ();
-		DatatypeFactory datatypeFactory = DatatypeFactory.newInstance ();
+		ListJournalResponse response = new ListJournalResponse();
+		DatatypeFactory datatypeFactory = DatatypeFactory.newInstance();
 
-		for (Map<String, Object> entry : journalManager.listJournalEntries (request.getQuery (), new Timestamp (0),
-						new Timestamp (new Date ().getTime ()), user.getId (), "", orderBy, orderDir, firstResult,
+		for (Map<String, Object> entry : journalManager.listJournalEntries(request.getQuery(), new Timestamp(0),
+						new Timestamp(new Date().getTime()), user.getId(), "", orderBy, orderDir, firstResult,
 						maxResults))
 		{
-			ListJournalResponse.Entry entryElement = new ListJournalResponse.Entry ();
+			ListJournalResponse.Entry entryElement = new ListJournalResponse.Entry();
 
-			entryElement.setId ((long) (Integer) entry.get ("id"));
-			entryElement.setPrimaryType ((String) entry.get ("primaryType"));
-			entryElement.setSecondaryType ((String) entry.get ("secondaryType"));
-			entryElement.setSecondaryTypeText ((String) entry.get ("secondaryTypeText"));
-			entryElement.setMessage (StringTools.trim (entry.get ("message")));
-			entryElement.setShortMessage (StringTools.trim (entry.get ("shortMessage")));
-			entryElement.setSource (StringTools.trim (entry.get ("source")));
+			entryElement.setId((long) (Integer) entry.get("id"));
+			entryElement.setPrimaryType((String) entry.get("primaryType"));
+			entryElement.setSecondaryType((String) entry.get("secondaryType"));
+			entryElement.setSecondaryTypeText((String) entry.get("secondaryTypeText"));
+			entryElement.setMessage(StringTools.trim(entry.get("message")));
+			entryElement.setShortMessage(StringTools.trim(entry.get("shortMessage")));
+			entryElement.setSource(StringTools.trim(entry.get("source")));
 
-			Calendar entryCal = GregorianCalendar.getInstance ();
+			Calendar entryCal = GregorianCalendar.getInstance();
 
-			entryCal.setTimeInMillis (((Timestamp) entry.get ("occurredAt")).getTime ());
+			entryCal.setTimeInMillis(((Timestamp) entry.get("occurredAt")).getTime());
 
-			XMLGregorianCalendar xmlCal = datatypeFactory.newXMLGregorianCalendar ();
+			XMLGregorianCalendar xmlCal = datatypeFactory.newXMLGregorianCalendar();
 
-			xmlCal.setHour (entryCal.get (Calendar.HOUR_OF_DAY));
-			xmlCal.setMinute (entryCal.get (Calendar.MINUTE));
-			xmlCal.setSecond (entryCal.get (Calendar.SECOND));
-			xmlCal.setDay (entryCal.get (Calendar.DAY_OF_MONTH));
-			xmlCal.setMonth (entryCal.get (Calendar.MONTH) + 1);
-			xmlCal.setYear (entryCal.get (Calendar.YEAR));
-			entryElement.setOccurredAt (xmlCal);
-			response.getEntry ().add (entryElement);
+			xmlCal.setHour(entryCal.get(Calendar.HOUR_OF_DAY));
+			xmlCal.setMinute(entryCal.get(Calendar.MINUTE));
+			xmlCal.setSecond(entryCal.get(Calendar.SECOND));
+			xmlCal.setDay(entryCal.get(Calendar.DAY_OF_MONTH));
+			xmlCal.setMonth(entryCal.get(Calendar.MONTH) + 1);
+			xmlCal.setYear(entryCal.get(Calendar.YEAR));
+			entryElement.setOccurredAt(xmlCal);
+			response.getEntry().add(entryElement);
 		}
 
 		return response;

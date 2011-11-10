@@ -56,7 +56,7 @@ public abstract class AbstractWebappClientConnector extends AbstractClientConnec
 
 	protected static final String COMMAND_PARAM = "COMMAND_";
 
-	protected static final int COMMAND_PARAM_LEN = COMMAND_PARAM.length ();
+	protected static final int COMMAND_PARAM_LEN = COMMAND_PARAM.length();
 
 	protected static final String MODEL_PARAM = "model";
 
@@ -72,29 +72,29 @@ public abstract class AbstractWebappClientConnector extends AbstractClientConnec
 	 * This method is called after the webapp-specific request/response pair has
 	 * been wrapped into a WebappRequest and WebappResponse pair.
 	 */
-	protected KeelResponse execute (WebappRequest wreq, WebappResponse wres, String defaultModelName)
+	protected KeelResponse execute(WebappRequest wreq, WebappResponse wres, String defaultModelName)
 		throws ClientException, ModelException
 	{
 		if (! initParamsParsed)
 		{
-			setContext (parseInitParameters (wreq));
+			setContext(parseInitParameters(wreq));
 			initParamsParsed = true;
 		}
 
-		KeelRequest kreq = makeKeelRequest (wreq, defaultModelName);
+		KeelRequest kreq = makeKeelRequest(wreq, defaultModelName);
 
-		KeelResponse kres = super.execute (kreq);
+		KeelResponse kres = super.execute(kreq);
 
 		if (kres == null)
 		{
-			throw new ClientException ("Model response was null");
+			throw new ClientException("Model response was null");
 		}
 
-		String modelName = kreq.getModel ();
+		String modelName = kreq.getModel();
 
-		kres.setAttribute ("model", modelName);
+		kres.setAttribute("model", modelName);
 
-		makeWebappResponse (kreq, kres, wres, wreq, modelName);
+		makeWebappResponse(kreq, kres, wres, wreq, modelName);
 
 		return kres;
 	}
@@ -109,15 +109,15 @@ public abstract class AbstractWebappClientConnector extends AbstractClientConnec
 	 * @return The Keel request
 	 * @throws ClientException
 	 */
-	protected KeelRequest makeKeelRequest (WebappRequest wreq, String defaultModelName) throws ClientException
+	protected KeelRequest makeKeelRequest(WebappRequest wreq, String defaultModelName) throws ClientException
 	{
-		KeelRequest kreq = createRequest ();
+		KeelRequest kreq = createRequest();
 
-		setRequestParameters (wreq, kreq);
-		setRequestModel (wreq, kreq, defaultModelName);
-		setRequestAttributes (wreq, kreq);
-		setRequestCookies (wreq, kreq);
-		setRequestLocale (wreq, kreq);
+		setRequestParameters(wreq, kreq);
+		setRequestModel(wreq, kreq, defaultModelName);
+		setRequestAttributes(wreq, kreq);
+		setRequestCookies(wreq, kreq);
+		setRequestLocale(wreq, kreq);
 
 		return kreq;
 	}
@@ -129,24 +129,24 @@ public abstract class AbstractWebappClientConnector extends AbstractClientConnec
 	 *            The Keel response
 	 * @return The webapp response
 	 */
-	protected WebappResponse makeWebappResponse (KeelRequest kreq, KeelResponse kres, WebappResponse wres,
+	protected WebappResponse makeWebappResponse(KeelRequest kreq, KeelResponse kres, WebappResponse wres,
 					WebappRequest wreq, String modelName) throws ClientException
 	{
-		setResponseCookies (kres, wres);
+		setResponseCookies(kres, wres);
 
 		return wres;
 	}
 
-	protected void setRequestCookies (WebappRequest wreq, KeelRequest kreq) throws ClientException
+	protected void setRequestCookies(WebappRequest wreq, KeelRequest kreq) throws ClientException
 	{
-		Cookie[] cookies = wreq.getCookies ();
+		Cookie[] cookies = wreq.getCookies();
 		Map cmap = null;
 
 		if (cookies != null)
 		{
 			if (cookies.length > 0)
 			{
-				cmap = new HashMap (cookies.length);
+				cmap = new HashMap(cookies.length);
 
 				for (int i = 0; i < cookies.length; i++)
 				{
@@ -154,341 +154,340 @@ public abstract class AbstractWebappClientConnector extends AbstractClientConnec
 
 					try
 					{
-						String decoded = URLDecoder.decode (c.getValue (), "UTF-8");
+						String decoded = URLDecoder.decode(c.getValue(), "UTF-8");
 
-						cmap.put (c.getName (), decoded);
-						log.debug ("Cookie '" + c.getName () + "', value '" + decoded + "'");
+						cmap.put(c.getName(), decoded);
+						log.debug("Cookie '" + c.getName() + "', value '" + decoded + "'");
 					}
 					catch (UnsupportedEncodingException e)
 					{
-						throw new ClientException (e);
+						throw new ClientException(e);
 					}
 				}
 
-				kreq.setAttribute ("cookies", cmap);
+				kreq.setAttribute("cookies", cmap);
 			}
 			else
 			{
-				if (log.isDebugEnabled ())
+				if (log.isDebugEnabled())
 				{
-					log.debug ("No cookies");
+					log.debug("No cookies");
 				}
 			}
 		}
 		else
 		{
-			if (log.isDebugEnabled ())
+			if (log.isDebugEnabled())
 			{
-				log.debug ("Null cookies");
+				log.debug("Null cookies");
 			}
 		}
 	}
 
-	protected void setRequestParameters (WebappRequest wreq, KeelRequest kreq) throws ClientException
+	protected void setRequestParameters(WebappRequest wreq, KeelRequest kreq) throws ClientException
 	{
 		String oneParamName = null;
 
-		for (Enumeration e = wreq.getParameterNames (); e.hasMoreElements ();)
+		for (Enumeration e = wreq.getParameterNames(); e.hasMoreElements();)
 		{
-			oneParamName = (String) e.nextElement ();
+			oneParamName = (String) e.nextElement();
 
 			/* If the URL has a trailing "&" on it, we'll get a blank param */
 			/* name. Don't crash - just don't use that one */
-			if (! oneParamName.equals (""))
+			if (! oneParamName.equals(""))
 			{
-				oneParamName = preProcessParamName (oneParamName);
+				oneParamName = preProcessParamName(oneParamName);
 
-				if (oneParamName.startsWith (COMMAND_PARAM))
+				if (oneParamName.startsWith(COMMAND_PARAM))
 				{
-					processCommandParam (wreq, kreq, oneParamName.substring (COMMAND_PARAM_LEN));
+					processCommandParam(wreq, kreq, oneParamName.substring(COMMAND_PARAM_LEN));
 				} /* if "COMMAND_" */
-				else if (oneParamName.equals (MODEL_PARAMS_PARAM))
+				else if (oneParamName.equals(MODEL_PARAMS_PARAM))
 				{
-					processCommandParam (wreq, kreq, wreq.getParameter (MODEL_PARAMS_PARAM));
+					processCommandParam(wreq, kreq, wreq.getParameter(MODEL_PARAMS_PARAM));
 				}
 
-				if ((! oneParamName.startsWith (COMMAND_PARAM)) && (! oneParamName.startsWith (PARAMETER_PARAM))
-								&& (! oneParamName.equals (MODEL_PARAMS_PARAM)))
+				if ((! oneParamName.startsWith(COMMAND_PARAM)) && (! oneParamName.startsWith(PARAMETER_PARAM))
+								&& (! oneParamName.equals(MODEL_PARAMS_PARAM)))
 				{
-					processNonCommandParam (wreq, kreq, oneParamName);
+					processNonCommandParam(wreq, kreq, oneParamName);
 				}
 			} /* if the parameter name is not blank */
 		}
 	}
 
-	protected void setRequestAttributes (WebappRequest wreq, KeelRequest kreq)
+	protected void setRequestAttributes(WebappRequest wreq, KeelRequest kreq)
 	{
 		/*
 		 * A couple of "special-purpose" request attributes are used to send
 		 * servlet-specific information back to the server
 		 */
-		kreq.setAttribute ("sessionid", wreq.getSessionId ());
-		kreq.setAttribute ("IPAddress", wreq.getRemoteAddr ());
+		kreq.setAttribute("sessionid", wreq.getSessionId());
+		kreq.setAttribute("IPAddress", wreq.getRemoteAddr());
 	}
 
-	protected void setRequestModel (WebappRequest wreq, KeelRequest kreq, String defaultModelName)
+	protected void setRequestModel(WebappRequest wreq, KeelRequest kreq, String defaultModelName)
 		throws ClientException
 	{
-		String modelName = (String) kreq.getParameter (KEEL_MODEL_PARAM);
+		String modelName = (String) kreq.getParameter(KEEL_MODEL_PARAM);
 
-		if ((modelName == null) || (modelName.trim ().equals ("")))
+		if ((modelName == null) || (modelName.trim().equals("")))
 		{
 			modelName = defaultModelName;
 		}
 
-		if ((modelName != null) && (! modelName.trim ().equals ("")))
+		if ((modelName != null) && (! modelName.trim().equals("")))
 		{
-			kreq.setModel (modelName);
+			kreq.setModel(modelName);
 
 			return;
 		}
 
-		String beanName = (String) kreq.getParameter (BEAN_PARAM);
+		String beanName = (String) kreq.getParameter(BEAN_PARAM);
 
-		if ((beanName == null) || (beanName.trim ().equals ("")))
+		if ((beanName == null) || (beanName.trim().equals("")))
 		{
 			beanName = defaultModelName;
 		}
 
-		if ((beanName != null) && (! beanName.trim ().equals ("")))
+		if ((beanName != null) && (! beanName.trim().equals("")))
 		{
-			kreq.setBean (beanName);
+			kreq.setBean(beanName);
 
 			return;
 		}
 
-		throw new ClientException ("No model/bean specified in request: '" + wreq.getRequestURL () + "?"
-						+ wreq.getQueryString () + "'");
+		throw new ClientException("No model/bean specified in request: '" + wreq.getRequestURL() + "?"
+						+ wreq.getQueryString() + "'");
 	}
 
-	protected void setResponseCookies (KeelResponse kres, WebappResponse wres) throws ClientException
+	protected void setResponseCookies(KeelResponse kres, WebappResponse wres) throws ClientException
 	{
 		/* Set any "outbound" cookies */
-		Object setCookies = kres.getAttribute ("cookies");
+		Object setCookies = kres.getAttribute("cookies");
 
 		if (setCookies == null)
 		{
-			log.debug ("No cookies returned");
+			log.debug("No cookies returned");
 		}
 
 		if (setCookies instanceof Map)
 		{
-			log.debug ("Returned cookies");
+			log.debug("Returned cookies");
 
 			Map returnCookies = (Map) setCookies;
 			String oneName = null;
 			Object oneValue = null;
 			String oneValueString = null;
 
-			for (Iterator ic = returnCookies.keySet ().iterator (); ic.hasNext ();)
+			for (Iterator ic = returnCookies.keySet().iterator(); ic.hasNext();)
 			{
-				oneName = (String) ic.next ();
-				oneValue = returnCookies.get (oneName);
+				oneName = (String) ic.next();
+				oneValue = returnCookies.get(oneName);
 
 				if (oneValue != null)
 				{
 					try
 					{
-						oneValueString = URLEncoder.encode (oneValue.toString (), "UTF-8");
+						oneValueString = URLEncoder.encode(oneValue.toString(), "UTF-8");
 					}
 					catch (UnsupportedEncodingException e)
 					{
-						throw new ClientException ("Error setting cookies", e);
+						throw new ClientException("Error setting cookies", e);
 					}
 
-					Cookie c = new Cookie (oneName, oneValueString);
+					Cookie c = new Cookie(oneName, oneValueString);
 
-					c.setMaxAge (2592000);
-					c.setPath ("/");
-					wres.addCookie (c);
-					log.debug ("Stored cookie '" + oneName + "', value '" + oneValueString + "'");
+					c.setMaxAge(2592000);
+					c.setPath("/");
+					wres.addCookie(c);
+					log.debug("Stored cookie '" + oneName + "', value '" + oneValueString + "'");
 				}
 			}
 		}
 	}
 
-	protected void processNonCommandParam (WebappRequest wreq, KeelRequest kreq, String oneParamName)
+	protected void processNonCommandParam(WebappRequest wreq, KeelRequest kreq, String oneParamName)
 	{
-		final String[] values = wreq.getParameterValues (oneParamName);
+		final String[] values = wreq.getParameterValues(oneParamName);
 
 		if (values.length <= 1)
 		{
-			kreq.setParameter (oneParamName, wreq.getParameter (oneParamName));
+			kreq.setParameter(oneParamName, wreq.getParameter(oneParamName));
 		}
 		else
 		{
-			kreq.setParameter (oneParamName, values);
+			kreq.setParameter(oneParamName, values);
 		}
 
-		if (log.isDebugEnabled ())
+		if (log.isDebugEnabled())
 		{
-			log.debug ("Regular form parameter '" + oneParamName + "', '" + wreq.getParameter (oneParamName) + "'");
+			log.debug("Regular form parameter '" + oneParamName + "', '" + wreq.getParameter(oneParamName) + "'");
 		}
 	}
 
-	protected void processCommandParam (WebappRequest wreq, KeelRequest kreq, String commandName)
-		throws ClientException
+	protected void processCommandParam(WebappRequest wreq, KeelRequest kreq, String commandName) throws ClientException
 	{
-		if (commandName == null || "".equals (commandName))
+		if (commandName == null || "".equals(commandName))
 		{
 			return;
 		}
 
-		if (log.isDebugEnabled ())
+		if (log.isDebugEnabled())
 		{
-			log.debug ("Command:'" + commandName + "'");
+			log.debug("Command:'" + commandName + "'");
 		}
 
-		String associatedParams = wreq.getParameter (PARAMETER_PARAM + commandName);
+		String associatedParams = wreq.getParameter(PARAMETER_PARAM + commandName);
 
 		if (associatedParams == null)
 		{
-			throw new ClientException ("Command '" + commandName + "' was found, but no parameters under name '"
+			throw new ClientException("Command '" + commandName + "' was found, but no parameters under name '"
 							+ PARAMETER_PARAM + commandName + "' was found");
 		}
 
-		StringTokenizer stk1 = new StringTokenizer (associatedParams, "&");
+		StringTokenizer stk1 = new StringTokenizer(associatedParams, "&");
 		String onePair = null;
 		String oneCommandParamName = null;
 		String oneCommandParamValue = null;
 
-		while (stk1.hasMoreTokens ())
+		while (stk1.hasMoreTokens())
 		{
-			onePair = stk1.nextToken ();
+			onePair = stk1.nextToken();
 
-			StringTokenizer stk2 = new StringTokenizer (onePair, "=");
+			StringTokenizer stk2 = new StringTokenizer(onePair, "=");
 
-			oneCommandParamName = stk2.nextToken ();
+			oneCommandParamName = stk2.nextToken();
 
-			if (! stk2.hasMoreTokens ())
+			if (! stk2.hasMoreTokens())
 			{
 				oneCommandParamValue = "";
 			}
 			else
 			{
-				oneCommandParamValue = stk2.nextToken ();
+				oneCommandParamValue = stk2.nextToken();
 			}
 
-			if (oneCommandParamName.equals (MODEL_PARAM))
+			if (oneCommandParamName.equals(MODEL_PARAM))
 			{
-				if (log.isDebugEnabled ())
+				if (log.isDebugEnabled())
 				{
-					log.debug ("Model from command:'" + oneCommandParamValue + "'");
+					log.debug("Model from command:'" + oneCommandParamValue + "'");
 				}
 
-				kreq.setParameter (KEEL_MODEL_PARAM, oneCommandParamValue);
+				kreq.setParameter(KEEL_MODEL_PARAM, oneCommandParamValue);
 			}
 			else
 			{
-				if (log.isDebugEnabled ())
+				if (log.isDebugEnabled())
 				{
-					log.debug ("Parameter '" + oneCommandParamName + "', '" + oneCommandParamValue + "'");
+					log.debug("Parameter '" + oneCommandParamName + "', '" + oneCommandParamValue + "'");
 				}
 
-				kreq.setParameter (oneCommandParamName, oneCommandParamValue);
+				kreq.setParameter(oneCommandParamName, oneCommandParamValue);
 			} /* else */
 		} /* while more parameters */
 	}
 
-	protected String preProcessParamName (String oneParamName)
+	protected String preProcessParamName(String oneParamName)
 	{
 		return oneParamName;
 	}
 
-	protected KeelRequest createRequest ()
+	protected KeelRequest createRequest()
 	{
-		KeelRequest kreq = new ModelRequestMessage ();
+		KeelRequest kreq = new ModelRequestMessage();
 
 		return kreq;
 	}
 
-	protected Map parseInitParameters (WebappRequest wreq) throws ClientException
+	protected Map parseInitParameters(WebappRequest wreq) throws ClientException
 	{
 		assert wreq != null;
 
-		HashMap clientContext = new HashMap ();
+		HashMap clientContext = new HashMap();
 
 		/* There were no available clients - initialize */
 
 		/* If the keel.config.dir is set in web.xml, override the */
 		/* existing system property by that name with the custom */
 		/* value. Only used if we're using a KeelDirect client! */
-		String configPath = wreq.getInitParameter (KeelClient.CONFIG_DIR);
+		String configPath = wreq.getInitParameter(KeelClient.CONFIG_DIR);
 
 		if (configPath != null)
 		{
-			if (! configPath.equals (""))
+			if (! configPath.equals(""))
 			{
-				System.setProperty (KeelClient.CONFIG_DIR, getWebappPath (wreq, configPath));
+				System.setProperty(KeelClient.CONFIG_DIR, getWebappPath(wreq, configPath));
 			}
 		}
 		else
 		{
-			configPath = System.getProperty (KeelClient.CONFIG_DIR);
+			configPath = System.getProperty(KeelClient.CONFIG_DIR);
 		}
 
 		/* Determine from configuration what client to use */
-		String clientClass = wreq.getInitParameter ("jms-client");
+		String clientClass = wreq.getInitParameter("jms-client");
 
 		if (clientClass == null)
 		{
 			clientClass = "de.iritgo.aktera.comm.openjms.clients.KeelJmsClientOpenJMS";
-			log.info ("No jms-client parameter supplied - using default OpenJMS client");
+			log.info("No jms-client parameter supplied - using default OpenJMS client");
 		}
 
-		String clientConfig = wreq.getInitParameter ("jms-config");
+		String clientConfig = wreq.getInitParameter("jms-config");
 
 		if (clientConfig == null)
 		{
 			/* Use default configuration */
-			clientConfig = new String ("rmi://localhost:1099/JndiServer");
+			clientConfig = new String("rmi://localhost:1099/JndiServer");
 		}
 
-		clientContext.put (KeelClient.CONFIG_DIR, configPath);
-		clientContext.put (KeelClient.CLIENT_CLASS, clientClass);
-		clientContext.put (KeelClient.CLIENT_CONFIG, clientConfig);
+		clientContext.put(KeelClient.CONFIG_DIR, configPath);
+		clientContext.put(KeelClient.CLIENT_CLASS, clientClass);
+		clientContext.put(KeelClient.CLIENT_CONFIG, clientConfig);
 
 		return clientContext;
 	}
 
-	protected String getWebappPath (WebappRequest request, String configPath) throws ClientException
+	protected String getWebappPath(WebappRequest request, String configPath) throws ClientException
 	{
-		String sep = System.getProperty ("file.separator");
+		String sep = System.getProperty("file.separator");
 		String newPath = configPath;
 
-		if (! configPath.startsWith ("/") && ! configPath.startsWith (sep))
+		if (! configPath.startsWith("/") && ! configPath.startsWith(sep))
 		{
-			String contextPath = request.getRealPath (".");
+			String contextPath = request.getRealPath(".");
 
 			newPath = contextPath + sep + configPath;
 		}
 
-		File configDir = new File (newPath);
+		File configDir = new File(newPath);
 
 		try
 		{
-			return configDir.getCanonicalPath ();
+			return configDir.getCanonicalPath();
 		}
 		catch (IOException e)
 		{
-			throw new ClientException ("Error getting configuration dir", e);
+			throw new ClientException("Error getting configuration dir", e);
 		}
 	}
 
-	public void setInitParamsParsed (boolean initParamsParsed)
+	public void setInitParamsParsed(boolean initParamsParsed)
 	{
 		AbstractWebappClientConnector.initParamsParsed = initParamsParsed;
 	}
 
-	public void removeSessionContext (String id)
+	public void removeSessionContext(String id)
 	{
-		KeelAbstractServer.removeContext (id);
+		KeelAbstractServer.removeContext(id);
 	}
 
 	/***
 	 */
-	protected void setRequestLocale (WebappRequest wreq, KeelRequest kreq)
+	protected void setRequestLocale(WebappRequest wreq, KeelRequest kreq)
 	{
-		kreq.setLocale (wreq.getLocale ());
+		kreq.setLocale(wreq.getLocale());
 	}
 }

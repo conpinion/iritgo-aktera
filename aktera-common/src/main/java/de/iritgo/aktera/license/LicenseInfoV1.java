@@ -82,23 +82,23 @@ public class LicenseInfoV1
 		"5c2fe8cd-1044791f229-7fff"
 	};
 
-	public LicenseInfoV1 ()
+	public LicenseInfoV1()
 	{
 	}
 
-	public LicenseInfoV1 (Properties props)
+	public LicenseInfoV1(Properties props)
 	{
-		id = props.getProperty ("id");
-		vendor = props.getProperty ("vendor");
-		product = props.getProperty ("product");
-		version = props.getProperty ("version");
-		type = props.getProperty ("type");
-		serial = props.getProperty ("serial");
-		name = props.getProperty ("name");
-		company = props.getProperty ("company");
-		host = props.getProperty ("host");
+		id = props.getProperty("id");
+		vendor = props.getProperty("vendor");
+		product = props.getProperty("product");
+		version = props.getProperty("version");
+		type = props.getProperty("type");
+		serial = props.getProperty("serial");
+		name = props.getProperty("name");
+		company = props.getProperty("company");
+		host = props.getProperty("host");
 
-		if (UNLIMITED.equals (props.getProperty ("users")))
+		if (UNLIMITED.equals(props.getProperty("users")))
 		{
 			users = null;
 		}
@@ -106,15 +106,15 @@ public class LicenseInfoV1
 		{
 			try
 			{
-				users = new Integer (Integer.parseInt (props.getProperty ("users")));
+				users = new Integer(Integer.parseInt(props.getProperty("users")));
 			}
 			catch (NumberFormatException x)
 			{
-				users = new Integer (5);
+				users = new Integer(5);
 			}
 		}
 
-		if (UNLIMITED.equals (props.getProperty ("validity")))
+		if (UNLIMITED.equals(props.getProperty("validity")))
 		{
 			validUntil = null;
 		}
@@ -122,152 +122,152 @@ public class LicenseInfoV1
 		{
 			try
 			{
-				validUntil = DateFormat.getDateTimeInstance (DateFormat.LONG, DateFormat.LONG, Locale.US).parse (
-								props.getProperty ("validity"));
+				validUntil = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, Locale.US).parse(
+								props.getProperty("validity"));
 			}
 			catch (ParseException x)
 			{
-				validUntil = new Date (System.currentTimeMillis () + 5 * 60 * 1000);
+				validUntil = new Date(System.currentTimeMillis() + 5 * 60 * 1000);
 			}
 		}
 
-		checkLicense ();
+		checkLicense();
 	}
 
-	public String getId ()
+	public String getId()
 	{
 		return id;
 	}
 
-	public void setId (String id)
+	public void setId(String id)
 	{
 		this.id = id;
 	}
 
-	public String getVendor ()
+	public String getVendor()
 	{
 		return vendor;
 	}
 
-	public void setVendor (String vendor)
+	public void setVendor(String vendor)
 	{
 		this.vendor = vendor;
 	}
 
-	public String getProduct ()
+	public String getProduct()
 	{
 		return product;
 	}
 
-	public void setProduct (String product)
+	public void setProduct(String product)
 	{
 		this.product = product;
 	}
 
-	public String getVersion ()
+	public String getVersion()
 	{
 		return version;
 	}
 
-	public void setVersion (String version)
+	public void setVersion(String version)
 	{
 		this.version = version;
 	}
 
-	public String getType ()
+	public String getType()
 	{
 		return type;
 	}
 
-	public void setType (String type)
+	public void setType(String type)
 	{
 		this.type = type;
 	}
 
-	public String getSerial ()
+	public String getSerial()
 	{
 		return serial;
 	}
 
-	public void setSerial (String serial)
+	public void setSerial(String serial)
 	{
 		this.serial = serial;
 	}
 
-	public String getName ()
+	public String getName()
 	{
 		return name;
 	}
 
-	public void setName (String name)
+	public void setName(String name)
 	{
 		this.name = name;
 	}
 
-	public String getCompany ()
+	public String getCompany()
 	{
 		return company;
 	}
 
-	public void setCompany (String company)
+	public void setCompany(String company)
 	{
 		this.company = company;
 	}
 
-	public Date getValidUntil ()
+	public Date getValidUntil()
 	{
 		return validUntil;
 	}
 
-	public void setValidUntil (Date validUntil)
+	public void setValidUntil(Date validUntil)
 	{
 		this.validUntil = validUntil;
 	}
 
-	public Integer getUsers ()
+	public Integer getUsers()
 	{
 		return users;
 	}
 
-	public int getUserCount ()
+	public int getUserCount()
 	{
-		return users.intValue ();
+		return users.intValue();
 	}
 
-	public boolean hasUserLimit ()
+	public boolean hasUserLimit()
 	{
 		return users != null;
 	}
 
-	public void setUsers (Integer users)
+	public void setUsers(Integer users)
 	{
 		this.users = users;
 	}
 
-	public boolean isValid ()
+	public boolean isValid()
 	{
-		return valid && (validUntil == null || System.currentTimeMillis () <= validUntil.getTime ());
+		return valid && (validUntil == null || System.currentTimeMillis() <= validUntil.getTime());
 	}
 
-	public void setValid (boolean valid)
+	public void setValid(boolean valid)
 	{
 		this.valid = valid;
 	}
 
-	protected void checkLicense ()
+	protected void checkLicense()
 	{
-		valid = id.endsWith ("License V1.0");
+		valid = id.endsWith("License V1.0");
 
 		if (! valid)
 		{
-			System.out.println ("[LicenseTools] Wrong license file version");
+			System.out.println("[LicenseTools] Wrong license file version");
 		}
 
 		boolean inBlackList = false;
 
 		for (int i = 0; i < blackList.length; ++i)
 		{
-			if (blackList[i].equals (serial))
+			if (blackList[i].equals(serial))
 			{
 				inBlackList = true;
 			}
@@ -277,18 +277,18 @@ public class LicenseInfoV1
 
 		if (! valid)
 		{
-			System.out.println ("[LicenseTools] Serial number is blacklisted");
+			System.out.println("[LicenseTools] Serial number is blacklisted");
 		}
 
-		if (! TYPE_MASTER.equals (type) && ! TYPE_PERSONAL.equals (type))
+		if (! TYPE_MASTER.equals(type) && ! TYPE_PERSONAL.equals(type))
 		{
-			boolean validHost = verifyHostInfo ();
+			boolean validHost = verifyHostInfo();
 
 			valid = valid && validHost;
 		}
 
-		String[] thisVersion = version.split ("\\.");
-		String[] minVersion = MIN_VERSION.split ("\\.");
+		String[] thisVersion = version.split("\\.");
+		String[] minVersion = MIN_VERSION.split("\\.");
 
 		if (thisVersion != null && thisVersion.length == 3 && minVersion != null && minVersion.length == 2)
 		{
@@ -299,7 +299,7 @@ public class LicenseInfoV1
 			{
 				try
 				{
-					thisVersionI[i] = Integer.parseInt (thisVersion[i]);
+					thisVersionI[i] = Integer.parseInt(thisVersion[i]);
 				}
 				catch (NumberFormatException x)
 				{
@@ -310,7 +310,7 @@ public class LicenseInfoV1
 			{
 				try
 				{
-					minVersionI[i] = Integer.parseInt (minVersion[i]);
+					minVersionI[i] = Integer.parseInt(minVersion[i]);
 				}
 				catch (NumberFormatException x)
 				{
@@ -328,31 +328,31 @@ public class LicenseInfoV1
 			valid = false;
 		}
 
-		if (! TYPE_HOST.equals (type) && ! TYPE_TB2.equals (type) && ! TYPE_STANDARD.equals (type)
-						&& ! TYPE_PERSONAL.equals (type))
+		if (! TYPE_HOST.equals(type) && ! TYPE_TB2.equals(type) && ! TYPE_STANDARD.equals(type)
+						&& ! TYPE_PERSONAL.equals(type))
 		{
 			valid = false;
 		}
 
 		if (! valid)
 		{
-			System.out.println ("[LicenseTools] Unable to verify application version");
+			System.out.println("[LicenseTools] Unable to verify application version");
 		}
 	}
 
-	public boolean moduleAllowed (String moduleName)
+	public boolean moduleAllowed(String moduleName)
 	{
-		if ("All Products".equals (product))
+		if ("All Products".equals(product))
 		{
 			return true;
 		}
 
-		if ("connect-pbx-arep".equals (moduleName) && ! product.contains ("AREP"))
+		if ("connect-pbx-arep".equals(moduleName) && ! product.contains("AREP"))
 		{
 			return false;
 		}
 
-		if ("connect-pbx-artg".equals (moduleName) && ! product.contains ("ARTG"))
+		if ("connect-pbx-artg".equals(moduleName) && ! product.contains("ARTG"))
 		{
 			return false;
 		}
@@ -360,19 +360,19 @@ public class LicenseInfoV1
 		return true;
 	}
 
-	public boolean appAllowed (String appName)
+	public boolean appAllowed(String appName)
 	{
-		if ("All Products".equals (product))
+		if ("All Products".equals(product))
 		{
 			return true;
 		}
 
-		if ("connect-pbx-arep".equals (appName) && ! product.contains ("AREP"))
+		if ("connect-pbx-arep".equals(appName) && ! product.contains("AREP"))
 		{
 			return false;
 		}
 
-		if ("connect-pbx-artg".equals (appName) && ! product.contains ("ARTG"))
+		if ("connect-pbx-artg".equals(appName) && ! product.contains("ARTG"))
 		{
 			return false;
 		}
@@ -380,25 +380,25 @@ public class LicenseInfoV1
 		return true;
 	}
 
-	private boolean verifyHostInfo ()
+	private boolean verifyHostInfo()
 	{
 		boolean validHost = false;
 
-		Pattern re = Pattern.compile (".+ (..:..:..:..:..:..).*");
+		Pattern re = Pattern.compile(".+ (..:..:..:..:..:..).*");
 
 		try
 		{
-			Process proc = Runtime.getRuntime ().exec ("/sbin/ifconfig");
-			BufferedReader in = new BufferedReader (new InputStreamReader (proc.getInputStream ()));
+			Process proc = Runtime.getRuntime().exec("/sbin/ifconfig");
+			BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
 			String line = null;
 
-			while ((line = in.readLine ()) != null)
+			while ((line = in.readLine()) != null)
 			{
-				Matcher matcher = re.matcher (line);
+				Matcher matcher = re.matcher(line);
 
-				if (matcher.matches ())
+				if (matcher.matches())
 				{
-					if (matcher.group (1).equals (host))
+					if (matcher.group(1).equals(host))
 					{
 						validHost = true;
 					}
@@ -407,24 +407,24 @@ public class LicenseInfoV1
 		}
 		catch (IOException x)
 		{
-			System.out.println ("[LicenseTools] " + x);
+			System.out.println("[LicenseTools] " + x);
 		}
 
-		re = Pattern.compile (".+ (..-..-..-..-..-..-..-..-..-..-..-..-..-..-..-..).*");
+		re = Pattern.compile(".+ (..-..-..-..-..-..-..-..-..-..-..-..-..-..-..-..).*");
 
 		try
 		{
-			Process proc = Runtime.getRuntime ().exec ("/sbin/ifconfig");
-			BufferedReader in = new BufferedReader (new InputStreamReader (proc.getInputStream ()));
+			Process proc = Runtime.getRuntime().exec("/sbin/ifconfig");
+			BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
 			String line = null;
 
-			while ((line = in.readLine ()) != null)
+			while ((line = in.readLine()) != null)
 			{
-				Matcher matcher = re.matcher (line);
+				Matcher matcher = re.matcher(line);
 
-				if (matcher.matches ())
+				if (matcher.matches())
 				{
-					if (matcher.group (1).equals (host))
+					if (matcher.group(1).equals(host))
 					{
 						validHost = true;
 					}
@@ -433,12 +433,12 @@ public class LicenseInfoV1
 		}
 		catch (IOException x)
 		{
-			System.out.println ("[LicenseTools] " + x);
+			System.out.println("[LicenseTools] " + x);
 		}
 
 		if (! validHost)
 		{
-			System.out.println ("[LicenseTools] Unable to verify host info");
+			System.out.println("[LicenseTools] Unable to verify host info");
 		}
 
 		return validHost;

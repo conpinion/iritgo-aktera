@@ -48,50 +48,50 @@ public class DomainClassesLocationsProvider extends ArrayList<String>
 	/**
 	 * Create a new HibernateMappingProvider.
 	 */
-	public DomainClassesLocationsProvider ()
+	public DomainClassesLocationsProvider()
 	{
-		ClassLoader cl = Thread.currentThread ().getContextClassLoader ();
+		ClassLoader cl = Thread.currentThread().getContextClassLoader();
 		Enumeration<URL> urls;
 
 		try
 		{
-			urls = cl.getResources ("META-INF/persistence.xml");
+			urls = cl.getResources("META-INF/persistence.xml");
 
-			while (urls.hasMoreElements ())
+			while (urls.hasMoreElements())
 			{
-				URL url = urls.nextElement ();
-				String jarPath = url.toString ();
-				int index = jarPath.lastIndexOf ("!/META-INF/persistence.xml");
+				URL url = urls.nextElement();
+				String jarPath = url.toString();
+				int index = jarPath.lastIndexOf("!/META-INF/persistence.xml");
 
 				if (index != - 1)
 				{
-					jarPath = jarPath.substring (4, index);
+					jarPath = jarPath.substring(4, index);
 
-					JarInputStream jar = new JarInputStream (new URL (jarPath).openStream ());
+					JarInputStream jar = new JarInputStream(new URL(jarPath).openStream());
 					JarEntry entry = null;
 
-					while ((entry = jar.getNextJarEntry ()) != null)
+					while ((entry = jar.getNextJarEntry()) != null)
 					{
-						String entryName = entry.getName ();
+						String entryName = entry.getName();
 
-						if (entryName.endsWith (".class"))
+						if (entryName.endsWith(".class"))
 						{
-							ClassFile cf = new ClassFile (new DataInputStream (new BufferedInputStream (jar)));
+							ClassFile cf = new ClassFile(new DataInputStream(new BufferedInputStream(jar)));
 							AnnotationsAttribute ai = (AnnotationsAttribute) cf
-											.getAttribute (AnnotationsAttribute.visibleTag);
+											.getAttribute(AnnotationsAttribute.visibleTag);
 
 							if (ai != null
-											&& (ai.getAnnotation ("javax.persistence.Entity") != null || ai
-															.getAnnotation ("org.hibernate.annotations.GenericGenerators") != null))
+											&& (ai.getAnnotation("javax.persistence.Entity") != null || ai
+															.getAnnotation("org.hibernate.annotations.GenericGenerators") != null))
 							{
-								add (cf.getName ());
+								add(cf.getName());
 							}
 						}
 
-						jar.closeEntry ();
+						jar.closeEntry();
 					}
 
-					jar.close ();
+					jar.close();
 				}
 			}
 		}

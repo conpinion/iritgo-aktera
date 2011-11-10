@@ -36,30 +36,30 @@ public class AbstractResponseElement implements ResponseElement
 {
 	private String name = null;
 
-	private List nestedElements = new ArrayList ();
+	private List nestedElements = new ArrayList();
 
-	private Map attributes = new LinkedHashMap ();
+	private Map attributes = new LinkedHashMap();
 
-	public void remove (ResponseElement element)
+	public void remove(ResponseElement element)
 	{
 		if (nestedElements != null)
 		{
-			nestedElements.remove (element);
+			nestedElements.remove(element);
 		}
 	}
 
-	public void removeAttribute (String key)
+	public void removeAttribute(String key)
 	{
 		if (attributes != null)
 		{
-			attributes.remove (key);
+			attributes.remove(key);
 		}
 	}
 
 	/*
 	 * Add a nested response element
 	 */
-	public void add (ResponseElement re)
+	public void add(ResponseElement re)
 	{
 		if (re == null)
 		{
@@ -69,16 +69,16 @@ public class AbstractResponseElement implements ResponseElement
 
 		if (nestedElements == null)
 		{
-			nestedElements = new ArrayList ();
+			nestedElements = new ArrayList();
 		}
 
 		synchronized (nestedElements)
 		{
-			nestedElements.add (re);
+			nestedElements.add(re);
 		}
 	}
 
-	public void setAttribute (String key, Object value)
+	public void setAttribute(String key, Object value)
 	{
 		if (key == null)
 		{
@@ -89,12 +89,12 @@ public class AbstractResponseElement implements ResponseElement
 		{
 			synchronized (attributes)
 			{
-				attributes.put (key, value);
+				attributes.put(key, value);
 			}
 		}
 	}
 
-	public Object getAttribute (String key)
+	public Object getAttribute(String key)
 	{
 		Object returnValue = null;
 
@@ -102,20 +102,20 @@ public class AbstractResponseElement implements ResponseElement
 		{
 			if (attributes != null)
 			{
-				returnValue = attributes.get (key);
+				returnValue = attributes.get(key);
 			}
 		}
 
 		return returnValue;
 	}
 
-	public Map getAttributes ()
+	public Map getAttributes()
 	{
 		Map returnValue = null;
 
 		if (attributes == null)
 		{
-			returnValue = new LinkedHashMap ();
+			returnValue = new LinkedHashMap();
 		}
 		else
 		{
@@ -125,20 +125,20 @@ public class AbstractResponseElement implements ResponseElement
 		return returnValue;
 	}
 
-	public void setName (String newName)
+	public void setName(String newName)
 	{
 		//assert newName != null;
 		//This failed to compile on my rig. Changing to old style for now. -
 		// ACR
 		if (newName == null)
 		{
-			throw new IllegalArgumentException ("A ResponseElement name cannot be null.");
+			throw new IllegalArgumentException("A ResponseElement name cannot be null.");
 		}
 
 		name = newName;
 	}
 
-	public String getName ()
+	public String getName()
 	{
 		String returnValue = null;
 
@@ -154,44 +154,44 @@ public class AbstractResponseElement implements ResponseElement
 		return returnValue;
 	}
 
-	public List getAll ()
+	public List getAll()
 	{
 		return nestedElements;
 	}
 
-	public String toString ()
+	public String toString()
 	{
-		StringBuffer ret = new StringBuffer ("\t<" + getClass ().getName () + " name='" + name + "'>");
+		StringBuffer ret = new StringBuffer("\t<" + getClass().getName() + " name='" + name + "'>");
 
-		if (attributes.size () > 0)
+		if (attributes.size() > 0)
 		{
-			ret.append ("\n\t<attributes>\n");
+			ret.append("\n\t<attributes>\n");
 
-			for (Iterator a = attributes.keySet ().iterator (); a.hasNext ();)
+			for (Iterator a = attributes.keySet().iterator(); a.hasNext();)
 			{
-				String oneKey = (String) a.next ();
+				String oneKey = (String) a.next();
 
-				ret.append ("\t\t<attribute key='" + oneKey + "' value='" + attributes.get (oneKey).toString ()
-								+ "' type='" + attributes.get (oneKey).getClass ().getName () + "'/>\n");
+				ret.append("\t\t<attribute key='" + oneKey + "' value='" + attributes.get(oneKey).toString()
+								+ "' type='" + attributes.get(oneKey).getClass().getName() + "'/>\n");
 			}
 
-			ret.append ("\t</attributes>\n");
+			ret.append("\t</attributes>\n");
 		}
 
-		if (nestedElements.size () > 0)
+		if (nestedElements.size() > 0)
 		{
-			ret.append ("\t<nested>\n");
+			ret.append("\t<nested>\n");
 
-			for (Iterator i = nestedElements.iterator (); i.hasNext ();)
+			for (Iterator i = nestedElements.iterator(); i.hasNext();)
 			{
-				ResponseElement oneElement = (ResponseElement) i.next ();
+				ResponseElement oneElement = (ResponseElement) i.next();
 
-				ret.append ("\t" + oneElement.toString ());
+				ret.append("\t" + oneElement.toString());
 			}
 
-			ret.append ("\t</nested>\n");
+			ret.append("\t</nested>\n");
 		}
 
-		return ret.toString ();
+		return ret.toString();
 	}
 }

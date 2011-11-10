@@ -36,10 +36,10 @@ public class BaseTagSupport extends TagSupport
 	 * The constructor calls <code>release()</code> to initialize the tag attributes to their
 	 * default values.
 	 */
-	public BaseTagSupport ()
+	public BaseTagSupport()
 	{
-		super ();
-		release ();
+		super();
+		release();
 	}
 
 	/**
@@ -49,9 +49,9 @@ public class BaseTagSupport extends TagSupport
 	 * @param source The log source.
 	 * @param message The log message.
 	 */
-	protected void log (String category, String source, String message)
+	protected void log(String category, String source, String message)
 	{
-		pageContext.getServletContext ().log ("[" + category + "] " + source + " - " + message);
+		pageContext.getServletContext().log("[" + category + "] " + source + " - " + message);
 	}
 
 	/**
@@ -60,21 +60,21 @@ public class BaseTagSupport extends TagSupport
 	 * @param scope The scope name.
 	 * @return The corresponding scope constant.
 	 */
-	public int getScope (String scope)
+	public int getScope(String scope)
 	{
-		if ("page".equals (scope))
+		if ("page".equals(scope))
 		{
 			return PageContext.PAGE_SCOPE;
 		}
-		else if ("request".equals (scope))
+		else if ("request".equals(scope))
 		{
 			return PageContext.REQUEST_SCOPE;
 		}
-		else if ("session".equals (scope))
+		else if ("session".equals(scope))
 		{
 			return PageContext.SESSION_SCOPE;
 		}
-		else if ("application".equals (scope))
+		else if ("application".equals(scope))
 		{
 			return PageContext.APPLICATION_SCOPE;
 		}

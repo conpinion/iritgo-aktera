@@ -52,9 +52,9 @@ public class CallHierarchy
 	 * @param cid The uuid of the call.
 	 * @param req The model request.
 	 */
-	public CallHierarchy (UUID cid, ModelRequest req)
+	public CallHierarchy(UUID cid, ModelRequest req)
 	{
-		children = new LinkedList ();
+		children = new LinkedList();
 		this.cid = cid;
 		this.req = req;
 	}
@@ -64,10 +64,10 @@ public class CallHierarchy
 	 *
 	 * @param child The child to add.
 	 */
-	public void add (CallHierarchy child)
+	public void add(CallHierarchy child)
 	{
-		child.setParent (this);
-		children.add (child);
+		child.setParent(this);
+		children.add(child);
 	}
 
 	/**
@@ -75,7 +75,7 @@ public class CallHierarchy
 	 *
 	 * @param parent The new parent.
 	 */
-	public void setParent (CallHierarchy parent)
+	public void setParent(CallHierarchy parent)
 	{
 		this.parent = parent;
 	}
@@ -85,7 +85,7 @@ public class CallHierarchy
 	 *
 	 * @return The parent.
 	 */
-	public CallHierarchy getParent ()
+	public CallHierarchy getParent()
 	{
 		return parent;
 	}
@@ -95,7 +95,7 @@ public class CallHierarchy
 	 *
 	 * @return The cid.
 	 */
-	public UUID getCid ()
+	public UUID getCid()
 	{
 		return cid;
 	}
@@ -105,7 +105,7 @@ public class CallHierarchy
 	 *
 	 * @return The model request.
 	 */
-	public ModelRequest getModelRequest ()
+	public ModelRequest getModelRequest()
 	{
 		return req;
 	}
@@ -116,20 +116,20 @@ public class CallHierarchy
 	 * @param out The print writer to dump to.
 	 * @param indent The indentation level.
 	 */
-	public void dump (PrintWriter out, int indent)
+	public void dump(PrintWriter out, int indent)
 	{
 		for (int i = 0; i < indent; ++i)
 		{
-			out.print ('\t');
+			out.print('\t');
 		}
 
-		out.println (cid + " " + req.getModel ());
+		out.println(cid + " " + req.getModel());
 
-		for (Iterator i = children.iterator (); i.hasNext ();)
+		for (Iterator i = children.iterator(); i.hasNext();)
 		{
-			CallHierarchy ch = (CallHierarchy) i.next ();
+			CallHierarchy ch = (CallHierarchy) i.next();
 
-			ch.dump (out, indent + 1);
+			ch.dump(out, indent + 1);
 		}
 	}
 }

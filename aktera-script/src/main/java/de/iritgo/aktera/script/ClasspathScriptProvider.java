@@ -37,34 +37,34 @@ public class ClasspathScriptProvider implements ScriptProvider
 	/**
 	 * @see de.iritgo.aktera.base.configuration.ScriptProvider#find(java.lang.String)
 	 */
-	public Script find (String scriptName) throws ScriptNotFoundException
+	public Script find(String scriptName) throws ScriptNotFoundException
 	{
 		try
 		{
-			InputStream stream = getClass ().getResourceAsStream ("/" + scriptName.replace ('.', '/'));
+			InputStream stream = getClass().getResourceAsStream("/" + scriptName.replace('.', '/'));
 
 			if (stream == null)
 			{
-				throw new ScriptNotFoundException ("Script with name '" + scriptName + "' not found");
+				throw new ScriptNotFoundException("Script with name '" + scriptName + "' not found");
 			}
 
-			String code = IOUtils.toString (stream);
-			Script script = new Script (scriptName, code, FilenameUtils.getExtension (scriptName));
+			String code = IOUtils.toString(stream);
+			Script script = new Script(scriptName, code, FilenameUtils.getExtension(scriptName));
 
 			return script;
 		}
 		catch (IOException x)
 		{
-			throw new ScriptNotFoundException ("Script with name '" + scriptName + "' not found");
+			throw new ScriptNotFoundException("Script with name '" + scriptName + "' not found");
 		}
 	}
 
 	/**
 	 * @see de.iritgo.aktera.base.configuration.ScriptProvider#listScriptNames()
 	 */
-	public List<KeyedValue2<String, Integer, String>> listScriptNames ()
+	public List<KeyedValue2<String, Integer, String>> listScriptNames()
 	{
-		return new LinkedList<KeyedValue2<String, Integer, String>> ();
+		return new LinkedList<KeyedValue2<String, Integer, String>>();
 	}
 
 	/**
@@ -74,22 +74,22 @@ public class ClasspathScriptProvider implements ScriptProvider
 	 *
 	 * @see de.iritgo.aktera.base.configuration.ScriptProvider#listScriptNamesByImplementedMethod(java.lang.String)
 	 */
-	public List<KeyedValue2<String, Integer, String>> listScriptNamesByImplementedMethod (String methodName)
+	public List<KeyedValue2<String, Integer, String>> listScriptNamesByImplementedMethod(String methodName)
 	{
-		return new LinkedList<KeyedValue2<String, Integer, String>> ();
+		return new LinkedList<KeyedValue2<String, Integer, String>>();
 	}
 
 	/**
 	 * @see de.iritgo.aktera.base.configuration.ScriptProvider#invalidate(java.lang.String)
 	 */
-	public void invalidate (String scriptName)
+	public void invalidate(String scriptName)
 	{
 	}
 
 	/**
 	 * @see de.iritgo.aktera.script.ScriptProvider#findScriptNameById(java.lang.Integer)
 	 */
-	public String findScriptNameById (Integer id)
+	public String findScriptNameById(Integer id)
 	{
 		return null;
 	}
@@ -97,7 +97,7 @@ public class ClasspathScriptProvider implements ScriptProvider
 	/**
 	 * @see de.iritgo.aktera.script.ScriptProvider#findScriptDisplayNameById(java.lang.Integer)
 	 */
-	public String findScriptDisplayNameById (Integer id)
+	public String findScriptDisplayNameById(Integer id)
 	{
 		return null;
 	}

@@ -28,7 +28,7 @@ import org.junit.Test;
 public class TemplateManagerTest
 {
 	@Test
-	public void testSimpleVelocityTemplate ()
+	public void testSimpleVelocityTemplate()
 	{
 	}
 }

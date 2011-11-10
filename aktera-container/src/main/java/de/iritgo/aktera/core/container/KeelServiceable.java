@@ -27,7 +27,7 @@ import org.apache.avalon.framework.service.Serviceable;
 
 public interface KeelServiceable extends Serviceable
 {
-	public void service (ServiceManager manager) throws ServiceException;
+	public void service(ServiceManager manager) throws ServiceException;
 
-	public void releaseServices ();
+	public void releaseServices();
 }

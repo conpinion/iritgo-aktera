@@ -44,24 +44,24 @@ public class Cancel extends StandardLogEnabledModel
 	 * @param req The model request.
 	 * @return The model response.
 	 */
-	public ModelResponse execute (ModelRequest req) throws ModelException
+	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
-		ModelResponse res = req.createResponse ();
+		ModelResponse res = req.createResponse();
 
-		Properties props = new Properties ();
+		Properties props = new Properties();
 
-		for (Object entry : req.getParameters ().entrySet ())
+		for (Object entry : req.getParameters().entrySet())
 		{
-			String key = (String) ((Map.Entry) entry).getKey ();
+			String key = (String) ((Map.Entry) entry).getKey();
 
-			if (key.startsWith ("_cp") && ! "_cmodel".equals (key))
+			if (key.startsWith("_cp") && ! "_cmodel".equals(key))
 			{
-				props.put (key.substring (3), ((Map.Entry) entry).getValue ());
+				props.put(key.substring(3), ((Map.Entry) entry).getValue());
 			}
 		}
 
-		ModelRequest newReq = (ModelRequest) req.getService (ModelRequest.ROLE);
+		ModelRequest newReq = (ModelRequest) req.getService(ModelRequest.ROLE);
 
-		return ModelTools.callModel (newReq, req.getParameterAsString ("_cmodel"), props);
+		return ModelTools.callModel(newReq, req.getParameterAsString("_cmodel"), props);
 	}
 }

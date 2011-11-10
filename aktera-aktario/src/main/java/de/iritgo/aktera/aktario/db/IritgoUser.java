@@ -68,7 +68,7 @@ public class IritgoUser implements Serializable
 	 *   primary-key="true"
 	 *   null-allowed="false"
 	 */
-	public Long getId ()
+	public Long getId()
 	{
 		return id;
 	}
@@ -76,7 +76,7 @@ public class IritgoUser implements Serializable
 	/**
 	 *
 	 */
-	public void setId (Long id)
+	public void setId(Long id)
 	{
 		this.id = id;
 	}
@@ -88,7 +88,7 @@ public class IritgoUser implements Serializable
 	 *   type="varchar"
 	 *   length="80"
 	 */
-	public String getName ()
+	public String getName()
 	{
 		return name;
 	}
@@ -96,7 +96,7 @@ public class IritgoUser implements Serializable
 	/**
 	 *
 	 */
-	public void setName (String name)
+	public void setName(String name)
 	{
 		this.name = name;
 	}
@@ -108,7 +108,7 @@ public class IritgoUser implements Serializable
 	 *   type="varchar"
 	 *   length="255"
 	 */
-	public String getPassword ()
+	public String getPassword()
 	{
 		return password;
 	}
@@ -116,7 +116,7 @@ public class IritgoUser implements Serializable
 	/**
 	 *
 	 */
-	public void setPassword (String password)
+	public void setPassword(String password)
 	{
 		this.password = password;
 	}
@@ -128,7 +128,7 @@ public class IritgoUser implements Serializable
 	 *   type="varchar"
 	 *   length="80"
 	 */
-	public String getEmail ()
+	public String getEmail()
 	{
 		return email;
 	}
@@ -136,7 +136,7 @@ public class IritgoUser implements Serializable
 	/**
 	 *
 	 */
-	public void setEmail (String email)
+	public void setEmail(String email)
 	{
 		this.email = email;
 	}

@@ -42,38 +42,38 @@ public class RefreshJournal extends Command
 	/**
 	 * Initialize the command.
 	 */
-	public RefreshJournal ()
+	public RefreshJournal()
 	{
-		super ("de.iritgo.aktera.journal.RefreshJournal");
+		super("de.iritgo.aktera.journal.RefreshJournal");
 	}
 
 	/**
 	 * Display the embedded journal pane.
 	 */
 	@Override
-	public void perform ()
+	public void perform()
 	{
-		String akteraUserName = properties.getProperty ("akteraUserName");
+		String akteraUserName = properties.getProperty("akteraUserName");
 
-		DataObjectManager dom = (DataObjectManager) Engine.instance ().getManagerRegistry ().getManager (
+		DataObjectManager dom = (DataObjectManager) Engine.instance().getManagerRegistry().getManager(
 						"DataObjectManager");
-		QueryRegistry queryRegistry = dom.getQueryRegistry ();
+		QueryRegistry queryRegistry = dom.getQueryRegistry();
 
-		for (Iterator i = queryRegistry.queryIterator ("aktera.journal.list.notvisible"); i.hasNext ();)
+		for (Iterator i = queryRegistry.queryIterator("aktera.journal.list.notvisible"); i.hasNext();)
 		{
-			AkteraQuery query = (AkteraQuery) i.next ();
-			long userUniqueId = query.getUserUniqueId ();
-			UserRegistry userRegistry = Server.instance ().getUserRegistry ();
-			User iritgoUser = userRegistry.getUser (userUniqueId);
+			AkteraQuery query = (AkteraQuery) i.next();
+			long userUniqueId = query.getUserUniqueId();
+			UserRegistry userRegistry = Server.instance().getUserRegistry();
+			User iritgoUser = userRegistry.getUser(userUniqueId);
 
-			if (akteraUserName.equals (iritgoUser.getName ()))
+			if (akteraUserName.equals(iritgoUser.getName()))
 			{
-				Properties props = new Properties ();
+				Properties props = new Properties();
 
-				props.put ("akteraQuery", query.getUniqueId ());
+				props.put("akteraQuery", query.getUniqueId());
 
-				ActionTools.sendToClient (iritgoUser.getName (), new CommandAction (
-								"aktario-journal.RefreshJournalPane", props));
+				ActionTools.sendToClient(iritgoUser.getName(), new CommandAction("aktario-journal.RefreshJournalPane",
+								props));
 			}
 		}
 	}

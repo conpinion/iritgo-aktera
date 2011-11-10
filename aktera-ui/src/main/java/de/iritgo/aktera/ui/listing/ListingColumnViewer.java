@@ -25,8 +25,8 @@ public enum ListingColumnViewer
 	TEXT, DATE, TIME, DATETIME, TIMESTAMP, CHECK, ICON, JS, COMBO, MESSAGE, WEEKDAY, YEAR, MONTH, DAY, COUNTRY, PROVINCE, BYTESIZE;
 
 	@Override
-	public String toString ()
+	public String toString()
 	{
-		return name ().toLowerCase ();
+		return name().toLowerCase();
 	}
 }

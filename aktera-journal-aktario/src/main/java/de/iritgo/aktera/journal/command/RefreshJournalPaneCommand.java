@@ -35,22 +35,22 @@ public class RefreshJournalPaneCommand extends Command
 	/**
 	 * Create a new address execute program command
 	 */
-	public RefreshJournalPaneCommand ()
+	public RefreshJournalPaneCommand()
 	{
-		super ("aktario-journal.RefreshJournalPane");
+		super("aktario-journal.RefreshJournalPane");
 	}
 
 	/**
 	 * Execute the command.
 	 */
-	public void perform ()
+	public void perform()
 	{
-		QueryPane queryPane = ((QueryPane) Client.instance ().getClientGUI ().getDesktopManager ().getDisplay (
-						"de.iritgo.aktera.journal.EmbeddedJournal").getGUIPane ());
+		QueryPane queryPane = ((QueryPane) Client.instance().getClientGUI().getDesktopManager().getDisplay(
+						"de.iritgo.aktera.journal.EmbeddedJournal").getGUIPane());
 
 		if (queryPane != null)
 		{
-			queryPane.refresh ();
+			queryPane.refresh();
 		}
 	}
 }

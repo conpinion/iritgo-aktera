@@ -28,19 +28,19 @@ import de.iritgo.aktario.framework.base.FrameworkPlugin;
  */
 public class AkteraPlugin extends FrameworkPlugin
 {
-	protected void registerGUIPanes ()
+	protected void registerGUIPanes()
 	{
 	}
 
-	protected void registerManagers ()
+	protected void registerManagers()
 	{
 	}
 
-	protected void registerConsoleCommands ()
+	protected void registerConsoleCommands()
 	{
 	}
 
-	protected void registerCommands ()
+	protected void registerCommands()
 	{
 	}
 }

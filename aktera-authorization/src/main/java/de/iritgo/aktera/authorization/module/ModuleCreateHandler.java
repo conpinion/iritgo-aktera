@@ -39,18 +39,18 @@ public class ModuleCreateHandler extends CreateHandler
 	 * @see de.iritgo.aktera.persist.CreateHandler#createTables(ModelRequest, de.iritgo.aktera.persist.PersistentFactory, java.sql.Connection, Logger)
 	 */
 	@Override
-	public void createTables (ModelRequest request, PersistentFactory persistentFactory, Connection connection,
+	public void createTables(ModelRequest request, PersistentFactory persistentFactory, Connection connection,
 					Logger logger) throws ModelException, PersistenceException, SQLException
 	{
-		createTable ("InstanceSecurity", "Component varchar(132) not null", "GroupName varchar(80) not null",
+		createTable("InstanceSecurity", "Component varchar(132) not null", "GroupName varchar(80) not null",
 						"Instance varchar(60) not null", "operationsAllowed varchar(30) not null");
 
-		createTable ("InvokationSecurity", "Comparator varchar(2) not null", "Component varchar(132) not null",
+		createTable("InvokationSecurity", "Comparator varchar(2) not null", "Component varchar(132) not null",
 						"GroupName varchar(80) not null", "Instance varchar(60) not null",
 						"OperationsAllowed varchar(30) not null", "Property varchar(80) not null",
 						"Value varchar(80) not null");
 
-		createTable ("ComponentSecurity", "Component varchar(132) not null", "GroupName varchar(80) not null",
+		createTable("ComponentSecurity", "Component varchar(132) not null", "GroupName varchar(80) not null",
 						"OperationsAllowed varchar(30) not null");
 	}
 }

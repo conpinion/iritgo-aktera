@@ -34,48 +34,48 @@ public class JournalGroupImpl extends AbstractGroupImpl implements JournalGroup
 
 	private Integer ownerId;
 
-	public void setPrimaryType (String primaryType)
+	public void setPrimaryType(String primaryType)
 	{
 		this.primaryType = primaryType;
 	}
 
-	public void setOwnerId (Integer ownerId)
+	public void setOwnerId(Integer ownerId)
 	{
 		this.ownerId = ownerId;
 	}
 
-	public int getNumberOfColumns ()
+	public int getNumberOfColumns()
 	{
 		return numberOfColumns;
 	}
 
-	public void setNumberOfColumns (int numberOfColumns)
+	public void setNumberOfColumns(int numberOfColumns)
 	{
 		this.numberOfColumns = numberOfColumns;
 	}
 
-	public String getDescription ()
+	public String getDescription()
 	{
 		return "desctiption";
 	}
 
-	public void update ()
+	public void update()
 	{
 	}
 
-	public void generate (GroupVisitor visitor)
+	public void generate(GroupVisitor visitor)
 	{
-		customVisitor.setParentVisitor (visitor);
-		customVisitor.generate ((DashboardGroup) this);
+		customVisitor.setParentVisitor(visitor);
+		customVisitor.generate((DashboardGroup) this);
 
 		for (DashboardItem dashboardItem : dashboardItems)
 		{
 			if (dashboardItem instanceof JournalItem)
 			{
-				((JournalItem) dashboardItem).init (primaryType, ownerId);
+				((JournalItem) dashboardItem).init(primaryType, ownerId);
 			}
 
-			dashboardItem.generate (customVisitor);
+			dashboardItem.generate(customVisitor);
 		}
 	}
 }

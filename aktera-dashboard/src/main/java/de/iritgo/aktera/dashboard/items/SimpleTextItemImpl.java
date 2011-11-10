@@ -28,7 +28,7 @@ public class SimpleTextItemImpl extends AbstractDashboardItem implements SimpleT
 	/**
 	 * @see de.iritgo.aktera.dashboard.items.SimpleTextItem#getMeasuringUnit()
 	 */
-	public String getMeasuringUnit ()
+	public String getMeasuringUnit()
 	{
 		return null;
 	}
@@ -36,7 +36,7 @@ public class SimpleTextItemImpl extends AbstractDashboardItem implements SimpleT
 	/**
 	 * @see de.iritgo.aktera.dashboard.items.SimpleTextItem#getText()
 	 */
-	public String getText ()
+	public String getText()
 	{
 		return null;
 	}
@@ -44,7 +44,7 @@ public class SimpleTextItemImpl extends AbstractDashboardItem implements SimpleT
 	/**
 	 * @see de.iritgo.aktera.dashboard.items.SimpleTextItem#isGreenText(java.lang.String)
 	 */
-	public boolean isGreenText (String text)
+	public boolean isGreenText(String text)
 	{
 		return false;
 	}
@@ -52,7 +52,7 @@ public class SimpleTextItemImpl extends AbstractDashboardItem implements SimpleT
 	/**
 	 * @see de.iritgo.aktera.dashboard.items.SimpleTextItem#isRedText(java.lang.String)
 	 */
-	public boolean isRedText (String text)
+	public boolean isRedText(String text)
 	{
 		return false;
 	}
@@ -60,7 +60,7 @@ public class SimpleTextItemImpl extends AbstractDashboardItem implements SimpleT
 	/**
 	 * @see de.iritgo.aktera.dashboard.items.SimpleTextItem#isYellowText(java.lang.String)
 	 */
-	public boolean isYellowText (String text)
+	public boolean isYellowText(String text)
 	{
 		return false;
 	}
@@ -68,22 +68,22 @@ public class SimpleTextItemImpl extends AbstractDashboardItem implements SimpleT
 	/**
 	 * @see de.iritgo.aktera.dashboard.DashboardItem#generate(de.iritgo.aktera.dashboard.GroupVisitor)
 	 */
-	public void generate (GroupVisitor visitor)
+	public void generate(GroupVisitor visitor)
 	{
-		visitor.generate (this);
+		visitor.generate(this);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.dashboard.DashboardItem#update()
 	 */
-	public void update ()
+	public void update()
 	{
 	}
 
 	/**
 	 * @see de.iritgo.aktera.dashboard.DashboardItem#getRenderFile()
 	 */
-	public String getRenderFile ()
+	public String getRenderFile()
 	{
 		return "/aktera-dashboard/items/simple-text-item.jsp";
 	}

@@ -28,5 +28,5 @@ public interface DelayedAsyncExecutionManager
 	 * @param delay The delay
 	 * @param runnable The runnable
 	 */
-	public void addDelayedExecution (long delay, Runnable runnable);
+	public void addDelayedExecution(long delay, Runnable runnable);
 }

@@ -50,7 +50,7 @@ public class ListingDescriptor implements Serializable
 
 		public String field;
 
-		public IdColumnInfo (String column, String persistent, String field)
+		public IdColumnInfo(String column, String persistent, String field)
 		{
 			this.column = column;
 			this.persistent = persistent;
@@ -162,13 +162,13 @@ public class ListingDescriptor implements Serializable
 	/**
 	 * Create a new listing.
 	 */
-	public ListingDescriptor ()
+	public ListingDescriptor()
 	{
-		columns = new LinkedList ();
-		columnsByKey = new HashMap ();
-		commands = new HashMap ();
-		sortColumns = new LinkedList ();
-		idColumns = new LinkedList ();
+		columns = new LinkedList();
+		columnsByKey = new HashMap();
+		commands = new HashMap();
+		sortColumns = new LinkedList();
+		idColumns = new LinkedList();
 	}
 
 	/**
@@ -176,7 +176,7 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @param id The new id.
 	 */
-	public void setId (String id)
+	public void setId(String id)
 	{
 		this.id = id;
 	}
@@ -186,7 +186,7 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @return The id.
 	 */
-	public String getId ()
+	public String getId()
 	{
 		return id;
 	}
@@ -197,11 +197,11 @@ public class ListingDescriptor implements Serializable
 	 * @param req The model request.
 	 * @return The id.
 	 */
-	public String getId (ModelRequest req)
+	public String getId(ModelRequest req)
 	{
-		if (! StringTools.isEmpty (req.getParameterAsString ("listId")))
+		if (! StringTools.isEmpty(req.getParameterAsString("listId")))
 		{
-			return req.getParameterAsString ("listId");
+			return req.getParameterAsString("listId");
 		}
 
 		return id;
@@ -213,7 +213,7 @@ public class ListingDescriptor implements Serializable
 	 * @param header The new header.
 	 * @param bundle The header resources.
 	 */
-	public void setHeader (String header)
+	public void setHeader(String header)
 	{
 		this.header = header;
 	}
@@ -223,7 +223,7 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @return The header.
 	 */
-	public String getHeader ()
+	public String getHeader()
 	{
 		return header;
 	}
@@ -233,7 +233,7 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @return The title.
 	 */
-	public String getTitle ()
+	public String getTitle()
 	{
 		return title;
 	}
@@ -243,7 +243,7 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @return title The new title.
 	 */
-	public void setTitle (String title)
+	public void setTitle(String title)
 	{
 		this.title = title;
 	}
@@ -253,7 +253,7 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @return The icon.
 	 */
-	public String getIcon ()
+	public String getIcon()
 	{
 		return icon;
 	}
@@ -263,7 +263,7 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @return icon The new icon.
 	 */
-	public void setIcon (String icon)
+	public void setIcon(String icon)
 	{
 		this.icon = icon;
 	}
@@ -273,7 +273,7 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @param bundle The resource bundle.
 	 */
-	public void setBundle (String bundle)
+	public void setBundle(String bundle)
 	{
 		this.bundle = bundle;
 	}
@@ -283,7 +283,7 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @return The resource bundle.
 	 */
-	public String getBundle ()
+	public String getBundle()
 	{
 		return bundle;
 	}
@@ -293,7 +293,7 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @param titleBundle The title resource bundle.
 	 */
-	public void setTitleBundle (String titleBundle)
+	public void setTitleBundle(String titleBundle)
 	{
 		this.titleBundle = titleBundle;
 	}
@@ -303,7 +303,7 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @return The title resource bundle.
 	 */
-	public String getTitleBundle ()
+	public String getTitleBundle()
 	{
 		return titleBundle;
 	}
@@ -313,7 +313,7 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @return The embedded flag.
 	 */
-	public boolean isEmbedded ()
+	public boolean isEmbedded()
 	{
 		return embedded;
 	}
@@ -323,7 +323,7 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @return embedded The new embedded flag.
 	 */
-	public void setEmbedded (boolean embedded)
+	public void setEmbedded(boolean embedded)
 	{
 		this.embedded = embedded;
 	}
@@ -333,7 +333,7 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @return True if this is a single selection list
 	 */
-	public boolean isSingleSelection ()
+	public boolean isSingleSelection()
 	{
 		return singleSelection;
 	}
@@ -343,7 +343,7 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @param singleSelection True if this is a single selection list
 	 */
-	public void setSingleSelection (boolean singleSelection)
+	public void setSingleSelection(boolean singleSelection)
 	{
 		this.singleSelection = singleSelection;
 	}
@@ -353,7 +353,7 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @return The primary key attribute name.
 	 */
-	public String getKeyName ()
+	public String getKeyName()
 	{
 		return keyName;
 	}
@@ -363,7 +363,7 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @return keyName The new primary key attribute name.
 	 */
-	public void setKeyName (String keyName)
+	public void setKeyName(String keyName)
 	{
 		this.keyName = keyName;
 	}
@@ -373,7 +373,7 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @param category The category.
 	 */
-	public void setCategory (String category)
+	public void setCategory(String category)
 	{
 		this.category = category;
 	}
@@ -383,7 +383,7 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @return The category.
 	 */
-	public String getCategory ()
+	public String getCategory()
 	{
 		return category;
 	}
@@ -391,13 +391,13 @@ public class ListingDescriptor implements Serializable
 	/**
 	 * Unset all sort info.
 	 */
-	public void clearSort ()
+	public void clearSort()
 	{
-		sortColumns.clear ();
+		sortColumns.clear();
 
-		for (Iterator i = columns.iterator (); i.hasNext ();)
+		for (Iterator i = columns.iterator(); i.hasNext();)
 		{
-			((ColumnDescriptor) i.next ()).setSort (SortOrder.NONE);
+			((ColumnDescriptor) i.next()).setSort(SortOrder.NONE);
 		}
 	}
 
@@ -406,14 +406,14 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @param sortColumn The column on which to sort.
 	 */
-	public void setSortColumn (String sortColumn)
+	public void setSortColumn(String sortColumn)
 	{
-		ColumnDescriptor column = (ColumnDescriptor) columnsByKey.get (sortColumn);
+		ColumnDescriptor column = (ColumnDescriptor) columnsByKey.get(sortColumn);
 
 		if (column != null)
 		{
-			column.setSort (SortOrder.ASCENDING);
-			sortColumns.add (column);
+			column.setSort(SortOrder.ASCENDING);
+			sortColumns.add(column);
 		}
 	}
 
@@ -423,14 +423,14 @@ public class ListingDescriptor implements Serializable
 	 * @param sortColumn The column on which to sort.
 	 * @param sortOrder The sort order for this column.
 	 */
-	public void setSortColumn (String sortColumn, SortOrder sortOrder)
+	public void setSortColumn(String sortColumn, SortOrder sortOrder)
 	{
-		ColumnDescriptor column = (ColumnDescriptor) columnsByKey.get (sortColumn);
+		ColumnDescriptor column = (ColumnDescriptor) columnsByKey.get(sortColumn);
 
 		if (column != null)
 		{
-			column.setSort (sortOrder);
-			sortColumns.add (column);
+			column.setSort(sortOrder);
+			sortColumns.add(column);
 		}
 	}
 
@@ -439,11 +439,11 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @return The name of the first column on which to sort.
 	 */
-	public String getSortColumnName ()
+	public String getSortColumnName()
 	{
-		if (sortColumns.size () > 0)
+		if (sortColumns.size() > 0)
 		{
-			return ((ColumnDescriptor) sortColumns.get (0)).getName ();
+			return ((ColumnDescriptor) sortColumns.get(0)).getName();
 		}
 
 		return null;
@@ -454,11 +454,11 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @return The first column on which to sort.
 	 */
-	public ColumnDescriptor getSortColumn ()
+	public ColumnDescriptor getSortColumn()
 	{
-		if (sortColumns.size () > 0)
+		if (sortColumns.size() > 0)
 		{
-			return (ColumnDescriptor) sortColumns.get (0);
+			return (ColumnDescriptor) sortColumns.get(0);
 		}
 
 		return null;
@@ -469,11 +469,11 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @return The column's sort order.
 	 */
-	public SortOrder getSortOrder ()
+	public SortOrder getSortOrder()
 	{
-		if (sortColumns.size () > 0)
+		if (sortColumns.size() > 0)
 		{
-			return ((ColumnDescriptor) sortColumns.get (0)).getSort ();
+			return ((ColumnDescriptor) sortColumns.get(0)).getSort();
 		}
 
 		return SortOrder.NONE;
@@ -484,9 +484,9 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @return A sorting column iterator.
 	 */
-	public Iterator sortColumnIterator ()
+	public Iterator sortColumnIterator()
 	{
-		return sortColumns.iterator ();
+		return sortColumns.iterator();
 	}
 
 	/**
@@ -494,7 +494,7 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @return The sorting columns.
 	 */
-	public List getSortColumns ()
+	public List getSortColumns()
 	{
 		return sortColumns;
 	}
@@ -504,12 +504,12 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @param idColumn The column that contains the object ids.
 	 */
-	public void setIdColumn (String idColumn)
+	public void setIdColumn(String idColumn)
 	{
 		if (idColumn != null)
 		{
-			idColumns = new LinkedList ();
-			addIdColumn (idColumn);
+			idColumns = new LinkedList();
+			addIdColumn(idColumn);
 		}
 	}
 
@@ -518,12 +518,12 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @param idColumn A column that contains the object ids.
 	 */
-	public void addIdColumn (String idColumn)
+	public void addIdColumn(String idColumn)
 	{
 		if (idColumn != null)
 		{
-			idColumns.add (new IdColumnInfo (idColumn, idColumn.substring (0, Math.max (idColumn.indexOf ('.'), 0)),
-							idColumn.substring (idColumn.lastIndexOf ('.') + 1)));
+			idColumns.add(new IdColumnInfo(idColumn, idColumn.substring(0, Math.max(idColumn.indexOf('.'), 0)),
+							idColumn.substring(idColumn.lastIndexOf('.') + 1)));
 		}
 	}
 
@@ -532,11 +532,11 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @return The column that contains the object ids.
 	 */
-	public String getIdColumn ()
+	public String getIdColumn()
 	{
-		if (idColumns.size () > 0)
+		if (idColumns.size() > 0)
 		{
-			return ((IdColumnInfo) idColumns.get (0)).column;
+			return ((IdColumnInfo) idColumns.get(0)).column;
 		}
 
 		return null;
@@ -547,11 +547,11 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @return The id persistent name.
 	 */
-	public String getIdPersistent ()
+	public String getIdPersistent()
 	{
-		if (idColumns.size () > 0)
+		if (idColumns.size() > 0)
 		{
-			return ((IdColumnInfo) idColumns.get (0)).persistent;
+			return ((IdColumnInfo) idColumns.get(0)).persistent;
 		}
 
 		return null;
@@ -562,11 +562,11 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @return The id persistent field name.
 	 */
-	public String getIdField ()
+	public String getIdField()
 	{
-		if (idColumns.size () > 0)
+		if (idColumns.size() > 0)
 		{
-			return ((IdColumnInfo) idColumns.get (0)).field;
+			return ((IdColumnInfo) idColumns.get(0)).field;
 		}
 
 		return null;
@@ -577,7 +577,7 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @return the list of all id columns.
 	 */
-	public List getIdColumns ()
+	public List getIdColumns()
 	{
 		return idColumns;
 	}
@@ -587,9 +587,9 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @return The number of id columns.
 	 */
-	public int getNumIdColumns ()
+	public int getNumIdColumns()
 	{
-		return idColumns.size ();
+		return idColumns.size();
 	}
 
 	/**
@@ -597,7 +597,7 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @param querySample The query sample.
 	 */
-	public void setQuerySample (Persistent querySample)
+	public void setQuerySample(Persistent querySample)
 	{
 		this.querySample = querySample;
 	}
@@ -607,7 +607,7 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @return The query sample.
 	 */
-	public Persistent getQuerySample ()
+	public Persistent getQuerySample()
 	{
 		return querySample;
 	}
@@ -621,12 +621,12 @@ public class ListingDescriptor implements Serializable
 	 * @param with The column width.
 	 * @return The new column.
 	 */
-	public ColumnDescriptor addColumn (String name, String bundle, String viewer, int width)
+	public ColumnDescriptor addColumn(String name, String bundle, String viewer, int width)
 	{
-		ColumnDescriptor column = new ColumnDescriptor (name, bundle, viewer, width);
+		ColumnDescriptor column = new ColumnDescriptor(name, bundle, viewer, width);
 
-		columns.add (column);
-		columnsByKey.put (name, column);
+		columns.add(column);
+		columnsByKey.put(name, column);
 
 		return column;
 	}
@@ -641,12 +641,12 @@ public class ListingDescriptor implements Serializable
 	 * @param with The column width.
 	 * @return The new column.
 	 */
-	public ColumnDescriptor addColumn (String name, String label, String bundle, String viewer, int width)
+	public ColumnDescriptor addColumn(String name, String label, String bundle, String viewer, int width)
 	{
-		ColumnDescriptor column = new ColumnDescriptor (name, label, bundle, viewer, width);
+		ColumnDescriptor column = new ColumnDescriptor(name, label, bundle, viewer, width);
 
-		columns.add (column);
-		columnsByKey.put (name, column);
+		columns.add(column);
+		columnsByKey.put(name, column);
 
 		return column;
 	}
@@ -656,9 +656,9 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @return A column iterator.
 	 */
-	public Iterator columnIterator ()
+	public Iterator columnIterator()
 	{
-		return columns.iterator ();
+		return columns.iterator();
 	}
 
 	/**
@@ -666,9 +666,9 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @return The column count.
 	 */
-	public int getColumnCount ()
+	public int getColumnCount()
 	{
-		return columns.size ();
+		return columns.size();
 	}
 
 	/**
@@ -676,13 +676,13 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @return The visible column count.
 	 */
-	public int getVisibleColumnCount ()
+	public int getVisibleColumnCount()
 	{
 		int count = 0;
 
-		for (Iterator i = columns.iterator (); i.hasNext ();)
+		for (Iterator i = columns.iterator(); i.hasNext();)
 		{
-			if (((ColumnDescriptor) i.next ()).isVisible ())
+			if (((ColumnDescriptor) i.next()).isVisible())
 			{
 				++count;
 			}
@@ -699,17 +699,17 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @param commands The list commands.
 	 */
-	public void setListCommands (CommandDescriptor commands)
+	public void setListCommands(CommandDescriptor commands)
 	{
 		this.listCommands = commands;
 
-		for (Iterator i = commands.iterator (); i.hasNext ();)
+		for (Iterator i = commands.iterator(); i.hasNext();)
 		{
-			CommandInfo cmd = (CommandInfo) i.next ();
+			CommandInfo cmd = (CommandInfo) i.next();
 
-			if (cmd.getBundle () == null)
+			if (cmd.getBundle() == null)
 			{
-				cmd.setBundle (bundle);
+				cmd.setBundle(bundle);
 			}
 		}
 	}
@@ -719,7 +719,7 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @return The list commands.
 	 */
-	public CommandDescriptor getListCommands ()
+	public CommandDescriptor getListCommands()
 	{
 		return listCommands;
 	}
@@ -732,7 +732,7 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @param commands The item commands.
 	 */
-	public void setItemCommands (CommandDescriptor commands)
+	public void setItemCommands(CommandDescriptor commands)
 	{
 		this.itemCommands = commands;
 	}
@@ -742,7 +742,7 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @return The item commands.
 	 */
-	public CommandDescriptor getItemCommands ()
+	public CommandDescriptor getItemCommands()
 	{
 		return itemCommands;
 	}
@@ -752,7 +752,7 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @param persistents The persistents.
 	 */
-	public void setPersistents (PersistentDescriptor persistents)
+	public void setPersistents(PersistentDescriptor persistents)
 	{
 		this.persistents = persistents;
 	}
@@ -762,7 +762,7 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @return The persistents.
 	 */
-	public PersistentDescriptor getPersistents ()
+	public PersistentDescriptor getPersistents()
 	{
 		return persistents;
 	}
@@ -773,7 +773,7 @@ public class ListingDescriptor implements Serializable
 	 * @param condition The new condition.
 	 * @param conditionParams The condition parameters.
 	 */
-	public void setCondition (String condition, Object[] conditionParams)
+	public void setCondition(String condition, Object[] conditionParams)
 	{
 		this.condition = condition;
 		this.conditionParams = conditionParams;
@@ -784,7 +784,7 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @param condition The new condition.
 	 */
-	public void setCondition (String condition)
+	public void setCondition(String condition)
 	{
 		this.condition = condition;
 	}
@@ -794,7 +794,7 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @return The condition.
 	 */
-	public String getCondition ()
+	public String getCondition()
 	{
 		return condition;
 	}
@@ -804,7 +804,7 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @return The condition parameters.
 	 */
-	public Object[] getConditionParams ()
+	public Object[] getConditionParams()
 	{
 		return conditionParams;
 	}
@@ -815,11 +815,11 @@ public class ListingDescriptor implements Serializable
 	 * @param id The command id.
 	 * @param command The command descriptor.
 	 */
-	public void setCommand (String id, CommandInfo command)
+	public void setCommand(String id, CommandInfo command)
 	{
 		if (command != null)
 		{
-			commands.put (id, command);
+			commands.put(id, command);
 		}
 	}
 
@@ -829,9 +829,9 @@ public class ListingDescriptor implements Serializable
 	 * @param id The command id.
 	 * @return The command descriptor.
 	 */
-	public CommandInfo getCommand (String id)
+	public CommandInfo getCommand(String id)
 	{
-		return (CommandInfo) commands.get (id);
+		return (CommandInfo) commands.get(id);
 	}
 
 	/**
@@ -839,7 +839,7 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @param commandStyle The new command style.
 	 */
-	public void setCommandStyle (String commandStyle)
+	public void setCommandStyle(String commandStyle)
 	{
 		this.commandStyle = commandStyle;
 	}
@@ -849,7 +849,7 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @return The command style.
 	 */
-	public String getCommandStyle ()
+	public String getCommandStyle()
 	{
 		return commandStyle;
 	}
@@ -859,18 +859,18 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @return True if there are normal item commands.
 	 */
-	public boolean hasNormalItemCommands ()
+	public boolean hasNormalItemCommands()
 	{
-		if (getItemCommands () == null)
+		if (getItemCommands() == null)
 		{
 			return false;
 		}
 
-		for (Iterator i = getItemCommands ().iterator (); i.hasNext ();)
+		for (Iterator i = getItemCommands().iterator(); i.hasNext();)
 		{
-			CommandInfo descriptor = (CommandInfo) i.next ();
+			CommandInfo descriptor = (CommandInfo) i.next();
 
-			if (CommandDescriptor.STYLE_NORMAL == descriptor.getStyle ())
+			if (CommandDescriptor.STYLE_NORMAL == descriptor.getStyle())
 			{
 				return true;
 			}
@@ -884,18 +884,18 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @return True if there are normal item commands.
 	 */
-	public boolean hasToolItemCommands ()
+	public boolean hasToolItemCommands()
 	{
-		if (getItemCommands () == null)
+		if (getItemCommands() == null)
 		{
 			return false;
 		}
 
-		for (Iterator i = getItemCommands ().iterator (); i.hasNext ();)
+		for (Iterator i = getItemCommands().iterator(); i.hasNext();)
 		{
-			CommandInfo descriptor = (CommandInfo) i.next ();
+			CommandInfo descriptor = (CommandInfo) i.next();
 
-			if (CommandDescriptor.STYLE_TOOL == descriptor.getStyle ())
+			if (CommandDescriptor.STYLE_TOOL == descriptor.getStyle())
 			{
 				return true;
 			}
@@ -909,7 +909,7 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @param categories The new categories.
 	 */
-	public void setCategories (Map categories)
+	public void setCategories(Map categories)
 	{
 		this.categories = categories;
 	}
@@ -919,7 +919,7 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @return The categories.
 	 */
-	public Map getCategories ()
+	public Map getCategories()
 	{
 		return categories;
 	}
@@ -929,7 +929,7 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @param page The new current page.
 	 */
-	public void setPage (int page)
+	public void setPage(int page)
 	{
 		this.page = page;
 	}
@@ -939,7 +939,7 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @return The current page.
 	 */
-	public int getPage ()
+	public int getPage()
 	{
 		return page;
 	}
@@ -949,7 +949,7 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @return The list mode.
 	 */
-	public String getListModel ()
+	public String getListModel()
 	{
 		return listModel;
 	}
@@ -959,7 +959,7 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @return listModel The new list model.
 	 */
-	public void setListModel (String listModel)
+	public void setListModel(String listModel)
 	{
 		this.listModel = listModel;
 	}
@@ -969,9 +969,9 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @param req The model request.
 	 */
-	public void updateSort (ModelRequest req)
+	public void updateSort(ModelRequest req)
 	{
-		updateSort ((String) req.getParameter (getId () + "Sort"));
+		updateSort((String) req.getParameter(getId() + "Sort"));
 	}
 
 	/**
@@ -979,21 +979,21 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @param sort The new sort column.
 	 */
-	public void updateSort (String sort)
+	public void updateSort(String sort)
 	{
 		if (sort != null)
 		{
 			SortOrder sortOrder = SortOrder.ASCENDING;
 
-			if (sort.equals (getSortColumnName ()))
+			if (sort.equals(getSortColumnName()))
 			{
-				sortOrder = getSortColumn ().getSort () == SortOrder.ASCENDING ? SortOrder.DESCENDING
+				sortOrder = getSortColumn().getSort() == SortOrder.ASCENDING ? SortOrder.DESCENDING
 								: SortOrder.ASCENDING;
 			}
 
-			clearSort ();
-			setSortColumn (sort, sortOrder);
-			setPage (1);
+			clearSort();
+			setSortColumn(sort, sortOrder);
+			setPage(1);
 		}
 	}
 
@@ -1003,15 +1003,15 @@ public class ListingDescriptor implements Serializable
 	 * @param name The name of the column to retrieve.
 	 * @return The column or null if none was found.
 	 */
-	public ColumnDescriptor getColumn (String name)
+	public ColumnDescriptor getColumn(String name)
 	{
-		return (ColumnDescriptor) columnsByKey.get (name);
+		return (ColumnDescriptor) columnsByKey.get(name);
 	}
 
 	/**
 	 * @param queryDescriptor The new queryDescriptor.
 	 */
-	public void setQuery (QueryDescriptor queryDescriptor)
+	public void setQuery(QueryDescriptor queryDescriptor)
 	{
 		this.queryDescriptor = queryDescriptor;
 	}
@@ -1019,7 +1019,7 @@ public class ListingDescriptor implements Serializable
 	/**
 	 * @return The queryDescriptor.
 	 */
-	public QueryDescriptor getQuery ()
+	public QueryDescriptor getQuery()
 	{
 		return queryDescriptor;
 	}
@@ -1029,17 +1029,17 @@ public class ListingDescriptor implements Serializable
 	 *
 	 * @return The columns
 	 */
-	public List<ColumnDescriptor> getColumns ()
+	public List<ColumnDescriptor> getColumns()
 	{
 		return columns;
 	}
 
-	public boolean isNg ()
+	public boolean isNg()
 	{
 		return ng;
 	}
 
-	public void setNg (boolean ng)
+	public void setNg(boolean ng)
 	{
 		this.ng = ng;
 	}

@@ -140,7 +140,7 @@ public class Schedule implements Serializable
 	 *   null-allowed="false"
 	 *   auto-increment="identity"
 	 */
-	public Integer getId ()
+	public Integer getId()
 	{
 		return id;
 	}
@@ -148,7 +148,7 @@ public class Schedule implements Serializable
 	/**
 	 * Set the primary key.
 	 */
-	public void setId (Integer id)
+	public void setId(Integer id)
 	{
 		this.id = id;
 	}
@@ -163,7 +163,7 @@ public class Schedule implements Serializable
 	 *   null-allowed="false"
 	 *   default-value="1"
 	 */
-	public Integer getPosition ()
+	public Integer getPosition()
 	{
 		return position;
 	}
@@ -171,7 +171,7 @@ public class Schedule implements Serializable
 	/**
 	 * Set the position.
 	 */
-	public void setPosition (Integer position)
+	public void setPosition(Integer position)
 	{
 		this.position = position;
 	}
@@ -184,7 +184,7 @@ public class Schedule implements Serializable
 	 *   db-name="disabled"
 	 *   type="boolean"
 	 */
-	public Boolean getDisabled ()
+	public Boolean getDisabled()
 	{
 		return disabled;
 	}
@@ -192,7 +192,7 @@ public class Schedule implements Serializable
 	/**
 	 * Set the disabled flag.
 	 */
-	public void setDisabled (Boolean disabled)
+	public void setDisabled(Boolean disabled)
 	{
 		this.disabled = disabled;
 	}
@@ -207,7 +207,7 @@ public class Schedule implements Serializable
 	 *   length="80"
 	 *   null-allowed="false"
 	 */
-	public String getName ()
+	public String getName()
 	{
 		return name;
 	}
@@ -215,7 +215,7 @@ public class Schedule implements Serializable
 	/**
 	 * Set the schedule name.
 	 */
-	public void setName (String name)
+	public void setName(String name)
 	{
 		this.name = name;
 	}
@@ -228,7 +228,7 @@ public class Schedule implements Serializable
 	 *   db-name="description"
 	 *   type="text"
 	 */
-	public String getDescription ()
+	public String getDescription()
 	{
 		return description;
 	}
@@ -236,7 +236,7 @@ public class Schedule implements Serializable
 	/**
 	 * Set the description.
 	 */
-	public void setDescription (String description)
+	public void setDescription(String description)
 	{
 		this.description = description;
 	}
@@ -250,7 +250,7 @@ public class Schedule implements Serializable
 	 *   type="boolean"
 	 *   default-value="false"
 	 */
-	public Boolean getAllSeconds ()
+	public Boolean getAllSeconds()
 	{
 		return allSeconds;
 	}
@@ -258,7 +258,7 @@ public class Schedule implements Serializable
 	/**
 	 * Define whether the schedule should run on all seconds or not.
 	 */
-	public void setAllSeconds (Boolean allSeconds)
+	public void setAllSeconds(Boolean allSeconds)
 	{
 		this.allSeconds = allSeconds;
 	}
@@ -272,7 +272,7 @@ public class Schedule implements Serializable
 	 *   type="varchar"
 	 *   length="80"
 	 */
-	public String getSeconds ()
+	public String getSeconds()
 	{
 		return seconds;
 	}
@@ -280,7 +280,7 @@ public class Schedule implements Serializable
 	/**
 	 * Set the scheduled seconds.
 	 */
-	public void setSeconds (String seconds)
+	public void setSeconds(String seconds)
 	{
 		this.seconds = seconds;
 	}
@@ -294,7 +294,7 @@ public class Schedule implements Serializable
 	 *   type="boolean"
 	 *   default-value="false"
 	 */
-	public Boolean getAllMinutes ()
+	public Boolean getAllMinutes()
 	{
 		return allMinutes;
 	}
@@ -302,7 +302,7 @@ public class Schedule implements Serializable
 	/**
 	 * Define whether the schedule should run on all minutes or not.
 	 */
-	public void setAllMinutes (Boolean allMinutes)
+	public void setAllMinutes(Boolean allMinutes)
 	{
 		this.allMinutes = allMinutes;
 	}
@@ -316,7 +316,7 @@ public class Schedule implements Serializable
 	 *   type="varchar"
 	 *   length="80"
 	 */
-	public String getMinutes ()
+	public String getMinutes()
 	{
 		return minutes;
 	}
@@ -324,7 +324,7 @@ public class Schedule implements Serializable
 	/**
 	 * Set the scheduled minutes.
 	 */
-	public void setMinutes (String minutes)
+	public void setMinutes(String minutes)
 	{
 		this.minutes = minutes;
 	}
@@ -338,7 +338,7 @@ public class Schedule implements Serializable
 	 *   type="boolean"
 	 *   default-value="false"
 	 */
-	public Boolean getAllHours ()
+	public Boolean getAllHours()
 	{
 		return allHours;
 	}
@@ -346,7 +346,7 @@ public class Schedule implements Serializable
 	/**
 	 * Define whether the schedule should run on all hours or not.
 	 */
-	public void setAllHours (Boolean allHours)
+	public void setAllHours(Boolean allHours)
 	{
 		this.allHours = allHours;
 	}
@@ -360,7 +360,7 @@ public class Schedule implements Serializable
 	 *   type="varchar"
 	 *   length="80"
 	 */
-	public String getHours ()
+	public String getHours()
 	{
 		return hours;
 	}
@@ -368,7 +368,7 @@ public class Schedule implements Serializable
 	/**
 	 * Set the scheduled hours.
 	 */
-	public void setHours (String hours)
+	public void setHours(String hours)
 	{
 		this.hours = hours;
 	}
@@ -382,7 +382,7 @@ public class Schedule implements Serializable
 	 *   type="boolean"
 	 *   default-value="false"
 	 */
-	public Boolean getAllDays ()
+	public Boolean getAllDays()
 	{
 		return allDays;
 	}
@@ -390,7 +390,7 @@ public class Schedule implements Serializable
 	/**
 	 * Define whether the schedule should run on all days or not.
 	 */
-	public void setAllDays (Boolean allDays)
+	public void setAllDays(Boolean allDays)
 	{
 		this.allDays = allDays;
 	}
@@ -404,7 +404,7 @@ public class Schedule implements Serializable
 	 *   type="varchar"
 	 *   length="80"
 	 */
-	public String getDays ()
+	public String getDays()
 	{
 		return days;
 	}
@@ -412,7 +412,7 @@ public class Schedule implements Serializable
 	/**
 	 * Set the scheduled days.
 	 */
-	public void setDays (String days)
+	public void setDays(String days)
 	{
 		this.days = days;
 	}
@@ -426,7 +426,7 @@ public class Schedule implements Serializable
 	 *   type="boolean"
 	 *   default-value="false"
 	 */
-	public Boolean getAllMonths ()
+	public Boolean getAllMonths()
 	{
 		return allMonths;
 	}
@@ -434,7 +434,7 @@ public class Schedule implements Serializable
 	/**
 	 * Define whether the schedule should run on all months or not.
 	 */
-	public void setAllMonths (Boolean allMonths)
+	public void setAllMonths(Boolean allMonths)
 	{
 		this.allMonths = allMonths;
 	}
@@ -448,7 +448,7 @@ public class Schedule implements Serializable
 	 *   type="varchar"
 	 *   length="80"
 	 */
-	public String getMonths ()
+	public String getMonths()
 	{
 		return months;
 	}
@@ -456,7 +456,7 @@ public class Schedule implements Serializable
 	/**
 	 * Set the scheduled months.
 	 */
-	public void setMonths (String months)
+	public void setMonths(String months)
 	{
 		this.months = months;
 	}
@@ -470,7 +470,7 @@ public class Schedule implements Serializable
 	 *   type="boolean"
 	 *   default-value="false"
 	 */
-	public Boolean getAllDaysOfWeek ()
+	public Boolean getAllDaysOfWeek()
 	{
 		return allDaysOfWeek;
 	}
@@ -478,7 +478,7 @@ public class Schedule implements Serializable
 	/**
 	 * Define whether the schedule should run on all days of week or not.
 	 */
-	public void setAllDaysOfWeek (Boolean allDaysOfWeek)
+	public void setAllDaysOfWeek(Boolean allDaysOfWeek)
 	{
 		this.allDaysOfWeek = allDaysOfWeek;
 	}
@@ -492,7 +492,7 @@ public class Schedule implements Serializable
 	 *   type="varchar"
 	 *   length="80"
 	 */
-	public String getDaysOfWeek ()
+	public String getDaysOfWeek()
 	{
 		return daysOfWeek;
 	}
@@ -500,7 +500,7 @@ public class Schedule implements Serializable
 	/**
 	 * Set the scheduled days of week.
 	 */
-	public void setDaysOfWeek (String daysOfWeek)
+	public void setDaysOfWeek(String daysOfWeek)
 	{
 		this.daysOfWeek = daysOfWeek;
 	}
@@ -517,7 +517,7 @@ public class Schedule implements Serializable
 	 * @persist.valid-value value="1" descrip="$holidaysAllowanceOnlyOnHolidays"
 	 * @persist.valid-value value="2" descrip="$holidaysAllowanceExceptOnHolidays"
 	 */
-	public Integer getHolidaysAllowance ()
+	public Integer getHolidaysAllowance()
 	{
 		return holidaysAllowance;
 	}
@@ -525,7 +525,7 @@ public class Schedule implements Serializable
 	/**
 	 * Set the holidays allowance.
 	 */
-	public void setHolidaysAllowance (Integer holidaysAllowance)
+	public void setHolidaysAllowance(Integer holidaysAllowance)
 	{
 		this.holidaysAllowance = holidaysAllowance;
 	}
@@ -539,7 +539,7 @@ public class Schedule implements Serializable
 	 *   type="varchar"
 	 *   length="8"
 	 */
-	public String getHolidaysCountry ()
+	public String getHolidaysCountry()
 	{
 		return holidaysCountry;
 	}
@@ -547,7 +547,7 @@ public class Schedule implements Serializable
 	/**
 	 * Set the scheduled holidays country.
 	 */
-	public void setHolidaysCountry (String holidaysCountry)
+	public void setHolidaysCountry(String holidaysCountry)
 	{
 		this.holidaysCountry = holidaysCountry;
 	}
@@ -561,7 +561,7 @@ public class Schedule implements Serializable
 	 *   type="varchar"
 	 *   length="8"
 	 */
-	public String getHolidaysProvince ()
+	public String getHolidaysProvince()
 	{
 		return holidaysProvince;
 	}
@@ -569,7 +569,7 @@ public class Schedule implements Serializable
 	/**
 	 * Set the scheduled holidays province.
 	 */
-	public void setHolidaysProvince (String holidaysProvince)
+	public void setHolidaysProvince(String holidaysProvince)
 	{
 		this.holidaysProvince = holidaysProvince;
 	}

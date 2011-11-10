@@ -41,7 +41,7 @@ public class DaySelectTag extends SelectTagBase
 	 *
 	 * @param readOnly Read only flag.
 	 */
-	public void setReadOnly (boolean readOnly)
+	public void setReadOnly(boolean readOnly)
 	{
 		this.readOnly = readOnly;
 	}
@@ -51,7 +51,7 @@ public class DaySelectTag extends SelectTagBase
 	 *
 	 * @retrun The read only flag.
 	 */
-	public boolean getReadOnly ()
+	public boolean getReadOnly()
 	{
 		return readOnly;
 	}
@@ -61,42 +61,42 @@ public class DaySelectTag extends SelectTagBase
 	 *
 	 * @exception JspException if a JSP exception has occurred.
 	 */
-	public int doEndTag () throws JspException
+	public int doEndTag() throws JspException
 	{
-		String selectedValue = getBeanProperty ().toString ();
+		String selectedValue = getBeanProperty().toString();
 
-		StringBuffer results = new StringBuffer ();
+		StringBuffer results = new StringBuffer();
 
 		if (! readOnly)
 		{
-			createSelectTag (results);
+			createSelectTag(results);
 
-			results.append ("<option value=\"\">---</option>");
+			results.append("<option value=\"\">---</option>");
 
 			for (int i = 1; i <= 31; ++i)
 			{
-				results.append ("<option value=\"");
-				results.append (String.valueOf (i));
-				results.append ("\"");
+				results.append("<option value=\"");
+				results.append(String.valueOf(i));
+				results.append("\"");
 
-				if (String.valueOf (i).equals (selectedValue))
+				if (String.valueOf(i).equals(selectedValue))
 				{
-					results.append (" selected=\"selected\"");
+					results.append(" selected=\"selected\"");
 				}
 
-				results.append (">");
-				results.append (String.valueOf (i));
-				results.append ("</option>");
+				results.append(">");
+				results.append(String.valueOf(i));
+				results.append("</option>");
 			}
 
-			results.append ("</select>\n");
+			results.append("</select>\n");
 		}
 		else
 		{
-			results.append (selectedValue);
+			results.append(selectedValue);
 		}
 
-		TagUtils.getInstance ().write (pageContext, results.toString ());
+		TagUtils.getInstance().write(pageContext, results.toString());
 
 		return EVAL_PAGE;
 	}
@@ -104,9 +104,9 @@ public class DaySelectTag extends SelectTagBase
 	/**
 	 * Reset all tag attributes to their default values.
 	 */
-	public void release ()
+	public void release()
 	{
-		super.release ();
+		super.release();
 
 		readOnly = false;
 	}

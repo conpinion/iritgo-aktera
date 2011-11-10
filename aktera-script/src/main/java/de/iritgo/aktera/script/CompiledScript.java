@@ -22,6 +22,6 @@ package de.iritgo.aktera.script;
 
 public abstract class CompiledScript
 {
-	public abstract Object execute (String methodName, Object... args)
+	public abstract Object execute(String methodName, Object... args)
 		throws ScriptMethodNotFoundException, ScriptExecutionException;
 }

@@ -42,55 +42,56 @@ public class EditAkteraObjectCommand extends DataObjectCommand
 	/**
 	 * Create a new startup command.
 	 */
-	public EditAkteraObjectCommand ()
+	public EditAkteraObjectCommand()
 	{
-		super ("EditAkteraObjectCommand");
-		properties = new Properties ();
+		super("EditAkteraObjectCommand");
+		properties = new Properties();
 	}
 
 	/**
 	 *
 	 */
-	public void perform ()
+	public void perform()
 	{
-		DataObject dataObject = (DataObject) ((QueryPane) swingGUIPane).getSelectedItem ();
+		DataObject dataObject = (DataObject) ((QueryPane) swingGUIPane).getSelectedItem();
 
 		if (dataObject == null)
 		{
 			return;
 		}
 
-		String onScreenUniqueId = "jFrameId-" + Engine.instance ().getTransientIDGenerator ().createId ();
+		String onScreenUniqueId = "jFrameId-" + Engine.instance().getTransientIDGenerator().createId();
 
-		String queryPaneId = ((QueryPane) swingGUIPane).getOnScreenUniqueId ();
+		String queryPaneId = ((QueryPane) swingGUIPane).getOnScreenUniqueId();
 
-		Properties props = new Properties ();
+		Properties props = new Properties();
 
-		props.put ("closable", Boolean.FALSE);
-		props.put ("iconifiable", Boolean.FALSE);
-		props.put ("maximizable", Boolean.FALSE);
-		props.put ("maximized", Boolean.TRUE);
-		props.put ("titlebar", Boolean.FALSE);
-		props.put ("queryPaneId", queryPaneId);
+		props.put("closable", Boolean.FALSE);
+		props.put("iconifiable", Boolean.FALSE);
+		props.put("maximizable", Boolean.FALSE);
+		props.put("maximized", Boolean.TRUE);
+		props.put("titlebar", Boolean.FALSE);
+		props.put("queryPaneId", queryPaneId);
 
-		String controllerId = ((QueryPane) swingGUIPane).getControllerTypeId ();
+		String controllerId = ((QueryPane) swingGUIPane).getControllerTypeId();
 
-		Rectangle bounds = new Rectangle (400, 300, 800, 600);
+		Rectangle bounds = new Rectangle(400, 300, 800, 600);
 
-		CommandTools.performSimple (new ShowOtherFrame (null, "address.embeddedview", onScreenUniqueId, bounds));
+		CommandTools.performSimple(new ShowOtherFrame(null, "address.embeddedview", onScreenUniqueId, bounds));
 
-		GUIManager guiManager = (GUIManager) Engine.instance ().getManagerRegistry ().getManager ("GUIManager");
+		GUIManager guiManager = (GUIManager) Engine.instance().getManagerRegistry().getManager("GUIManager");
 
-		Controller controller = guiManager.getController (controllerId);
+		Controller controller = guiManager.getController(controllerId);
 
-		String editModel = controller.getCommandDescription ("EditAkteraObjectCommand").getValue ();
+		String editModel = controller.getCommandDescription("EditAkteraObjectCommand").getValue();
 
-		CommandTools.performSimple (new ShowWindow ("DataObjectGUIPane", onScreenUniqueId, onScreenUniqueId, null),
-						props);
+		CommandTools
+						.performSimple(new ShowWindow("DataObjectGUIPane", onScreenUniqueId, onScreenUniqueId, null),
+										props);
 
-		EditAkteraObjectRequest editAkteraObjectRequest = new EditAkteraObjectRequest (editModel, dataObject,
+		EditAkteraObjectRequest editAkteraObjectRequest = new EditAkteraObjectRequest(editModel, dataObject,
 						onScreenUniqueId, queryPaneId);
 
-		ActionTools.sendToServer (editAkteraObjectRequest);
+		ActionTools.sendToServer(editAkteraObjectRequest);
 	}
 }

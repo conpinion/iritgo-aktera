@@ -39,48 +39,48 @@ public interface AddressManager
 
 	public static String DEFAULT_PRIVATE_ADDRESS_STORE_NAME = "de.iritgo.aktera.address.AddressLocalPrivateStore";
 
-	public AddressStore getAddressStoreByName (String storeName) throws AddressStoreNotFoundException;
+	public AddressStore getAddressStoreByName(String storeName) throws AddressStoreNotFoundException;
 
-	public AddressStore getAddressStoreById (Integer id) throws AddressStoreNotFoundException;
+	public AddressStore getAddressStoreById(Integer id) throws AddressStoreNotFoundException;
 
-	public AddressStore getDefaultAddressStore ();
+	public AddressStore getDefaultAddressStore();
 
-	public String formatAddressTemplate (Address address, String template, Locale locale);
+	public String formatAddressTemplate(Address address, String template, Locale locale);
 
-	public Option<Address> findAddressByLastNameOrCompany (String name);
+	public Option<Address> findAddressByLastNameOrCompany(String name);
 
-	public Option<Address> findAddressByPhoneNumber (String number);
+	public Option<Address> findAddressByPhoneNumber(String number);
 
-	public Option<Address> findAddressByPhoneNumber (String number, String countryPrefix, String localPrefix,
+	public Option<Address> findAddressByPhoneNumber(String number, String countryPrefix, String localPrefix,
 					String internationalPrefix, String nationalPrefix);
 
-	public Option<Address> findAddressOfOwnerByPhoneNumber (Integer ownerId, String number, String countryPrefix,
+	public Option<Address> findAddressOfOwnerByPhoneNumber(Integer ownerId, String number, String countryPrefix,
 					String localPrefix, String internationalPrefix, String nationalPrefix);
 
-	public Option<Address> findAddressByStoreAndDn (String storeName, Object addressDn)
+	public Option<Address> findAddressByStoreAndDn(String storeName, Object addressDn)
 		throws AddressStoreNotFoundException;
 
-	public String formatNameWithSalutation (Address address, Locale dstLocale, SalutationFormatMode mode);
+	public String formatNameWithSalutation(Address address, Locale dstLocale, SalutationFormatMode mode);
 
-	public List<AddressStoreType> getAddressStoreTypes ();
+	public List<AddressStoreType> getAddressStoreTypes();
 
-	public AddressStoreType getAddressStoreType (String key) throws NoSuchAddressStoreTypeException;
+	public AddressStoreType getAddressStoreType(String key) throws NoSuchAddressStoreTypeException;
 
-	Properties convertAddressToProperties (Address address, Locale locale);
+	Properties convertAddressToProperties(Address address, Locale locale);
 
-	public void initializeAddressStores ();
+	public void initializeAddressStores();
 
-	public boolean isAddressStoreEditable (String storeName) throws AddressStoreNotFoundException;
+	public boolean isAddressStoreEditable(String storeName) throws AddressStoreNotFoundException;
 
-	public boolean isAddressStoreGlobal (String storeName) throws AddressStoreNotFoundException;
+	public boolean isAddressStoreGlobal(String storeName) throws AddressStoreNotFoundException;
 
-	public List<Tuple2<String, String>> listAddressStoresNameAndTitle ();
+	public List<Tuple2<String, String>> listAddressStoresNameAndTitle();
 
-	public List<Tuple2<Integer, String>> listAddressStoresIdAndTitle ();
+	public List<Tuple2<Integer, String>> listAddressStoresIdAndTitle();
 
-	public List<Tuple2<Integer, String>> listSystemAddressStoresIdAndTitle ();
+	public List<Tuple2<Integer, String>> listSystemAddressStoresIdAndTitle();
 
-	public List<Tuple3<Integer, String, String>> listAddressStoresIdAndNameAndTitle ();
+	public List<Tuple3<Integer, String, String>> listAddressStoresIdAndNameAndTitle();
 
-	public void deleteAllAddressesOfOwner (Integer userId);
+	public void deleteAllAddressesOfOwner(Integer userId);
 }

@@ -38,12 +38,12 @@ public class LicenseToolsV1
 {
 	public static LicenseInfoV1 licenseInfo;
 
-	public static LicenseInfoV1 getLicenseInfo ()
+	public static LicenseInfoV1 getLicenseInfo()
 	{
-		return getLicenseInfo (System.getProperty ("iritgo.license.path"));
+		return getLicenseInfo(System.getProperty("iritgo.license.path"));
 	}
 
-	public static LicenseInfoV1 getLicenseInfo (String licensePath)
+	public static LicenseInfoV1 getLicenseInfo(String licensePath)
 	{
 		if (licenseInfo != null)
 		{
@@ -53,7 +53,8 @@ public class LicenseToolsV1
 		String keyString = null;
 		try
 		{
-			keyString = ((AkteraKeyProvider) Class.forName ("de.iritgo.aktera.license.AkteraKey").newInstance ()).getKey ();
+			keyString = ((AkteraKeyProvider) Class.forName("de.iritgo.aktera.license.AkteraKey").newInstance())
+							.getKey();
 		}
 		catch (InstantiationException x1)
 		{
@@ -70,81 +71,81 @@ public class LicenseToolsV1
 
 		synchronized (LicenseTools.class)
 		{
-			System.setProperty ("iritgo.license.path", licensePath);
+			System.setProperty("iritgo.license.path", licensePath);
 
-			Properties props = new Properties ();
+			Properties props = new Properties();
 
 			try
 			{
-				BufferedReader in = new BufferedReader (new FileReader (licensePath));
-				StringBuffer sb = new StringBuffer ();
+				BufferedReader in = new BufferedReader(new FileReader(licensePath));
+				StringBuffer sb = new StringBuffer();
 				String line = null;
 
-				while ((line = in.readLine ()) != null)
+				while ((line = in.readLine()) != null)
 				{
-					if ("# SHA1 Signature".equals (line))
+					if ("# SHA1 Signature".equals(line))
 					{
 						break;
 					}
 					else
 					{
-						sb.append (line + "\n");
+						sb.append(line + "\n");
 					}
 				}
 
-				StringBuffer sbSig = new StringBuffer ();
+				StringBuffer sbSig = new StringBuffer();
 
-				while ((line = in.readLine ()) != null)
+				while ((line = in.readLine()) != null)
 				{
-					sbSig.append (line + "\n");
+					sbSig.append(line + "\n");
 				}
 
-				X509EncodedKeySpec spec = new X509EncodedKeySpec (Base64.decodeBase64 (keyString.getBytes ()));
-				KeyFactory keyFactory = KeyFactory.getInstance ("DSA", "SUN");
-				PublicKey key = keyFactory.generatePublic (spec);
+				X509EncodedKeySpec spec = new X509EncodedKeySpec(Base64.decodeBase64(keyString.getBytes()));
+				KeyFactory keyFactory = KeyFactory.getInstance("DSA", "SUN");
+				PublicKey key = keyFactory.generatePublic(spec);
 
-				Signature sig = Signature.getInstance ("SHA1withDSA", "SUN");
+				Signature sig = Signature.getInstance("SHA1withDSA", "SUN");
 
-				sig.initVerify (key);
-				sig.update (sb.toString ().getBytes (), 0, sb.toString ().getBytes ().length);
+				sig.initVerify(key);
+				sig.update(sb.toString().getBytes(), 0, sb.toString().getBytes().length);
 
-				boolean valid = sig.verify (Base64.decodeBase64 (sbSig.toString ().getBytes ()));
+				boolean valid = sig.verify(Base64.decodeBase64(sbSig.toString().getBytes()));
 
 				if (! valid)
 				{
-					System.out.println ("[LicenseTools] Unable to verify license signature");
-					System.out.println ("[LicenseTools] Public key info:");
-					System.out.println (key.toString ());
-					System.out.println ("[LicenseTools] Signature info:");
-					System.out.println (sig.toString ());
-					System.out.println ("[LicenseTools] License signature : " + sbSig.toString ());
+					System.out.println("[LicenseTools] Unable to verify license signature");
+					System.out.println("[LicenseTools] Public key info:");
+					System.out.println(key.toString());
+					System.out.println("[LicenseTools] Signature info:");
+					System.out.println(sig.toString());
+					System.out.println("[LicenseTools] License signature : " + sbSig.toString());
 
 					return null;
 				}
 
 				try
 				{
-					props.load (new StringReader (sb.toString ()));
+					props.load(new StringReader(sb.toString()));
 				}
 				catch (Exception x)
 				{
-					System.out.println ("[LicenseTools] " + x);
+					System.out.println("[LicenseTools] " + x);
 				}
 			}
 			catch (Exception x)
 			{
-				System.out.println ("[LicenseTools] " + x);
+				System.out.println("[LicenseTools] " + x);
 
 				return null;
 			}
 
-			licenseInfo = new LicenseInfoV1 (props);
+			licenseInfo = new LicenseInfoV1(props);
 		}
 
 		return licenseInfo;
 	}
 
-	public static void clear ()
+	public static void clear()
 	{
 		licenseInfo = null;
 	}

@@ -43,26 +43,26 @@ public class Redirect extends StandardLogEnabledModel
 	 * @param request The model request.
 	 * @return The model response.
 	 */
-	public ModelResponse execute (ModelRequest request) throws ModelException
+	public ModelResponse execute(ModelRequest request) throws ModelException
 	{
-		ModelResponse response = request.createResponse ();
+		ModelResponse response = request.createResponse();
 
-		response.setAttribute ("forward", "aktera.redirect");
+		response.setAttribute("forward", "aktera.redirect");
 
-		String scheme = request.getScheme ();
-		String serverName = request.getServerName ();
-		int port = request.getServerPort ();
-		String baseUrl = scheme + "://" + serverName + (port != ("https".equals (scheme) ? 443 : 80) ? ":" + port : "");
-		String contextPath = request.getContextPath ();
+		String scheme = request.getScheme();
+		String serverName = request.getServerName();
+		int port = request.getServerPort();
+		String baseUrl = scheme + "://" + serverName + (port != ("https".equals(scheme) ? 443 : 80) ? ":" + port : "");
+		String contextPath = request.getContextPath();
 
-		String url = configuration.getChild ("url").getValue ("#");
+		String url = configuration.getChild("url").getValue("#");
 
-		url = url.replaceAll ("\\#\\{scheme\\}", scheme);
-		url = url.replaceAll ("\\#\\{server\\}", serverName);
-		url = url.replaceAll ("\\#\\{port\\}", String.valueOf (port));
-		url = url.replaceAll ("\\#\\{context\\}", contextPath);
-		url = url.replaceAll ("\\#\\{baseUrl\\}", baseUrl);
-		response.addOutput ("url", url);
+		url = url.replaceAll("\\#\\{scheme\\}", scheme);
+		url = url.replaceAll("\\#\\{server\\}", serverName);
+		url = url.replaceAll("\\#\\{port\\}", String.valueOf(port));
+		url = url.replaceAll("\\#\\{context\\}", contextPath);
+		url = url.replaceAll("\\#\\{baseUrl\\}", baseUrl);
+		response.addOutput("url", url);
 
 		return response;
 	}

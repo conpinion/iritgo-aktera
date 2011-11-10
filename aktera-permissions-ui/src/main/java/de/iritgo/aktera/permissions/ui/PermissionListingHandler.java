@@ -42,30 +42,30 @@ public class PermissionListingHandler extends ListingHandler
 	@Autowired
 	private List<PermissionFormPart> permissionFormParts;
 
-	private Map<String, PermissionFormPart> permissionFormPartsByKey = new HashMap ();
+	private Map<String, PermissionFormPart> permissionFormPartsByKey = new HashMap();
 
 	@PostConstruct
-	public void init ()
+	public void init()
 	{
 		for (PermissionFormPart part : permissionFormParts)
 		{
-			for (String key : part.getPermissionKeys ())
+			for (String key : part.getPermissionKeys())
 			{
-				permissionFormPartsByKey.put (key, part);
+				permissionFormPartsByKey.put(key, part);
 			}
 		}
 	}
 
 	@Override
-	public CellData handleResult (ModelRequest request, ModelResponse response, ListingDescriptor listing,
-					RowData data, ColumnDescriptor column) throws PersistenceException, ModelException, SQLException
+	public CellData handleResult(ModelRequest request, ModelResponse response, ListingDescriptor listing, RowData data,
+					ColumnDescriptor column) throws PersistenceException, ModelException, SQLException
 	{
-		String permissionType = data.getString ("permission");
+		String permissionType = data.getString("permission");
 
-		if ("permissionName".equals (column.getName ()))
+		if ("permissionName".equals(column.getName()))
 		{
-			String permissionName = permissionManager.getMetaDataById (permissionType).getName ();
-			String[] nameParts = permissionName.split (":");
+			String permissionName = permissionManager.getMetaDataById(permissionType).getName();
+			String[] nameParts = permissionName.split(":");
 			String bundle = "Aktera";
 			String name = nameParts[0];
 			if (nameParts.length > 1)
@@ -73,17 +73,16 @@ public class PermissionListingHandler extends ListingHandler
 				bundle = nameParts[0];
 				name = nameParts[1];
 			}
-			return new CellData (name, ListingColumnViewer.MESSAGE, bundle);
+			return new CellData(name, ListingColumnViewer.MESSAGE, bundle);
 		}
-		else if ("permissionInfo".equals (column.getName ()))
+		else if ("permissionInfo".equals(column.getName()))
 		{
-			PermissionFormPart part = permissionFormPartsByKey.get (permissionType);
+			PermissionFormPart part = permissionFormPartsByKey.get(permissionType);
 			if (part != null)
 			{
-				return new CellData (part.createListInfo (request, data), ListingColumnViewer.MESSAGE,
-								part.getBundle ());
+				return new CellData(part.createListInfo(request, data), ListingColumnViewer.MESSAGE, part.getBundle());
 			}
 		}
-		return new CellData ();
+		return new CellData();
 	}
 }

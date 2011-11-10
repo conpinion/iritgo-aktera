@@ -42,14 +42,14 @@ public class NewAkteraObjectRequest extends FrameworkServerAction
 	/**
 	 * Standard constructor
 	 */
-	public NewAkteraObjectRequest ()
+	public NewAkteraObjectRequest()
 	{
 	}
 
 	/**
 	 * Standard constructor
 	 */
-	public NewAkteraObjectRequest (String model, String jFrameId, String queryPaneId)
+	public NewAkteraObjectRequest(String model, String jFrameId, String queryPaneId)
 	{
 		this.model = model;
 		this.jFrameId = jFrameId;
@@ -59,33 +59,33 @@ public class NewAkteraObjectRequest extends FrameworkServerAction
 	/**
 	 * Read the attributes from the given stream.
 	 */
-	public void readObject (FrameworkInputStream stream) throws IOException, ClassNotFoundException
+	public void readObject(FrameworkInputStream stream) throws IOException, ClassNotFoundException
 	{
-		model = stream.readUTF ();
-		jFrameId = stream.readUTF ();
-		queryPaneId = stream.readUTF ();
+		model = stream.readUTF();
+		jFrameId = stream.readUTF();
+		queryPaneId = stream.readUTF();
 	}
 
 	/**
 	 * Write the attributes to the given stream.
 	 */
-	public void writeObject (FrameworkOutputStream stream) throws IOException
+	public void writeObject(FrameworkOutputStream stream) throws IOException
 	{
-		stream.writeUTF (model);
-		stream.writeUTF (jFrameId);
-		stream.writeUTF (queryPaneId);
+		stream.writeUTF(model);
+		stream.writeUTF(jFrameId);
+		stream.writeUTF(queryPaneId);
 	}
 
 	/**
 	 * Perform the action.
 	 */
-	public void perform ()
+	public void perform()
 	{
-		ConnectorServerManager connectorServerManager = (ConnectorServerManager) Engine.instance ()
-						.getManagerRegistry ().getManager ("ConnectorServerManager");
+		ConnectorServerManager connectorServerManager = (ConnectorServerManager) Engine.instance().getManagerRegistry()
+						.getManager("ConnectorServerManager");
 
-		long uniqueId = connectorServerManager.newKeelObject (model, userUniqueId);
+		long uniqueId = connectorServerManager.newKeelObject(model, userUniqueId);
 
-		ActionTools.sendToClient (userUniqueId, new NewAkteraObjectResponse (model, uniqueId, jFrameId, queryPaneId));
+		ActionTools.sendToClient(userUniqueId, new NewAkteraObjectResponse(model, uniqueId, jFrameId, queryPaneId));
 	}
 }

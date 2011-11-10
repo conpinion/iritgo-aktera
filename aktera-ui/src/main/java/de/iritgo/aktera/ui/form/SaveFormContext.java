@@ -30,21 +30,21 @@ public class SaveFormContext extends ExpressionLanguageContext
 	/** The persistent descriptor */
 	private PersistentDescriptor persistents;
 
-	public void setPersistents (PersistentDescriptor persistents)
+	public void setPersistents(PersistentDescriptor persistents)
 	{
 		this.persistents = persistents;
 	}
 
-	public PersistentDescriptor getPersistents ()
+	public PersistentDescriptor getPersistents()
 	{
 		return persistents;
 	}
 
-	public Persistent getPersistent (String name)
+	public Persistent getPersistent(String name)
 	{
 		try
 		{
-			return persistents.getPersistent (name);
+			return persistents.getPersistent(name);
 		}
 		catch (ModelException x)
 		{
@@ -52,11 +52,11 @@ public class SaveFormContext extends ExpressionLanguageContext
 		}
 	}
 
-	public Object getAttribute (String name)
+	public Object getAttribute(String name)
 	{
 		try
 		{
-			return persistents.getAttribute (name);
+			return persistents.getAttribute(name);
 		}
 		catch (ModelException x)
 		{
@@ -67,12 +67,12 @@ public class SaveFormContext extends ExpressionLanguageContext
 	/** The id of the saved object */
 	private Object saveId;
 
-	public void setSaveId (Object saveId)
+	public void setSaveId(Object saveId)
 	{
 		this.saveId = saveId;
 	}
 
-	public Object getSaveId ()
+	public Object getSaveId()
 	{
 		return saveId;
 	}

@@ -107,176 +107,173 @@ public class AddressViewDialog
 
 	private JPanel phoneNumberVOIPActions;
 
-	public Action close = new AbstractAction ()
+	public Action close = new AbstractAction()
 	{
-		public void actionPerformed (ActionEvent e)
+		public void actionPerformed(ActionEvent e)
 		{
-			frame.setVisible (false);
+			frame.setVisible(false);
 		}
 	};
 
-	public AddressViewDialog ()
+	public AddressViewDialog()
 	{
 		try
 		{
 
-			AddressClientManager acm = (AddressClientManager) Engine.instance ().getManager (AddressClientManager.ID);
+			AddressClientManager acm = (AddressClientManager) Engine.instance().getManager(AddressClientManager.ID);
 
-			frame = (JFrame) new SwingEngine (this).render (getClass ().getResource ("/swixml/AddressViewDialog.xml"));
+			frame = (JFrame) new SwingEngine(this).render(getClass().getResource("/swixml/AddressViewDialog.xml"));
 
-			for (IAction action : acm.getPhoneNumberFieldActions ())
+			for (IAction action : acm.getPhoneNumberFieldActions())
 			{
-				action.addActionInterceptor (new Procedure1<IActionEvent> ()
+				action.addActionInterceptor(new Procedure1<IActionEvent>()
 				{
-					public void execute (IActionEvent e)
+					public void execute(IActionEvent e)
 					{
-						String command = e.getEvent ().getActionCommand ();
+						String command = e.getEvent().getActionCommand();
 						String number = "";
-						if ("B".equals (command))
+						if ("B".equals(command))
 						{
-							number = phoneNumberB.getText ();
+							number = phoneNumberB.getText();
 						}
-						else if ("BM".equals (command))
+						else if ("BM".equals(command))
 						{
-							number = phoneNumberBM.getText ();
+							number = phoneNumberBM.getText();
 						}
-						else if ("BF".equals (command))
+						else if ("BF".equals(command))
 						{
-							number = phoneNumberBF.getText ();
+							number = phoneNumberBF.getText();
 						}
-						else if ("BDD".equals (command))
+						else if ("BDD".equals(command))
 						{
-							number = phoneNumberBDD.getText ();
+							number = phoneNumberBDD.getText();
 						}
-						else if ("P".equals (command))
+						else if ("P".equals(command))
 						{
-							number = phoneNumberP.getText ();
+							number = phoneNumberP.getText();
 						}
-						else if ("PM".equals (command))
+						else if ("PM".equals(command))
 						{
-							number = phoneNumberPM.getText ();
+							number = phoneNumberPM.getText();
 						}
-						else if ("PF".equals (command))
+						else if ("PF".equals(command))
 						{
-							number = phoneNumberPF.getText ();
+							number = phoneNumberPF.getText();
 						}
-						else if ("VOIP".equals (command))
+						else if ("VOIP".equals(command))
 						{
-							number = phoneNumberVOIP.getText ();
+							number = phoneNumberVOIP.getText();
 						}
-						e.getProperties ().setProperty ("number", number);
+						e.getProperties().setProperty("number", number);
 					}
 				});
-				JButton button = new JButton (action);
-				button.setActionCommand ("B");
-				phoneNumberBActions.add (button);
-				button = new JButton (action);
-				button.setActionCommand ("BM");
-				phoneNumberBMActions.add (button);
-				button = new JButton (action);
-				button.setActionCommand ("BF");
-				phoneNumberBFActions.add (button);
-				button = new JButton (action);
-				button.setActionCommand ("BDD");
-				phoneNumberBDDActions.add (button);
-				button = new JButton (action);
-				button.setActionCommand ("P");
-				phoneNumberPActions.add (button);
-				button = new JButton (action);
-				button.setActionCommand ("PM");
-				phoneNumberPMActions.add (button);
-				button = new JButton (action);
-				button.setActionCommand ("PF");
-				phoneNumberPFActions.add (button);
-				button = new JButton (action);
-				button.setActionCommand ("VOIP");
-				phoneNumberVOIPActions.add (button);
+				JButton button = new JButton(action);
+				button.setActionCommand("B");
+				phoneNumberBActions.add(button);
+				button = new JButton(action);
+				button.setActionCommand("BM");
+				phoneNumberBMActions.add(button);
+				button = new JButton(action);
+				button.setActionCommand("BF");
+				phoneNumberBFActions.add(button);
+				button = new JButton(action);
+				button.setActionCommand("BDD");
+				phoneNumberBDDActions.add(button);
+				button = new JButton(action);
+				button.setActionCommand("P");
+				phoneNumberPActions.add(button);
+				button = new JButton(action);
+				button.setActionCommand("PM");
+				phoneNumberPMActions.add(button);
+				button = new JButton(action);
+				button.setActionCommand("PF");
+				phoneNumberPFActions.add(button);
+				button = new JButton(action);
+				button.setActionCommand("VOIP");
+				phoneNumberVOIPActions.add(button);
 			}
 		}
 		catch (Exception x)
 		{
-			Log.logError ("plugin", "AddressViewDialog", x.toString ());
+			Log.logError("plugin", "AddressViewDialog", x.toString());
 		}
 	}
 
-	public void show (final String addressStoreName, final String addressDn)
+	public void show(final String addressStoreName, final String addressDn)
 	{
-		show (addressStoreName, addressDn, null);
+		show(addressStoreName, addressDn, null);
 	}
 
-	public void show (final String addressStoreName, final String addressDn, final String callerInfo)
+	public void show(final String addressStoreName, final String addressDn, final String callerInfo)
 	{
 		if (callerInfo != null)
 		{
-			frame.setTitle (Engine.instance ().getResourceService ()
-							.getStringWithParams ("addressOfCaller", callerInfo));
+			frame.setTitle(Engine.instance().getResourceService().getStringWithParams("addressOfCaller", callerInfo));
 		}
 		else
 		{
-			frame.setTitle (Engine.instance ().getResourceService ().getStringWithParams ("address"));
+			frame.setTitle(Engine.instance().getResourceService().getStringWithParams("address"));
 		}
 
-		frame.setSize (640, 480);
-		frame.setVisible (true);
-		new Thread ()
+		frame.setSize(640, 480);
+		frame.setVisible(true);
+		new Thread()
 		{
 			@Override
-			public void run ()
+			public void run()
 			{
-				final AddressClientService acs = (AddressClientService) Engine.instance ().getManager (
+				final AddressClientService acs = (AddressClientService) Engine.instance().getManager(
 								AddressClientService.ID);
-				final Address address = acs.getAddress (addressStoreName, addressDn);
+				final Address address = acs.getAddress(addressStoreName, addressDn);
 
-				SwingUtilities.invokeLater (new Runnable ()
+				SwingUtilities.invokeLater(new Runnable()
 				{
-					public void run ()
+					public void run()
 					{
-						salutation.setText (Engine.instance ().getResourceService ().getString (
-										address.getSalutation ()));
-						firstName.setText (address.getFirstName ());
-						lastName.setText (address.getLastName ());
-						company.setText (address.getCompany ());
-						division.setText (address.getDivision ());
-						position.setText (address.getPosition ());
-						street.setText (address.getStreet ());
-						postalCodeAndCity.setText (address.getPostalCode () + " " + address.getCity ());
-						country.setText (address.getCountry ());
-						email.setText (address.getEmail ());
-						homepage.setText (address.getHomepage ());
-						contactNumber.setText (address.getContactNumber ());
-						companyNumber.setText (address.getCompanyNumber ());
-						homepage.setText (address.getHomepage ());
-						remark.setText (address.getRemark ());
-						phoneNumberB.setText (address.getPhoneNumberWithCategory (PhoneNumber.Category.B)
-										.getDisplayNumber ());
-						phoneNumberBDD.setText (address.getPhoneNumberWithCategory (PhoneNumber.Category.BDD)
-										.getDisplayNumber ());
-						phoneNumberBF.setText (address.getPhoneNumberWithCategory (PhoneNumber.Category.BF)
-										.getDisplayNumber ());
-						phoneNumberBM.setText (address.getPhoneNumberWithCategory (PhoneNumber.Category.BM)
-										.getDisplayNumber ());
-						phoneNumberP.setText (address.getPhoneNumberWithCategory (PhoneNumber.Category.P)
-										.getDisplayNumber ());
-						phoneNumberPF.setText (address.getPhoneNumberWithCategory (PhoneNumber.Category.PF)
-										.getDisplayNumber ());
-						phoneNumberPM.setText (address.getPhoneNumberWithCategory (PhoneNumber.Category.PM)
-										.getDisplayNumber ());
-						phoneNumberVOIP.setText (address.getPhoneNumberWithCategory (PhoneNumber.Category.VOIP)
-										.getDisplayNumber ());
+						salutation.setText(Engine.instance().getResourceService().getString(address.getSalutation()));
+						firstName.setText(address.getFirstName());
+						lastName.setText(address.getLastName());
+						company.setText(address.getCompany());
+						division.setText(address.getDivision());
+						position.setText(address.getPosition());
+						street.setText(address.getStreet());
+						postalCodeAndCity.setText(address.getPostalCode() + " " + address.getCity());
+						country.setText(address.getCountry());
+						email.setText(address.getEmail());
+						homepage.setText(address.getHomepage());
+						contactNumber.setText(address.getContactNumber());
+						companyNumber.setText(address.getCompanyNumber());
+						homepage.setText(address.getHomepage());
+						remark.setText(address.getRemark());
+						phoneNumberB.setText(address.getPhoneNumberWithCategory(PhoneNumber.Category.B)
+										.getDisplayNumber());
+						phoneNumberBDD.setText(address.getPhoneNumberWithCategory(PhoneNumber.Category.BDD)
+										.getDisplayNumber());
+						phoneNumberBF.setText(address.getPhoneNumberWithCategory(PhoneNumber.Category.BF)
+										.getDisplayNumber());
+						phoneNumberBM.setText(address.getPhoneNumberWithCategory(PhoneNumber.Category.BM)
+										.getDisplayNumber());
+						phoneNumberP.setText(address.getPhoneNumberWithCategory(PhoneNumber.Category.P)
+										.getDisplayNumber());
+						phoneNumberPF.setText(address.getPhoneNumberWithCategory(PhoneNumber.Category.PF)
+										.getDisplayNumber());
+						phoneNumberPM.setText(address.getPhoneNumberWithCategory(PhoneNumber.Category.PM)
+										.getDisplayNumber());
+						phoneNumberVOIP.setText(address.getPhoneNumberWithCategory(PhoneNumber.Category.VOIP)
+										.getDisplayNumber());
 
 						if (callerInfo == null)
 						{
-							frame.setTitle (Engine.instance ().getResourceService ().getStringWithParams (
+							frame.setTitle(Engine.instance().getResourceService().getStringWithParams(
 											"addressOf",
-											address.getFirstName ()
-															+ (StringTools.isNotTrimEmpty (firstName) ? " " : "")
-															+ address.getLastName ()
-															+ (StringTools.isNotTrimEmpty (company) ? " " : "")
-															+ address.getCompany ()));
+											address.getFirstName() + (StringTools.isNotTrimEmpty(firstName) ? " " : "")
+															+ address.getLastName()
+															+ (StringTools.isNotTrimEmpty(company) ? " " : "")
+															+ address.getCompany()));
 						}
 					}
 				});
 			}
-		}.start ();
+		}.start();
 	}
 }

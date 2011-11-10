@@ -43,55 +43,55 @@ public class FieldErrorsTag extends ErrorsTag
 	 *
 	 * @exception JspException if a JSP exception has occurred
 	 */
-	public int doStartTag () throws JspException
+	public int doStartTag() throws JspException
 	{
 		ActionMessages errors = null;
 
 		try
 		{
-			errors = TagUtils.getInstance ().getActionMessages (pageContext, name);
+			errors = TagUtils.getInstance().getActionMessages(pageContext, name);
 		}
 		catch (JspException x)
 		{
-			TagUtils.getInstance ().saveException (pageContext, x);
+			TagUtils.getInstance().saveException(pageContext, x);
 			throw x;
 		}
 
-		if ((errors == null) || errors.isEmpty ())
+		if ((errors == null) || errors.isEmpty())
 		{
 			return (EVAL_BODY_INCLUDE);
 		}
 
-		boolean headerPresent = TagUtils.getInstance ().present (pageContext, bundle, locale, "errors.header");
-		boolean footerPresent = TagUtils.getInstance ().present (pageContext, bundle, locale, "errors.footer");
-		boolean prefixPresent = TagUtils.getInstance ().present (pageContext, bundle, locale, "error.prefix");
-		boolean suffixPresent = TagUtils.getInstance ().present (pageContext, bundle, locale, "error.suffix");
+		boolean headerPresent = TagUtils.getInstance().present(pageContext, bundle, locale, "errors.header");
+		boolean footerPresent = TagUtils.getInstance().present(pageContext, bundle, locale, "errors.footer");
+		boolean prefixPresent = TagUtils.getInstance().present(pageContext, bundle, locale, "error.prefix");
+		boolean suffixPresent = TagUtils.getInstance().present(pageContext, bundle, locale, "error.suffix");
 
-		StringBuffer results = new StringBuffer ();
+		StringBuffer results = new StringBuffer();
 		boolean headerDone = false;
 		String message = null;
 		Iterator reports = null;
 
 		if (property == null)
 		{
-			reports = errors.get ();
+			reports = errors.get();
 		}
 		else
 		{
-			reports = errors.get (property);
+			reports = errors.get(property);
 		}
 
-		while (reports.hasNext ())
+		while (reports.hasNext())
 		{
-			ActionMessage report = (ActionMessage) reports.next ();
+			ActionMessage report = (ActionMessage) reports.next();
 
 			if (! headerDone)
 			{
 				if (headerPresent)
 				{
-					message = TagUtils.getInstance ().message (pageContext, bundle, locale, "errors.header");
-					results.append (message);
-					results.append ("<BR>");
+					message = TagUtils.getInstance().message(pageContext, bundle, locale, "errors.header");
+					results.append(message);
+					results.append("<BR>");
 				}
 
 				headerDone = true;
@@ -99,45 +99,44 @@ public class FieldErrorsTag extends ErrorsTag
 
 			if (prefixPresent)
 			{
-				results.append (TagUtils.getInstance ().message (pageContext, bundle, locale, "error.prefix"));
+				results.append(TagUtils.getInstance().message(pageContext, bundle, locale, "error.prefix"));
 			}
 			else
 			{
-				results.append ("<tr><td><font color=\"red\">");
+				results.append("<tr><td><font color=\"red\">");
 			}
 
-			message = TagUtils.getInstance ().message (pageContext, bundle, locale, report.getKey (),
-							report.getValues ());
+			message = TagUtils.getInstance().message(pageContext, bundle, locale, report.getKey(), report.getValues());
 
 			if (message != null)
 			{
-				results.append (message);
-				results.append ("<BR>");
+				results.append(message);
+				results.append("<BR>");
 			}
 			else
 			{
-				results.append (report.getKey ());
-				results.append ("<BR>");
+				results.append(report.getKey());
+				results.append("<BR>");
 			}
 
 			if (suffixPresent)
 			{
-				results.append (TagUtils.getInstance ().message (pageContext, bundle, locale, "error.suffix"));
+				results.append(TagUtils.getInstance().message(pageContext, bundle, locale, "error.suffix"));
 			}
 			else
 			{
-				results.append ("</font></td></tr>");
+				results.append("</font></td></tr>");
 			}
 		}
 
 		if (headerDone && footerPresent)
 		{
-			message = TagUtils.getInstance ().message (pageContext, bundle, locale, "errors.footer");
-			results.append (message);
-			results.append ("<BR>");
+			message = TagUtils.getInstance().message(pageContext, bundle, locale, "errors.footer");
+			results.append(message);
+			results.append("<BR>");
 		}
 
-		TagUtils.getInstance ().write (pageContext, results.toString ());
+		TagUtils.getInstance().write(pageContext, results.toString());
 
 		return (EVAL_BODY_INCLUDE);
 	}

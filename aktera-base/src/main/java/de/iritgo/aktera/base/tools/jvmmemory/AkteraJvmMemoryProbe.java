@@ -45,118 +45,118 @@ public class AkteraJvmMemoryProbe
 
 	private long max;
 
-	public AkteraJvmMemoryProbe (String name, long startTimestamp, long max)
+	public AkteraJvmMemoryProbe(String name, long startTimestamp, long max)
 	{
 		this.name = name;
 		this.max = max;
 	}
 
-	public void init (String name, long startTimestamp) throws IOException
+	public void init(String name, long startTimestamp) throws IOException
 	{
-		File file = FileTools.newAkteraFile ("/var/aktera/jvm-memory/" + name + ".rrd");
-		String fileName = file.getAbsolutePath ();
+		File file = FileTools.newAkteraFile("/var/aktera/jvm-memory/" + name + ".rrd");
+		String fileName = file.getAbsolutePath();
 
-		if (file.exists ())
+		if (file.exists())
 		{
-			rrdDb = new RrdDb (fileName);
+			rrdDb = new RrdDb(fileName);
 		}
 		else
 		{
-			RrdDef rrdDef = new RrdDef (fileName, startTimestamp - 1, AkteraJvmMemoryManager.DATA_CAPTURE_INTERVAL);
+			RrdDef rrdDef = new RrdDef(fileName, startTimestamp - 1, AkteraJvmMemoryManager.DATA_CAPTURE_INTERVAL);
 
-			rrdDef.addDatasource ("Init", DsType.GAUGE, max, 0, Double.NaN);
-			rrdDef.addDatasource ("Used", DsType.GAUGE, max, 0, Double.NaN);
-			rrdDef.addDatasource ("Committed", DsType.GAUGE, max, 0, Double.NaN);
-			rrdDef.addDatasource ("Max", DsType.GAUGE, max, 0, Double.NaN);
-			rrdDef.addArchive (AVERAGE, 0.5, 1, 1440);
-			rrdDef.addArchive (AVERAGE, 0.5, 30, 336);
-			rrdDef.addArchive (AVERAGE, 0.5, 60, 744);
-			rrdDef.addArchive (AVERAGE, 0.5, 1440, 336);
-			rrdDef.addArchive (MIN, 0.5, 1, 1440);
-			rrdDef.addArchive (MIN, 0.5, 30, 336);
-			rrdDef.addArchive (MIN, 0.5, 60, 744);
-			rrdDef.addArchive (MIN, 0.5, 1440, 336);
-			rrdDef.addArchive (MAX, 0.5, 1, 1440);
-			rrdDef.addArchive (MAX, 0.5, 30, 336);
-			rrdDef.addArchive (MAX, 0.5, 60, 744);
-			rrdDef.addArchive (MAX, 0.5, 1440, 336);
-			rrdDb = new RrdDb (rrdDef);
+			rrdDef.addDatasource("Init", DsType.GAUGE, max, 0, Double.NaN);
+			rrdDef.addDatasource("Used", DsType.GAUGE, max, 0, Double.NaN);
+			rrdDef.addDatasource("Committed", DsType.GAUGE, max, 0, Double.NaN);
+			rrdDef.addDatasource("Max", DsType.GAUGE, max, 0, Double.NaN);
+			rrdDef.addArchive(AVERAGE, 0.5, 1, 1440);
+			rrdDef.addArchive(AVERAGE, 0.5, 30, 336);
+			rrdDef.addArchive(AVERAGE, 0.5, 60, 744);
+			rrdDef.addArchive(AVERAGE, 0.5, 1440, 336);
+			rrdDef.addArchive(MIN, 0.5, 1, 1440);
+			rrdDef.addArchive(MIN, 0.5, 30, 336);
+			rrdDef.addArchive(MIN, 0.5, 60, 744);
+			rrdDef.addArchive(MIN, 0.5, 1440, 336);
+			rrdDef.addArchive(MAX, 0.5, 1, 1440);
+			rrdDef.addArchive(MAX, 0.5, 30, 336);
+			rrdDef.addArchive(MAX, 0.5, 60, 744);
+			rrdDef.addArchive(MAX, 0.5, 1440, 336);
+			rrdDb = new RrdDb(rrdDef);
 		}
 
-		probe = rrdDb.createSample ();
-		rrdDb.close ();
+		probe = rrdDb.createSample();
+		rrdDb.close();
 	}
 
-	public void startMeasurand (String name) throws IOException
+	public void startMeasurand(String name) throws IOException
 	{
-		File file = FileTools.newAkteraFile ("/var/aktera/jvm-memory/" + name + ".rrd");
-		String fileName = file.getAbsolutePath ();
+		File file = FileTools.newAkteraFile("/var/aktera/jvm-memory/" + name + ".rrd");
+		String fileName = file.getAbsolutePath();
 
-		rrdDb = new RrdDb (fileName);
-		probe = rrdDb.createSample ();
+		rrdDb = new RrdDb(fileName);
+		probe = rrdDb.createSample();
 	}
 
-	public void measurand (String name, long time, long value) throws IOException
+	public void measurand(String name, long time, long value) throws IOException
 	{
-		probe.setTime (time);
-		probe.setValue (name, value);
+		probe.setTime(time);
+		probe.setValue(name, value);
 	}
 
-	public void commitMeasurand () throws IOException
+	public void commitMeasurand() throws IOException
 	{
-		probe.update ();
-		rrdDb.close ();
+		probe.update();
+		rrdDb.close();
 	}
 
-	public void close ()
+	public void close()
 	{
 		try
 		{
-			rrdDb.close ();
+			rrdDb.close();
 		}
 		catch (IOException x)
 		{
 		}
 	}
 
-	public void generateGraph (long startTimestamp, long stopTimestamp, BufferedImage bufferedImage) throws Exception
+	public void generateGraph(long startTimestamp, long stopTimestamp, BufferedImage bufferedImage) throws Exception
 	{
-		File file = FileTools.newAkteraFile ("/var/aktera/jvm-memory/" + name + ".rrd");
-		String fileName = file.getAbsolutePath ();
+		File file = FileTools.newAkteraFile("/var/aktera/jvm-memory/" + name + ".rrd");
+		String fileName = file.getAbsolutePath();
 
-		RrdGraphDef gDef = new RrdGraphDef ();
+		RrdGraphDef gDef = new RrdGraphDef();
 
-		gDef.setWidth (1024);
-		gDef.setHeight (768);
-		gDef.setFilename (fileName + ".png");
-		gDef.setLazy (false);
-		gDef.setStartTime (startTimestamp);
-		gDef.setEndTime (stopTimestamp);
-		gDef.setTitle (name);
-		gDef.setVerticalLabel ("Memory");
-		gDef.datasource ("Init", fileName, "Init", AVERAGE);
-		gDef.datasource ("Used", fileName, "Used", AVERAGE);
-		gDef.datasource ("Committed", fileName, "Committed", AVERAGE);
-		gDef.datasource ("Max", fileName, "Max", AVERAGE);
+		gDef.setWidth(1024);
+		gDef.setHeight(768);
+		gDef.setFilename(fileName + ".png");
+		gDef.setLazy(false);
+		gDef.setStartTime(startTimestamp);
+		gDef.setEndTime(stopTimestamp);
+		gDef.setTitle(name);
+		gDef.setVerticalLabel("Memory");
+		gDef.datasource("Init", fileName, "Init", AVERAGE);
+		gDef.datasource("Used", fileName, "Used", AVERAGE);
+		gDef.datasource("Committed", fileName, "Committed", AVERAGE);
+		gDef.datasource("Max", fileName, "Max", AVERAGE);
 
-		gDef.line ("Init", Color.GREEN, "Init memory");
-		gDef.area ("Max", Color.RED, "Max memory\n");
-		gDef.area ("Committed", Color.gray, "Committed memory");
-		gDef.area ("Used", Color.GREEN, "Used memory");
+		gDef.line("Init", Color.GREEN, "Init memory");
+		gDef.area("Max", Color.RED, "Max memory\n");
+		gDef.area("Committed", Color.gray, "Committed memory");
+		gDef.area("Used", Color.GREEN, "Used memory");
 
-		gDef.gprint ("Used", MAX, "used-max = %.3f%s");
-		gDef.gprint ("Committed", MAX, "committed-max = %.3f%S\\r");
-		gDef.gprint ("Max", MAX, "max = %.3f%S");
-		gDef.gprint ("Used", AVERAGE, "used-avg = %.3f%S\\r");
-		gDef.setImageInfo ("<img src='%s' width='%d' height = '%d'>");
-		gDef.setPoolUsed (false);
-		gDef.setImageFormat ("png");
-		gDef.setAltAutoscaleMax (true);
-		gDef.setAntiAliasing (true);
+		gDef.gprint("Used", MAX, "used-max = %.3f%s");
+		gDef.gprint("Committed", MAX, "committed-max = %.3f%S\\r");
+		gDef.gprint("Max", MAX, "max = %.3f%S");
+		gDef.gprint("Used", AVERAGE, "used-avg = %.3f%S\\r");
+		gDef.setImageInfo("<img src='%s' width='%d' height = '%d'>");
+		gDef.setPoolUsed(false);
+		gDef.setImageFormat("png");
+		gDef.setAltAutoscaleMax(true);
+		gDef.setAntiAliasing(true);
 
 		// create graph finally
-		RrdGraph graph = new RrdGraph (gDef);
+		RrdGraph graph = new RrdGraph(gDef);
 
-		graph.render (bufferedImage.getGraphics ());
+		graph.render(bufferedImage.getGraphics());
 	}
 }

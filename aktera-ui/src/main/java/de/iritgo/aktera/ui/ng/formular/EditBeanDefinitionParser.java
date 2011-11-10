@@ -27,7 +27,7 @@ import org.w3c.dom.Element;
 public class EditBeanDefinitionParser extends ConfigurationBeanDefinitionParser
 {
 	@Override
-	protected Class getBeanClass (Element element)
+	protected Class getBeanClass(Element element)
 	{
 		return Edit.class;
 	}

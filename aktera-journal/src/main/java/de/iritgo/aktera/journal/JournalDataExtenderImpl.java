@@ -30,30 +30,30 @@ public class JournalDataExtenderImpl implements JournalDataExtender, JournalExte
 {
 	private JournalDAO journalDAO;
 
-	public void setJournalDAO (JournalDAO journalDAO)
+	public void setJournalDAO(JournalDAO journalDAO)
 	{
 		this.journalDAO = journalDAO;
 	}
 
-	public void accept (JournalEntry journal, JournalStrategy strategy)
+	public void accept(JournalEntry journal, JournalStrategy strategy)
 	{
 	}
 
-	public void deletedJournalEntry (JournalEntry journal)
+	public void deletedJournalEntry(JournalEntry journal)
 	{
-		JournalData journalData = journalDAO.getJournalDataById (journal.getExtendedInfoId ());
+		JournalData journalData = journalDAO.getJournalDataById(journal.getExtendedInfoId());
 
-		journalDAO.deleteJournalData (journalData);
+		journalDAO.deleteJournalData(journalData);
 	}
 
-	public void newJournalEntry (JournalEntry journal)
+	public void newJournalEntry(JournalEntry journal)
 	{
 	}
 
-	public void addJournalEntryAttributes (Map<String, Object> entry)
+	public void addJournalEntryAttributes(Map<String, Object> entry)
 	{
-		JournalData journalData = journalDAO.getJournalDataById ((Integer) entry.get ("extendedInfoId"));
+		JournalData journalData = journalDAO.getJournalDataById((Integer) entry.get("extendedInfoId"));
 
-		BeanTools.copyBean2Map (journalData, entry, false);
+		BeanTools.copyBean2Map(journalData, entry, false);
 	}
 }

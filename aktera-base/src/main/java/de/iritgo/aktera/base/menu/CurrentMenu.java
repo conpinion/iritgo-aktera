@@ -46,34 +46,34 @@ public class CurrentMenu extends StandardLogEnabledModel
 	 * @param req The model request.
 	 * @throws ModelException In case of a business failure.
 	 */
-	public ModelResponse execute (ModelRequest req) throws ModelException
+	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
-		SystemConfigManager systemConfigManager = (SystemConfigManager) req.getSpringBean (SystemConfigManager.ID);
+		SystemConfigManager systemConfigManager = (SystemConfigManager) req.getSpringBean(SystemConfigManager.ID);
 
-		String menu = (String) UserTools.getContextObject (req, "aktera.currentMenu");
+		String menu = (String) UserTools.getContextObject(req, "aktera.currentMenu");
 
-		if (menu == null && UserTools.currentUserIsInGroup (req, "admin"))
+		if (menu == null && UserTools.currentUserIsInGroup(req, "admin"))
 		{
-			menu = (String) systemConfigManager.get ("system", "startMenuAdmin");
+			menu = (String) systemConfigManager.get("system", "startMenuAdmin");
 		}
 
-		if (menu == null && UserTools.currentUserIsInGroup (req, "manager"))
+		if (menu == null && UserTools.currentUserIsInGroup(req, "manager"))
 		{
-			menu = (String) systemConfigManager.get ("system", "startMenuManager");
+			menu = (String) systemConfigManager.get("system", "startMenuManager");
 		}
 
-		if (menu == null && UserTools.getCurrentUserId (req) != null)
+		if (menu == null && UserTools.getCurrentUserId(req) != null)
 		{
-			menu = (String) systemConfigManager.get ("system", "startMenu");
+			menu = (String) systemConfigManager.get("system", "startMenu");
 		}
 
 		if (menu != null)
 		{
-			return ModelTools.callModel (req, menu);
+			return ModelTools.callModel(req, menu);
 		}
 		else
 		{
-			return req.createResponse ();
+			return req.createResponse();
 		}
 	}
 }

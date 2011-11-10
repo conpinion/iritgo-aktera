@@ -53,14 +53,14 @@ public class IritgoNamedObjects implements Serializable
 	 *   null-allowed="false"
 	 *   primary-key="true"
 	 */
-	public Long getUserId ()
+	public Long getUserId()
 	{
 		return userId;
 	}
 
 	/**
 	 */
-	public void setUserId (Long userId)
+	public void setUserId(Long userId)
 	{
 		this.userId = userId;
 	}
@@ -74,14 +74,14 @@ public class IritgoNamedObjects implements Serializable
 	 *   null-allowed="false"
 	 *   primary-key="true"
 	 */
-	public String getName ()
+	public String getName()
 	{
 		return name;
 	}
 
 	/**
 	 */
-	public void setName (String name)
+	public void setName(String name)
 	{
 		this.name = name;
 	}
@@ -94,14 +94,14 @@ public class IritgoNamedObjects implements Serializable
 	 *   null-allowed="false"
 	 *   primary-key="true"
 	 */
-	public Long getId ()
+	public Long getId()
 	{
 		return id;
 	}
 
 	/**
 	 */
-	public void setId (Long id)
+	public void setId(Long id)
 	{
 		this.id = id;
 	}

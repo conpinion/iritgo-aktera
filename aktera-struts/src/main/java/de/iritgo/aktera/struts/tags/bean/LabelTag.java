@@ -40,19 +40,19 @@ public class LabelTag extends org.apache.struts.taglib.bean.MessageTag
 	 *
 	 * @return SKIP_BODY.
 	 */
-	public int doStartTag () throws JspException
+	public int doStartTag() throws JspException
 	{
 		String key = this.key;
 
 		if (key == null)
 		{
-			Object value = TagUtils.getInstance ().lookup (pageContext, name, property, scope);
+			Object value = TagUtils.getInstance().lookup(pageContext, name, property, scope);
 
 			if (value != null && ! (value instanceof String))
 			{
-				JspException x = new JspException (messages.getMessage ("message.property", key));
+				JspException x = new JspException(messages.getMessage("message.property", key));
 
-				TagUtils.getInstance ().saveException (pageContext, x);
+				TagUtils.getInstance().saveException(pageContext, x);
 				throw x;
 			}
 
@@ -67,19 +67,19 @@ public class LabelTag extends org.apache.struts.taglib.bean.MessageTag
 		args[3] = arg3;
 		args[4] = arg4;
 
-		String message = TagUtils.getInstance ().message (pageContext, this.bundle, this.localeKey, key, args);
+		String message = TagUtils.getInstance().message(pageContext, this.bundle, this.localeKey, key, args);
 
 		if (message == null)
 		{
-			JspException x = new JspException (messages.getMessage ("message.message", "\"" + key + "\""));
+			JspException x = new JspException(messages.getMessage("message.message", "\"" + key + "\""));
 
-			TagUtils.getInstance ().saveException (pageContext, x);
+			TagUtils.getInstance().saveException(pageContext, x);
 			throw x;
 		}
 
 		try
 		{
-			if (! message.matches ("^(\\s|&nbsp;)*$"))
+			if (! message.matches("^(\\s|&nbsp;)*$"))
 			{
 				message = message + ":";
 			}
@@ -88,7 +88,7 @@ public class LabelTag extends org.apache.struts.taglib.bean.MessageTag
 		{
 		}
 
-		TagUtils.getInstance ().write (pageContext, message);
+		TagUtils.getInstance().write(pageContext, message);
 
 		return (SKIP_BODY);
 	}

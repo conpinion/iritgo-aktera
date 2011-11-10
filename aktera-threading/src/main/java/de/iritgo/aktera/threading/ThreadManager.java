@@ -29,5 +29,5 @@ public interface ThreadManager
 	 * @param delay The delay in ms
 	 * @param runnable The runnable
 	 */
-	public void addDelayedAsyncExecution (long delay, Runnable runnable);
+	public void addDelayedAsyncExecution(long delay, Runnable runnable);
 }

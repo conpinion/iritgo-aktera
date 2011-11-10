@@ -41,107 +41,106 @@ public class WebservicesClientManager extends BaseObject implements Manager
 
 	private final String ANY_TYPE = "anyType{}";
 
-	public WebservicesClientManager ()
+	public WebservicesClientManager()
 	{
-		super (ID);
+		super(ID);
 	}
 
-	public void init ()
-	{
-	}
-
-	public void unload ()
+	public void init()
 	{
 	}
 
-	public SoapObject createSoapRequest (String namespace, String name)
+	public void unload()
 	{
-		return new SoapObject (namespace, name);
 	}
 
-	public SEnvelope createEnvelope (SoapObject request, String userName, String password)
+	public SoapObject createSoapRequest(String namespace, String name)
 	{
-		SEnvelope envelope = new SEnvelope (SoapEnvelope.VER11);
+		return new SoapObject(namespace, name);
+	}
 
-		envelope.setOutputSoapObject (request);
-		envelope.addWsseHeader (StringTools.trim (userName), StringTools.trim (password));
+	public SEnvelope createEnvelope(SoapObject request, String userName, String password)
+	{
+		SEnvelope envelope = new SEnvelope(SoapEnvelope.VER11);
+
+		envelope.setOutputSoapObject(request);
+		envelope.addWsseHeader(StringTools.trim(userName), StringTools.trim(password));
 
 		return envelope;
 	}
 
-	public SEnvelope createEnvelopeForCurrentUser (SoapObject request)
+	public SEnvelope createEnvelopeForCurrentUser(SoapObject request)
 	{
-		return createEnvelope (request, AppContext.instance ().getUserName (), AppContext.instance ()
-						.getUserPassword ());
+		return createEnvelope(request, AppContext.instance().getUserName(), AppContext.instance().getUserPassword());
 	}
 
-	public void addRequestParameter (SoapObject request, String name, Class type, Object value)
+	public void addRequestParameter(SoapObject request, String name, Class type, Object value)
 	{
-		PropertyInfo param = new PropertyInfo ();
+		PropertyInfo param = new PropertyInfo();
 
 		param.name = name;
-		param.namespace = request.getNamespace ();
+		param.namespace = request.getNamespace();
 		param.type = type;
-		request.addProperty (param, value);
+		request.addProperty(param, value);
 	}
 
-	public Vector<Object> send (SEnvelope envelope, String server, String url, boolean secure)
+	public Vector<Object> send(SEnvelope envelope, String server, String url, boolean secure)
 		throws IOException, XmlPullParserException
 	{
-		HttpClientTransport transport = new HttpClientTransport ((secure ? "https" : "http") + "://" + server + url);
-		HttpClient client = new DefaultHttpClient ();
+		HttpClientTransport transport = new HttpClientTransport((secure ? "https" : "http") + "://" + server + url);
+		HttpClient client = new DefaultHttpClient();
 
-		new HTTPSHackUtil ().httpClientAllowAllSSL (client);
-		transport.setHttpClient (client);
-		transport.call (null, envelope);
+		new HTTPSHackUtil().httpClientAllowAllSSL(client);
+		transport.setHttpClient(client);
+		transport.call(null, envelope);
 
-		return envelope.getResponseVector ();
+		return envelope.getResponseVector();
 	}
 
-	public Object sendReturnObject (SEnvelope envelope, String server, String url, boolean secure)
+	public Object sendReturnObject(SEnvelope envelope, String server, String url, boolean secure)
 		throws IOException, XmlPullParserException
 	{
-		HttpClientTransport transport = new HttpClientTransport ((secure ? "https" : "http") + "://" + server + url);
-		HttpClient client = new DefaultHttpClient ();
+		HttpClientTransport transport = new HttpClientTransport((secure ? "https" : "http") + "://" + server + url);
+		HttpClient client = new DefaultHttpClient();
 
-		new HTTPSHackUtil ().httpClientAllowAllSSL (client);
-		transport.setHttpClient (client);
-		transport.call (null, envelope);
+		new HTTPSHackUtil().httpClientAllowAllSSL(client);
+		transport.setHttpClient(client);
+		transport.call(null, envelope);
 
-		return envelope.getResponse ();
+		return envelope.getResponse();
 	}
 
-	public Vector<Object> sendToCurrentServer (SEnvelope envelope) throws IOException, XmlPullParserException
+	public Vector<Object> sendToCurrentServer(SEnvelope envelope) throws IOException, XmlPullParserException
 	{
-		return send (envelope, AppContext.instance ().getServerIP (), "/" + AppContext.instance ().getAppId ()
+		return send(envelope, AppContext.instance().getServerIP(),
+						"/" + AppContext.instance().getAppId() + "/services", true);
+	}
+
+	public Object sendToCurrentServerReturnObject(SEnvelope envelope) throws IOException, XmlPullParserException
+	{
+		return sendReturnObject(envelope, AppContext.instance().getServerIP(), "/" + AppContext.instance().getAppId()
 						+ "/services", true);
 	}
 
-	public Object sendToCurrentServerReturnObject (SEnvelope envelope) throws IOException, XmlPullParserException
-	{
-		return sendReturnObject (envelope, AppContext.instance ().getServerIP (), "/"
-						+ AppContext.instance ().getAppId () + "/services", true);
-	}
-
-	public Integer sendToCurrentServerReturnInteger (SEnvelope envelope, Integer defaultValue)
+	public Integer sendToCurrentServerReturnInteger(SEnvelope envelope, Integer defaultValue)
 		throws IOException, XmlPullParserException
 	{
-		return NumberTools.toIntInstance (sendToCurrentServerReturnObject (envelope), defaultValue);
+		return NumberTools.toIntInstance(sendToCurrentServerReturnObject(envelope), defaultValue);
 	}
 
-	public String sendToCurrentServerReturnString (SEnvelope envelope, String defaultValue)
+	public String sendToCurrentServerReturnString(SEnvelope envelope, String defaultValue)
 		throws IOException, XmlPullParserException
 	{
-		return StringTools.trim (sendToCurrentServerReturnObject (envelope), defaultValue);
+		return StringTools.trim(sendToCurrentServerReturnObject(envelope), defaultValue);
 	}
 
-	public String getPropertyAsString (SoapObject object, String name)
+	public String getPropertyAsString(SoapObject object, String name)
 	{
 		try
 		{
-			String val = object.getProperty (name).toString ();
+			String val = object.getProperty(name).toString();
 
-			return ANY_TYPE.equals (val) ? "" : val.toString ();
+			return ANY_TYPE.equals(val) ? "" : val.toString();
 		}
 		catch (Exception ignored)
 		{
@@ -149,13 +148,13 @@ public class WebservicesClientManager extends BaseObject implements Manager
 		}
 	}
 
-	public Integer getPropertyAsInteger (SoapObject object, String name)
+	public Integer getPropertyAsInteger(SoapObject object, String name)
 	{
-		return NumberTools.toIntInstance (object.getProperty (name));
+		return NumberTools.toIntInstance(object.getProperty(name));
 	}
 
-	public String getPropertyAsStringToLowerCase (SoapObject object, String name)
+	public String getPropertyAsStringToLowerCase(SoapObject object, String name)
 	{
-		return StringTools.trim (getPropertyAsString (object, name)).toLowerCase ();
+		return StringTools.trim(getPropertyAsString(object, name)).toLowerCase();
 	}
 }

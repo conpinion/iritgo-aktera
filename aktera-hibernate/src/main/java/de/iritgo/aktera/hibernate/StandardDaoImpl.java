@@ -35,138 +35,138 @@ import de.iritgo.simplelife.constants.SortOrder;
 @Transactional(readOnly = true)
 public class StandardDaoImpl extends HibernateDaoSupport implements StandardDao
 {
-	public long countByNamedQuery (final String query, final Properties params)
+	public long countByNamedQuery(final String query, final Properties params)
 	{
-		return (Long) getHibernateTemplate ().execute (new HibernateCallback ()
+		return (Long) getHibernateTemplate().execute(new HibernateCallback()
 		{
-			public Object doInHibernate (Session session) throws HibernateException, SQLException
+			public Object doInHibernate(Session session) throws HibernateException, SQLException
 			{
-				return countByQuery (session.getNamedQuery (query).getQueryString (), params);
+				return countByQuery(session.getNamedQuery(query).getQueryString(), params);
 			}
 		});
 	}
 
-	public long countByNamedFindQuery (final String query, final Properties params)
+	public long countByNamedFindQuery(final String query, final Properties params)
 	{
-		return (Long) getHibernateTemplate ().execute (new HibernateCallback ()
+		return (Long) getHibernateTemplate().execute(new HibernateCallback()
 		{
-			public Object doInHibernate (Session session) throws HibernateException, SQLException
+			public Object doInHibernate(Session session) throws HibernateException, SQLException
 			{
-				return countByFindQuery (session.getNamedQuery (query).getQueryString (), params);
+				return countByFindQuery(session.getNamedQuery(query).getQueryString(), params);
 			}
 		});
 	}
 
-	public long countByQuery (final String query, final Properties params)
+	public long countByQuery(final String query, final Properties params)
 	{
-		return (Long) getHibernateTemplate ().execute (new HibernateCallback ()
+		return (Long) getHibernateTemplate().execute(new HibernateCallback()
 		{
-			public Object doInHibernate (Session session) throws HibernateException, SQLException
+			public Object doInHibernate(Session session) throws HibernateException, SQLException
 			{
-				return countByQuery (session.createQuery (query), params);
+				return countByQuery(session.createQuery(query), params);
 			}
 		});
 	}
 
-	private Long countByQuery (Query query, Properties params)
+	private Long countByQuery(Query query, Properties params)
 	{
-		for (String paramName : query.getNamedParameters ())
+		for (String paramName : query.getNamedParameters())
 		{
-			Object value = params.get (paramName);
+			Object value = params.get(paramName);
 
 			if (value == null)
 			{
-				throw new QueryParameterException ("Unable to find parameter '" + paramName + "'");
+				throw new QueryParameterException("Unable to find parameter '" + paramName + "'");
 			}
 
-			query.setParameter (paramName, params.get (paramName));
+			query.setParameter(paramName, params.get(paramName));
 		}
 
-		return (Long) query.uniqueResult ();
+		return (Long) query.uniqueResult();
 	}
 
-	public long countByFindQuery (final String query, final Properties params)
+	public long countByFindQuery(final String query, final Properties params)
 	{
-		String countQuery = "select count (*) from" + query.substring (query.indexOf ("from") + 4);
+		String countQuery = "select count (*) from" + query.substring(query.indexOf("from") + 4);
 
-		return countByQuery (countQuery, params);
+		return countByQuery(countQuery, params);
 	}
 
-	public List findByNamedQuery (final String query, final Properties params, final int firstResult,
+	public List findByNamedQuery(final String query, final Properties params, final int firstResult,
 					final int maxResults, final String orderBy, final SortOrder orderDir)
 	{
-		return (List) getHibernateTemplate ().execute (new HibernateCallback ()
+		return (List) getHibernateTemplate().execute(new HibernateCallback()
 		{
-			public Object doInHibernate (Session session) throws HibernateException, SQLException
+			public Object doInHibernate(Session session) throws HibernateException, SQLException
 			{
-				return findByQuery (session.getNamedQuery (query).getQueryString (), params, firstResult, maxResults,
+				return findByQuery(session.getNamedQuery(query).getQueryString(), params, firstResult, maxResults,
 								orderBy, orderDir);
 			}
 		});
 	}
 
-	public List findByQuery (final String query, final Properties params, final int firstResult, final int maxResults,
+	public List findByQuery(final String query, final Properties params, final int firstResult, final int maxResults,
 					final String orderBy, final SortOrder orderDir)
 	{
-		return (List) getHibernateTemplate ().execute (new HibernateCallback ()
+		return (List) getHibernateTemplate().execute(new HibernateCallback()
 		{
-			public Object doInHibernate (Session session) throws HibernateException, SQLException
+			public Object doInHibernate(Session session) throws HibernateException, SQLException
 			{
-				Query q = session.createQuery (query
-								+ (orderBy != null ? " order by " + orderBy + " " + orderDir.hql () : ""));
+				Query q = session.createQuery(query
+								+ (orderBy != null ? " order by " + orderBy + " " + orderDir.hql() : ""));
 
-				return findByQuery (q, params, firstResult, maxResults);
+				return findByQuery(q, params, firstResult, maxResults);
 			}
 		});
 	}
 
-	private List findByQuery (Query query, Properties params, int firstResult, int maxResults)
+	private List findByQuery(Query query, Properties params, int firstResult, int maxResults)
 	{
-		for (String paramName : query.getNamedParameters ())
+		for (String paramName : query.getNamedParameters())
 		{
-			Object value = params.get (paramName);
+			Object value = params.get(paramName);
 
 			if (value == null)
 			{
-				throw new QueryParameterException ("Unable to find parameter '" + paramName + "'");
+				throw new QueryParameterException("Unable to find parameter '" + paramName + "'");
 			}
 
-			query.setParameter (paramName, params.get (paramName));
+			query.setParameter(paramName, params.get(paramName));
 		}
 
-		query.setMaxResults (maxResults);
-		query.setFirstResult (firstResult);
-		query.setResultTransformer (Transformers.ALIAS_TO_ENTITY_MAP);
-		return query.list ();
+		query.setMaxResults(maxResults);
+		query.setFirstResult(firstResult);
+		query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+		return query.list();
 	}
 
-	public Object get (String entityName, Serializable id)
+	public Object get(String entityName, Serializable id)
 	{
-		return getHibernateTemplate ().get (entityName, id);
+		return getHibernateTemplate().get(entityName, id);
 	}
 
-	public Object newEntity (String entityName) throws InstantiationException, IllegalAccessException
+	public Object newEntity(String entityName) throws InstantiationException, IllegalAccessException
 	{
-		Class klass = getSessionFactory ().getClassMetadata (entityName).getMappedClass (EntityMode.POJO);
+		Class klass = getSessionFactory().getClassMetadata(entityName).getMappedClass(EntityMode.POJO);
 
-		return klass.newInstance ();
-	}
-
-	@Transactional(readOnly = false)
-	public void update (Object entity)
-	{
-		getHibernateTemplate ().update (entity);
+		return klass.newInstance();
 	}
 
 	@Transactional(readOnly = false)
-	public void create (Object entity)
+	public void update(Object entity)
 	{
-		getHibernateTemplate ().saveOrUpdate (entity);
+		getHibernateTemplate().update(entity);
 	}
 
 	@Transactional(readOnly = false)
-	public void delete (Object entity)
+	public void create(Object entity)
 	{
-		getHibernateTemplate ().delete (entity);
+		getHibernateTemplate().saveOrUpdate(entity);
+	}
+
+	@Transactional(readOnly = false)
+	public void delete(Object entity)
+	{
+		getHibernateTemplate().delete(entity);
 	}
 }

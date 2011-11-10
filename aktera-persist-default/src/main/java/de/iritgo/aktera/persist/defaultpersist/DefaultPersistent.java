@@ -64,18 +64,18 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 	 *             If the record cannot be added - this includes if the record
 	 *             has a duplicate key
 	 */
-	public synchronized void add () throws PersistenceException
+	public synchronized void add() throws PersistenceException
 	{
-		checkAllowed ("A");
+		checkAllowed("A");
 
 		//Added by Santanu Dutt to clear all previous errors due to Add
-		this.currentErrors.clear ();
-		currentErrors.putAll (validateAll ());
+		this.currentErrors.clear();
+		currentErrors.putAll(validateAll());
 
-		if (currentErrors.size () > 0)
+		if (currentErrors.size() > 0)
 		{
-			throw new PersistenceException ("Field validation errors in persistent '" + myMetaData.getName () + "': ",
-							getErrors ());
+			throw new PersistenceException("Field validation errors in persistent '" + myMetaData.getName() + "': ",
+							getErrors());
 		}
 
 		/*
@@ -85,51 +85,51 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 		String oneFieldName = null;
 		Object oneFieldValue = null;
 
-		for (Iterator i = myMetaData.getFieldNames ().iterator (); i.hasNext ();)
+		for (Iterator i = myMetaData.getFieldNames().iterator(); i.hasNext();)
 		{
-			oneFieldName = (String) i.next ();
-			oneFieldValue = getField (oneFieldName);
+			oneFieldName = (String) i.next();
+			oneFieldValue = getField(oneFieldName);
 
-			if (getField (oneFieldName) == null)
+			if (getField(oneFieldName) == null)
 			{
-				setField (oneFieldName, myMetaData.getDefaultValue (oneFieldName));
+				setField(oneFieldName, myMetaData.getDefaultValue(oneFieldName));
 			}
-			else if (oneFieldValue.toString ().equals (""))
+			else if (oneFieldValue.toString().equals(""))
 			{
-				setField (oneFieldName, myMetaData.getDefaultValue (oneFieldName));
+				setField(oneFieldName, myMetaData.getDefaultValue(oneFieldName));
 			}
 		}
 
 		boolean needComma = false;
 
-		haveAllKeys (false, true);
+		haveAllKeys(false, true);
 
-		if (getHelper () != null)
+		if (getHelper() != null)
 		{
-			getHelper ().beforeAdd (this);
+			getHelper().beforeAdd(this);
 		}
 
-		SuperString sqlCommand = new SuperString (96);
+		SuperString sqlCommand = new SuperString(96);
 
-		sqlCommand.append ("INSERT INTO ");
-		sqlCommand.append (myMetaData.getTableName ());
-		sqlCommand.append (" (");
+		sqlCommand.append("INSERT INTO ");
+		sqlCommand.append(myMetaData.getTableName());
+		sqlCommand.append(" (");
 
-		SuperString valuesCommand = new SuperString (64);
+		SuperString valuesCommand = new SuperString(64);
 
-		valuesCommand.append (") VALUES (");
+		valuesCommand.append(") VALUES (");
 
 		boolean needCommaValues = false;
 
 		String identityFieldName = null;
 
-		for (Iterator i = myMetaData.getFieldNames ().iterator (); i.hasNext ();)
+		for (Iterator i = myMetaData.getFieldNames().iterator(); i.hasNext();)
 		{
-			oneFieldName = (String) i.next ();
+			oneFieldName = (String) i.next();
 
-			checkField (oneFieldName, getFieldString (oneFieldName));
+			checkField(oneFieldName, getFieldString(oneFieldName));
 
-			if ("identity".equals (myMetaData.getAutoIncremented (oneFieldName)))
+			if ("identity".equals(myMetaData.getAutoIncremented(oneFieldName)))
 			{
 				identityFieldName = oneFieldName;
 
@@ -138,48 +138,48 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 
 			if (needComma)
 			{
-				sqlCommand.append (", ");
+				sqlCommand.append(", ");
 			}
 
-			sqlCommand.append (myMetaData.getDBFieldName (oneFieldName));
+			sqlCommand.append(myMetaData.getDBFieldName(oneFieldName));
 			needComma = true;
 
 			if (needCommaValues)
 			{
-				valuesCommand.append (", ");
+				valuesCommand.append(", ");
 			}
 
-			if (myMetaData.isAutoIncremented (oneFieldName))
+			if (myMetaData.isAutoIncremented(oneFieldName))
 			{
 				/*
 				 * If identityFieldName is not null, we've already used the one
 				 * (and only) identity for this table
 				 */
-				if ((identityFieldName == null) && myMetaData.isKeyField (oneFieldName)
-								&& myMetaData.getDatabaseType ().isIdentitySupported ()
-								&& (myMetaData.getIdGenerator (oneFieldName) == null))
+				if ((identityFieldName == null) && myMetaData.isKeyField(oneFieldName)
+								&& myMetaData.getDatabaseType().isIdentitySupported()
+								&& (myMetaData.getIdGenerator(oneFieldName) == null))
 				{
 					// Native auto-inc is supported using "IDENTITY" type
 					// syntax
 					identityFieldName = oneFieldName;
-					valuesCommand.append (myMetaData.getDatabaseType ().getInsertIdentitySyntax ());
+					valuesCommand.append(myMetaData.getDatabaseType().getInsertIdentitySyntax());
 				}
 				else
 				{
-					setAutoIncrement (oneFieldName);
-					valuesCommand.append ("?");
+					setAutoIncrement(oneFieldName);
+					valuesCommand.append("?");
 				}
 			}
 			else
 			{
-				valuesCommand.append ("?");
+				valuesCommand.append("?");
 			}
 
 			needCommaValues = true;
 		} /* for each field */
 		//Now we merge the values of the parallel loops
-		sqlCommand.append (valuesCommand);
-		sqlCommand.append (")");
+		sqlCommand.append(valuesCommand);
+		sqlCommand.append(")");
 
 		try
 		{
@@ -192,35 +192,35 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 			{
 				if (currentTransaction != null)
 				{
-					myConnection = currentTransaction.getConnection ();
+					myConnection = currentTransaction.getConnection();
 				}
 				else
 				{
 					try
 					{
-						myConnection = myDataSource.getConnection ();
+						myConnection = myDataSource.getConnection();
 					}
 					catch (ConcurrentModificationException cme)
 					{
-						addError (cme);
-						throw new PersistenceException ("Unable to prepare statement", cme, getErrors ());
+						addError(cme);
+						throw new PersistenceException("Unable to prepare statement", cme, getErrors());
 					}
 				}
 
-				ps = myConnection.prepareStatement (sqlCommand.toString ());
+				ps = myConnection.prepareStatement(sqlCommand.toString());
 
 				// Lock the DB table so we can retrieve the identity field
 				// in a concurrent-safe fashion
-				this.lock ();
+				this.lock();
 
 				// populate the fields for the update
 				int count = 1;
 
-				for (Iterator i = myMetaData.getFieldNames ().iterator (); i.hasNext ();)
+				for (Iterator i = myMetaData.getFieldNames().iterator(); i.hasNext();)
 				{
-					oneFieldName = (String) i.next ();
+					oneFieldName = (String) i.next();
 
-					if ("identity".equals (myMetaData.getAutoIncremented (oneFieldName)))
+					if ("identity".equals(myMetaData.getAutoIncremented(oneFieldName)))
 					{
 						continue;
 					}
@@ -228,79 +228,79 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 					//ACR: Changed to properly set based on types. Still some
 					// work
 					//to do for blobs....
-					this.setPreparedStatementObject (ps, count, oneFieldName);
+					this.setPreparedStatementObject(ps, count, oneFieldName);
 					count++;
 
 					//}
 				} /* for each field */
-				if (log.isDebugEnabled ())
+				if (log.isDebugEnabled())
 				{
-					log.debug ("Executing: " + sqlCommand.toString () + "(" + ps.toString () + ") on " + toString ());
+					log.debug("Executing: " + sqlCommand.toString() + "(" + ps.toString() + ") on " + toString());
 				}
 
-				int updateCount = ps.executeUpdate ();
+				int updateCount = ps.executeUpdate();
 
-				if ((updateCount == 0) && (getCheckZeroUpdate ()))
+				if ((updateCount == 0) && (getCheckZeroUpdate()))
 				{
-					throw new PersistenceException ("No records updated", getErrors ());
+					throw new PersistenceException("No records updated", getErrors());
 				}
 
-				ps.close ();
+				ps.close();
 				ps = null;
 
 				if (identityFieldName != null)
 				{
-					s = myConnection.createStatement ();
-					rs = s.executeQuery (myMetaData.getDatabaseType ().getRetrieveIdentitySyntax (myMetaData,
+					s = myConnection.createStatement();
+					rs = s.executeQuery(myMetaData.getDatabaseType().getRetrieveIdentitySyntax(myMetaData,
 									identityFieldName));
 
-					if (rs.next ())
+					if (rs.next())
 					{
-						String identityValue = rs.getString (1);
+						String identityValue = rs.getString(1);
 
-						setField (identityFieldName, identityValue);
-						rs.close ();
+						setField(identityFieldName, identityValue);
+						rs.close();
 						rs = null;
-						s.close ();
+						s.close();
 						s = null;
 					}
 					else
 					{
-						throw new PersistenceException ("No value returned for identity field: " + identityFieldName,
-										getErrors ());
+						throw new PersistenceException("No value returned for identity field: " + identityFieldName,
+										getErrors());
 					}
 				}
 			}
 			catch (ClassCastException cce)
 			{
-				addError (cce);
-				throw new PersistenceException ("Unable to add record to database" + toString () + ":"
-								+ cce.getMessage () + " (" + sqlCommand + ")", getErrors ());
+				addError(cce);
+				throw new PersistenceException("Unable to add record to database" + toString() + ":" + cce.getMessage()
+								+ " (" + sqlCommand + ")", getErrors());
 			}
 			catch (PersistenceException de)
 			{
-				addError (de);
-				throw new PersistenceException ("Unable to add record to database" + toString () + ":"
-								+ de.getMessage () + " (" + sqlCommand + ")", getErrors ());
+				addError(de);
+				throw new PersistenceException("Unable to add record to database" + toString() + ":" + de.getMessage()
+								+ " (" + sqlCommand + ")", getErrors());
 			}
 			finally
 			{
 				//unlock the DB table
-				this.unlock ();
-				cleanUp (myConnection, s, rs, ps);
+				this.unlock();
+				cleanUp(myConnection, s, rs, ps);
 			}
 
-			setStatus (Persistent.CURRENT);
+			setStatus(Persistent.CURRENT);
 
-			if (getHelper () != null)
+			if (getHelper() != null)
 			{
-				getHelper ().afterAdd (this);
+				getHelper().afterAdd(this);
 			}
 		}
 		catch (SQLException se)
 		{
-			addError (se);
-			throw new PersistenceException (se, getErrors ());
+			addError(se);
+			throw new PersistenceException(se, getErrors());
 		}
 	} /* add() */
 
@@ -309,20 +309,20 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 	 * record. Note that this method uses just the key fields to determine if
 	 * the record already exists.
 	 */
-	public synchronized void addIfNeeded () throws PersistenceException
+	public synchronized void addIfNeeded() throws PersistenceException
 	{
-		Persistent searchObj = getFactory ().create (getName ());
+		Persistent searchObj = getFactory().create(getName());
 		String oneFieldName = null;
 
-		for (Iterator i = myMetaData.getKeyFieldNames ().iterator (); i.hasNext ();)
+		for (Iterator i = myMetaData.getKeyFieldNames().iterator(); i.hasNext();)
 		{
-			oneFieldName = (String) i.next ();
-			searchObj.setField (oneFieldName, getField (oneFieldName));
+			oneFieldName = (String) i.next();
+			searchObj.setField(oneFieldName, getField(oneFieldName));
 		}
 
-		if (! searchObj.find ())
+		if (! searchObj.find())
 		{
-			add ();
+			add();
 		}
 	} /* addOrUpdate() */
 
@@ -331,24 +331,24 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 	 * If not, add a new record. Note that this method uses *all* of the fields
 	 * currently set as search criteria (e.g. not just the key)
 	 */
-	public synchronized void addOrUpdate () throws PersistenceException
+	public synchronized void addOrUpdate() throws PersistenceException
 	{
-		Persistent searchObj = getFactory ().create (getName ());
+		Persistent searchObj = getFactory().create(getName());
 		String oneFieldName = null;
 
-		for (Iterator i = myMetaData.getFieldNames ().iterator (); i.hasNext ();)
+		for (Iterator i = myMetaData.getFieldNames().iterator(); i.hasNext();)
 		{
-			oneFieldName = (String) i.next ();
-			searchObj.setField (oneFieldName, getField (oneFieldName));
+			oneFieldName = (String) i.next();
+			searchObj.setField(oneFieldName, getField(oneFieldName));
 		}
 
-		if (! searchObj.find ())
+		if (! searchObj.find())
 		{
-			add ();
+			add();
 		}
 		else
 		{
-			update ();
+			update();
 		}
 	} /* addOrUpdate() */
 
@@ -362,9 +362,9 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 	 * @throws PersistenceException
 	 *             If the search could not be completed
 	 */
-	public double average (String fieldName) throws PersistenceException
+	public double average(String fieldName) throws PersistenceException
 	{
-		return sqlAggrFunction ("AVG", fieldName);
+		return sqlAggrFunction("AVG", fieldName);
 	} /* average() */
 
 	/**
@@ -373,14 +373,14 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 	 * @throws PersistenceException
 	 *             If the fields cannot be cleared
 	 */
-	public synchronized void clear () throws PersistenceException
+	public synchronized void clear() throws PersistenceException
 	{
 		String oneFieldName = null;
 
-		for (Iterator i = myMetaData.getFieldNames ().iterator (); i.hasNext ();)
+		for (Iterator i = myMetaData.getFieldNames().iterator(); i.hasNext();)
 		{
-			oneFieldName = (String) i.next ();
-			setField (oneFieldName, null);
+			oneFieldName = (String) i.next();
+			setField(oneFieldName, null);
 		}
 
 		sortKeys = null;
@@ -395,27 +395,27 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 	 *             If the search could not be completed
 	 * @see #find
 	 */
-	public synchronized int count () throws PersistenceException
+	public synchronized int count() throws PersistenceException
 	{
 		if (! (this instanceof RowSecurablePersistent))
 		{
-			checkAllowed ("L");
+			checkAllowed("L");
 		}
 
 		foundKeys = null;
 
-		SuperString myStatement = new SuperString (48);
+		SuperString myStatement = new SuperString(48);
 
-		myStatement.append ("SELECT COUNT(*) FROM ");
-		myStatement.append (myMetaData.getTableName ());
+		myStatement.append("SELECT COUNT(*) FROM ");
+		myStatement.append(myMetaData.getTableName());
 
 		if (customWhereClause != null)
 		{
-			myStatement.append (customWhereClause);
+			myStatement.append(customWhereClause);
 		}
 		else
 		{
-			myStatement.append (buildWhereClauseBuffer (true));
+			myStatement.append(buildWhereClauseBuffer(true));
 		}
 
 		int retVal = 0;
@@ -429,40 +429,40 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 		{
 			if (currentTransaction != null)
 			{
-				myConnection = currentTransaction.getConnection ();
+				myConnection = currentTransaction.getConnection();
 			}
 			else
 			{
-				myConnection = myDataSource.getConnection ();
+				myConnection = myDataSource.getConnection();
 			}
 
-			s = myConnection.createStatement ();
+			s = myConnection.createStatement();
 
-			if (log.isDebugEnabled ())
+			if (log.isDebugEnabled())
 			{
-				log.debug ("Executing: " + myStatement.toString ());
+				log.debug("Executing: " + myStatement.toString());
 			}
 
-			rs = s.executeQuery (myStatement.toString ());
+			rs = s.executeQuery(myStatement.toString());
 
-			if (rs.next ())
+			if (rs.next())
 			{
-				retVal = rs.getInt (1);
+				retVal = rs.getInt(1);
 			}
 
-			s.close ();
+			s.close();
 			s = null;
 
-			rs.close ();
+			rs.close();
 			rs = null;
 		}
 		catch (Exception de)
 		{
-			throw new PersistenceException (de);
+			throw new PersistenceException(de);
 		}
 		finally
 		{
-			cleanUp (myConnection, s, rs, null);
+			cleanUp(myConnection, s, rs, null);
 		}
 
 		return retVal;
@@ -478,9 +478,9 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 	 *             If the delete fails or if the referential integrity would be
 	 *             violated by the delete
 	 */
-	public synchronized void delete () throws PersistenceException
+	public synchronized void delete() throws PersistenceException
 	{
-		delete (true);
+		delete(true);
 	}
 
 	/**
@@ -497,31 +497,31 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 	 *             If the delete fails or if the referential integrity would be
 	 *             violated by the delete
 	 */
-	public synchronized void delete (boolean deleteDetails) throws PersistenceException
+	public synchronized void delete(boolean deleteDetails) throws PersistenceException
 	{
-		checkAllowed ("D");
+		checkAllowed("D");
 
-		currentErrors.clear ();
+		currentErrors.clear();
 
-		if (getHelper () != null)
+		if (getHelper() != null)
 		{
-			getHelper ().beforeDelete (this);
+			getHelper().beforeDelete(this);
 		}
 
-		haveAllKeys (true, true);
+		haveAllKeys(true, true);
 
-		SuperString sqlCommand = new SuperString (64);
+		SuperString sqlCommand = new SuperString(64);
 
-		sqlCommand.append ("DELETE FROM ");
-		sqlCommand.append (myMetaData.getTableName ());
+		sqlCommand.append("DELETE FROM ");
+		sqlCommand.append(myMetaData.getTableName());
 
 		if (customWhereClause != null)
 		{
-			sqlCommand.append (customWhereClause);
+			sqlCommand.append(customWhereClause);
 		}
 		else
 		{
-			sqlCommand.append (buildWhereClauseBuffer (false));
+			sqlCommand.append(buildWhereClauseBuffer(false));
 		}
 
 		Connection myConnection = null;
@@ -531,49 +531,49 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 		{
 			if (deleteDetails)
 			{
-				deleteDetails ();
+				deleteDetails();
 			} /* if we delete the details */
 			if (currentTransaction != null)
 			{
-				myConnection = currentTransaction.getConnection ();
+				myConnection = currentTransaction.getConnection();
 			}
 			else
 			{
-				myConnection = myDataSource.getConnection ();
+				myConnection = myDataSource.getConnection();
 			}
 
-			s = myConnection.createStatement ();
+			s = myConnection.createStatement();
 
-			if (log.isDebugEnabled ())
+			if (log.isDebugEnabled())
 			{
-				log.debug ("Executing: " + sqlCommand.toString ());
+				log.debug("Executing: " + sqlCommand.toString());
 			}
 
-			int updateCount = s.executeUpdate (sqlCommand.toString ());
+			int updateCount = s.executeUpdate(sqlCommand.toString());
 
-			s.close ();
+			s.close();
 			s = null;
 
-			if ((updateCount == 0) && (getCheckZeroUpdate ()))
+			if ((updateCount == 0) && (getCheckZeroUpdate()))
 			{
-				log.error ("No record(s) deleted for SQL '" + sqlCommand.toString () + "'");
-				throw new PersistenceException ("No record(s) deleted.");
+				log.error("No record(s) deleted for SQL '" + sqlCommand.toString() + "'");
+				throw new PersistenceException("No record(s) deleted.");
 			}
 		}
 		catch (SQLException se)
 		{
-			throw new PersistenceException (se);
+			throw new PersistenceException(se);
 		}
 		finally
 		{
-			cleanUp (myConnection, s, null, null);
+			cleanUp(myConnection, s, null, null);
 		}
 
-		setStatus (Persistent.DELETED);
+		setStatus(Persistent.DELETED);
 
-		if (getHelper () != null)
+		if (getHelper() != null)
 		{
-			getHelper ().afterDelete (this);
+			getHelper().afterDelete(this);
 		}
 	} /* delete() */
 
@@ -589,33 +589,33 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 	 *             If the delete fails or if the referential integrity would be
 	 *             violated by the delete
 	 */
-	public synchronized void deleteAll () throws PersistenceException
+	public synchronized void deleteAll() throws PersistenceException
 	{
-		currentErrors.clear ();
+		currentErrors.clear();
 
 		if (recordSet == null)
 		{
-			recordSet = new ArrayList ();
+			recordSet = new ArrayList();
 		}
 		else
 		{
-			recordSet.clear ();
+			recordSet.clear();
 		}
 
-		SuperString myStatement = new SuperString (64);
+		SuperString myStatement = new SuperString(64);
 
-		myStatement.append ("DELETE FROM ");
+		myStatement.append("DELETE FROM ");
 
-		myStatement.append (myMetaData.getTableName ());
+		myStatement.append(myMetaData.getTableName());
 
 		if (customWhereClause != null)
 		{
-			myStatement.append (customWhereClause);
+			myStatement.append(customWhereClause);
 			customWhereClause = null;
 		}
 		else
 		{
-			myStatement.append (buildWhereClauseBuffer (true));
+			myStatement.append(buildWhereClauseBuffer(true));
 		}
 
 		Connection myConnection = null;
@@ -625,17 +625,17 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 		{
 			if (currentTransaction != null)
 			{
-				myConnection = currentTransaction.getConnection ();
+				myConnection = currentTransaction.getConnection();
 			}
 			else
 			{
-				myConnection = myDataSource.getConnection ();
+				myConnection = myDataSource.getConnection();
 			}
 
-			s = myConnection.createStatement ();
+			s = myConnection.createStatement();
 			/* int up[dateCount = */
-			s.executeUpdate (myStatement.toString ());
-			s.close ();
+			s.executeUpdate(myStatement.toString());
+			s.close();
 			s = null;
 
 			/*
@@ -655,11 +655,11 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 		}
 		catch (SQLException se)
 		{
-			throw new PersistenceException (se);
+			throw new PersistenceException(se);
 		}
 		finally
 		{
-			cleanUp (myConnection, s, null, null);
+			cleanUp(myConnection, s, null, null);
 		}
 	} /* deleteAll() */
 
@@ -674,7 +674,7 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 	 * @throws PersistenceException
 	 *             If the search could not be completed
 	 */
-	public synchronized boolean find () throws PersistenceException
+	public synchronized boolean find() throws PersistenceException
 	{
 		boolean checkSecurity = false;
 
@@ -684,46 +684,46 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 		}
 		else
 		{
-			checkAllowed ("L");
+			checkAllowed("L");
 		}
 
 		boolean needComma = false;
 
 		foundKeys = null;
 
-		ArrayList retrievedFieldList = new ArrayList ();
+		ArrayList retrievedFieldList = new ArrayList();
 
-		SuperString myStatement = new SuperString (64);
+		SuperString myStatement = new SuperString(64);
 
-		myStatement.append ("SELECT ");
+		myStatement.append("SELECT ");
 
 		String oneFieldName = null;
 
-		for (Iterator i = myMetaData.getFieldNames ().iterator (); i.hasNext ();)
+		for (Iterator i = myMetaData.getFieldNames().iterator(); i.hasNext();)
 		{
-			oneFieldName = (String) i.next ();
+			oneFieldName = (String) i.next();
 
 			if (needComma)
 			{
-				myStatement.append (", ");
+				myStatement.append(", ");
 			}
 
-			retrievedFieldList.add (oneFieldName);
-			myStatement.append (selectFieldString (oneFieldName));
+			retrievedFieldList.add(oneFieldName);
+			myStatement.append(selectFieldString(oneFieldName));
 
 			needComma = true;
 		} /* for */
-		myStatement.append (" FROM ");
-		myStatement.append (myMetaData.getTableName ());
+		myStatement.append(" FROM ");
+		myStatement.append(myMetaData.getTableName());
 
 		if (customWhereClause != null)
 		{
-			myStatement.append (customWhereClause);
+			myStatement.append(customWhereClause);
 			customWhereClause = null;
 		}
 		else
 		{
-			myStatement.append (buildWhereClauseBuffer (true));
+			myStatement.append(buildWhereClauseBuffer(true));
 		}
 
 		Connection myConnection = null;
@@ -734,68 +734,68 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 		{
 			if (currentTransaction != null)
 			{
-				myConnection = currentTransaction.getConnection ();
+				myConnection = currentTransaction.getConnection();
 			}
 			else
 			{
-				myConnection = myDataSource.getConnection ();
+				myConnection = myDataSource.getConnection();
 			}
 
-			s = myConnection.createStatement ();
+			s = myConnection.createStatement();
 
-			if (log.isDebugEnabled ())
+			if (log.isDebugEnabled())
 			{
-				log.debug ("Executing: " + myStatement.toString ());
+				log.debug("Executing: " + myStatement.toString());
 			}
 
-			rs = s.executeQuery (myStatement.toString ());
+			rs = s.executeQuery(myStatement.toString());
 
 			Object oneFieldValue = null;
-			StringBuffer oneKeyString = new StringBuffer ("");
+			StringBuffer oneKeyString = new StringBuffer("");
 
 			if (foundKeys == null)
 			{
-				foundKeys = new ArrayList ();
+				foundKeys = new ArrayList();
 			}
 
-			if (rs.next ())
+			if (rs.next())
 			{
-				log.debug ("Found record");
+				log.debug("Found record");
 
 				int i = 1;
 
-				for (Iterator it = retrievedFieldList.iterator (); it.hasNext ();)
+				for (Iterator it = retrievedFieldList.iterator(); it.hasNext();)
 				{
-					oneFieldName = (String) it.next ();
+					oneFieldName = (String) it.next();
 
-					if (rs.getString (i) == null && myMetaData.allowsNull (oneFieldName))
+					if (rs.getString(i) == null && myMetaData.allowsNull(oneFieldName))
 					{
 						i++;
 					}
 					else
 					{
-						oneFieldValue = retrieveField (oneFieldName, rs, i);
-						setField (oneFieldName, oneFieldValue);
+						oneFieldValue = retrieveField(oneFieldName, rs, i);
+						setField(oneFieldName, oneFieldValue);
 						i++;
 					}
 
-					if (myMetaData.isKeyField (oneFieldName))
+					if (myMetaData.isKeyField(oneFieldName))
 					{
 						if (i > 1)
 						{
-							oneKeyString.append ("/");
+							oneKeyString.append("/");
 						}
 
-						oneKeyString.append (oneFieldValue);
+						oneKeyString.append(oneFieldValue);
 					} /* if field is key */
 				} /* for each field */
-				foundKeys.add (oneKeyString.toString ());
+				foundKeys.add(oneKeyString.toString());
 			}
 			else
 			{
-				if (log.isDebugEnabled ())
+				if (log.isDebugEnabled())
 				{
-					log.debug ("No matching record for " + myStatement.toString ());
+					log.debug("No matching record for " + myStatement.toString());
 				}
 
 				return false;
@@ -803,21 +803,21 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 
 			if (checkSecurity)
 			{
-				checkAllowed ("L");
+				checkAllowed("L");
 			}
 
-			setStatus (Persistent.CURRENT);
+			setStatus(Persistent.CURRENT);
 
 			return true;
 		}
 		catch (SQLException se)
 		{
-			addError (se);
-			throw new PersistenceException (se.getMessage () + " - " + toString ());
+			addError(se);
+			throw new PersistenceException(se.getMessage() + " - " + toString());
 		}
 		finally
 		{
-			cleanUp (myConnection, s, rs, null);
+			cleanUp(myConnection, s, rs, null);
 		}
 	} /* find() */
 
@@ -828,19 +828,19 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 	 * @param attribName
 	 * @return
 	 */
-	public Object getAttribute (String attribName)
+	public Object getAttribute(String attribName)
 	{
 		Object returnValue = null;
 
 		if (attributes != null)
 		{
-			returnValue = attributes.get (attribName);
+			returnValue = attributes.get(attribName);
 		}
 
 		return returnValue;
 	} /* getAttribute(String) */
 
-	public Map getAttributes ()
+	public Map getAttributes()
 	{
 		return attributes;
 	}
@@ -848,9 +848,9 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 	/**
 	 * Query the general-purpose attribute for a field
 	 */
-	public Object getAttribute (String fieldName, String attribName) throws PersistenceException
+	public Object getAttribute(String fieldName, String attribName) throws PersistenceException
 	{
-		return myMetaData.getAttribute (fieldName, attribName);
+		return myMetaData.getAttribute(fieldName, attribName);
 	}
 
 	/**
@@ -873,40 +873,40 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 	 *             cannot be converted to a date
 	 * @see java.text.DecimalFormat
 	 */
-	public String getFieldDecimalFormatted (String fieldName, String formatPattern) throws PersistenceException
+	public String getFieldDecimalFormatted(String fieldName, String formatPattern) throws PersistenceException
 	{
-		if (! myMetaData.hasField (fieldName))
+		if (! myMetaData.hasField(fieldName))
 		{
-			throw new PersistenceException ("(" + getName () + ") No such field as " + fieldName);
+			throw new PersistenceException("(" + getName() + ") No such field as " + fieldName);
 		}
 
-		Object o = getFieldData (fieldName);
+		Object o = getFieldData(fieldName);
 
 		if (o == null)
 		{
 			return null;
 		}
 
-		String strVal = o.toString ();
+		String strVal = o.toString();
 
-		if (strVal.equals (""))
+		if (strVal.equals(""))
 		{
 			return null;
 		}
 
-		Double myDouble = new Double (strVal);
+		Double myDouble = new Double(strVal);
 		DecimalFormat df = null;
 
 		if (formatPattern == null)
 		{
-			df = new DecimalFormat ();
+			df = new DecimalFormat();
 		}
 		else
 		{
-			df = new DecimalFormat (formatPattern);
+			df = new DecimalFormat(formatPattern);
 		}
 
-		String returnValue = df.format (myDouble);
+		String returnValue = df.format(myDouble);
 
 		return returnValue;
 	} /* getFieldDecimalFormatted(String, String) */
@@ -921,34 +921,34 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 	 *             if there is no such field or it's value cannot be converted
 	 *             to an integer.
 	 */
-	public int getFieldInt (String fieldName) throws PersistenceException
+	public int getFieldInt(String fieldName) throws PersistenceException
 	{
-		assertField (fieldName);
+		assertField(fieldName);
 
-		Object o = getFieldData (fieldName);
+		Object o = getFieldData(fieldName);
 
 		if (o == null)
 		{
-			throw new PersistenceException ("Field '" + fieldName + "' was null, cannot return as int");
+			throw new PersistenceException("Field '" + fieldName + "' was null, cannot return as int");
 		}
 
 		String strVal = "";
 
 		try
 		{
-			strVal = o.toString ();
+			strVal = o.toString();
 
 			if (strVal == null)
 			{
-				throw new PersistenceException ("(" + getName () + ") Unable to get int value from field " + fieldName
+				throw new PersistenceException("(" + getName() + ") Unable to get int value from field " + fieldName
 								+ ", value was '" + strVal + "'");
 			}
 
-			return Integer.parseInt (strVal);
+			return Integer.parseInt(strVal);
 		}
 		catch (NumberFormatException ex)
 		{
-			throw new PersistenceException ("(" + getName () + ") Unable to parse an integer value from field "
+			throw new PersistenceException("(" + getName() + ") Unable to parse an integer value from field "
 							+ fieldName + " which contained '" + strVal + "'", ex);
 		}
 	} /* getFieldInt(String) */
@@ -959,9 +959,9 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 	 * @return String The Persistent name, which may or may not bear any
 	 *         relationship to the table name
 	 */
-	public String getName ()
+	public String getName()
 	{
-		return myMetaData.getSchemaName () + "." + myMetaData.getName ();
+		return myMetaData.getSchemaName() + "." + myMetaData.getName();
 	} /* getName() */
 
 	/**
@@ -974,9 +974,9 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 	 * @throws PersistenceException
 	 *             If the search could not be completed
 	 */
-	public double max (String fieldName) throws PersistenceException
+	public double max(String fieldName) throws PersistenceException
 	{
-		return sqlAggrFunction ("MAX", fieldName);
+		return sqlAggrFunction("MAX", fieldName);
 	} /* max() */
 
 	/**
@@ -989,9 +989,9 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 	 * @throws PersistenceException
 	 *             If the search could not be completed
 	 */
-	public double min (String fieldName) throws PersistenceException
+	public double min(String fieldName) throws PersistenceException
 	{
-		return sqlAggrFunction ("MIN", fieldName);
+		return sqlAggrFunction("MIN", fieldName);
 	} /* min() */
 
 	/**
@@ -1005,7 +1005,7 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 	 *             find() instead.
 	 * @see #find
 	 */
-	public synchronized void retrieve () throws PersistenceException
+	public synchronized void retrieve() throws PersistenceException
 	{
 		/* If this instance is a RowSecurablePersistent, then we must */
 		/* check for authorization *after* the row is retrieved */
@@ -1014,7 +1014,7 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 
 		if (! (this instanceof RowSecurablePersistent))
 		{
-			checkAllowed ("L");
+			checkAllowed("L");
 		}
 		else
 		{
@@ -1023,35 +1023,35 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 
 		boolean needComma = false;
 
-		haveAllKeys (true, true);
+		haveAllKeys(true, true);
 
-		StringBuffer myStatement = new StringBuffer ("SELECT ");
+		StringBuffer myStatement = new StringBuffer("SELECT ");
 		String oneFieldName = null;
 
-		for (Iterator i = myMetaData.getFieldNames ().iterator (); i.hasNext ();)
+		for (Iterator i = myMetaData.getFieldNames().iterator(); i.hasNext();)
 		{
-			oneFieldName = (String) i.next ();
+			oneFieldName = (String) i.next();
 
 			if (needComma)
 			{
-				myStatement.append (", ");
+				myStatement.append(", ");
 			}
 
-			myStatement.append (selectFieldString (oneFieldName));
+			myStatement.append(selectFieldString(oneFieldName));
 
 			needComma = true;
 		} /* for */
-		myStatement.append (" FROM ");
-		myStatement.append (myMetaData.getTableName ());
+		myStatement.append(" FROM ");
+		myStatement.append(myMetaData.getTableName());
 
 		if (customWhereClause != null)
 		{
-			myStatement.append (customWhereClause);
+			myStatement.append(customWhereClause);
 			customWhereClause = null;
 		}
 		else
 		{
-			myStatement.append (buildWhereClauseBuffer (false));
+			myStatement.append(buildWhereClauseBuffer(false));
 		}
 
 		Connection myConnection = null;
@@ -1062,65 +1062,65 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 		{
 			if (currentTransaction != null)
 			{
-				myConnection = currentTransaction.getConnection ();
+				myConnection = currentTransaction.getConnection();
 			}
 			else
 			{
-				myConnection = myDataSource.getConnection ();
+				myConnection = myDataSource.getConnection();
 			}
 
-			s = myConnection.createStatement ();
+			s = myConnection.createStatement();
 
-			if (log.isDebugEnabled ())
+			if (log.isDebugEnabled())
 			{
-				log.debug ("Executing: " + myStatement.toString ());
+				log.debug("Executing: " + myStatement.toString());
 			}
 
-			rs = s.executeQuery (myStatement.toString ());
+			rs = s.executeQuery(myStatement.toString());
 
-			StringBuffer oneKeyString = new StringBuffer ("");
+			StringBuffer oneKeyString = new StringBuffer("");
 			Object oneFieldValue = null;
 
 			if (foundKeys == null)
 			{
-				foundKeys = new ArrayList ();
+				foundKeys = new ArrayList();
 			}
 
-			if (rs.next ())
+			if (rs.next())
 			{
 				int i = 1;
 
-				for (Iterator it = myMetaData.getFieldNames ().iterator (); it.hasNext ();)
+				for (Iterator it = myMetaData.getFieldNames().iterator(); it.hasNext();)
 				{
-					oneFieldName = (String) it.next ();
-					oneFieldValue = retrieveField (oneFieldName, rs, i);
+					oneFieldName = (String) it.next();
+					oneFieldValue = retrieveField(oneFieldName, rs, i);
 
 					i++;
-					setFieldData (oneFieldName, oneFieldValue);
+					setFieldData(oneFieldName, oneFieldValue);
 
-					if (myMetaData.isKeyField (oneFieldName))
+					if (myMetaData.isKeyField(oneFieldName))
 					{
 						if (i > 1)
 						{
-							oneKeyString.append ("/");
+							oneKeyString.append("/");
 						}
 
-						oneKeyString.append (oneFieldValue);
+						oneKeyString.append(oneFieldValue);
 					}
 				} /* for each field */
-				foundKeys.add (oneKeyString.toString ());
+				foundKeys.add(oneKeyString.toString());
 			}
 			else
 			{
-				throw new PersistenceException ("(" + getName () + ") No such record" + toString ());
+				throw new PersistenceException("(" + getName() + ") No such record" + toString());
 			}
 
 			if (doRowLevelCheck)
 			{
-				checkAllowed ("L");
+				checkAllowed("L");
 			}
 
-			setStatus (Persistent.CURRENT);
+			setStatus(Persistent.CURRENT);
 		}
 		catch (PersistenceException de)
 		{
@@ -1128,11 +1128,11 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 		}
 		catch (SQLException se)
 		{
-			throw new PersistenceException (se);
+			throw new PersistenceException(se);
 		}
 		finally
 		{
-			cleanUp (myConnection, s, rs, null);
+			cleanUp(myConnection, s, rs, null);
 		}
 	} /* retrieve() */
 
@@ -1147,7 +1147,7 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 	 * @throws PersistenceException
 	 *             If the search could not be completed
 	 */
-	public synchronized List<Persistent> query () throws PersistenceException
+	public synchronized List<Persistent> query() throws PersistenceException
 	{
 		boolean checkRowSecurity = false;
 
@@ -1157,51 +1157,51 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 		}
 		else
 		{
-			checkAllowed ("L");
+			checkAllowed("L");
 		}
 
-		currentErrors.clear ();
+		currentErrors.clear();
 
 		boolean needComma = false;
-		ArrayList retrievedFieldList = new ArrayList ();
+		ArrayList retrievedFieldList = new ArrayList();
 
-		if (getHelper () != null)
+		if (getHelper() != null)
 		{
-			getHelper ().beforeQuery (this);
+			getHelper().beforeQuery(this);
 		}
 
 		if (recordSet == null)
 		{
-			recordSet = new ArrayList ();
+			recordSet = new ArrayList();
 		}
 		else
 		{
-			recordSet.clear ();
+			recordSet.clear();
 		}
 
 		//myUpdates = null;
-		SuperString myStatement = new SuperString (64);
+		SuperString myStatement = new SuperString(64);
 
-		myStatement.append ("SELECT ");
+		myStatement.append("SELECT ");
 
 		String oneFieldName = null;
 
-		for (Iterator i = myMetaData.getFieldNames ().iterator (); i.hasNext ();)
+		for (Iterator i = myMetaData.getFieldNames().iterator(); i.hasNext();)
 		{
-			oneFieldName = (String) i.next ();
+			oneFieldName = (String) i.next();
 
 			if (needComma)
 			{
-				myStatement.append (", ");
+				myStatement.append(", ");
 			}
 
-			retrievedFieldList.add (oneFieldName);
-			myStatement.append (selectFieldString (oneFieldName));
+			retrievedFieldList.add(oneFieldName);
+			myStatement.append(selectFieldString(oneFieldName));
 
 			needComma = true;
 		} /* for each field */
-		myStatement.append (" FROM ");
-		myStatement.append (myMetaData.getTableName ());
+		myStatement.append(" FROM ");
+		myStatement.append(myMetaData.getTableName());
 
 		Connection myConnection = null;
 		Statement s = null;
@@ -1211,115 +1211,115 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 		{
 			if (currentTransaction != null)
 			{
-				myConnection = currentTransaction.getConnection ();
+				myConnection = currentTransaction.getConnection();
 			}
 			else
 			{
-				myConnection = myDataSource.getConnection ();
+				myConnection = myDataSource.getConnection();
 			}
 
-			if (myMetaData.getDatabaseType ().getSubSetPosition () == DatabaseType.SUBSET_AFTER_TABLE
+			if (myMetaData.getDatabaseType().getSubSetPosition() == DatabaseType.SUBSET_AFTER_TABLE
 							&& (offsetRecord > 0 || maxRecords > 0))
 			{
 				// Insert limitation stub after table nomination
-				String limitStub = makeSubSetStub ();
+				String limitStub = makeSubSetStub();
 
-				myStatement.append (" ");
-				myStatement.append (limitStub);
-				myStatement.append (" ");
+				myStatement.append(" ");
+				myStatement.append(limitStub);
+				myStatement.append(" ");
 			}
 
 			SuperString whereClause;
 
 			if (customWhereClause != null)
 			{
-				whereClause = new SuperString (customWhereClause);
-				myStatement.append (customWhereClause);
+				whereClause = new SuperString(customWhereClause);
+				myStatement.append(customWhereClause);
 				customWhereClause = null;
 			}
 			else
 			{
-				whereClause = buildWhereClauseBuffer (true);
-				myStatement.append (whereClause);
+				whereClause = buildWhereClauseBuffer(true);
+				myStatement.append(whereClause);
 			}
 
-			if (myMetaData.getDatabaseType ().getSubSetPosition () == DatabaseType.SUBSET_AFTER_WHERE
+			if (myMetaData.getDatabaseType().getSubSetPosition() == DatabaseType.SUBSET_AFTER_WHERE
 							&& (offsetRecord > 0 || maxRecords > 0))
 			{
 				// Insert limitation stub after table nomination
-				String limitStub = makeSubSetStub ();
+				String limitStub = makeSubSetStub();
 
-				if (whereClause.length () > 0)
+				if (whereClause.length() > 0)
 				{
-					myStatement.append (" AND");
+					myStatement.append(" AND");
 				}
 
-				myStatement.append (" ");
-				myStatement.append (limitStub);
-				myStatement.append (" ");
+				myStatement.append(" ");
+				myStatement.append(limitStub);
+				myStatement.append(" ");
 			}
 
 			/* Add the ORDER BY clause if any sortKeys are specified */
-			if (sortKeys != null && sortKeys.size () > 0)
+			if (sortKeys != null && sortKeys.size() > 0)
 			{
-				myStatement.append (" ORDER BY ");
+				myStatement.append(" ORDER BY ");
 
 				boolean needComma2 = false;
 
-				for (Iterator i = sortKeys.iterator (); i.hasNext ();)
+				for (Iterator i = sortKeys.iterator(); i.hasNext();)
 				{
 					if (needComma2)
 					{
-						myStatement.append (", ");
+						myStatement.append(", ");
 					}
 
 					//                     myStatement.append(
 					//                         myMetaData.getDBFieldName((String) i.next()));
-					String fieldName = (String) i.next ();
-					int descIndex = fieldName.indexOf ("DESC");
-					int ascIndex = fieldName.indexOf ("ASC");
+					String fieldName = (String) i.next();
+					int descIndex = fieldName.indexOf("DESC");
+					int ascIndex = fieldName.indexOf("ASC");
 
 					if (descIndex > 0)
 					{
-						fieldName = fieldName.substring (0, descIndex).trim ();
-						myStatement.append (myMetaData.getDBFieldName (fieldName));
-						myStatement.append (" DESC");
+						fieldName = fieldName.substring(0, descIndex).trim();
+						myStatement.append(myMetaData.getDBFieldName(fieldName));
+						myStatement.append(" DESC");
 					}
 					else if (ascIndex > 0)
 					{
-						fieldName = fieldName.substring (0, ascIndex).trim ();
-						myStatement.append (myMetaData.getDBFieldName (fieldName));
-						myStatement.append (" ASC");
+						fieldName = fieldName.substring(0, ascIndex).trim();
+						myStatement.append(myMetaData.getDBFieldName(fieldName));
+						myStatement.append(" ASC");
 					}
 					else
 					{
-						myStatement.append (myMetaData.getDBFieldName (fieldName));
+						myStatement.append(myMetaData.getDBFieldName(fieldName));
 					}
 
 					needComma2 = true;
 				}
 
-				if (myMetaData.getDatabaseType ().getSubSetPosition () == DatabaseType.SUBSET_AFTER_ORDER_BY
+				if (myMetaData.getDatabaseType().getSubSetPosition() == DatabaseType.SUBSET_AFTER_ORDER_BY
 								&& (offsetRecord > 0 || maxRecords > 0))
 				{
-					myStatement.append (" ");
-					myStatement.append (makeSubSetStub ());
+					myStatement.append(" ");
+					myStatement.append(makeSubSetStub());
 				}
 			}
 
-			s = myConnection.createStatement ();
+			s = myConnection.createStatement();
 
-			if (log.isDebugEnabled ())
+			if (log.isDebugEnabled())
 			{
-				log.debug ("Executing: " + myStatement.toString ());
+				log.debug("Executing: " + myStatement.toString());
 			}
 
-			rs = s.executeQuery (myStatement.toString ());
+			rs = s.executeQuery(myStatement.toString());
 
 			int recordCount = 0;
 			int retrieveCount = 0;
 
-			while (rs.next ())
+			while (rs.next())
 			{
 				recordCount++;
 				retrieveCount++;
@@ -1329,13 +1329,13 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 				//maximum record.
 				if ((retrieveCount < offsetRecord)
 								&& (offsetRecord > 0)
-								&& (myMetaData.getDatabaseType ().getSubSetPosition () == DatabaseType.SUBSET_NOT_SUPPORTED))
+								&& (myMetaData.getDatabaseType().getSubSetPosition() == DatabaseType.SUBSET_NOT_SUPPORTED))
 				{
 					continue;
 				}
 				else if ((retrieveCount == offsetRecord)
 								&& (offsetRecord > 0)
-								&& (myMetaData.getDatabaseType ().getSubSetPosition () == DatabaseType.SUBSET_NOT_SUPPORTED))
+								&& (myMetaData.getDatabaseType().getSubSetPosition() == DatabaseType.SUBSET_NOT_SUPPORTED))
 				{
 					recordCount = 0;
 
@@ -1345,36 +1345,36 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 
 				if ((recordCount > maxRecords) && (maxRecords > 0))
 				{
-					setAttribute ("More Records", "Y");
+					setAttribute("More Records", "Y");
 
 					break;
 				}
 
 				//Only allocate if we're gonna load this record
-				Persistent myObj = getFactory ().create (getName ());
+				Persistent myObj = getFactory().create(getName());
 				int i = 1;
 				Object oneFieldValue = null;
 
-				for (Iterator it = retrievedFieldList.iterator (); it.hasNext ();)
+				for (Iterator it = retrievedFieldList.iterator(); it.hasNext();)
 				{
-					oneFieldName = (String) it.next ();
+					oneFieldName = (String) it.next();
 
-					oneFieldValue = retrieveField (oneFieldName, rs, i);
+					oneFieldValue = retrieveField(oneFieldName, rs, i);
 					i++;
-					myObj.setField (oneFieldName, oneFieldValue);
+					myObj.setField(oneFieldName, oneFieldValue);
 				} /* for each retrieved field name */
 				// TODO - how to tell the new object it's now current
 				//myObj.setStatus(Persistent.CURRENT);
 				if (checkRowSecurity)
 				{
-					if (myObj.allowed (QUERY))
+					if (myObj.allowed(QUERY))
 					{
-						recordSet.add (myObj);
+						recordSet.add(myObj);
 					}
 				}
 				else
 				{
-					recordSet.add (myObj);
+					recordSet.add(myObj);
 				}
 			}
 		}
@@ -1384,16 +1384,16 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 		}
 		catch (SQLException se)
 		{
-			throw new PersistenceException (se);
+			throw new PersistenceException(se);
 		}
 		finally
 		{
-			cleanUp (myConnection, s, rs, null);
+			cleanUp(myConnection, s, rs, null);
 		}
 
-		if (getHelper () != null)
+		if (getHelper() != null)
 		{
-			getHelper ().afterQuery (this);
+			getHelper().afterQuery(this);
 		}
 
 		return recordSet;
@@ -1409,25 +1409,25 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 	 * @throws PersistenceException
 	 *             If the search could not be completed
 	 */
-	public synchronized List<Persistent> query (String sortKeyString) throws PersistenceException
+	public synchronized List<Persistent> query(String sortKeyString) throws PersistenceException
 	{
 		if (sortKeys == null)
 		{
-			sortKeys = new LinkedHashSet ();
+			sortKeys = new LinkedHashSet();
 		}
 		else
 		{
-			sortKeys.clear ();
+			sortKeys.clear();
 		}
 
-		StringTokenizer stk = new StringTokenizer (sortKeyString, ",");
+		StringTokenizer stk = new StringTokenizer(sortKeyString, ",");
 
-		while (stk.hasMoreTokens ())
+		while (stk.hasMoreTokens())
 		{
-			sortKeys.add (stk.nextToken ());
+			sortKeys.add(stk.nextToken());
 		}
 
-		return query ();
+		return query();
 	} /* query(String) */
 
 	/**
@@ -1439,18 +1439,18 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 	 * @param attribValue
 	 *            The object to store under this attribute name
 	 */
-	public synchronized void setAttribute (String attribName, Object attribValue)
+	public synchronized void setAttribute(String attribName, Object attribValue)
 	{
 		if (attributes == null)
 		{
-			attributes = new HashMap ();
+			attributes = new HashMap();
 		}
 
-		attributes.put (attribName, attribValue);
+		attributes.put(attribName, attribValue);
 
-		if (attribName.equalsIgnoreCase ("checkzeroupdate"))
+		if (attribName.equalsIgnoreCase("checkzeroupdate"))
 		{
-			setCheckZeroUpdate (new Boolean (attribValue.toString ()).booleanValue ());
+			setCheckZeroUpdate(new Boolean(attribValue.toString()).booleanValue());
 		}
 	} /* setAttribute(String, Object) */
 
@@ -1465,7 +1465,7 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 	 * @param newCustomWhere
 	 *            java.lang.String
 	 */
-	public synchronized void setCustomWhereClause (String newCustomWhere)
+	public synchronized void setCustomWhereClause(String newCustomWhere)
 	{
 		customWhereClause = " WHERE " + newCustomWhere;
 	} /* setCustomWhereClause(String) */
@@ -1482,7 +1482,7 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 	 * @throws PersistenceException
 	 *             If the max number is less than 0
 	 */
-	public synchronized void setMaxRecords (int newMax)
+	public synchronized void setMaxRecords(int newMax)
 	{
 		if (maxRecords < 0)
 		{
@@ -1511,7 +1511,7 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 	 *         <peterp  at  xenonsoft dot demon dot co dot  uk>
 	 *         @date Tue Feb 05 23:06:38 GMT 2002
 	 */
-	public synchronized void setOffsetRecord (int newOffset)
+	public synchronized void setOffsetRecord(int newOffset)
 	{
 		if (newOffset < 0)
 		{
@@ -1531,9 +1531,9 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 	 * @throws PersistenceException
 	 *             If the search could not be completed
 	 */
-	public double sum (String fieldName) throws PersistenceException
+	public double sum(String fieldName) throws PersistenceException
 	{
-		return sqlAggrFunction ("SUM", fieldName);
+		return sqlAggrFunction("SUM", fieldName);
 	} /* sum() */
 
 	/**
@@ -1544,68 +1544,68 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 	 * @throws PersistenceException
 	 *             if the update to the database fails due to a database error
 	 */
-	public synchronized void update () throws PersistenceException
+	public synchronized void update() throws PersistenceException
 	{
-		checkAllowed ("U");
+		checkAllowed("U");
 
-		if (getHelper () != null)
+		if (getHelper() != null)
 		{
-			getHelper ().beforeUpdate (this);
+			getHelper().beforeUpdate(this);
 		}
 
-		currentErrors.clear ();
-		currentErrors.putAll (validateAll ());
+		currentErrors.clear();
+		currentErrors.putAll(validateAll());
 
-		if (currentErrors.size () > 0)
+		if (currentErrors.size() > 0)
 		{
-			throw new PersistenceException ("Field validation errors in persistent '" + myMetaData.getName () + "': ",
-							getErrors ());
+			throw new PersistenceException("Field validation errors in persistent '" + myMetaData.getName() + "': ",
+							getErrors());
 		}
 
 		boolean needComma = false;
 
 		/* build an update statement - again we must call haveKeyFields */
 		/* to be sure we have all of the keys */
-		haveAllKeys (true, true);
+		haveAllKeys(true, true);
 
-		StringBuffer sqlCommand = new StringBuffer ("UPDATE ");
+		StringBuffer sqlCommand = new StringBuffer("UPDATE ");
 
-		sqlCommand.append (myMetaData.getTableName ());
-		sqlCommand.append (" SET ");
+		sqlCommand.append(myMetaData.getTableName());
+		sqlCommand.append(" SET ");
 
-		for (Iterator i = myMetaData.getFieldNames ().iterator (); i.hasNext ();)
+		for (Iterator i = myMetaData.getFieldNames().iterator(); i.hasNext();)
 		{
-			String oneFieldName = (String) i.next ();
+			String oneFieldName = (String) i.next();
 
 			/* We skip any key fields in the update part (not allowed to */
 			/* upate them). Also skip any virtual fields */
-			if ((! myMetaData.isKeyField (oneFieldName)) && (! myMetaData.isAutoIncremented (oneFieldName)))
+			if ((! myMetaData.isKeyField(oneFieldName)) && (! myMetaData.isAutoIncremented(oneFieldName)))
 			{
-				checkField (oneFieldName, getField (oneFieldName));
+				checkField(oneFieldName, getField(oneFieldName));
 
 				if (needComma)
 				{
-					sqlCommand.append (", ");
+					sqlCommand.append(", ");
 				}
 
-				if (! myMetaData.isKeyField (oneFieldName))
+				if (! myMetaData.isKeyField(oneFieldName))
 				{
-					sqlCommand.append (myMetaData.getDBFieldName (oneFieldName));
-					sqlCommand.append (" = ");
+					sqlCommand.append(myMetaData.getDBFieldName(oneFieldName));
+					sqlCommand.append(" = ");
 					//updated by Adam to do proper prep for update SQL
 					//sqlCommand.append(quoteIfNeeded(oneFieldName, null));
-					sqlCommand.append ("?");
-					sqlCommand.append (" ");
+					sqlCommand.append("?");
+					sqlCommand.append(" ");
 					needComma = true;
 				}
 			} /* if it's not a key field */
 		}
 
-		sqlCommand.append (buildWhereClauseBuffer (false));
+		sqlCommand.append(buildWhereClauseBuffer(false));
 
 		if (sqlCommand == null)
 		{
-			throw new PersistenceException ("Internal error: (" + getName () + ") No SQL command built for this update");
+			throw new PersistenceException("Internal error: (" + getName() + ") No SQL command built for this update");
 		}
 
 		PreparedStatement ps = null;
@@ -1616,26 +1616,26 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 		{
 			if (currentTransaction != null)
 			{
-				myConnection = currentTransaction.getConnection ();
+				myConnection = currentTransaction.getConnection();
 			}
 			else
 			{
-				myConnection = myDataSource.getConnection ();
+				myConnection = myDataSource.getConnection();
 			}
 
-			ps = myConnection.prepareStatement (sqlCommand.toString ());
+			ps = myConnection.prepareStatement(sqlCommand.toString());
 
 			//			populate the fields for the update
 			int count = 1;
 			String oneFieldName = null;
 
-			for (Iterator i = myMetaData.getFieldNames ().iterator (); i.hasNext ();)
+			for (Iterator i = myMetaData.getFieldNames().iterator(); i.hasNext();)
 			{
-				oneFieldName = (String) i.next ();
+				oneFieldName = (String) i.next();
 
-				if ((! myMetaData.isKeyField (oneFieldName)) && (! myMetaData.isAutoIncremented (oneFieldName)))
+				if ((! myMetaData.isKeyField(oneFieldName)) && (! myMetaData.isAutoIncremented(oneFieldName)))
 				{
-					setPreparedStatementObject (ps, count, oneFieldName);
+					setPreparedStatementObject(ps, count, oneFieldName);
 
 					count++;
 				}
@@ -1643,18 +1643,18 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 				//}
 			} /* for each field */
 			//s = myConnection.createStatement();
-			if (log.isDebugEnabled ())
+			if (log.isDebugEnabled())
 			{
-				log.debug ("Executing: " + sqlCommand.toString ());
+				log.debug("Executing: " + sqlCommand.toString());
 			}
 
 			//int updateCount = s.executeUpdate(sqlCommand.toString());
-			int updateCount = ps.executeUpdate ();
+			int updateCount = ps.executeUpdate();
 
-			if ((updateCount == 0) && (getCheckZeroUpdate ()))
+			if ((updateCount == 0) && (getCheckZeroUpdate()))
 			{
-				log.error ("No record updated for SQL '" + sqlCommand.toString () + "'");
-				throw new PersistenceException ("(" + getName () + ") No records updated for" + toString ());
+				log.error("No record updated for SQL '" + sqlCommand.toString() + "'");
+				throw new PersistenceException("(" + getName() + ") No records updated for" + toString());
 			}
 		}
 		catch (PersistenceException de)
@@ -1663,88 +1663,88 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 		}
 		catch (SQLException se)
 		{
-			throw new PersistenceException (se);
+			throw new PersistenceException(se);
 		}
 		finally
 		{
-			cleanUp (myConnection, null, null, ps);
+			cleanUp(myConnection, null, null, ps);
 		}
 
-		setStatus (Persistent.CURRENT);
+		setStatus(Persistent.CURRENT);
 
-		if (getHelper () != null)
+		if (getHelper() != null)
 		{
-			getHelper ().afterUpdate (this);
+			getHelper().afterUpdate(this);
 		}
 	} /* update() */
 
-	public void setTransaction (Transaction newTrx)
+	public void setTransaction(Transaction newTrx)
 	{
 		currentTransaction = newTrx;
 	}
 
-	public boolean allowed (int operation) throws PersistenceException
+	public boolean allowed(int operation) throws PersistenceException
 	{
 		switch (operation)
 		{
 			case Persistent.ADD:
-				return isAllowed ("A");
+				return isAllowed("A");
 
 			case Persistent.UPDATE:
-				return isAllowed ("U");
+				return isAllowed("U");
 
 			case Persistent.DELETE:
-				return isAllowed ("D");
+				return isAllowed("D");
 
 			case Persistent.QUERY:
-				return isAllowed ("L");
+				return isAllowed("L");
 
 			default:
-				throw new PersistenceException ("Operation " + operation + " is not understood");
+				throw new PersistenceException("Operation " + operation + " is not understood");
 		}
 	}
 
-	public Map validateAll ()
+	public Map validateAll()
 	{
-		HashMap returnMap = new HashMap ();
+		HashMap returnMap = new HashMap();
 		String oneFieldName = null;
 		String oneError = null;
 
-		for (Iterator i = myMetaData.getFieldNames ().iterator (); i.hasNext ();)
+		for (Iterator i = myMetaData.getFieldNames().iterator(); i.hasNext();)
 		{
-			oneFieldName = (String) i.next ();
+			oneFieldName = (String) i.next();
 
 			try
 			{
-				oneError = validateField (oneFieldName, getField (oneFieldName));
+				oneError = validateField(oneFieldName, getField(oneFieldName));
 			}
 			catch (PersistenceException pe)
 			{
-				log.error ("Error while validating field '" + oneFieldName + "'", pe);
-				returnMap.put (oneFieldName, pe.getMessage ());
+				log.error("Error while validating field '" + oneFieldName + "'", pe);
+				returnMap.put(oneFieldName, pe.getMessage());
 			}
 
 			if (oneError != null)
 			{
-				returnMap.put (oneFieldName, oneError);
+				returnMap.put(oneFieldName, oneError);
 			}
 		}
 
 		return returnMap;
 	}
 
-	public String validateField (String fieldName, Object oneFieldValue)
+	public String validateField(String fieldName, Object oneFieldValue)
 	{
 		String returnValue = null;
 
 		try
 		{
-			if ((oneFieldValue == null) || ("".equals (oneFieldValue)))
+			if ((oneFieldValue == null) || ("".equals(oneFieldValue)))
 			{
-				oneFieldValue = myMetaData.getDefaultValue (fieldName);
+				oneFieldValue = myMetaData.getDefaultValue(fieldName);
 
-				if (((oneFieldValue == null) || ("".equals (oneFieldValue))) && (! myMetaData.allowsNull (fieldName))
-								&& (! myMetaData.isAutoIncremented (fieldName)))
+				if (((oneFieldValue == null) || ("".equals(oneFieldValue))) && (! myMetaData.allowsNull(fieldName))
+								&& (! myMetaData.isAutoIncremented(fieldName)))
 				{
 					return "Field '" + fieldName + "' may not be null";
 				}
@@ -1755,27 +1755,27 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 			}
 			else
 			{
-				validateType (fieldName);
+				validateType(fieldName);
 			}
 
-			if (myMetaData.isMultiValued (fieldName))
+			if (myMetaData.isMultiValued(fieldName))
 			{
-				if (! getValidValues (fieldName).containsKey (oneFieldValue.toString ()))
+				if (! getValidValues(fieldName).containsKey(oneFieldValue.toString()))
 				{
-					return "Value '" + oneFieldValue.toString () + "' is not a valid value for field '" + fieldName
+					return "Value '" + oneFieldValue.toString() + "' is not a valid value for field '" + fieldName
 									+ "'";
 				}
 			}
 		}
 		catch (PersistenceException pe)
 		{
-			returnValue = pe.getMessage ();
+			returnValue = pe.getMessage();
 		}
 
 		return returnValue;
 	}
 
-	public Map getErrors ()
+	public Map getErrors()
 	{
 		return currentErrors;
 	}
@@ -1783,24 +1783,24 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 	/*
 	 * @see de.iritgo.aktera.persist.Persistent#lock()
 	 */
-	public synchronized void lock () throws PersistenceException
+	public synchronized void lock() throws PersistenceException
 	{
-		String dbKeyName = getName ();
+		String dbKeyName = getName();
 
-		if (log.isDebugEnabled ())
+		if (log.isDebugEnabled())
 		{
-			log.debug ("Acquiring mutex lock for " + dbKeyName);
+			log.debug("Acquiring mutex lock for " + dbKeyName);
 		}
 
 		if (dbLocks == null)
 		{
 			// Lazy initialization of the mutex map
-			if (log.isDebugEnabled ())
+			if (log.isDebugEnabled())
 			{
-				log.debug ("Creating mutex lock map...");
+				log.debug("Creating mutex lock map...");
 			}
 
-			dbLocks = new HashMap (16);
+			dbLocks = new HashMap(16);
 		}
 
 		// The map of mutexes is keyed by the name of this persistent.
@@ -1808,56 +1808,56 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 		// add it to the map for this and future use.
 		Mutex dbMutex = null;
 
-		if ((dbMutex = (Mutex) dbLocks.get (dbKeyName)) == null)
+		if ((dbMutex = (Mutex) dbLocks.get(dbKeyName)) == null)
 		{
-			if (log.isDebugEnabled ())
+			if (log.isDebugEnabled())
 			{
-				log.debug ("Creating new mutex for " + dbKeyName);
+				log.debug("Creating new mutex for " + dbKeyName);
 			}
 
-			dbMutex = new Mutex ();
-			dbLocks.put (dbKeyName, dbMutex);
+			dbMutex = new Mutex();
+			dbLocks.put(dbKeyName, dbMutex);
 		}
 
 		//Got handle to mutex, now acquire it
 		try
 		{
-			dbMutex.acquire ();
+			dbMutex.acquire();
 		}
 		catch (InterruptedException ie)
 		{
-			throw new PersistenceException (ie);
+			throw new PersistenceException(ie);
 		}
 
-		if (log.isDebugEnabled ())
+		if (log.isDebugEnabled())
 		{
-			log.debug ("Acquired mutex lock for " + dbKeyName);
+			log.debug("Acquired mutex lock for " + dbKeyName);
 		}
 	}
 
 	/*
 	 * @see de.iritgo.aktera.persist.Persistent#unlock()
 	 */
-	public synchronized void unlock () throws PersistenceException
+	public synchronized void unlock() throws PersistenceException
 	{
 		if (dbLocks == null)
 		{
-			throw new PersistenceException ("$keelNoDBLockMap");
+			throw new PersistenceException("$keelNoDBLockMap");
 		}
 
-		String dbKeyName = getName ();
+		String dbKeyName = getName();
 		Mutex dbMutex = null;
 
-		if ((dbMutex = (Mutex) dbLocks.get (dbKeyName)) == null)
+		if ((dbMutex = (Mutex) dbLocks.get(dbKeyName)) == null)
 		{
-			throw new PersistenceException ("DB lock mutex not found for " + dbKeyName);
+			throw new PersistenceException("DB lock mutex not found for " + dbKeyName);
 		}
 
-		dbMutex.release ();
+		dbMutex.release();
 
-		if (log.isDebugEnabled ())
+		if (log.isDebugEnabled())
 		{
-			log.debug ("Released mutex lock for " + dbKeyName);
+			log.debug("Released mutex lock for " + dbKeyName);
 		}
 	}
 
@@ -1867,84 +1867,84 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 	 *
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString ()
+	public String toString()
 	{
-		StringBuffer sb = new StringBuffer ("");
+		StringBuffer sb = new StringBuffer("");
 
-		sb.append ("factory:");
+		sb.append("factory:");
 
 		if (myFactory == null)
 		{
-			sb.append ("null");
+			sb.append("null");
 		}
 		else
 		{
-			sb.append (myFactory.getName ());
+			sb.append(myFactory.getName());
 		}
 
-		sb.append (",name:");
-		sb.append (getName ());
-		sb.append (",table_name:");
-		sb.append (this.myMetaData.getTableName ());
-		sb.append (",field_values:");
+		sb.append(",name:");
+		sb.append(getName());
+		sb.append(",table_name:");
+		sb.append(this.myMetaData.getTableName());
+		sb.append(",field_values:");
 
 		String oneFieldName = null;
 		Object oneFieldValue = null;
 
 		try
 		{
-			for (Iterator i = myMetaData.getFieldNames ().iterator (); i.hasNext ();)
+			for (Iterator i = myMetaData.getFieldNames().iterator(); i.hasNext();)
 			{
-				oneFieldName = (String) i.next ();
-				oneFieldValue = getField (oneFieldName);
-				sb.append (oneFieldName);
-				sb.append ("=");
+				oneFieldName = (String) i.next();
+				oneFieldValue = getField(oneFieldName);
+				sb.append(oneFieldName);
+				sb.append("=");
 
 				if (oneFieldValue != null)
 				{
-					sb.append (oneFieldValue.toString ());
+					sb.append(oneFieldValue.toString());
 				}
 
-				sb.append ("|");
+				sb.append("|");
 			}
 		}
 		catch (PersistenceException pe)
 		{
-			sb.append (pe.toString ());
+			sb.append(pe.toString());
 		}
 
-		return sb.toString ();
+		return sb.toString();
 	}
 
-	public List getDetails (String detailName) throws PersistenceException
+	public List getDetails(String detailName) throws PersistenceException
 	{
-		PersistentMetaData pmd = getMetaData ();
-		Relation r = pmd.getRelation (detailName);
+		PersistentMetaData pmd = getMetaData();
+		Relation r = pmd.getRelation(detailName);
 
 		if (r == null)
 		{
-			throw new PersistenceException ("No such relation as '" + detailName + "'");
+			throw new PersistenceException("No such relation as '" + detailName + "'");
 		}
 
-		if (r.getType () != Relation.DETAIL)
+		if (r.getType() != Relation.DETAIL)
 		{
-			throw new PersistenceException ("Relation '" + detailName + "' is not a detail relation");
+			throw new PersistenceException("Relation '" + detailName + "' is not a detail relation");
 		}
 
-		String toPersistent = r.getToPersistent ();
-		Persistent detList = myFactory.create (toPersistent);
+		String toPersistent = r.getToPersistent();
+		Persistent detList = myFactory.create(toPersistent);
 		String oneFieldName = null;
 		String oneFromFieldName = null;
-		Iterator fromFields = r.getFromFields ().iterator ();
+		Iterator fromFields = r.getFromFields().iterator();
 
-		for (Iterator i = r.getToFields ().iterator (); i.hasNext ();)
+		for (Iterator i = r.getToFields().iterator(); i.hasNext();)
 		{
-			oneFieldName = (String) i.next ();
-			oneFromFieldName = (String) fromFields.next ();
-			detList.setField (oneFieldName, getField (oneFromFieldName));
+			oneFieldName = (String) i.next();
+			oneFromFieldName = (String) fromFields.next();
+			detList.setField(oneFieldName, getField(oneFromFieldName));
 		}
 
-		return detList.query ();
+		return detList.query();
 	}
 
 	/**
@@ -1953,15 +1953,15 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 	 * important to note that getBean may return a different instance of the
 	 * bean than setBean stored.
 	 */
-	public void setBean (Object newBean) throws PersistenceException
+	public void setBean(Object newBean) throws PersistenceException
 	{
 		assert newBean != null;
 
-		PropertyDescriptor[] props = PropertyUtils.getPropertyDescriptors (newBean);
+		PropertyDescriptor[] props = PropertyUtils.getPropertyDescriptors(newBean);
 
 		if (props.length == 0)
 		{
-			throw new PersistenceException ("Class '" + newBean.getClass ().getName () + "' declares no fields");
+			throw new PersistenceException("Class '" + newBean.getClass().getName() + "' declares no fields");
 		}
 
 		PropertyDescriptor oneProp = null;
@@ -1970,35 +1970,35 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 		for (int i = 0; i < props.length; i++)
 		{
 			oneProp = props[i];
-			fieldName = getFieldNameIgnoreCase (oneProp.getName ());
+			fieldName = getFieldNameIgnoreCase(oneProp.getName());
 
-			if (myMetaData.getFieldNames ().contains (fieldName))
+			if (myMetaData.getFieldNames().contains(fieldName))
 			{
 				Object oneValue = null;
 
 				try
 				{
-					oneValue = PropertyUtils.getProperty (newBean, oneProp.getName ());
+					oneValue = PropertyUtils.getProperty(newBean, oneProp.getName());
 				}
 				catch (Exception ie)
 				{
-					throw new PersistenceException ("Unable to retrieve property '" + oneProp.getName ()
-									+ "' from object of class '" + newBean.getClass ().getName () + "'", ie);
+					throw new PersistenceException("Unable to retrieve property '" + oneProp.getName()
+									+ "' from object of class '" + newBean.getClass().getName() + "'", ie);
 				}
 
-				setField (fieldName, oneValue);
+				setField(fieldName, oneValue);
 			}
 			else
 			{
-				if (log.isDebugEnabled ())
+				if (log.isDebugEnabled())
 				{
 					/*
 					 * Every class has a "class" attribute - don't clutter up
 					 * the log
 					 */
-					if (! fieldName.equals ("class"))
+					if (! fieldName.equals("class"))
 					{
-						log.debug ("No field '" + fieldName + "' in persistent definition '" + myMetaData.getName ()
+						log.debug("No field '" + fieldName + "' in persistent definition '" + myMetaData.getName()
 										+ "', unable to persist");
 					}
 				}
@@ -2006,16 +2006,16 @@ public class DefaultPersistent extends DefaultPersistentBase implements Persiste
 		}
 	}
 
-	public Helper getHelper () throws PersistenceException
+	public Helper getHelper() throws PersistenceException
 	{
-		Helper h = super.getHelper ();
+		Helper h = super.getHelper();
 
 		if (h == null)
 		{
 			return null;
 		}
 
-		h.setPersistent (this);
+		h.setPersistent(this);
 
 		return h;
 	}

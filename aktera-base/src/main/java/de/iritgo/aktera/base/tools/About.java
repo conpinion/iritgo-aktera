@@ -44,23 +44,23 @@ public class About extends StandardLogEnabledModel
 	 * @param req The model request.
 	 * @return The model response.
 	 */
-	public ModelResponse execute (ModelRequest req) throws ModelException
+	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
-		ModelResponse res = req.createResponse ();
+		ModelResponse res = req.createResponse();
 
-		AppInfo.Info appInfo = AppInfo.getAppInfo (AppInfo.SYSTEM);
+		AppInfo.Info appInfo = AppInfo.getAppInfo(AppInfo.SYSTEM);
 
-		Output outName = res.createOutput ("name", appInfo.getNameLong ());
+		Output outName = res.createOutput("name", appInfo.getNameLong());
 
-		res.add (outName);
+		res.add(outName);
 
-		Output outVersion = res.createOutput ("version", appInfo.getVersionLong ());
+		Output outVersion = res.createOutput("version", appInfo.getVersionLong());
 
-		res.add (outVersion);
+		res.add(outVersion);
 
-		Output outCopyright = res.createOutput ("copyright", appInfo.getCopyright ().replaceAll ("\\\\n", "<br>"));
+		Output outCopyright = res.createOutput("copyright", appInfo.getCopyright().replaceAll("\\\\n", "<br>"));
 
-		res.add (outCopyright);
+		res.add(outCopyright);
 
 		return res;
 	}

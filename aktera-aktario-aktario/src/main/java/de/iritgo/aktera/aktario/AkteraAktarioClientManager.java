@@ -55,65 +55,65 @@ public class AkteraAktarioClientManager extends BaseObject implements Manager, C
 	private AkteraAktarioGUI aktarioGUI;
 
 	/** Extension point for adding items to the toolbar */
-	private List<IAction> toolBarItems = new ArrayList ();
+	private List<IAction> toolBarItems = new ArrayList();
 
 	/** Extension point for adding items to the extras menu */
-	private List<IAction> extrasMenuItems = new ArrayList ();
+	private List<IAction> extrasMenuItems = new ArrayList();
 
 	/** Extension point for adding items to the system tray menu */
-	private List<JMenuItem> systemTrayMenuItems = new ArrayList ();
+	private List<JMenuItem> systemTrayMenuItems = new ArrayList();
 
 	/**
 	 * Create a new client manager.
 	 */
-	public AkteraAktarioClientManager ()
+	public AkteraAktarioClientManager()
 	{
-		super ("client");
+		super("client");
 	}
 
-	public List<IAction> getToolBarItems ()
+	public List<IAction> getToolBarItems()
 	{
 		return toolBarItems;
 	}
 
-	public void addToolBarItem (IAction item)
+	public void addToolBarItem(IAction item)
 	{
-		toolBarItems.add (item);
+		toolBarItems.add(item);
 	}
 
-	public List<IAction> getExtrasMenuItems ()
+	public List<IAction> getExtrasMenuItems()
 	{
 		return extrasMenuItems;
 	}
 
-	public void addExtrasMenuItem (IAction item)
+	public void addExtrasMenuItem(IAction item)
 	{
-		extrasMenuItems.add (item);
+		extrasMenuItems.add(item);
 	}
 
-	public List<JMenuItem> getSystemTrayMenuItems ()
+	public List<JMenuItem> getSystemTrayMenuItems()
 	{
 		return systemTrayMenuItems;
 	}
 
-	public void addSystemTrayMenuItem (JMenuItem item)
+	public void addSystemTrayMenuItem(JMenuItem item)
 	{
-		systemTrayMenuItems.add (item);
+		systemTrayMenuItems.add(item);
 	}
 
 	/**
 	 * Initialize the client manager.
 	 */
-	public void init ()
+	public void init()
 	{
-		aktarioGUI = new AkteraAktarioGUI ();
-		Engine.instance ().getEventRegistry ().addListener ("Plugin", this);
+		aktarioGUI = new AkteraAktarioGUI();
+		Engine.instance().getEventRegistry().addListener("Plugin", this);
 	}
 
 	/**
 	 * Free all client manager resources.
 	 */
-	public void unload ()
+	public void unload()
 	{
 	}
 
@@ -122,21 +122,21 @@ public class AkteraAktarioClientManager extends BaseObject implements Manager, C
 	 *
 	 * @return The aktario gui.
 	 */
-	public ClientGUI getClientGUI ()
+	public ClientGUI getClientGUI()
 	{
 		return aktarioGUI;
 	}
 
-	public void pluginEvent (PluginStateEvent event)
+	public void pluginEvent(PluginStateEvent event)
 	{
-		if (event.allPluginsInitialized ())
+		if (event.allPluginsInitialized())
 		{
-			Properties props = new Properties ();
+			Properties props = new Properties();
 
-			props.setProperty ("command", "test.aktera-aktario.showBuddyListCommand");
-			props.setProperty ("name", "showBuddyList");
+			props.setProperty("command", "test.aktera-aktario.showBuddyListCommand");
+			props.setProperty("name", "showBuddyList");
 
-			CommandTools.performSimple ("aktario-xmlrpc.AddXmlRpcCommand", props);
+			CommandTools.performSimple("aktario-xmlrpc.AddXmlRpcCommand", props);
 		}
 	}
 }

@@ -31,7 +31,7 @@ public interface PreferencesDAO
 	 * @param userId The user id
 	 * @return The preferences object
 	 */
-	public Preferences findPreferencesByUserId (Integer userId);
+	public Preferences findPreferencesByUserId(Integer userId);
 
 	/**
 	 * Find a preferences config object by it's unique user id, category and name.
@@ -41,14 +41,14 @@ public interface PreferencesDAO
 	 * @param name The preferences name
 	 * @return The preferences category object or null if none was found
 	 */
-	public PreferencesConfig findPreferencesConfig (Integer userId, String category, String name);
+	public PreferencesConfig findPreferencesConfig(Integer userId, String category, String name);
 
 	/**
 	 * Update a preferences config object
 	 *
 	 * @param preferencesConfig The preferences config object to update
 	 */
-	public void updatePreferencesConfig (PreferencesConfig preferencesConfig);
+	public void updatePreferencesConfig(PreferencesConfig preferencesConfig);
 
 	/**
 	 * Update a preferences config object
@@ -58,12 +58,12 @@ public interface PreferencesDAO
 	 * @param name The preferences name
 	 * @param value The new preferences value
 	 */
-	public void updatePreferencesConfig (Integer userId, String category, String name, Object value);
+	public void updatePreferencesConfig(Integer userId, String category, String name, Object value);
 
 	/**
 	 * Store a given preferences object in the db
 	 *
 	 * @param preferences The preference
 	 */
-	public void create (Preferences preferences);
+	public void create(Preferences preferences);
 }

@@ -43,21 +43,21 @@ public class ModuleCreateHandler extends CreateHandler
 	 * @see de.iritgo.aktera.persist.CreateHandler#createTables(ModelRequest, de.iritgo.aktera.persist.PersistentFactory, java.sql.Connection, Logger)
 	 */
 	@Override
-	public void createTables (ModelRequest request, PersistentFactory persistentFactory, Connection connection,
+	public void createTables(ModelRequest request, PersistentFactory persistentFactory, Connection connection,
 					Logger logger) throws ModelException, PersistenceException, SQLException
 	{
-		createTable ("Holiday", "country varchar(8) not null", "day int4 not null", "description text",
+		createTable("Holiday", "country varchar(8) not null", "day int4 not null", "description text",
 						"id serial primary key", "month int4 not null", "name varchar(80) not null",
 						"province varchar(8)", "year int4");
 
-		createTable ("Schedule", "allDays boolean", "allDaysOfWeek boolean", "allHours boolean", "allMinutes boolean",
+		createTable("Schedule", "allDays boolean", "allDaysOfWeek boolean", "allHours boolean", "allMinutes boolean",
 						"allMonths boolean", "allSeconds boolean", "days varchar(80)", "daysOfWeek varchar(80)",
 						"description text", "disabled boolean", "holidaysAllowance int4", "holidaysCountry varchar(8)",
 						"holidaysProvince varchar(8)", "hours varchar(80)", "id serial primary key",
 						"minutes varchar(80)", "months varchar(80)", "name varchar(80) not null",
 						"position int4 not null", "seconds varchar(80)");
 
-		createTable ("ScheduleAction", "booleanParam1 boolean", "booleanParam2 boolean", "booleanParam3 boolean",
+		createTable("ScheduleAction", "booleanParam1 boolean", "booleanParam2 boolean", "booleanParam3 boolean",
 						"booleanParam4 boolean", "booleanParam5 boolean", "booleanParam6 boolean",
 						"booleanParam7 boolean", "booleanParam8 boolean", "dateParam1 date", "dateParam2 date",
 						"dateParam3 date", "dateParam4 date", "disabled boolean", "id serial primary key",
@@ -75,35 +75,34 @@ public class ModuleCreateHandler extends CreateHandler
 	 * @see de.iritgo.aktera.base.services.persist.CreateHandler#createData(de.iritgo.aktera.persist.PersistentFactory, java.sql.Connection, Logger, ModelRequest)
 	 */
 	@Override
-	public void createData (PersistentFactory persistentFactory, Connection connection, Logger logger,
+	public void createData(PersistentFactory persistentFactory, Connection connection, Logger logger,
 					ModelRequest request) throws ModelException, PersistenceException, SQLException
 	{
 		// Create the standard holidays
-		Deserializer holidayReader = CsvIOFactory.createFactory (Holiday.class).createDeserializer ();
+		Deserializer holidayReader = CsvIOFactory.createFactory(Holiday.class).createDeserializer();
 
-		holidayReader.open (new InputStreamReader (this.getClass ().getResourceAsStream ("holidays_de.csv")));
+		holidayReader.open(new InputStreamReader(this.getClass().getResourceAsStream("holidays_de.csv")));
 
-		while (holidayReader.hasNext ())
+		while (holidayReader.hasNext())
 		{
-			Holiday holiday = holidayReader.next ();
+			Holiday holiday = holidayReader.next();
 
-			if (holiday.getYear () != null)
+			if (holiday.getYear() != null)
 			{
-				update ("INSERT INTO holiday (name, country, province, day, month, year) values (?, ?, ?, ?, ?, ?)",
+				update("INSERT INTO holiday (name, country, province, day, month, year) values (?, ?, ?, ?, ?, ?)",
 								new Object[]
 								{
-												holiday.getName (), holiday.getCountry (), holiday.getProvince (),
-												holiday.getDay (), holiday.getMonth (), holiday.getYear ()
+												holiday.getName(), holiday.getCountry(), holiday.getProvince(),
+												holiday.getDay(), holiday.getMonth(), holiday.getYear()
 								});
 			}
 			else
 			{
-				update ("INSERT INTO holiday (name, country, province, day, month) values (?, ?, ?, ?, ?)",
-								new Object[]
-								{
-												holiday.getName (), holiday.getCountry (), holiday.getProvince (),
-												holiday.getDay (), holiday.getMonth ()
-								});
+				update("INSERT INTO holiday (name, country, province, day, month) values (?, ?, ?, ?, ?)", new Object[]
+				{
+								holiday.getName(), holiday.getCountry(), holiday.getProvince(), holiday.getDay(),
+								holiday.getMonth()
+				});
 			}
 		}
 	}

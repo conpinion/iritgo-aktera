@@ -62,51 +62,51 @@ public class JasperCSVExporter extends JRAbstractExporter
 
 	protected ExporterNature nature = null;
 
-	public void exportReport () throws JRException
+	public void exportReport() throws JRException
 	{
-		progressMonitor = (JRExportProgressMonitor) parameters.get (JRExporterParameter.PROGRESS_MONITOR);
+		progressMonitor = (JRExportProgressMonitor) parameters.get(JRExporterParameter.PROGRESS_MONITOR);
 
 		/*   */
-		setOffset ();
+		setOffset();
 
 		/*   */
-		setInput ();
+		setInput();
 
-		if (! parameters.containsKey (JRExporterParameter.FILTER))
+		if (! parameters.containsKey(JRExporterParameter.FILTER))
 		{
-			filter = createFilter (CSV_EXPORTER_PROPERTIES_PREFIX);
+			filter = createFilter(CSV_EXPORTER_PROPERTIES_PREFIX);
 		}
 
 		/*   */
 		if (! isModeBatch)
 		{
-			setPageRange ();
+			setPageRange();
 		}
 
-		nature = new JRCsvExporterNature (filter);
+		nature = new JRCsvExporterNature(filter);
 
-		String encoding = getStringParameterOrDefault (JRExporterParameter.CHARACTER_ENCODING,
+		String encoding = getStringParameterOrDefault(JRExporterParameter.CHARACTER_ENCODING,
 						JRExporterParameter.PROPERTY_CHARACTER_ENCODING);
 
-		delimiter = getStringParameterOrDefault (JRCsvExporterParameter.FIELD_DELIMITER,
+		delimiter = getStringParameterOrDefault(JRCsvExporterParameter.FIELD_DELIMITER,
 						JRCsvExporterParameter.PROPERTY_FIELD_DELIMITER);
 
-		recordDelimiter = getStringParameterOrDefault (JRCsvExporterParameter.RECORD_DELIMITER,
+		recordDelimiter = getStringParameterOrDefault(JRCsvExporterParameter.RECORD_DELIMITER,
 						JRCsvExporterParameter.PROPERTY_RECORD_DELIMITER);
 
-		StringBuffer sb = (StringBuffer) parameters.get (JRExporterParameter.OUTPUT_STRING_BUFFER);
+		StringBuffer sb = (StringBuffer) parameters.get(JRExporterParameter.OUTPUT_STRING_BUFFER);
 
 		if (sb != null)
 		{
 			try
 			{
-				writer = new StringWriter ();
-				exportReportToWriter ();
-				sb.append (writer.toString ());
+				writer = new StringWriter();
+				exportReportToWriter();
+				sb.append(writer.toString());
 			}
 			catch (IOException e)
 			{
-				throw new JRException ("Error writing to StringBuffer writer : " + jasperPrint.getName (), e);
+				throw new JRException("Error writing to StringBuffer writer : " + jasperPrint.getName(), e);
 			}
 			finally
 			{
@@ -114,7 +114,7 @@ public class JasperCSVExporter extends JRAbstractExporter
 				{
 					try
 					{
-						writer.close ();
+						writer.close();
 					}
 					catch (IOException e)
 					{
@@ -124,62 +124,62 @@ public class JasperCSVExporter extends JRAbstractExporter
 		}
 		else
 		{
-			writer = (Writer) parameters.get (JRExporterParameter.OUTPUT_WRITER);
+			writer = (Writer) parameters.get(JRExporterParameter.OUTPUT_WRITER);
 
 			if (writer != null)
 			{
 				try
 				{
-					exportReportToWriter ();
+					exportReportToWriter();
 				}
 				catch (IOException e)
 				{
-					throw new JRException ("Error writing to writer '" + jasperPrint.getName () + "'", e);
+					throw new JRException("Error writing to writer '" + jasperPrint.getName() + "'", e);
 				}
 			}
 			else
 			{
-				OutputStream os = (OutputStream) parameters.get (JRExporterParameter.OUTPUT_STREAM);
+				OutputStream os = (OutputStream) parameters.get(JRExporterParameter.OUTPUT_STREAM);
 
 				if (os != null)
 				{
 					try
 					{
-						writer = new OutputStreamWriter (os, encoding);
-						exportReportToWriter ();
+						writer = new OutputStreamWriter(os, encoding);
+						exportReportToWriter();
 					}
 					catch (IOException e)
 					{
-						throw new JRException ("Error writing to OutputStream writer : " + jasperPrint.getName (), e);
+						throw new JRException("Error writing to OutputStream writer : " + jasperPrint.getName(), e);
 					}
 				}
 				else
 				{
-					File destFile = (File) parameters.get (JRExporterParameter.OUTPUT_FILE);
+					File destFile = (File) parameters.get(JRExporterParameter.OUTPUT_FILE);
 
 					if (destFile == null)
 					{
-						String fileName = (String) parameters.get (JRExporterParameter.OUTPUT_FILE_NAME);
+						String fileName = (String) parameters.get(JRExporterParameter.OUTPUT_FILE_NAME);
 
 						if (fileName != null)
 						{
-							destFile = new File (fileName);
+							destFile = new File(fileName);
 						}
 						else
 						{
-							throw new JRException ("No output specified for the exporter.");
+							throw new JRException("No output specified for the exporter.");
 						}
 					}
 
 					try
 					{
-						os = new FileOutputStream (destFile);
-						writer = new OutputStreamWriter (os, encoding);
-						exportReportToWriter ();
+						os = new FileOutputStream(destFile);
+						writer = new OutputStreamWriter(os, encoding);
+						exportReportToWriter();
 					}
 					catch (IOException e)
 					{
-						throw new JRException ("Error writing to file writer : " + jasperPrint.getName (), e);
+						throw new JRException("Error writing to file writer : " + jasperPrint.getName(), e);
 					}
 					finally
 					{
@@ -187,7 +187,7 @@ public class JasperCSVExporter extends JRAbstractExporter
 						{
 							try
 							{
-								writer.close ();
+								writer.close();
 							}
 							catch (IOException e)
 							{
@@ -202,53 +202,53 @@ public class JasperCSVExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportReportToWriter () throws JRException, IOException
+	protected void exportReportToWriter() throws JRException, IOException
 	{
-		for (int reportIndex = 0; reportIndex < jasperPrintList.size (); reportIndex++)
+		for (int reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 		{
-			jasperPrint = (JasperPrint) jasperPrintList.get (reportIndex);
+			jasperPrint = (JasperPrint) jasperPrintList.get(reportIndex);
 
-			List pages = jasperPrint.getPages ();
+			List pages = jasperPrint.getPages();
 
-			if (pages != null && pages.size () > 0)
+			if (pages != null && pages.size() > 0)
 			{
 				if (isModeBatch)
 				{
 					startPageIndex = 0;
-					endPageIndex = pages.size () - 1;
+					endPageIndex = pages.size() - 1;
 				}
 
 				for (int i = startPageIndex; i <= endPageIndex; i++)
 				{
-					if (Thread.currentThread ().isInterrupted ())
+					if (Thread.currentThread().isInterrupted())
 					{
-						throw new JRException ("Current thread interrupted.");
+						throw new JRException("Current thread interrupted.");
 					}
 
-					JRPrintPage page = (JRPrintPage) pages.get (i);
+					JRPrintPage page = (JRPrintPage) pages.get(i);
 
 					/*   */
-					exportPage (page);
+					exportPage(page);
 				}
 			}
 		}
 
-		writer.flush ();
+		writer.flush();
 	}
 
 	/**
 	 *
 	 */
-	protected void exportPage (JRPrintPage page) throws IOException
+	protected void exportPage(JRPrintPage page) throws IOException
 	{
-		JRGridLayout layout = new JRGridLayout (nature, page.getElements (), jasperPrint.getPageWidth (), jasperPrint
-						.getPageHeight (), globalOffsetX, globalOffsetY, null //address
+		JRGridLayout layout = new JRGridLayout(nature, page.getElements(), jasperPrint.getPageWidth(), jasperPrint
+						.getPageHeight(), globalOffsetX, globalOffsetY, null //address
 		);
 
-		JRExporterGridCell[][] grid = layout.getGrid ();
+		JRExporterGridCell[][] grid = layout.getGrid();
 
-		CutsInfo xCuts = layout.getXCuts ();
-		CutsInfo yCuts = layout.getYCuts ();
+		CutsInfo xCuts = layout.getXCuts();
+		CutsInfo yCuts = layout.getYCuts();
 
 		StringBuffer rowbuffer = null;
 
@@ -258,21 +258,21 @@ public class JasperCSVExporter extends JRAbstractExporter
 
 		for (int y = 0; y < grid.length; y++)
 		{
-			rowbuffer = new StringBuffer ();
+			rowbuffer = new StringBuffer();
 
-			if (yCuts.isCutNotEmpty (y))
+			if (yCuts.isCutNotEmpty(y))
 			{
 				isFirstColumn = true;
 
 				for (int x = 0; x < grid[y].length; x++)
 				{
-					if (grid[y][x].getWrapper () != null)
+					if (grid[y][x].getWrapper() != null)
 					{
-						element = grid[y][x].getWrapper ().getElement ();
+						element = grid[y][x].getWrapper().getElement();
 
 						if (element instanceof JRPrintText)
 						{
-							JRStyledText styledText = getStyledText ((JRPrintText) element);
+							JRStyledText styledText = getStyledText((JRPrintText) element);
 
 							if (styledText == null)
 							{
@@ -280,25 +280,25 @@ public class JasperCSVExporter extends JRAbstractExporter
 							}
 							else
 							{
-								text = styledText.getText ();
+								text = styledText.getText();
 							}
 
 							if (! isFirstColumn)
 							{
-								rowbuffer.append (delimiter);
+								rowbuffer.append(delimiter);
 							}
 
-							rowbuffer.append (prepareText (text));
+							rowbuffer.append(prepareText(text));
 							isFirstColumn = false;
 						}
 					}
 					else
 					{
-						if (xCuts.isCutNotEmpty (x))
+						if (xCuts.isCutNotEmpty(x))
 						{
 							if (! isFirstColumn)
 							{
-								rowbuffer.append (delimiter);
+								rowbuffer.append(delimiter);
 							}
 
 							isFirstColumn = false;
@@ -306,32 +306,32 @@ public class JasperCSVExporter extends JRAbstractExporter
 					}
 				}
 
-				if (rowbuffer.length () > 0)
+				if (rowbuffer.length() > 0)
 				{
-					writer.write (rowbuffer.toString ());
-					writer.write (recordDelimiter);
+					writer.write(rowbuffer.toString());
+					writer.write(recordDelimiter);
 				}
 			}
 		}
 
 		if (progressMonitor != null)
 		{
-			progressMonitor.afterPageExport ();
+			progressMonitor.afterPageExport();
 		}
 	}
 
 	/**
 	 *
 	 */
-	protected JRStyledText getStyledText (JRPrintText textElement)
+	protected JRStyledText getStyledText(JRPrintText textElement)
 	{
-		return textElement.getFullStyledText (JRStyledTextAttributeSelector.NONE);
+		return textElement.getFullStyledText(JRStyledTextAttributeSelector.NONE);
 	}
 
 	/**
 	 *
 	 */
-	protected String prepareText (String source)
+	protected String prepareText(String source)
 	{
 		String str = null;
 
@@ -339,37 +339,37 @@ public class JasperCSVExporter extends JRAbstractExporter
 		{
 			boolean putQuotes = false;
 
-			if (source.indexOf (delimiter) >= 0 || source.indexOf (recordDelimiter) >= 0)
+			if (source.indexOf(delimiter) >= 0 || source.indexOf(recordDelimiter) >= 0)
 			{
 				putQuotes = true;
 			}
 
-			StringBuffer sbuffer = new StringBuffer ();
-			StringTokenizer tkzer = new StringTokenizer (source, "\"\n", true);
+			StringBuffer sbuffer = new StringBuffer();
+			StringTokenizer tkzer = new StringTokenizer(source, "\"\n", true);
 			String token = null;
 
-			while (tkzer.hasMoreTokens ())
+			while (tkzer.hasMoreTokens())
 			{
-				token = tkzer.nextToken ();
+				token = tkzer.nextToken();
 
-				if ("\"".equals (token))
+				if ("\"".equals(token))
 				{
 					putQuotes = true;
-					sbuffer.append ("\"\"");
+					sbuffer.append("\"\"");
 				}
-				else if ("\n".equals (token))
+				else if ("\n".equals(token))
 				{
 					//sbuffer.append(" ");
 					putQuotes = true;
-					sbuffer.append ("\n");
+					sbuffer.append("\n");
 				}
 				else
 				{
-					sbuffer.append (token);
+					sbuffer.append(token);
 				}
 			}
 
-			str = sbuffer.toString ();
+			str = sbuffer.toString();
 
 			if (putQuotes)
 			{

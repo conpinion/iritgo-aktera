@@ -50,7 +50,7 @@ public interface ScriptManager
 	 * @throws ScriptCompilerException If an error occurred during the script
 	 * compilation
 	 */
-	Object execute (String scriptName, String methodName, Object... args)
+	Object execute(String scriptName, String methodName, Object... args)
 		throws ScriptNotFoundException, ScriptMethodNotFoundException, ScriptLanguageNotFoundException,
 		ScriptExecutionException, ScriptCompilerException;
 
@@ -74,7 +74,7 @@ public interface ScriptManager
 	 * @throws ScriptCompilerException If an error occurred during the script
 	 * compilation
 	 */
-	public Object run (String scriptCode, String scriptLanguage, String scriptName, String methodName, Object... args)
+	public Object run(String scriptCode, String scriptLanguage, String scriptName, String methodName, Object... args)
 		throws ScriptMethodNotFoundException, ScriptLanguageNotFoundException, ScriptExecutionException,
 		ScriptCompilerException;
 
@@ -83,7 +83,7 @@ public interface ScriptManager
 	 *
 	 * @return A list of script name, id and display names
 	 */
-	public Collection<KeyedValue2<String, Integer, String>> listScriptNames ();
+	public Collection<KeyedValue2<String, Integer, String>> listScriptNames();
 
 	/**
 	 * List the names of all scripts that implement a specific method.
@@ -91,14 +91,14 @@ public interface ScriptManager
 	 * @param methodName The name of the implemented method.
 	 * @return A list of script name, id and display names
 	 */
-	public Collection<KeyedValue2<String, Integer, String>> listScriptNamesByImplementedMethod (String methodName);
+	public Collection<KeyedValue2<String, Integer, String>> listScriptNamesByImplementedMethod(String methodName);
 
 	/**
 	 * Retrieve a list of the names of all registerd script compilers
 	 *
 	 * @return A list of compiler names
 	 */
-	public Collection<String> listCompilerNames ();
+	public Collection<String> listCompilerNames();
 
 	/**
 	 * Check the given script code.
@@ -107,7 +107,7 @@ public interface ScriptManager
 	 * @param language The compiler to use
 	 * @throws ScriptCompilerException If the script contains any errors
 	 */
-	public void check (String scriptCode, String language)
+	public void check(String scriptCode, String language)
 		throws ScriptCompilerException, ScriptLanguageNotFoundException;
 
 	/**
@@ -116,7 +116,7 @@ public interface ScriptManager
 	 *
 	 * @param scriptName The name of the script
 	 */
-	public void invalidate (String scriptName);
+	public void invalidate(String scriptName);
 
 	/**
 	 * Retrieve a script name by a script id.
@@ -124,7 +124,7 @@ public interface ScriptManager
 	 * @param id The script id
 	 * @return The script name or null if none was found
 	 */
-	public String findScriptNameById (Integer id);
+	public String findScriptNameById(Integer id);
 
 	/**
 	 * Check if a compiled script with the specified name exists.
@@ -132,7 +132,7 @@ public interface ScriptManager
 	 * @param scriptName The name of the script to check
 	 * @return True if a script with that name was already compiled
 	 */
-	public boolean hasCompiledScript (String scriptName);
+	public boolean hasCompiledScript(String scriptName);
 
 	/**
 	 * Retrieve a script display name by a script id.
@@ -140,5 +140,5 @@ public interface ScriptManager
 	 * @param id The script id
 	 * @return The display script name or null if none was found
 	 */
-	public String findScriptDisplayNameById (Integer switchId);
+	public String findScriptDisplayNameById(Integer switchId);
 }

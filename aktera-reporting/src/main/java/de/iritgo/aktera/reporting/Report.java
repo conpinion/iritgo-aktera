@@ -64,120 +64,120 @@ public class Report extends StandardLogEnabledModel
 	 * @return The model response.
 	 * @throws ModelException
 	 */
-	public ModelResponse execute (ModelRequest req) throws ModelException
+	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
-		ModelResponse res = req.createResponse ();
+		ModelResponse res = req.createResponse();
 
-		Output outReport = res.createOutput ("report");
+		Output outReport = res.createOutput("report");
 
-		res.add (outReport);
+		res.add(outReport);
 
-		String backModel = req.getParameterAsString ("backModel");
+		String backModel = req.getParameterAsString("backModel");
 
-		if (! StringTools.isEmpty (backModel))
+		if (! StringTools.isEmpty(backModel))
 		{
-			Command cmd = res.createCommand (backModel);
+			Command cmd = res.createCommand(backModel);
 
-			cmd.setName ("back");
-			cmd.setLabel ("back");
-			res.add (cmd);
+			cmd.setName("back");
+			cmd.setLabel("back");
+			res.add(cmd);
 		}
 
 		try
 		{
 			JasperPrint reportPrint = null;
 
-			if (req.getParameter ("page") != null)
+			if (req.getParameter("page") != null)
 			{
-				reportPrint = (JasperPrint) UserTools.getUserEnvObject (req, "currentReport");
+				reportPrint = (JasperPrint) UserTools.getUserEnvObject(req, "currentReport");
 			}
 
-			String reportFormat = req.getParameterAsString ("format");
+			String reportFormat = req.getParameterAsString("format");
 
 			if (reportPrint == null)
 			{
-				String reportName = req.getParameterAsString ("report");
+				String reportName = req.getParameterAsString("report");
 
-				reportPrint = ReportTools.createReport ("keel-dbpool", reportName, reportFormat, req, getClass ());
+				reportPrint = ReportTools.createReport("keel-dbpool", reportName, reportFormat, req, getClass());
 
-				UserTools.setUserEnvObject (req, "currentReport", reportPrint);
+				UserTools.setUserEnvObject(req, "currentReport", reportPrint);
 			}
 
-			int page = NumberTools.toInt (req.getParameter ("page"), 1);
+			int page = NumberTools.toInt(req.getParameter("page"), 1);
 
-			if ("pdf".equals (reportFormat))
+			if ("pdf".equals(reportFormat))
 			{
-				res.addOutput ("contentType", "application/pdf");
-				res.addOutput ("fileName", "Report.pdf");
+				res.addOutput("contentType", "application/pdf");
+				res.addOutput("fileName", "Report.pdf");
 
-				ByteArrayOutputStream buf = new ByteArrayOutputStream ();
-				JRExporter exporter = new JRPdfExporter ();
+				ByteArrayOutputStream buf = new ByteArrayOutputStream();
+				JRExporter exporter = new JRPdfExporter();
 
-				exporter.setParameter (JRExporterParameter.JASPER_PRINT, reportPrint);
-				exporter.setParameter (JRExporterParameter.OUTPUT_STREAM, buf);
-				exporter.exportReport ();
-				outReport.setContent (buf.toByteArray ());
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, reportPrint);
+				exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, buf);
+				exporter.exportReport();
+				outReport.setContent(buf.toByteArray());
 			}
-			else if ("csv".equals (reportFormat))
+			else if ("csv".equals(reportFormat))
 			{
-				res.addOutput ("contentType", "text/plain");
-				res.addOutput ("fileName", "Report.csv");
+				res.addOutput("contentType", "text/plain");
+				res.addOutput("fileName", "Report.csv");
 
-				ByteArrayOutputStream buf = new ByteArrayOutputStream ();
-				JRExporter exporter = new JRCsvExporter ();
+				ByteArrayOutputStream buf = new ByteArrayOutputStream();
+				JRExporter exporter = new JRCsvExporter();
 
-				exporter.setParameter (JRExporterParameter.JASPER_PRINT, reportPrint);
-				exporter.setParameter (JRExporterParameter.OUTPUT_STREAM, buf);
-				exporter.exportReport ();
-				outReport.setContent (buf.toByteArray ());
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, reportPrint);
+				exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, buf);
+				exporter.exportReport();
+				outReport.setContent(buf.toByteArray());
 			}
-			else if ("csv".equals (reportFormat))
+			else if ("csv".equals(reportFormat))
 			{
-				res.addOutput ("contentType", "text/xml");
-				res.addOutput ("fileName", "Report.xml");
+				res.addOutput("contentType", "text/xml");
+				res.addOutput("fileName", "Report.xml");
 
-				ByteArrayOutputStream buf = new ByteArrayOutputStream ();
-				JRExporter exporter = new JRXmlExporter ();
+				ByteArrayOutputStream buf = new ByteArrayOutputStream();
+				JRExporter exporter = new JRXmlExporter();
 
-				exporter.setParameter (JRExporterParameter.JASPER_PRINT, reportPrint);
-				exporter.setParameter (JRExporterParameter.OUTPUT_STREAM, buf);
-				exporter.exportReport ();
-				outReport.setContent (buf.toByteArray ());
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, reportPrint);
+				exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, buf);
+				exporter.exportReport();
+				outReport.setContent(buf.toByteArray());
 			}
-			else if ("xls".equals (reportFormat))
+			else if ("xls".equals(reportFormat))
 			{
-				res.addOutput ("contentType", "application/xls");
-				res.addOutput ("fileName", "Report.xls");
+				res.addOutput("contentType", "application/xls");
+				res.addOutput("fileName", "Report.xls");
 
-				ByteArrayOutputStream buf = new ByteArrayOutputStream ();
-				JRExporter exporter = new JRXlsExporter ();
+				ByteArrayOutputStream buf = new ByteArrayOutputStream();
+				JRExporter exporter = new JRXlsExporter();
 
-				exporter.setParameter (JRExporterParameter.JASPER_PRINT, reportPrint);
-				exporter.setParameter (JRExporterParameter.OUTPUT_STREAM, buf);
-				exporter.exportReport ();
-				outReport.setContent (buf.toByteArray ());
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, reportPrint);
+				exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, buf);
+				exporter.exportReport();
+				outReport.setContent(buf.toByteArray());
 			}
 			else
 			{
-				StringBuffer buf = new StringBuffer ();
-				JRExporter exporter = new JRHtmlExporter ();
+				StringBuffer buf = new StringBuffer();
+				JRExporter exporter = new JRHtmlExporter();
 
-				exporter.setParameter (JRExporterParameter.JASPER_PRINT, reportPrint);
-				exporter.setParameter (JRExporterParameter.OUTPUT_STRING_BUFFER, buf);
-				exporter.setParameter (JRHtmlExporterParameter.HTML_HEADER, "");
-				exporter.setParameter (JRHtmlExporterParameter.HTML_FOOTER, "");
-				exporter.setParameter (JRHtmlExporterParameter.BETWEEN_PAGES_HTML, "");
-				exporter.setParameter (JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN, new Boolean (true));
-				exporter.setParameter (JRExporterParameter.PAGE_INDEX, new Integer (page - 1));
-				exporter.exportReport ();
-				outReport.setContent (buf.toString ());
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, reportPrint);
+				exporter.setParameter(JRExporterParameter.OUTPUT_STRING_BUFFER, buf);
+				exporter.setParameter(JRHtmlExporterParameter.HTML_HEADER, "");
+				exporter.setParameter(JRHtmlExporterParameter.HTML_FOOTER, "");
+				exporter.setParameter(JRHtmlExporterParameter.BETWEEN_PAGES_HTML, "");
+				exporter.setParameter(JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN, new Boolean(true));
+				exporter.setParameter(JRExporterParameter.PAGE_INDEX, new Integer(page - 1));
+				exporter.exportReport();
+				outReport.setContent(buf.toString());
 
-				createPageNavigationControls (req, res, page, reportPrint.getPages ().size (), backModel);
+				createPageNavigationControls(req, res, page, reportPrint.getPages().size(), backModel);
 			}
 		}
 		catch (JRException x)
 		{
-			log.error ("Unable to create report", x);
+			log.error("Unable to create report", x);
 		}
 
 		return res;
@@ -193,74 +193,74 @@ public class Report extends StandardLogEnabledModel
 	 * @param backModel The model to call when going back from the report.
 	 * @throws ModelException
 	 */
-	protected void createPageNavigationControls (ModelRequest req, ModelResponse res, int page, int numPages,
+	protected void createPageNavigationControls(ModelRequest req, ModelResponse res, int page, int numPages,
 					String backModel) throws ModelException
 	{
 		int numPrevPages = 4;
 		int numNextPages = 4;
 
-		Output outPage = res.createOutput ("page");
+		Output outPage = res.createOutput("page");
 
-		outPage.setContent (new Integer (page));
-		res.add (outPage);
+		outPage.setContent(new Integer(page));
+		res.add(outPage);
 
 		if (page > 1)
 		{
-			Command cmdPageStart = createPageCommand (req, res, "cmdPageStart", backModel);
+			Command cmdPageStart = createPageCommand(req, res, "cmdPageStart", backModel);
 
-			cmdPageStart.setParameter ("page", "1");
-			cmdPageStart.setLabel ("$start");
-			res.add (cmdPageStart);
+			cmdPageStart.setParameter("page", "1");
+			cmdPageStart.setLabel("$start");
+			res.add(cmdPageStart);
 
-			Command cmdPageBack = createPageCommand (req, res, "cmdPageBack", backModel);
+			Command cmdPageBack = createPageCommand(req, res, "cmdPageBack", backModel);
 
-			cmdPageBack.setParameter ("page", String.valueOf (page - 1));
-			cmdPageBack.setLabel ("$back");
-			res.add (cmdPageBack);
+			cmdPageBack.setParameter("page", String.valueOf(page - 1));
+			cmdPageBack.setLabel("$back");
+			res.add(cmdPageBack);
 
-			Output outPrevPages = res.createOutput ("prevPages");
+			Output outPrevPages = res.createOutput("prevPages");
 
-			res.add (outPrevPages);
+			res.add(outPrevPages);
 
-			int firstPrevPage = Math.max (1, page - numPrevPages);
+			int firstPrevPage = Math.max(1, page - numPrevPages);
 
 			for (int i = page - 1; i >= firstPrevPage; --i)
 			{
-				Command cmdPage = createPageCommand (req, res, "cmdPage", backModel);
+				Command cmdPage = createPageCommand(req, res, "cmdPage", backModel);
 
-				cmdPage.setParameter ("page", String.valueOf (page - i - 1 + firstPrevPage));
-				cmdPage.setLabel (String.valueOf (page - i - 1 + firstPrevPage));
-				outPrevPages.add (cmdPage);
+				cmdPage.setParameter("page", String.valueOf(page - i - 1 + firstPrevPage));
+				cmdPage.setLabel(String.valueOf(page - i - 1 + firstPrevPage));
+				outPrevPages.add(cmdPage);
 			}
 		}
 
 		if (page < numPages)
 		{
-			Command cmdPageEnd = createPageCommand (req, res, "cmdPageEnd", backModel);
+			Command cmdPageEnd = createPageCommand(req, res, "cmdPageEnd", backModel);
 
-			cmdPageEnd.setParameter ("page", String.valueOf (numPages));
-			cmdPageEnd.setLabel ("$end");
-			res.add (cmdPageEnd);
+			cmdPageEnd.setParameter("page", String.valueOf(numPages));
+			cmdPageEnd.setLabel("$end");
+			res.add(cmdPageEnd);
 
-			Command cmdPageNext = createPageCommand (req, res, "cmdPageNext", backModel);
+			Command cmdPageNext = createPageCommand(req, res, "cmdPageNext", backModel);
 
-			cmdPageNext.setParameter ("page", String.valueOf (page + 1));
-			cmdPageNext.setLabel ("$next");
-			res.add (cmdPageNext);
+			cmdPageNext.setParameter("page", String.valueOf(page + 1));
+			cmdPageNext.setLabel("$next");
+			res.add(cmdPageNext);
 
-			Output outNextPages = res.createOutput ("nextPages");
+			Output outNextPages = res.createOutput("nextPages");
 
-			res.add (outNextPages);
+			res.add(outNextPages);
 
-			int lastNextPage = Math.min (numPages, page + numNextPages);
+			int lastNextPage = Math.min(numPages, page + numNextPages);
 
 			for (int i = page + 1; i <= lastNextPage; ++i)
 			{
-				Command cmdPage = createPageCommand (req, res, "cmdPage", backModel);
+				Command cmdPage = createPageCommand(req, res, "cmdPage", backModel);
 
-				cmdPage.setParameter ("page", String.valueOf (i));
-				cmdPage.setLabel (String.valueOf (i));
-				outNextPages.add (cmdPage);
+				cmdPage.setParameter("page", String.valueOf(i));
+				cmdPage.setLabel(String.valueOf(i));
+				outNextPages.add(cmdPage);
 			}
 		}
 	}
@@ -274,13 +274,13 @@ public class Report extends StandardLogEnabledModel
 	 * @param backModel The model to call when going back from the report.
 	 * @return The new command.
 	 */
-	private Command createPageCommand (ModelRequest req, ModelResponse res, String name, String backModel)
+	private Command createPageCommand(ModelRequest req, ModelResponse res, String name, String backModel)
 		throws ModelException
 	{
-		Command cmd = res.createCommand ("aktera.report.report");
+		Command cmd = res.createCommand("aktera.report.report");
 
-		cmd.setParameter ("backModel", backModel);
-		cmd.setName (name);
+		cmd.setParameter("backModel", backModel);
+		cmd.setName(name);
 
 		return cmd;
 	}

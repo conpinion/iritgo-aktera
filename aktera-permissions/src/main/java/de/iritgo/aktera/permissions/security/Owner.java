@@ -27,49 +27,49 @@ public class Owner
 {
 	private Group ownerGroup;
 
-	public Owner (Principal owner)
+	public Owner(Principal owner)
 	{
-		ownerGroup = new Group ("AclOwners");
-		ownerGroup.addMember (owner);
+		ownerGroup = new Group("AclOwners");
+		ownerGroup.addMember(owner);
 	}
 
-	public synchronized boolean addOwner (Principal caller, Principal owner) throws NotOwnerException
+	public synchronized boolean addOwner(Principal caller, Principal owner) throws NotOwnerException
 	{
-		if (! isOwner (caller))
+		if (! isOwner(caller))
 		{
-			throw new NotOwnerException ();
+			throw new NotOwnerException();
 		}
 
-		ownerGroup.addMember (owner);
+		ownerGroup.addMember(owner);
 
 		return false;
 	}
 
-	public synchronized boolean deleteOwner (Principal caller, Principal owner)
+	public synchronized boolean deleteOwner(Principal caller, Principal owner)
 		throws NotOwnerException, LastOwnerException
 	{
-		if (! isOwner (caller))
+		if (! isOwner(caller))
 		{
-			throw new NotOwnerException ();
+			throw new NotOwnerException();
 		}
 
-		Enumeration e = ownerGroup.members ();
+		Enumeration e = ownerGroup.members();
 
 		@SuppressWarnings("unused")
-		Object ignored = e.nextElement ();
+		Object ignored = e.nextElement();
 
-		if (e.hasMoreElements ())
+		if (e.hasMoreElements())
 		{
-			return ownerGroup.removeMember (owner);
+			return ownerGroup.removeMember(owner);
 		}
 		else
 		{
-			throw new LastOwnerException ();
+			throw new LastOwnerException();
 		}
 	}
 
-	public synchronized boolean isOwner (Principal owner)
+	public synchronized boolean isOwner(Principal owner)
 	{
-		return ownerGroup.isMember (owner);
+		return ownerGroup.isMember(owner);
 	}
 }

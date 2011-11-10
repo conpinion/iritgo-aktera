@@ -46,23 +46,23 @@ import java.util.Map;
  */
 public class ExtendableCollectionsFactoryPostProcessor implements BeanFactoryPostProcessor
 {
-	public void postProcessBeanFactory (ConfigurableListableBeanFactory factory) throws BeansException
+	public void postProcessBeanFactory(ConfigurableListableBeanFactory factory) throws BeansException
 	{
-		for (String name : factory.getBeanNamesForType (List.class))
+		for (String name : factory.getBeanNamesForType(List.class))
 		{
-			int lastDotIndex = name.lastIndexOf ('-');
+			int lastDotIndex = name.lastIndexOf('-');
 
 			if (lastDotIndex != - 1)
 			{
 				try
 				{
-					Object mainList = factory.getBean (name.substring (0, lastDotIndex));
+					Object mainList = factory.getBean(name.substring(0, lastDotIndex));
 
 					if (mainList instanceof List)
 					{
-						List extList = (List) factory.getBean (name);
+						List extList = (List) factory.getBean(name);
 
-						((List) mainList).addAll (extList);
+						((List) mainList).addAll(extList);
 					}
 				}
 				catch (BeansException ignored)
@@ -71,21 +71,21 @@ public class ExtendableCollectionsFactoryPostProcessor implements BeanFactoryPos
 			}
 		}
 
-		for (String name : factory.getBeanNamesForType (Map.class))
+		for (String name : factory.getBeanNamesForType(Map.class))
 		{
-			int lastDotIndex = name.lastIndexOf ('-');
+			int lastDotIndex = name.lastIndexOf('-');
 
 			if (lastDotIndex != - 1)
 			{
 				try
 				{
-					Object mainMap = factory.getBean (name.substring (0, lastDotIndex));
+					Object mainMap = factory.getBean(name.substring(0, lastDotIndex));
 
 					if (mainMap instanceof Map)
 					{
-						Map extMap = (Map) factory.getBean (name);
+						Map extMap = (Map) factory.getBean(name);
 
-						((Map) mainMap).putAll (extMap);
+						((Map) mainMap).putAll(extMap);
 					}
 				}
 				catch (BeansException ignored)

@@ -29,8 +29,8 @@ public class ThreadManagerImpl implements ThreadManager
 	@Setter
 	private DelayedAsyncExecutionManager delayedAsyncExecutionManager;
 
-	public void addDelayedAsyncExecution (long delay, Runnable runnable)
+	public void addDelayedAsyncExecution(long delay, Runnable runnable)
 	{
-		delayedAsyncExecutionManager.addDelayedExecution (delay, runnable);
+		delayedAsyncExecutionManager.addDelayedExecution(delay, runnable);
 	}
 }

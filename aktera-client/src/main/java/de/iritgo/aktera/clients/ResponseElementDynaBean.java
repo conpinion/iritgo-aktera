@@ -52,26 +52,26 @@ public class ResponseElementDynaBean extends MapExposingBasicDynaBean
 	 * Constructor for ResponseElementDynaBean.
 	 * @param arg0
 	 */
-	public ResponseElementDynaBean (DynaClass arg0)
+	public ResponseElementDynaBean(DynaClass arg0)
 	{
-		super (arg0);
+		super(arg0);
 	}
 
-	public ResponseElementDynaBean (ResponseElement re)
+	public ResponseElementDynaBean(ResponseElement re)
 	{
-		super (ResponseElementDynaClassFactory.getInstance (re));
-		setResponseElement (re);
+		super(ResponseElementDynaClassFactory.getInstance(re));
+		setResponseElement(re);
 	}
 
-	public String toString ()
+	public String toString()
 	{
 		if (myElement instanceof Output)
 		{
 			Output o = (Output) myElement;
 
-			if (o.getContent () != null)
+			if (o.getContent() != null)
 			{
-				return o.getContent ().toString ();
+				return o.getContent().toString();
 			}
 			else
 			{
@@ -79,192 +79,192 @@ public class ResponseElementDynaBean extends MapExposingBasicDynaBean
 			}
 		}
 
-		return super.toString ();
+		return super.toString();
 	}
 
-	public void setResponseElement (ResponseElement re)
+	public void setResponseElement(ResponseElement re)
 	{
 		myElement = re;
 
 		try
 		{
-			List allNested = re.getAll ();
-			ArrayList newNested = new ArrayList ();
+			List allNested = re.getAll();
+			ArrayList newNested = new ArrayList();
 
-			set ("name", re.getName ());
+			set("name", re.getName());
 
-			if (allNested.size () > 0)
+			if (allNested.size() > 0)
 			{
 				ResponseElement nestedElement = null;
 
-				for (Iterator in = allNested.iterator (); in.hasNext ();)
+				for (Iterator in = allNested.iterator(); in.hasNext();)
 				{
-					nestedElement = (ResponseElement) in.next ();
-					newNested.add (new ResponseElementDynaBean (nestedElement));
+					nestedElement = (ResponseElement) in.next();
+					newNested.add(new ResponseElementDynaBean(nestedElement));
 				}
 			}
 
-			set ("nested", newNested);
+			set("nested", newNested);
 
 			/**
 			 * For attributes, we create a bean called "attributes" that has a getter and setter
 			 * for every defined attribute, returning the attribute value
 			 */
-			Map attributes = re.getAttributes ();
+			Map attributes = re.getAttributes();
 
-			if (attributes.size () > 0)
+			if (attributes.size() > 0)
 			{
 				String oneAttribName = null;
 				Object oneAttribValue = null;
-				DynaProperty[] dattr = new DynaProperty[attributes.size ()];
+				DynaProperty[] dattr = new DynaProperty[attributes.size()];
 				int j = 0;
 
-				for (Iterator io = attributes.keySet ().iterator (); io.hasNext ();)
+				for (Iterator io = attributes.keySet().iterator(); io.hasNext();)
 				{
-					oneAttribName = (String) io.next ();
-					oneAttribValue = attributes.get (oneAttribName);
+					oneAttribName = (String) io.next();
+					oneAttribValue = attributes.get(oneAttribName);
 
 					if (oneAttribValue == null)
 					{
-						dattr[j++] = new DynaProperty (oneAttribName, Class.forName ("java.lang.String"));
+						dattr[j++] = new DynaProperty(oneAttribName, Class.forName("java.lang.String"));
 					}
 					else
 					{
 						if (oneAttribValue instanceof ResponseElement)
 						{
-							dattr[j++] = new DynaProperty (oneAttribName, Class
-											.forName ("de.iritgo.aktera.clients.ResponseElementDynaBean"));
+							dattr[j++] = new DynaProperty(oneAttribName, Class
+											.forName("de.iritgo.aktera.clients.ResponseElementDynaBean"));
 						}
 						else
 						{
-							dattr[j++] = new DynaProperty (oneAttribName, oneAttribValue.getClass ());
+							dattr[j++] = new DynaProperty(oneAttribName, oneAttribValue.getClass());
 						}
 					}
 				}
 
-				DynaClass bdattr = new BasicDynaClass (re.getName () + "_attributes", Class
-								.forName ("de.iritgo.aktera.clients.MapExposingBasicDynaBean"), dattr);
+				DynaClass bdattr = new BasicDynaClass(re.getName() + "_attributes", Class
+								.forName("de.iritgo.aktera.clients.MapExposingBasicDynaBean"), dattr);
 
-				DynaBean oneAttrBean = bdattr.newInstance ();
+				DynaBean oneAttrBean = bdattr.newInstance();
 
-				for (Iterator io = attributes.keySet ().iterator (); io.hasNext ();)
+				for (Iterator io = attributes.keySet().iterator(); io.hasNext();)
 				{
-					oneAttribName = (String) io.next ();
-					oneAttribValue = attributes.get (oneAttribName);
+					oneAttribName = (String) io.next();
+					oneAttribValue = attributes.get(oneAttribName);
 
 					if (oneAttribValue instanceof ResponseElement)
 					{
-						oneAttrBean.set (oneAttribName, new ResponseElementDynaBean ((ResponseElement) oneAttribValue));
+						oneAttrBean.set(oneAttribName, new ResponseElementDynaBean((ResponseElement) oneAttribValue));
 					}
 					else
 					{
-						oneAttrBean.set (oneAttribName, oneAttribValue);
+						oneAttrBean.set(oneAttribName, oneAttribValue);
 					}
 				}
 
-				set ("attributes", oneAttrBean);
+				set("attributes", oneAttrBean);
 			}
 			else
 			{
-				DynaClass bdattr = new BasicDynaClass (re.getName () + "_attributes", Class
-								.forName ("de.iritgo.aktera.clients.MapExposingBasicDynaBean"), new DynaProperty[0]);
-				BasicDynaBean oneAttrBean = (BasicDynaBean) bdattr.newInstance ();
+				DynaClass bdattr = new BasicDynaClass(re.getName() + "_attributes", Class
+								.forName("de.iritgo.aktera.clients.MapExposingBasicDynaBean"), new DynaProperty[0]);
+				BasicDynaBean oneAttrBean = (BasicDynaBean) bdattr.newInstance();
 
-				set ("attributes", oneAttrBean);
+				set("attributes", oneAttrBean);
 			}
 
 			if (re instanceof Input)
 			{
-				set ("type", "input");
+				set("type", "input");
 
 				Input i = (Input) re;
 
-				set ("defaultValue", i.getDefaultValue ());
+				set("defaultValue", i.getDefaultValue());
 
-				Map valids = i.getValidValues ();
+				Map valids = i.getValidValues();
 
-				if (valids.size () > 0)
+				if (valids.size() > 0)
 				{
-					BeanComparator bc = new BeanComparator ("value");
-					TreeSet options = new TreeSet (bc);
+					BeanComparator bc = new BeanComparator("value");
+					TreeSet options = new TreeSet(bc);
 					DynaProperty[] dpopts = new DynaProperty[2];
 
-					dpopts[0] = new DynaProperty ("value", Class.forName ("java.lang.String"));
-					dpopts[1] = new DynaProperty ("label", Class.forName ("java.lang.String"));
+					dpopts[0] = new DynaProperty("value", Class.forName("java.lang.String"));
+					dpopts[1] = new DynaProperty("label", Class.forName("java.lang.String"));
 
-					DynaClass bdopt = new BasicDynaClass ("validValues", Class
-									.forName ("de.iritgo.aktera.clients.MapExposingBasicDynaBean"), dpopts);
+					DynaClass bdopt = new BasicDynaClass("validValues", Class
+									.forName("de.iritgo.aktera.clients.MapExposingBasicDynaBean"), dpopts);
 					Object oneOpt = null;
 					Object oneLabelObj = null;
 
-					for (Iterator io = valids.keySet ().iterator (); io.hasNext ();)
+					for (Iterator io = valids.keySet().iterator(); io.hasNext();)
 					{
-						oneOpt = io.next ();
+						oneOpt = io.next();
 
-						DynaBean oneOptBean = bdopt.newInstance ();
+						DynaBean oneOptBean = bdopt.newInstance();
 
-						oneOptBean.set ("value", oneOpt.toString ());
-						oneLabelObj = valids.get (oneOpt.toString ());
+						oneOptBean.set("value", oneOpt.toString());
+						oneLabelObj = valids.get(oneOpt.toString());
 
 						if (oneLabelObj == null)
 						{
 							oneLabelObj = "(No Label)";
 						}
 
-						oneOptBean.set ("label", oneLabelObj.toString ());
-						options.add (oneOptBean);
+						oneOptBean.set("label", oneLabelObj.toString());
+						options.add(oneOptBean);
 					}
 
-					set ("validValues", options);
+					set("validValues", options);
 				}
 
-				set ("label", i.getLabel ());
+				set("label", i.getLabel());
 			}
 
 			if (re instanceof Output)
 			{
-				set ("type", "output");
+				set("type", "output");
 
 				Output o = (Output) re;
-				Object content = o.getContent ();
+				Object content = o.getContent();
 
-				set ("content", content);
+				set("content", content);
 			}
 
 			if (re instanceof Command)
 			{
-				set ("type", "command");
+				set("type", "command");
 
 				Command c = (Command) re;
 
-				if (c.getModel () != null)
+				if (c.getModel() != null)
 				{
-					set ("model", c.getModel ());
+					set("model", c.getModel());
 				}
 
-				if (c.getBean () != null)
+				if (c.getBean() != null)
 				{
-					set ("bean", c.getBean ());
+					set("bean", c.getBean());
 				}
 
-				set ("label", c.getLabel ());
+				set("label", c.getLabel());
 
-				Map params = c.getParameters ();
+				Map params = c.getParameters();
 
-				set ("parameters", params);
+				set("parameters", params);
 			}
 		}
 		catch (Exception e)
 		{
-			System.err.println ("ResponseElementDynaBean:");
-			e.printStackTrace (System.err);
-			throw new IllegalArgumentException (
+			System.err.println("ResponseElementDynaBean:");
+			e.printStackTrace(System.err);
+			throw new IllegalArgumentException(
 							"ResponseElementBean could not be constructed - see server log for details "
-											+ e.getMessage ());
+											+ e.getMessage());
 		}
 	}
 
-	public ResponseElement getResponseElement ()
+	public ResponseElement getResponseElement()
 	{
 		return myElement;
 	}

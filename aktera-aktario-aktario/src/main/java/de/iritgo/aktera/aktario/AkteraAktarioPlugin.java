@@ -49,64 +49,64 @@ import de.iritgo.aktera.aktario.gui.GetToolPanel;
 public class AkteraAktarioPlugin extends FrameworkPlugin
 {
 	@Override
-	protected void registerDataObjects ()
+	protected void registerDataObjects()
 	{
-		registerDataObject (new AkteraQuery ());
+		registerDataObject(new AkteraQuery());
 	}
 
 	@Override
-	protected void registerGUIPanes ()
+	protected void registerGUIPanes()
 	{
-		registerGUIPane (new AkteraQueryPane ());
-		registerGUIPane (new DataObjectGUIPane ());
-		registerGUIPane (new QueryPane ());
+		registerGUIPane(new AkteraQueryPane());
+		registerGUIPane(new DataObjectGUIPane());
+		registerGUIPane(new QueryPane());
 	}
 
 	@Override
-	protected void registerActions ()
+	protected void registerActions()
 	{
-		registerAction (new AkteraAktarioKeelCommandRequest ());
-		registerAction (new EditAkteraObjectRequest ());
-		registerAction (new EditAkteraObjectResponse ());
+		registerAction(new AkteraAktarioKeelCommandRequest());
+		registerAction(new EditAkteraObjectRequest());
+		registerAction(new EditAkteraObjectResponse());
 
-		registerAction (new NewAkteraObjectRequest ());
-		registerAction (new NewAkteraObjectResponse ());
+		registerAction(new NewAkteraObjectRequest());
+		registerAction(new NewAkteraObjectResponse());
 
-		registerAction (new SaveAkteraObjectRequest ());
-		registerAction (new SaveAkteraObjectResponse ());
+		registerAction(new SaveAkteraObjectRequest());
+		registerAction(new SaveAkteraObjectResponse());
 
-		registerAction (new DeleteAkteraObjectRequest ());
-		registerAction (new DeleteAkteraObjectResponse ());
+		registerAction(new DeleteAkteraObjectRequest());
+		registerAction(new DeleteAkteraObjectResponse());
 	}
 
 	@Override
-	protected void registerCommands ()
+	protected void registerCommands()
 	{
-		registerCommand (FrameworkPlugin.CLIENT, new Startup ());
-		registerCommand (FrameworkPlugin.CLIENT, new AkteraAktarioKeelCommand ());
-		registerCommand (FrameworkPlugin.SERVER, new AkteraAktarioKeelServerCommand ());
-		registerCommand (FrameworkPlugin.CLIENT, new GetToolPanel ());
-		registerCommand (FrameworkPlugin.CLIENT, new NewAkteraObjectCommand ());
-		registerCommand (FrameworkPlugin.CLIENT, new EditAkteraObjectCommand ());
-		registerCommand (FrameworkPlugin.CLIENT, new SaveAkteraObjectCommand ());
-		registerCommand (FrameworkPlugin.CLIENT, new DeleteAkteraObjectCommand ());
-		registerCommand (FrameworkPlugin.CLIENT, new CancelAkteraObjectCommand ());
-		registerCommand (FrameworkPlugin.CLIENT, new TestShowBuddyListCommand ());
+		registerCommand(FrameworkPlugin.CLIENT, new Startup());
+		registerCommand(FrameworkPlugin.CLIENT, new AkteraAktarioKeelCommand());
+		registerCommand(FrameworkPlugin.SERVER, new AkteraAktarioKeelServerCommand());
+		registerCommand(FrameworkPlugin.CLIENT, new GetToolPanel());
+		registerCommand(FrameworkPlugin.CLIENT, new NewAkteraObjectCommand());
+		registerCommand(FrameworkPlugin.CLIENT, new EditAkteraObjectCommand());
+		registerCommand(FrameworkPlugin.CLIENT, new SaveAkteraObjectCommand());
+		registerCommand(FrameworkPlugin.CLIENT, new DeleteAkteraObjectCommand());
+		registerCommand(FrameworkPlugin.CLIENT, new CancelAkteraObjectCommand());
+		registerCommand(FrameworkPlugin.CLIENT, new TestShowBuddyListCommand());
 
-		registerCommand (FrameworkPlugin.SERVER, new GetPersistent ());
-		registerCommand (FrameworkPlugin.SERVER, new Authenticate ());
-		registerCommand (FrameworkPlugin.SERVER, new LoginAllowed ());
+		registerCommand(FrameworkPlugin.SERVER, new GetPersistent());
+		registerCommand(FrameworkPlugin.SERVER, new Authenticate());
+		registerCommand(FrameworkPlugin.SERVER, new LoginAllowed());
 	}
 
 	@Override
-	protected void registerManagers ()
+	protected void registerManagers()
 	{
-		registerManager (FrameworkPlugin.CLIENT, new AkteraAktarioClientManager ());
+		registerManager(FrameworkPlugin.CLIENT, new AkteraAktarioClientManager());
 
-		if (getMode () == FrameworkPlugin.SERVER)
+		if (getMode() == FrameworkPlugin.SERVER)
 		{
-			registerManager (FrameworkPlugin.SERVER, new AkteraAktarioServerManager ());
-			registerManager (FrameworkPlugin.SERVER, new ConnectorServerManager ());
+			registerManager(FrameworkPlugin.SERVER, new AkteraAktarioServerManager());
+			registerManager(FrameworkPlugin.SERVER, new ConnectorServerManager());
 		}
 	}
 }

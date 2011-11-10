@@ -26,11 +26,11 @@ import java.util.Map;
 
 public interface JournalExtender
 {
-	public void newJournalEntry (JournalEntry journal);
+	public void newJournalEntry(JournalEntry journal);
 
-	public void deletedJournalEntry (JournalEntry journal);
+	public void deletedJournalEntry(JournalEntry journal);
 
-	public void accept (JournalEntry journal, JournalStrategy strategy);
+	public void accept(JournalEntry journal, JournalStrategy strategy);
 
-	public void addJournalEntryAttributes (Map<String, Object> entry);
+	public void addJournalEntryAttributes(Map<String, Object> entry);
 }

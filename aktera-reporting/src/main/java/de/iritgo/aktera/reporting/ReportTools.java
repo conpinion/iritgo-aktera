@@ -66,23 +66,23 @@ public class ReportTools
 	 * @param klass The class used to load the jasper report.
 	 * @param parameters The report parameters.
 	 */
-	public static JasperPrint createReport (String dataSourceName, String reportName, String format, ModelRequest req,
+	public static JasperPrint createReport(String dataSourceName, String reportName, String format, ModelRequest req,
 					Class klass) throws ModelException
 	{
-		Map parameters = new HashMap ();
+		Map parameters = new HashMap();
 
-		for (Iterator i = req.getParameters ().keySet ().iterator (); i.hasNext ();)
+		for (Iterator i = req.getParameters().keySet().iterator(); i.hasNext();)
 		{
-			String key = (String) i.next ();
+			String key = (String) i.next();
 
-			if (! "report".equals (key) && ! "format".equals (key) && ! "model".equals (key)
-							&& ! "download".equals (key) && ! "backModel".equals (key) && ! "orig-model".equals (key))
+			if (! "report".equals(key) && ! "format".equals(key) && ! "model".equals(key) && ! "download".equals(key)
+							&& ! "backModel".equals(key) && ! "orig-model".equals(key))
 			{
-				parameters.put (key, req.getParameter (key));
+				parameters.put(key, req.getParameter(key));
 			}
 		}
 
-		return createReport (dataSourceName, reportName, req, klass, parameters, format);
+		return createReport(dataSourceName, reportName, req, klass, parameters, format);
 	}
 
 	/**
@@ -95,36 +95,36 @@ public class ReportTools
 	 * @param parameters The report parameters.
 	 * @param format TODO
 	 */
-	public static JasperPrint createReport (String dataSourceName, String reportName, ModelRequest req, Class klass,
+	public static JasperPrint createReport(String dataSourceName, String reportName, ModelRequest req, Class klass,
 					Map parameters, String format) throws ModelException
 	{
 		try
 		{
-			DataSourceComponent dataSource = (DataSourceComponent) req.getService (DataSourceComponent.ROLE,
+			DataSourceComponent dataSource = (DataSourceComponent) req.getService(DataSourceComponent.ROLE,
 							dataSourceName);
-			Connection connection = dataSource.getConnection ();
+			Connection connection = dataSource.getConnection();
 
-			InputStream reportStream = klass.getResourceAsStream (reportName);
+			InputStream reportStream = klass.getResourceAsStream(reportName);
 
 			if (reportStream == null)
 			{
-				throw new ModelException ("Unable to find report file " + reportName + "!");
+				throw new ModelException("Unable to find report file " + reportName + "!");
 			}
 
-			if ("csv".equals (format) || "xls".equals (format))
+			if ("csv".equals(format) || "xls".equals(format))
 			{
-				parameters.put (JRParameter.IS_IGNORE_PAGINATION, true);
+				parameters.put(JRParameter.IS_IGNORE_PAGINATION, true);
 			}
 
-			return JasperFillManager.fillReport (reportStream, parameters, connection);
+			return JasperFillManager.fillReport(reportStream, parameters, connection);
 		}
 		catch (SQLException x)
 		{
-			throw new ModelException ("Unable to create report", x);
+			throw new ModelException("Unable to create report", x);
 		}
 		catch (JRException x)
 		{
-			throw new ModelException ("Unable to create report", x);
+			throw new ModelException("Unable to create report", x);
 		}
 	}
 
@@ -138,11 +138,10 @@ public class ReportTools
 	 * @param parameters The report parameters.
 	 * @param backModel The model to call when the 'back'-button was clicked.
 	 */
-	public static void createReport (ModelRequest req, ModelResponse res, Class klass, String reportName,
+	public static void createReport(ModelRequest req, ModelResponse res, Class klass, String reportName,
 					Map parameters, String format, String dataSourceName, String backModel) throws ModelException
 	{
-		createReport (req, res, klass, reportName, parameters, format, dataSourceName, "aktera.report.report",
-						backModel);
+		createReport(req, res, klass, reportName, parameters, format, dataSourceName, "aktera.report.report", backModel);
 	}
 
 	/**
@@ -155,128 +154,128 @@ public class ReportTools
 	 * @param parameters The report parameters.
 	 * @param backModel The model to call when the 'back'-button was clicked.
 	 */
-	public static void createReport (ModelRequest req, ModelResponse res, Class klass, String reportName,
+	public static void createReport(ModelRequest req, ModelResponse res, Class klass, String reportName,
 					Map parameters, String format, String dataSourceName, String reportModel, String backModel)
 		throws ModelException
 	{
-		Output outReport = res.createOutput ("report");
+		Output outReport = res.createOutput("report");
 
-		res.add (outReport);
+		res.add(outReport);
 
-		if (! StringTools.isEmpty (backModel))
+		if (! StringTools.isEmpty(backModel))
 		{
-			Command cmd = res.createCommand (backModel);
+			Command cmd = res.createCommand(backModel);
 
-			cmd.setName ("back");
-			cmd.setLabel ("back");
-			res.add (cmd);
+			cmd.setName("back");
+			cmd.setLabel("back");
+			res.add(cmd);
 		}
 
 		try
 		{
 			JasperPrint reportPrint = null;
 
-			if (req.getParameter ("page") != null)
+			if (req.getParameter("page") != null)
 			{
-				reportPrint = (JasperPrint) UserTools.getUserEnvObject (req, "currentReport");
+				reportPrint = (JasperPrint) UserTools.getUserEnvObject(req, "currentReport");
 			}
 
 			if (reportPrint == null)
 			{
-				reportPrint = ReportTools.createReport (dataSourceName, reportName, req, klass, parameters, format);
+				reportPrint = ReportTools.createReport(dataSourceName, reportName, req, klass, parameters, format);
 
-				UserTools.setUserEnvObject (req, "currentReport", reportPrint);
+				UserTools.setUserEnvObject(req, "currentReport", reportPrint);
 			}
 
-			int page = NumberTools.toInt (req.getParameter ("page"), 1);
+			int page = NumberTools.toInt(req.getParameter("page"), 1);
 
-			ExporterFilter noLayoutFilter = new ExporterFilter ()
+			ExporterFilter noLayoutFilter = new ExporterFilter()
 			{
-				public boolean isToExport (JRPrintElement element)
+				public boolean isToExport(JRPrintElement element)
 				{
 					return true;
 				}
 			};
 
-			if ("pdf".equals (format))
+			if ("pdf".equals(format))
 			{
-				res.addOutput ("contentType", "application/pdf");
-				res.addOutput ("fileName", "Report.pdf");
+				res.addOutput("contentType", "application/pdf");
+				res.addOutput("fileName", "Report.pdf");
 
-				ByteArrayOutputStream buf = new ByteArrayOutputStream ();
-				JRExporter exporter = new JRPdfExporter ();
+				ByteArrayOutputStream buf = new ByteArrayOutputStream();
+				JRExporter exporter = new JRPdfExporter();
 
-				exporter.setParameter (JRExporterParameter.JASPER_PRINT, reportPrint);
-				exporter.setParameter (JRExporterParameter.OUTPUT_STREAM, buf);
-				exporter.exportReport ();
-				outReport.setContent (buf.toByteArray ());
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, reportPrint);
+				exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, buf);
+				exporter.exportReport();
+				outReport.setContent(buf.toByteArray());
 			}
-			else if ("csv".equals (format))
+			else if ("csv".equals(format))
 			{
-				res.addOutput ("contentType", "text/plain");
-				res.addOutput ("fileName", "Report.csv");
+				res.addOutput("contentType", "text/plain");
+				res.addOutput("fileName", "Report.csv");
 
-				ByteArrayOutputStream buf = new ByteArrayOutputStream ();
-				JRExporter exporter = new JasperCSVExporter ();
+				ByteArrayOutputStream buf = new ByteArrayOutputStream();
+				JRExporter exporter = new JasperCSVExporter();
 
-				exporter.setParameter (JRExporterParameter.JASPER_PRINT, reportPrint);
-				exporter.setParameter (JRExporterParameter.OUTPUT_STREAM, buf);
-				exporter.setParameter (JRExporterParameter.IGNORE_PAGE_MARGINS, true);
-				exporter.setParameter (JRExporterParameter.FILTER, noLayoutFilter);
-				exporter.exportReport ();
-				outReport.setContent (buf.toByteArray ());
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, reportPrint);
+				exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, buf);
+				exporter.setParameter(JRExporterParameter.IGNORE_PAGE_MARGINS, true);
+				exporter.setParameter(JRExporterParameter.FILTER, noLayoutFilter);
+				exporter.exportReport();
+				outReport.setContent(buf.toByteArray());
 			}
-			else if ("xml".equals (format))
+			else if ("xml".equals(format))
 			{
-				res.addOutput ("contentType", "text/xml");
-				res.addOutput ("fileName", "Report.xml");
+				res.addOutput("contentType", "text/xml");
+				res.addOutput("fileName", "Report.xml");
 
-				ByteArrayOutputStream buf = new ByteArrayOutputStream ();
-				JRExporter exporter = new JRXmlExporter ();
+				ByteArrayOutputStream buf = new ByteArrayOutputStream();
+				JRExporter exporter = new JRXmlExporter();
 
-				exporter.setParameter (JRExporterParameter.JASPER_PRINT, reportPrint);
-				exporter.setParameter (JRExporterParameter.OUTPUT_STREAM, buf);
-				exporter.setParameter (JRExporterParameter.IGNORE_PAGE_MARGINS, true);
-				exporter.setParameter (JRExporterParameter.FILTER, noLayoutFilter);
-				exporter.exportReport ();
-				outReport.setContent (buf.toByteArray ());
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, reportPrint);
+				exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, buf);
+				exporter.setParameter(JRExporterParameter.IGNORE_PAGE_MARGINS, true);
+				exporter.setParameter(JRExporterParameter.FILTER, noLayoutFilter);
+				exporter.exportReport();
+				outReport.setContent(buf.toByteArray());
 			}
-			else if ("xls".equals (format))
+			else if ("xls".equals(format))
 			{
-				res.addOutput ("contentType", "application/xls");
-				res.addOutput ("fileName", "Report.xls");
+				res.addOutput("contentType", "application/xls");
+				res.addOutput("fileName", "Report.xls");
 
-				ByteArrayOutputStream buf = new ByteArrayOutputStream ();
-				JRExporter exporter = new JRXlsExporter ();
+				ByteArrayOutputStream buf = new ByteArrayOutputStream();
+				JRExporter exporter = new JRXlsExporter();
 
-				exporter.setParameter (JRExporterParameter.JASPER_PRINT, reportPrint);
-				exporter.setParameter (JRExporterParameter.OUTPUT_STREAM, buf);
-				exporter.setParameter (JRExporterParameter.IGNORE_PAGE_MARGINS, true);
-				exporter.setParameter (JRExporterParameter.FILTER, noLayoutFilter);
-				exporter.exportReport ();
-				outReport.setContent (buf.toByteArray ());
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, reportPrint);
+				exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, buf);
+				exporter.setParameter(JRExporterParameter.IGNORE_PAGE_MARGINS, true);
+				exporter.setParameter(JRExporterParameter.FILTER, noLayoutFilter);
+				exporter.exportReport();
+				outReport.setContent(buf.toByteArray());
 			}
 			else
 			{
-				StringBuffer buf = new StringBuffer ();
-				JRExporter exporter = new JRHtmlExporter ();
+				StringBuffer buf = new StringBuffer();
+				JRExporter exporter = new JRHtmlExporter();
 
-				exporter.setParameter (JRExporterParameter.JASPER_PRINT, reportPrint);
-				exporter.setParameter (JRExporterParameter.OUTPUT_STRING_BUFFER, buf);
-				exporter.setParameter (JRHtmlExporterParameter.HTML_HEADER, "");
-				exporter.setParameter (JRHtmlExporterParameter.HTML_FOOTER, "");
-				exporter.setParameter (JRHtmlExporterParameter.BETWEEN_PAGES_HTML, "");
-				exporter.setParameter (JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN, new Boolean (true));
-				exporter.setParameter (JRExporterParameter.PAGE_INDEX, new Integer (page - 1));
-				exporter.exportReport ();
-				outReport.setContent (buf.toString ());
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, reportPrint);
+				exporter.setParameter(JRExporterParameter.OUTPUT_STRING_BUFFER, buf);
+				exporter.setParameter(JRHtmlExporterParameter.HTML_HEADER, "");
+				exporter.setParameter(JRHtmlExporterParameter.HTML_FOOTER, "");
+				exporter.setParameter(JRHtmlExporterParameter.BETWEEN_PAGES_HTML, "");
+				exporter.setParameter(JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN, new Boolean(true));
+				exporter.setParameter(JRExporterParameter.PAGE_INDEX, new Integer(page - 1));
+				exporter.exportReport();
+				outReport.setContent(buf.toString());
 
-				createPageNavigationControls (req, res, page, reportPrint.getPages ().size (), reportModel, backModel);
+				createPageNavigationControls(req, res, page, reportPrint.getPages().size(), reportModel, backModel);
 			}
 		}
 		catch (JRException x)
 		{
-			outReport.setAttribute ("empty", "true");
+			outReport.setAttribute("empty", "true");
 		}
 	}
 
@@ -290,70 +289,70 @@ public class ReportTools
 	 * @param backModel The model to call when going back from the report.
 	 * @throws ModelException
 	 */
-	private static void createPageNavigationControls (ModelRequest req, ModelResponse res, int page, int numPages,
+	private static void createPageNavigationControls(ModelRequest req, ModelResponse res, int page, int numPages,
 					String reportModel, String backModel) throws ModelException
 	{
 		int numPrevPages = 4;
 		int numNextPages = 4;
 
-		Output outPage = res.createOutput ("page");
+		Output outPage = res.createOutput("page");
 
-		outPage.setContent (new Integer (page));
-		res.add (outPage);
+		outPage.setContent(new Integer(page));
+		res.add(outPage);
 
 		if (page > 1)
 		{
-			Command cmdPageStart = createPageCommand (req, res, "cmdPageStart", reportModel, backModel);
+			Command cmdPageStart = createPageCommand(req, res, "cmdPageStart", reportModel, backModel);
 
-			cmdPageStart.setParameter ("page", "1");
-			res.add (cmdPageStart);
+			cmdPageStart.setParameter("page", "1");
+			res.add(cmdPageStart);
 
-			Command cmdPageBack = createPageCommand (req, res, "cmdPageBack", reportModel, backModel);
+			Command cmdPageBack = createPageCommand(req, res, "cmdPageBack", reportModel, backModel);
 
-			cmdPageBack.setParameter ("page", String.valueOf (page - 1));
-			res.add (cmdPageBack);
+			cmdPageBack.setParameter("page", String.valueOf(page - 1));
+			res.add(cmdPageBack);
 
-			Output outPrevPages = res.createOutput ("prevPages");
+			Output outPrevPages = res.createOutput("prevPages");
 
-			res.add (outPrevPages);
+			res.add(outPrevPages);
 
-			int firstPrevPage = Math.max (1, page - numPrevPages);
+			int firstPrevPage = Math.max(1, page - numPrevPages);
 
 			for (int i = page - 1; i >= firstPrevPage; --i)
 			{
-				Command cmdPage = createPageCommand (req, res, "cmdPage", reportModel, backModel);
+				Command cmdPage = createPageCommand(req, res, "cmdPage", reportModel, backModel);
 
-				cmdPage.setParameter ("page", String.valueOf (page - i - 1 + firstPrevPage));
-				cmdPage.setLabel (String.valueOf (page - i - 1 + firstPrevPage));
-				outPrevPages.add (cmdPage);
+				cmdPage.setParameter("page", String.valueOf(page - i - 1 + firstPrevPage));
+				cmdPage.setLabel(String.valueOf(page - i - 1 + firstPrevPage));
+				outPrevPages.add(cmdPage);
 			}
 		}
 
 		if (page < numPages)
 		{
-			Command cmdPageEnd = createPageCommand (req, res, "cmdPageEnd", reportModel, backModel);
+			Command cmdPageEnd = createPageCommand(req, res, "cmdPageEnd", reportModel, backModel);
 
-			cmdPageEnd.setParameter ("page", String.valueOf (numPages));
-			res.add (cmdPageEnd);
+			cmdPageEnd.setParameter("page", String.valueOf(numPages));
+			res.add(cmdPageEnd);
 
-			Command cmdPageNext = createPageCommand (req, res, "cmdPageNext", reportModel, backModel);
+			Command cmdPageNext = createPageCommand(req, res, "cmdPageNext", reportModel, backModel);
 
-			cmdPageNext.setParameter ("page", String.valueOf (page + 1));
-			res.add (cmdPageNext);
+			cmdPageNext.setParameter("page", String.valueOf(page + 1));
+			res.add(cmdPageNext);
 
-			Output outNextPages = res.createOutput ("nextPages");
+			Output outNextPages = res.createOutput("nextPages");
 
-			res.add (outNextPages);
+			res.add(outNextPages);
 
-			int lastNextPage = Math.min (numPages, page + numNextPages);
+			int lastNextPage = Math.min(numPages, page + numNextPages);
 
 			for (int i = page + 1; i <= lastNextPage; ++i)
 			{
-				Command cmdPage = createPageCommand (req, res, "cmdPage", reportModel, backModel);
+				Command cmdPage = createPageCommand(req, res, "cmdPage", reportModel, backModel);
 
-				cmdPage.setParameter ("page", String.valueOf (i));
-				cmdPage.setLabel (String.valueOf (i));
-				outNextPages.add (cmdPage);
+				cmdPage.setParameter("page", String.valueOf(i));
+				cmdPage.setLabel(String.valueOf(i));
+				outNextPages.add(cmdPage);
 			}
 		}
 	}
@@ -367,13 +366,13 @@ public class ReportTools
 	 * @param backModel The model to call when going back from the report.
 	 * @return The new command.
 	 */
-	private static Command createPageCommand (ModelRequest req, ModelResponse res, String name, String reportModel,
+	private static Command createPageCommand(ModelRequest req, ModelResponse res, String name, String reportModel,
 					String backModel) throws ModelException
 	{
-		Command cmd = res.createCommand (reportModel);
+		Command cmd = res.createCommand(reportModel);
 
-		cmd.setParameter ("backModel", backModel);
-		cmd.setName (name);
+		cmd.setParameter("backModel", backModel);
+		cmd.setName(name);
 
 		return cmd;
 	}

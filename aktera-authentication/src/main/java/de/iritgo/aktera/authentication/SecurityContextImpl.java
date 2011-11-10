@@ -33,7 +33,7 @@ public class SecurityContextImpl implements SecurityContext
 	/** User DAO */
 	private UserDAO userDAO;
 
-	public void setUserDAO (UserDAO userDAO)
+	public void setUserDAO(UserDAO userDAO)
 	{
 		this.userDAO = userDAO;
 	}
@@ -41,51 +41,51 @@ public class SecurityContextImpl implements SecurityContext
 	/**
 	 * @see de.iritgo.aktera.authentication.SecurityContext#getContext()
 	 */
-	public org.springframework.security.core.context.SecurityContext getContext ()
+	public org.springframework.security.core.context.SecurityContext getContext()
 	{
-		return SecurityContextHolder.getContext ();
+		return SecurityContextHolder.getContext();
 	}
 
 	/**
 	 * @see de.iritgo.aktera.authentication.SecurityContext#setContext(org.springframework.security.context.SecurityContext)
 	 */
-	public void setContext (org.springframework.security.core.context.SecurityContext securityContext)
+	public void setContext(org.springframework.security.core.context.SecurityContext securityContext)
 	{
-		SecurityContextHolder.setContext (securityContext);
+		SecurityContextHolder.setContext(securityContext);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.authentication.SecurityContext#getUserName()
 	 */
-	public String getUserName ()
+	public String getUserName()
 	{
-		return getContext ().getAuthentication ().getName ();
+		return getContext().getAuthentication().getName();
 	}
 
 	/**
 	 * @see de.iritgo.aktera.authentication.SecurityContext#getUser()
 	 */
-	public AkteraUser getUser ()
+	public AkteraUser getUser()
 	{
-		return userDAO.findUserByName (getUserName ());
+		return userDAO.findUserByName(getUserName());
 	}
 
 	/**
 	 * @see de.iritgo.aktera.authentication.SecurityContext#hasRole(java.lang.String)
 	 */
-	public boolean hasRole (AkteraUser user, String role)
+	public boolean hasRole(AkteraUser user, String role)
 	{
-		return userDAO.userHasRole (user, role);
+		return userDAO.userHasRole(user, role);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.authentication.SecurityContext#checkRole(de.iritgo.aktera.authentication.defaultauth.entity.AkteraUser, java.lang.String)
 	 */
-	public void checkRole (AkteraUser user, String role) throws SecurityException
+	public void checkRole(AkteraUser user, String role) throws SecurityException
 	{
-		if (! hasRole (user, role))
+		if (! hasRole(user, role))
 		{
-			throw new SecurityException ("Insufficient rights for user: " + user.getName ());
+			throw new SecurityException("Insufficient rights for user: " + user.getName());
 		}
 	}
 }

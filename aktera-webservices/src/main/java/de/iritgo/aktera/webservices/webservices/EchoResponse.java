@@ -77,7 +77,7 @@ public class EchoResponse
 	 *     {@link String }
 	 *     
 	 */
-	public String getAnswer ()
+	public String getAnswer()
 	{
 		return answer;
 	}
@@ -90,7 +90,7 @@ public class EchoResponse
 	 *     {@link String }
 	 *     
 	 */
-	public void setAnswer (String value)
+	public void setAnswer(String value)
 	{
 		this.answer = value;
 	}
@@ -103,7 +103,7 @@ public class EchoResponse
 	 *     {@link String }
 	 *     
 	 */
-	public String getTimestamp ()
+	public String getTimestamp()
 	{
 		return timestamp;
 	}
@@ -116,7 +116,7 @@ public class EchoResponse
 	 *     {@link String }
 	 *     
 	 */
-	public void setTimestamp (String value)
+	public void setTimestamp(String value)
 	{
 		this.timestamp = value;
 	}

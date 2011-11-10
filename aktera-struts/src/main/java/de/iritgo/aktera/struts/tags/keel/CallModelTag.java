@@ -59,13 +59,13 @@ public class CallModelTag extends BaseBodyTagSupport
 	/**
 	 * Create a new <code>CallModel</code> tag.
 	 */
-	public CallModelTag ()
+	public CallModelTag()
 	{
-		super ();
+		super();
 
-		log = LogFactory.getFactory ().getInstance ("de.iritgo.aktera.struts.ModelAction");
-		client = new TagClientConnector ();
-		client.setLogger (log);
+		log = LogFactory.getFactory().getInstance("de.iritgo.aktera.struts.ModelAction");
+		client = new TagClientConnector();
+		client.setLogger(log);
 	}
 
 	/**
@@ -73,7 +73,7 @@ public class CallModelTag extends BaseBodyTagSupport
 	 *
 	 * @param model The model name.
 	 */
-	public void setModel (String model)
+	public void setModel(String model)
 	{
 		this.model = model;
 	}
@@ -83,7 +83,7 @@ public class CallModelTag extends BaseBodyTagSupport
 	 *
 	 * @return The model name.
 	 */
-	public String getModel ()
+	public String getModel()
 	{
 		return model;
 	}
@@ -94,9 +94,9 @@ public class CallModelTag extends BaseBodyTagSupport
 	 * @param name The parameter name.
 	 * @param value The parameter value.
 	 */
-	public void setParameter (String name, String value)
+	public void setParameter(String name, String value)
 	{
-		request.setParameter (name, value);
+		request.setParameter(name, value);
 	}
 
 	/**
@@ -104,7 +104,7 @@ public class CallModelTag extends BaseBodyTagSupport
 	 *
 	 * @param scope The scope name.
 	 */
-	public void setScope (String scope)
+	public void setScope(String scope)
 	{
 		this.scope = scope;
 	}
@@ -114,7 +114,7 @@ public class CallModelTag extends BaseBodyTagSupport
 	 *
 	 * @return The scope name.
 	 */
-	public String getScope ()
+	public String getScope()
 	{
 		return scope;
 	}
@@ -122,10 +122,10 @@ public class CallModelTag extends BaseBodyTagSupport
 	/**
 	 * Reset all tag attributes to their default values.
 	 */
-	public void release ()
+	public void release()
 	{
 		model = null;
-		request = new TagRequest ();
+		request = new TagRequest();
 		scope = "request";
 	}
 
@@ -134,26 +134,26 @@ public class CallModelTag extends BaseBodyTagSupport
 	 *
 	 * @return EVAL_PAGE.
 	 */
-	public int doEndTag () throws JspException
+	public int doEndTag() throws JspException
 	{
 		try
 		{
-			request.setRequest ((HttpServletRequest) pageContext.getRequest ());
-			client.setRequest (request);
-			client.setResponse ((HttpServletResponse) pageContext.getResponse ());
-			client.setModel (model);
+			request.setRequest((HttpServletRequest) pageContext.getRequest());
+			client.setRequest(request);
+			client.setResponse((HttpServletResponse) pageContext.getResponse());
+			client.setModel(model);
 
-			KeelResponse response = client.execute ();
+			KeelResponse response = client.execute();
 
-			for (Iterator i = response.getAll (); i.hasNext ();)
+			for (Iterator i = response.getAll(); i.hasNext();)
 			{
-				ResponseElement element = (ResponseElement) i.next ();
+				ResponseElement element = (ResponseElement) i.next();
 
 				if (element instanceof Output)
 				{
-					ResponseElementDynaBean elementAsBean = new ResponseElementDynaBean (element);
+					ResponseElementDynaBean elementAsBean = new ResponseElementDynaBean(element);
 
-					pageContext.setAttribute (element.getName (), elementAsBean, getScope (scope));
+					pageContext.setAttribute(element.getName(), elementAsBean, getScope(scope));
 				}
 			}
 
@@ -161,11 +161,11 @@ public class CallModelTag extends BaseBodyTagSupport
 		}
 		catch (Exception x)
 		{
-			StackTraceElement ste = (x.getStackTrace ())[0];
+			StackTraceElement ste = (x.getStackTrace())[0];
 
-			throw new JspException (new StringBuffer ().append ("CallModelTag: ").append (x).append (" (Class: ")
-							.append (ste.getClassName ()).append (" Method: ").append (ste.getMethodName ()).append (
-											" Line: ").append (ste.getLineNumber ()).append (")").toString ());
+			throw new JspException(new StringBuffer().append("CallModelTag: ").append(x).append(" (Class: ").append(
+							ste.getClassName()).append(" Method: ").append(ste.getMethodName()).append(" Line: ")
+							.append(ste.getLineNumber()).append(")").toString());
 		}
 	}
 }

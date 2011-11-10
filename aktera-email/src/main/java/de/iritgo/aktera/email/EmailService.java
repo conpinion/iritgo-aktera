@@ -34,5 +34,5 @@ public interface EmailService
 	 * @param email The email data object
 	 * @throws EmailSendFailedException In case of a delivery failure
 	 */
-	public void sendEmail (Email email) throws EmailSendFailedException;
+	public void sendEmail(Email email) throws EmailSendFailedException;
 }

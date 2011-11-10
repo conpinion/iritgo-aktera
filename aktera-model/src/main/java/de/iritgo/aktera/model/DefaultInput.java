@@ -40,30 +40,30 @@ public class DefaultInput extends AbstractResponseElement implements Input
 
 	private Object defaultValue = null;
 
-	public String getLabel ()
+	public String getLabel()
 	{
 		return label;
 	}
 
-	public void setLabel (String newLabel)
+	public void setLabel(String newLabel)
 	{
 		assert newLabel != null;
 		label = newLabel;
 	}
 
-	public void setValidValues (Map newValues)
+	public void setValidValues(Map newValues)
 	{
 		assert newValues != null;
-		myValidValues = new LinkedHashMap (newValues);
+		myValidValues = new LinkedHashMap(newValues);
 	}
 
-	public void setDefaultValue (Object newDefault)
+	public void setDefaultValue(Object newDefault)
 	{
 		assert newDefault != this;
 		defaultValue = newDefault;
 	}
 
-	public Object getDefaultValue ()
+	public Object getDefaultValue()
 	{
 		if (defaultValue == null)
 		{
@@ -73,13 +73,13 @@ public class DefaultInput extends AbstractResponseElement implements Input
 		return defaultValue;
 	}
 
-	public Map getValidValues ()
+	public Map getValidValues()
 	{
 		Map returnValue = null;
 
 		if (myValidValues == null)
 		{
-			returnValue = new LinkedHashMap ();
+			returnValue = new LinkedHashMap();
 		}
 		else
 		{
@@ -89,31 +89,31 @@ public class DefaultInput extends AbstractResponseElement implements Input
 		return returnValue;
 	}
 
-	public String toString ()
+	public String toString()
 	{
-		StringBuffer ret = new StringBuffer (super.toString ());
+		StringBuffer ret = new StringBuffer(super.toString());
 
-		ret.append ("\t<label>" + getLabel () + "</label>");
+		ret.append("\t<label>" + getLabel() + "</label>");
 
-		Map m = getValidValues ();
+		Map m = getValidValues();
 
-		if (m.size () > 0)
+		if (m.size() > 0)
 		{
-			ret.append ("\t<valid-values>");
+			ret.append("\t<valid-values>");
 
-			for (Iterator i = m.keySet ().iterator (); i.hasNext ();)
+			for (Iterator i = m.keySet().iterator(); i.hasNext();)
 			{
-				String oneKey = (String) i.next ();
+				String oneKey = (String) i.next();
 
-				ret.append ("\t\t<valid-value key='" + oneKey + "' value='" + m.get (oneKey).toString () + "'/>\n");
+				ret.append("\t\t<valid-value key='" + oneKey + "' value='" + m.get(oneKey).toString() + "'/>\n");
 			}
 
-			ret.append ("\t</valid-values>");
+			ret.append("\t</valid-values>");
 		}
 
-		ret.append ("\tdefault-value>" + getDefaultValue ().toString () + "</default-value>\n");
-		ret.append ("\t</" + getClass ().getName () + ">\n");
+		ret.append("\tdefault-value>" + getDefaultValue().toString() + "</default-value>\n");
+		ret.append("\t</" + getClass().getName() + ">\n");
 
-		return ret.toString ();
+		return ret.toString();
 	}
 }

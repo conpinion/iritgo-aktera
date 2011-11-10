@@ -30,49 +30,49 @@ public class EventHandlerTree
 {
 	private String eventId;
 
-	private List<StandardEventHandler> handlers = new LinkedList<StandardEventHandler> ();
+	private List<StandardEventHandler> handlers = new LinkedList<StandardEventHandler>();
 
-	private Map<String, EventHandlerTree> children = new HashMap<String, EventHandlerTree> ();
+	private Map<String, EventHandlerTree> children = new HashMap<String, EventHandlerTree>();
 
-	public EventHandlerTree (String eventId)
+	public EventHandlerTree(String eventId)
 	{
 		this.eventId = eventId;
 	}
 
-	public EventHandlerTree ()
+	public EventHandlerTree()
 	{
 		this.eventId = "";
 	}
 
-	public void insert (String eventId, StandardEventHandler handler)
+	public void insert(String eventId, StandardEventHandler handler)
 	{
-		String eventIdHead = eventId.split ("\\.")[0];
-		String eventIdCons = eventId.substring (Math.min (eventId.length (), eventIdHead.length () + 1));
+		String eventIdHead = eventId.split("\\.")[0];
+		String eventIdCons = eventId.substring(Math.min(eventId.length(), eventIdHead.length() + 1));
 
-		EventHandlerTree node = children.get (eventIdHead);
+		EventHandlerTree node = children.get(eventIdHead);
 
 		if (node == null)
 		{
-			node = new EventHandlerTree (eventIdHead);
-			children.put (eventIdHead, node);
+			node = new EventHandlerTree(eventIdHead);
+			children.put(eventIdHead, node);
 		}
 
-		if (eventIdCons.length () != 0)
+		if (eventIdCons.length() != 0)
 		{
-			node.insert (eventIdCons, handler);
+			node.insert(eventIdCons, handler);
 
 			return;
 		}
 
-		node.handlers.add (handler);
+		node.handlers.add(handler);
 	}
 
-	public EventHandlerTree getChild (String eventId)
+	public EventHandlerTree getChild(String eventId)
 	{
-		return children.get (eventId);
+		return children.get(eventId);
 	}
 
-	public List<StandardEventHandler> getHandlers ()
+	public List<StandardEventHandler> getHandlers()
 	{
 		return handlers;
 	}

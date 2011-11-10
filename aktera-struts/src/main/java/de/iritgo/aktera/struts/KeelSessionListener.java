@@ -61,122 +61,122 @@ public class KeelSessionListener implements HttpSessionListener
 	{
 		HttpSessionEvent event;
 
-		Properties parameters = new Properties ();
+		Properties parameters = new Properties();
 
-		public SessionWebappRequest (HttpSessionEvent event)
+		public SessionWebappRequest(HttpSessionEvent event)
 		{
 			this.event = event;
 		}
 
-		public void setParameter (String name, String value)
+		public void setParameter(String name, String value)
 		{
-			parameters.setProperty (name, value);
+			parameters.setProperty(name, value);
 		}
 
-		public final String getParameter (String name)
+		public final String getParameter(String name)
 		{
-			return parameters.getProperty (name);
+			return parameters.getProperty(name);
 		}
 
-		public final String[] getParameterValues (String name)
+		public final String[] getParameterValues(String name)
 		{
-			Object[] v = parameters.values ().toArray ();
+			Object[] v = parameters.values().toArray();
 			String[] values = new String[v.length];
 
 			for (int i = 0; i < v.length; ++i)
 			{
-				values[i] = v[i].toString ();
+				values[i] = v[i].toString();
 			}
 
 			return values;
 		}
 
-		public final Cookie[] getCookies ()
+		public final Cookie[] getCookies()
 		{
 			return new Cookie[]
 			{};
 		}
 
-		public final Enumeration<?> getParameterNames ()
+		public final Enumeration<?> getParameterNames()
 		{
-			return parameters.propertyNames ();
+			return parameters.propertyNames();
 		}
 
-		public final String getSessionId ()
+		public final String getSessionId()
 		{
-			return event.getSession ().getId ();
+			return event.getSession().getId();
 		}
 
-		public final String getRemoteAddr ()
-		{
-			return "";
-		}
-
-		public final void setAttribute (String name, Object value)
-		{
-		}
-
-		public final String getRequestURL ()
+		public final String getRemoteAddr()
 		{
 			return "";
 		}
 
-		public final String getQueryString ()
+		public final void setAttribute(String name, Object value)
+		{
+		}
+
+		public final String getRequestURL()
 		{
 			return "";
 		}
 
-		public final String getRealPath (String path)
-		{
-			return event.getSession ().getServletContext ().getRealPath (path);
-		}
-
-		public final Object getAttribute (String name)
+		public final String getQueryString()
 		{
 			return "";
 		}
 
-		public final String getInitParameter (String name)
+		public final String getRealPath(String path)
 		{
-			return event.getSession ().getServletContext ().getInitParameter (name);
+			return event.getSession().getServletContext().getRealPath(path);
 		}
 
-		public final String getSource ()
+		public final Object getAttribute(String name)
 		{
 			return "";
 		}
 
-		public final Locale getLocale ()
+		public final String getInitParameter(String name)
+		{
+			return event.getSession().getServletContext().getInitParameter(name);
+		}
+
+		public final String getSource()
+		{
+			return "";
+		}
+
+		public final Locale getLocale()
 		{
 			return null;
 		}
 
-		public Enumeration getHeaderNames ()
+		public Enumeration getHeaderNames()
 		{
 			return null;
 		}
 
-		public String getHeader (String key)
+		public String getHeader(String key)
 		{
 			return "";
 		}
 
-		public String getScheme ()
+		public String getScheme()
 		{
 			return "";
 		}
 
-		public String getServerName ()
+		public String getServerName()
 		{
 			return "";
 		}
 
-		public int getServerPort ()
+		public int getServerPort()
 		{
 			return 0;
 		}
 
-		public String getContextPath ()
+		public String getContextPath()
 		{
 			return "";
 		}
@@ -189,25 +189,25 @@ public class KeelSessionListener implements HttpSessionListener
 	{
 		HttpSessionEvent event;
 
-		public SessionWebappResponse (HttpSessionEvent event)
+		public SessionWebappResponse(HttpSessionEvent event)
 		{
 			this.event = event;
 		}
 
-		public void addCookie (Cookie c)
+		public void addCookie(Cookie c)
 		{
 		}
 	}
 
 	/** Logger. */
-	private static Log log = LogFactory.getFactory ().getInstance ("de.iritgo.aktera.struts.KeelSessionListener");
+	private static Log log = LogFactory.getFactory().getInstance("de.iritgo.aktera.struts.KeelSessionListener");
 
 	/**
 	 * Called if a new browser session was created.
 	 *
 	 * @param e The session event.
 	 */
-	public void sessionCreated (HttpSessionEvent e)
+	public void sessionCreated(HttpSessionEvent e)
 	{
 		//		String model =
 		//			e.getSession ().getServletContext ().getInitParameter ("keel.session.created.model");
@@ -240,30 +240,30 @@ public class KeelSessionListener implements HttpSessionListener
 	 *
 	 * @param e The session event.
 	 */
-	public void sessionDestroyed (final HttpSessionEvent e)
+	public void sessionDestroyed(final HttpSessionEvent e)
 	{
-		String model = e.getSession ().getServletContext ().getInitParameter ("keel.session.destroyed.model");
+		String model = e.getSession().getServletContext().getInitParameter("keel.session.destroyed.model");
 
 		if (model != null)
 		{
-			SessionWebappRequest req = new SessionWebappRequest (e);
+			SessionWebappRequest req = new SessionWebappRequest(e);
 
-			req.setParameter ("sessionEvent", "destroyed");
+			req.setParameter("sessionEvent", "destroyed");
 
-			SessionWebappResponse res = new SessionWebappResponse (e);
+			SessionWebappResponse res = new SessionWebappResponse(e);
 
 			try
 			{
-				StrutsClientConnector client = new StrutsClientConnector ();
+				StrutsClientConnector client = new StrutsClientConnector();
 
-				client.setLogger (log);
-				client.execute (req, res, model);
-				client.removeSessionContext (e.getSession ().getId ());
+				client.setLogger(log);
+				client.execute(req, res, model);
+				client.removeSessionContext(e.getSession().getId());
 			}
 			catch (Exception x)
 			{
-				System.out.println ("[KeelSessionListener] " + x);
-				x.printStackTrace ();
+				System.out.println("[KeelSessionListener] " + x);
+				x.printStackTrace();
 			}
 		}
 	}

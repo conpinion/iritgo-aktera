@@ -39,5 +39,5 @@ public interface StartupManager
 	 *
 	 * @throws Exception
 	 */
-	public void shutdown () throws Exception;
+	public void shutdown() throws Exception;
 }

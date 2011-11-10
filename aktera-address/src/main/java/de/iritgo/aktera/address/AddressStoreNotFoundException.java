@@ -27,22 +27,22 @@ import de.iritgo.aktera.*;
 @SuppressWarnings("serial")
 public class AddressStoreNotFoundException extends Exception
 {
-	public AddressStoreNotFoundException ()
+	public AddressStoreNotFoundException()
 	{
 	}
 
-	public AddressStoreNotFoundException (String message)
+	public AddressStoreNotFoundException(String message)
 	{
-		super (message);
+		super(message);
 	}
 
-	public AddressStoreNotFoundException (Throwable cause)
+	public AddressStoreNotFoundException(Throwable cause)
 	{
-		super (cause);
+		super(cause);
 	}
 
-	public AddressStoreNotFoundException (String message, Throwable cause)
+	public AddressStoreNotFoundException(String message, Throwable cause)
 	{
-		super (message, cause);
+		super(message, cause);
 	}
 }

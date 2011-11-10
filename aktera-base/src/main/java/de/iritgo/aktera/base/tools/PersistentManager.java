@@ -32,13 +32,13 @@ public class PersistentManager
 {
 	PersistentFactory persistentFactory;
 
-	public PersistentManager (PersistentFactory persistentFactory)
+	public PersistentManager(PersistentFactory persistentFactory)
 	{
 		this.persistentFactory = persistentFactory;
 	}
 
-	public Persistent create (String name) throws PersistenceException
+	public Persistent create(String name) throws PersistenceException
 	{
-		return persistentFactory.create ("aktera." + name);
+		return persistentFactory.create("aktera." + name);
 	}
 }

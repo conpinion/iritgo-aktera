@@ -57,7 +57,7 @@ public abstract class AbstractGroupImpl implements AbstractGroup
 	 *
 	 * @param locale The Locale
 	 */
-	public void setLocale (Locale locale)
+	public void setLocale(Locale locale)
 	{
 		this.locale = locale;
 	}
@@ -67,7 +67,7 @@ public abstract class AbstractGroupImpl implements AbstractGroup
 	 *
 	 * @param i18n The i18n service
 	 */
-	public void setI18n (I18N i18n)
+	public void setI18n(I18N i18n)
 	{
 		this.i18n = i18n;
 	}
@@ -75,7 +75,7 @@ public abstract class AbstractGroupImpl implements AbstractGroup
 	/**
 	 * @see de.iritgo.aktera.dashboard.DashboardItem#getId()
 	 */
-	public String getId ()
+	public String getId()
 	{
 		return id;
 	}
@@ -85,12 +85,12 @@ public abstract class AbstractGroupImpl implements AbstractGroup
 	 *
 	 * @param id The id
 	 */
-	public void setId (String id)
+	public void setId(String id)
 	{
 		this.id = id;
 	}
 
-	public DashboardGroup newInstance ()
+	public DashboardGroup newInstance()
 	{
 		//Spring magic  <lookup-method name="newInstance"......
 		return null;
@@ -101,7 +101,7 @@ public abstract class AbstractGroupImpl implements AbstractGroup
 	 *
 	 * @param dashboardItems The dashboard items
 	 */
-	public void setDashboardItems (List<DashboardItem> dashboardItems)
+	public void setDashboardItems(List<DashboardItem> dashboardItems)
 	{
 		this.dashboardItems = dashboardItems;
 	}
@@ -111,7 +111,7 @@ public abstract class AbstractGroupImpl implements AbstractGroup
 	 *
 	 * @param customVisitor The custom visitor
 	 */
-	public void setCustomVisitor (GroupVisitor customVisitor)
+	public void setCustomVisitor(GroupVisitor customVisitor)
 	{
 		this.customVisitor = customVisitor;
 	}
@@ -119,31 +119,31 @@ public abstract class AbstractGroupImpl implements AbstractGroup
 	/**
 	 * @see de.iritgo.aktera.dashboard.DashboardItem#generate(de.iritgo.aktera.dashboard.GroupVisitor)
 	 */
-	public void generate (GroupVisitor visitor)
+	public void generate(GroupVisitor visitor)
 	{
 		if (customVisitor == null)
 		{
-			visitor.generate ((DashboardGroup) this);
+			visitor.generate((DashboardGroup) this);
 		}
 		else
 		{
-			customVisitor.setParentVisitor (visitor);
-			customVisitor.generate ((DashboardGroup) this);
+			customVisitor.setParentVisitor(visitor);
+			customVisitor.generate((DashboardGroup) this);
 		}
 
 		if (dashboardItems != null)
 		{
 			for (DashboardItem dashboardItem : dashboardItems)
 			{
-				dashboardItem.setLocale (locale);
+				dashboardItem.setLocale(locale);
 
 				if (customVisitor == null)
 				{
-					dashboardItem.generate (visitor);
+					dashboardItem.generate(visitor);
 				}
 				else
 				{
-					dashboardItem.generate (customVisitor);
+					dashboardItem.generate(customVisitor);
 				}
 			}
 		}
@@ -154,7 +154,7 @@ public abstract class AbstractGroupImpl implements AbstractGroup
 	 *
 	 * @param title The title
 	 */
-	public void setTitle (String title)
+	public void setTitle(String title)
 	{
 		this.title = title;
 	}
@@ -162,39 +162,39 @@ public abstract class AbstractGroupImpl implements AbstractGroup
 	/**
 	 * @see de.iritgo.aktera.dashboard.DashboardGroup#getTitle()
 	 */
-	public String getTitle ()
+	public String getTitle()
 	{
-		return i18n.msg (locale, getBundle (), title);
+		return i18n.msg(locale, getBundle(), title);
 	}
 
-	public String getBundle ()
+	public String getBundle()
 	{
 		return bundle;
 	}
 
-	public void setBundle (String bundle)
+	public void setBundle(String bundle)
 	{
 		this.bundle = bundle;
 	}
 
-	public List<DashboardItem> getDashboardItems ()
+	public List<DashboardItem> getDashboardItems()
 	{
 		return dashboardItems;
 	}
 
-	public String getLabel ()
+	public String getLabel()
 	{
 		return null;
 	}
 
-	public void setRenderFile (String renderFile)
+	public void setRenderFile(String renderFile)
 	{
 		this.renderFile = renderFile;
 	}
 
-	public String getRenderFile ()
+	public String getRenderFile()
 	{
-		if (StringTools.isTrimEmpty (renderFile))
+		if (StringTools.isTrimEmpty(renderFile))
 		{
 			return "/aktera-dashboard/group/group.jsp";
 		}
@@ -202,12 +202,12 @@ public abstract class AbstractGroupImpl implements AbstractGroup
 		return renderFile;
 	}
 
-	public void setDescription (String description)
+	public void setDescription(String description)
 	{
 		this.description = description;
 	}
 
-	public String getDescription ()
+	public String getDescription()
 	{
 		return null;
 	}

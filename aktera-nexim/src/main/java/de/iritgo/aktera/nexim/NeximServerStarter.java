@@ -35,17 +35,17 @@ public class NeximServerStarter implements StartupHandler
 	/**
 	 * @see de.iritgo.aktera.startup.StartupHandler#startup()
 	 */
-	public void startup () throws StartupException
+	public void startup() throws StartupException
 	{
 		//		ApplicationContext appContext = new ClassPathXmlApplicationContext("nexim.spring.xml");
-		imServer = (IMServer) SpringTools.getBean ("de.iritgo.nexim.IMServer");
+		imServer = (IMServer) SpringTools.getBean("de.iritgo.nexim.IMServer");
 	}
 
 	/**
 	 * @see de.iritgo.aktera.startup.StartupHandler#shutdown()
 	 */
-	public void shutdown () throws ShutdownException
+	public void shutdown() throws ShutdownException
 	{
-		imServer.shutdown ();
+		imServer.shutdown();
 	}
 }

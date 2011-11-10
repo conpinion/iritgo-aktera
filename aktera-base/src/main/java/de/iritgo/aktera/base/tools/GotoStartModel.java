@@ -50,35 +50,35 @@ public class GotoStartModel extends StandardLogEnabledModel
 	 * @param req The model request.
 	 * @throws ModelException In case of a business failure.
 	 */
-	public ModelResponse execute (ModelRequest req) throws ModelException
+	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
-		SystemConfigManager systemConfigManager = (SystemConfigManager) req.getSpringBean (SystemConfigManager.ID);
+		SystemConfigManager systemConfigManager = (SystemConfigManager) req.getSpringBean(SystemConfigManager.ID);
 
-		ModelResponse res = req.createResponse ();
+		ModelResponse res = req.createResponse();
 
-		if (! UpdateHelper.databaseExists (req))
+		if (! UpdateHelper.databaseExists(req))
 		{
-			return res.createCommand ("aktera.database.create-prompt").execute (req, res);
+			return res.createCommand("aktera.database.create-prompt").execute(req, res);
 		}
 
 		try
 		{
-			if (UpdateHelper.needUpdate (req))
+			if (UpdateHelper.needUpdate(req))
 			{
-				return res.createCommand ("aktera.database.update-prompt").execute (req, res);
+				return res.createCommand("aktera.database.update-prompt").execute(req, res);
 			}
 		}
 		catch (ConfigurationException x)
 		{
-			throw new ModelException ("ConfigurationException during needUpdate() check", x);
+			throw new ModelException("ConfigurationException during needUpdate() check", x);
 		}
 
 		try
 		{
-			SystemCheckService systemCheckService = (SystemCheckService) SpringTools.getBean (SystemCheckService.ID);
-			if (systemCheckService != null && ! systemCheckService.isSystemReady ())
+			SystemCheckService systemCheckService = (SystemCheckService) SpringTools.getBean(SystemCheckService.ID);
+			if (systemCheckService != null && ! systemCheckService.isSystemReady())
 			{
-				return res.createCommand (systemCheckService.getSystemCheckModel ()).execute (req, res);
+				return res.createCommand(systemCheckService.getSystemCheckModel()).execute(req, res);
 			}
 		}
 		catch (Exception ignore)
@@ -86,24 +86,22 @@ public class GotoStartModel extends StandardLogEnabledModel
 			// No system check service configured.
 		}
 
-		String startModel = (String) systemConfigManager.get ("system", "startModel");
+		String startModel = (String) systemConfigManager.get("system", "startModel");
 
-		if (startModel != null && UserTools.getCurrentUserId (req) == null)
+		if (startModel != null && UserTools.getCurrentUserId(req) == null)
 		{
-			return res.createCommand ("aktera.session.prompt-login").execute (req, res);
+			return res.createCommand("aktera.session.prompt-login").execute(req, res);
 		}
 
-		if (UserTools.currentUserIsInGroup (req, "admin"))
+		if (UserTools.currentUserIsInGroup(req, "admin"))
 		{
-			return res.createCommand ((String) systemConfigManager.get ("system", "startModelAdmin"))
-							.execute (req, res);
+			return res.createCommand((String) systemConfigManager.get("system", "startModelAdmin")).execute(req, res);
 		}
-		else if (UserTools.currentUserIsInGroup (req, "manager"))
+		else if (UserTools.currentUserIsInGroup(req, "manager"))
 		{
-			return res.createCommand ((String) systemConfigManager.get ("system", "startModelManager")).execute (req,
-							res);
+			return res.createCommand((String) systemConfigManager.get("system", "startModelManager")).execute(req, res);
 		}
 
-		return res.createCommand (startModel).execute (req, res);
+		return res.createCommand(startModel).execute(req, res);
 	}
 }

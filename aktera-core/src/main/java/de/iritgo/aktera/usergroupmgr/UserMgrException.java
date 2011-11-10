@@ -48,9 +48,9 @@ public class UserMgrException extends NestedException
 	/**
 	 * Default constructor
 	 */
-	public UserMgrException ()
+	public UserMgrException()
 	{
-		super ();
+		super();
 	}
 
 	/**
@@ -58,17 +58,17 @@ public class UserMgrException extends NestedException
 	 *
 	 * @param   s exception message
 	 */
-	public UserMgrException (String s)
+	public UserMgrException(String s)
 	{
-		super (s);
+		super(s);
 	}
 
 	/**
 	 * String message and error key
 	 */
-	public UserMgrException (String s, String newErrorKey)
+	public UserMgrException(String s, String newErrorKey)
 	{
-		super (s, newErrorKey);
+		super(s, newErrorKey);
 	}
 
 	/**
@@ -77,9 +77,9 @@ public class UserMgrException extends NestedException
 	 * @param   s The exception message
 	 * @param   newNested The nested item
 	 */
-	public UserMgrException (String message, Throwable newNested)
+	public UserMgrException(String message, Throwable newNested)
 	{
-		super (message, newNested);
+		super(message, newNested);
 	}
 
 	/**
@@ -89,9 +89,9 @@ public class UserMgrException extends NestedException
 	 * @param   newNested The nested item
 	 * @param   errorKey A string key to the messages bundle
 	 */
-	public UserMgrException (String message, Throwable newNested, String newErrorKey)
+	public UserMgrException(String message, Throwable newNested, String newErrorKey)
 	{
-		super (message, newNested, newErrorKey);
+		super(message, newNested, newErrorKey);
 	}
 
 	/**
@@ -99,9 +99,9 @@ public class UserMgrException extends NestedException
 	 *
 	 * @param   newNested The nested exception
 	 */
-	public UserMgrException (Throwable newNested)
+	public UserMgrException(Throwable newNested)
 	{
-		super (newNested);
+		super(newNested);
 	}
 
 	/**
@@ -109,8 +109,8 @@ public class UserMgrException extends NestedException
 	 *
 	 * @param   newNested The nested exception
 	 */
-	public UserMgrException (Throwable newNested, String newErrorKey)
+	public UserMgrException(Throwable newNested, String newErrorKey)
 	{
-		super (newNested, newErrorKey);
+		super(newNested, newErrorKey);
 	}
 }

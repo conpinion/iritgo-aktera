@@ -35,7 +35,7 @@ public class LogScheduleActionHandler implements ScheduleActionHandler
 	/**
 	 * Set the logger.
 	 */
-	public void setLogger (Logger logger)
+	public void setLogger(Logger logger)
 	{
 		this.logger = logger;
 	}
@@ -43,8 +43,8 @@ public class LogScheduleActionHandler implements ScheduleActionHandler
 	/**
 	 * @see de.iritgo.aktera.scheduler.action.ScheduleActionHandler#execute(ScheduleAction)
 	 */
-	public void execute (ScheduleAction action)
+	public void execute(ScheduleAction action)
 	{
-		logger.info (action.getStringParam1 ());
+		logger.info(action.getStringParam1());
 	}
 }

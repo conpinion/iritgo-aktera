@@ -38,7 +38,7 @@ public class RowSecurablePersistent extends DefaultPersistent implements Invokat
 	 *
 	 * @see de.iritgo.aktera.authorization.InvokationSecurable#getAuthorizationProperties()
 	 */
-	public Map getAuthorizationProperties ()
+	public Map getAuthorizationProperties()
 	{
 		return fieldData;
 	}

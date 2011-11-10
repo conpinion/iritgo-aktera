@@ -33,30 +33,30 @@ import java.util.Map;
 
 public class Cancel extends AbstractUIController
 {
-	public Cancel ()
+	public Cancel()
 	{
 		security = Security.NONE;
 	}
 
-	public void execute (UIRequest request, UIResponse response) throws UIControllerException
+	public void execute(UIRequest request, UIResponse response) throws UIControllerException
 	{
-		UIController controller = (UIController) SpringTools.getBean (request.getParameterAsString ("_cmodel"));
-		BeanRequest newRequest = new BeanRequest ();
+		UIController controller = (UIController) SpringTools.getBean(request.getParameterAsString("_cmodel"));
+		BeanRequest newRequest = new BeanRequest();
 
-		newRequest.setBean (request.getParameterAsString ("_cmodel"));
-		newRequest.setLocale (request.getLocale ());
-		newRequest.setUserEnvironment (request.getUserEnvironment ());
+		newRequest.setBean(request.getParameterAsString("_cmodel"));
+		newRequest.setLocale(request.getLocale());
+		newRequest.setUserEnvironment(request.getUserEnvironment());
 
-		for (Object entry : request.getParameters ().entrySet ())
+		for (Object entry : request.getParameters().entrySet())
 		{
-			String key = (String) ((Map.Entry) entry).getKey ();
+			String key = (String) ((Map.Entry) entry).getKey();
 
-			if (key.startsWith ("_cp") && ! "_cmodel".equals (key))
+			if (key.startsWith("_cp") && ! "_cmodel".equals(key))
 			{
-				newRequest.setParameter (key.substring (3), ((Map.Entry) entry).getValue ());
+				newRequest.setParameter(key.substring(3), ((Map.Entry) entry).getValue());
 			}
 		}
 
-		controller.execute (newRequest, response);
+		controller.execute(newRequest, response);
 	}
 }

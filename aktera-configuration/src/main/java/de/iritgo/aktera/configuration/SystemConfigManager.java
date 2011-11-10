@@ -50,7 +50,7 @@ public interface SystemConfigManager
 	 * @param name The name of the configuration value.
 	 * @param value The configuration value.
 	 */
-	public void set (String category, String name, String type, Object value);
+	public void set(String category, String name, String type, Object value);
 
 	/**
 	 * Remove a configuration value.
@@ -58,7 +58,7 @@ public interface SystemConfigManager
 	 * @param category The category of the configuration value.
 	 * @param name The name of the configuration value.
 	 */
-	public void invalidate (String category, String name);
+	public void invalidate(String category, String name);
 
 	/**
 	 * Get a configuration value.
@@ -67,7 +67,7 @@ public interface SystemConfigManager
 	 * @param name The name of the configuration value.
 	 * @return The configuration value.
 	 */
-	public Object getNoCache (String category, String name);
+	public Object getNoCache(String category, String name);
 
 	/**
 	 * Get a configuration value.
@@ -76,7 +76,7 @@ public interface SystemConfigManager
 	 * @param name The name of the configuration value.
 	 * @return The configuration value.
 	 */
-	public Object get (String category, String name);
+	public Object get(String category, String name);
 
 	/**
 	 * Get a configuration string value.
@@ -85,7 +85,7 @@ public interface SystemConfigManager
 	 * @param name The name of the configuration value.
 	 * @return The configuration value.
 	 */
-	public String getString (String category, String name);
+	public String getString(String category, String name);
 
 	/**
 	 * Get a configuration boolean value.
@@ -94,7 +94,7 @@ public interface SystemConfigManager
 	 * @param name The name of the configuration value.
 	 * @return The configuration value.
 	 */
-	public Boolean getBoolean (String category, String name);
+	public Boolean getBoolean(String category, String name);
 
 	/**
 	 * Get a configuration boolean value.
@@ -104,7 +104,7 @@ public interface SystemConfigManager
 	 * @param name The name of the configuration value.
 	 * @return The configuration value.
 	 */
-	public boolean getBool (String category, String name);
+	public boolean getBool(String category, String name);
 
 	/**
 	 * Get a configuration integer value.
@@ -113,7 +113,7 @@ public interface SystemConfigManager
 	 * @param name The name of the configuration value.
 	 * @return The configuration value.
 	 */
-	public Integer getInteger (String category, String name);
+	public Integer getInteger(String category, String name);
 
 	/**
 	 * Get a configuration integer value.
@@ -122,7 +122,7 @@ public interface SystemConfigManager
 	 * @param name The name of the configuration value.
 	 * @return The configuration value.
 	 */
-	public int getInt (String category, String name);
+	public int getInt(String category, String name);
 
 	/**
 	 * Get a configuration integer value.
@@ -132,7 +132,7 @@ public interface SystemConfigManager
 	 * @param defaultValue The default value.
 	 * @return The configuration value.
 	 */
-	public int getInt (String category, String name, int defaultValue);
+	public int getInt(String category, String name, int defaultValue);
 
 	/**
 	 * Get a configuration time value.
@@ -141,77 +141,77 @@ public interface SystemConfigManager
 	 * @param name The name of the configuration value.
 	 * @return The configuration value.
 	 */
-	public Time getTime (String category, String name);
+	public Time getTime(String category, String name);
 
 	/**
 	 * Check the configuration change status.
 	 *
 	 * @return The configuration change status.
 	 */
-	public String getConfigState ();
+	public String getConfigState();
 
 	/**
 	 * Mark the config as beeing changed.
 	 */
-	public void configChangedSoft ();
+	public void configChangedSoft();
 
 	/**
 	 * Mark the config as beeing changed.
 	 */
-	public void configChangedHard ();
+	public void configChangedHard();
 
 	/**
 	 * Mark the config to need a reboot.
 	 */
-	public void configChangedReboot ();
+	public void configChangedReboot();
 
 	/**
 	 * Mark the config as beeing activated.
 	 */
-	public void configActivated ();
+	public void configActivated();
 
 	/**
 	 * Set the reboot flag.
 	 */
-	public void setRebootFlag ();
+	public void setRebootFlag();
 
 	/**
 	 * Unset the reboot flag.
 	 */
-	public void clearRebootFlag ();
+	public void clearRebootFlag();
 
 	/**
 	 * Check the reboot flag.
 	 *
 	 * @return True if the reboot flag is set.
 	 */
-	public boolean isRebootFlagSet ();
+	public boolean isRebootFlagSet();
 
 	/**
 	 * Check wether the config is up to date.
 	 *
 	 * @return True if the config is up to date.
 	 */
-	public boolean configIsUnchanged ();
+	public boolean configIsUnchanged();
 
 	/**
 	 * Check wether the config needs a reload.
 	 *
 	 * @return True if the config needs a reload.
 	 */
-	public boolean configNeedsReload ();
+	public boolean configNeedsReload();
 
 	/**
 	 * Check wether the config needs a restart.
 	 *
 	 * @return True if the config needs a restart.
 	 */
-	public boolean configNeedsRestart ();
+	public boolean configNeedsRestart();
 
 	/**
 	 * Check wether the config needs a reboot.
 	 *
 	 * @return True if the config needs a reboot.
 	 */
-	public boolean configNeedsReboot ();
+	public boolean configNeedsReboot();
 }

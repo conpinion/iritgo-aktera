@@ -35,35 +35,35 @@ public class AkteraAddressPlugin extends FrameworkPlugin
 	 * @see de.iritgo.aktario.core.plugin.Plugin#registerGUIPanes()
 	 */
 	@Override
-	protected void registerGUIPanes ()
+	protected void registerGUIPanes()
 	{
-		registerGUIPane (new AddressQueryPane ());
+		registerGUIPane(new AddressQueryPane());
 	}
 
 	/**
 	 * @see de.iritgo.aktario.core.plugin.Plugin#registerClientManagers()
 	 */
 	@Override
-	protected void registerClientManagers ()
+	protected void registerClientManagers()
 	{
-		registerManager (new AddressClientManager ());
-		registerManager (new AddressClientService ());
+		registerManager(new AddressClientManager());
+		registerManager(new AddressClientService());
 	}
 
 	/**
 	 * @see de.iritgo.aktario.core.plugin.Plugin#registerServerManagers()
 	 */
 	@Override
-	protected void registerServerManagers ()
+	protected void registerServerManagers()
 	{
-		registerManager (new AddressServerManager ());
+		registerManager(new AddressServerManager());
 	}
 
 	/**
 	 * @see de.iritgo.aktario.framework.base.FrameworkPlugin#registerConsoleCommands()
 	 */
 	@Override
-	protected void registerConsoleCommands ()
+	protected void registerConsoleCommands()
 	{
 	}
 
@@ -71,8 +71,8 @@ public class AkteraAddressPlugin extends FrameworkPlugin
 	 * @see de.iritgo.aktario.core.plugin.Plugin#registerCommands()
 	 */
 	@Override
-	protected void registerClientCommands ()
+	protected void registerClientCommands()
 	{
-		registerCommand (new ShowAddressViewDialog ());
+		registerCommand(new ShowAddressViewDialog());
 	}
 }

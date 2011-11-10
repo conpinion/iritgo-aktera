@@ -35,56 +35,56 @@ public interface UIResponse
 	 *
 	 * @param forward The forward name
 	 */
-	public void setForward (String forward);
+	public void setForward(String forward);
 
 	/**
 	 * Get the controller forward.
 	 *
 	 * @return The forward name
 	 */
-	public String getForward ();
+	public String getForward();
 
 	/**
 	 * Get a response element.
 	 *
 	 * @param name The element name.
 	 */
-	public ResponseElement get (String name);
+	public ResponseElement get(String name);
 
 	/**
 	 * Remove a response element.
 	 *
 	 * @param name The name of the element to remove
 	 */
-	public void remove (String name);
+	public void remove(String name);
 
 	/**
 	 * Remove a response element.
 	 *
 	 * @param element The element to remove
 	 */
-	public void remove (ResponseElement element);
+	public void remove(ResponseElement element);
 
 	/**
 	 * Return an iterator over all of the ResponseElements in this response.
 	 *
 	 * @return An element iterator
 	 */
-	public Iterator getAll ();
+	public Iterator getAll();
 
 	/**
 	 * Get the map of reponse elements.
 	 *
 	 * @return The response elements
 	 */
-	public Map<String, ResponseElement> getElements ();
+	public Map<String, ResponseElement> getElements();
 
 	/**
 	 * Add a response element.
 	 *
 	 * @param element The element to add
 	 */
-	public void add (ResponseElement element);
+	public void add(ResponseElement element);
 
 	/**
 	 * Create an output response element.
@@ -92,7 +92,7 @@ public interface UIResponse
 	 * @param name The element name
 	 * @return The output response element
 	 */
-	public Output createOutput (String name);
+	public Output createOutput(String name);
 
 	/**
 	 * Create an output response element.
@@ -101,7 +101,7 @@ public interface UIResponse
 	 * @param content The element content
 	 * @return The output response element
 	 */
-	public Output createOutput (String name, String content);
+	public Output createOutput(String name, String content);
 
 	/**
 	 * Create an input response element.
@@ -109,7 +109,7 @@ public interface UIResponse
 	 * @param name The element name
 	 * @return The input response element
 	 */
-	public Input createInput (String name);
+	public Input createInput(String name);
 
 	/**
 	 * Create a command response element.
@@ -118,7 +118,7 @@ public interface UIResponse
 	 * @param bean The bean name
 	 * @return The command response element
 	 */
-	public Command createCommand (String name, String bean);
+	public Command createCommand(String name, String bean);
 
 	/**
 	 * Create a command response element.
@@ -128,14 +128,14 @@ public interface UIResponse
 	 * @param label The command label
 	 * @return The command response element
 	 */
-	public Command createCommand (String name, String bean, String label);
+	public Command createCommand(String name, String bean, String label);
 
 	/**
 	 * Create and add an output response element.
 	 *
 	 * @param name The element name
 	 */
-	public Output addOutput (String name);
+	public Output addOutput(String name);
 
 	/**
 	 * Create and add an output response element.
@@ -143,7 +143,7 @@ public interface UIResponse
 	 * @param name The element name
 	 * @param content The element content
 	 */
-	public Output addOutput (String name, String content);
+	public Output addOutput(String name, String content);
 
 	/**
 	 * Create and add an input response element.
@@ -151,7 +151,7 @@ public interface UIResponse
 	 * @param name The element name
 	 * @return The new input object
 	 */
-	public Input addInput (String name);
+	public Input addInput(String name);
 
 	/**
 	 * Create and add an input response element.
@@ -160,7 +160,7 @@ public interface UIResponse
 	 * @param label The element label
 	 * @return The new input object
 	 */
-	public Input addInput (String name, String label);
+	public Input addInput(String name, String label);
 
 	/**
 	 * Create and add a command response element.
@@ -168,7 +168,7 @@ public interface UIResponse
 	 * @param name The element name
 	 * @param bean The bean name
 	 */
-	public Command addCommand (String name, String bean);
+	public Command addCommand(String name, String bean);
 
 	/**
 	 * Create and add a command response element.
@@ -177,7 +177,7 @@ public interface UIResponse
 	 * @param bean The bean name
 	 * @param label The element label
 	 */
-	public Command addCommand (String name, String bean, String label);
+	public Command addCommand(String name, String bean, String label);
 
 	/**
 	 * Create and add a command response element.
@@ -185,7 +185,7 @@ public interface UIResponse
 	 * @param name The element name
 	 * @param model The model name
 	 */
-	public Command addCommandWithModel (String name, String model);
+	public Command addCommandWithModel(String name, String model);
 
 	/**
 	 * Add an error with a specific name. This name may be used to associate the error
@@ -198,7 +198,7 @@ public interface UIResponse
 	 * beginning with "$" will be taken to be internationalized keys to look up in the
 	 * appropriate message bundle for this locale.
 	 */
-	public void addError (String errorName, String errorMessage);
+	public void addError(String errorName, String errorMessage);
 
 	/**
 	 * Just like addError above, but including an actual throwable with details about the error
@@ -209,7 +209,7 @@ public interface UIResponse
 	 * appropriate message bundle for this locale.
 	 * @param t A Throwable that caused this error to be recorded.
 	 */
-	public void addError (String errorName, String errorMessage, Throwable t);
+	public void addError(String errorName, String errorMessage, Throwable t);
 
 	/**
 	 * Just like addError above, but including a throwable but no message. The
@@ -218,25 +218,25 @@ public interface UIResponse
 	 * to the UI element from which the error originated.
 	 * @param t A Throwable that caused this error to be recorded.
 	 */
-	public void addError (String errorName, Throwable t);
+	public void addError(String errorName, Throwable t);
 
 	/**
 	 * Add a whole set of errors to the current error set. The map is assumed to contain
 	 * an error name followed by an error message or a throwable.
 	 */
-	public void addErrors (Map errors);
+	public void addErrors(Map errors);
 
 	/**
 	 * Return a map of error names and error messages. Use getStackTrace to get the
 	 * corresponding stack trace of the throwable recorded with this error, if any.
 	 * @return A map of error names and messages
 	 */
-	public Map getErrors ();
+	public Map getErrors();
 
 	/**
 	 * Clear the current errors Map
 	 */
-	public void clearErrors ();
+	public void clearErrors();
 
 	/**
 	 * If there is a stack trace related to the error, it can
@@ -247,7 +247,7 @@ public interface UIResponse
 	 * @returns A string containing the stacktrace recorded from the throwable for this error,
 	 * if one was specified.
 	 */
-	public String getStackTrace (String errorName);
+	public String getStackTrace(String errorName);
 
 	/**
 	 * Get the type of the specified error, where the type is the classname
@@ -256,7 +256,7 @@ public interface UIResponse
 	 * @param errorName Name of the error to be checked
 	 * @return The classname of the exception embedded in the given error.
 	 */
-	public String getErrorType (String errorName);
+	public String getErrorType(String errorName);
 
 	/**
 	 * Describe method getThrowable() here.
@@ -264,5 +264,5 @@ public interface UIResponse
 	 * @param oneKey
 	 * @return
 	 */
-	public Throwable getThrowable (String oneKey);
+	public Throwable getThrowable(String oneKey);
 }

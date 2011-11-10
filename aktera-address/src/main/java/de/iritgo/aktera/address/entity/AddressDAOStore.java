@@ -53,202 +53,202 @@ public class AddressDAOStore extends AddressStore
 	transient private AddressDAO addressDAO;
 
 	@Override
-	public void init ()
+	public void init()
 	{
 	}
 
 	@Override
-	public void shutdown ()
+	public void shutdown()
 	{
 	}
 
 	@Override
-	public Option<Address> findAddressByDn (Object addressDn)
+	public Option<Address> findAddressByDn(Object addressDn)
 	{
-		return addressDAO.findAddressByDn (addressDn);
+		return addressDAO.findAddressByDn(addressDn);
 	}
 
 	@Override
-	public Option<Address> findAddressByLastNameOrCompany (String name)
+	public Option<Address> findAddressByLastNameOrCompany(String name)
 	{
-		return addressDAO.findAddressByCategoryAndLastNameOrCompany (category, name);
+		return addressDAO.findAddressByCategoryAndLastNameOrCompany(category, name);
 	}
 
 	@Override
-	public List<Address> findAddressByNameStartsWith (String name)
+	public List<Address> findAddressByNameStartsWith(String name)
 	{
-		return addressDAO.findAddressesByCategoryAndNameOrCompanyStartsWith (category, name);
+		return addressDAO.findAddressesByCategoryAndNameOrCompanyStartsWith(category, name);
 	}
 
 	@Override
-	public List<Address> findAddressOfOwnerByNameStartsWith (String name, Integer ownerId)
+	public List<Address> findAddressOfOwnerByNameStartsWith(String name, Integer ownerId)
 	{
 		if (checkOwner)
 		{
-			return addressDAO.findAddressesOfOwnerByCategoryAndLastNameOrCompanyStartsWith (ownerId, category, name);
+			return addressDAO.findAddressesOfOwnerByCategoryAndLastNameOrCompanyStartsWith(ownerId, category, name);
 		}
 		else
 		{
-			return addressDAO.findAddressesByCategoryAndNameOrCompanyStartsWith (category, name);
+			return addressDAO.findAddressesByCategoryAndNameOrCompanyStartsWith(category, name);
 		}
 	}
 
 	@Override
-	public List<PhoneNumber> findAllPhoneNumbersByAddressDnSortedByCategoryList (String addressDn, String[] categories)
+	public List<PhoneNumber> findAllPhoneNumbersByAddressDnSortedByCategoryList(String addressDn, String[] categories)
 	{
-		return addressDAO.findAllPhoneNumbersByAddressIdSortedByCategories (NumberTools.toInt (addressDn, - 1),
+		return addressDAO.findAllPhoneNumbersByAddressIdSortedByCategories(NumberTools.toInt(addressDn, - 1),
 						categories);
 	}
 
 	@Override
-	public Option<Address> findAddressByPhoneNumber (PhoneNumber phoneNumber)
+	public Option<Address> findAddressByPhoneNumber(PhoneNumber phoneNumber)
 	{
-		return addressDAO.findAddressByCategoryAndPhoneNumber (category, phoneNumber);
+		return addressDAO.findAddressByCategoryAndPhoneNumber(category, phoneNumber);
 	}
 
 	@Override
-	public Option<Address> findAddressByPhoneNumber (String number)
+	public Option<Address> findAddressByPhoneNumber(String number)
 	{
 		if (! checkOwner)
 		{
-			return addressDAO.findAddressByCategoryAndPhoneNumber (category, number);
+			return addressDAO.findAddressByCategoryAndPhoneNumber(category, number);
 		}
 
-		return new Empty ();
+		return new Empty();
 	}
 
 	@Override
-	public Option<Address> findAddressOfOwnerByPhoneNumber (PhoneNumber number, Integer ownerId)
+	public Option<Address> findAddressOfOwnerByPhoneNumber(PhoneNumber number, Integer ownerId)
 	{
 		if (checkOwner)
 		{
-			return addressDAO.findAddressOfOwnerByCategoryAndPhoneNumber (ownerId, category, number);
+			return addressDAO.findAddressOfOwnerByCategoryAndPhoneNumber(ownerId, category, number);
 		}
 		else
 		{
-			return addressDAO.findAddressByCategoryAndPhoneNumber (category, number);
+			return addressDAO.findAddressByCategoryAndPhoneNumber(category, number);
 		}
 	}
 
 	@Override
-	public List<PhoneNumber> findPhoneNumbersEndingWith (String number)
+	public List<PhoneNumber> findPhoneNumbersEndingWith(String number)
 	{
 		if (! checkOwner)
 		{
-			return addressDAO.findPhoneNumbersEndingWith (number);
+			return addressDAO.findPhoneNumbersEndingWith(number);
 		}
 
-		return new LinkedList<PhoneNumber> ();
+		return new LinkedList<PhoneNumber>();
 	}
 
 	@Override
-	public List<PhoneNumber> findPhoneNumbersOfOwnerEndingWith (String number, Integer ownerId)
+	public List<PhoneNumber> findPhoneNumbersOfOwnerEndingWith(String number, Integer ownerId)
 	{
 		if (checkOwner)
 		{
-			return addressDAO.findPhoneNumbersOfOwnerEndingWith (ownerId, number);
+			return addressDAO.findPhoneNumbersOfOwnerEndingWith(ownerId, number);
 		}
 
-		return new LinkedList<PhoneNumber> ();
+		return new LinkedList<PhoneNumber>();
 	}
 
 	@Override
-	public Option<Address> findAddressByOwnerAndContactNumber (Integer ownerId, String contactNumber)
+	public Option<Address> findAddressByOwnerAndContactNumber(Integer ownerId, String contactNumber)
 	{
-		if (ownerId != null && isGlobalStore ())
+		if (ownerId != null && isGlobalStore())
 		{
 			return null;
 		}
-		return addressDAO.findAddressByOwnerAndCategoryAndContactNumber (ownerId, category, contactNumber);
+		return addressDAO.findAddressByOwnerAndCategoryAndContactNumber(ownerId, category, contactNumber);
 	}
 
 	@Override
-	public Option<Address> findAddressByOnwerAndFirstNameOrLastNameOrCompany (Integer ownerId, String firstName,
+	public Option<Address> findAddressByOnwerAndFirstNameOrLastNameOrCompany(Integer ownerId, String firstName,
 					String lastName, String company)
 	{
-		if (ownerId != null && isGlobalStore ())
+		if (ownerId != null && isGlobalStore())
 		{
-			return new Empty ();
+			return new Empty();
 		}
-		return addressDAO.findAddressByOwnerAndCategoryAndFirstNameOrLastNameOrCompany (ownerId, category, firstName,
+		return addressDAO.findAddressByOwnerAndCategoryAndFirstNameOrLastNameOrCompany(ownerId, category, firstName,
 						lastName, company);
 	}
 
 	@Override
-	public List<Address> createAddressListing (Integer userId, String search, String orderBy, SortOrder orderDir,
+	public List<Address> createAddressListing(Integer userId, String search, String orderBy, SortOrder orderDir,
 					int firstResult, int maxResults)
 	{
-		return addressDAO.createAddressListing (userId, category, checkOwner, search, orderBy, orderDir, firstResult,
+		return addressDAO.createAddressListing(userId, category, checkOwner, search, orderBy, orderDir, firstResult,
 						maxResults);
 	}
 
 	@Override
-	public void updateAddress (Address address)
+	public void updateAddress(Address address)
 	{
 		if (editable)
 		{
-			addressDAO.updateAddress (address);
+			addressDAO.updateAddress(address);
 		}
 	}
 
 	@Override
-	public Object createAddress (Address address, Integer ownerId)
+	public Object createAddress(Address address, Integer ownerId)
 	{
 		if (editable)
 		{
-			address.setCategory (category);
+			address.setCategory(category);
 
 			if (checkOwner)
 			{
-				address.setOwnerId (ownerId);
+				address.setOwnerId(ownerId);
 			}
 
-			addressDAO.createAddress (address);
-			return address.getId ();
+			addressDAO.createAddress(address);
+			return address.getId();
 		}
 
 		return null;
 	}
 
 	@Override
-	public void deleteAddressWithDn (Object addressDn)
+	public void deleteAddressWithDn(Object addressDn)
 	{
 		if (editable)
 		{
-			addressDAO.deleteAddressWithDn (addressDn);
+			addressDAO.deleteAddressWithDn(addressDn);
 		}
 	}
 
 	@Override
-	public boolean isGlobalStore ()
+	public boolean isGlobalStore()
 	{
 		return ! checkOwner;
 	}
 
 	@Override
-	public long countAddressesByOwnerAndSearch (Integer userId, String search)
+	public long countAddressesByOwnerAndSearch(Integer userId, String search)
 	{
-		return addressDAO.countAddressesByOwenrAndCategoryAndSearch (userId, checkOwner, category, search);
+		return addressDAO.countAddressesByOwenrAndCategoryAndSearch(userId, checkOwner, category, search);
 	}
 
 	@Override
-	public void deleteAllAddresses ()
+	public void deleteAllAddresses()
 	{
-		addressDAO.deleteAddressesByCategory (category);
+		addressDAO.deleteAddressesByCategory(category);
 	}
 
 	@Override
-	public boolean canBeDeleted ()
+	public boolean canBeDeleted()
 	{
-		return addressDAO.countAddressesByCategory (category) == 0;
+		return addressDAO.countAddressesByCategory(category) == 0;
 	}
 
 	@Override
-	public void deleteAllAddressesOfOwner (Integer userId)
+	public void deleteAllAddressesOfOwner(Integer userId)
 	{
 		if (checkOwner)
 		{
-			addressDAO.deleteAllAddressesOfOnwerByCategory (category, userId);
+			addressDAO.deleteAllAddressesOfOnwerByCategory(category, userId);
 		}
 	}
 }

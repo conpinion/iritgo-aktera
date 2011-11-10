@@ -31,32 +31,31 @@ import de.iritgo.aktera.permissions.entity.Permission;
 @Transactional(readOnly = true)
 public class PermissionDAOImpl extends HibernateDaoSupport implements PermissionDAO
 {
-	public List<Permission> findUserPermissions (AkteraUser user)
+	public List<Permission> findUserPermissions(AkteraUser user)
 	{
-		return getHibernateTemplate ().find ("from Permission where principalId = ? and principalType = 'U'",
-						user.getId ());
+		return getHibernateTemplate().find("from Permission where principalId = ? and principalType = 'U'",
+						user.getId());
 	}
 
-	public List<Permission> findGroupPermissions (AkteraGroup group)
+	public List<Permission> findGroupPermissions(AkteraGroup group)
 	{
-		return getHibernateTemplate ().find ("from Permission where principalId = ? and principalType = 'G'",
-						group.getId ());
-	}
-
-	@Transactional(readOnly = false)
-	public void deletePermissionWithObjectTypeAndObjectId (String objectType, Integer objectId)
-	{
-		getHibernateTemplate ().bulkUpdate ("delete from Permission where objectType = ? and objectId = ?",
-						new Object[]
-						{
-										objectType, objectId
-						});
+		return getHibernateTemplate().find("from Permission where principalId = ? and principalType = 'G'",
+						group.getId());
 	}
 
 	@Transactional(readOnly = false)
-	public void deleteAllPermissionsOfPrincipal (Integer principalId, String principalType)
+	public void deletePermissionWithObjectTypeAndObjectId(String objectType, Integer objectId)
 	{
-		getHibernateTemplate ().bulkUpdate ("delete from Permission where principalId = ? and principalType = ?",
+		getHibernateTemplate().bulkUpdate("delete from Permission where objectType = ? and objectId = ?", new Object[]
+		{
+						objectType, objectId
+		});
+	}
+
+	@Transactional(readOnly = false)
+	public void deleteAllPermissionsOfPrincipal(Integer principalId, String principalType)
+	{
+		getHibernateTemplate().bulkUpdate("delete from Permission where principalId = ? and principalType = ?",
 						new Object[]
 						{
 										principalId, principalType

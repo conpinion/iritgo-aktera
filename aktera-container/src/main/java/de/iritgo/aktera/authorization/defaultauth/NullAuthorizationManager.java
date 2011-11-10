@@ -43,12 +43,12 @@ public class NullAuthorizationManager implements AuthorizationManager, LogEnable
 {
 	private Logger log = null;
 
-	public NullAuthorizationManager ()
+	public NullAuthorizationManager()
 	{
-		super ();
+		super();
 	}
 
-	public void enableLogging (Logger newLog)
+	public void enableLogging(Logger newLog)
 	{
 		log = newLog;
 	}
@@ -57,7 +57,7 @@ public class NullAuthorizationManager implements AuthorizationManager, LogEnable
 	 * Is the specified operation allowed for the given
 	 * principal?
 	 */
-	public boolean allowed (Operation o, UserEnvironment ue)
+	public boolean allowed(Operation o, UserEnvironment ue)
 	{
 		return true;
 	}
@@ -67,7 +67,7 @@ public class NullAuthorizationManager implements AuthorizationManager, LogEnable
 	 * Contextualizable, then we can determine the principal
 	 * by getting the UserEnvironment from the context.
 	 */
-	public boolean allowed (Operation o, Context c)
+	public boolean allowed(Operation o, Context c)
 	{
 		return true;
 	}
@@ -80,7 +80,7 @@ public class NullAuthorizationManager implements AuthorizationManager, LogEnable
 	 * checks whther all users are allowed for this Group. If not then it checks
 	 * whether the current user is allowed.
 	 */
-	public boolean allowed (Object service, UserEnvironment ue)
+	public boolean allowed(Object service, UserEnvironment ue)
 	{
 		return true;
 	}
@@ -90,7 +90,7 @@ public class NullAuthorizationManager implements AuthorizationManager, LogEnable
 	 * is Contextualizable, it can determine the principal(s)
 	 * on it's own
 	 */
-	public boolean allowed (Object service, Context c)
+	public boolean allowed(Object service, Context c)
 	{
 		return true;
 	}
@@ -98,7 +98,7 @@ public class NullAuthorizationManager implements AuthorizationManager, LogEnable
 	/**
 	 * @see de.iritgo.aktera.authorization.AuthorizationManager#allowed(java.lang.Object, java.lang.String, de.iritgo.aktera.authentication.UserEnvironment)
 	 */
-	public boolean allowed (Object service, String id, UserEnvironment ue) throws AuthorizationException
+	public boolean allowed(Object service, String id, UserEnvironment ue) throws AuthorizationException
 	{
 		return true;
 	}

@@ -58,7 +58,7 @@ public interface Persistent
 	 * are CURRENT, MODIFIED, DELETED and NEW
 	 * TODO: More details
 	 */
-	public int getStatus ();
+	public int getStatus();
 
 	/**
 	 * Determine if the given operation is allowed for the current user, given
@@ -66,21 +66,21 @@ public interface Persistent
 	 *
 	 * @return True if the operation is permitted, false otherwise
 	 */
-	public boolean allowed (int operation) throws PersistenceException;
+	public boolean allowed(int operation) throws PersistenceException;
 
 	/**
 	 * Determine if a record with this key exists already - if
 	 * not, add a new record. Note that this method uses just the key
 	 * fields to determine if the record already exists.
 	 */
-	public void add () throws PersistenceException;
+	public void add() throws PersistenceException;
 
 	/**
 	 * Set all fields to empty value & clear the last result set
 	 *
 	 * @throws    PersistenceException If the fields cannot be cleared
 	 */
-	public void clear () throws PersistenceException;
+	public void clear() throws PersistenceException;
 
 	/**
 	 * Delete a record from the target table. The current field values for the key
@@ -91,7 +91,7 @@ public interface Persistent
 	 * @throws PersistenceException If the delete fails or if the referential integrity
 	 *          would be violated by the delete
 	 */
-	public void delete () throws PersistenceException;
+	public void delete() throws PersistenceException;
 
 	/**
 	 * Delete this record, optionally deleting any associated detail
@@ -106,7 +106,7 @@ public interface Persistent
 	 * @throws PersistenceException If the delete fails or if the referential integrity
 	 *          would be violated by the delete
 	 */
-	public void delete (boolean deleteDetails) throws PersistenceException;
+	public void delete(boolean deleteDetails) throws PersistenceException;
 
 	/**
 	 * Delete all of the records specified by the current search criteria.
@@ -118,7 +118,7 @@ public interface Persistent
 	 * @throws PersistenceException If the delete fails or if the referential integrity
 	 *          would be violated by the delete
 	 */
-	public void deleteAll () throws PersistenceException;
+	public void deleteAll() throws PersistenceException;
 
 	/**
 	 * A lot like retrieve, but works with any fields, not just the key field. Does not
@@ -130,7 +130,7 @@ public interface Persistent
 	 * @return    boolean If the search resulted in a record
 	 * @throws    PersistenceException If the search could not be completed
 	 */
-	public boolean find () throws PersistenceException;
+	public boolean find() throws PersistenceException;
 
 	/**
 	 * Get a single record from the database into this Persistent's fields
@@ -141,7 +141,7 @@ public interface Persistent
 	 *           are not sure if the record exists, use find() instead.
 	 * @see #find
 	 */
-	public void retrieve () throws PersistenceException;
+	public void retrieve() throws PersistenceException;
 
 	/**
 	 * Find a set of records of all of the objects that match the current
@@ -153,7 +153,7 @@ public interface Persistent
 	 *            of the search
 	 * @throws    PersistenceException If the search could not be completed
 	 */
-	public List<Persistent> query () throws PersistenceException;
+	public List<Persistent> query() throws PersistenceException;
 
 	/**
 	 * Search and retrieve in a particular order
@@ -163,7 +163,7 @@ public interface Persistent
 	 * @return    A List of new database objects retrieved by the search
 	 * @throws    PersistenceException If the search could not be completed
 	 */
-	public List<Persistent> query (String sortKeyString) throws PersistenceException;
+	public List<Persistent> query(String sortKeyString) throws PersistenceException;
 
 	/**
 	 * Set the given field to the specified value. Note that no validation is done at this point, other than possible
@@ -172,7 +172,7 @@ public interface Persistent
 	 * Note that field names in the Persistent object may or may not be the same as the database field in which
 	 * the Persistent is stored. This is determined by the configuration file.
 	 */
-	public void setField (String fieldName, Object fieldValue) throws PersistenceException;
+	public void setField(String fieldName, Object fieldValue) throws PersistenceException;
 
 	/**
 	 * Get the value of a field in this object
@@ -182,7 +182,7 @@ public interface Persistent
 	 *          an empty string is returned.
 	 * @throws    PersistenceException If there is no such field or it's value cannot be accessed
 	 */
-	public Object getField (String fieldName) throws PersistenceException;
+	public Object getField(String fieldName) throws PersistenceException;
 
 	/**
 	 * Get the integer value of a field in this object
@@ -192,7 +192,7 @@ public interface Persistent
 	 * @throws  PersistenceException if there is no such field or it's value cannot be
 	 *          converted to an integer.
 	 */
-	public int getFieldInt (String fieldName) throws PersistenceException;
+	public int getFieldInt(String fieldName) throws PersistenceException;
 
 	/**
 	 * Return the value of a field as a Date object
@@ -202,7 +202,7 @@ public interface Persistent
 	 * @throws   PersistenceException If the field does not exist or it's value
 	 *            is not a date or cannot be converted to a date
 	 */
-	public Date getFieldDate (String fieldName) throws PersistenceException;
+	public Date getFieldDate(String fieldName) throws PersistenceException;
 
 	/**
 	 * Boolean typesafe getField
@@ -212,7 +212,7 @@ public interface Persistent
 	 * @throws   PersistenceException If the field does not exist or it's value
 	 *            is not a date or cannot be converted to a date
 	 */
-	public boolean getFieldBoolean (String fieldName) throws PersistenceException;
+	public boolean getFieldBoolean(String fieldName) throws PersistenceException;
 
 	/**
 	 * Return the value of a field as a Strintg object
@@ -222,7 +222,7 @@ public interface Persistent
 	 * @throws   PersistenceException If the field does not exist or it's value
 	 *            is not a date or cannot be converted to a date
 	 */
-	public String getFieldString (String fieldName) throws PersistenceException;
+	public String getFieldString(String fieldName) throws PersistenceException;
 
 	/**
 	 * Update the database with the new info. Update affects only one record,
@@ -232,41 +232,41 @@ public interface Persistent
 	 * @throws    PersistenceException if the update to the database fails due to
 	 *             a database error
 	 */
-	public void update () throws PersistenceException;
+	public void update() throws PersistenceException;
 
-	public void setTransaction (Transaction t) throws PersistenceException;
+	public void setTransaction(Transaction t) throws PersistenceException;
 
-	public Helper getHelper () throws PersistenceException;
+	public Helper getHelper() throws PersistenceException;
 
 	/**
 	 * Apply field validations to a single field, returning a validation message if there is a problem,
 	 * or null if there's no problem
 	 */
-	public String validateField (String fieldName, Object fieldValue);
+	public String validateField(String fieldName, Object fieldValue);
 
 	/**
 	 * Apply all field validations to all fields, returning a map where the key is the field
 	 * name and the value is the error message for that field. If a field is not listed, there
 	 * was no problem with it's validation
 	 */
-	public Map validateAll ();
+	public Map validateAll();
 
 	/**
 	 * A Persistent is always configured from it's factory, never from the application directly
 	 */
-	void setMetaData (PersistentMetaData newMeta) throws PersistenceException;
+	void setMetaData(PersistentMetaData newMeta) throws PersistenceException;
 
 	/**
 	 * Return the PersistentMetaData object which describes this Persistent. This object contains all information
 	 * about fieldnames, types, etc.
 	 */
-	public PersistentMetaData getMetaData () throws PersistenceException;
+	public PersistentMetaData getMetaData() throws PersistenceException;
 
 	/**
 	 * Each persistent object has a name, assigned in the configuration file. This name may or may not bear any relationship
 	 * to the table name in which the Persistent is stored.
 	 */
-	public String getName ();
+	public String getName();
 
 	/**
 	 * Any database operation might in fact result in more than one error - validations, for example, or referential
@@ -275,14 +275,14 @@ public interface Persistent
 	 * one problem preventing the add from happening, e.g. multiple validation errors. An empty map is returned when
 	 * the last operation was successful.
 	 */
-	public Map getErrors ();
+	public Map getErrors();
 
 	/**
 	 * Return a Map of valid values and an associated
 	 * description of each value for this field.
 	 * @throws PersistenceException If there is no such field
 	 */
-	public Map getValidValues (String fieldName) throws PersistenceException;
+	public Map getValidValues(String fieldName) throws PersistenceException;
 
 	/**
 	 * Just like find, but only retrieves the count, not the records themselves.
@@ -291,35 +291,35 @@ public interface Persistent
 	 * @throws    PersistenceException If the search could not be completed
 	 * @see #find
 	 */
-	public int count () throws PersistenceException;
+	public int count() throws PersistenceException;
 
 	/**
 	 * Set a general-purpose short-lived attribute for this
 	 * persistent. The attribute is not (necessarily) stored
 	 * in the database.
 	 */
-	public void setAttribute (String attribName, Object attribValue);
+	public void setAttribute(String attribName, Object attribValue);
 
 	/**
 	 * Get a general-purpose attribute
 	 * where the scope is the whole persistent
 	 */
-	public Object getAttribute (String attribName);
+	public Object getAttribute(String attribName);
 
-	public Map getAttributes ();
+	public Map getAttributes();
 
 	/**
 	 * Get a general-purpose attribute
 	 * for a specific field.
 	 * @throws PersistenceException If there is no such field
 	 */
-	public Object getAttribute (String fieldName, String attribName) throws PersistenceException;
+	public Object getAttribute(String fieldName, String attribName) throws PersistenceException;
 
 	/**
 	 * Specify the maximum number of records retrieved by
 	 * the next query
 	 */
-	public void setMaxRecords (int newMax);
+	public void setMaxRecords(int newMax);
 
 	/**
 	 * Specifies the number of records that should be skipped over
@@ -335,27 +335,27 @@ public interface Persistent
 	 * @throws PersistenceException If the max number is less than 0
 	 *
 	 */
-	public void setOffsetRecord (int newOffset);
+	public void setOffsetRecord(int newOffset);
 
 	/**
 	 * Get exclusive read-write access to the underlying store for a persistent table
 	 */
-	public void lock () throws PersistenceException;
+	public void lock() throws PersistenceException;
 
 	/**
 	 * Release the exclusive read-write access to the underlying store for the persistence table
 	 */
-	public void unlock () throws PersistenceException;
+	public void unlock() throws PersistenceException;
 
 	/**
 	 * Return the maximum value of the specified field
 	 */
-	public double max (String fieldName) throws PersistenceException;
+	public double max(String fieldName) throws PersistenceException;
 
 	/**
 	 * Return the minimum value of the specified field
 	 */
-	public double min (String fieldName) throws PersistenceException;
+	public double min(String fieldName) throws PersistenceException;
 
 	/**
 	 * Find the sum of the values in the specified field of records
@@ -365,7 +365,7 @@ public interface Persistent
 	 * @return    double Sum of the records matching the criteria
 	 * @throws    PersistenceException If the search could not be completed
 	 */
-	public double sum (String fieldName) throws PersistenceException;
+	public double sum(String fieldName) throws PersistenceException;
 
 	/**
 	 * The PersistentMetaData object associated with this Persistent can supply
@@ -380,7 +380,7 @@ public interface Persistent
 	 * @throws PersistenceException If a problem occurs retrieving the details
 	 * or if there is no such relationship
 	 */
-	public List getDetails (String detailName) throws PersistenceException;
+	public List getDetails(String detailName) throws PersistenceException;
 
 	/**
 	 * Convenience method that returns a JavaBean containing the data from the
@@ -390,7 +390,7 @@ public interface Persistent
 	 * @return An object (a JavaBean) populated with the data from the current persistent
 	 * @throws PersistenceException If there is a problem instantiating or populating the bean.
 	 */
-	public Object getBean () throws PersistenceException;
+	public Object getBean() throws PersistenceException;
 
 	/**
 	 * Set the persistent fields from the fields of a bean.
@@ -398,7 +398,7 @@ public interface Persistent
 	 * @param newBean A JavaBean with the data to populate the current persistent from.
 	 * @throws PersistenceException
 	 */
-	public void setBean (Object newBean) throws PersistenceException;
+	public void setBean(Object newBean) throws PersistenceException;
 
-	public void setBypassAuthorizationManager (AuthorizationManager bypassAm) throws PersistenceException;
+	public void setBypassAuthorizationManager(AuthorizationManager bypassAm) throws PersistenceException;
 }

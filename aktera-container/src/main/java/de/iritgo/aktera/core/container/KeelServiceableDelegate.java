@@ -41,8 +41,8 @@ public class KeelServiceableDelegate extends AbstractKeelServiceable
 	 * @param m_extManager
 	 * @param m_context
 	 */
-	public KeelServiceableDelegate (ServiceManager parent) throws ServiceException
+	public KeelServiceableDelegate(ServiceManager parent) throws ServiceException
 	{
-		service (parent);
+		service(parent);
 	}
 }

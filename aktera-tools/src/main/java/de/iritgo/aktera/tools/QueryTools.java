@@ -44,22 +44,22 @@ public class QueryTools
 	 * @throws ModelException in case of a general failure.
 	 * @throws QueryException in case of a query failure.
 	 */
-	public static int executeCountQuery (ModelRequest req, String queryId, Object... params)
+	public static int executeCountQuery(ModelRequest req, String queryId, Object... params)
 		throws ModelException, QueryException
 	{
-		Query query = (Query) req.getService (Query.ROLE, queryId);
+		Query query = (Query) req.getService(Query.ROLE, queryId);
 
 		for (int i = 0; i + 1 < params.length;)
 		{
-			query.setCriteria (params[i].toString (), params[i + 1]);
+			query.setCriteria(params[i].toString(), params[i + 1]);
 			i += 2;
 		}
 
-		List res = query.getQueryResults ();
+		List res = query.getQueryResults();
 
-		if (res.size () > 0)
+		if (res.size() > 0)
 		{
-			return NumberTools.toInt (((Map) res.get (0)).get ("count"), - 1);
+			return NumberTools.toInt(((Map) res.get(0)).get("count"), - 1);
 		}
 
 		return 0;

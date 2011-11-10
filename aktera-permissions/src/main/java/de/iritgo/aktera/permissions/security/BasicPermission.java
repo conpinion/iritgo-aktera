@@ -32,23 +32,23 @@ public class BasicPermission extends AbstractPermission implements java.io.Seria
 
 	private transient String path;
 
-	private void init (String name)
+	private void init(String name)
 	{
 		if (name == null)
 		{
-			throw new NullPointerException ("name can't be null");
+			throw new NullPointerException("name can't be null");
 		}
 
-		int len = name.length ();
+		int len = name.length();
 
 		if (len == 0)
 		{
-			throw new IllegalArgumentException ("name can't be empty");
+			throw new IllegalArgumentException("name can't be empty");
 		}
 
-		char last = name.charAt (len - 1);
+		char last = name.charAt(len - 1);
 
-		if (last == '*' && (len == 1 || name.charAt (len - 2) == '.'))
+		if (last == '*' && (len == 1 || name.charAt(len - 2) == '.'))
 		{
 			wildcard = true;
 			if (len == 1)
@@ -57,7 +57,7 @@ public class BasicPermission extends AbstractPermission implements java.io.Seria
 			}
 			else
 			{
-				path = name.substring (0, len - 1);
+				path = name.substring(0, len - 1);
 			}
 		}
 		else
@@ -66,16 +66,16 @@ public class BasicPermission extends AbstractPermission implements java.io.Seria
 		}
 	}
 
-	public BasicPermission (String name)
+	public BasicPermission(String name)
 	{
-		super (name);
-		init (name);
+		super(name);
+		init(name);
 	}
 
 	@Override
-	public boolean implies (AbstractPermission p)
+	public boolean implies(AbstractPermission p)
 	{
-		if ((p == null) || (p.getClass () != getClass ()))
+		if ((p == null) || (p.getClass() != getClass()))
 			return false;
 
 		BasicPermission that = (BasicPermission) p;
@@ -85,12 +85,12 @@ public class BasicPermission extends AbstractPermission implements java.io.Seria
 			if (that.wildcard)
 			{
 				// one wildcard can imply another
-				return that.path.startsWith (path);
+				return that.path.startsWith(path);
 			}
 			else
 			{
 				// make sure ap.path is longer so a.b.* doesn't imply a.b
-				return (that.path.length () > this.path.length ()) && that.path.startsWith (this.path);
+				return (that.path.length() > this.path.length()) && that.path.startsWith(this.path);
 			}
 		}
 		else
@@ -102,45 +102,45 @@ public class BasicPermission extends AbstractPermission implements java.io.Seria
 			}
 			else
 			{
-				return this.path.equals (that.path);
+				return this.path.equals(that.path);
 			}
 		}
 	}
 
 	@Override
-	public boolean equals (Object obj)
+	public boolean equals(Object obj)
 	{
 		if (obj == this)
 			return true;
 
-		if ((obj == null) || (obj.getClass () != getClass ()))
+		if ((obj == null) || (obj.getClass() != getClass()))
 			return false;
 
 		BasicPermission bp = (BasicPermission) obj;
 
-		return getCanonicalName ().equals (bp.getCanonicalName ());
+		return getCanonicalName().equals(bp.getCanonicalName());
 	}
 
 	@Override
-	public int hashCode ()
+	public int hashCode()
 	{
-		return this.getCanonicalName ().hashCode ();
+		return this.getCanonicalName().hashCode();
 	}
 
 	@Override
-	public PermissionCollection newPermissionCollection ()
+	public PermissionCollection newPermissionCollection()
 	{
-		return new BasicPermissionCollection ();
+		return new BasicPermissionCollection();
 	}
 
-	private void readObject (ObjectInputStream s) throws IOException, ClassNotFoundException
+	private void readObject(ObjectInputStream s) throws IOException, ClassNotFoundException
 	{
-		s.defaultReadObject ();
-		init (getCanonicalName ());
+		s.defaultReadObject();
+		init(getCanonicalName());
 	}
 
-	final String getCanonicalName ()
+	final String getCanonicalName()
 	{
-		return getName ();
+		return getName();
 	}
 }

@@ -35,35 +35,35 @@ public class DeleteAkteraObjectCommand extends DataObjectCommand
 	/**
 	 * Create a new startup command.
 	 */
-	public DeleteAkteraObjectCommand ()
+	public DeleteAkteraObjectCommand()
 	{
-		super ("DeleteAkteraObjectCommand");
-		properties = new Properties ();
+		super("DeleteAkteraObjectCommand");
+		properties = new Properties();
 	}
 
 	/**
 	 *
 	 */
-	public void perform ()
+	public void perform()
 	{
-		Properties props = new Properties ();
+		Properties props = new Properties();
 
-		props.put ("closable", Boolean.FALSE);
-		props.put ("iconifiable", Boolean.FALSE);
-		props.put ("maximizable", Boolean.FALSE);
-		props.put ("maximized", Boolean.TRUE);
-		props.put ("titlebar", Boolean.FALSE);
+		props.put("closable", Boolean.FALSE);
+		props.put("iconifiable", Boolean.FALSE);
+		props.put("maximizable", Boolean.FALSE);
+		props.put("maximized", Boolean.TRUE);
+		props.put("titlebar", Boolean.FALSE);
 
-		DataObject dataObject = (DataObject) ((QueryPane) swingGUIPane).getSelectedItem ();
+		DataObject dataObject = (DataObject) ((QueryPane) swingGUIPane).getSelectedItem();
 
 		if (dataObject == null)
 		{
 			return;
 		}
 
-		DeleteAkteraObjectRequest deleteAkteraObjectRequest = new DeleteAkteraObjectRequest (value, dataObject,
-						swingGUIPane.getOnScreenUniqueId ());
+		DeleteAkteraObjectRequest deleteAkteraObjectRequest = new DeleteAkteraObjectRequest(value, dataObject,
+						swingGUIPane.getOnScreenUniqueId());
 
-		ActionTools.sendToServer (deleteAkteraObjectRequest);
+		ActionTools.sendToServer(deleteAkteraObjectRequest);
 	}
 }

@@ -34,7 +34,7 @@ import de.iritgo.aktera.ui.form.*;
 import de.iritgo.simplelife.tools.Option;
 
 
-@Component ("de.iritgo.aktera.address.AddressStoreFormularHandler")
+@Component("de.iritgo.aktera.address.AddressStoreFormularHandler")
 public class AddressStoreFormularHandler extends FormularHandler
 {
 	@Setter
@@ -46,103 +46,103 @@ public class AddressStoreFormularHandler extends FormularHandler
 	private AddressManager addressManager;
 
 	@Override
-	public void afterLoad (ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents)
+	public void afterLoad(ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents)
 		throws ModelException, PersistenceException
 	{
-		AddressStore store = (AddressStore) persistents.get ("store");
-		for (AddressStoreType type : addressManager.getAddressStoreTypes ())
+		AddressStore store = (AddressStore) persistents.get("store");
+		for (AddressStoreType type : addressManager.getAddressStoreTypes())
 		{
-			String addressStoreClassName = type.getClassName ();
-			formular.getGroup (addressStoreClassName).setVisible (
-							addressStoreClassName.equals (store.getClass ().getName ()));
+			String addressStoreClassName = type.getClassName();
+			formular.getGroup(addressStoreClassName).setVisible(
+							addressStoreClassName.equals(store.getClass().getName()));
 		}
 	}
 
 	@Override
-	public void adjustFormular (ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents)
+	public void adjustFormular(ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents)
 		throws ModelException, PersistenceException
 	{
-		Map scopes = new HashMap ();
-		persistents.putValidValues ("store.scope", scopes);
-		for (AddressLDAPStore.SearchScope scope : AddressLDAPStore.SearchScope.values ())
+		Map scopes = new HashMap();
+		persistents.putValidValues("store.scope", scopes);
+		for (AddressLDAPStore.SearchScope scope : AddressLDAPStore.SearchScope.values())
 		{
-			scopes.put (scope.name (), "$ldapScope" + scope.name ());
+			scopes.put(scope.name(), "$ldapScope" + scope.name());
 		}
 	}
 
 	@Override
-	public void validatePersistents (List<Configuration> persistentConfig, ModelRequest request,
-					ModelResponse response, FormularDescriptor formular, PersistentDescriptor persistents,
-					boolean create, ValidationResult result) throws ModelException, PersistenceException
+	public void validatePersistents(List<Configuration> persistentConfig, ModelRequest request, ModelResponse response,
+					FormularDescriptor formular, PersistentDescriptor persistents, boolean create,
+					ValidationResult result) throws ModelException, PersistenceException
 	{
-		super.validatePersistents (persistentConfig, request, response, formular, persistents, create, result);
-		AddressStore store = (AddressStore) persistents.get ("store");
-		Option<AddressStore> otherStore = addressDAO.findAddressStoreByName (store.getName ());
-		if (otherStore.full () && ! otherStore.get ().getId ().equals (store.getId ()))
+		super.validatePersistents(persistentConfig, request, response, formular, persistents, create, result);
+		AddressStore store = (AddressStore) persistents.get("store");
+		Option<AddressStore> otherStore = addressDAO.findAddressStoreByName(store.getName());
+		if (otherStore.full() && ! otherStore.get().getId().equals(store.getId()))
 		{
-			FormTools.addError (response, result, "store.name", "AkteraAddress:duplicateAddressStoreName");
+			FormTools.addError(response, result, "store.name", "AkteraAddress:duplicateAddressStoreName");
 		}
 	}
 
 	@Override
 	@Transactional(readOnly = false)
-	public void preStorePersistents (ModelRequest request, FormularDescriptor formular,
+	public void preStorePersistents(ModelRequest request, FormularDescriptor formular,
 					PersistentDescriptor persistents, boolean modified) throws ModelException, PersistenceException
 	{
-		AddressStore store = (AddressStore) persistents.get ("store");
-		store.setPosition (addressDAO.calculateMaxAddressStorePosition () + 1);
+		AddressStore store = (AddressStore) persistents.get("store");
+		store.setPosition(addressDAO.calculateMaxAddressStorePosition() + 1);
 	}
 
 	@Override
 	@Transactional(readOnly = false)
-	public int createPersistents (ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents,
+	public int createPersistents(ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents,
 					List<Configuration> persistentConfig) throws ModelException, PersistenceException
 	{
-		AddressStore store = (AddressStore) persistents.get ("store");
-		if (store.getDefaultStore ())
+		AddressStore store = (AddressStore) persistents.get("store");
+		if (store.getDefaultStore())
 		{
-			addressDAO.resetDefaultStoreFlagOnAllAddressStores ();
+			addressDAO.resetDefaultStoreFlagOnAllAddressStores();
 		}
-		int id = super.createPersistents (request, formular, persistents, persistentConfig);
-		addressManager.initializeAddressStores ();
+		int id = super.createPersistents(request, formular, persistents, persistentConfig);
+		addressManager.initializeAddressStores();
 		return id;
 	}
 
 	@Override
 	@Transactional(readOnly = false)
-	public void updatePersistents (ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents,
+	public void updatePersistents(ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents,
 					List<Configuration> persistentConfig, boolean modified) throws ModelException, PersistenceException
 	{
-		AddressStore store = (AddressStore) persistents.get ("store");
-		if (store.getDefaultStore ())
+		AddressStore store = (AddressStore) persistents.get("store");
+		if (store.getDefaultStore())
 		{
-			addressDAO.resetDefaultStoreFlagOnAllAddressStores ();
+			addressDAO.resetDefaultStoreFlagOnAllAddressStores();
 		}
-		super.updatePersistents (request, formular, persistents, persistentConfig, modified);
-		addressManager.initializeAddressStores ();
+		super.updatePersistents(request, formular, persistents, persistentConfig, modified);
+		addressManager.initializeAddressStores();
 	}
 
 	@Override
-	public boolean canDeletePersistent (ModelRequest request, Object id, Object entity, boolean systemDelete,
+	public boolean canDeletePersistent(ModelRequest request, Object id, Object entity, boolean systemDelete,
 					ValidationResult result) throws ModelException, PersistenceException
 	{
 		AddressStore store = (AddressStore) entity;
-		if (systemDelete || store.canBeDeleted ())
+		if (systemDelete || store.canBeDeleted())
 		{
 			return true;
 		}
-		result.addError ("store", "AkteraAddress:notEmptyAddressStoreCannotBeDeleted");
+		result.addError("store", "AkteraAddress:notEmptyAddressStoreCannotBeDeleted");
 		return false;
 	}
 
 	@Override
 	@Transactional(readOnly = false)
-	public void deletePersistent (ModelRequest request, ModelResponse response, Object id, Object entity,
+	public void deletePersistent(ModelRequest request, ModelResponse response, Object id, Object entity,
 					boolean systemDelete) throws ModelException, PersistenceException
 	{
 		AddressStore store = (AddressStore) entity;
-		addressDAO.renumberAddressStorePositions (store.getPosition () + 1, - 1);
-		super.deletePersistent (request, response, id, entity, systemDelete);
-		addressManager.initializeAddressStores ();
+		addressDAO.renumberAddressStorePositions(store.getPosition() + 1, - 1);
+		super.deletePersistent(request, response, id, entity, systemDelete);
+		addressManager.initializeAddressStores();
 	}
 }

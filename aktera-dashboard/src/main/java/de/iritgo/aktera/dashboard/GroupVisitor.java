@@ -33,7 +33,7 @@ public abstract class GroupVisitor
 	 *
 	 * @param simpleNumberItem The simple number item
 	 */
-	public void generate (SimpleNumberItem simpleNumberItem)
+	public void generate(SimpleNumberItem simpleNumberItem)
 	{
 	}
 
@@ -42,7 +42,7 @@ public abstract class GroupVisitor
 	 *
 	 * @param dashboardGroup The dashboard group
 	 */
-	public void generate (DashboardGroup dashboardGroup)
+	public void generate(DashboardGroup dashboardGroup)
 	{
 	}
 
@@ -51,7 +51,7 @@ public abstract class GroupVisitor
 	 *
 	 * @param simpleTextItemImpl The simple text item
 	 */
-	public void generate (SimpleTextItem simpleTextItem)
+	public void generate(SimpleTextItem simpleTextItem)
 	{
 	}
 
@@ -60,7 +60,7 @@ public abstract class GroupVisitor
 	 *
 	 * @param visitor The parent visitor
 	 */
-	public void setParentVisitor (GroupVisitor visitor)
+	public void setParentVisitor(GroupVisitor visitor)
 	{
 		this.parentVisitor = visitor;
 	}

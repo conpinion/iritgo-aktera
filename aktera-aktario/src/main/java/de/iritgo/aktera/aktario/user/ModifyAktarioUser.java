@@ -42,73 +42,72 @@ import de.iritgo.simplelife.tools.Option;
  */
 public class ModifyAktarioUser extends StandardLogEnabledModel
 {
-	public ModelResponse execute (ModelRequest req) throws ModelException
+	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
 		try
 		{
-			AktarioUserRegistry aktarioUsers = ((AktarioUserManager) Engine.instance ().getManager (
-							"AktarioUserManager")).getUserRegistry ();
-			AktarioUserManager aktarioUserManager = (AktarioUserManager) Engine.instance ().getManager (
+			AktarioUserRegistry aktarioUsers = ((AktarioUserManager) Engine.instance().getManager("AktarioUserManager"))
+							.getUserRegistry();
+			AktarioUserManager aktarioUserManager = (AktarioUserManager) Engine.instance().getManager(
 							"AktarioUserManager");
 
-			int userId = NumberTools.toInt (req.getParameter ("userId"), - 1);
+			int userId = NumberTools.toInt(req.getParameter("userId"), - 1);
 
 			if (userId != - 1)
 			{
-				PersistentFactory persistentManager = (PersistentFactory) req.getService (PersistentFactory.ROLE, req
-								.getDomain ());
+				PersistentFactory persistentManager = (PersistentFactory) req.getService(PersistentFactory.ROLE, req
+								.getDomain());
 
-				Persistent user = persistentManager.create ("keel.user");
+				Persistent user = persistentManager.create("keel.user");
 
-				user.setField ("uid", new Integer (userId));
+				user.setField("uid", new Integer(userId));
 
-				if (user.find ())
+				if (user.find())
 				{
-					Persistent party = persistentManager.create ("aktera.Party");
+					Persistent party = persistentManager.create("aktera.Party");
 
-					party.setField ("userId", new Integer (userId));
-					party.find ();
+					party.setField("userId", new Integer(userId));
+					party.find();
 
-					AddressDAO addressDAO = (AddressDAO) SpringTools.getBean (AddressDAO.ID);
-					Option<Address> address = addressDAO.findAddressByPartyId (party.getFieldInt ("partyId"));
-					AktarioUser aktarioUser = aktarioUsers.getUserByName (user.getFieldString ("name"));
-					if (address.full ())
+					AddressDAO addressDAO = (AddressDAO) SpringTools.getBean(AddressDAO.ID);
+					Option<Address> address = addressDAO.findAddressByPartyId(party.getFieldInt("partyId"));
+					AktarioUser aktarioUser = aktarioUsers.getUserByName(user.getFieldString("name"));
+					if (address.full())
 					{
-						if (StringTools.isTrimEmpty (address.get ().getFirstName ()))
+						if (StringTools.isTrimEmpty(address.get().getFirstName()))
 						{
-							aktarioUser.setFullName (address.get ().getLastName ());
+							aktarioUser.setFullName(address.get().getLastName());
 						}
 						else
 						{
-							aktarioUser.setFullName (address.get ().getFirstName () + " "
-											+ address.get ().getLastName ());
+							aktarioUser.setFullName(address.get().getFirstName() + " " + address.get().getLastName());
 						}
 					}
 
-					String password = (String) req.getParameter ("password");
+					String password = (String) req.getParameter("password");
 
-					if ((password != null) && (! password.equals ("")))
+					if ((password != null) && (! password.equals("")))
 					{
-						aktarioUser.setPassword (password);
+						aktarioUser.setPassword(password);
 					}
 
-					if (address.full ())
+					if (address.full())
 					{
-						aktarioUser.setEmail (address.get ().getEmail ());
+						aktarioUser.setEmail(address.get().getEmail());
 					}
 
 					if (aktarioUser != null)
 					{
-						aktarioUserManager.modifyUser (aktarioUser);
+						aktarioUserManager.modifyUser(aktarioUser);
 					}
 				}
 			}
 		}
 		catch (PersistenceException x)
 		{
-			System.out.println ("ModifyAktarioUser: " + x);
+			System.out.println("ModifyAktarioUser: " + x);
 		}
 
-		return req.createResponse ();
+		return req.createResponse();
 	}
 }

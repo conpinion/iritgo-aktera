@@ -42,7 +42,7 @@ public interface JournalDAO
 	 * @param journal The journal entry
 	 */
 	@Transactional(readOnly = false)
-	public void create (JournalEntry journal);
+	public void create(JournalEntry journal);
 
 	/**
 	 * Delete a journal entry
@@ -50,7 +50,7 @@ public interface JournalDAO
 	 * @param journal The journal entry
 	 */
 	@Transactional(readOnly = false)
-	public void delete (JournalEntry cdr);
+	public void delete(JournalEntry cdr);
 
 	/**
 	 * Update a journal entry
@@ -58,7 +58,7 @@ public interface JournalDAO
 	 * @param journal The journal
 	 */
 	@Transactional(readOnly = false)
-	public void update (JournalEntry journal);
+	public void update(JournalEntry journal);
 
 	/**
 	 * Retrieve a journal entry by the given id
@@ -66,19 +66,19 @@ public interface JournalDAO
 	 * @param id The id
 	 * @return The journal entry
 	 */
-	public JournalEntry getById (Integer id);
+	public JournalEntry getById(Integer id);
 
-	public List<JournalEntry> listJournalEntries (String search, Timestamp start, Timestamp end, Integer ownerId,
+	public List<JournalEntry> listJournalEntries(String search, Timestamp start, Timestamp end, Integer ownerId,
 					String ownerType, String sortColumnName, SortOrder sortOrder, int firstResult, int resultsPerPage);
 
-	public long countJournalEntries (String search, Timestamp start, Timestamp end, Integer ownerId, String ownerType);
+	public long countJournalEntries(String search, Timestamp start, Timestamp end, Integer ownerId, String ownerType);
 
 	/**
 	 * Create a journal data.
 	 *
 	 * @param The journal data object
 	 */
-	public void createJournalData (JournalData journalData);
+	public void createJournalData(JournalData journalData);
 
 	/**
 	 * Retrieve a journal data object by the given id
@@ -86,28 +86,28 @@ public interface JournalDAO
 	 * @param id The primary key id
 	 * @return The journal data
 	 */
-	public JournalData getJournalDataById (Integer id);
+	public JournalData getJournalDataById(Integer id);
 
 	/**
 	 * Delete a journal data object
 	 *
 	 * @param journalData
 	 */
-	public void deleteJournalData (JournalData journalData);
+	public void deleteJournalData(JournalData journalData);
 
 	/**
 	 * Updat a journal data object
 	 *
 	 * @param journalData
 	 */
-	public void updateJournalData (JournalData journalData);
+	public void updateJournalData(JournalData journalData);
 
 	/**
 	 * Find a journal entry by a given tag
 	 *
 	 * @param tag The given trag
 	 */
-	public JournalEntry findEntryByTag (String uuid);
+	public JournalEntry findEntryByTag(String uuid);
 
 	/**
 	 * List a all journal entrys by primary and secondary type
@@ -125,7 +125,7 @@ public interface JournalDAO
 	 * @param secondaryType secondary type
 	 * @return The list The list
 	 */
-	public List<JournalEntry> listJournalEntriesByPrimaryAndSecondaryType (String search, final Timestamp start,
+	public List<JournalEntry> listJournalEntriesByPrimaryAndSecondaryType(String search, final Timestamp start,
 					final Timestamp end, final Integer ownerId, String ownerType, String sortColumnName,
 					SortOrder sortOrder, final int firstResult, final int resultsPerPage, final String primaryType,
 					final String secondaryType);
@@ -142,9 +142,8 @@ public interface JournalDAO
 	 * @param secondaryType secnodary type
 	 * @return
 	 */
-	public long countJournalEntriesByPrimaryAndSecondaryType (String search, final Timestamp start,
-					final Timestamp end, final Integer ownerId, String ownerType, final String primaryType,
-					final String secondaryType);
+	public long countJournalEntriesByPrimaryAndSecondaryType(String search, final Timestamp start, final Timestamp end,
+					final Integer ownerId, String ownerType, final String primaryType, final String secondaryType);
 
 	/**
 	 * Return a journal entry list by the given condition
@@ -157,7 +156,7 @@ public interface JournalDAO
 	 * @param conditionMap
 	 * @return
 	 */
-	public List<JournalEntry> listJournalEntriesByCondition (String sortColumnName, SortOrder sortOrder,
+	public List<JournalEntry> listJournalEntriesByCondition(String sortColumnName, SortOrder sortOrder,
 					final int firstResult, final int resultsPerPage, final String condition,
 					final Map<String, Object> conditionMap);
 
@@ -170,7 +169,7 @@ public interface JournalDAO
 	 * @param conditionMap
 	 * @return
 	 */
-	public long countJournalEntriesByCondition (final String condition, final Map<String, Object> conditionMap);
+	public long countJournalEntriesByCondition(final String condition, final Map<String, Object> conditionMap);
 
 	/**
 	 * Return a list with all journal entries by the given owner id
@@ -178,14 +177,14 @@ public interface JournalDAO
 	 * @param ownerId The owner id
 	 * @return The journal entry list
 	 */
-	public List<JournalEntry> listJournalEntriesByOwnerId (Integer ownerId);
+	public List<JournalEntry> listJournalEntriesByOwnerId(Integer ownerId);
 
 	/**
 	 * Find a journal entry by a given misc
 	 *
 	 * @param tag The given misc
 	 */
-	public JournalEntry findEntryByMisc (String tag);
+	public JournalEntry findEntryByMisc(String tag);
 
 	/**
 	 * Return a journal entry by the given type and id of the extendend info fields
@@ -194,5 +193,5 @@ public interface JournalDAO
 	 * @param Id The id
 	 * @return The journal entry
 	 */
-	public JournalEntry getByExtendedInfoTypeAndExtendedInfoId (String type, Integer id);
+	public JournalEntry getByExtendedInfoTypeAndExtendedInfoId(String type, Integer id);
 }

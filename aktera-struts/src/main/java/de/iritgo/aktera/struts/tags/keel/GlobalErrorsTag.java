@@ -47,7 +47,7 @@ public class GlobalErrorsTag extends ErrorsTag
 	 *
 	 * @param displayEllErrors If true all errors are displayed.
 	 */
-	public void setDisplayAllErrors (boolean displayEllErrors)
+	public void setDisplayAllErrors(boolean displayEllErrors)
 	{
 		this.displayEllErrors = displayEllErrors;
 	}
@@ -55,7 +55,7 @@ public class GlobalErrorsTag extends ErrorsTag
 	/**
 	 * Reset all tag attributes to their default values.
 	 */
-	public void release ()
+	public void release()
 	{
 		displayEllErrors = false;
 	}
@@ -65,55 +65,55 @@ public class GlobalErrorsTag extends ErrorsTag
 	 *
 	 * @exception JspException if a JSP exception has occurred
 	 */
-	public int doStartTag () throws JspException
+	public int doStartTag() throws JspException
 	{
 		ActionMessages errors = null;
 
 		try
 		{
-			errors = TagUtils.getInstance ().getActionMessages (pageContext, name);
+			errors = TagUtils.getInstance().getActionMessages(pageContext, name);
 		}
 		catch (JspException x)
 		{
-			TagUtils.getInstance ().saveException (pageContext, x);
+			TagUtils.getInstance().saveException(pageContext, x);
 			throw x;
 		}
 
-		if ((errors == null) || errors.isEmpty ())
+		if ((errors == null) || errors.isEmpty())
 		{
 			return (EVAL_BODY_INCLUDE);
 		}
 
-		boolean headerPresent = TagUtils.getInstance ().present (pageContext, bundle, locale, "errors.header");
-		boolean footerPresent = TagUtils.getInstance ().present (pageContext, bundle, locale, "errors.footer");
-		boolean prefixPresent = TagUtils.getInstance ().present (pageContext, bundle, locale, "error.prefix");
-		boolean suffixPresent = TagUtils.getInstance ().present (pageContext, bundle, locale, "error.suffix");
+		boolean headerPresent = TagUtils.getInstance().present(pageContext, bundle, locale, "errors.header");
+		boolean footerPresent = TagUtils.getInstance().present(pageContext, bundle, locale, "errors.footer");
+		boolean prefixPresent = TagUtils.getInstance().present(pageContext, bundle, locale, "error.prefix");
+		boolean suffixPresent = TagUtils.getInstance().present(pageContext, bundle, locale, "error.suffix");
 
-		StringBuffer results = new StringBuffer ();
+		StringBuffer results = new StringBuffer();
 		boolean headerDone = false;
 		String message = null;
 
-		for (Iterator i = errors.properties (); i.hasNext ();)
+		for (Iterator i = errors.properties(); i.hasNext();)
 		{
-			String errorProperty = (String) i.next ();
+			String errorProperty = (String) i.next();
 
-			if (! displayEllErrors && ! errorProperty.startsWith ("GLOBAL_"))
+			if (! displayEllErrors && ! errorProperty.startsWith("GLOBAL_"))
 			{
 				continue;
 			}
 
-			ActionMessage report = (ActionMessage) errors.get (errorProperty).next ();
+			ActionMessage report = (ActionMessage) errors.get(errorProperty).next();
 
 			if (! headerDone)
 			{
 				if (headerPresent)
 				{
-					message = TagUtils.getInstance ().message (pageContext, bundle, locale, "errors.header");
+					message = TagUtils.getInstance().message(pageContext, bundle, locale, "errors.header");
 
-					message = message.replaceAll ("<img src=\"/", "<img src=\""
-									+ ((HttpServletRequest) pageContext.getRequest ()).getContextPath () + "\\/");
+					message = message.replaceAll("<img src=\"/", "<img src=\""
+									+ ((HttpServletRequest) pageContext.getRequest()).getContextPath() + "\\/");
 
-					results.append (message);
+					results.append(message);
 				}
 
 				headerDone = true;
@@ -121,32 +121,31 @@ public class GlobalErrorsTag extends ErrorsTag
 
 			if (prefixPresent)
 			{
-				results.append (TagUtils.getInstance ().message (pageContext, bundle, locale, "error.prefix"));
+				results.append(TagUtils.getInstance().message(pageContext, bundle, locale, "error.prefix"));
 			}
 			else
 			{
-				results.append ("<tr><td><font color=\"red\">");
+				results.append("<tr><td><font color=\"red\">");
 			}
 
 			String keyBundle = bundle;
-			String key = report.getKey ();
+			String key = report.getKey();
 
-			if (! key.startsWith ("#"))
+			if (! key.startsWith("#"))
 			{
-				int pos = key.indexOf (":");
+				int pos = key.indexOf(":");
 
 				if (pos != - 1)
 				{
-					keyBundle = key.substring (0, pos);
-					key = key.substring (pos + 1);
+					keyBundle = key.substring(0, pos);
+					key = key.substring(pos + 1);
 				}
 
 				try
 				{
-					message = TagUtils.getInstance ()
-									.message (pageContext, keyBundle, locale, key, report.getValues ());
+					message = TagUtils.getInstance().message(pageContext, keyBundle, locale, key, report.getValues());
 
-					if (message.startsWith ("?"))
+					if (message.startsWith("?"))
 					{
 						message = key;
 					}
@@ -158,41 +157,41 @@ public class GlobalErrorsTag extends ErrorsTag
 			}
 			else
 			{
-				message = key.substring (1).replaceAll ("\n", "<br />");
+				message = key.substring(1).replaceAll("\n", "<br />");
 			}
 
 			if (message != null)
 			{
-				results.append (message);
-				results.append ("<BR>");
+				results.append(message);
+				results.append("<BR>");
 			}
 			else
 			{
-				results.append (report.getKey ());
-				results.append ("<BR>");
+				results.append(report.getKey());
+				results.append("<BR>");
 			}
 
 			if (suffixPresent)
 			{
-				results.append (TagUtils.getInstance ().message (pageContext, bundle, locale, "error.suffix"));
+				results.append(TagUtils.getInstance().message(pageContext, bundle, locale, "error.suffix"));
 			}
 			else
 			{
-				results.append ("</font></td></tr>");
+				results.append("</font></td></tr>");
 			}
 		}
 
 		if (headerDone && footerPresent)
 		{
-			message = TagUtils.getInstance ().message (pageContext, bundle, locale, "errors.footer");
+			message = TagUtils.getInstance().message(pageContext, bundle, locale, "errors.footer");
 
-			message = message.replaceAll ("<img src=\"/", "<img src=\""
-							+ ((HttpServletRequest) pageContext.getRequest ()).getContextPath () + "\\/");
+			message = message.replaceAll("<img src=\"/", "<img src=\""
+							+ ((HttpServletRequest) pageContext.getRequest()).getContextPath() + "\\/");
 
-			results.append (message);
+			results.append(message);
 		}
 
-		TagUtils.getInstance ().write (pageContext, results.toString ());
+		TagUtils.getInstance().write(pageContext, results.toString());
 
 		return (EVAL_BODY_INCLUDE);
 	}

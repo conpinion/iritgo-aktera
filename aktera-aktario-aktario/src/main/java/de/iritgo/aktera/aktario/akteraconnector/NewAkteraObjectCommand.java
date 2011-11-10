@@ -38,34 +38,34 @@ public class NewAkteraObjectCommand extends DataObjectCommand
 	/**
 	 * Create a new startup command.
 	 */
-	public NewAkteraObjectCommand ()
+	public NewAkteraObjectCommand()
 	{
-		super ("NewAkteraObjectCommand");
-		properties = new Properties ();
+		super("NewAkteraObjectCommand");
+		properties = new Properties();
 	}
 
 	/**
 	 *
 	 */
-	public void perform ()
+	public void perform()
 	{
-		Properties props = new Properties ();
+		Properties props = new Properties();
 
-		props.put ("closable", Boolean.FALSE);
-		props.put ("iconifiable", Boolean.FALSE);
-		props.put ("maximizable", Boolean.FALSE);
-		props.put ("maximized", Boolean.TRUE);
-		props.put ("titlebar", Boolean.FALSE);
+		props.put("closable", Boolean.FALSE);
+		props.put("iconifiable", Boolean.FALSE);
+		props.put("maximizable", Boolean.FALSE);
+		props.put("maximized", Boolean.TRUE);
+		props.put("titlebar", Boolean.FALSE);
 
-		String jFrameId = "jFrameId-" + Engine.instance ().getTransientIDGenerator ().createId ();
-		String queryPaneId = ((QueryPane) swingGUIPane).getOnScreenUniqueId ();
+		String jFrameId = "jFrameId-" + Engine.instance().getTransientIDGenerator().createId();
+		String queryPaneId = ((QueryPane) swingGUIPane).getOnScreenUniqueId();
 
-		Rectangle bounds = new Rectangle (400, 300, 800, 600);
+		Rectangle bounds = new Rectangle(400, 300, 800, 600);
 
-		CommandTools.performSimple (new ShowOtherFrame (null, value, jFrameId, bounds));
+		CommandTools.performSimple(new ShowOtherFrame(null, value, jFrameId, bounds));
 
-		NewAkteraObjectRequest newAkteraObjectRequest = new NewAkteraObjectRequest (value, jFrameId, queryPaneId);
+		NewAkteraObjectRequest newAkteraObjectRequest = new NewAkteraObjectRequest(value, jFrameId, queryPaneId);
 
-		ActionTools.sendToServer (newAkteraObjectRequest);
+		ActionTools.sendToServer(newAkteraObjectRequest);
 	}
 }

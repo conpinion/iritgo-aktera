@@ -80,31 +80,31 @@ public class AkteraQueryPane extends SwingGUIPane implements TableModelListener
 	/**
 	 * Close the display
 	 */
-	public Action okAction = new AbstractAction ()
+	public Action okAction = new AbstractAction()
 	{
-		public void actionPerformed (ActionEvent e)
+		public void actionPerformed(ActionEvent e)
 		{
-			display.close ();
+			display.close();
 		}
 	};
 
 	/**
 	 * Create a new UserListGUIPane.
 	 */
-	public AkteraQueryPane ()
+	public AkteraQueryPane()
 	{
-		super ("AkteraQueryPane");
+		super("AkteraQueryPane");
 	}
 
 	/**
 	 * Initialize the gui. Subclasses should override this method to create a
 	 * custom gui.
 	 */
-	public void initGUI ()
+	public void initGUI()
 	{
 	}
 
-	public void initOnLoadGUI (final DynDataObject sampleObject)
+	public void initOnLoadGUI(final DynDataObject sampleObject)
 	{
 		try
 		{
@@ -115,154 +115,152 @@ public class AkteraQueryPane extends SwingGUIPane implements TableModelListener
 
 			allreadyInit = true;
 
-			SwingEngine swingEngine = new SwingEngine (this);
+			SwingEngine swingEngine = new SwingEngine(this);
 
-			swingEngine.setClassLoader (AkteraAktarioPlugin.class.getClassLoader ());
+			swingEngine.setClassLoader(AkteraAktarioPlugin.class.getClassLoader());
 
-			JPanel panel = (JPanel) swingEngine.render (getClass ().getResource ("/swixml/AkteraQueryPane.xml"));
+			JPanel panel = (JPanel) swingEngine.render(getClass().getResource("/swixml/AkteraQueryPane.xml"));
 
-			content.add (panel, createConstraints (0, 0, 1, 1, GridBagConstraints.BOTH, 100, 100, null));
+			content.add(panel, createConstraints(0, 0, 1, 1, GridBagConstraints.BOTH, 100, 100, null));
 
-			akteraQueryTableModel = new IObjectTableModelSorted ()
+			akteraQueryTableModel = new IObjectTableModelSorted()
 			{
-				public int getColumnCount ()
+				public int getColumnCount()
 				{
-					return sampleObject.getNumAttributes ();
+					return sampleObject.getNumAttributes();
 				}
 
-				public String getColumnName (int col)
+				public String getColumnName(int col)
 				{
-					String text = Engine.instance ().getResourceService ().getStringWithoutException (
-									(String) new LinkedList (sampleObject.getAttributes ().keySet ()).get (col));
+					String text = Engine.instance().getResourceService().getStringWithoutException(
+									(String) new LinkedList(sampleObject.getAttributes().keySet()).get(col));
 
 					return text;
 				}
 
-				public boolean isCellEditable (int row, int col)
+				public boolean isCellEditable(int row, int col)
 				{
 					return false;
 				}
 
-				public Object getValueAt (int row, int col)
+				public Object getValueAt(int row, int col)
 				{
-					IObjectList list = ((AkteraQuery) getIObject ()).getIObjectListResults ();
+					IObjectList list = ((AkteraQuery) getIObject()).getIObjectListResults();
 
-					DataObject akteraQuery = (DataObject) list.get (row);
+					DataObject akteraQuery = (DataObject) list.get(row);
 
-					Object object = new LinkedList (akteraQuery.getAttributes ().values ()).get (col);
+					Object object = new LinkedList(akteraQuery.getAttributes().values()).get(col);
 
 					return object;
 				}
 			};
 
-			akteraQueryTable.setShowGrid (true);
+			akteraQueryTable.setShowGrid(true);
 
-			akteraQueryTable.setCellSelectionEnabled (false);
+			akteraQueryTable.setCellSelectionEnabled(false);
 
-			akteraQueryTable.setRowSelectionAllowed (true);
+			akteraQueryTable.setRowSelectionAllowed(true);
 
-			akteraQueryTable.setSelectionMode (0);
+			akteraQueryTable.setSelectionMode(0);
 
-			akteraQueryTable.setRowHeight (Math.max (akteraQueryTable.getRowHeight () + 4, 24 + 4));
+			akteraQueryTable.setRowHeight(Math.max(akteraQueryTable.getRowHeight() + 4, 24 + 4));
 
-			akteraQueryScrollPane.getColumnHeader ().setVisible (true);
+			akteraQueryScrollPane.getColumnHeader().setVisible(true);
 
-			tableSorter = akteraQueryTableModel.getTableSorter ();
-			akteraQueryTable.setModel (tableSorter);
-			akteraQueryTableModel.addTableModelListener (this);
+			tableSorter = akteraQueryTableModel.getTableSorter();
+			akteraQueryTable.setModel(tableSorter);
+			akteraQueryTableModel.addTableModelListener(this);
 
-			akteraQueryTable.addMouseListener (new MouseAdapter ()
+			akteraQueryTable.addMouseListener(new MouseAdapter()
 			{
-				public void mouseClicked (MouseEvent e)
+				public void mouseClicked(MouseEvent e)
 				{
-					int col = akteraQueryTable.columnAtPoint (e.getPoint ());
-					int row = tableSorter.getRealRow (akteraQueryTable.getSelectedRow ());
+					int col = akteraQueryTable.columnAtPoint(e.getPoint());
+					int row = tableSorter.getRealRow(akteraQueryTable.getSelectedRow());
 
 					if ((col < 0) || (row < 0))
 					{
 						return;
 					}
 
-					IObjectList list = ((AkteraQuery) getIObject ()).getIObjectListResults ();
+					IObjectList list = ((AkteraQuery) getIObject()).getIObjectListResults();
 
-					DataObject akteraQuery = (DataObject) list.get (row);
+					DataObject akteraQuery = (DataObject) list.get(row);
 
-					String attributeName = (String) new LinkedList (akteraQuery.getAttributes ().keySet ()).get (col);
+					String attributeName = (String) new LinkedList(akteraQuery.getAttributes().keySet()).get(col);
 
-					if (e.getClickCount () == 2)
+					if (e.getClickCount() == 2)
 					{
-						Properties props = new Properties ();
+						Properties props = new Properties();
 
 						return;
 					}
 				}
 			});
 
-			akteraQueryTable.getSelectionModel ().addListSelectionListener (new ListSelectionListener ()
+			akteraQueryTable.getSelectionModel().addListSelectionListener(new ListSelectionListener()
 			{
-				public void valueChanged (ListSelectionEvent e)
+				public void valueChanged(ListSelectionEvent e)
 				{
 				}
 			});
 		}
 		catch (Exception x)
 		{
-			Log.logError ("client", "AkteraQuery.initGUI", x.toString ());
-			x.printStackTrace ();
+			Log.logError("client", "AkteraQuery.initGUI", x.toString());
+			x.printStackTrace();
 		}
 	}
 
 	/**
 	 * Load the data object into the gui.
 	 */
-	public void loadFromObject (IObject iobject)
+	public void loadFromObject(IObject iobject)
 	{
 		final AkteraQuery akteraQuery = (AkteraQuery) iobject;
 
-		final String iObjectTypeId = akteraQuery.getStringAttribute ("listName");
+		final String iObjectTypeId = akteraQuery.getStringAttribute("listName");
 		DynDataObject sampleObject = null;
 
 		try
 		{
-			sampleObject = (DynDataObject) Engine.instance ().getIObjectFactory ().newInstance (iObjectTypeId);
-			initOnLoadGUI (sampleObject);
+			sampleObject = (DynDataObject) Engine.instance().getIObjectFactory().newInstance(iObjectTypeId);
+			initOnLoadGUI(sampleObject);
 
-			akteraQueryTableModel.update (akteraQuery.getIObjectListResults ());
+			akteraQueryTableModel.update(akteraQuery.getIObjectListResults());
 		}
 		catch (Exception x)
 		{
-			x.printStackTrace ();
+			x.printStackTrace();
 
-			Engine.instance ().getEventRegistry ().addListener ("iobjectregistered",
-							new IObjectRegisteredEventListener ()
-							{
-								public void iObjectRegisteredEvent (IObject iObject)
-								{
-									try
-									{
-										initOnLoadGUI ((DynDataObject) Engine.instance ().getIObjectFactory ()
-														.newInstance (iObjectTypeId));
-									}
-									catch (Exception x)
-									{
-									}
+			Engine.instance().getEventRegistry().addListener("iobjectregistered", new IObjectRegisteredEventListener()
+			{
+				public void iObjectRegisteredEvent(IObject iObject)
+				{
+					try
+					{
+						initOnLoadGUI((DynDataObject) Engine.instance().getIObjectFactory().newInstance(iObjectTypeId));
+					}
+					catch (Exception x)
+					{
+					}
 
-									akteraQueryTableModel.update (akteraQuery.getIObjectListResults ());
-								}
-							});
+					akteraQueryTableModel.update(akteraQuery.getIObjectListResults());
+				}
+			});
 		}
 	}
 
-	public void tableChanged (TableModelEvent e)
+	public void tableChanged(TableModelEvent e)
 	{
-		tableSorter.reallocateIndexesUpdate ();
-		tableSorter.sortByColumn (0);
+		tableSorter.reallocateIndexesUpdate();
+		tableSorter.sortByColumn(0);
 	}
 
 	/**
 	 * Store the gui values to the data object.
 	 */
-	public void storeToObject (IObject iobject)
+	public void storeToObject(IObject iobject)
 	{
 	}
 
@@ -271,16 +269,16 @@ public class AkteraQueryPane extends SwingGUIPane implements TableModelListener
 	 *
 	 * @return The gui pane clone.
 	 */
-	public GUIPane cloneGUIPane ()
+	public GUIPane cloneGUIPane()
 	{
-		return new AkteraQueryPane ();
+		return new AkteraQueryPane();
 	}
 
-	public DynDataObject getIObjectAtRow (int row)
+	public DynDataObject getIObjectAtRow(int row)
 	{
-		IObjectList list = ((AkteraQuery) getIObject ()).getIObjectListResults ();
+		IObjectList list = ((AkteraQuery) getIObject()).getIObjectListResults();
 
-		DynDataObject dynDataObject = (DynDataObject) list.get (tableSorter.getRealRow (row));
+		DynDataObject dynDataObject = (DynDataObject) list.get(tableSorter.getRealRow(row));
 
 		return dynDataObject;
 	}

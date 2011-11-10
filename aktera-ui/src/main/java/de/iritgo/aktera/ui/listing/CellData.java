@@ -35,25 +35,25 @@ public class CellData
 
 	protected String bundle;
 
-	public CellData ()
+	public CellData()
 	{
 		this.value = "";
 		this.viewer = ListingColumnViewer.TEXT;
 		this.bundle = "Aktera";
 	}
 
-	public CellData (Object value)
+	public CellData(Object value)
 	{
 		this.value = value;
 	}
 
-	public CellData (Object value, ListingColumnViewer viewer)
+	public CellData(Object value, ListingColumnViewer viewer)
 	{
 		this.value = value;
 		this.viewer = viewer;
 	}
 
-	public CellData (Object value, ListingColumnViewer viewer, String bundle)
+	public CellData(Object value, ListingColumnViewer viewer, String bundle)
 	{
 		this.value = value;
 		this.viewer = viewer;

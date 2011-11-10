@@ -47,7 +47,7 @@ public class JournalFormularHandler extends FormularHandler
 	 *
 	 * @param journalManager The journal manager
 	 */
-	public void setJournalManager (JournalManager journalManager)
+	public void setJournalManager(JournalManager journalManager)
 	{
 		this.journalManager = journalManager;
 	}
@@ -55,7 +55,7 @@ public class JournalFormularHandler extends FormularHandler
 	/**
 	 * @see de.iritgo.aktera.ui.form.FormularHandler#loadPersistents(de.iritgo.aktera.model.ModelRequest, de.iritgo.aktera.ui.form.FormularDescriptor, de.iritgo.aktera.ui.form.PersistentDescriptor, java.lang.Integer)
 	 */
-	public void loadPersistents (ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents,
+	public void loadPersistents(ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents,
 					Integer id) throws ModelException, PersistenceException
 	{
 	}
@@ -63,16 +63,16 @@ public class JournalFormularHandler extends FormularHandler
 	/**
 	 * @see de.iritgo.aktera.ui.form.FormularHandler#validatePersistents(List, de.iritgo.aktera.model.ModelRequest, de.iritgo.aktera.model.ModelResponse, de.iritgo.aktera.ui.form.FormularDescriptor, de.iritgo.aktera.ui.form.PersistentDescriptor, boolean, de.iritgo.aktera.ui.form.ValidationResult)
 	 */
-	public void validatePersistents (List<Configuration> persistentConfig, ModelRequest request,
-					ModelResponse response, FormularDescriptor formular, PersistentDescriptor persistents,
-					boolean create, ValidationResult result) throws ModelException, PersistenceException
+	public void validatePersistents(List<Configuration> persistentConfig, ModelRequest request, ModelResponse response,
+					FormularDescriptor formular, PersistentDescriptor persistents, boolean create,
+					ValidationResult result) throws ModelException, PersistenceException
 	{
 	}
 
 	/**
 	 * @see de.iritgo.aktera.ui.form.FormularHandler#createPersistents(de.iritgo.aktera.model.ModelRequest, de.iritgo.aktera.ui.form.FormularDescriptor, de.iritgo.aktera.ui.form.PersistentDescriptor)
 	 */
-	public int createPersistents (ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents)
+	public int createPersistents(ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents)
 		throws ModelException, PersistenceException
 	{
 		return 0;
@@ -81,7 +81,7 @@ public class JournalFormularHandler extends FormularHandler
 	/**
 	 * @see de.iritgo.aktera.ui.form.FormularHandler
 	 */
-	public void updatePersistents (ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents,
+	public void updatePersistents(ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents,
 					boolean modified) throws ModelException, PersistenceException
 	{
 	}
@@ -89,7 +89,7 @@ public class JournalFormularHandler extends FormularHandler
 	/**
 	 * @see de.iritgo.aktera.ui.form.FormularHandler#deletePersistent(de.iritgo.aktera.model.ModelRequest, de.iritgo.aktera.model.ModelResponse, java.lang.Object, de.iritgo.aktera.persist.Persistent, boolean)
 	 */
-	public void deletePersistent (ModelRequest request, ModelResponse response, Object id, Persistent persistent,
+	public void deletePersistent(ModelRequest request, ModelResponse response, Object id, Persistent persistent,
 					boolean systemDelete) throws ModelException, PersistenceException
 	{
 	}

@@ -43,7 +43,7 @@ public class UserManagerImpl implements UserManager
 	 *
 	 * @param userDAO The user DAO
 	 */
-	public void setUserDAO (UserDAO userDAO)
+	public void setUserDAO(UserDAO userDAO)
 	{
 		this.userDAO = userDAO;
 	}
@@ -51,7 +51,7 @@ public class UserManagerImpl implements UserManager
 	/**
 	 * @param eventManager The new eventManager.
 	 */
-	public void setEventManager (EventManager eventManager)
+	public void setEventManager(EventManager eventManager)
 	{
 		this.eventManager = eventManager;
 	}
@@ -59,40 +59,40 @@ public class UserManagerImpl implements UserManager
 	/**
 	 * @see de.iritgo.aktera.authentication.defaultauth.UserManager#renameUser(java.lang.String, java.lang.String, String, String, String)
 	 */
-	public void renameUser (String oldName, String newName, String newFirstName, String newLastName, String newEmail)
+	public void renameUser(String oldName, String newName, String newFirstName, String newLastName, String newEmail)
 	{
-		AkteraUser user = userDAO.findUserByName (oldName);
+		AkteraUser user = userDAO.findUserByName(oldName);
 
 		if (user == null)
 		{
 			return;
 		}
 
-		user.setName (newName);
+		user.setName(newName);
 
-		if (StringTools.isNotTrimEmpty (newEmail))
+		if (StringTools.isNotTrimEmpty(newEmail))
 		{
-			user.setEmail (newEmail);
+			user.setEmail(newEmail);
 		}
 
-		userDAO.updateUser (user);
+		userDAO.updateUser(user);
 
-		Properties props = new Properties ();
+		Properties props = new Properties();
 
-		props.put ("id", user.getId ());
-		props.put ("oldName", oldName);
-		props.put ("newName", newName);
-		props.put ("newFirstName", newFirstName);
-		props.put ("newLastName", newLastName);
-		props.put ("newEmail", newEmail);
-		eventManager.fire ("aktera.user.renamed", props);
+		props.put("id", user.getId());
+		props.put("oldName", oldName);
+		props.put("newName", newName);
+		props.put("newFirstName", newFirstName);
+		props.put("newLastName", newLastName);
+		props.put("newEmail", newEmail);
+		eventManager.fire("aktera.user.renamed", props);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.authentication.defaultauth.UserManager#isUserInGroup(java.lang.Integer, java.lang.Integer)
 	 */
-	public boolean isUserInGroup (Integer userId, Integer groupId)
+	public boolean isUserInGroup(Integer userId, Integer groupId)
 	{
-		return userDAO.findAkteraGroupEntryByUserIdAndGroupId (userId, groupId) != null;
+		return userDAO.findAkteraGroupEntryByUserIdAndGroupId(userId, groupId) != null;
 	}
 }

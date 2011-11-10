@@ -36,13 +36,13 @@ public final class SystemTools
 	 *
 	 * @param proc The process to wait for.
 	 */
-	public static int waitForProcess (Process proc)
+	public static int waitForProcess(Process proc)
 	{
 		int res = 0;
 
 		try
 		{
-			res = proc.waitFor ();
+			res = proc.waitFor();
 		}
 		catch (InterruptedException x)
 		{
@@ -59,11 +59,11 @@ public final class SystemTools
 	 * @param args The command arguments
 	 * @throws IOException
 	 */
-	public static Process startAkteraProcess (String cmd, String args) throws IOException
+	public static Process startAkteraProcess(String cmd, String args) throws IOException
 	{
-		File cmdFile = FileTools.newAkteraFile (cmd);
-		Process proc = Runtime.getRuntime ().exec (
-						cmdFile.getAbsolutePath () + (! StringTools.isTrimEmpty (args) ? " " + args : ""));
+		File cmdFile = FileTools.newAkteraFile(cmd);
+		Process proc = Runtime.getRuntime().exec(
+						cmdFile.getAbsolutePath() + (! StringTools.isTrimEmpty(args) ? " " + args : ""));
 
 		return proc;
 	}
@@ -76,14 +76,14 @@ public final class SystemTools
 	 * @param args The command arguments
 	 * @throws IOException
 	 */
-	public static int startAndWaitAkteraProcess (String cmd, String args) throws IOException
+	public static int startAndWaitAkteraProcess(String cmd, String args) throws IOException
 	{
-		Process proc = startAkteraProcess (cmd, args);
+		Process proc = startAkteraProcess(cmd, args);
 
-		new NullStreamHandler (proc.getInputStream ());
-		new NullStreamHandler (proc.getErrorStream ());
+		new NullStreamHandler(proc.getInputStream());
+		new NullStreamHandler(proc.getErrorStream());
 
-		return waitForProcess (proc);
+		return waitForProcess(proc);
 	}
 
 	/**
@@ -95,13 +95,12 @@ public final class SystemTools
 	 * @param dir The working directory
 	 * @throws IOException
 	 */
-	public static Process startAkteraProcess (String cmd, String args, String dir) throws IOException
+	public static Process startAkteraProcess(String cmd, String args, String dir) throws IOException
 	{
-		File cmdFile = FileTools.newAkteraFile (cmd);
-		File dirFile = FileTools.newAkteraFile (dir);
-		Process proc = Runtime.getRuntime ().exec (
-						cmdFile.getAbsolutePath () + (! StringTools.isTrimEmpty (args) ? " " + args : ""), null,
-						dirFile);
+		File cmdFile = FileTools.newAkteraFile(cmd);
+		File dirFile = FileTools.newAkteraFile(dir);
+		Process proc = Runtime.getRuntime().exec(
+						cmdFile.getAbsolutePath() + (! StringTools.isTrimEmpty(args) ? " " + args : ""), null, dirFile);
 
 		return proc;
 	}
@@ -115,14 +114,14 @@ public final class SystemTools
 	 * @param dir The working directory
 	 * @throws IOException
 	 */
-	public static int startAndWaitAkteraProcess (String cmd, String args, String dir) throws IOException
+	public static int startAndWaitAkteraProcess(String cmd, String args, String dir) throws IOException
 	{
-		Process proc = startAkteraProcess (cmd, args, dir);
+		Process proc = startAkteraProcess(cmd, args, dir);
 
-		new NullStreamHandler (proc.getInputStream ());
-		new NullStreamHandler (proc.getErrorStream ());
+		new NullStreamHandler(proc.getInputStream());
+		new NullStreamHandler(proc.getErrorStream());
 
-		return waitForProcess (proc);
+		return waitForProcess(proc);
 	}
 
 	/**
@@ -133,11 +132,11 @@ public final class SystemTools
 	 * @param mask The network mask
 	 * @return True if successfull set
 	 */
-	public static boolean setSystemIPAddress (String interfaceName, String ipAddress, String mask)
+	public static boolean setSystemIPAddress(String interfaceName, String ipAddress, String mask)
 	{
 		try
 		{
-			startAndWaitAkteraProcess ("/usr/bin/sudo", "/sbin/ifconfig " + interfaceName + " " + ipAddress
+			startAndWaitAkteraProcess("/usr/bin/sudo", "/sbin/ifconfig " + interfaceName + " " + ipAddress
 							+ " netmask " + mask + " up", "");
 		}
 		catch (IOException x)
@@ -148,8 +147,8 @@ public final class SystemTools
 		return true;
 	}
 
-	public static boolean isDeveloperDeployment ()
+	public static boolean isDeveloperDeployment()
 	{
-		return "developer".equals (System.getProperty ("de.iritgo.aktera.deployment"));
+		return "developer".equals(System.getProperty("de.iritgo.aktera.deployment"));
 	}
 }

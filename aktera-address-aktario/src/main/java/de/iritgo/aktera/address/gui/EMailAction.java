@@ -34,26 +34,26 @@ public class EMailAction extends AbstractAction
 
 	private String email;
 
-	public EMailAction (String eMail)
+	public EMailAction(String eMail)
 	{
-		super ();
+		super();
 		this.email = eMail;
 	}
 
-	public void actionPerformed (ActionEvent e)
+	public void actionPerformed(ActionEvent e)
 	{
-		if (StringTools.isTrimEmpty (email))
+		if (StringTools.isTrimEmpty(email))
 		{
 			return;
 		}
 
 		try
 		{
-			Desktop.getDesktop ().mail (new URI ("mailto:" + email));
+			Desktop.getDesktop().mail(new URI("mailto:" + email));
 		}
 		catch (Exception x)
 		{
-			System.err.println ("Error starting email client: " + x);
+			System.err.println("Error starting email client: " + x);
 		}
 	}
 }

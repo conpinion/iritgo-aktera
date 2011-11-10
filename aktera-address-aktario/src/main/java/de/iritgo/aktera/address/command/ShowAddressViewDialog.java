@@ -26,17 +26,17 @@ import de.iritgo.aktera.address.gui.AddressViewDialog;
 
 public class ShowAddressViewDialog extends Command
 {
-	public ShowAddressViewDialog ()
+	public ShowAddressViewDialog()
 	{
-		super ("de.iritgo.aktera.address.ShowAddressViewDialog");
+		super("de.iritgo.aktera.address.ShowAddressViewDialog");
 	}
 
 	@Override
-	public void perform ()
+	public void perform()
 	{
-		AddressViewDialog dialog = new AddressViewDialog ();
+		AddressViewDialog dialog = new AddressViewDialog();
 
-		dialog.show (getProperties ().getProperty ("addressStoreName"), getProperties ().getProperty ("addressId"),
-						getProperties ().getProperty ("phoneNumber"));
+		dialog.show(getProperties().getProperty("addressStoreName"), getProperties().getProperty("addressId"),
+						getProperties().getProperty("phoneNumber"));
 	}
 }

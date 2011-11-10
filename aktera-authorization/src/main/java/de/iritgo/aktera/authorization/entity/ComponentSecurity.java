@@ -64,7 +64,7 @@ public class ComponentSecurity extends AbstractHelper implements Serializable
 
 	/** */
 	@EmbeddedId
-	private PrimaryKey primaryKey = new PrimaryKey ();
+	private PrimaryKey primaryKey = new PrimaryKey();
 
 	@Column(nullable = false, length = 30)
 	private String operationsAllowed;
@@ -79,7 +79,7 @@ public class ComponentSecurity extends AbstractHelper implements Serializable
 	 *   descrip="Component Name"
 	 *   length="132"
 	 */
-	public String getComponent ()
+	public String getComponent()
 	{
 		return primaryKey.component;
 	}
@@ -89,7 +89,7 @@ public class ComponentSecurity extends AbstractHelper implements Serializable
 	 *
 	 * @param string
 	 */
-	public void setComponent (String string)
+	public void setComponent(String string)
 	{
 		primaryKey.component = string;
 	}
@@ -104,7 +104,7 @@ public class ComponentSecurity extends AbstractHelper implements Serializable
 	 *   descrip="Group Name"
 	 *   primary-key="true"
 	 */
-	public String getGroupName ()
+	public String getGroupName()
 	{
 		return primaryKey.groupName;
 	}
@@ -114,7 +114,7 @@ public class ComponentSecurity extends AbstractHelper implements Serializable
 	 *
 	 * @param string
 	 */
-	public void setGroupName (String string)
+	public void setGroupName(String string)
 	{
 		primaryKey.groupName = string;
 	}
@@ -128,7 +128,7 @@ public class ComponentSecurity extends AbstractHelper implements Serializable
 	 *   descrip="Operations Allowed"
 	 *   length="30"
 	 */
-	public String getOperationsAllowed ()
+	public String getOperationsAllowed()
 	{
 		return operationsAllowed;
 	}
@@ -138,7 +138,7 @@ public class ComponentSecurity extends AbstractHelper implements Serializable
 	 *
 	 * @param b
 	 */
-	public void setOperationsAllowed (String b)
+	public void setOperationsAllowed(String b)
 	{
 		operationsAllowed = b;
 	}
@@ -146,17 +146,17 @@ public class ComponentSecurity extends AbstractHelper implements Serializable
 	/**
 	 * @see de.iritgo.aktera.persist.AbstractHelper#beforeAdd(de.iritgo.aktera.persist.Persistent)
 	 */
-	public void beforeAdd (Persistent current)
+	public void beforeAdd(Persistent current)
 	{
-		validate (current);
+		validate(current);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.persist.AbstractHelper#beforeUpdate(de.iritgo.aktera.persist.Persistent)
 	 */
-	public void beforeUpdate (Persistent current)
+	public void beforeUpdate(Persistent current)
 	{
-		validate (current);
+		validate(current);
 	}
 
 	/**
@@ -164,64 +164,63 @@ public class ComponentSecurity extends AbstractHelper implements Serializable
 	 *
 	 * @param current
 	 */
-	private void validate (Persistent current)
+	private void validate(Persistent current)
 	{
 		try
 		{
-			String comp = current.getFieldString ("component");
+			String comp = current.getFieldString("component");
 
 			try
 			{
-				Object o = Class.forName (comp).newInstance ();
+				Object o = Class.forName(comp).newInstance();
 
 				if (! (o instanceof Securable))
 				{
-					throw new IllegalArgumentException ("Component '" + comp + " is not Securable:"
-									+ current.toString ());
+					throw new IllegalArgumentException("Component '" + comp + " is not Securable:" + current.toString());
 				}
 
 				if (o instanceof InstanceSecurable)
 				{
-					throw new IllegalArgumentException (
+					throw new IllegalArgumentException(
 									"Component '"
 													+ comp
 													+ "' is an InstanceSecurable, and cannot be secured as a Securable. Put entries for this comoponent in InstanceSecurable instead."
-													+ current.toString ());
+													+ current.toString());
 				}
 
 				if (o instanceof InvokationSecurable)
 				{
-					throw new IllegalArgumentException (
+					throw new IllegalArgumentException(
 									"Component '"
 													+ comp
 													+ "' is an InvokationSecurable, and cannot be secured as an InstanceSecurable. Put entries for this component in InvokationSecurable instead."
-													+ current.toString ());
+													+ current.toString());
 				}
 			}
 			catch (ClassNotFoundException ce)
 			{
-				throw new IllegalArgumentException ("No such class as '" + comp + "'");
+				throw new IllegalArgumentException("No such class as '" + comp + "'");
 			}
 			catch (IllegalAccessException ie)
 			{
-				throw new IllegalArgumentException ("Unable to access class '" + comp + "':" + ie.getMessage ());
+				throw new IllegalArgumentException("Unable to access class '" + comp + "':" + ie.getMessage());
 			}
 			catch (InstantiationException iae)
 			{
-				throw new IllegalArgumentException ("Instantiation exception accessing class '" + comp + "':"
-								+ iae.getMessage ());
+				throw new IllegalArgumentException("Instantiation exception accessing class '" + comp + "':"
+								+ iae.getMessage());
 			}
 		}
 		catch (PersistenceException pe)
 		{
-			throw new IllegalArgumentException (pe.getMessage ());
+			throw new IllegalArgumentException(pe.getMessage());
 		}
 	}
 
 	/**
 	 * @see java.lang.Object#equals(Object)
 	 */
-	public boolean equals (Object object)
+	public boolean equals(Object object)
 	{
 		if (! (object instanceof ComponentSecurity))
 		{
@@ -230,7 +229,7 @@ public class ComponentSecurity extends AbstractHelper implements Serializable
 
 		ComponentSecurity rhs = (ComponentSecurity) object;
 
-		if ((rhs.getGroupName ().equals (getGroupName ())) && (rhs.getComponent ().equals (getComponent ())))
+		if ((rhs.getGroupName().equals(getGroupName())) && (rhs.getComponent().equals(getComponent())))
 		{
 			return true;
 		}
@@ -241,8 +240,8 @@ public class ComponentSecurity extends AbstractHelper implements Serializable
 	/**
 	 * @see java.lang.Object#hashCode()
 	 */
-	public int hashCode ()
+	public int hashCode()
 	{
-		return new String (getGroupName () + getComponent ()).hashCode ();
+		return new String(getGroupName() + getComponent()).hashCode();
 	}
 }

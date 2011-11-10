@@ -26,45 +26,45 @@ import java.util.Vector;
 
 public class Group extends Principal
 {
-	private Vector groupMembers = new Vector (50, 100);
+	private Vector groupMembers = new Vector(50, 100);
 
 	private String group;
 
-	public Group (String groupName)
+	public Group(String groupName)
 	{
-		super (groupName);
+		super(groupName);
 		this.group = groupName;
 	}
 
-	public boolean addMember (Principal user)
+	public boolean addMember(Principal user)
 	{
-		if (groupMembers.contains (user))
+		if (groupMembers.contains(user))
 		{
 			return false;
 		}
 
-		if (group.equals (user.toString ()))
+		if (group.equals(user.toString()))
 		{
-			throw new IllegalArgumentException ();
+			throw new IllegalArgumentException();
 		}
 
-		groupMembers.addElement (user);
+		groupMembers.addElement(user);
 
 		return true;
 	}
 
-	public boolean removeMember (Principal user)
+	public boolean removeMember(Principal user)
 	{
-		return groupMembers.removeElement (user);
+		return groupMembers.removeElement(user);
 	}
 
-	public Enumeration members ()
+	public Enumeration members()
 	{
-		return groupMembers.elements ();
+		return groupMembers.elements();
 	}
 
 	@Override
-	public boolean equals (Object obj)
+	public boolean equals(Object obj)
 	{
 		if (this == obj)
 		{
@@ -78,56 +78,56 @@ public class Group extends Principal
 
 		Group another = (Group) obj;
 
-		return group.equals (another.toString ());
+		return group.equals(another.toString());
 	}
 
-	public boolean equals (Group another)
+	public boolean equals(Group another)
 	{
-		return equals ((Object) another);
+		return equals((Object) another);
 	}
 
 	@Override
-	public String toString ()
+	public String toString()
 	{
 		return group;
 	}
 
 	@Override
-	public int hashCode ()
+	public int hashCode()
 	{
-		return group.hashCode ();
+		return group.hashCode();
 	}
 
-	public boolean isMember (Principal member)
+	public boolean isMember(Principal member)
 	{
-		if (groupMembers.contains (member))
+		if (groupMembers.contains(member))
 		{
 			return true;
 		}
 		else
 		{
-			Vector alreadySeen = new Vector (10);
+			Vector alreadySeen = new Vector(10);
 
-			return isMemberRecurse (member, alreadySeen);
+			return isMemberRecurse(member, alreadySeen);
 		}
 	}
 
 	@Override
-	public String getName ()
+	public String getName()
 	{
 		return group;
 	}
 
-	boolean isMemberRecurse (Principal member, Vector alreadySeen)
+	boolean isMemberRecurse(Principal member, Vector alreadySeen)
 	{
-		Enumeration e = members ();
+		Enumeration e = members();
 
-		while (e.hasMoreElements ())
+		while (e.hasMoreElements())
 		{
 			boolean mem = false;
-			Principal p = (Principal) e.nextElement ();
+			Principal p = (Principal) e.nextElement();
 
-			if (p.equals (member))
+			if (p.equals(member))
 			{
 				return true;
 			}
@@ -135,11 +135,11 @@ public class Group extends Principal
 			{
 				Group g = (Group) p;
 
-				alreadySeen.addElement (this);
+				alreadySeen.addElement(this);
 
-				if (! alreadySeen.contains (g))
+				if (! alreadySeen.contains(g))
 				{
-					mem = g.isMemberRecurse (member, alreadySeen);
+					mem = g.isMemberRecurse(member, alreadySeen);
 				}
 			}
 

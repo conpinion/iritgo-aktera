@@ -50,9 +50,9 @@ public class PersistenceException extends NestedException
 	/**
 	 * Default constructor
 	 */
-	public PersistenceException ()
+	public PersistenceException()
 	{
-		super ();
+		super();
 	} /* PersistenceException() */
 
 	/**
@@ -61,9 +61,9 @@ public class PersistenceException extends NestedException
 	 * @param s
 	 *            exception message
 	 */
-	public PersistenceException (String s)
+	public PersistenceException(String s)
 	{
-		super (s);
+		super(s);
 	} /* PersistenceException */
 
 	/**
@@ -72,18 +72,18 @@ public class PersistenceException extends NestedException
 	 * @param s
 	 *            exception message
 	 */
-	public PersistenceException (String s, Map m)
+	public PersistenceException(String s, Map m)
 	{
-		super (s);
-		addErrors (m);
+		super(s);
+		addErrors(m);
 	} /* PersistenceException */
 
 	/**
 	 * String message and error key
 	 */
-	public PersistenceException (String s, String newErrorKey)
+	public PersistenceException(String s, String newErrorKey)
 	{
-		super (s, newErrorKey);
+		super(s, newErrorKey);
 	}
 
 	/**
@@ -94,9 +94,9 @@ public class PersistenceException extends NestedException
 	 * @param newNested
 	 *            The nested item
 	 */
-	public PersistenceException (String message, Throwable newNested)
+	public PersistenceException(String message, Throwable newNested)
 	{
-		super (message, newNested);
+		super(message, newNested);
 	} /* PersistenceException(String, Throwable) */
 
 	/**
@@ -107,10 +107,10 @@ public class PersistenceException extends NestedException
 	 * @param newNested
 	 *            The nested item
 	 */
-	public PersistenceException (String message, Throwable newNested, Map m)
+	public PersistenceException(String message, Throwable newNested, Map m)
 	{
-		super (message, newNested);
-		addErrors (m);
+		super(message, newNested);
+		addErrors(m);
 	} /* PersistenceException(String, Throwable) */
 
 	/**
@@ -123,15 +123,15 @@ public class PersistenceException extends NestedException
 	 * @param errorKey
 	 *            A string key to the messages bundle
 	 */
-	public PersistenceException (String message, Throwable newNested, String newErrorKey)
+	public PersistenceException(String message, Throwable newNested, String newErrorKey)
 	{
-		super (message, newNested, newErrorKey);
+		super(message, newNested, newErrorKey);
 	} /* PersistenceException(String, Throwable, String) */
 
-	public PersistenceException (String message, Throwable newNested, String newErrorKey, Map m)
+	public PersistenceException(String message, Throwable newNested, String newErrorKey, Map m)
 	{
-		super (message, newNested, newErrorKey);
-		addErrors (m);
+		super(message, newNested, newErrorKey);
+		addErrors(m);
 	}
 
 	/**
@@ -140,15 +140,15 @@ public class PersistenceException extends NestedException
 	 * @param newNested
 	 *            The nested exception
 	 */
-	public PersistenceException (Throwable newNested)
+	public PersistenceException(Throwable newNested)
 	{
-		super (newNested);
+		super(newNested);
 	} /* PersistenceException(Throwable) */
 
-	public PersistenceException (Throwable newNested, Map m)
+	public PersistenceException(Throwable newNested, Map m)
 	{
-		super (newNested);
-		addErrors (m);
+		super(newNested);
+		addErrors(m);
 	}
 
 	/**
@@ -158,26 +158,26 @@ public class PersistenceException extends NestedException
 	 * @param newNested
 	 *            The nested exception
 	 */
-	public PersistenceException (Throwable newNested, String newErrorKey)
+	public PersistenceException(Throwable newNested, String newErrorKey)
 	{
-		super (newNested, newErrorKey);
+		super(newNested, newErrorKey);
 	} /* PersistenceException(Throwable) */
 
-	public PersistenceException (Throwable newNested, String newErrorKey, Map m)
+	public PersistenceException(Throwable newNested, String newErrorKey, Map m)
 	{
-		super (newNested, newErrorKey);
-		addErrors (m);
+		super(newNested, newErrorKey);
+		addErrors(m);
 	} /* PersistenceException(Throwable) */
 
 	/**
 	 * Add a Map of errors as detail errors for this overall exception
 	 */
-	public void addErrors (Map m)
+	public void addErrors(Map m)
 	{
 		errorMap = m;
 	}
 
-	public Map getErrors ()
+	public Map getErrors()
 	{
 		return errorMap;
 	}
@@ -188,30 +188,30 @@ public class PersistenceException extends NestedException
 	 * @param p
 	 *            The PrintStream to write the exception messages into
 	 */
-	public void printStackTrace (PrintStream p)
+	public void printStackTrace(PrintStream p)
 	{
-		super.printStackTrace (p);
+		super.printStackTrace(p);
 
 		if (errorMap != null)
 		{
-			p.println ("Error Map:-------------");
+			p.println("Error Map:-------------");
 
 			String oneKey = null;
 			Object val = null;
 
-			for (Iterator i = errorMap.keySet ().iterator (); i.hasNext ();)
+			for (Iterator i = errorMap.keySet().iterator(); i.hasNext();)
 			{
-				oneKey = i.next ().toString ();
-				p.print (oneKey + ":");
-				val = errorMap.get (oneKey);
+				oneKey = i.next().toString();
+				p.print(oneKey + ":");
+				val = errorMap.get(oneKey);
 
 				if (val instanceof Throwable)
 				{
-					((Throwable) val).printStackTrace (p);
+					((Throwable) val).printStackTrace(p);
 				}
 				else
 				{
-					p.println (val.toString ());
+					p.println(val.toString());
 				}
 			}
 		}
@@ -223,30 +223,30 @@ public class PersistenceException extends NestedException
 	 * @param p
 	 *          The PrintWriter to write the exception messages into
 	 */
-	public void printStackTrace (PrintWriter p)
+	public void printStackTrace(PrintWriter p)
 	{
-		super.printStackTrace (p);
+		super.printStackTrace(p);
 
 		if (errorMap != null)
 		{
-			p.println ("Error Map:-------------");
+			p.println("Error Map:-------------");
 
 			String oneKey = null;
 			Object val = null;
 
-			for (Iterator i = errorMap.keySet ().iterator (); i.hasNext ();)
+			for (Iterator i = errorMap.keySet().iterator(); i.hasNext();)
 			{
-				oneKey = i.next ().toString ();
-				p.print (oneKey + ":");
-				val = errorMap.get (oneKey);
+				oneKey = i.next().toString();
+				p.print(oneKey + ":");
+				val = errorMap.get(oneKey);
 
 				if (val instanceof Throwable)
 				{
-					((Throwable) val).printStackTrace (p);
+					((Throwable) val).printStackTrace(p);
 				}
 				else
 				{
-					p.println (val.toString ());
+					p.println(val.toString());
 				}
 			}
 		}

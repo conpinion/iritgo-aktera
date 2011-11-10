@@ -43,7 +43,7 @@ public class ExpressionLanguageContext
 	/** The user environment */
 	private UserEnvironment userEnvironment;
 
-	public void setUserEnvironment (UserEnvironment userEnvironment)
+	public void setUserEnvironment(UserEnvironment userEnvironment)
 	{
 		this.userEnvironment = userEnvironment;
 	}
@@ -53,9 +53,9 @@ public class ExpressionLanguageContext
 	 *
 	 * @param request A ui request
 	 */
-	public ExpressionLanguageContext (UIRequest request)
+	public ExpressionLanguageContext(UIRequest request)
 	{
-		this.request = new ModelRequestWrapper (request);
+		this.request = new ModelRequestWrapper(request);
 	}
 
 	/**
@@ -63,7 +63,7 @@ public class ExpressionLanguageContext
 	 *
 	 * @param request A model request
 	 */
-	public ExpressionLanguageContext (ModelRequest request)
+	public ExpressionLanguageContext(ModelRequest request)
 	{
 		this.request = request;
 	}
@@ -71,7 +71,7 @@ public class ExpressionLanguageContext
 	/**
 	 * Initialize a new ExpressionLanguageContext.
 	 */
-	public ExpressionLanguageContext ()
+	public ExpressionLanguageContext()
 	{
 	}
 
@@ -80,9 +80,9 @@ public class ExpressionLanguageContext
 	 *
 	 * @param request The model request
 	 */
-	public void setRequest (UIRequest request)
+	public void setRequest(UIRequest request)
 	{
-		this.request = new ModelRequestWrapper (request);
+		this.request = new ModelRequestWrapper(request);
 	}
 
 	/**
@@ -90,7 +90,7 @@ public class ExpressionLanguageContext
 	 *
 	 * @param request The model request
 	 */
-	public void setRequest (ModelRequest request)
+	public void setRequest(ModelRequest request)
 	{
 		this.request = request;
 	}
@@ -100,7 +100,7 @@ public class ExpressionLanguageContext
 	 *
 	 * @return The model request
 	 */
-	public ModelRequest getRequest ()
+	public ModelRequest getRequest()
 	{
 		return request;
 	}
@@ -110,9 +110,9 @@ public class ExpressionLanguageContext
 	 *
 	 * @return The request parameters
 	 */
-	public Map getParams ()
+	public Map getParams()
 	{
-		return request != null ? request.getParameters () : null;
+		return request != null ? request.getParameters() : null;
 	}
 
 	/**
@@ -121,9 +121,9 @@ public class ExpressionLanguageContext
 	 * @param name The request parameter name
 	 * @return The parameter value
 	 */
-	public String getParam (String name)
+	public String getParam(String name)
 	{
-		return request != null ? StringTools.trim (request.getParameter (name)) : "";
+		return request != null ? StringTools.trim(request.getParameter(name)) : "";
 	}
 
 	/**
@@ -132,9 +132,9 @@ public class ExpressionLanguageContext
 	 * @param name The request parameter name
 	 * @return The parameter value as an integer
 	 */
-	public Integer getParamAsInt (String name)
+	public Integer getParamAsInt(String name)
 	{
-		return request != null ? NumberTools.toIntInstance (request.getParameter (name), - 1) : - 1;
+		return request != null ? NumberTools.toIntInstance(request.getParameter(name), - 1) : - 1;
 	}
 
 	/**
@@ -143,17 +143,17 @@ public class ExpressionLanguageContext
 	 * @param name The request parameter name
 	 * @return The parameter value as a long
 	 */
-	public Long getParamAsLong (String name)
+	public Long getParamAsLong(String name)
 	{
-		return request != null ? NumberTools.toLongInstance (request.getParameter (name), - 1) : - 1;
+		return request != null ? NumberTools.toLongInstance(request.getParameter(name), - 1) : - 1;
 	}
 
 	/**
 	 * See {@link ExpressionLanguageContext#evalExpressionLanguageValue(Object, ModelRequest, String)}.
 	 */
-	public Object evalExpressionLanguageValue (String expression) throws IllegalArgumentException
+	public Object evalExpressionLanguageValue(String expression) throws IllegalArgumentException
 	{
-		return evalExpressionLanguageValue (this, request, expression);
+		return evalExpressionLanguageValue(this, request, expression);
 	}
 
 	/**
@@ -187,16 +187,16 @@ public class ExpressionLanguageContext
 	 * @throws InvalidArgumentException
 	 *             in case of an error
 	 */
-	public static Object evalExpressionLanguageValue (Object context, ModelRequest request, String expression)
+	public static Object evalExpressionLanguageValue(Object context, ModelRequest request, String expression)
 		throws IllegalArgumentException
 	{
-		if (expression.startsWith ("#{") && expression.endsWith ("}"))
+		if (expression.startsWith("#{") && expression.endsWith("}"))
 		{
-			expression = expression.substring (2, expression.length () - 1);
+			expression = expression.substring(2, expression.length() - 1);
 
 			try
 			{
-				return PropertyUtils.getNestedProperty (context, expression);
+				return PropertyUtils.getNestedProperty(context, expression);
 			}
 			catch (IllegalAccessException x)
 			{
@@ -208,21 +208,21 @@ public class ExpressionLanguageContext
 			{
 			}
 
-			throw new IllegalArgumentException ("Error in expression '" + expression + "'. Unable"
+			throw new IllegalArgumentException("Error in expression '" + expression + "'. Unable"
 							+ " to retrieve variable or it's property");
 		}
 
 		// Backward compatibility: #paramName
 		// TODO Replace this with ${params(name)}
-		if (expression.startsWith ("#"))
+		if (expression.startsWith("#"))
 		{
 			if (request == null)
 			{
-				throw new IllegalArgumentException ("Error in expression '" + expression + "'. No"
+				throw new IllegalArgumentException("Error in expression '" + expression + "'. No"
 								+ " model request found in context");
 			}
 
-			return request.getParameterAsString (expression.substring (1));
+			return request.getParameterAsString(expression.substring(1));
 		}
 
 		return expression;
@@ -231,17 +231,17 @@ public class ExpressionLanguageContext
 	/**
 	 * See {@link ExpressionLanguageContext#evalExpressionLanguageValue(Object, ModelRequest, String)}.
 	 */
-	public static Properties evalExpressionLanguageValue (Object context, ModelRequest request, Properties expressions)
+	public static Properties evalExpressionLanguageValue(Object context, ModelRequest request, Properties expressions)
 	{
-		Properties newProperties = new Properties ();
+		Properties newProperties = new Properties();
 
-		for (Entry<Object, Object> expression : expressions.entrySet ())
+		for (Entry<Object, Object> expression : expressions.entrySet())
 		{
-			Object val = evalExpressionLanguageValue (context, request, expression.getValue ().toString ());
+			Object val = evalExpressionLanguageValue(context, request, expression.getValue().toString());
 
 			if (val != null)
 			{
-				newProperties.put (expression.getKey (), val);
+				newProperties.put(expression.getKey(), val);
 			}
 		}
 

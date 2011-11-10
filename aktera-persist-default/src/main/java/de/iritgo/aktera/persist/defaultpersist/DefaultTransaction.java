@@ -49,7 +49,7 @@ public class DefaultTransaction implements Transaction
 
 	private boolean supportsTransactions = true;
 
-	void setDataSource (DataSourceComponent newDataSource)
+	void setDataSource(DataSourceComponent newDataSource)
 	{
 		dataSource = newDataSource;
 	}
@@ -62,7 +62,7 @@ public class DefaultTransaction implements Transaction
 	 * always check the DatabaseType in your code to ensure they are supported
 	 * by the currently configured database.
 	 */
-	void setSupportsTransactions (boolean newSupports)
+	void setSupportsTransactions(boolean newSupports)
 	{
 		supportsTransactions = newSupports;
 	}
@@ -70,71 +70,71 @@ public class DefaultTransaction implements Transaction
 	/**
 	 * @see de.iritgo.aktera.persist.Transaction#begin()
 	 */
-	public void begin () throws PersistenceException
+	public void begin() throws PersistenceException
 	{
 		try
 		{
-			myConnection = dataSource.getConnection ();
+			myConnection = dataSource.getConnection();
 
 			if (supportsTransactions)
 			{
-				myConnection.setAutoCommit (false);
+				myConnection.setAutoCommit(false);
 			}
 		}
 		catch (SQLException se)
 		{
-			throw new PersistenceException (se);
+			throw new PersistenceException(se);
 		}
 	}
 
 	/**
 	 * @see de.iritgo.aktera.persist.Transaction#commit()
 	 */
-	public void commit () throws PersistenceException
+	public void commit() throws PersistenceException
 	{
 		try
 		{
 			if (supportsTransactions)
 			{
-				myConnection.commit ();
+				myConnection.commit();
 			}
 
-			myConnection.close ();
+			myConnection.close();
 		}
 		catch (SQLException se)
 		{
-			throw new PersistenceException (se);
+			throw new PersistenceException(se);
 		}
 	}
 
 	/**
 	 * @see de.iritgo.aktera.persist.Transaction#rollback()
 	 */
-	public void rollback () throws PersistenceException
+	public void rollback() throws PersistenceException
 	{
 		try
 		{
 			if (supportsTransactions)
 			{
-				myConnection.rollback ();
+				myConnection.rollback();
 			}
 
-			myConnection.close ();
+			myConnection.close();
 		}
 		catch (SQLException se)
 		{
-			throw new PersistenceException (se);
+			throw new PersistenceException(se);
 		}
 	}
 
 	/**
 	 * @see de.iritgo.aktera.persist.Transaction#getConnection()
 	 */
-	public Connection getConnection () throws PersistenceException
+	public Connection getConnection() throws PersistenceException
 	{
 		if (myConnection == null)
 		{
-			throw new PersistenceException ("Transaction not begun");
+			throw new PersistenceException("Transaction not begun");
 		}
 
 		return myConnection;

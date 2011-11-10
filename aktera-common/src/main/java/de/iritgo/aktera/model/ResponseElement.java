@@ -32,24 +32,24 @@ public interface ResponseElement
 {
 	/* Add a nested response element
 	 */
-	public void add (ResponseElement re);
+	public void add(ResponseElement re);
 
-	public void remove (ResponseElement re);
+	public void remove(ResponseElement re);
 
 	/**
 	 * Set the value of an attribute of this element
 	 */
-	public void setAttribute (String key, Object value);
+	public void setAttribute(String key, Object value);
 
-	public Object getAttribute (String key);
+	public Object getAttribute(String key);
 
-	public String getName ();
+	public String getName();
 
-	public void setName (String newName);
+	public void setName(String newName);
 
-	public List getAll ();
+	public List getAll();
 
-	public Map getAttributes ();
+	public Map getAttributes();
 
-	public void removeAttribute (String key);
+	public void removeAttribute(String key);
 }

@@ -36,10 +36,10 @@ import java.sql.SQLException;
 public class ModuleCreateHandler extends CreateHandler
 {
 	@Override
-	public void createTables (ModelRequest request, PersistentFactory persistentFactory, Connection connection,
+	public void createTables(ModelRequest request, PersistentFactory persistentFactory, Connection connection,
 					Logger logger) throws ModelException, PersistenceException, SQLException
 	{
-		createTable ("permission", "negative boolean null", "objectId int4 null", "objectType varchar(255) null",
+		createTable("permission", "negative boolean null", "objectId int4 null", "objectType varchar(255) null",
 						"permission varchar(255) not null", "id serial primary key", "principalId int4 not null",
 						"principalType varchar(255) not null");
 	}
@@ -48,7 +48,7 @@ public class ModuleCreateHandler extends CreateHandler
 	 * @see de.iritgo.aktera.base.services.persist.CreateHandler#createData(de.iritgo.aktera.persist.PersistentFactory, java.sql.Connection, Logger, ModelRequest)
 	 */
 	@Override
-	public void createData (PersistentFactory persistentFactory, Connection connection, Logger logger,
+	public void createData(PersistentFactory persistentFactory, Connection connection, Logger logger,
 					ModelRequest request) throws ModelException, PersistenceException, SQLException
 	{
 	}

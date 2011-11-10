@@ -29,12 +29,10 @@ import de.iritgo.aktera.persist.PersistenceException;
 import de.iritgo.aktera.persist.Persistent;
 import de.iritgo.aktera.persist.PersistentFactory;
 import de.iritgo.aktera.tools.*;
-
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.service.*;
-
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -60,39 +58,39 @@ public class KeelPreferencesManager extends StandardLogEnabledModel implements I
 
 		public String name;
 
-		public ThemeInfo (String id, String name)
+		public ThemeInfo(String id, String name)
 		{
 			this.id = id;
 			this.name = name;
 		}
 
-		public String getId ()
+		public String getId()
 		{
 			return id;
 		}
 
-		public String getName ()
+		public String getName()
 		{
 			return name;
 		}
 	}
 
 	/** Available themes. */
-	protected static Map themes = new HashMap ();
+	protected static Map themes = new HashMap();
 
 	/**
 	 * Initialize the component.
 	 */
-	public void initialize () throws ConfigurationException
+	public void initialize() throws ConfigurationException
 	{
-		Configuration[] themeConfigs = getConfiguration ().getChildren ("theme");
+		Configuration[] themeConfigs = getConfiguration().getChildren("theme");
 
 		for (int i = 0; i < themeConfigs.length; ++i)
 		{
 			Configuration themeConfig = themeConfigs[i];
 
-			themes.put (themeConfig.getAttribute ("id"), new ThemeInfo (themeConfig.getAttribute ("id"), themeConfig
-							.getAttribute ("name")));
+			themes.put(themeConfig.getAttribute("id"), new ThemeInfo(themeConfig.getAttribute("id"), themeConfig
+							.getAttribute("name")));
 		}
 	}
 
@@ -102,19 +100,19 @@ public class KeelPreferencesManager extends StandardLogEnabledModel implements I
 	 * @param req The model request.
 	 * @return The model response.
 	 */
-	public ModelResponse execute (ModelRequest req) throws ModelException
+	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
-		ModelResponse res = req.createResponse ();
+		ModelResponse res = req.createResponse();
 
 		return res;
 	}
 
-	public static void createDefaultValues (Integer userId)
+	public static void createDefaultValues(Integer userId)
 	{
 		try
 		{
 			ModelRequest modelReq = ModelTools.createModelRequest();
-			createDefaultValues (modelReq, userId);
+			createDefaultValues(modelReq, userId);
 		}
 		catch (Exception x)
 		{
@@ -129,43 +127,43 @@ public class KeelPreferencesManager extends StandardLogEnabledModel implements I
 	 * @param req A model request.
 	 * @param userId The user id.
 	 */
-	public static void createDefaultValues (ModelRequest req, Integer userId) throws ModelException
+	public static void createDefaultValues(ModelRequest req, Integer userId) throws ModelException
 	{
 		try
 		{
-			Model self = (Model) req.getService (Model.ROLE, "aktera.preferences.manager");
+			Model self = (Model) req.getService(Model.ROLE, "aktera.preferences.manager");
 
-			PersistentFactory persistentManager = (PersistentFactory) req.getService (PersistentFactory.ROLE, req
-							.getDomain ());
+			PersistentFactory persistentManager = (PersistentFactory) req.getService(PersistentFactory.ROLE, req
+							.getDomain());
 
-			Configuration[] configs = self.getConfiguration ().getChildren ("config");
+			Configuration[] configs = self.getConfiguration().getChildren("config");
 
 			for (int i = 0; i < configs.length; ++i)
 			{
 				Configuration config = configs[i];
 
-				Persistent configEntry = persistentManager.create ("aktera.PreferencesConfig");
+				Persistent configEntry = persistentManager.create("aktera.PreferencesConfig");
 
-				configEntry.setField ("userId", userId);
-				configEntry.setField ("category", config.getAttribute ("category"));
-				configEntry.setField ("name", config.getAttribute ("name"));
+				configEntry.setField("userId", userId);
+				configEntry.setField("category", config.getAttribute("category"));
+				configEntry.setField("name", config.getAttribute("name"));
 
-				if (! configEntry.find ())
+				if (! configEntry.find())
 				{
-					configEntry.setField ("type", config.getAttribute ("type"));
-					configEntry.setField ("value", config.getAttribute ("value", null));
-					configEntry.setField ("validValues", config.getAttribute ("validValues", null));
-					configEntry.add ();
+					configEntry.setField("type", config.getAttribute("type"));
+					configEntry.setField("value", config.getAttribute("value", null));
+					configEntry.setField("validValues", config.getAttribute("validValues", null));
+					configEntry.add();
 				}
 			}
 		}
 		catch (PersistenceException x)
 		{
-			throw new ModelException ("[PreferencesManager] Unable to create default values", x);
+			throw new ModelException("[PreferencesManager] Unable to create default values", x);
 		}
 		catch (ConfigurationException x)
 		{
-			throw new ModelException ("[PreferencesManager] Unable to create default values", x);
+			throw new ModelException("[PreferencesManager] Unable to create default values", x);
 		}
 	}
 
@@ -175,50 +173,49 @@ public class KeelPreferencesManager extends StandardLogEnabledModel implements I
 	 * @param req A model request.
 	 * @param userId The user id.
 	 */
-	public static void createDefaultValue (ModelRequest req, Integer userId, String category, String name)
+	public static void createDefaultValue(ModelRequest req, Integer userId, String category, String name)
 		throws ModelException
 	{
 		try
 		{
-			Model self = (Model) req.getService (Model.ROLE, "aktera.preferences.manager");
+			Model self = (Model) req.getService(Model.ROLE, "aktera.preferences.manager");
 
-			PersistentFactory persistentManager = (PersistentFactory) req.getService (PersistentFactory.ROLE, req
-							.getDomain ());
+			PersistentFactory persistentManager = (PersistentFactory) req.getService(PersistentFactory.ROLE, req
+							.getDomain());
 
-			Configuration[] configs = self.getConfiguration ().getChildren ("config");
+			Configuration[] configs = self.getConfiguration().getChildren("config");
 
 			for (int i = 0; i < configs.length; ++i)
 			{
 				Configuration config = configs[i];
 
-				if (! config.getAttribute ("category").equals (category)
-								&& ! config.getAttribute ("name").equals (name))
+				if (! config.getAttribute("category").equals(category) && ! config.getAttribute("name").equals(name))
 				{
 					continue;
 				}
 
-				Persistent configEntry = persistentManager.create ("aktera.PreferencesConfig");
+				Persistent configEntry = persistentManager.create("aktera.PreferencesConfig");
 
-				configEntry.setField ("userId", userId);
-				configEntry.setField ("category", config.getAttribute ("category"));
-				configEntry.setField ("name", config.getAttribute ("name"));
+				configEntry.setField("userId", userId);
+				configEntry.setField("category", config.getAttribute("category"));
+				configEntry.setField("name", config.getAttribute("name"));
 
-				if (! configEntry.find ())
+				if (! configEntry.find())
 				{
-					configEntry.setField ("type", config.getAttribute ("type"));
-					configEntry.setField ("value", config.getAttribute ("value", null));
-					configEntry.setField ("validValues", config.getAttribute ("validValues", null));
-					configEntry.add ();
+					configEntry.setField("type", config.getAttribute("type"));
+					configEntry.setField("value", config.getAttribute("value", null));
+					configEntry.setField("validValues", config.getAttribute("validValues", null));
+					configEntry.add();
 				}
 			}
 		}
 		catch (PersistenceException x)
 		{
-			throw new ModelException ("[PreferencesManager] Unable to create default value", x);
+			throw new ModelException("[PreferencesManager] Unable to create default value", x);
 		}
 		catch (ConfigurationException x)
 		{
-			throw new ModelException ("[PreferencesManager] Unable to create default value", x);
+			throw new ModelException("[PreferencesManager] Unable to create default value", x);
 		}
 	}
 
@@ -227,8 +224,8 @@ public class KeelPreferencesManager extends StandardLogEnabledModel implements I
 	 *
 	 * @return A theme iterator.
 	 */
-	public static Iterator themeIterator ()
+	public static Iterator themeIterator()
 	{
-		return themes.values ().iterator ();
+		return themes.values().iterator();
 	}
 }

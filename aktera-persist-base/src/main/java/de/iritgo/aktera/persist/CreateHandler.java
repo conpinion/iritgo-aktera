@@ -35,12 +35,12 @@ import java.sql.SQLException;
 @SuppressWarnings("unused")
 public class CreateHandler extends UpdateHandler
 {
-	public void createTables (ModelRequest request, PersistentFactory persistentFactory, Connection connection,
+	public void createTables(ModelRequest request, PersistentFactory persistentFactory, Connection connection,
 					Logger logger) throws ModelException, PersistenceException, SQLException
 	{
 	}
 
-	public void createData (PersistentFactory persistentFactory, Connection connection, Logger logger,
+	public void createData(PersistentFactory persistentFactory, Connection connection, Logger logger,
 					ModelRequest request) throws ModelException, PersistenceException, SQLException
 	{
 	}

@@ -121,10 +121,10 @@ public class Menu extends StandardLogEnabledModel
 	protected boolean configRead;
 
 	/** Function list. */
-	protected List<FunctionItem> functions = new LinkedList ();
+	protected List<FunctionItem> functions = new LinkedList();
 
 	/** Menu groups. */
-	protected List<MenuGroup> menuGroups = new LinkedList ();
+	protected List<MenuGroup> menuGroups = new LinkedList();
 
 	/** Menu style. */
 	protected String style;
@@ -138,81 +138,80 @@ public class Menu extends StandardLogEnabledModel
 	 * @param req The model request.
 	 * @throws ModelException In case of a business failure.
 	 */
-	public ModelResponse execute (ModelRequest req) throws ModelException
+	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
 		try
 		{
-			SystemConfigManager systemConfigManager = (SystemConfigManager) SpringTools
-							.getBean (SystemConfigManager.ID);
+			SystemConfigManager systemConfigManager = (SystemConfigManager) SpringTools.getBean(SystemConfigManager.ID);
 
-			PermissionManager permissionManager = (PermissionManager) SpringTools.getBean (PermissionManager.ID);
+			PermissionManager permissionManager = (PermissionManager) SpringTools.getBean(PermissionManager.ID);
 
-			ModelResponse res = req.createResponse ();
+			ModelResponse res = req.createResponse();
 
-			boolean byGroups = NumberTools.toBool (req.getParameter ("byGroups"), false);
+			boolean byGroups = NumberTools.toBool(req.getParameter("byGroups"), false);
 
-			readConfig (req);
+			readConfig(req);
 
 			int itemsPerRow = 3;
 
-			if ("toolBar".equals (style))
+			if ("toolBar".equals(style))
 			{
 				itemsPerRow = 16;
 			}
 
-			String currentItem = (String) UserTools.getContextObject (req, "aktera.currentMenuItem");
+			String currentItem = (String) UserTools.getContextObject(req, "aktera.currentMenuItem");
 
-			if (currentItem == null && UserTools.currentUserIsInGroup (req, "admin"))
+			if (currentItem == null && UserTools.currentUserIsInGroup(req, "admin"))
 			{
-				currentItem = (String) systemConfigManager.get ("system", "startMenuItemAdmin");
+				currentItem = (String) systemConfigManager.get("system", "startMenuItemAdmin");
 			}
 
-			if (currentItem == null && UserTools.currentUserIsInGroup (req, "manager"))
+			if (currentItem == null && UserTools.currentUserIsInGroup(req, "manager"))
 			{
-				currentItem = (String) systemConfigManager.get ("system", "startMenuItemManager");
+				currentItem = (String) systemConfigManager.get("system", "startMenuItemManager");
 			}
 
-			if (currentItem == null && UserTools.getCurrentUserId (req) != null)
+			if (currentItem == null && UserTools.getCurrentUserId(req) != null)
 			{
-				currentItem = (String) systemConfigManager.get ("system", "startMenuItem");
+				currentItem = (String) systemConfigManager.get("system", "startMenuItem");
 			}
 
-			Output outFunctions = res.createOutput ("functions");
+			Output outFunctions = res.createOutput("functions");
 
 			if (! byGroups)
 			{
-				outFunctions.setAttribute ("style", style == null ? "none" : style);
-				res.add (outFunctions);
+				outFunctions.setAttribute("style", style == null ? "none" : style);
+				res.add(outFunctions);
 			}
 
-			String title = getConfiguration ().getChild ("title").getValue ("functions");
+			String title = getConfiguration().getChild("title").getValue("functions");
 
-			outFunctions.setAttribute ("title", title);
+			outFunctions.setAttribute("title", title);
 
-			String bundle = getConfiguration ().getChild ("bundle").getValue ("Aktera");
+			String bundle = getConfiguration().getChild("bundle").getValue("Aktera");
 
-			outFunctions.setAttribute ("bundle", bundle);
+			outFunctions.setAttribute("bundle", bundle);
 
-			Map<String, List<Command>> tmpMenuGroups = new Hashtable ();
+			Map<String, List<Command>> tmpMenuGroups = new Hashtable();
 
 			int num = 0;
 
-			for (Iterator i = functions.iterator (); i.hasNext ();)
+			for (Iterator i = functions.iterator(); i.hasNext();)
 			{
-				FunctionItem item = (FunctionItem) i.next ();
+				FunctionItem item = (FunctionItem) i.next();
 
-				if (item.feature != null && ! LicenseTools.getLicenseInfo ().hasFeature (item.feature))
+				if (item.feature != null && ! LicenseTools.getLicenseInfo().hasFeature(item.feature))
 				{
 					continue;
 				}
 
-				if (item.check != null && ! CheckerTools.check (item.check, req, new Properties ()))
+				if (item.check != null && ! CheckerTools.check(item.check, req, new Properties()))
 				{
 					continue;
 				}
 
-				if (item.role != null && ! UserTools.currentUserIsInGroup (req, "admin")
-								&& ! UserTools.currentUserIsInGroup (req, item.role))
+				if (item.role != null && ! UserTools.currentUserIsInGroup(req, "admin")
+								&& ! UserTools.currentUserIsInGroup(req, item.role))
 				{
 					continue;
 				}
@@ -221,9 +220,9 @@ public class Menu extends StandardLogEnabledModel
 				{
 					boolean hasPermission = false;
 
-					for (String p : item.permission.split ("\\|"))
+					for (String p : item.permission.split("\\|"))
 					{
-						if (permissionManager.hasPermission (UserTools.getCurrentUserName (req), p))
+						if (permissionManager.hasPermission(UserTools.getCurrentUserName(req), p))
 						{
 							hasPermission = true;
 
@@ -237,68 +236,68 @@ public class Menu extends StandardLogEnabledModel
 					}
 				}
 
-				Command cmd = res.createCommand ("aktera.select-menu-item");
+				Command cmd = res.createCommand("aktera.select-menu-item");
 
-				cmd.setName ("cmd" + num);
-				cmd.setLabel (item.label);
-				cmd.setAttribute ("bundle", item.bundle);
-				cmd.setAttribute ("id", item.id);
-				cmd.setParameter ("item", item.category);
+				cmd.setName("cmd" + num);
+				cmd.setLabel(item.label);
+				cmd.setAttribute("bundle", item.bundle);
+				cmd.setAttribute("id", item.id);
+				cmd.setParameter("item", item.category);
 
 				if (item.bean != null)
 				{
-					cmd.setBean ("de.iritgo.aktera.base.SelectMenuItem");
-					cmd.setParameter ("targetBean", item.bean);
+					cmd.setBean("de.iritgo.aktera.base.SelectMenuItem");
+					cmd.setParameter("targetBean", item.bean);
 				}
 				else
 				{
-					cmd.setParameter ("targetModel", item.model);
+					cmd.setParameter("targetModel", item.model);
 				}
 
 				if (item.menu != null)
 				{
-					cmd.setParameter ("menu", item.menu);
+					cmd.setParameter("menu", item.menu);
 				}
 
 				if (item.menuItem != null)
 				{
-					cmd.setParameter ("menuItem", item.menuItem);
+					cmd.setParameter("menuItem", item.menuItem);
 				}
 
-				boolean active = item.category.equals (currentItem);
+				boolean active = item.category.equals(currentItem);
 
 				//				String icon = active ? item.icon : item.inactiveIcon;
 				String icon = item.icon;
 
-				cmd.setAttribute ("icon", icon != null ? icon : "menu-bullet");
-				cmd.setAttribute ("bigIcon", item.bigIcon);
+				cmd.setAttribute("icon", icon != null ? icon : "menu-bullet");
+				cmd.setAttribute("bigIcon", item.bigIcon);
 
 				if (active)
 				{
-					cmd.setAttribute ("active", "Y");
+					cmd.setAttribute("active", "Y");
 				}
 
 				if (num % itemsPerRow == itemsPerRow - 1)
 				{
-					cmd.setAttribute ("lastInRow", "Y");
+					cmd.setAttribute("lastInRow", "Y");
 				}
 
 				if (! byGroups)
 				{
-					outFunctions.add (cmd);
+					outFunctions.add(cmd);
 				}
 
 				if (byGroups && item.group != null)
 				{
-					List<Command> menuItems = tmpMenuGroups.get (item.group);
+					List<Command> menuItems = tmpMenuGroups.get(item.group);
 
 					if (menuItems == null)
 					{
-						menuItems = new LinkedList<Command> ();
-						tmpMenuGroups.put (item.group, menuItems);
+						menuItems = new LinkedList<Command>();
+						tmpMenuGroups.put(item.group, menuItems);
 					}
 
-					menuItems.add (cmd);
+					menuItems.add(cmd);
 				}
 
 				num++;
@@ -306,25 +305,25 @@ public class Menu extends StandardLogEnabledModel
 
 			if (byGroups)
 			{
-				Output outMenuGroups = res.createOutput ("menuGroups");
+				Output outMenuGroups = res.createOutput("menuGroups");
 
-				res.add (outMenuGroups);
+				res.add(outMenuGroups);
 
 				for (MenuGroup menuGroup : menuGroups)
 				{
-					Output outMenuGroup = res.createOutput (menuGroup.id, menuGroup.id);
+					Output outMenuGroup = res.createOutput(menuGroup.id, menuGroup.id);
 
-					outMenuGroups.add (outMenuGroup);
-					outMenuGroup.setAttribute ("label", menuGroup.label);
-					outMenuGroup.setAttribute ("bundle", menuGroup.bundle);
+					outMenuGroups.add(outMenuGroup);
+					outMenuGroup.setAttribute("label", menuGroup.label);
+					outMenuGroup.setAttribute("bundle", menuGroup.bundle);
 
-					List<Command> menuItems = tmpMenuGroups.get (menuGroup.id);
+					List<Command> menuItems = tmpMenuGroups.get(menuGroup.id);
 
 					if (menuItems != null)
 					{
 						for (Command cmd : menuItems)
 						{
-							outMenuGroup.add (cmd);
+							outMenuGroup.add(cmd);
 						}
 					}
 				}
@@ -334,7 +333,7 @@ public class Menu extends StandardLogEnabledModel
 		}
 		catch (ConfigurationException x)
 		{
-			throw new ModelException (x);
+			throw new ModelException(x);
 		}
 	}
 
@@ -343,114 +342,114 @@ public class Menu extends StandardLogEnabledModel
 	 *
 	 * @param req The model configuration.
 	 */
-	public void readConfig (ModelRequest req) throws ModelException, ConfigurationException
+	public void readConfig(ModelRequest req) throws ModelException, ConfigurationException
 	{
 		if (configRead)
 		{
 			return;
 		}
 
-		Configuration config = getConfiguration ();
+		Configuration config = getConfiguration();
 
-		for (Configuration groupConfig : config.getChildren ("group"))
+		for (Configuration groupConfig : config.getChildren("group"))
 		{
-			MenuGroup group = new MenuGroup ();
+			MenuGroup group = new MenuGroup();
 
-			group.id = groupConfig.getAttribute ("id", "null");
-			group.label = groupConfig.getAttribute ("label", group.id);
-			group.bundle = groupConfig.getAttribute ("bundle", "Aktera");
-			group.position = groupConfig.getAttributeAsInteger ("position", 0);
-			menuGroups.add (group);
+			group.id = groupConfig.getAttribute("id", "null");
+			group.label = groupConfig.getAttribute("label", group.id);
+			group.bundle = groupConfig.getAttribute("bundle", "Aktera");
+			group.position = groupConfig.getAttributeAsInteger("position", 0);
+			menuGroups.add(group);
 		}
 
-		Collections.sort (menuGroups, new Comparator ()
+		Collections.sort(menuGroups, new Comparator()
 		{
-			public int compare (Object o1, Object o2)
+			public int compare(Object o1, Object o2)
 			{
 				return ((MenuGroup) o1).position - ((MenuGroup) o2).position;
 			}
 		});
 
-		style = config.getChild ("style").getValue ("default");
+		style = config.getChild("style").getValue("default");
 
-		for (Configuration itemConfig : config.getChildren ("item"))
+		for (Configuration itemConfig : config.getChildren("item"))
 		{
-			if (itemConfig.getAttribute ("ifModule", null) != null
-							&& ! ModuleTools.moduleExists (req, itemConfig.getAttribute ("ifModule")))
+			if (itemConfig.getAttribute("ifModule", null) != null
+							&& ! ModuleTools.moduleExists(req, itemConfig.getAttribute("ifModule")))
 			{
 				continue;
 			}
 
-			if (itemConfig.getAttribute ("id", null) == null)
+			if (itemConfig.getAttribute("id", null) == null)
 			{
-				System.out.println ("[Menu] No id defined for menu item in menu '" + config.getAttribute ("id") + "'");
+				System.out.println("[Menu] No id defined for menu item in menu '" + config.getAttribute("id") + "'");
 
 				continue;
 			}
 
 			int position = 0;
-			String pos = itemConfig.getAttribute ("pos", "C");
+			String pos = itemConfig.getAttribute("pos", "C");
 
-			if ("SS".equals (pos))
+			if ("SS".equals(pos))
 			{
 				position = - 100000;
 			}
-			else if ("S".equals (pos))
+			else if ("S".equals(pos))
 			{
 				position = - 10000;
 			}
-			else if ("H".equals (pos))
+			else if ("H".equals(pos))
 			{
 				position = - 1000;
 			}
-			else if ("C".equals (pos))
+			else if ("C".equals(pos))
 			{
 				position = 0;
 			}
-			else if ("T".equals (pos))
+			else if ("T".equals(pos))
 			{
 				position = 1000;
 			}
-			else if ("E".equals (pos))
+			else if ("E".equals(pos))
 			{
 				position = 10000;
 			}
-			else if ("EE".equals (pos))
+			else if ("EE".equals(pos))
 			{
 				position = 100000;
 			}
 			else
 			{
-				position = NumberTools.toInt (pos, 0);
+				position = NumberTools.toInt(pos, 0);
 			}
 
-			FunctionItem functionItem = new FunctionItem ();
+			FunctionItem functionItem = new FunctionItem();
 
-			functionItem.id = itemConfig.getAttribute ("id", null);
-			functionItem.category = itemConfig.getAttribute ("id", null);
-			functionItem.menu = itemConfig.getAttribute ("menu", null);
-			functionItem.menuItem = itemConfig.getAttribute ("menuItem", null);
-			functionItem.model = itemConfig.getAttribute ("model", "unknown");
-			functionItem.bean = itemConfig.getAttribute ("bean", null);
-			functionItem.label = itemConfig.getAttribute ("title", "unknown");
-			functionItem.bundle = itemConfig.getAttribute ("bundle", "Aktera");
-			functionItem.icon = itemConfig.getAttribute ("icon", "menu-bullet");
-			functionItem.bigIcon = itemConfig.getAttribute ("bigIcon", functionItem.icon);
-			functionItem.inactiveIcon = itemConfig.getAttribute ("inactiveIcon", itemConfig.getAttribute ("icon",
+			functionItem.id = itemConfig.getAttribute("id", null);
+			functionItem.category = itemConfig.getAttribute("id", null);
+			functionItem.menu = itemConfig.getAttribute("menu", null);
+			functionItem.menuItem = itemConfig.getAttribute("menuItem", null);
+			functionItem.model = itemConfig.getAttribute("model", "unknown");
+			functionItem.bean = itemConfig.getAttribute("bean", null);
+			functionItem.label = itemConfig.getAttribute("title", "unknown");
+			functionItem.bundle = itemConfig.getAttribute("bundle", "Aktera");
+			functionItem.icon = itemConfig.getAttribute("icon", "menu-bullet");
+			functionItem.bigIcon = itemConfig.getAttribute("bigIcon", functionItem.icon);
+			functionItem.inactiveIcon = itemConfig.getAttribute("inactiveIcon", itemConfig.getAttribute("icon",
 							"menu-bullet"));
 			functionItem.position = position;
-			functionItem.check = itemConfig.getAttribute ("ifCheck", null);
-			functionItem.feature = itemConfig.getAttribute ("ifFeature", null);
-			functionItem.role = itemConfig.getAttribute ("ifRole", null);
-			functionItem.group = itemConfig.getAttribute ("group", null);
-			functionItem.permission = itemConfig.getAttribute ("ifPermission", null);
+			functionItem.check = itemConfig.getAttribute("ifCheck", null);
+			functionItem.feature = itemConfig.getAttribute("ifFeature", null);
+			functionItem.role = itemConfig.getAttribute("ifRole", null);
+			functionItem.group = itemConfig.getAttribute("group", null);
+			functionItem.permission = itemConfig.getAttribute("ifPermission", null);
 
-			functions.add (functionItem);
+			functions.add(functionItem);
 		}
 
-		Collections.sort (functions, new Comparator ()
+		Collections.sort(functions, new Comparator()
 		{
-			public int compare (Object o1, Object o2)
+			public int compare(Object o1, Object o2)
 			{
 				return ((FunctionItem) o1).position - ((FunctionItem) o2).position;
 			}

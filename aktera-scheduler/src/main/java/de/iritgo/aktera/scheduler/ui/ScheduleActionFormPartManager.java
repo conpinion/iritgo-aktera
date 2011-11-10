@@ -36,7 +36,7 @@ public interface ScheduleActionFormPartManager
 	 *
 	 * @return A list of action form part infos
 	 */
-	public Collection<ScheduleActionFormPartInfo> getActionFormParts ();
+	public Collection<ScheduleActionFormPartInfo> getActionFormParts();
 
 	/**
 	 * Retrieve an action form part info by it's id.
@@ -44,5 +44,5 @@ public interface ScheduleActionFormPartManager
 	 * @param id The form part id
 	 * @return A form part info
 	 */
-	public ScheduleActionFormPartInfo getActionFormPart (String id);
+	public ScheduleActionFormPartInfo getActionFormPart(String id);
 }

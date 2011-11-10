@@ -64,10 +64,10 @@ public class ModelTools
 	 *            The current model response.
 	 * @return The new command.
 	 */
-	public static Command createPreviousModelCommand (ModelRequest req, ModelResponse res, String model)
+	public static Command createPreviousModelCommand(ModelRequest req, ModelResponse res, String model)
 		throws ModelException
 	{
-		return createPreviousModelCommand (req, res, model, null);
+		return createPreviousModelCommand(req, res, model, null);
 	}
 
 	/**
@@ -80,35 +80,35 @@ public class ModelTools
 	 *            The current model response.
 	 * @return The new command.
 	 */
-	public static Command createPreviousModelCommand (ModelRequest req, ModelResponse res, String model,
+	public static Command createPreviousModelCommand(ModelRequest req, ModelResponse res, String model,
 					String[] ommitPrevParameters) throws ModelException
 	{
 		Command cmd = null;
 
 		if (model != null)
 		{
-			cmd = res.createCommand (model);
+			cmd = res.createCommand(model);
 		}
 		else
 		{
-			cmd = res.createCommand (getPreviousModel (req));
+			cmd = res.createCommand(getPreviousModel(req));
 		}
 
-		Map prevReq = req.getPreviousRequest ();
+		Map prevReq = req.getPreviousRequest();
 
-		if (prevReq == null || prevReq.isEmpty ())
+		if (prevReq == null || prevReq.isEmpty())
 		{
-			prevReq = req.getParameters ();
+			prevReq = req.getParameters();
 		}
 
-		for (Iterator i = prevReq.keySet ().iterator (); i.hasNext ();)
+		for (Iterator i = prevReq.keySet().iterator(); i.hasNext();)
 		{
-			String key = (String) i.next ();
+			String key = (String) i.next();
 
-			if (! "model".equals (key) && ! "bean".equals (key) && ! "orig-model".equals (key)
-							&& ! "SEQUENCE_NAME".equals (key) && ! "SEQUENCE_NUMBER".equals (key))
+			if (! "model".equals(key) && ! "bean".equals(key) && ! "orig-model".equals(key)
+							&& ! "SEQUENCE_NAME".equals(key) && ! "SEQUENCE_NUMBER".equals(key))
 			{
-				Object param = prevReq.get (key);
+				Object param = prevReq.get(key);
 
 				if (! (param instanceof String[]))
 				{
@@ -118,16 +118,16 @@ public class ModelTools
 					{
 						for (int j = 0; j < ommitPrevParameters.length; ++j)
 						{
-							if (ommitPrevParameters[j].startsWith ("~"))
+							if (ommitPrevParameters[j].startsWith("~"))
 							{
-								if (key.toLowerCase ().indexOf (ommitPrevParameters[j].substring (1).toLowerCase ()) != - 1)
+								if (key.toLowerCase().indexOf(ommitPrevParameters[j].substring(1).toLowerCase()) != - 1)
 								{
 									ommit = true;
 
 									continue;
 								}
 							}
-							else if (ommitPrevParameters[j].toLowerCase ().equals (key.toLowerCase ()))
+							else if (ommitPrevParameters[j].toLowerCase().equals(key.toLowerCase()))
 							{
 								ommit = true;
 
@@ -138,7 +138,7 @@ public class ModelTools
 
 					if (! ommit)
 					{
-						cmd.setParameter (key, prevReq.get (key));
+						cmd.setParameter(key, prevReq.get(key));
 					}
 				}
 			}
@@ -157,9 +157,9 @@ public class ModelTools
 	 *            The current model response.
 	 * @return The new command.
 	 */
-	public static Command createPreviousModelCommand (ModelRequest req, ModelResponse res) throws ModelException
+	public static Command createPreviousModelCommand(ModelRequest req, ModelResponse res) throws ModelException
 	{
-		return createPreviousModelCommand (req, res, null);
+		return createPreviousModelCommand(req, res, null);
 	}
 
 	/**
@@ -169,15 +169,15 @@ public class ModelTools
 	 *            The current model request.
 	 * @return The model name.
 	 */
-	public static String getPreviousModel (ModelRequest req) throws ModelException
+	public static String getPreviousModel(ModelRequest req) throws ModelException
 	{
 		String model = null;
 
-		model = (String) req.getParameter ("SEQUENCE_NAME");
+		model = (String) req.getParameter("SEQUENCE_NAME");
 
 		if (model == null)
 		{
-			model = (String) req.getModel ();
+			model = (String) req.getModel();
 		}
 
 		return model;
@@ -194,18 +194,18 @@ public class ModelTools
 	 *            The model name.
 	 * @return The new command.
 	 */
-	public static Command createModelWithParameters (ModelRequest req, ModelResponse res, String model)
+	public static Command createModelWithParameters(ModelRequest req, ModelResponse res, String model)
 		throws ModelException
 	{
-		Command cmd = res.createCommand (model);
+		Command cmd = res.createCommand(model);
 
-		for (Iterator i = req.getParameters ().keySet ().iterator (); i.hasNext ();)
+		for (Iterator i = req.getParameters().keySet().iterator(); i.hasNext();)
 		{
-			String key = (String) i.next ();
+			String key = (String) i.next();
 
-			if (! "model".equals (key) && ! "SEQUENCE_NAME".equals (key) && ! "SEQUENCE_NUMBER".equals (key))
+			if (! "model".equals(key) && ! "SEQUENCE_NAME".equals(key) && ! "SEQUENCE_NUMBER".equals(key))
 			{
-				cmd.setParameter (key, req.getParameters ().get (key));
+				cmd.setParameter(key, req.getParameters().get(key));
 			}
 		}
 
@@ -222,22 +222,22 @@ public class ModelTools
 	 * @param params
 	 *            Model parameters.
 	 */
-	public static ModelResponse callModel (ModelRequest req, String model, Properties params) throws ModelException
+	public static ModelResponse callModel(ModelRequest req, String model, Properties params) throws ModelException
 	{
-		ModelResponse res = req.createResponse ();
-		Command cmd = res.createCommand (model);
+		ModelResponse res = req.createResponse();
+		Command cmd = res.createCommand(model);
 
 		if (params != null)
 		{
-			for (Iterator i = params.entrySet ().iterator (); i.hasNext ();)
+			for (Iterator i = params.entrySet().iterator(); i.hasNext();)
 			{
-				Map.Entry param = (Map.Entry) i.next ();
+				Map.Entry param = (Map.Entry) i.next();
 
-				cmd.setParameter ((String) param.getKey (), param.getValue ());
+				cmd.setParameter((String) param.getKey(), param.getValue());
 			}
 		}
 
-		return cmd.execute (req, res);
+		return cmd.execute(req, res);
 	}
 
 	/**
@@ -248,13 +248,13 @@ public class ModelTools
 	 * @param params
 	 *            Model parameters.
 	 */
-	public static ModelResponse callModel (String model, Properties params) throws ModelException
+	public static ModelResponse callModel(String model, Properties params) throws ModelException
 	{
 		ModelRequest request = null;
 		try
 		{
-			request = createModelRequest ();
-			return callModel (request, model, params);
+			request = createModelRequest();
+			return callModel(request, model, params);
 		}
 		catch (ServiceException ignored)
 		{
@@ -262,7 +262,7 @@ public class ModelTools
 		}
 		finally
 		{
-			releaseModelRequest (request);
+			releaseModelRequest(request);
 		}
 	}
 
@@ -278,12 +278,12 @@ public class ModelTools
 	 * @param model
 	 *            The name of the model to call.
 	 */
-	public static void callModel (ModelRequest req, ModelResponse res, String model) throws ModelException
+	public static void callModel(ModelRequest req, ModelResponse res, String model) throws ModelException
 	{
-		Command cmd = res.createCommand (model);
-		ModelResponse newRes = cmd.execute (req, res, true, false);
+		Command cmd = res.createCommand(model);
+		ModelResponse newRes = cmd.execute(req, res, true, false);
 
-		KeelTools.copyResponseElements (res, newRes);
+		KeelTools.copyResponseElements(res, newRes);
 	}
 
 	/**
@@ -296,17 +296,17 @@ public class ModelTools
 	 * @param params
 	 *            Model parameters.
 	 */
-	public static ModelResponse callModel (ModelRequest req, String model, Object... params) throws ModelException
+	public static ModelResponse callModel(ModelRequest req, String model, Object... params) throws ModelException
 	{
-		ModelResponse res = req.createResponse ();
-		Command cmd = res.createCommand (model);
+		ModelResponse res = req.createResponse();
+		Command cmd = res.createCommand(model);
 
-		for (Pair<String, Object> param : new PairwiseIterator<Object, String, Object> (params))
+		for (Pair<String, Object> param : new PairwiseIterator<Object, String, Object>(params))
 		{
-			cmd.setParameter (param.get1 (), param.get2 ());
+			cmd.setParameter(param.get1(), param.get2());
 		}
 
-		return cmd.execute (req, res);
+		return cmd.execute(req, res);
 	}
 
 	/**
@@ -317,9 +317,9 @@ public class ModelTools
 	 * @param model
 	 *            The name of the model to call.
 	 */
-	public static ModelResponse callModel (ModelRequest req, String model) throws ModelException
+	public static ModelResponse callModel(ModelRequest req, String model) throws ModelException
 	{
-		return callModel (req, model, (Object[]) null);
+		return callModel(req, model, (Object[]) null);
 	}
 
 	/**
@@ -331,11 +331,11 @@ public class ModelTools
 	 *            The name of the model to check.
 	 * @return True if the model exists.
 	 */
-	public static boolean modelExists (ModelRequest req, String model)
+	public static boolean modelExists(ModelRequest req, String model)
 	{
 		try
 		{
-			req.getService (Model.ROLE, model);
+			req.getService(Model.ROLE, model);
 		}
 		catch (ModelException x)
 		{
@@ -358,22 +358,22 @@ public class ModelTools
 	 * @exception ModelException
 	 *                If a specifed model wasn't found.
 	 */
-	public static List getDerivationPath (ModelRequest req, Model model) throws ModelException
+	public static List getDerivationPath(ModelRequest req, Model model) throws ModelException
 	{
-		List path = new LinkedList ();
-		Configuration config = model.getConfiguration ();
+		List path = new LinkedList();
+		Configuration config = model.getConfiguration();
 
 		while (config != null)
 		{
-			path.add (config);
+			path.add(config);
 
-			String extendsModelName = config.getChild ("extends").getValue (null);
+			String extendsModelName = config.getChild("extends").getValue(null);
 
 			if (extendsModelName != null)
 			{
-				Model extendsModel = (Model) req.getService (Model.ROLE, extendsModelName);
+				Model extendsModel = (Model) req.getService(Model.ROLE, extendsModelName);
 
-				config = extendsModel.getConfiguration ();
+				config = extendsModel.getConfiguration();
 			}
 			else
 			{
@@ -395,16 +395,16 @@ public class ModelTools
 	 *            Default value if no configuration was found.
 	 * @return The configuration value.
 	 */
-	public static boolean getConfigBool (List configPath, String name, boolean defaultValue)
+	public static boolean getConfigBool(List configPath, String name, boolean defaultValue)
 	{
-		for (Iterator i = configPath.iterator (); i.hasNext ();)
+		for (Iterator i = configPath.iterator(); i.hasNext();)
 		{
-			Configuration config = (Configuration) i.next ();
-			String value = config.getChild (name).getValue (null);
+			Configuration config = (Configuration) i.next();
+			String value = config.getChild(name).getValue(null);
 
 			if (value != null)
 			{
-				return NumberTools.toBool (value, defaultValue);
+				return NumberTools.toBool(value, defaultValue);
 			}
 		}
 
@@ -424,16 +424,16 @@ public class ModelTools
 	 *            Default value if no configuration was found.
 	 * @return The configuration value.
 	 */
-	public static boolean getConfigBool (List configPath, String name, String property, boolean defaultValue)
+	public static boolean getConfigBool(List configPath, String name, String property, boolean defaultValue)
 	{
-		for (Iterator i = configPath.iterator (); i.hasNext ();)
+		for (Iterator i = configPath.iterator(); i.hasNext();)
 		{
-			Configuration config = (Configuration) i.next ();
-			String value = config.getChild (name).getAttribute (property, null);
+			Configuration config = (Configuration) i.next();
+			String value = config.getChild(name).getAttribute(property, null);
 
 			if (value != null)
 			{
-				return NumberTools.toBool (value, defaultValue);
+				return NumberTools.toBool(value, defaultValue);
 			}
 		}
 
@@ -451,16 +451,16 @@ public class ModelTools
 	 *            Default value if no configuration was found.
 	 * @return The configuration value.
 	 */
-	public static int getConfigInt (List configPath, String name, int defaultValue)
+	public static int getConfigInt(List configPath, String name, int defaultValue)
 	{
-		for (Iterator i = configPath.iterator (); i.hasNext ();)
+		for (Iterator i = configPath.iterator(); i.hasNext();)
 		{
-			Configuration config = (Configuration) i.next ();
-			String value = config.getChild (name).getValue (null);
+			Configuration config = (Configuration) i.next();
+			String value = config.getChild(name).getValue(null);
 
 			if (value != null)
 			{
-				return NumberTools.toInt (value, defaultValue);
+				return NumberTools.toInt(value, defaultValue);
 			}
 		}
 
@@ -480,16 +480,16 @@ public class ModelTools
 	 *            Default value if no configuration was found.
 	 * @return The configuration value.
 	 */
-	public static int getConfigInt (List configPath, String name, String property, int defaultValue)
+	public static int getConfigInt(List configPath, String name, String property, int defaultValue)
 	{
-		for (Iterator i = configPath.iterator (); i.hasNext ();)
+		for (Iterator i = configPath.iterator(); i.hasNext();)
 		{
-			Configuration config = (Configuration) i.next ();
-			String value = config.getChild (name).getAttribute (property, null);
+			Configuration config = (Configuration) i.next();
+			String value = config.getChild(name).getAttribute(property, null);
 
 			if (value != null)
 			{
-				return NumberTools.toInt (value, defaultValue);
+				return NumberTools.toInt(value, defaultValue);
 			}
 		}
 
@@ -507,12 +507,12 @@ public class ModelTools
 	 *            Default value if no configuration was found.
 	 * @return The configuration value.
 	 */
-	public static String getConfigString (List configPath, String name, String defaultValue)
+	public static String getConfigString(List configPath, String name, String defaultValue)
 	{
-		for (Iterator i = configPath.iterator (); i.hasNext ();)
+		for (Iterator i = configPath.iterator(); i.hasNext();)
 		{
-			Configuration config = (Configuration) i.next ();
-			String value = config.getChild (name).getValue (null);
+			Configuration config = (Configuration) i.next();
+			String value = config.getChild(name).getValue(null);
 
 			if (value != null)
 			{
@@ -536,12 +536,12 @@ public class ModelTools
 	 *            Default value if no configuration was found.
 	 * @return The configuration value.
 	 */
-	public static String getConfigString (List configPath, String name, String property, String defaultValue)
+	public static String getConfigString(List configPath, String name, String property, String defaultValue)
 	{
-		for (Iterator i = configPath.iterator (); i.hasNext ();)
+		for (Iterator i = configPath.iterator(); i.hasNext();)
 		{
-			Configuration config = (Configuration) i.next ();
-			String value = config.getChild (name).getAttribute (property, null);
+			Configuration config = (Configuration) i.next();
+			String value = config.getChild(name).getAttribute(property, null);
 
 			if (value != null)
 			{
@@ -562,19 +562,19 @@ public class ModelTools
 	 *            Name of the configuration children.
 	 * @return The configuration children.
 	 */
-	public static List<Configuration> getConfigChildren (List<Configuration> configPath, String name)
+	public static List<Configuration> getConfigChildren(List<Configuration> configPath, String name)
 	{
-		List<Configuration> children = new LinkedList<Configuration> ();
+		List<Configuration> children = new LinkedList<Configuration>();
 
 		for (Configuration config : configPath)
 		{
-			Configuration[] childrenConfig = config.getChildren (name);
+			Configuration[] childrenConfig = config.getChildren(name);
 
 			if (childrenConfig != null)
 			{
 				for (int j = 0; j < childrenConfig.length; ++j)
 				{
-					children.add (childrenConfig[j]);
+					children.add(childrenConfig[j]);
 				}
 			}
 		}
@@ -592,25 +592,25 @@ public class ModelTools
 	 *            Name of the configuration children.
 	 * @return The configuration children.
 	 */
-	public static List getConfigChildrenReverse (List configPath, String name)
+	public static List getConfigChildrenReverse(List configPath, String name)
 	{
-		List children = new LinkedList ();
+		List children = new LinkedList();
 
-		for (Iterator i = configPath.iterator (); i.hasNext ();)
+		for (Iterator i = configPath.iterator(); i.hasNext();)
 		{
-			Configuration config = (Configuration) i.next ();
-			Configuration[] childrenConfig = config.getChildren (name);
+			Configuration config = (Configuration) i.next();
+			Configuration[] childrenConfig = config.getChildren(name);
 
 			if (childrenConfig != null)
 			{
 				for (int j = 0; j < childrenConfig.length; ++j)
 				{
-					children.add (childrenConfig[j]);
+					children.add(childrenConfig[j]);
 				}
 			}
 		}
 
-		Collections.reverse (children);
+		Collections.reverse(children);
 
 		return children;
 	}
@@ -624,12 +624,12 @@ public class ModelTools
 	 *            Name of the configuration element.
 	 * @return The configuration object.
 	 */
-	public static Configuration getConfig (List configPath, String name)
+	public static Configuration getConfig(List configPath, String name)
 	{
-		for (Iterator i = configPath.iterator (); i.hasNext ();)
+		for (Iterator i = configPath.iterator(); i.hasNext();)
 		{
-			Configuration config = (Configuration) i.next ();
-			Configuration value = config.getChild (name, false);
+			Configuration config = (Configuration) i.next();
+			Configuration value = config.getChild(name, false);
 
 			if (value != null)
 			{
@@ -653,17 +653,17 @@ public class ModelTools
 	 *            Value of the configuration propery.
 	 * @return The configuration value.
 	 */
-	public static Configuration findConfig (List configPath, String name, String property, String propertyValue)
+	public static Configuration findConfig(List configPath, String name, String property, String propertyValue)
 	{
-		for (Iterator i = configPath.iterator (); i.hasNext ();)
+		for (Iterator i = configPath.iterator(); i.hasNext();)
 		{
-			Configuration config = (Configuration) i.next ();
+			Configuration config = (Configuration) i.next();
 
-			Configuration[] children = config.getChildren (name);
+			Configuration[] children = config.getChildren(name);
 
 			for (int j = 0; j < children.length; ++j)
 			{
-				if (propertyValue.equals (children[j].getAttribute (property, null)))
+				if (propertyValue.equals(children[j].getAttribute(property, null)))
 				{
 					return children[j];
 				}
@@ -676,23 +676,23 @@ public class ModelTools
 	/**
 	 * Standard exception handling.
 	 */
-	public static ModelException handleException (ModelResponse res, Exception x, Logger log)
+	public static ModelException handleException(ModelResponse res, Exception x, Logger log)
 	{
-		StringWriter sw = new StringWriter ();
+		StringWriter sw = new StringWriter();
 
-		x.printStackTrace (new PrintWriter (sw));
-		res.addError ("GLOBAL_exceptionStackTrace", sw.toString ());
+		x.printStackTrace(new PrintWriter(sw));
+		res.addError("GLOBAL_exceptionStackTrace", sw.toString());
 
 		if (log != null)
 		{
-			log.debug (x.toString ());
-			log.debug (sw.toString ());
+			log.debug(x.toString());
+			log.debug(sw.toString());
 
-			System.out.println (x.toString ());
-			System.out.println (sw.toString ());
+			System.out.println(x.toString());
+			System.out.println(sw.toString());
 		}
 
-		return new ModelException (x.toString ());
+		return new ModelException(x.toString());
 	}
 
 	/**
@@ -704,9 +704,9 @@ public class ModelTools
 	 *            The key of the output element.
 	 * @return The output content.
 	 */
-	public static Object getOutputContent (ModelResponse res, String key)
+	public static Object getOutputContent(ModelResponse res, String key)
 	{
-		return ((Output) res.get (key)).getContent ();
+		return ((Output) res.get(key)).getContent();
 	}
 
 	/**
@@ -718,7 +718,7 @@ public class ModelTools
 	 *            The model response to merge.
 	 * @retur A merged model response.
 	 */
-	public static ModelResponse mergeResponse (ModelResponse base, ModelResponse layer) throws ModelException
+	public static ModelResponse mergeResponse(ModelResponse base, ModelResponse layer) throws ModelException
 	{
 		if (layer == null)
 		{
@@ -730,35 +730,35 @@ public class ModelTools
 			return layer;
 		}
 
-		for (Iterator i = layer.getAll (); i.hasNext ();)
+		for (Iterator i = layer.getAll(); i.hasNext();)
 		{
-			ResponseElement newElement = (ResponseElement) i.next ();
+			ResponseElement newElement = (ResponseElement) i.next();
 
-			base.add (newElement);
+			base.add(newElement);
 		}
 
-		for (Iterator j = layer.getAttributes ().keySet ().iterator (); j.hasNext ();)
+		for (Iterator j = layer.getAttributes().keySet().iterator(); j.hasNext();)
 		{
-			String oneAttribName = (String) j.next ();
+			String oneAttribName = (String) j.next();
 
-			base.setAttribute (oneAttribName, layer.getAttribute (oneAttribName));
+			base.setAttribute(oneAttribName, layer.getAttribute(oneAttribName));
 		}
 
-		Map errors = new HashMap (layer.getErrors ());
+		Map errors = new HashMap(layer.getErrors());
 
-		for (Iterator k = errors.keySet ().iterator (); k.hasNext ();)
+		for (Iterator k = errors.keySet().iterator(); k.hasNext();)
 		{
-			String oneErrorName = (String) k.next ();
-			Throwable throwable = layer.getThrowable (oneErrorName);
-			String oneMessage = (String) errors.get (oneErrorName);
+			String oneErrorName = (String) k.next();
+			Throwable throwable = layer.getThrowable(oneErrorName);
+			String oneMessage = (String) errors.get(oneErrorName);
 
 			if (throwable != null)
 			{
-				base.addError (oneErrorName, oneMessage, throwable);
+				base.addError(oneErrorName, oneMessage, throwable);
 			}
 			else
 			{
-				base.addError (oneErrorName, oneMessage);
+				base.addError(oneErrorName, oneMessage);
 			}
 		}
 
@@ -770,9 +770,9 @@ public class ModelTools
 	 *
 	 * @return The model request.
 	 */
-	public static ModelRequest createModelRequest () throws ServiceException
+	public static ModelRequest createModelRequest() throws ServiceException
 	{
-		return (ModelRequest) KeelTools.getService (ModelRequest.ROLE, "default", new DefaultContext ());
+		return (ModelRequest) KeelTools.getService(ModelRequest.ROLE, "default", new DefaultContext());
 	}
 
 	/**
@@ -780,38 +780,38 @@ public class ModelTools
 	 *
 	 * @param modelRequest
 	 */
-	public static void releaseModelRequest (ModelRequest modelRequest)
+	public static void releaseModelRequest(ModelRequest modelRequest)
 	{
 		if (modelRequest != null)
 		{
-			KeelTools.releaseService (modelRequest);
+			KeelTools.releaseService(modelRequest);
 		}
 	}
 
 	/**
 	 * Load a server resource.
 	 */
-	public static String loadServerResourceAsString (String moduleName, String name, Logger log)
+	public static String loadServerResourceAsString(String moduleName, String name, Logger log)
 	{
-		StringBuilder sb = new StringBuilder ();
+		StringBuilder sb = new StringBuilder();
 
 		try
 		{
-			String fileName = System.getProperty ("keel.config.dir") + "/../resources/app-" + moduleName + "/" + name;
+			String fileName = System.getProperty("keel.config.dir") + "/../resources/app-" + moduleName + "/" + name;
 
-			BufferedReader in = new BufferedReader (new FileReader (new File (fileName)));
+			BufferedReader in = new BufferedReader(new FileReader(new File(fileName)));
 			String line = null;
 
-			while ((line = in.readLine ()) != null)
+			while ((line = in.readLine()) != null)
 			{
-				sb.append (line + "\n");
+				sb.append(line + "\n");
 			}
 		}
 		catch (IOException x)
 		{
-			log.error ("[I18NImpl] " + x);
+			log.error("[I18NImpl] " + x);
 		}
 
-		return sb.toString ();
+		return sb.toString();
 	}
 }

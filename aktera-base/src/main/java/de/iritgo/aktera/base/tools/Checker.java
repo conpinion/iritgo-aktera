@@ -29,5 +29,5 @@ import java.util.Properties;
  */
 public interface Checker
 {
-	public boolean check (ModelRequest req, Properties params);
+	public boolean check(ModelRequest req, Properties params);
 }

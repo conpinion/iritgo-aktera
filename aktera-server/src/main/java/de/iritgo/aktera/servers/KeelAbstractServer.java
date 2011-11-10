@@ -47,27 +47,27 @@ public abstract class KeelAbstractServer extends Thread //	implements EventListe
 	{
 		private KeelAbstractServer myServer = null;
 
-		public ShutDownHook (KeelAbstractServer ks)
+		public ShutDownHook(KeelAbstractServer ks)
 		{
 			myServer = ks;
 		}
 
-		public void run ()
+		public void run()
 		{
 			if (myServer != null)
 			{
-				getLogger ().info ("[KeelAbstractServer.ShutDownHook] Shutdown requested");
-				myServer.shutDown ();
+				getLogger().info("[KeelAbstractServer.ShutDownHook] Shutdown requested");
+				myServer.shutDown();
 				myServer = null;
 			}
 		}
 	}
 
-	private static String PREFIX = new String ("[KeelAbstractServer] ");
+	private static String PREFIX = new String("[KeelAbstractServer] ");
 
 	protected static Container myContainer = null;
 
-	private static Map contexts = new HashMap ();
+	private static Map contexts = new HashMap();
 
 	private static ContainerFactory containerFactory = null;
 
@@ -84,30 +84,30 @@ public abstract class KeelAbstractServer extends Thread //	implements EventListe
 
 	private String[] args = null;
 
-	public KeelAbstractServer ()
+	public KeelAbstractServer()
 	{
 	}
 
-	public KeelAbstractServer (String name)
+	public KeelAbstractServer(String name)
 	{
-		super (name);
+		super(name);
 	}
 
-	protected ComparableContext getContext (ModelRequest req)
+	protected ComparableContext getContext(ModelRequest req)
 	{
-		String sessionId = (String) req.getAttribute ("sessionid");
+		String sessionId = (String) req.getAttribute("sessionid");
 
 		if (sessionId == null)
 		{
-			getLogger ().warn ("Request contained no session id. Session will not be distributable.");
+			getLogger().warn("Request contained no session id. Session will not be distributable.");
 
 			// Can't share this session, no message to queue
-			return new ComparableContext ();
+			return new ComparableContext();
 		}
 
-		getLogger ().debug ("Request from session " + sessionId);
+		getLogger().debug("Request from session " + sessionId);
 
-		ComparableContext c = (ComparableContext) contexts.get (sessionId);
+		ComparableContext c = (ComparableContext) contexts.get(sessionId);
 
 		//		if (c == null)
 		//		{
@@ -123,15 +123,15 @@ public abstract class KeelAbstractServer extends Thread //	implements EventListe
 		//
 		//			getLogger ().info ("Created new context for session " + sessionId);
 		//		}
-		if (getLogger ().isDebugEnabled ())
+		if (getLogger().isDebugEnabled())
 		{
-			getLogger ().debug (PREFIX + "Context passed to model was " + c.toString ());
+			getLogger().debug(PREFIX + "Context passed to model was " + c.toString());
 		}
 
-		return new ComparableContext (c);
+		return new ComparableContext(c);
 	}
 
-	protected Container getContainer () throws ModelException
+	protected Container getContainer() throws ModelException
 	{
 		if (myContainer == null)
 		{
@@ -139,7 +139,7 @@ public abstract class KeelAbstractServer extends Thread //	implements EventListe
 			{
 				if (myContainer == null)
 				{
-					initialize ();
+					initialize();
 				}
 			}
 		}
@@ -147,50 +147,50 @@ public abstract class KeelAbstractServer extends Thread //	implements EventListe
 		return myContainer;
 	}
 
-	protected void initialize () throws ModelException
+	protected void initialize() throws ModelException
 	{
-		System.setProperty ("javax.xml.parsers.SAXParserFactory", "org.apache.xerces.jaxp.SAXParserFactoryImpl");
+		System.setProperty("javax.xml.parsers.SAXParserFactory", "org.apache.xerces.jaxp.SAXParserFactoryImpl");
 
 		//		ShutDownHook myShutDown = new ShutDownHook(this);
 		//		Runtime.getRuntime ().addShutdownHook (myShutDown);
 		try
 		{
-			containerFactory = new ContainerFactoryLoader ().getContainerFactory ();
+			containerFactory = new ContainerFactoryLoader().getContainerFactory();
 		}
 		catch (ContainerException e)
 		{
-			getLogger ().error ("Error getting container factory", e);
-			throw new ModelException ("Error getting container factory", e);
+			getLogger().error("Error getting container factory", e);
+			throw new ModelException("Error getting container factory", e);
 		}
 
 		try
 		{
-			myContainer = containerFactory.createContainer ();
+			myContainer = containerFactory.createContainer();
 		}
 		catch (ContainerException e)
 		{
-			getLogger ().error ("Error creating container", e);
-			throw new ModelException ("Error creating container", e);
+			getLogger().error("Error creating container", e);
+			throw new ModelException("Error creating container", e);
 		}
 
 		if (myContainer == null)
 		{
-			throw new ModelException ("Factory returned null container");
+			throw new ModelException("Factory returned null container");
 		}
 
 		try
 		{
-			maxRetries = myContainer.getSystemConfig ().getAttributeAsInteger ("syncretries", 0);
+			maxRetries = myContainer.getSystemConfig().getAttributeAsInteger("syncretries", 0);
 		}
 		catch (ConfigurationException e)
 		{
-			throw new RuntimeException ("Unable to configure " + this.getClass ().getName () + ": " + e.getMessage ());
+			throw new RuntimeException("Unable to configure " + this.getClass().getName() + ": " + e.getMessage());
 		}
 
 		if (maxRetries == 0)
 		{
-			getLogger ()
-							.info (
+			getLogger()
+							.info(
 											PREFIX
 															+ "Context synchronization disabled - use 'syncretries' attribute of top-level config to enable");
 		}
@@ -204,57 +204,57 @@ public abstract class KeelAbstractServer extends Thread //	implements EventListe
 		//		{
 		//			throw new ModelException("Error setting up Event Manager for context sharing", se);
 		//		}
-		setInitialized (true);
+		setInitialized(true);
 	}
 
-	public void setArgs (String[] args)
+	public void setArgs(String[] args)
 	{
 		this.args = args;
 	}
 
-	protected void saveContext (ModelRequest req) throws ModelException
+	protected void saveContext(ModelRequest req) throws ModelException
 	{
-		String sessionId = (String) req.getAttribute ("sessionid");
+		String sessionId = (String) req.getAttribute("sessionid");
 
 		if (sessionId == null)
 		{
-			getLogger ().error (PREFIX + "No session id - can't save context");
+			getLogger().error(PREFIX + "No session id - can't save context");
 
 			return;
 		}
 
 		// Get the old context, compare to the new. If nothing changed, do nothing.
-		ComparableContext currentContext = (ComparableContext) contexts.get (sessionId);
+		ComparableContext currentContext = (ComparableContext) contexts.get(sessionId);
 
-		ComparableContext c = (ComparableContext) req.getContext ();
+		ComparableContext c = (ComparableContext) req.getContext();
 
 		if (c == null)
 		{
-			throw new ModelException ("No context was assigned to model!");
+			throw new ModelException("No context was assigned to model!");
 		}
 
-		if (! (c.equals (currentContext)))
+		if (! (c.equals(currentContext)))
 		{
 			// If something
 			// did change, send a message to the Event queue, letting other servers know.
-			if (getLogger ().isDebugEnabled ())
+			if (getLogger().isDebugEnabled())
 			{
-				getLogger ().debug (PREFIX + "Context changed");
+				getLogger().debug(PREFIX + "Context changed");
 			}
 
 			//			postContext (sessionId, c);
 			synchronized (contexts)
 			{
-				contexts.put (sessionId, c);
+				contexts.put(sessionId, c);
 			}
 		}
 		else
 		{
-			if (getLogger ().isDebugEnabled ())
+			if (getLogger().isDebugEnabled())
 			{
-				getLogger ().debug (
-								PREFIX + "Context did not change: Before:" + currentContext.toString () + ", after: "
-												+ c.toString ());
+				getLogger().debug(
+								PREFIX + "Context did not change: Before:" + currentContext.toString() + ", after: "
+												+ c.toString());
 			}
 		}
 	}
@@ -308,21 +308,21 @@ public abstract class KeelAbstractServer extends Thread //	implements EventListe
 	//			throw new ModelException(ne);
 	//		}
 	//	}
-	protected boolean isInitialized ()
+	protected boolean isInitialized()
 	{
 		return initialized;
 	}
 
-	protected void setInitialized (boolean initialized)
+	protected void setInitialized(boolean initialized)
 	{
 		this.initialized = initialized;
 	}
 
-	protected Logger getLogger ()
+	protected Logger getLogger()
 	{
 		if (logger == null)
 		{
-			logger = DefaultLoggerFactory.getInstance ().getLoggerForCategory ("keel.server");
+			logger = DefaultLoggerFactory.getInstance().getLoggerForCategory("keel.server");
 		}
 
 		return logger;
@@ -498,32 +498,32 @@ public abstract class KeelAbstractServer extends Thread //	implements EventListe
 	//
 	//		return new ComparableContext();
 	//	}
-	public void shutDown ()
+	public void shutDown()
 	{
 		if (containerFactory != null)
 		{
 			try
 			{
-				containerFactory.disposeContainer ();
+				containerFactory.disposeContainer();
 			}
 			catch (ContainerException x)
 			{
-				getLogger ().error ("[KeelAbstractServer] " + x);
+				getLogger().error("[KeelAbstractServer] " + x);
 			}
 		}
 
-		getLogger ().info ("[KeelAbstractServer] Shutdown");
+		getLogger().info("[KeelAbstractServer] Shutdown");
 
 		//		Runtime.getRuntime ().halt (0);
 	}
 
-	public static Map<String, ComparableContext> getContexts ()
+	public static Map<String, ComparableContext> getContexts()
 	{
 		return contexts;
 	}
 
-	public static void removeContext (String id)
+	public static void removeContext(String id)
 	{
-		contexts.remove (id);
+		contexts.remove(id);
 	}
 }

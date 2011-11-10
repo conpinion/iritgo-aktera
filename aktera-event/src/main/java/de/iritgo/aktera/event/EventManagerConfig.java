@@ -37,7 +37,7 @@ public class EventManagerConfig extends StandardModel
 	/**
 	 * @see de.iritgo.aktera.model.Model#execute(de.iritgo.aktera.model.ModelRequest)
 	 */
-	public ModelResponse execute (ModelRequest request) throws ModelException
+	public ModelResponse execute(ModelRequest request) throws ModelException
 	{
 		return null;
 	}

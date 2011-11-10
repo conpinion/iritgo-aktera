@@ -71,7 +71,7 @@ public class AkteraGroupEntry implements Serializable
 	 *   null-allowed="false"
 	 *   auto-increment="identity"
 	 */
-	public Integer getId ()
+	public Integer getId()
 	{
 		return id;
 	}
@@ -79,7 +79,7 @@ public class AkteraGroupEntry implements Serializable
 	/**
 	 * Set the group entry primary key.
 	 */
-	public void setId (Integer id)
+	public void setId(Integer id)
 	{
 		this.id = id;
 	}
@@ -94,7 +94,7 @@ public class AkteraGroupEntry implements Serializable
 	 *   primary-key="true"
 	 *   null-allowed="false"
 	 */
-	public Integer getGroupId ()
+	public Integer getGroupId()
 	{
 		return groupId;
 	}
@@ -102,7 +102,7 @@ public class AkteraGroupEntry implements Serializable
 	/**
 	 * Set the group foreign key.
 	 */
-	public void setGroupId (Integer groupId)
+	public void setGroupId(Integer groupId)
 	{
 		this.groupId = groupId;
 	}
@@ -117,7 +117,7 @@ public class AkteraGroupEntry implements Serializable
 	 *   primary-key="true"
 	 *   null-allowed="false"
 	 */
-	public Integer getUserId ()
+	public Integer getUserId()
 	{
 		return userId;
 	}
@@ -125,7 +125,7 @@ public class AkteraGroupEntry implements Serializable
 	/**
 	 * Set the user foreign key.
 	 */
-	public void setUserId (Integer userId)
+	public void setUserId(Integer userId)
 	{
 		this.userId = userId;
 	}
@@ -140,7 +140,7 @@ public class AkteraGroupEntry implements Serializable
 	 *   null-allowed="false"
 	 *   default-value="1"
 	 */
-	public Integer getPosition ()
+	public Integer getPosition()
 	{
 		return position;
 	}
@@ -148,7 +148,7 @@ public class AkteraGroupEntry implements Serializable
 	/**
 	 * Set the list position.
 	 */
-	public void setPosition (Integer position)
+	public void setPosition(Integer position)
 	{
 		this.position = position;
 	}

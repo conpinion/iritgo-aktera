@@ -46,7 +46,7 @@ public class ByteSizeTag extends org.apache.struts.taglib.html.BaseInputTag
 	/**
 	 * Get the bean name.
 	 */
-	public String getName ()
+	public String getName()
 	{
 		return this.name;
 	}
@@ -54,7 +54,7 @@ public class ByteSizeTag extends org.apache.struts.taglib.html.BaseInputTag
 	/**
 	 * Set the bean name.
 	 */
-	public void setName (String name)
+	public void setName(String name)
 	{
 		this.name = name;
 	}
@@ -64,7 +64,7 @@ public class ByteSizeTag extends org.apache.struts.taglib.html.BaseInputTag
 	 *
 	 * @param readOnly Read only flag.
 	 */
-	public void setReadOnly (boolean readOnly)
+	public void setReadOnly(boolean readOnly)
 	{
 		this.readOnly = readOnly;
 	}
@@ -74,7 +74,7 @@ public class ByteSizeTag extends org.apache.struts.taglib.html.BaseInputTag
 	 *
 	 * @retrun The read only flag.
 	 */
-	public boolean getReadOnly ()
+	public boolean getReadOnly()
 	{
 		return readOnly;
 	}
@@ -82,9 +82,9 @@ public class ByteSizeTag extends org.apache.struts.taglib.html.BaseInputTag
 	/**
 	 * Reset all tag attributes to their default values.
 	 */
-	public void release ()
+	public void release()
 	{
-		super.release ();
+		super.release();
 
 		name = null;
 		readOnly = false;
@@ -95,24 +95,24 @@ public class ByteSizeTag extends org.apache.struts.taglib.html.BaseInputTag
 	 *
 	 * @exception JspException if a JSP exception has occurred
 	 */
-	public int doStartTag () throws JspException
+	public int doStartTag() throws JspException
 	{
 		long val = 0;
 
 		if (value != null)
 		{
-			val = NumberTools.toLong (value.toString (), 0);
+			val = NumberTools.toLong(value.toString(), 0);
 		}
 		else
 		{
-			val = NumberTools.toLong (TagUtils.getInstance ().lookup (pageContext, name, property, null), 0);
+			val = NumberTools.toLong(TagUtils.getInstance().lookup(pageContext, name, property, null), 0);
 		}
 
-		StringBuffer results = new StringBuffer ();
+		StringBuffer results = new StringBuffer();
 
-		results.append (FileUtils.byteCountToDisplaySize (val));
+		results.append(FileUtils.byteCountToDisplaySize(val));
 
-		TagUtils.getInstance ().write (pageContext, results.toString ());
+		TagUtils.getInstance().write(pageContext, results.toString());
 
 		return EVAL_BODY_BUFFERED;
 	}

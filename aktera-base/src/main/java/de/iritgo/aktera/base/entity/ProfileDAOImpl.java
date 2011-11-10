@@ -34,8 +34,8 @@ public class ProfileDAOImpl extends HibernateDaoSupport implements ProfileDAO
 	 * @see de.iritgo.aktera.address.AddressDAO#createParty(de.iritgo.aktera.address.entity.Party)
 	 */
 	@Transactional(readOnly = false)
-	public void createProfile (Profile profile)
+	public void createProfile(Profile profile)
 	{
-		getHibernateTemplate ().saveOrUpdate (profile);
+		getHibernateTemplate().saveOrUpdate(profile);
 	}
 }

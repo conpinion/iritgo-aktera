@@ -68,68 +68,68 @@ public interface UserEnvironment
 	 * @param lc The user's JAAS login context
 	 * @throws AuthorizationException
 	 */
-	public void setLoginContext (LoginContext lc) throws AuthorizationException;
+	public void setLoginContext(LoginContext lc) throws AuthorizationException;
 
 	/**
 	 * The login context in this env.
 	 * @return The login context
 	 * @throws AuthorizationException
 	 */
-	public LoginContext getLoginContext () throws AuthorizationException;
+	public LoginContext getLoginContext() throws AuthorizationException;
 
 	/**
 	 * The JAAS subject from the login context
 	 * @return JAAS Subject
 	 * @throws AuthorizationException
 	 */
-	public Subject getSubject () throws AuthorizationException;
+	public Subject getSubject() throws AuthorizationException;
 
 	/**
 	 * Get the LoginPrincipal
 	 * @return the login name
 	 * @throws AuthorizationException
 	 */
-	public String getLoginName () throws AuthorizationException;
+	public String getLoginName() throws AuthorizationException;
 
 	/**
 	 * Get the DomainPrincipal
 	 * @return The Keel domain name
 	 * @throws AuthorizationException
 	 */
-	public String getDomain () throws AuthorizationException;
+	public String getDomain() throws AuthorizationException;
 
 	/**
 	 * Get the UserDescripPrincipal
 	 * @return A description of the user
 	 * @throws AuthorizationException
 	 */
-	public String getUserDescrip () throws AuthorizationException;
+	public String getUserDescrip() throws AuthorizationException;
 
 	/**
 	 * Get the UidPrincipal
 	 * @return The UID
 	 * @throws AuthorizationException
 	 */
-	public int getUid () throws AuthorizationException;
+	public int getUid() throws AuthorizationException;
 
 	/**
 	 * Get the GroupPrincipals
 	 * @return The list of groups user belongs to
 	 * @throws AuthorizationException
 	 */
-	public List<String> getGroups () throws AuthorizationException;
+	public List<String> getGroups() throws AuthorizationException;
 
 	/**
 	 * Used by logout functions to reset the SUbject back to "anonymous"
 	 * @throws AuthorizationException
 	 */
-	public void reset () throws AuthorizationException;
+	public void reset() throws AuthorizationException;
 
-	public void setAttribute (String attributeName, Object attributeContents);
+	public void setAttribute(String attributeName, Object attributeContents);
 
-	public Object getAttribute (String attributeName);
+	public Object getAttribute(String attributeName);
 
-	public void removeAttribute (String attributeName);
+	public void removeAttribute(String attributeName);
 
-	public void clearAttributes ();
+	public void clearAttributes();
 }

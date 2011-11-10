@@ -69,9 +69,9 @@ public class Delete extends SecurableStandardLogEnabledModel implements Instance
 	 *
 	 * @return The instance id.
 	 */
-	public String getInstanceIdentifier ()
+	public String getInstanceIdentifier()
 	{
-		return getConfiguration ().getAttribute ("id", "aktera.delete");
+		return getConfiguration().getAttribute("id", "aktera.delete");
 	}
 
 	/**
@@ -80,84 +80,84 @@ public class Delete extends SecurableStandardLogEnabledModel implements Instance
 	 * @param req The model request.
 	 * @return The model response.
 	 */
-	public ModelResponse execute (ModelRequest req) throws ModelException
+	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
-		ModelResponse res = req.createResponse ();
+		ModelResponse res = req.createResponse();
 
 		try
 		{
-			readConfig (req);
+			readConfig(req);
 
 			String[] ids;
 
-			if (req.getParameter ("_lpdeleteKeyName") != null)
+			if (req.getParameter("_lpdeleteKeyName") != null)
 			{
-				keyName = StringTools.trim (req.getParameter ("_lpdeleteKeyName"));
+				keyName = StringTools.trim(req.getParameter("_lpdeleteKeyName"));
 			}
 
-			if (req.getParameter (keyName) == null)
+			if (req.getParameter(keyName) == null)
 			{
 				ids = new String[0];
 			}
-			else if (req.getParameter (keyName) instanceof String)
+			else if (req.getParameter(keyName) instanceof String)
 			{
 				ids = new String[]
 				{
-					(String) req.getParameter (keyName)
+					(String) req.getParameter(keyName)
 				};
 			}
-			else if (req.getParameter (keyName) instanceof String[])
+			else if (req.getParameter(keyName) instanceof String[])
 			{
-				ids = (String[]) req.getParameter (keyName);
+				ids = (String[]) req.getParameter(keyName);
 			}
 			else
 			{
 				ids = new String[]
 				{
-					req.getParameter (keyName).toString ()
+					req.getParameter(keyName).toString()
 				};
 			}
 
-			PersistentFactory persistentManager = (PersistentFactory) req.getService (PersistentFactory.ROLE, req
-							.getDomain ());
+			PersistentFactory persistentManager = (PersistentFactory) req.getService(PersistentFactory.ROLE, req
+							.getDomain());
 
 			for (int i = 0; i < ids.length; ++i)
 			{
 				Persistent persistent = null;
 
-				if (persistentConfig.size () != 0)
+				if (persistentConfig.size() != 0)
 				{
-					persistent = persistentManager.create (persistentConfig.get (0).getAttribute ("name"));
+					persistent = persistentManager.create(persistentConfig.get(0).getAttribute("name"));
 
-					persistent.setField (persistentConfig.get (0).getAttribute ("key"), NumberTools.toIntInstance (
-									ids[i], - 1));
+					persistent.setField(persistentConfig.get(0).getAttribute("key"), NumberTools.toIntInstance(ids[i],
+									- 1));
 
-					persistent.find ();
+					persistent.find();
 				}
 
-				ValidationResult result = new ValidationResult ();
+				ValidationResult result = new ValidationResult();
 
-				if (handler.canDeletePersistent (req, ids[i], persistent, NumberTools.toBool (req
-								.getParameter (SYSTEM_DELETE), false), result))
+				if (handler.canDeletePersistent(req, ids[i], persistent, NumberTools.toBool(req
+								.getParameter(SYSTEM_DELETE), false), result))
 				{
-					handler.deletePersistent (req, res, ids[i], persistent, NumberTools.toBool (req
-									.getParameter (SYSTEM_DELETE), false));
+					handler.deletePersistent(req, res, ids[i], persistent, NumberTools.toBool(req
+									.getParameter(SYSTEM_DELETE), false));
 				}
 				else
 				{
-					result.createResponseElements (res, null);
+					result.createResponseElements(res, null);
 				}
 			}
 		}
 		catch (ConfigurationException x)
 		{
-			log.error (x.toString ());
-			throw new ModelException (x);
+			log.error(x.toString());
+			throw new ModelException(x);
 		}
 		catch (PersistenceException x)
 		{
-			log.error (x.toString ());
-			throw new ModelException (x);
+			log.error(x.toString());
+			throw new ModelException(x);
 		}
 
 		return res;
@@ -168,61 +168,61 @@ public class Delete extends SecurableStandardLogEnabledModel implements Instance
 	 *
 	 * @param req The model configuration.
 	 */
-	public void readConfig (ModelRequest req) throws ModelException, ConfigurationException
+	public void readConfig(ModelRequest req) throws ModelException, ConfigurationException
 	{
 		if (configRead)
 		{
 			return;
 		}
 
-		Configuration config = getConfiguration ();
-		java.util.List configPath = ModelTools.getDerivationPath (req, this);
+		Configuration config = getConfiguration();
+		java.util.List configPath = ModelTools.getDerivationPath(req, this);
 
-		keyName = ModelTools.getConfigString (configPath, "keyName", "id");
+		keyName = ModelTools.getConfigString(configPath, "keyName", "id");
 
-		persistentConfig = ModelTools.getConfigChildren (configPath, "persistent");
+		persistentConfig = ModelTools.getConfigChildren(configPath, "persistent");
 
-		String handlerClassName = ModelTools.getConfigString (configPath, "handler", "class", null);
+		String handlerClassName = ModelTools.getConfigString(configPath, "handler", "class", null);
 
 		if (handlerClassName != null)
 		{
 			try
 			{
-				handler = (FormularHandler) Class.forName (handlerClassName).newInstance ();
+				handler = (FormularHandler) Class.forName(handlerClassName).newInstance();
 			}
 			catch (ClassNotFoundException x)
 			{
-				throw new ModelException ("[aktera.delete] Unable to create handler " + handlerClassName + " (" + x
+				throw new ModelException("[aktera.delete] Unable to create handler " + handlerClassName + " (" + x
 								+ ")");
 			}
 			catch (InstantiationException x)
 			{
-				throw new ModelException ("[aktera.delete] Unable to create handler " + handlerClassName + " (" + x
+				throw new ModelException("[aktera.delete] Unable to create handler " + handlerClassName + " (" + x
 								+ ")");
 			}
 			catch (IllegalAccessException x)
 			{
-				throw new ModelException ("[aktera.delete] Unable to create handler " + handlerClassName + " (" + x
+				throw new ModelException("[aktera.delete] Unable to create handler " + handlerClassName + " (" + x
 								+ ")");
 			}
 		}
 		else
 		{
-			String handlerBeanName = ModelTools.getConfigString (configPath, "handler", "bean", null);
+			String handlerBeanName = ModelTools.getConfigString(configPath, "handler", "bean", null);
 
 			if (handlerBeanName != null)
 			{
-				handler = (FormularHandler) SpringTools.getBean (handlerBeanName);
+				handler = (FormularHandler) SpringTools.getBean(handlerBeanName);
 			}
 		}
 
 		if (handler != null)
 		{
-			handler.setDefaultHandler (new DefaultFormularHandler ());
+			handler.setDefaultHandler(new DefaultFormularHandler());
 		}
 		else
 		{
-			handler = new DefaultFormularHandler ();
+			handler = new DefaultFormularHandler();
 		}
 
 		configRead = true;

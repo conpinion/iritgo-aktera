@@ -47,7 +47,7 @@ public interface I18N
 	 * @param params
 	 * @return
 	 */
-	public String msg (Locale locale, String bundle, String key, Object... params);
+	public String msg(Locale locale, String bundle, String key, Object... params);
 
 	/**
 	 * Retrieve a string from a resource bundle.
@@ -57,7 +57,7 @@ public interface I18N
 	 * @param key The resource key.
 	 * @return The resource value.
 	 */
-	public String msg (Locale locale, String bundle, String key);
+	public String msg(Locale locale, String bundle, String key);
 
 	/**
 	 * Retrieve a string from a resource bundle.
@@ -67,7 +67,7 @@ public interface I18N
 	 * @param key The resource key.
 	 * @return The resource value.
 	 */
-	public String msg (ModelRequest req, String bundle, String key);
+	public String msg(ModelRequest req, String bundle, String key);
 
 	/**
 	 * Retrieve a string from a resource bundle.
@@ -77,7 +77,7 @@ public interface I18N
 	 * @param key The resource key.
 	 * @return The resource value.
 	 */
-	public String msg (UIRequest request, String bundle, String key);
+	public String msg(UIRequest request, String bundle, String key);
 
 	/**
 	 * Retrieve a string from a resource bundle.
@@ -88,7 +88,7 @@ public interface I18N
 	 * @param params Replacement parameters.
 	 * @return The resource value.
 	 */
-	public String msg (ModelRequest req, String bundle, String key, Object... params);
+	public String msg(ModelRequest req, String bundle, String key, Object... params);
 
 	/**
 	 * Retrieve a string from a resource bundle.
@@ -99,7 +99,7 @@ public interface I18N
 	 * @param params Replacement parameters.
 	 * @return The resource value.
 	 */
-	public String msg (UIRequest request, String bundle, String key, Object... params);
+	public String msg(UIRequest request, String bundle, String key, Object... params);
 
 	/**
 	 * Check the existence of ressource string.
@@ -109,7 +109,7 @@ public interface I18N
 	 * @param key The resource key.
 	 * @return True if the ressource string exists.
 	 */
-	public boolean hasMsg (Locale locale, String bundle, String key);
+	public boolean hasMsg(Locale locale, String bundle, String key);
 
 	/**
 	 * Retrieve a sentence like:
@@ -122,5 +122,5 @@ public interface I18N
 	 * @param sentence The sentence
 	 * @return The translated sentence
 	 */
-	public String sentenceMsg (Locale locale, String defaultBundle, String sentence);
+	public String sentenceMsg(Locale locale, String defaultBundle, String sentence);
 }

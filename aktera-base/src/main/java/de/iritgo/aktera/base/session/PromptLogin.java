@@ -48,45 +48,45 @@ public class PromptLogin extends LoginBase
 	 * @param req The model request.
 	 * @return The model response.
 	 */
-	public ModelResponse execute (ModelRequest req) throws ModelException
+	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
-		ModelResponse res = req.createResponse ();
+		ModelResponse res = req.createResponse();
 		String fixedDomain = null;
-		String rememberConfig = configuration.getAttribute ("remember", "prompt");
+		String rememberConfig = configuration.getAttribute("remember", "prompt");
 		String defaultLoginName = null;
 		String defaultPassword = null;
 		String defaultDomain = null;
-		HashMap cookies = (HashMap) req.getAttribute ("cookies");
+		HashMap cookies = (HashMap) req.getAttribute("cookies");
 
 		if (cookies != null)
 		{
-			defaultLoginName = SuperString.notNull ((String) cookies.get (getLoginCookieName (configuration)));
-			defaultPassword = SuperString.notNull ((String) cookies.get (getPasswordCookieName (configuration)));
-			defaultDomain = SuperString.notNull ((String) cookies.get (getDomainCookieName (configuration)));
+			defaultLoginName = SuperString.notNull((String) cookies.get(getLoginCookieName(configuration)));
+			defaultPassword = SuperString.notNull((String) cookies.get(getPasswordCookieName(configuration)));
+			defaultDomain = SuperString.notNull((String) cookies.get(getDomainCookieName(configuration)));
 		}
 
-		String[] cookieSeq = getCryptSeq (configuration, "cookie");
+		String[] cookieSeq = getCryptSeq(configuration, "cookie");
 
-		if (defaultLoginName != null && ! "".equals (defaultLoginName))
+		if (defaultLoginName != null && ! "".equals(defaultLoginName))
 		{
-			defaultLoginName = decodeWithSeq (cookieSeq, defaultLoginName, req);
+			defaultLoginName = decodeWithSeq(cookieSeq, defaultLoginName, req);
 		}
 
-		if (defaultPassword != null && ! "".equals (defaultPassword))
+		if (defaultPassword != null && ! "".equals(defaultPassword))
 		{
-			defaultPassword = decodeWithSeq (cookieSeq, defaultPassword, req);
+			defaultPassword = decodeWithSeq(cookieSeq, defaultPassword, req);
 		}
 
-		if (defaultDomain != null && ! "".equals (defaultDomain))
+		if (defaultDomain != null && ! "".equals(defaultDomain))
 		{
-			defaultDomain = decodeWithSeq (cookieSeq, defaultDomain, req);
+			defaultDomain = decodeWithSeq(cookieSeq, defaultDomain, req);
 		}
 
-		String domain = SuperString.notNull ((String) req.getParameter ("domain"));
+		String domain = SuperString.notNull((String) req.getParameter("domain"));
 
-		if (domain != null && ! "".equals (domain))
+		if (domain != null && ! "".equals(domain))
 		{
-			res.addOutput ("currentDomain", domain);
+			res.addOutput("currentDomain", domain);
 			fixedDomain = domain;
 		}
 		else
@@ -94,118 +94,118 @@ public class PromptLogin extends LoginBase
 			try
 			{
 				int domainCount = 0;
-				TreeMap valids = new TreeMap ();
-				Configuration domainConfig = getConfiguration ().getChild ("domains");
+				TreeMap valids = new TreeMap();
+				Configuration domainConfig = getConfiguration().getChild("domains");
 
-				Configuration[] dChildren = domainConfig.getChildren ();
+				Configuration[] dChildren = domainConfig.getChildren();
 				Configuration oneDomain = null;
 
 				for (int j = 0; j < dChildren.length; j++)
 				{
 					oneDomain = dChildren[j];
 					domainCount++;
-					valids.put (oneDomain.getAttribute ("name"), oneDomain.getAttribute ("descrip"));
-					fixedDomain = oneDomain.getAttribute ("name");
+					valids.put(oneDomain.getAttribute("name"), oneDomain.getAttribute("descrip"));
+					fixedDomain = oneDomain.getAttribute("name");
 				}
 
 				if (domainCount > 1)
 				{
-					Input domainInput = res.createInput ("domain");
+					Input domainInput = res.createInput("domain");
 
-					domainInput.setLabel ("Domain");
-					domainInput.setDefaultValue (defaultDomain);
-					domainInput.setValidValues (valids);
-					res.add (domainInput);
+					domainInput.setLabel("Domain");
+					domainInput.setDefaultValue(defaultDomain);
+					domainInput.setValidValues(valids);
+					res.add(domainInput);
 					fixedDomain = defaultDomain;
 				}
 			}
 			catch (ConfigurationException x)
 			{
-				throw new ModelException (x);
+				throw new ModelException(x);
 			}
 		}
 
-		Input loginName = res.createInput ("loginName");
+		Input loginName = res.createInput("loginName");
 
-		loginName.setDefaultValue (defaultLoginName);
-		loginName.setLabel ("Login");
-		res.add (loginName);
+		loginName.setDefaultValue(defaultLoginName);
+		loginName.setLabel("Login");
+		res.add(loginName);
 
-		Input password = res.createInput ("password");
+		Input password = res.createInput("password");
 
-		password.setDefaultValue (defaultPassword);
-		password.setLabel ("Password");
+		password.setDefaultValue(defaultPassword);
+		password.setLabel("Password");
 
-		password.setAttribute ("type", "password");
-		res.add (password);
+		password.setAttribute("type", "password");
+		res.add(password);
 
 		String loginModel = Constants.LOGIN;
 
-		if (req.getParameter ("loginmodel") != null)
+		if (req.getParameter("loginmodel") != null)
 		{
-			loginModel = (String) req.getParameter ("loginmodel");
+			loginModel = (String) req.getParameter("loginmodel");
 		}
 
-		Command login = res.createCommand (loginModel);
+		Command login = res.createCommand(loginModel);
 
-		login.setName ("login");
-		login.setLabel ("$login");
+		login.setName("login");
+		login.setLabel("$login");
 
 		if (fixedDomain != null)
 		{
-			login.setParameter ("domain", fixedDomain);
+			login.setParameter("domain", fixedDomain);
 		}
 
-		if (rememberConfig.equals ("prompt") || rememberConfig.equals ("last"))
+		if (rememberConfig.equals("prompt") || rememberConfig.equals("last"))
 		{
-			Input remember = res.createInput ("remember");
+			Input remember = res.createInput("remember");
 
-			remember.setLabel ("Remember Login");
-			remember.setAttribute ("checkbox", "Y");
+			remember.setLabel("Remember Login");
+			remember.setAttribute("checkbox", "Y");
 
-			String rememberChecked = configuration.getAttribute ("remember-checked", "false");
+			String rememberChecked = configuration.getAttribute("remember-checked", "false");
 
-			if (rememberConfig.equals ("last"))
+			if (rememberConfig.equals("last"))
 			{
-				remember.setDefaultValue ((defaultLoginName != null && ! defaultLoginName.equals ("")) ? "on" : "off");
+				remember.setDefaultValue((defaultLoginName != null && ! defaultLoginName.equals("")) ? "on" : "off");
 			}
-			else if (rememberChecked.equals ("true"))
+			else if (rememberChecked.equals("true"))
 			{
-				remember.setDefaultValue ("on");
+				remember.setDefaultValue("on");
 			}
 
-			res.add (remember);
+			res.add(remember);
 		}
-		else if (rememberConfig.equals ("always"))
+		else if (rememberConfig.equals("always"))
 		{
-			login.setParameter ("remember", "Y");
+			login.setParameter("remember", "Y");
 		}
-		else if (rememberConfig.equals ("never"))
+		else if (rememberConfig.equals("never"))
 		{
-			login.setParameter ("remember", "N");
+			login.setParameter("remember", "N");
 		}
 
-		res.add (login);
+		res.add(login);
 
-		res.setDefaultsFromPrevious ();
+		res.setDefaultsFromPrevious();
 
-		Command logout = res.createCommand (Constants.LOGOFF);
+		Command logout = res.createCommand(Constants.LOGOFF);
 
-		logout.setLabel ("$logoff");
-		res.add (logout);
+		logout.setLabel("$logoff");
+		res.add(logout);
 
-		Command promptSendPassword = res.createCommand (Constants.PROMPT_SEND_PASSWORD);
+		Command promptSendPassword = res.createCommand(Constants.PROMPT_SEND_PASSWORD);
 
-		promptSendPassword.setName ("sendPassword");
-		promptSendPassword.setLabel ("$sendPassword");
-		res.add (promptSendPassword);
+		promptSendPassword.setName("sendPassword");
+		promptSendPassword.setLabel("$sendPassword");
+		res.add(promptSendPassword);
 
-		Command promptRegister = res.createCommand (Constants.PROMPT_REGISTRATION);
+		Command promptRegister = res.createCommand(Constants.PROMPT_REGISTRATION);
 
-		promptRegister.setLabel ("$register");
-		res.add (promptRegister);
+		promptRegister.setLabel("$register");
+		res.add(promptRegister);
 
-		res.setDefaultsFromPrevious ();
+		res.setDefaultsFromPrevious();
 
 		return res;
 	}

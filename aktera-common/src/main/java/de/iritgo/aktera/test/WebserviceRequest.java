@@ -34,7 +34,7 @@ public class WebserviceRequest
 
 		public Class propertyInfo;
 
-		public ParameterType (Class propertyInfo, String value)
+		public ParameterType(Class propertyInfo, String value)
 		{
 			this.propertyInfo = propertyInfo;
 			this.value = value;
@@ -53,9 +53,9 @@ public class WebserviceRequest
 
 	private String webserviceUrl;
 
-	public WebserviceRequest (SoapObject request, String username, String password, String server, String webserviceUrl)
+	public WebserviceRequest(SoapObject request, String username, String password, String server, String webserviceUrl)
 	{
-		parameters = new HashMap<String, ParameterType> ();
+		parameters = new HashMap<String, ParameterType>();
 		this.request = request;
 		this.username = username;
 		this.password = password;
@@ -63,26 +63,26 @@ public class WebserviceRequest
 		this.webserviceUrl = webserviceUrl;
 	}
 
-	public WebserviceRequest withStringParam (String name, String value)
+	public WebserviceRequest withStringParam(String name, String value)
 	{
-		parameters.put (name, new ParameterType (PropertyInfo.STRING_CLASS, value));
+		parameters.put(name, new ParameterType(PropertyInfo.STRING_CLASS, value));
 		return this;
 	}
 
-	public WebserviceRequest and ()
+	public WebserviceRequest and()
 	{
 		return this;
 	}
 
-	public Object send ()
+	public Object send()
 	{
-		SEnvelope envelope = WebserviceTools.createEnvelope (request, username, password);
-		for (String serviceName : parameters.keySet ())
+		SEnvelope envelope = WebserviceTools.createEnvelope(request, username, password);
+		for (String serviceName : parameters.keySet())
 		{
-			ParameterType parameterType = parameters.get (serviceName);
+			ParameterType parameterType = parameters.get(serviceName);
 
-			WebserviceTools.addRequestParameter (request, serviceName, parameterType.propertyInfo, parameterType.value);
+			WebserviceTools.addRequestParameter(request, serviceName, parameterType.propertyInfo, parameterType.value);
 		}
-		return WebserviceTools.sendReturnObject (envelope, server, webserviceUrl, false);
+		return WebserviceTools.sendReturnObject(envelope, server, webserviceUrl, false);
 	}
 }

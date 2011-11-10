@@ -39,12 +39,12 @@ public class ScheduleActionFormPartManagerImpl implements ScheduleActionFormPart
 	private Logger logger;
 
 	/** Action form parts */
-	private Map<String, ScheduleActionFormPartInfo> actionFormParts = new HashMap<String, ScheduleActionFormPartInfo> ();
+	private Map<String, ScheduleActionFormPartInfo> actionFormParts = new HashMap<String, ScheduleActionFormPartInfo>();
 
 	/**
 	 * Set the Action form part configuration.
 	 */
-	public void setConfiguration (Configuration configuration)
+	public void setConfiguration(Configuration configuration)
 	{
 		this.configuration = configuration;
 	}
@@ -52,7 +52,7 @@ public class ScheduleActionFormPartManagerImpl implements ScheduleActionFormPart
 	/**
 	 * Set the logger.
 	 */
-	public void setLogger (Logger logger)
+	public void setLogger(Logger logger)
 	{
 		this.logger = logger;
 	}
@@ -60,11 +60,11 @@ public class ScheduleActionFormPartManagerImpl implements ScheduleActionFormPart
 	/**
 	 * Manager initialization.
 	 */
-	public void initialize ()
+	public void initialize()
 	{
-		logger.info ("Creating schedule action form parts");
+		logger.info("Creating schedule action form parts");
 
-		Configuration[] configs = configuration.getChildren ("part");
+		Configuration[] configs = configuration.getChildren("part");
 
 		for (int i = 0; i < configs.length; ++i)
 		{
@@ -72,17 +72,17 @@ public class ScheduleActionFormPartManagerImpl implements ScheduleActionFormPart
 
 			try
 			{
-				ScheduleActionFormPartInfo info = new ScheduleActionFormPartInfo ();
+				ScheduleActionFormPartInfo info = new ScheduleActionFormPartInfo();
 
-				info.setId (config.getAttribute ("id"));
-				info.setFormPart ((ScheduleActionFomPart) Class.forName (config.getAttribute ("class")).newInstance ());
-				info.setBundle (config.getAttribute ("bundle", "aktera-scheduler"));
-				info.setInfoKey (config.getAttribute ("infoKey", "scheduleAction"));
-				actionFormParts.put (info.getId (), info);
+				info.setId(config.getAttribute("id"));
+				info.setFormPart((ScheduleActionFomPart) Class.forName(config.getAttribute("class")).newInstance());
+				info.setBundle(config.getAttribute("bundle", "aktera-scheduler"));
+				info.setInfoKey(config.getAttribute("infoKey", "scheduleAction"));
+				actionFormParts.put(info.getId(), info);
 			}
 			catch (Exception x)
 			{
-				logger.error ("Unable to create action form part '" + config.getAttribute ("id", "?") + "'", x);
+				logger.error("Unable to create action form part '" + config.getAttribute("id", "?") + "'", x);
 			}
 		}
 	}
@@ -90,16 +90,16 @@ public class ScheduleActionFormPartManagerImpl implements ScheduleActionFormPart
 	/**
 	 * @see de.iritgo.aktera.scheduler.ui.ScheduleActionFormPartManager#getActionFormParts()
 	 */
-	public Collection<ScheduleActionFormPartInfo> getActionFormParts ()
+	public Collection<ScheduleActionFormPartInfo> getActionFormParts()
 	{
-		return actionFormParts.values ();
+		return actionFormParts.values();
 	}
 
 	/**
 	 * @see de.iritgo.aktera.scheduler.ui.ScheduleActionFormPartManager#getActionFormPart(java.lang.String)
 	 */
-	public ScheduleActionFormPartInfo getActionFormPart (String id)
+	public ScheduleActionFormPartInfo getActionFormPart(String id)
 	{
-		return actionFormParts.get (id);
+		return actionFormParts.get(id);
 	}
 }

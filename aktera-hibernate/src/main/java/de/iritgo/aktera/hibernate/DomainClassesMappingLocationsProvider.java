@@ -38,8 +38,8 @@ public class DomainClassesMappingLocationsProvider extends ArrayList<String>
 	/**
 	 * Create a new HibernateMappingProvider.
 	 */
-	public DomainClassesMappingLocationsProvider ()
+	public DomainClassesMappingLocationsProvider()
 	{
-		Collections.addAll (this, KeelContainer.defaultContainer ().getHibernateConfigLocations ());
+		Collections.addAll(this, KeelContainer.defaultContainer().getHibernateConfigLocations());
 	}
 }

@@ -29,18 +29,18 @@ public class OutputMessage extends AbstractMessageResponseElement implements Out
 {
 	private Object content = null;
 
-	public OutputMessage ()
+	public OutputMessage()
 	{
 	}
 
-	public OutputMessage (Output o)
+	public OutputMessage(Output o)
 	{
-		super.copyFrom (o);
-		setName (o.getName ());
-		setContent (o.getContent ());
+		super.copyFrom(o);
+		setName(o.getName());
+		setContent(o.getContent());
 	}
 
-	public synchronized void setContent (Object newContent)
+	public synchronized void setContent(Object newContent)
 	{
 		//--- If the user supplied content is null, clear the internal content and return.
 		if (newContent == null)
@@ -53,15 +53,15 @@ public class OutputMessage extends AbstractMessageResponseElement implements Out
 		//--- If the user supplied content is not serializable, throw an exception.
 		if (! (newContent instanceof Serializable))
 		{
-			throw new IllegalArgumentException ("Content for Output '" + getName ()
-							+ "' is not serializable. It is of type '" + newContent.getClass ().getName () + "'");
+			throw new IllegalArgumentException("Content for Output '" + getName()
+							+ "' is not serializable. It is of type '" + newContent.getClass().getName() + "'");
 		}
 
 		//--- Otherwise, save the new content.
 		content = newContent;
 	}
 
-	public Object getContent ()
+	public Object getContent()
 	{
 		return content;
 	}

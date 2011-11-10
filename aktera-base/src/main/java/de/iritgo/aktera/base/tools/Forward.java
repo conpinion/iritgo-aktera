@@ -42,9 +42,9 @@ public class Forward extends StandardLogEnabledModel
 	 * @param request The model request.
 	 * @return The model response.
 	 */
-	public ModelResponse execute (ModelRequest request) throws ModelException
+	public ModelResponse execute(ModelRequest request) throws ModelException
 	{
-		ModelResponse response = request.createResponse ();
+		ModelResponse response = request.createResponse();
 
 		return response;
 	}

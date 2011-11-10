@@ -29,12 +29,12 @@ public class FormularGroup
 	/** Formular group configuration */
 	private Configuration configuration;
 
-	public void setConfiguration (Configuration configuration)
+	public void setConfiguration(Configuration configuration)
 	{
 		this.configuration = configuration;
 	}
 
-	public Configuration getConfiguration ()
+	public Configuration getConfiguration()
 	{
 		return configuration;
 	}
@@ -42,7 +42,7 @@ public class FormularGroup
 	/** Our logger */
 	private Logger logger;
 
-	public void setLogger (Logger logger)
+	public void setLogger(Logger logger)
 	{
 		this.logger = logger;
 	}

@@ -34,7 +34,7 @@ import java.util.*;
  */
 public class DefaultCommand extends AbstractResponseElement implements Command
 {
-	private Map params = new HashMap ();
+	private Map params = new HashMap();
 
 	private String myModel = null;
 
@@ -49,17 +49,17 @@ public class DefaultCommand extends AbstractResponseElement implements Command
 	 * @param newModel The name (the logical configuration name) of the model that will
 	 * be executed by this command.
 	 */
-	public void setModel (String newModel)
+	public void setModel(String newModel)
 	{
 		myModel = newModel;
 	}
 
-	public String getModel ()
+	public String getModel()
 	{
 		return myModel;
 	}
 
-	public void setParameter (String param, Object value)
+	public void setParameter(String param, Object value)
 	{
 		assert param != null;
 
@@ -68,87 +68,87 @@ public class DefaultCommand extends AbstractResponseElement implements Command
 		//                 throw new IllegalArgumentException("Only basic types may be used as parameter values");
 		//             }
 		//         }
-		params.put (param, value);
+		params.put(param, value);
 	}
 
-	public Map getParameters ()
+	public Map getParameters()
 	{
 		return params;
 	}
 
-	public ModelResponse execute (ModelRequest req, ModelResponse res) throws ModelException
+	public ModelResponse execute(ModelRequest req, ModelResponse res) throws ModelException
 	{
-		return execute (req, res, false, false);
+		return execute(req, res, false, false);
 	}
 
-	public ModelResponse execute (ModelRequest req, ModelResponse res, boolean includeParams,
+	public ModelResponse execute(ModelRequest req, ModelResponse res, boolean includeParams,
 					boolean includeResponseElements) throws ModelException
 	{
 		if (myModel == null && myBean == null)
 		{
-			throw new ModelException ("No model or bean set for this command");
+			throw new ModelException("No model or bean set for this command");
 		}
 
-		ModelRequest newReq = (ModelRequest) req.getService (ModelRequest.ROLE, "default", req.getContext ());
+		ModelRequest newReq = (ModelRequest) req.getService(ModelRequest.ROLE, "default", req.getContext());
 
-		newReq.setModel (myModel != null ? myModel : myBean);
-		newReq.setScheme (req.getScheme ());
-		newReq.setServerName (req.getServerName ());
-		newReq.setServerPort (req.getServerPort ());
-		newReq.setContextPath (req.getContextPath ());
-		newReq.setRequestUrl (req.getRequestUrl ());
-		newReq.setQueryString (req.getQueryString ());
-		newReq.setLocale (req.getLocale ());
+		newReq.setModel(myModel != null ? myModel : myBean);
+		newReq.setScheme(req.getScheme());
+		newReq.setServerName(req.getServerName());
+		newReq.setServerPort(req.getServerPort());
+		newReq.setContextPath(req.getContextPath());
+		newReq.setRequestUrl(req.getRequestUrl());
+		newReq.setQueryString(req.getQueryString());
+		newReq.setLocale(req.getLocale());
 
 		String oneAttribName = null;
 
-		for (Iterator ip = req.getAttributes ().keySet ().iterator (); ip.hasNext ();)
+		for (Iterator ip = req.getAttributes().keySet().iterator(); ip.hasNext();)
 		{
-			oneAttribName = (String) ip.next ();
-			newReq.setAttribute (oneAttribName, req.getAttribute (oneAttribName));
+			oneAttribName = (String) ip.next();
+			newReq.setAttribute(oneAttribName, req.getAttribute(oneAttribName));
 		}
 
-		newReq.setPreviousRequest (req.getParameters ());
+		newReq.setPreviousRequest(req.getParameters());
 
 		String oneParam = null;
 
-		for (Iterator i = params.keySet ().iterator (); i.hasNext ();)
+		for (Iterator i = params.keySet().iterator(); i.hasNext();)
 		{
-			oneParam = (String) i.next ();
-			newReq.setParameter (oneParam, params.get (oneParam));
+			oneParam = (String) i.next();
+			newReq.setParameter(oneParam, params.get(oneParam));
 		}
 
 		if (includeParams)
 		{
-			Map oldParams = req.getParameters ();
+			Map oldParams = req.getParameters();
 			String oldParamKey = null;
 
-			for (Iterator ip = oldParams.keySet ().iterator (); ip.hasNext ();)
+			for (Iterator ip = oldParams.keySet().iterator(); ip.hasNext();)
 			{
-				oldParamKey = (String) ip.next ();
+				oldParamKey = (String) ip.next();
 
-				if (! params.containsKey (oldParamKey))
+				if (! params.containsKey(oldParamKey))
 				{
-					newReq.setParameter (oldParamKey, oldParams.get (oldParamKey));
+					newReq.setParameter(oldParamKey, oldParams.get(oldParamKey));
 				}
 			}
 		}
 
-		ModelResponse newRes = newReq.execute ();
+		ModelResponse newRes = newReq.execute();
 
-		newRes.addErrors (res.getErrors ());
+		newRes.addErrors(res.getErrors());
 
 		if (includeResponseElements)
 		{
 			ResponseElement oldElement = null;
 
-			for (Iterator oe = res.getAll (); oe.hasNext ();)
+			for (Iterator oe = res.getAll(); oe.hasNext();)
 			{
-				oldElement = (ResponseElement) oe.next ();
+				oldElement = (ResponseElement) oe.next();
 
-				if (newRes.get (oldElement.getName ()) == null)
+				if (newRes.get(oldElement.getName()) == null)
 				{
-					newRes.add (oldElement);
+					newRes.add(oldElement);
 				}
 			}
 		}
@@ -156,60 +156,60 @@ public class DefaultCommand extends AbstractResponseElement implements Command
 		return newRes;
 	}
 
-	public void setLabel (String newLabel)
+	public void setLabel(String newLabel)
 	{
 		myLabel = newLabel;
 	}
 
-	public String getLabel ()
+	public String getLabel()
 	{
 		return myLabel;
 	}
 
-	public void setRelativeMovement (int numberOfSteps)
+	public void setRelativeMovement(int numberOfSteps)
 	{
 		moveRelativeSteps = numberOfSteps;
 	}
 
-	public int getRelativeMovement ()
+	public int getRelativeMovement()
 	{
 		return moveRelativeSteps;
 	}
 
-	public String toString ()
+	public String toString()
 	{
-		StringBuffer ret = new StringBuffer (super.toString ());
+		StringBuffer ret = new StringBuffer(super.toString());
 
-		ret.append ("\t<label>" + getLabel () + "</label>");
-		ret.append ("\t<model>" + getLabel () + "</model>");
+		ret.append("\t<label>" + getLabel() + "</label>");
+		ret.append("\t<model>" + getLabel() + "</model>");
 
-		Map m = getParameters ();
+		Map m = getParameters();
 
-		if (m.size () > 0)
+		if (m.size() > 0)
 		{
-			ret.append ("\t<parameters>");
+			ret.append("\t<parameters>");
 
-			for (Iterator i = m.keySet ().iterator (); i.hasNext ();)
+			for (Iterator i = m.keySet().iterator(); i.hasNext();)
 			{
-				String oneKey = (String) i.next ();
+				String oneKey = (String) i.next();
 
-				ret.append ("\t\t<parameter key='" + oneKey + "' value='" + m.get (oneKey).toString () + "'/>\n");
+				ret.append("\t\t<parameter key='" + oneKey + "' value='" + m.get(oneKey).toString() + "'/>\n");
 			}
 
-			ret.append ("\t</parameters>");
+			ret.append("\t</parameters>");
 		}
 
-		ret.append ("\t</" + getClass ().getName () + ">\n");
+		ret.append("\t</" + getClass().getName() + ">\n");
 
-		return ret.toString ();
+		return ret.toString();
 	}
 
-	public String getBean ()
+	public String getBean()
 	{
 		return myBean;
 	}
 
-	public void setBean (String bean)
+	public void setBean(String bean)
 	{
 		myBean = bean;
 	}

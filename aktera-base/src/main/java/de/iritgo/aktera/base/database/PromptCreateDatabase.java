@@ -42,14 +42,14 @@ public class PromptCreateDatabase extends StandardLogEnabledModel
 	 * @param req The model request.
 	 * @throws ModelException In case of a business failure.
 	 */
-	public ModelResponse execute (ModelRequest req) throws ModelException
+	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
-		ModelResponse res = req.createResponse ();
+		ModelResponse res = req.createResponse();
 
-		Command cmd = res.createCommand ("aktera.database.create");
-		cmd.setName ("create");
-		cmd.setLabel ("$createDatabase");
-		res.add (cmd);
+		Command cmd = res.createCommand("aktera.database.create");
+		cmd.setName("create");
+		cmd.setLabel("$createDatabase");
+		res.add(cmd);
 
 		return res;
 	}

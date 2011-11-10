@@ -38,12 +38,12 @@ public interface ScriptContext
 	/**
 	 * Get the logger service.
 	 */
-	public Logger getLogger ();
+	public Logger getLogger();
 
 	/**
 	 * Set the logger service.
 	 */
-	public void setLogger (Logger logger);
+	public void setLogger(Logger logger);
 
 	/**
 	 * Retrieve a service.
@@ -51,5 +51,5 @@ public interface ScriptContext
 	 * @param name The service name
 	 * @return The service
 	 */
-	public Object getService (String name) throws IllegalArgumentException;
+	public Object getService(String name) throws IllegalArgumentException;
 }

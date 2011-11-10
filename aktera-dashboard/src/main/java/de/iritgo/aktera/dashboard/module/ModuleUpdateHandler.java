@@ -37,11 +37,11 @@ import java.sql.SQLException;
 public class ModuleUpdateHandler extends UpdateHandler
 {
 	@Override
-	public void updateDatabase (ModelRequest req, Logger logger, Connection connection, PersistentFactory pf,
+	public void updateDatabase(ModelRequest req, Logger logger, Connection connection, PersistentFactory pf,
 					ModuleVersion currentVersion, ModuleVersion newVersion)
 		throws ModelException, PersistenceException, SQLException
 	{
-		if (currentVersion.between ("0.0.0", "2.1.2"))
+		if (currentVersion.between("0.0.0", "2.1.2"))
 		{
 			//			currentVersion.setVersion ("2.1.2");
 		}

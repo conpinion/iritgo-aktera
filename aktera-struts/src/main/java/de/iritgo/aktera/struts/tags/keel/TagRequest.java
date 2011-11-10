@@ -42,10 +42,10 @@ public class TagRequest implements WebappRequest
 	/**
 	 * Create a new <code>TagRequest</code>.
 	 */
-	public TagRequest ()
+	public TagRequest()
 	{
 		this.req = null;
-		tagParameters = new Hashtable<String, String> ();
+		tagParameters = new Hashtable<String, String>();
 	}
 
 	/**
@@ -53,10 +53,10 @@ public class TagRequest implements WebappRequest
 	 *
 	 * @param req The http request.
 	 */
-	public TagRequest (HttpServletRequest req)
+	public TagRequest(HttpServletRequest req)
 	{
-		tagParameters = new Hashtable<String, String> ();
-		setRequest (req);
+		tagParameters = new Hashtable<String, String>();
+		setRequest(req);
 	}
 
 	/**
@@ -64,15 +64,15 @@ public class TagRequest implements WebappRequest
 	 *
 	 * @param req The http request.
 	 */
-	public void setRequest (HttpServletRequest req)
+	public void setRequest(HttpServletRequest req)
 	{
 		this.req = req;
 
-		for (Enumeration<String> i = req.getParameterNames (); i.hasMoreElements ();)
+		for (Enumeration<String> i = req.getParameterNames(); i.hasMoreElements();)
 		{
-			String name = i.nextElement ();
+			String name = i.nextElement();
 
-			tagParameters.put (name, req.getParameter (name));
+			tagParameters.put(name, req.getParameter(name));
 		}
 	}
 
@@ -82,17 +82,17 @@ public class TagRequest implements WebappRequest
 	 * @param name The parameter name.
 	 * @param value The parameter value.
 	 */
-	public void setParameter (String name, String value)
+	public void setParameter(String name, String value)
 	{
-		tagParameters.put (name, value);
+		tagParameters.put(name, value);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.clients.webapp.WebappRequest#getParameter(java.lang.String)
 	 */
-	public String getParameter (String name)
+	public String getParameter(String name)
 	{
-		return (String) tagParameters.get (name);
+		return (String) tagParameters.get(name);
 
 		// 		return req.getParameter (name);
 	}
@@ -100,17 +100,17 @@ public class TagRequest implements WebappRequest
 	/**
 	 * @see de.iritgo.aktera.clients.webapp.WebappRequest#getCookies()
 	 */
-	public Cookie[] getCookies ()
+	public Cookie[] getCookies()
 	{
-		return req.getCookies ();
+		return req.getCookies();
 	}
 
 	/**
 	 * @see de.iritgo.aktera.clients.webapp.WebappRequest#getParameterNames()
 	 */
-	public Enumeration<String> getParameterNames ()
+	public Enumeration<String> getParameterNames()
 	{
-		return tagParameters.keys ();
+		return tagParameters.keys();
 
 		// 		return req.getParameterNames ();
 	}
@@ -118,38 +118,38 @@ public class TagRequest implements WebappRequest
 	/**
 	 * @see de.iritgo.aktera.clients.webapp.WebappRequest#getSessionId()
 	 */
-	public String getSessionId ()
+	public String getSessionId()
 	{
-		return req.getSession (true).getId ();
+		return req.getSession(true).getId();
 	}
 
 	/**
 	 * @see de.iritgo.aktera.clients.webapp.WebappRequest#getRemoteAddr()
 	 */
-	public String getRemoteAddr ()
+	public String getRemoteAddr()
 	{
-		return req.getRemoteAddr ();
+		return req.getRemoteAddr();
 	}
 
 	/**
 	 * @see de.iritgo.aktera.clients.webapp.WebappRequest#setAttribute(java.lang.String, java.lang.Object)
 	 */
-	public void setAttribute (String name, Object value)
+	public void setAttribute(String name, Object value)
 	{
 		if (name != null)
 		{
-			req.setAttribute (name, value);
+			req.setAttribute(name, value);
 		}
 	}
 
 	/**
 	 * @see de.iritgo.aktera.clients.webapp.WebappRequest#getRequestURL()
 	 */
-	public String getRequestURL ()
+	public String getRequestURL()
 	{
-		if (req.getRequestURL () != null)
+		if (req.getRequestURL() != null)
 		{
-			return req.getRequestURL ().toString ();
+			return req.getRequestURL().toString();
 		}
 		else
 		{
@@ -160,95 +160,95 @@ public class TagRequest implements WebappRequest
 	/**
 	 * @see de.iritgo.aktera.clients.webapp.WebappRequest#getQueryString()
 	 */
-	public String getQueryString ()
+	public String getQueryString()
 	{
-		return req.getQueryString ();
+		return req.getQueryString();
 	}
 
 	/**
 	 * @see de.iritgo.aktera.clients.webapp.WebappRequest#getRealPath(java.lang.String)
 	 */
-	public String getRealPath (String path)
+	public String getRealPath(String path)
 	{
-		return req.getSession (true).getServletContext ().getRealPath (path);
+		return req.getSession(true).getServletContext().getRealPath(path);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.clients.webapp.WebappRequest#getAttribute(java.lang.String)
 	 */
-	public Object getAttribute (String name)
+	public Object getAttribute(String name)
 	{
-		return req.getAttribute (name);
+		return req.getAttribute(name);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.clients.webapp.WebappRequest#getInitParameter(java.lang.String)
 	 */
-	public String getInitParameter (String name)
+	public String getInitParameter(String name)
 	{
-		return req.getSession (true).getServletContext ().getInitParameter (name);
+		return req.getSession(true).getServletContext().getInitParameter(name);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.clients.webapp.WebappRequest#getParameterValues(java.lang.String)
 	 */
-	public String[] getParameterValues (String key)
+	public String[] getParameterValues(String key)
 	{
 		return new String[]
 		{
-			(String) tagParameters.get (key)
+			(String) tagParameters.get(key)
 		};
 	}
 
 	/**
 	 * @see de.iritgo.aktera.clients.webapp.WebappRequest#getHeaderNames()
 	 */
-	public final Enumeration<String> getHeaderNames ()
+	public final Enumeration<String> getHeaderNames()
 	{
-		return req.getHeaderNames ();
+		return req.getHeaderNames();
 	}
 
 	/**
 	 * @see de.iritgo.aktera.clients.webapp.WebappRequest#getHeader(java.lang.String)
 	 */
-	public final String getHeader (String name)
+	public final String getHeader(String name)
 	{
-		return req.getHeader (name);
+		return req.getHeader(name);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.clients.webapp.WebappRequest#getSource()
 	 */
-	public final String getSource ()
+	public final String getSource()
 	{
-		return req.getRemoteAddr ();
+		return req.getRemoteAddr();
 	}
 
 	/**
 	 * @see de.iritgo.aktera.clients.webapp.WebappRequest#getSource()
 	 */
-	public final Locale getLocale ()
+	public final Locale getLocale()
 	{
-		return req.getLocale ();
+		return req.getLocale();
 	}
 
-	public String getScheme ()
+	public String getScheme()
 	{
-		return req.getScheme ();
+		return req.getScheme();
 	}
 
-	public String getServerName ()
+	public String getServerName()
 	{
-		return req.getServerName ();
+		return req.getServerName();
 	}
 
-	public int getServerPort ()
+	public int getServerPort()
 	{
-		return req.getServerPort ();
+		return req.getServerPort();
 	}
 
-	public String getContextPath ()
+	public String getContextPath()
 	{
-		return req.getContextPath ();
+		return req.getContextPath();
 	}
 }

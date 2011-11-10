@@ -37,31 +37,31 @@ public class RemoveAkteraGroupEntry extends AbstractListCommandUIController
 {
 	private UserDAO userDAO;
 
-	public void setUserDAO (UserDAO userDAO)
+	public void setUserDAO(UserDAO userDAO)
 	{
 		this.userDAO = userDAO;
 	}
 
 	private PermissionManager permissionManager;
 
-	public void setPermissionManager (PermissionManager permissionManager)
+	public void setPermissionManager(PermissionManager permissionManager)
 	{
 		this.permissionManager = permissionManager;
 	}
 
-	public RemoveAkteraGroupEntry ()
+	public RemoveAkteraGroupEntry()
 	{
-		super ("entryId");
+		super("entryId");
 	}
 
 	@Override
-	protected void execute (UIRequest request, UIResponse response, String[] ids) throws UIControllerException
+	protected void execute(UIRequest request, UIResponse response, String[] ids) throws UIControllerException
 	{
 		for (String id : ids)
 		{
-			AkteraGroupEntry entry = userDAO.findAkteraGroupEntryById (NumberTools.toInt (id, - 1));
-			userDAO.deleteAkteraGroupEntry (entry);
+			AkteraGroupEntry entry = userDAO.findAkteraGroupEntryById(NumberTools.toInt(id, - 1));
+			userDAO.deleteAkteraGroupEntry(entry);
 		}
-		permissionManager.clear ();
+		permissionManager.clear();
 	}
 }

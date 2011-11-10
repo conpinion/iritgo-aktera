@@ -41,66 +41,66 @@ import java.util.Map;
 public class ModelRequestSerializer
 {
 	//--- Do not allow this to be instantiated since it is a Singleton.
-	private ModelRequestSerializer ()
+	private ModelRequestSerializer()
 	{
 	} // ModelRequestSerializer
 
-	public static Document serialize (KeelRequest req) throws ParserConfigurationException, SAXException
+	public static Document serialize(KeelRequest req) throws ParserConfigurationException, SAXException
 	{
 		//Obtain DOMImplementation
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance ();
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
-		factory.setNamespaceAware (true);
+		factory.setNamespaceAware(true);
 
-		DocumentBuilder builder = factory.newDocumentBuilder ();
-		DOMImplementation impl = builder.getDOMImplementation ();
+		DocumentBuilder builder = factory.newDocumentBuilder();
+		DOMImplementation impl = builder.getDOMImplementation();
 
-		Document xmldoc = impl.createDocument ("model", "request", null);
+		Document xmldoc = impl.createDocument("model", "request", null);
 
-		Element root = xmldoc.getDocumentElement ();
+		Element root = xmldoc.getDocumentElement();
 
-		root.setAttribute ("model", req.getModel ());
+		root.setAttribute("model", req.getModel());
 
 		/* Handle the request attributes */
-		Map attrs = req.getAttributes ();
+		Map attrs = req.getAttributes();
 
-		if (attrs.size () > 0)
+		if (attrs.size() > 0)
 		{
 			String oneAttrKey = null;
 			Object oneAttrValue = null;
 
-			for (Iterator ia = attrs.keySet ().iterator (); ia.hasNext ();)
+			for (Iterator ia = attrs.keySet().iterator(); ia.hasNext();)
 			{
-				oneAttrKey = (String) ia.next ();
-				oneAttrValue = attrs.get (oneAttrKey);
+				oneAttrKey = (String) ia.next();
+				oneAttrValue = attrs.get(oneAttrKey);
 
 				if (oneAttrValue != null)
 				{
-					root.setAttribute (oneAttrKey, oneAttrValue.toString ());
+					root.setAttribute(oneAttrKey, oneAttrValue.toString());
 				}
 			}
 		}
 
 		/* Handle parameters */
-		Map params = req.getParameters ();
+		Map params = req.getParameters();
 
-		if (params.size () > 0)
+		if (params.size() > 0)
 		{
-			Element paramsElement = xmldoc.createElement ("parameters");
+			Element paramsElement = xmldoc.createElement("parameters");
 			String oneKey = null;
 
-			for (Iterator i = params.keySet ().iterator (); i.hasNext ();)
+			for (Iterator i = params.keySet().iterator(); i.hasNext();)
 			{
-				oneKey = (String) i.next ();
+				oneKey = (String) i.next();
 
-				Element param = xmldoc.createElement ("parameter");
+				Element param = xmldoc.createElement("parameter");
 
-				param.setAttribute ("name", oneKey);
-				param.setAttribute ("value", (String) params.get (oneKey));
-				paramsElement.appendChild (param);
+				param.setAttribute("name", oneKey);
+				param.setAttribute("value", (String) params.get(oneKey));
+				paramsElement.appendChild(param);
 			}
 
-			root.appendChild (paramsElement);
+			root.appendChild(paramsElement);
 		}
 
 		return xmldoc;

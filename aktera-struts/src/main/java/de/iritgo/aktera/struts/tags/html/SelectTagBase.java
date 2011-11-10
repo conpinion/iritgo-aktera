@@ -72,7 +72,7 @@ public class SelectTagBase extends BaseHandlerTag
 	 *
 	 * @return The bean name.
 	 */
-	public String getName ()
+	public String getName()
 	{
 		return this.name;
 	}
@@ -82,7 +82,7 @@ public class SelectTagBase extends BaseHandlerTag
 	 *
 	 * @param name The new bean name.
 	 */
-	public void setName (String name)
+	public void setName(String name)
 	{
 		this.name = name;
 	}
@@ -92,7 +92,7 @@ public class SelectTagBase extends BaseHandlerTag
 	 *
 	 * @return The property name.
 	 */
-	public String getProperty ()
+	public String getProperty()
 	{
 		return this.property;
 	}
@@ -102,7 +102,7 @@ public class SelectTagBase extends BaseHandlerTag
 	 *
 	 * @param property The new property name.
 	 */
-	public void setProperty (String property)
+	public void setProperty(String property)
 	{
 		this.property = property;
 	}
@@ -112,7 +112,7 @@ public class SelectTagBase extends BaseHandlerTag
 	 *
 	 * @return The size.
 	 */
-	public String getSize ()
+	public String getSize()
 	{
 		return this.size;
 	}
@@ -122,7 +122,7 @@ public class SelectTagBase extends BaseHandlerTag
 	 *
 	 * @param size The new size.
 	 */
-	public void setSize (String size)
+	public void setSize(String size)
 	{
 		this.size = size;
 	}
@@ -132,7 +132,7 @@ public class SelectTagBase extends BaseHandlerTag
 	 *
 	 * @return The bundle.
 	 */
-	public String getBundle ()
+	public String getBundle()
 	{
 		return this.bundle;
 	}
@@ -142,7 +142,7 @@ public class SelectTagBase extends BaseHandlerTag
 	 *
 	 * @param bundle The new bundle.
 	 */
-	public void setBundle (String bundle)
+	public void setBundle(String bundle)
 	{
 		this.bundle = bundle;
 	}
@@ -152,7 +152,7 @@ public class SelectTagBase extends BaseHandlerTag
 	 *
 	 * @return The locale.
 	 */
-	public String getLocale ()
+	public String getLocale()
 	{
 		return this.locale;
 	}
@@ -162,7 +162,7 @@ public class SelectTagBase extends BaseHandlerTag
 	 *
 	 * @param locale The new locale.
 	 */
-	public void setLocale (String locale)
+	public void setLocale(String locale)
 	{
 		this.locale = locale;
 	}
@@ -173,42 +173,42 @@ public class SelectTagBase extends BaseHandlerTag
 	 * @param suffix An optional element suffix.
 	 * @param results StringBuffer which receives the tag code.
 	 */
-	protected void createSelectTag (StringBuffer results, String suffix) throws JspException
+	protected void createSelectTag(StringBuffer results, String suffix) throws JspException
 	{
-		results.append ("<select name=\"");
+		results.append("<select name=\"");
 
 		if (this.indexed)
 		{
-			prepareIndex (results, name);
+			prepareIndex(results, name);
 		}
 
-		results.append (suffix == null ? property : property + suffix);
-		results.append ("\"");
+		results.append(suffix == null ? property : property + suffix);
+		results.append("\"");
 
 		if (accesskey != null)
 		{
-			results.append (" accesskey=\"");
-			results.append (accesskey);
-			results.append ("\"");
+			results.append(" accesskey=\"");
+			results.append(accesskey);
+			results.append("\"");
 		}
 
 		if (size != null)
 		{
-			results.append (" size=\"");
-			results.append (size);
-			results.append ("\"");
+			results.append(" size=\"");
+			results.append(size);
+			results.append("\"");
 		}
 
 		if (tabindex != null)
 		{
-			results.append (" tabindex=\"");
-			results.append (tabindex);
-			results.append ("\"");
+			results.append(" tabindex=\"");
+			results.append(tabindex);
+			results.append("\"");
 		}
 
-		results.append (prepareEventHandlers ());
-		results.append (prepareStyles ());
-		results.append (">");
+		results.append(prepareEventHandlers());
+		results.append(prepareStyles());
+		results.append(">");
 	}
 
 	/**
@@ -216,17 +216,17 @@ public class SelectTagBase extends BaseHandlerTag
 	 *
 	 * @param results StringBuffer which receives the tag code.
 	 */
-	protected void createSelectTag (StringBuffer results) throws JspException
+	protected void createSelectTag(StringBuffer results) throws JspException
 	{
-		createSelectTag (results, null);
+		createSelectTag(results, null);
 	}
 
 	/**
 	 * Release any acquired resources.
 	 */
-	public void release ()
+	public void release()
 	{
-		super.release ();
+		super.release();
 		bundle = Globals.MESSAGES_KEY;
 		name = Constants.BEAN_KEY;
 		locale = Globals.LOCALE_KEY;
@@ -240,38 +240,38 @@ public class SelectTagBase extends BaseHandlerTag
 	 * @param suffix Optional property suffix.
 	 * @return The bean property value.
 	 */
-	protected Object getNamedBeanProperty (String propertyName) throws JspException
+	protected Object getNamedBeanProperty(String propertyName) throws JspException
 	{
-		Object bean = TagUtils.getInstance ().lookup (pageContext, name, null);
+		Object bean = TagUtils.getInstance().lookup(pageContext, name, null);
 
 		if (bean == null)
 		{
-			JspException e = new JspException (messages.getMessage ("getter.bean", name));
+			JspException e = new JspException(messages.getMessage("getter.bean", name));
 
-			TagUtils.getInstance ().saveException (pageContext, e);
+			TagUtils.getInstance().saveException(pageContext, e);
 			throw e;
 		}
 
 		try
 		{
-			return BeanUtils.getProperty (bean, propertyName);
+			return BeanUtils.getProperty(bean, propertyName);
 		}
 		catch (IllegalAccessException e)
 		{
-			TagUtils.getInstance ().saveException (pageContext, e);
-			throw new JspException (messages.getMessage ("getter.access", propertyName, name));
+			TagUtils.getInstance().saveException(pageContext, e);
+			throw new JspException(messages.getMessage("getter.access", propertyName, name));
 		}
 		catch (InvocationTargetException e)
 		{
-			Throwable t = e.getTargetException ();
+			Throwable t = e.getTargetException();
 
-			TagUtils.getInstance ().saveException (pageContext, t);
-			throw new JspException (messages.getMessage ("getter.result", propertyName, t.toString ()));
+			TagUtils.getInstance().saveException(pageContext, t);
+			throw new JspException(messages.getMessage("getter.result", propertyName, t.toString()));
 		}
 		catch (NoSuchMethodException e)
 		{
-			TagUtils.getInstance ().saveException (pageContext, e);
-			throw new JspException (messages.getMessage ("getter.method", propertyName, name));
+			TagUtils.getInstance().saveException(pageContext, e);
+			throw new JspException(messages.getMessage("getter.method", propertyName, name));
 		}
 	}
 
@@ -281,9 +281,9 @@ public class SelectTagBase extends BaseHandlerTag
 	 * @param suffix Optional property suffix.
 	 * @return The bean property value.
 	 */
-	protected Object getBeanProperty (String suffix) throws JspException
+	protected Object getBeanProperty(String suffix) throws JspException
 	{
-		return getNamedBeanProperty (suffix == null ? property : property + suffix);
+		return getNamedBeanProperty(suffix == null ? property : property + suffix);
 	}
 
 	/**
@@ -291,8 +291,8 @@ public class SelectTagBase extends BaseHandlerTag
 	 *
 	 * @return The bean property value.
 	 */
-	protected Object getBeanProperty () throws JspException
+	protected Object getBeanProperty() throws JspException
 	{
-		return getBeanProperty (null);
+		return getBeanProperty(null);
 	}
 }

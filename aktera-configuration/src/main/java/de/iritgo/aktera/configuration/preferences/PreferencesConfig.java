@@ -60,7 +60,7 @@ public class PreferencesConfig implements Serializable
 
 	/** */
 	@EmbeddedId
-	private PrimaryKey primaryKey = new PrimaryKey ();
+	private PrimaryKey primaryKey = new PrimaryKey();
 
 	/** */
 	@Column(nullable = false, length = 1)
@@ -85,7 +85,7 @@ public class PreferencesConfig implements Serializable
 	 *
 	 * @return The user id.
 	 */
-	public Integer getUserId ()
+	public Integer getUserId()
 	{
 		return primaryKey.userId;
 	}
@@ -95,7 +95,7 @@ public class PreferencesConfig implements Serializable
 	 *
 	 * @param userId The new user id.
 	 */
-	public void setUserId (Integer userId)
+	public void setUserId(Integer userId)
 	{
 		this.primaryKey.userId = userId;
 	}
@@ -114,7 +114,7 @@ public class PreferencesConfig implements Serializable
 	 *
 	 * @return The category.
 	 */
-	public String getCategory ()
+	public String getCategory()
 	{
 		return primaryKey.category;
 	}
@@ -124,7 +124,7 @@ public class PreferencesConfig implements Serializable
 	 *
 	 * @param category The new category.
 	 */
-	public void setCategory (String category)
+	public void setCategory(String category)
 	{
 		this.primaryKey.category = category;
 	}
@@ -143,7 +143,7 @@ public class PreferencesConfig implements Serializable
 	 *
 	 * @return The name.
 	 */
-	public String getName ()
+	public String getName()
 	{
 		return primaryKey.name;
 	}
@@ -153,7 +153,7 @@ public class PreferencesConfig implements Serializable
 	 *
 	 * @param name The new name.
 	 */
-	public void setName (String name)
+	public void setName(String name)
 	{
 		this.primaryKey.name = name;
 	}
@@ -171,7 +171,7 @@ public class PreferencesConfig implements Serializable
 	 *
 	 * @return The type.
 	 */
-	public String getType ()
+	public String getType()
 	{
 		return type;
 	}
@@ -181,7 +181,7 @@ public class PreferencesConfig implements Serializable
 	 *
 	 * @param type The new type.
 	 */
-	public void setType (String type)
+	public void setType(String type)
 	{
 		this.type = type;
 	}
@@ -198,7 +198,7 @@ public class PreferencesConfig implements Serializable
 	 *
 	 * @return The value.
 	 */
-	public String getValue ()
+	public String getValue()
 	{
 		return value;
 	}
@@ -208,7 +208,7 @@ public class PreferencesConfig implements Serializable
 	 *
 	 * @param value The new value.
 	 */
-	public void setValue (String value)
+	public void setValue(String value)
 	{
 		this.value = value;
 	}
@@ -225,7 +225,7 @@ public class PreferencesConfig implements Serializable
 	 *
 	 * @return The valid values.
 	 */
-	public String getValidValues ()
+	public String getValidValues()
 	{
 		return validValues;
 	}
@@ -235,7 +235,7 @@ public class PreferencesConfig implements Serializable
 	 *
 	 * @param validValues The new valid values.
 	 */
-	public void setValidValues (String validValues)
+	public void setValidValues(String validValues)
 	{
 		this.validValues = validValues;
 	}

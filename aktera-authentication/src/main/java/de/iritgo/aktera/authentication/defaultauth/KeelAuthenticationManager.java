@@ -41,7 +41,7 @@ public class KeelAuthenticationManager extends AbstractAuthenticationManager
 	/**
 	 *
 	 */
-	protected Subject addKeelCredentials (Subject subject)
+	protected Subject addKeelCredentials(Subject subject)
 	{
 		return subject;
 	}
@@ -49,7 +49,7 @@ public class KeelAuthenticationManager extends AbstractAuthenticationManager
 	/**
 	 * @see de.iritgo.aktera.authentication.AbstractAuthenticationManager#getDefaultLoginModuleName()
 	 */
-	protected String getDefaultLoginModuleName ()
+	protected String getDefaultLoginModuleName()
 	{
 		return "KeelLogin";
 	}

@@ -65,83 +65,84 @@ public class ProgressReport extends SecurableStandardLogEnabledModel
 	 * @param req The model request.
 	 * @return The model response.
 	 */
-	public ModelResponse execute (ModelRequest req) throws ModelException
+	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
 		String lastLine = "";
 
-		ModelResponse res = req.createResponse ();
+		ModelResponse res = req.createResponse();
 
 		try
 		{
-			Output report = res.createOutput ("report");
+			Output report = res.createOutput("report");
 
-			res.add (report);
+			res.add(report);
 
-			String reportFileName = getConfiguration ().getChild ("fileName").getValue (null);
+			String reportFileName = getConfiguration().getChild("fileName").getValue(null);
 
-			if (! StringTools.isTrimEmpty (reportFileName))
+			if (! StringTools.isTrimEmpty(reportFileName))
 			{
-				StringBuilder reportBuf = new StringBuilder ();
-				File reportFile = FileTools.newAkteraFile (reportFileName);
-				BufferedReader in = new BufferedReader (new FileReader (reportFile));
+				StringBuilder reportBuf = new StringBuilder();
+				File reportFile = FileTools.newAkteraFile(reportFileName);
+				BufferedReader in = new BufferedReader(new FileReader(reportFile));
 				String line = null;
 
-				while ((line = in.readLine ()) != null)
+				while ((line = in.readLine()) != null)
 				{
-					reportBuf.append (line + "\n");
+					reportBuf.append(line + "\n");
 					lastLine = line;
 				}
 
-				report.setContent (reportBuf.toString ());
+				report.setContent(reportBuf.toString());
 			}
 			else
 			{
-				String beanName = getConfiguration ().getChild ("bean").getValue (null);
-				String methodName = getConfiguration ().getChild ("method").getValue (null);
+				String beanName = getConfiguration().getChild("bean").getValue(null);
+				String methodName = getConfiguration().getChild("method").getValue(null);
 
-				if (! StringTools.isTrimEmpty (beanName) && ! StringTools.isTrimEmpty (methodName))
+				if (! StringTools.isTrimEmpty(beanName) && ! StringTools.isTrimEmpty(methodName))
 				{
-					Object bean = req.getSpringBean (beanName);
+					Object bean = req.getSpringBean(beanName);
 
-					lastLine = (String) MethodUtils.invokeExactMethod (bean, methodName, null);
-					report.setContent (lastLine);
+					lastLine = (String) MethodUtils.invokeExactMethod(bean, methodName, null);
+					report.setContent(lastLine);
 				}
 			}
 
-			if (lastLine != null && lastLine.indexOf ("Result: OK") != - 1)
+			if (lastLine != null && lastLine.indexOf("Result: OK") != - 1)
 			{
-				Command cmd = res.createCommand (getConfiguration ().getChild ("cmd-ok").getValue ());
+				Command cmd = res.createCommand(getConfiguration().getChild("cmd-ok").getValue());
 
-				cmd.setName ("cmdOk");
-				res.add (cmd);
+				cmd.setName("cmdOk");
+				res.add(cmd);
 			}
-			else if (lastLine != null && lastLine.indexOf ("Result: ERROR") != - 1)
+			else if (lastLine != null && lastLine.indexOf("Result: ERROR") != - 1)
 			{
-				Command cmd = res.createCommand (getConfiguration ().getChild ("cmd-error").getValue ());
+				Command cmd = res.createCommand(getConfiguration().getChild("cmd-error").getValue());
 
-				cmd.setName ("cmdError");
-				res.add (cmd);
+				cmd.setName("cmdError");
+				res.add(cmd);
 
-				res.add (res.createOutput ("error", "Y"));
+				res.add(res.createOutput("error", "Y"));
 			}
 			else
 			{
-				Command cmd = res.createCommand (getConfiguration ().getChild ("cmd-report").getValue ());
+				Command cmd = res.createCommand(getConfiguration().getChild("cmd-report").getValue());
 
-				cmd.setName ("cmdReport");
-				res.add (cmd);
+				cmd.setName("cmdReport");
+				res.add(cmd);
 			}
 
-			res.setAttribute ("forward", getConfiguration ().getChild ("forward").getValue (
-							"aktera.tools.progress-report"));
+			res
+							.setAttribute("forward", getConfiguration().getChild("forward").getValue(
+											"aktera.tools.progress-report"));
 		}
 		catch (IOException x)
 		{
-			throw new ModelException ("[ProgressReport] " + x);
+			throw new ModelException("[ProgressReport] " + x);
 		}
 		catch (ConfigurationException x)
 		{
-			throw new ModelException ("[ProgressReport] " + x);
+			throw new ModelException("[ProgressReport] " + x);
 		}
 		catch (NoSuchMethodException x)
 		{

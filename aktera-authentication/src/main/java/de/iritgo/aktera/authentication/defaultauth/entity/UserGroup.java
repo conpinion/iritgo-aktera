@@ -43,9 +43,9 @@ public class UserGroup
 	/**
 	 *
 	 */
-	public UserGroup ()
+	public UserGroup()
 	{
-		super ();
+		super();
 	}
 
 	/**
@@ -58,7 +58,7 @@ public class UserGroup
 	 *   null-allowed="false"
 	 * @return
 	 */
-	public String getDescrip ()
+	public String getDescrip()
 	{
 		return descrip;
 	}
@@ -74,7 +74,7 @@ public class UserGroup
 	 *   primary-key="true"
 	 * @return
 	 */
-	public String getGroupName ()
+	public String getGroupName()
 	{
 		return groupName;
 	}
@@ -82,7 +82,7 @@ public class UserGroup
 	/**
 	 * @param string
 	 */
-	public void setDescrip (String string)
+	public void setDescrip(String string)
 	{
 		descrip = string;
 	}
@@ -90,7 +90,7 @@ public class UserGroup
 	/**
 	 * @param string
 	 */
-	public void setGroupName (String string)
+	public void setGroupName(String string)
 	{
 		groupName = string;
 	}

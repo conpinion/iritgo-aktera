@@ -32,7 +32,7 @@ import org.apache.log4j.Logger;
  */
 public abstract class GroovyService
 {
-	protected Logger logger = Logger.getLogger (getClass ());
+	protected Logger logger = Logger.getLogger(getClass());
 
 	private Map<String, Object> bindings;
 
@@ -40,79 +40,79 @@ public abstract class GroovyService
 
 	private Thread serverThread;
 
-	public GroovyService ()
+	public GroovyService()
 	{
-		super ();
+		super();
 	}
 
-	public GroovyService (Map<String, Object> bindings)
+	public GroovyService(Map<String, Object> bindings)
 	{
-		this ();
+		this();
 		this.bindings = bindings;
 	}
 
-	public void launchInBackground ()
+	public void launchInBackground()
 	{
-		serverThread = new Thread ()
+		serverThread = new Thread()
 		{
 			@Override
-			public void run ()
+			public void run()
 			{
 				try
 				{
-					launch ();
+					launch();
 				}
 				catch (Exception e)
 				{
-					e.printStackTrace ();
+					e.printStackTrace();
 				}
 			}
 		};
 
-		serverThread.setDaemon (true);
-		serverThread.start ();
+		serverThread.setDaemon(true);
+		serverThread.start();
 	}
 
-	public abstract void launch ();
+	public abstract void launch();
 
-	protected Binding createBinding ()
+	protected Binding createBinding()
 	{
-		Binding binding = new Binding ();
+		Binding binding = new Binding();
 
 		if (bindings != null)
 		{
-			for (Map.Entry<String, Object> nextBinding : bindings.entrySet ())
+			for (Map.Entry<String, Object> nextBinding : bindings.entrySet())
 			{
-				binding.setVariable (nextBinding.getKey (), nextBinding.getValue ());
+				binding.setVariable(nextBinding.getKey(), nextBinding.getValue());
 			}
 		}
 
 		return binding;
 	}
 
-	public void initialize ()
+	public void initialize()
 	{
 		if (launchAtStart)
 		{
-			launchInBackground ();
+			launchInBackground();
 		}
 	}
 
-	public void destroy ()
+	public void destroy()
 	{
 	}
 
-	public void setBindings (final Map<String, Object> bindings)
+	public void setBindings(final Map<String, Object> bindings)
 	{
 		this.bindings = bindings;
 	}
 
-	public boolean isLaunchAtStart ()
+	public boolean isLaunchAtStart()
 	{
 		return launchAtStart;
 	}
 
-	public void setLaunchAtStart (boolean launchAtStart)
+	public void setLaunchAtStart(boolean launchAtStart)
 	{
 		this.launchAtStart = launchAtStart;
 	}

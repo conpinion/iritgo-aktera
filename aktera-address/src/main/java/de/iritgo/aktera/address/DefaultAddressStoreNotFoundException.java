@@ -27,22 +27,22 @@ import de.iritgo.aktera.*;
 @SuppressWarnings("serial")
 public class DefaultAddressStoreNotFoundException extends Error
 {
-	public DefaultAddressStoreNotFoundException ()
+	public DefaultAddressStoreNotFoundException()
 	{
 	}
 
-	public DefaultAddressStoreNotFoundException (String message)
+	public DefaultAddressStoreNotFoundException(String message)
 	{
-		super (message);
+		super(message);
 	}
 
-	public DefaultAddressStoreNotFoundException (Throwable cause)
+	public DefaultAddressStoreNotFoundException(Throwable cause)
 	{
-		super (cause);
+		super(cause);
 	}
 
-	public DefaultAddressStoreNotFoundException (String message, Throwable cause)
+	public DefaultAddressStoreNotFoundException(String message, Throwable cause)
 	{
-		super (message, cause);
+		super(message, cause);
 	}
 }

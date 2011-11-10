@@ -50,9 +50,9 @@ public class QueryException extends NestedException
 	/**
 	 * Default constructor
 	 */
-	public QueryException ()
+	public QueryException()
 	{
-		super ();
+		super();
 	} /* QueryException() */
 
 	/**
@@ -60,17 +60,17 @@ public class QueryException extends NestedException
 	 *
 	 * @param   s exception message
 	 */
-	public QueryException (String s)
+	public QueryException(String s)
 	{
-		super (s);
+		super(s);
 	} /*  QueryException */
 
 	/**
 	 * String message and error key
 	 */
-	public QueryException (String s, String newErrorKey)
+	public QueryException(String s, String newErrorKey)
 	{
-		super (s, newErrorKey);
+		super(s, newErrorKey);
 	}
 
 	/**
@@ -79,9 +79,9 @@ public class QueryException extends NestedException
 	 * @param   s The exception message
 	 * @param   newNested The nested item
 	 */
-	public QueryException (String message, Throwable newNested)
+	public QueryException(String message, Throwable newNested)
 	{
-		super (message, newNested);
+		super(message, newNested);
 	} /* QueryException(String, Throwable) */
 
 	/**
@@ -91,9 +91,9 @@ public class QueryException extends NestedException
 	 * @param   newNested The nested item
 	 * @param   errorKey A string key to the messages bundle
 	 */
-	public QueryException (String message, Throwable newNested, String newErrorKey)
+	public QueryException(String message, Throwable newNested, String newErrorKey)
 	{
-		super (message, newNested, newErrorKey);
+		super(message, newNested, newErrorKey);
 	} /* QueryException(String, Throwable, String) */
 
 	/**
@@ -101,9 +101,9 @@ public class QueryException extends NestedException
 	 *
 	 * @param   newNested The nested exception
 	 */
-	public QueryException (Throwable newNested)
+	public QueryException(Throwable newNested)
 	{
-		super (newNested);
+		super(newNested);
 	} /* QueryException(Throwable) */
 
 	/**
@@ -111,8 +111,8 @@ public class QueryException extends NestedException
 	 *
 	 * @param   newNested The nested exception
 	 */
-	public QueryException (Throwable newNested, String newErrorKey)
+	public QueryException(Throwable newNested, String newErrorKey)
 	{
-		super (newNested, newErrorKey);
+		super(newNested, newErrorKey);
 	} /* QueryException(Throwable) */
 } /* QueryException */

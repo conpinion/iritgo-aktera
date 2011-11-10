@@ -57,192 +57,192 @@ public class AddressEndpoint
 	private PermissionManager permissionManager;
 
 	@PayloadRoot(localPart = "listAddressStoresRequest", namespace = "http://aktera.iritgo.de/webservices/address")
-	public ListAddressStoresResponse listAddressStores (@SuppressWarnings("unused") ListAddressStoresRequest request)
+	public ListAddressStoresResponse listAddressStores(@SuppressWarnings("unused") ListAddressStoresRequest request)
 		throws Exception
 	{
-		AkteraUser user = securityContext.getUser ();
-		ListAddressStoresResponse response = new ListAddressStoresResponse ();
-		for (Tuple3<Integer, String, String> store : addressManager.listAddressStoresIdAndNameAndTitle ())
+		AkteraUser user = securityContext.getUser();
+		ListAddressStoresResponse response = new ListAddressStoresResponse();
+		for (Tuple3<Integer, String, String> store : addressManager.listAddressStoresIdAndNameAndTitle())
 		{
-			if (permissionManager.hasPermission (user.getName (), "de.iritgo.aktera.address.view", AddressStore.class
-							.getName (), store.get1 ()))
+			if (permissionManager.hasPermission(user.getName(), "de.iritgo.aktera.address.view", AddressStore.class
+							.getName(), store.get1()))
 			{
-				ListAddressStoresResponse.AddressStore as = new ListAddressStoresResponse.AddressStore ();
-				as.setId (store.get1 ());
-				as.setName (store.get2 ());
-				as.setTitle (store.get3 ());
-				response.getAddressStore ().add (as);
+				ListAddressStoresResponse.AddressStore as = new ListAddressStoresResponse.AddressStore();
+				as.setId(store.get1());
+				as.setName(store.get2());
+				as.setTitle(store.get3());
+				response.getAddressStore().add(as);
 			}
 		}
 		return response;
 	}
 
 	@PayloadRoot(localPart = "getDefaultAddressStoreNameRequest", namespace = "http://aktera.iritgo.de/webservices/address")
-	public GetDefaultAddressStoreNameResponse getDefaultAddressStoreName (
+	public GetDefaultAddressStoreNameResponse getDefaultAddressStoreName(
 					@SuppressWarnings("unused") GetDefaultAddressStoreNameRequest request) throws Exception
 	{
-		GetDefaultAddressStoreNameResponse response = new GetDefaultAddressStoreNameResponse ();
-		AkteraUser user = securityContext.getUser ();
+		GetDefaultAddressStoreNameResponse response = new GetDefaultAddressStoreNameResponse();
+		AkteraUser user = securityContext.getUser();
 		AddressStore store = null;
 		try
 		{
-			store = addressManager.getAddressStoreById (preferencesManager.getInt (user.getId (), "address",
+			store = addressManager.getAddressStoreById(preferencesManager.getInt(user.getId(), "address",
 							"defaultAddressStore", - 1));
 		}
 		catch (AddressStoreNotFoundException x)
 		{
-			store = addressManager.getDefaultAddressStore ();
+			store = addressManager.getDefaultAddressStore();
 		}
-		response.setName (store.getName ());
+		response.setName(store.getName());
 		return response;
 	}
 
 	@PayloadRoot(localPart = "getDefaultAddressStoreIdRequest", namespace = "http://aktera.iritgo.de/webservices/address")
-	public GetDefaultAddressStoreIdResponse getDefaultAddressStoreId (
+	public GetDefaultAddressStoreIdResponse getDefaultAddressStoreId(
 					@SuppressWarnings("unused") GetDefaultAddressStoreIdRequest request) throws Exception
 	{
-		GetDefaultAddressStoreIdResponse response = new GetDefaultAddressStoreIdResponse ();
-		AkteraUser user = securityContext.getUser ();
+		GetDefaultAddressStoreIdResponse response = new GetDefaultAddressStoreIdResponse();
+		AkteraUser user = securityContext.getUser();
 		AddressStore store = null;
 		try
 		{
-			store = addressManager.getAddressStoreById (preferencesManager.getInt (user.getId (), "address",
+			store = addressManager.getAddressStoreById(preferencesManager.getInt(user.getId(), "address",
 							"defaultAddressStore", - 1));
 		}
 		catch (AddressStoreNotFoundException x)
 		{
-			store = addressManager.getDefaultAddressStore ();
+			store = addressManager.getDefaultAddressStore();
 		}
-		response.setId (store.getId ());
+		response.setId(store.getId());
 		return response;
 	}
 
 	@PayloadRoot(localPart = "countAddressesRequest", namespace = "http://aktera.iritgo.de/webservices/address")
-	public CountAddressesResponse countAddresses (CountAddressesRequest request) throws Exception
+	public CountAddressesResponse countAddresses(CountAddressesRequest request) throws Exception
 	{
-		AkteraUser user = securityContext.getUser ();
-		AddressStore store = addressManager.getAddressStoreByName (request.getAddressStoreName ());
-		CountAddressesResponse response = new CountAddressesResponse ();
-		response.setCount ((int) store.countAddressesByOwnerAndSearch (user.getId (), request.getQuery ()));
+		AkteraUser user = securityContext.getUser();
+		AddressStore store = addressManager.getAddressStoreByName(request.getAddressStoreName());
+		CountAddressesResponse response = new CountAddressesResponse();
+		response.setCount((int) store.countAddressesByOwnerAndSearch(user.getId(), request.getQuery()));
 		return response;
 	}
 
 	@PayloadRoot(localPart = "listAddressesRequest", namespace = "http://aktera.iritgo.de/webservices/address")
-	public ListAddressesResponse listAddresses (ListAddressesRequest request) throws Exception
+	public ListAddressesResponse listAddresses(ListAddressesRequest request) throws Exception
 	{
-		AkteraUser user = securityContext.getUser ();
-		int firstResult = request.getFirstResult () != null ? request.getFirstResult ().intValue () : 0;
-		int maxResults = request.getMaxResults () != null ? request.getMaxResults ().intValue () : - 1;
-		SortOrder orderDir = request.getOrderDir () != null ? SortOrder.byId (request.getOrderDir ())
+		AkteraUser user = securityContext.getUser();
+		int firstResult = request.getFirstResult() != null ? request.getFirstResult().intValue() : 0;
+		int maxResults = request.getMaxResults() != null ? request.getMaxResults().intValue() : - 1;
+		SortOrder orderDir = request.getOrderDir() != null ? SortOrder.byId(request.getOrderDir())
 						: SortOrder.ASCENDING;
-		String orderBy = request.getOrderBy () != null ? request.getOrderBy () : "lastName";
-		AddressStore store = addressManager.getAddressStoreByName (request.getAddressStoreName ());
-		ListAddressesResponse response = new ListAddressesResponse ();
-		for (Address address : store.createAddressListing (user.getId (), request.getQuery (), orderBy, orderDir,
+		String orderBy = request.getOrderBy() != null ? request.getOrderBy() : "lastName";
+		AddressStore store = addressManager.getAddressStoreByName(request.getAddressStoreName());
+		ListAddressesResponse response = new ListAddressesResponse();
+		for (Address address : store.createAddressListing(user.getId(), request.getQuery(), orderBy, orderDir,
 						firstResult, maxResults))
 		{
-			ListAddressesResponse.Address addressElement = new ListAddressesResponse.Address ();
-			addressElement.setId (address.getAnyId ().toString ());
-			addressElement.setFirstName (address.getFirstName ());
-			addressElement.setLastName (address.getLastName ());
-			addressElement.setCompany (address.getCompany ());
-			addressElement.setEmail (address.getEmail ());
-			addressElement.setHomepage (address.getWeb ());
-			response.getAddress ().add (addressElement);
+			ListAddressesResponse.Address addressElement = new ListAddressesResponse.Address();
+			addressElement.setId(address.getAnyId().toString());
+			addressElement.setFirstName(address.getFirstName());
+			addressElement.setLastName(address.getLastName());
+			addressElement.setCompany(address.getCompany());
+			addressElement.setEmail(address.getEmail());
+			addressElement.setHomepage(address.getWeb());
+			response.getAddress().add(addressElement);
 		}
 		return response;
 	}
 
 	@PayloadRoot(localPart = "listAddressPhoneNumbersRequest", namespace = "http://aktera.iritgo.de/webservices/address")
-	public ListAddressPhoneNumbersResponse listAddressPhoneNumbers (ListAddressPhoneNumbersRequest request)
+	public ListAddressPhoneNumbersResponse listAddressPhoneNumbers(ListAddressPhoneNumbersRequest request)
 		throws Exception
 	{
-		ListAddressPhoneNumbersResponse response = new ListAddressPhoneNumbersResponse ();
-		AddressStore store = addressManager.getAddressStoreByName (request.getAddressStoreName ());
-		Option<Address> address = store.findAddressByDn (request.getAddressId ());
-		if (address.full ())
+		ListAddressPhoneNumbersResponse response = new ListAddressPhoneNumbersResponse();
+		AddressStore store = addressManager.getAddressStoreByName(request.getAddressStoreName());
+		Option<Address> address = store.findAddressByDn(request.getAddressId());
+		if (address.full())
 		{
-			for (PhoneNumber number : address.get ().getPhoneNumbers ())
+			for (PhoneNumber number : address.get().getPhoneNumbers())
 			{
-				ListAddressPhoneNumbersResponse.PhoneNumber numberElement = new ListAddressPhoneNumbersResponse.PhoneNumber ();
-				numberElement.setCategory (number.getCategory ());
-				numberElement.setDisplayNumber (number.getNumber ());
-				numberElement.setCanonicalNumber (number.getInternalNumber ());
-				response.getPhoneNumber ().add (numberElement);
+				ListAddressPhoneNumbersResponse.PhoneNumber numberElement = new ListAddressPhoneNumbersResponse.PhoneNumber();
+				numberElement.setCategory(number.getCategory());
+				numberElement.setDisplayNumber(number.getNumber());
+				numberElement.setCanonicalNumber(number.getInternalNumber());
+				response.getPhoneNumber().add(numberElement);
 			}
 		}
 		return response;
 	}
 
 	@PayloadRoot(localPart = "getAddressRequest", namespace = "http://aktera.iritgo.de/webservices/address")
-	public GetAddressResponse getAddress (GetAddressRequest request) throws Exception
+	public GetAddressResponse getAddress(GetAddressRequest request) throws Exception
 	{
-		String addressStoreName = StringTools.isNotTrimEmpty (request.getAddressStoreName ()) ? request
-						.getAddressStoreName () : addressManager.getDefaultAddressStore ().getName ();
-		String addressId = StringTools.trim (request.getAddressId ());
-		AddressStore store = addressManager.getAddressStoreByName (addressStoreName);
-		GetAddressResponse response = new GetAddressResponse ();
-		Option<Address> address = store.findAddressByDn (addressId);
-		if (address.full ())
+		String addressStoreName = StringTools.isNotTrimEmpty(request.getAddressStoreName()) ? request
+						.getAddressStoreName() : addressManager.getDefaultAddressStore().getName();
+		String addressId = StringTools.trim(request.getAddressId());
+		AddressStore store = addressManager.getAddressStoreByName(addressStoreName);
+		GetAddressResponse response = new GetAddressResponse();
+		Option<Address> address = store.findAddressByDn(addressId);
+		if (address.full())
 		{
-			de.iritgo.aktera.webservices.address.Address addressElement = new de.iritgo.aktera.webservices.address.Address ();
-			addressElement.setSalutation (address.get ().getSalutation ());
-			addressElement.setFirstName (address.get ().getFirstName ());
-			addressElement.setLastName (address.get ().getLastName ());
-			addressElement.setCompany (address.get ().getCompany ());
-			addressElement.setDivision (address.get ().getDivision ());
-			addressElement.setStreet (address.get ().getStreet ());
-			addressElement.setPostalCode (address.get ().getPostalCode ());
-			addressElement.setCity (address.get ().getCity ());
-			addressElement.setEmail (address.get ().getEmail ());
-			addressElement.setHomepage (address.get ().getWeb ());
-			addressElement.setContactNumber (address.get ().getContactNumber ());
-			addressElement.setCompanyNumber (address.get ().getCompanyNumber ());
-			addressElement.setPhoneNumberB (address.get ().getPhoneNumberByCategory ("B").getNumber ());
-			addressElement.setPhoneNumberBDD (address.get ().getPhoneNumberByCategory ("BDD").getNumber ());
-			addressElement.setPhoneNumberBF (address.get ().getPhoneNumberByCategory ("BF").getNumber ());
-			addressElement.setPhoneNumberBM (address.get ().getPhoneNumberByCategory ("BM").getNumber ());
-			addressElement.setPhoneNumberP (address.get ().getPhoneNumberByCategory ("P").getNumber ());
-			addressElement.setPhoneNumberPF (address.get ().getPhoneNumberByCategory ("PF").getNumber ());
-			addressElement.setPhoneNumberPM (address.get ().getPhoneNumberByCategory ("PM").getNumber ());
-			addressElement.setPhoneNumberVOIP (address.get ().getPhoneNumberByCategory ("VOIP").getNumber ());
-			addressElement.setRemark (address.get ().getRemark ());
-			response.setAddress (addressElement);
+			de.iritgo.aktera.webservices.address.Address addressElement = new de.iritgo.aktera.webservices.address.Address();
+			addressElement.setSalutation(address.get().getSalutation());
+			addressElement.setFirstName(address.get().getFirstName());
+			addressElement.setLastName(address.get().getLastName());
+			addressElement.setCompany(address.get().getCompany());
+			addressElement.setDivision(address.get().getDivision());
+			addressElement.setStreet(address.get().getStreet());
+			addressElement.setPostalCode(address.get().getPostalCode());
+			addressElement.setCity(address.get().getCity());
+			addressElement.setEmail(address.get().getEmail());
+			addressElement.setHomepage(address.get().getWeb());
+			addressElement.setContactNumber(address.get().getContactNumber());
+			addressElement.setCompanyNumber(address.get().getCompanyNumber());
+			addressElement.setPhoneNumberB(address.get().getPhoneNumberByCategory("B").getNumber());
+			addressElement.setPhoneNumberBDD(address.get().getPhoneNumberByCategory("BDD").getNumber());
+			addressElement.setPhoneNumberBF(address.get().getPhoneNumberByCategory("BF").getNumber());
+			addressElement.setPhoneNumberBM(address.get().getPhoneNumberByCategory("BM").getNumber());
+			addressElement.setPhoneNumberP(address.get().getPhoneNumberByCategory("P").getNumber());
+			addressElement.setPhoneNumberPF(address.get().getPhoneNumberByCategory("PF").getNumber());
+			addressElement.setPhoneNumberPM(address.get().getPhoneNumberByCategory("PM").getNumber());
+			addressElement.setPhoneNumberVOIP(address.get().getPhoneNumberByCategory("VOIP").getNumber());
+			addressElement.setRemark(address.get().getRemark());
+			response.setAddress(addressElement);
 		}
 		return response;
 	}
 
 	@PayloadRoot(localPart = "findAddressByPhoneNumberRequest", namespace = "http://aktera.iritgo.de/webservices/address")
-	public FindAddressByPhoneNumberResponse findAddressByPhoneNumber (FindAddressByPhoneNumberRequest request)
+	public FindAddressByPhoneNumberResponse findAddressByPhoneNumber(FindAddressByPhoneNumberRequest request)
 		throws Exception
 	{
-		FindAddressByPhoneNumberResponse response = new FindAddressByPhoneNumberResponse ();
-		Option<Address> address = addressManager.findAddressByPhoneNumber (request.getPhoneNumber ());
-		if (address.full ())
+		FindAddressByPhoneNumberResponse response = new FindAddressByPhoneNumberResponse();
+		Option<Address> address = addressManager.findAddressByPhoneNumber(request.getPhoneNumber());
+		if (address.full())
 		{
-			de.iritgo.aktera.webservices.address.Address addressElement = new de.iritgo.aktera.webservices.address.Address ();
-			addressElement.setSalutation (address.get ().getSalutation ());
-			addressElement.setFirstName (address.get ().getFirstName ());
-			addressElement.setLastName (address.get ().getLastName ());
-			addressElement.setCompany (address.get ().getCompany ());
-			addressElement.setDivision (address.get ().getDivision ());
-			addressElement.setStreet (address.get ().getStreet ());
-			addressElement.setPostalCode (address.get ().getPostalCode ());
-			addressElement.setCity (address.get ().getCity ());
-			addressElement.setEmail (address.get ().getEmail ());
-			addressElement.setHomepage (address.get ().getWeb ());
-			addressElement.setContactNumber (address.get ().getContactNumber ());
-			addressElement.setCompanyNumber (address.get ().getCompanyNumber ());
-			addressElement.setPhoneNumberB (address.get ().getPhoneNumberByCategory ("B").getNumber ());
-			addressElement.setPhoneNumberBDD (address.get ().getPhoneNumberByCategory ("BDD").getNumber ());
-			addressElement.setPhoneNumberBF (address.get ().getPhoneNumberByCategory ("BF").getNumber ());
-			addressElement.setPhoneNumberBM (address.get ().getPhoneNumberByCategory ("BM").getNumber ());
-			addressElement.setPhoneNumberP (address.get ().getPhoneNumberByCategory ("P").getNumber ());
-			addressElement.setPhoneNumberPF (address.get ().getPhoneNumberByCategory ("PF").getNumber ());
-			addressElement.setPhoneNumberPM (address.get ().getPhoneNumberByCategory ("PM").getNumber ());
-			addressElement.setPhoneNumberVOIP (address.get ().getPhoneNumberByCategory ("VOIP").getNumber ());
-			addressElement.setRemark (address.get ().getRemark ());
-			response.setAddress (addressElement);
+			de.iritgo.aktera.webservices.address.Address addressElement = new de.iritgo.aktera.webservices.address.Address();
+			addressElement.setSalutation(address.get().getSalutation());
+			addressElement.setFirstName(address.get().getFirstName());
+			addressElement.setLastName(address.get().getLastName());
+			addressElement.setCompany(address.get().getCompany());
+			addressElement.setDivision(address.get().getDivision());
+			addressElement.setStreet(address.get().getStreet());
+			addressElement.setPostalCode(address.get().getPostalCode());
+			addressElement.setCity(address.get().getCity());
+			addressElement.setEmail(address.get().getEmail());
+			addressElement.setHomepage(address.get().getWeb());
+			addressElement.setContactNumber(address.get().getContactNumber());
+			addressElement.setCompanyNumber(address.get().getCompanyNumber());
+			addressElement.setPhoneNumberB(address.get().getPhoneNumberByCategory("B").getNumber());
+			addressElement.setPhoneNumberBDD(address.get().getPhoneNumberByCategory("BDD").getNumber());
+			addressElement.setPhoneNumberBF(address.get().getPhoneNumberByCategory("BF").getNumber());
+			addressElement.setPhoneNumberBM(address.get().getPhoneNumberByCategory("BM").getNumber());
+			addressElement.setPhoneNumberP(address.get().getPhoneNumberByCategory("P").getNumber());
+			addressElement.setPhoneNumberPF(address.get().getPhoneNumberByCategory("PF").getNumber());
+			addressElement.setPhoneNumberPM(address.get().getPhoneNumberByCategory("PM").getNumber());
+			addressElement.setPhoneNumberVOIP(address.get().getPhoneNumberByCategory("VOIP").getNumber());
+			addressElement.setRemark(address.get().getRemark());
+			response.setAddress(addressElement);
 		}
 		return response;
 	}

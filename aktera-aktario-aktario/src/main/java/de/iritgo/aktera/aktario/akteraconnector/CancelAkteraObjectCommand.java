@@ -36,23 +36,23 @@ public class CancelAkteraObjectCommand extends DataObjectCommand
 	/**
 	 * Create a new startup command.
 	 */
-	public CancelAkteraObjectCommand ()
+	public CancelAkteraObjectCommand()
 	{
-		super ("CancelAkteraObjectCommand");
-		properties = new Properties ();
+		super("CancelAkteraObjectCommand");
+		properties = new Properties();
 	}
 
 	/**
 	 *
 	 */
-	public void perform ()
+	public void perform()
 	{
-		IDisplay display = (IDisplay) Client.instance ().getClientGUI ().getDesktopManager ().getDisplay (
-						swingGUIPane.getOnScreenUniqueId ());
+		IDisplay display = (IDisplay) Client.instance().getClientGUI().getDesktopManager().getDisplay(
+						swingGUIPane.getOnScreenUniqueId());
 
-		OtherJDesktopPane odp = (OtherJDesktopPane) ((SwingDesktopManager) Client.instance ().getClientGUI ()
-						.getDesktopManager ()).getDesktopPane (display.getDesktopId ());
+		OtherJDesktopPane odp = (OtherJDesktopPane) ((SwingDesktopManager) Client.instance().getClientGUI()
+						.getDesktopManager()).getDesktopPane(display.getDesktopId());
 
-		odp.closeAll ();
+		odp.closeAll();
 	}
 }

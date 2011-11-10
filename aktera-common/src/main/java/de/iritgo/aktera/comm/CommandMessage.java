@@ -35,7 +35,7 @@ import java.util.Map;
  */
 public class CommandMessage extends AbstractMessageResponseElement implements Command, Serializable
 {
-	private Map params = new HashMap ();
+	private Map params = new HashMap();
 
 	private String myModel = null;
 
@@ -45,40 +45,40 @@ public class CommandMessage extends AbstractMessageResponseElement implements Co
 
 	private String myBean = null;
 
-	public CommandMessage ()
+	public CommandMessage()
 	{
 	}
 
-	public CommandMessage (Command c)
+	public CommandMessage(Command c)
 	{
-		super.copyFrom (c);
-		setName (c.getName ());
-		setModel (c.getModel ());
-		setBean (c.getBean ());
+		super.copyFrom(c);
+		setName(c.getName());
+		setModel(c.getModel());
+		setBean(c.getBean());
 
 		String oneParamKey = null;
-		Map myParams = c.getParameters ();
+		Map myParams = c.getParameters();
 
-		for (Iterator i = myParams.keySet ().iterator (); i.hasNext ();)
+		for (Iterator i = myParams.keySet().iterator(); i.hasNext();)
 		{
-			oneParamKey = (String) i.next ();
-			setParameter (oneParamKey, myParams.get (oneParamKey));
+			oneParamKey = (String) i.next();
+			setParameter(oneParamKey, myParams.get(oneParamKey));
 		}
 
-		setLabel (c.getLabel ());
+		setLabel(c.getLabel());
 	}
 
-	public void setModel (String newModel)
+	public void setModel(String newModel)
 	{
 		myModel = newModel;
 	}
 
-	public String getModel ()
+	public String getModel()
 	{
 		return myModel;
 	}
 
-	public void setParameter (String param, Object value)
+	public void setParameter(String param, Object value)
 	{
 		if (value == null)
 		{
@@ -87,7 +87,7 @@ public class CommandMessage extends AbstractMessageResponseElement implements Co
 
 		if (! (value instanceof Serializable))
 		{
-			throw new IllegalArgumentException ("Parameter " + param + " not serializable");
+			throw new IllegalArgumentException("Parameter " + param + " not serializable");
 		}
 
 		//         if ((!value.getClass().getName().startsWith("java.lang"))
@@ -99,51 +99,51 @@ public class CommandMessage extends AbstractMessageResponseElement implements Co
 		//                     + param
 		//                     + "' is not allowed");
 		//         }
-		params.put (param, value);
+		params.put(param, value);
 	}
 
-	public Map getParameters ()
+	public Map getParameters()
 	{
 		return params;
 	}
 
-	public ModelResponse execute (ModelRequest req, ModelResponse res) throws ModelException
+	public ModelResponse execute(ModelRequest req, ModelResponse res) throws ModelException
 	{
-		return execute (req, res, false, false);
+		return execute(req, res, false, false);
 	}
 
-	public ModelResponse execute (ModelRequest req, ModelResponse res, boolean includeParams,
+	public ModelResponse execute(ModelRequest req, ModelResponse res, boolean includeParams,
 					boolean includeResponseElements) throws ModelException
 	{
-		throw new ModelException ("Not implemented");
+		throw new ModelException("Not implemented");
 	}
 
-	public void setLabel (String newLabel)
+	public void setLabel(String newLabel)
 	{
 		myLabel = newLabel;
 	}
 
-	public String getLabel ()
+	public String getLabel()
 	{
 		return myLabel;
 	}
 
-	public void setRelativeMovement (int numberOfSteps)
+	public void setRelativeMovement(int numberOfSteps)
 	{
 		moveRelativeSteps = numberOfSteps;
 	}
 
-	public int getRelativeMovement ()
+	public int getRelativeMovement()
 	{
 		return moveRelativeSteps;
 	}
 
-	public String getBean ()
+	public String getBean()
 	{
 		return myBean;
 	}
 
-	public void setBean (String bean)
+	public void setBean(String bean)
 	{
 		myBean = bean;
 	}

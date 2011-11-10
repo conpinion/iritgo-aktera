@@ -38,74 +38,74 @@ import java.util.Map;
 public class ModuleUpdateHandler extends UpdateHandler
 {
 	@Override
-	public void updateDatabase (ModelRequest req, Logger logger, Connection connection, PersistentFactory pf,
+	public void updateDatabase(ModelRequest req, Logger logger, Connection connection, PersistentFactory pf,
 					ModuleVersion currentVersion, ModuleVersion newVersion) throws Exception
 	{
-		if (currentVersion.between ("1.5.14", "2.1.1"))
+		if (currentVersion.between("1.5.14", "2.1.1"))
 		{
 			// Add primary key attribute to AkteraGroupEntry.
-			createKeelIdColumn ("AkteraGroupEntry");
+			createKeelIdColumn("AkteraGroupEntry");
 
 			// New configuration entries
-			createSystemConfigEntryWithKeelId ("tb2", "webAppUrlAuto", "B", "true");
-			createSystemConfigEntryWithKeelId ("tb2", "logLevel", "C", "INFO", "FATAL_ERROR|ERROR|WARN|INFO|DEBUG");
-			createSystemConfigEntryWithKeelId ("tb2", "tcpipForwarding", "B", "false");
-			createSystemConfigEntryWithKeelId ("tb2", "enableWebAppRestart", "B", "false");
-			createSystemConfigEntryWithKeelId ("tb2", "webAppRestartTime", "T", "02:30:00");
+			createSystemConfigEntryWithKeelId("tb2", "webAppUrlAuto", "B", "true");
+			createSystemConfigEntryWithKeelId("tb2", "logLevel", "C", "INFO", "FATAL_ERROR|ERROR|WARN|INFO|DEBUG");
+			createSystemConfigEntryWithKeelId("tb2", "tcpipForwarding", "B", "false");
+			createSystemConfigEntryWithKeelId("tb2", "enableWebAppRestart", "B", "false");
+			createSystemConfigEntryWithKeelId("tb2", "webAppRestartTime", "T", "02:30:00");
 
 			// Security table clean up.
-			deleteComponentSecurity ("de.buerobyte.aktera.tools.DeleteConfirm", "user");
-			deleteComponentSecurity ("de.buerobyte.aktera.importer.Import", "manager");
-			deleteComponentSecurity ("de.buerobyte.aktera.importer.ImportReport", "manager");
-			deleteComponentSecurity ("de.buerobyte.aktera.importer.ImportAnalyseReport", "manager");
+			deleteComponentSecurity("de.buerobyte.aktera.tools.DeleteConfirm", "user");
+			deleteComponentSecurity("de.buerobyte.aktera.importer.Import", "manager");
+			deleteComponentSecurity("de.buerobyte.aktera.importer.ImportReport", "manager");
+			deleteComponentSecurity("de.buerobyte.aktera.importer.ImportAnalyseReport", "manager");
 
-			currentVersion.setVersion ("2.1.1");
+			currentVersion.setVersion("2.1.1");
 		}
 
-		if (currentVersion.between ("2.1.1", "2.1.2"))
+		if (currentVersion.between("2.1.1", "2.1.2"))
 		{
-			currentVersion.setVersion ("2.1.2");
+			currentVersion.setVersion("2.1.2");
 		}
 
-		if (currentVersion.lessThan ("2.2.1"))
+		if (currentVersion.lessThan("2.2.1"))
 		{
-			update ("DELETE FROM ids where table_name = 'TestObject'");
+			update("DELETE FROM ids where table_name = 'TestObject'");
 
-			for (Map<String, Object> row : (List<Map<String, Object>>) query (
-							"SELECT Component, GroupName FROM ComponentSecurity", new MapListHandler ()))
+			for (Map<String, Object> row : (List<Map<String, Object>>) query(
+							"SELECT Component, GroupName FROM ComponentSecurity", new MapListHandler()))
 			{
-				String component = (String) row.get ("Component");
+				String component = (String) row.get("Component");
 
-				if (component.startsWith ("de.buerobyte.aktera."))
+				if (component.startsWith("de.buerobyte.aktera."))
 				{
-					String newComponent = "de.iritgo.aktera." + component.substring (20);
+					String newComponent = "de.iritgo.aktera." + component.substring(20);
 
-					update ("UPDATE ComponentSecurity SET Component = '" + newComponent + "' WHERE Component = '"
-									+ component + "' AND GroupName = '" + row.get ("GroupName") + "'");
+					update("UPDATE ComponentSecurity SET Component = '" + newComponent + "' WHERE Component = '"
+									+ component + "' AND GroupName = '" + row.get("GroupName") + "'");
 				}
 			}
 
-			update ("UPDATE InstanceSecurity SET Component = 'de.iritgo.aktera.persist.defaultpersist.DefaultPersistent' where Component = 'org.keel.services.persist.defaultpersist.DefaultPersistent'");
+			update("UPDATE InstanceSecurity SET Component = 'de.iritgo.aktera.persist.defaultpersist.DefaultPersistent' where Component = 'org.keel.services.persist.defaultpersist.DefaultPersistent'");
 
-			update ("UPDATE InvokationSecurity SET Component = 'de.iritgo.aktera.persist.defaultpersist.RowSecurablePersistent' where Component = 'org.keel.services.persist.defaultpersist.RowSecurablePersistent'");
+			update("UPDATE InvokationSecurity SET Component = 'de.iritgo.aktera.persist.defaultpersist.RowSecurablePersistent' where Component = 'org.keel.services.persist.defaultpersist.RowSecurablePersistent'");
 
-			deleteComponentSecurity ("de.iritgo.aktera.tools.Menu", "user");
-			createComponentSecurity ("de.iritgo.aktera.base.tools.Menu", "user", "*");
+			deleteComponentSecurity("de.iritgo.aktera.tools.Menu", "user");
+			createComponentSecurity("de.iritgo.aktera.base.tools.Menu", "user", "*");
 
-			update ("UPDATE AktarioUserPreferences set colorScheme='com.jgoodies.looks.plastic.theme.KDE' where colorScheme='BueroByte'");
+			update("UPDATE AktarioUserPreferences set colorScheme='com.jgoodies.looks.plastic.theme.KDE' where colorScheme='BueroByte'");
 
-			currentVersion.setVersion ("2.2.1");
+			currentVersion.setVersion("2.2.1");
 		}
 
-		if (currentVersion.lessThan ("2.3.1"))
+		if (currentVersion.lessThan("2.3.1"))
 		{
-			Integer userGroupId = selectInt ("AkteraGroup", "id", "name = '" + AkteraGroup.GROUP_NAME_USER + "'");
-			insert ("Permission", "principalId", userGroupId.toString (), "principalType", "'G'", "permission",
+			Integer userGroupId = selectInt("AkteraGroup", "id", "name = '" + AkteraGroup.GROUP_NAME_USER + "'");
+			insert("Permission", "principalId", userGroupId.toString(), "principalType", "'G'", "permission",
 							"'de.iritgo.aktera.client.login'", "negative", "false");
-			insert ("Permission", "principalId", userGroupId.toString (), "principalType", "'G'", "permission",
+			insert("Permission", "principalId", userGroupId.toString(), "principalType", "'G'", "permission",
 							"'de.iritgo.aktera.web.login'", "negative", "false");
 
-			currentVersion.setVersion ("2.3.1");
+			currentVersion.setVersion("2.3.1");
 		}
 	}
 }

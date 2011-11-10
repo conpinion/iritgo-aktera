@@ -39,31 +39,20 @@ public class AkteraTrayIcon extends TrayIcon
 	/**
 	 * @param image
 	 */
-	public AkteraTrayIcon (Image image)
+	public AkteraTrayIcon(Image image)
 	{
-		super (image);
-		init ();
+		super(image);
+		init();
 	}
 
 	/**
 	 * @param image
 	 * @param tooltip
 	 */
-	public AkteraTrayIcon (Image image, String tooltip)
+	public AkteraTrayIcon(Image image, String tooltip)
 	{
-		super (image, tooltip);
-		init ();
-	}
-
-	/**
-	 * @param image
-	 * @param tooltip
-	 * @param popup
-	 */
-	public AkteraTrayIcon (Image image, String tooltip, PopupMenu popup)
-	{
-		super (image, tooltip, popup);
-		init ();
+		super(image, tooltip);
+		init();
 	}
 
 	/**
@@ -71,17 +60,28 @@ public class AkteraTrayIcon extends TrayIcon
 	 * @param tooltip
 	 * @param popup
 	 */
-	public AkteraTrayIcon (Image image, String tooltip, JPopupMenu popup)
+	public AkteraTrayIcon(Image image, String tooltip, PopupMenu popup)
 	{
-		super (image, tooltip);
-		setJPopupMenu (popup);
-		init ();
+		super(image, tooltip, popup);
+		init();
+	}
+
+	/**
+	 * @param image
+	 * @param tooltip
+	 * @param popup
+	 */
+	public AkteraTrayIcon(Image image, String tooltip, JPopupMenu popup)
+	{
+		super(image, tooltip);
+		setJPopupMenu(popup);
+		init();
 	}
 
 	/**
 	 * @return
 	 */
-	public JPopupMenu getJPopupMenu ()
+	public JPopupMenu getJPopupMenu()
 	{
 		return jPopupMenu;
 	}
@@ -89,34 +89,34 @@ public class AkteraTrayIcon extends TrayIcon
 	/**
 	 * @param popupMenu
 	 */
-	public void setJPopupMenu (JPopupMenu popupMenu)
+	public void setJPopupMenu(JPopupMenu popupMenu)
 	{
 		jPopupMenu = popupMenu;
 	}
 
-	protected void init ()
+	protected void init()
 	{
-		addMouseListener (new MouseAdapter ()
+		addMouseListener(new MouseAdapter()
 		{
 			@Override
-			public void mousePressed (MouseEvent e)
+			public void mousePressed(MouseEvent e)
 			{
-				if (e.isPopupTrigger () && jPopupMenu != null)
+				if (e.isPopupTrigger() && jPopupMenu != null)
 				{
-					jPopupMenu.setLocation (e.getX (), e.getY ());
-					jPopupMenu.setInvoker (jPopupMenu);
-					jPopupMenu.setVisible (true);
+					jPopupMenu.setLocation(e.getX(), e.getY());
+					jPopupMenu.setInvoker(jPopupMenu);
+					jPopupMenu.setVisible(true);
 				}
 			}
 
 			@Override
-			public void mouseReleased (MouseEvent e)
+			public void mouseReleased(MouseEvent e)
 			{
-				if (e.isPopupTrigger () && jPopupMenu != null)
+				if (e.isPopupTrigger() && jPopupMenu != null)
 				{
-					jPopupMenu.setLocation (e.getX (), e.getY ());
-					jPopupMenu.setInvoker (jPopupMenu);
-					jPopupMenu.setVisible (true);
+					jPopupMenu.setLocation(e.getX(), e.getY());
+					jPopupMenu.setInvoker(jPopupMenu);
+					jPopupMenu.setVisible(true);
 				}
 			}
 		});

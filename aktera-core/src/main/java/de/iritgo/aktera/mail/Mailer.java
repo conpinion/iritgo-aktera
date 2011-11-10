@@ -46,21 +46,21 @@ public interface Mailer
 	 * @param address A standard address, or a comma-separated list of addresses
 	 * @throws NestedException
 	 */
-	public void setToAddress (String address) throws NestedException;
+	public void setToAddress(String address) throws NestedException;
 
 	/**
 	 * Set the addresses to send email to
 	 * @param addresses An array of String addresses
 	 * @throws NestedException
 	 */
-	public void setToAddress (String[] addresses) throws NestedException;
+	public void setToAddress(String[] addresses) throws NestedException;
 
 	/**
 	 * Set the address of the sender of the email
 	 * @param address
 	 * @throws NestedException
 	 */
-	public void setFromAddress (String address) throws NestedException;
+	public void setFromAddress(String address) throws NestedException;
 
 	/**
 	 * Set the reply-to header in the email, usually if different from the
@@ -69,7 +69,7 @@ public interface Mailer
 	 * @param address
 	 * @throws NestedException
 	 */
-	public void setReplyToAddress (String address) throws NestedException;
+	public void setReplyToAddress(String address) throws NestedException;
 
 	/**
 	 * Set multiple reply-to addresses
@@ -77,7 +77,7 @@ public interface Mailer
 	 * @param addresses
 	 * @throws NestedException
 	 */
-	public void setReplyToAddress (String[] addresses) throws NestedException;
+	public void setReplyToAddress(String[] addresses) throws NestedException;
 
 	/**
 	 * Set the carbon-copy address for this email
@@ -85,7 +85,7 @@ public interface Mailer
 	 * @param address
 	 * @throws NestedException
 	 */
-	public void setCcAddress (String address) throws NestedException;
+	public void setCcAddress(String address) throws NestedException;
 
 	/**
 	 * Set multiple carbon-copy addresses
@@ -93,7 +93,7 @@ public interface Mailer
 	 * @param addresses
 	 * @throws NestedException
 	 */
-	public void setCcAddress (String[] addresses) throws NestedException;
+	public void setCcAddress(String[] addresses) throws NestedException;
 
 	/**
 	 * Set the blind-carbon-copy addresses for this email
@@ -101,7 +101,7 @@ public interface Mailer
 	 * @param address
 	 * @throws NestedException
 	 */
-	public void setBccAddress (String address) throws NestedException;
+	public void setBccAddress(String address) throws NestedException;
 
 	/**
 	 * Set multiple blibd-carbon-copy addresses
@@ -109,7 +109,7 @@ public interface Mailer
 	 * @param addresses
 	 * @throws NestedException
 	 */
-	public void setBccAddress (String[] addresses) throws NestedException;
+	public void setBccAddress(String[] addresses) throws NestedException;
 
 	/**
 	 * Set the subject of the email
@@ -117,7 +117,7 @@ public interface Mailer
 	 * @param subject
 	 * @throws NestedException
 	 */
-	public void setSubject (String subject) throws NestedException;
+	public void setSubject(String subject) throws NestedException;
 
 	/**
 	 * Set an arbitrary header
@@ -126,7 +126,7 @@ public interface Mailer
 	 * @param value
 	 * @throws NestedException
 	 */
-	public void setHeader (String name, String value) throws NestedException;
+	public void setHeader(String name, String value) throws NestedException;
 
 	/**
 	 * Set the text content of the email, weill be sent as first attachment
@@ -134,7 +134,7 @@ public interface Mailer
 	 * @param message
 	 * @throws NestedException
 	 */
-	public void setMessage (String message) throws NestedException;
+	public void setMessage(String message) throws NestedException;
 
 	/**
 	 * Add a MIME attachment, MIME-type will be determined automatically by the
@@ -143,7 +143,7 @@ public interface Mailer
 	 * @param fileName
 	 * @throws NestedException
 	 */
-	public void addMIMEAttachment (String fileName) throws NestedException;
+	public void addMIMEAttachment(String fileName) throws NestedException;
 
 	/**
 	 * Add multiple MIME attachments
@@ -151,14 +151,14 @@ public interface Mailer
 	 * @param fileNames
 	 * @throws NestedException
 	 */
-	public void addMIMEAttachment (String[] fileNames) throws NestedException;
+	public void addMIMEAttachment(String[] fileNames) throws NestedException;
 
 	/**
 	 * Send the email to the mail-server
 	 *
 	 * @throws NestedException
 	 */
-	public void send () throws NestedException;
+	public void send() throws NestedException;
 
 	/**
 	 * Send mail to a different host with a different user and password
@@ -166,5 +166,5 @@ public interface Mailer
 	 * @param user
 	 * @param password
 	 */
-	public void send (String host, String user, String password) throws NestedException;
+	public void send(String host, String user, String password) throws NestedException;
 }

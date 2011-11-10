@@ -77,7 +77,7 @@ public class Email
 	/**
 	 * Create a new Email.
 	 */
-	public Email ()
+	public Email()
 	{
 	}
 
@@ -88,7 +88,7 @@ public class Email
 	 * @param from The sender email address
 	 * @param to The receiver email address
 	 */
-	public Email (String serverUrl, String from, String to)
+	public Email(String serverUrl, String from, String to)
 	{
 		this.mailHost = serverUrl;
 		this.from = from;
@@ -100,7 +100,7 @@ public class Email
 	 *
 	 * @param mailHost The mail server URL
 	 */
-	public void setMailHost (String mailHost)
+	public void setMailHost(String mailHost)
 	{
 		this.mailHost = mailHost;
 	}
@@ -110,7 +110,7 @@ public class Email
 	 *
 	 * @return The mail server URL
 	 */
-	public String getMailHost ()
+	public String getMailHost()
 	{
 		return mailHost;
 	}
@@ -120,7 +120,7 @@ public class Email
 	 *
 	 * @param subject The email subject
 	 */
-	public void setSubject (String subject)
+	public void setSubject(String subject)
 	{
 		this.subject = subject;
 	}
@@ -130,7 +130,7 @@ public class Email
 	 *
 	 * @return The email subject
 	 */
-	public String getSubject ()
+	public String getSubject()
 	{
 		return subject;
 	}
@@ -140,7 +140,7 @@ public class Email
 	 *
 	 * @return The sender name
 	 */
-	public String getName ()
+	public String getName()
 	{
 		return name;
 	}
@@ -150,7 +150,7 @@ public class Email
 	 *
 	 * @param name The sender name
 	 */
-	public void setName (String name)
+	public void setName(String name)
 	{
 		this.name = name;
 	}
@@ -160,7 +160,7 @@ public class Email
 	 *
 	 * @return The sender address
 	 */
-	public String getFrom ()
+	public String getFrom()
 	{
 		return from;
 	}
@@ -170,7 +170,7 @@ public class Email
 	 *
 	 * @param from The sender address
 	 */
-	public void setFrom (String from)
+	public void setFrom(String from)
 	{
 		this.from = from;
 	}
@@ -180,7 +180,7 @@ public class Email
 	 *
 	 * @return The receiver address
 	 */
-	public String getTo ()
+	public String getTo()
 	{
 		return to;
 	}
@@ -190,7 +190,7 @@ public class Email
 	 *
 	 * @param to The receiver address
 	 */
-	public void setTo (String to)
+	public void setTo(String to)
 	{
 		this.to = to;
 	}
@@ -200,7 +200,7 @@ public class Email
 	 *
 	 * @return The carbon copy address
 	 */
-	public String getCC ()
+	public String getCC()
 	{
 		return cc;
 	}
@@ -210,7 +210,7 @@ public class Email
 	 *
 	 * @param to The carbon copy address
 	 */
-	public void setCC (String cc)
+	public void setCC(String cc)
 	{
 		this.cc = cc;
 	}
@@ -220,7 +220,7 @@ public class Email
 	 *
 	 * @return The email body
 	 */
-	public String getBody ()
+	public String getBody()
 	{
 		return body;
 	}
@@ -230,7 +230,7 @@ public class Email
 	 *
 	 * @param body The email body
 	 */
-	public void setBody (String body)
+	public void setBody(String body)
 	{
 		this.body = body;
 	}
@@ -240,7 +240,7 @@ public class Email
 	 *
 	 * @return The authentication name
 	 */
-	public String getAuthName ()
+	public String getAuthName()
 	{
 		return authName;
 	}
@@ -250,7 +250,7 @@ public class Email
 	 *
 	 * @param authName The authentication name
 	 */
-	public void setAuthName (String authName)
+	public void setAuthName(String authName)
 	{
 		this.authName = authName;
 	}
@@ -260,7 +260,7 @@ public class Email
 	 *
 	 * @return The name
 	 */
-	public String getReplyToName ()
+	public String getReplyToName()
 	{
 		return replyToName;
 	}
@@ -270,7 +270,7 @@ public class Email
 	 *
 	 * @param replyToName The name
 	 */
-	public void setReplyToName (String replyToName)
+	public void setReplyToName(String replyToName)
 	{
 		this.replyToName = replyToName;
 	}
@@ -280,7 +280,7 @@ public class Email
 	 *
 	 * @return The authentication password
 	 */
-	public String getAuthPassword ()
+	public String getAuthPassword()
 	{
 		return authPassword;
 	}
@@ -290,7 +290,7 @@ public class Email
 	 *
 	 * @param authPassword The authentication password
 	 */
-	public void setAuthPassword (String authPassword)
+	public void setAuthPassword(String authPassword)
 	{
 		this.authPassword = authPassword;
 	}
@@ -300,7 +300,7 @@ public class Email
 	 *
 	 * @return The attachment file name
 	 */
-	public String getAttachmentFileName ()
+	public String getAttachmentFileName()
 	{
 		return attachmentFileName;
 	}
@@ -310,7 +310,7 @@ public class Email
 	 *
 	 * @param attachmentFileName The attachment file name
 	 */
-	public void setAttachmentFileName (String attachmentFilename)
+	public void setAttachmentFileName(String attachmentFilename)
 	{
 		this.attachmentFileName = attachmentFilename;
 	}
@@ -320,7 +320,7 @@ public class Email
 	 *
 	 * @return The attachment name
 	 */
-	public String getAttachmentName ()
+	public String getAttachmentName()
 	{
 		return attachmentName;
 	}
@@ -330,7 +330,7 @@ public class Email
 	 *
 	 * @param attachmentName The attachment name
 	 */
-	public void setAttachmentName (String attachmentName)
+	public void setAttachmentName(String attachmentName)
 	{
 		this.attachmentName = attachmentName;
 	}
@@ -340,7 +340,7 @@ public class Email
 	 *
 	 * @return The attachment description
 	 */
-	public String getAttachmentDescription ()
+	public String getAttachmentDescription()
 	{
 		return attachmentDescription;
 	}
@@ -350,7 +350,7 @@ public class Email
 	 *
 	 * @param attachmentDescription The new attachment description
 	 */
-	public void setAttachmentDescription (String attachmentDesc)
+	public void setAttachmentDescription(String attachmentDesc)
 	{
 		this.attachmentDescription = attachmentDesc;
 	}
@@ -358,7 +358,7 @@ public class Email
 	/**
 	 * Fluent interface.
 	 */
-	public Email from (String address, String name)
+	public Email from(String address, String name)
 	{
 		this.from = address;
 		this.name = name;
@@ -369,7 +369,7 @@ public class Email
 	/**
 	 * Fluent interface.
 	 */
-	public Email to (String address)
+	public Email to(String address)
 	{
 		this.to = address;
 
@@ -379,7 +379,7 @@ public class Email
 	/**
 	 * Fluent interface.
 	 */
-	public Email to (String address, String name)
+	public Email to(String address, String name)
 	{
 		this.to = address;
 		this.toName = name;
@@ -390,7 +390,7 @@ public class Email
 	/**
 	 * Fluent interface.
 	 */
-	public Email withSubject (String subject)
+	public Email withSubject(String subject)
 	{
 		this.subject = subject;
 
@@ -400,7 +400,7 @@ public class Email
 	/**
 	 * Fluent interface.
 	 */
-	public Email andBody (String body)
+	public Email andBody(String body)
 	{
 		this.body = body;
 
@@ -410,7 +410,7 @@ public class Email
 	/**
 	 * Fluent interface.
 	 */
-	public Email via (String mailHost)
+	public Email via(String mailHost)
 	{
 		this.mailHost = mailHost;
 
@@ -420,7 +420,7 @@ public class Email
 	/**
 	 * Fluent interface.
 	 */
-	public Email authenticatedBy (String authName, String authPassword)
+	public Email authenticatedBy(String authName, String authPassword)
 	{
 		this.authName = authName;
 		this.authPassword = authPassword;
@@ -431,7 +431,7 @@ public class Email
 	/**
 	 * Fluent interface.
 	 */
-	public Email attach (String attachmentFileName, String attachmentName, String attachmentDescription)
+	public Email attach(String attachmentFileName, String attachmentName, String attachmentDescription)
 	{
 		this.attachmentFileName = attachmentFileName;
 		this.attachmentName = attachmentName;
@@ -443,9 +443,9 @@ public class Email
 	/**
 	 * Fluent interface.
 	 */
-	public Email attach (File attachmentFileName, String attachmentName, String attachmentDescription)
+	public Email attach(File attachmentFileName, String attachmentName, String attachmentDescription)
 	{
-		this.attachmentFileName = attachmentFileName.getAbsolutePath ();
+		this.attachmentFileName = attachmentFileName.getAbsolutePath();
 		this.attachmentName = attachmentName;
 		this.attachmentDescription = attachmentDescription;
 
@@ -458,7 +458,7 @@ public class Email
 	 * @param smtpPort The smtp port
 	 * @return The email Object
 	 */
-	public Email port (String smtpPort)
+	public Email port(String smtpPort)
 	{
 		this.port = smtpPort;
 
@@ -468,7 +468,7 @@ public class Email
 	/**
 	 * @return The cc
 	 */
-	public String getCc ()
+	public String getCc()
 	{
 		return cc;
 	}
@@ -478,7 +478,7 @@ public class Email
 	 *
 	 * @param cc
 	 */
-	public void setCc (String cc)
+	public void setCc(String cc)
 	{
 		this.cc = cc;
 	}
@@ -486,7 +486,7 @@ public class Email
 	/**
 	 * @return The port
 	 */
-	public String getPort ()
+	public String getPort()
 	{
 		return port;
 	}
@@ -496,7 +496,7 @@ public class Email
 	 *
 	 * @param port
 	 */
-	public void setPort (String port)
+	public void setPort(String port)
 	{
 		this.port = port;
 	}
@@ -504,7 +504,7 @@ public class Email
 	/**
 	 * @return reply to
 	 */
-	public String getReplyTo ()
+	public String getReplyTo()
 	{
 		return replyTo;
 	}
@@ -513,7 +513,7 @@ public class Email
 	 * Set reply to
 	 * @return reply to
 	 */
-	public void setReplyToTo (String replyTo)
+	public void setReplyToTo(String replyTo)
 	{
 		this.replyTo = replyTo;
 	}
@@ -524,7 +524,7 @@ public class Email
 	 * @param replyTo The replyto
 	 * @return The email Object
 	 */
-	public Email replyTo (String replyTo, String replyToName)
+	public Email replyTo(String replyTo, String replyToName)
 	{
 		this.replyTo = replyTo;
 		this.replyToName = replyToName;
@@ -537,7 +537,7 @@ public class Email
 	 *
 	 * @return The name
 	 */
-	public String getToName ()
+	public String getToName()
 	{
 		return toName;
 	}

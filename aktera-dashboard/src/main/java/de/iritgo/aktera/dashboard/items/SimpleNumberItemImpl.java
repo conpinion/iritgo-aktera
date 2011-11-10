@@ -28,7 +28,7 @@ public class SimpleNumberItemImpl extends AbstractDashboardItem implements Simpl
 	/**
 	 * @see de.iritgo.aktera.dashboard.items.SimpleNumberItem#getMaxValue()
 	 */
-	public int getMaxValue ()
+	public int getMaxValue()
 	{
 		return 0;
 	}
@@ -36,7 +36,7 @@ public class SimpleNumberItemImpl extends AbstractDashboardItem implements Simpl
 	/**
 	 * @see de.iritgo.aktera.dashboard.items.SimpleNumberItem#getMeasuringUnit()
 	 */
-	public String getMeasuringUnit ()
+	public String getMeasuringUnit()
 	{
 		return null;
 	}
@@ -44,7 +44,7 @@ public class SimpleNumberItemImpl extends AbstractDashboardItem implements Simpl
 	/**
 	 * @see de.iritgo.aktera.dashboard.items.SimpleNumberItem#getValue()
 	 */
-	public int getValue ()
+	public int getValue()
 	{
 		return 0;
 	}
@@ -52,7 +52,7 @@ public class SimpleNumberItemImpl extends AbstractDashboardItem implements Simpl
 	/**
 	 * @see de.iritgo.aktera.dashboard.items.SimpleNumberItem#isGreenValue(int)
 	 */
-	public boolean isGreenValue (int value)
+	public boolean isGreenValue(int value)
 	{
 		return false;
 	}
@@ -60,7 +60,7 @@ public class SimpleNumberItemImpl extends AbstractDashboardItem implements Simpl
 	/**
 	 * @see de.iritgo.aktera.dashboard.items.SimpleNumberItem#isRedValue(int)
 	 */
-	public boolean isRedValue (int value)
+	public boolean isRedValue(int value)
 	{
 		return false;
 	}
@@ -68,27 +68,27 @@ public class SimpleNumberItemImpl extends AbstractDashboardItem implements Simpl
 	/**
 	 * @see de.iritgo.aktera.dashboard.items.SimpleNumberItem#isYellowValue(int)
 	 */
-	public boolean isYellowValue (int value)
+	public boolean isYellowValue(int value)
 	{
 		return false;
 	}
 
-	public void generate (GroupVisitor boxAttributeVisitor)
+	public void generate(GroupVisitor boxAttributeVisitor)
 	{
-		boxAttributeVisitor.generate (this);
+		boxAttributeVisitor.generate(this);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.dashboard.DashboardItem#update()
 	 */
-	public void update ()
+	public void update()
 	{
 	}
 
 	/**
 	 * @see de.iritgo.aktera.dashboard.DashboardItem#getRenderFile()
 	 */
-	public String getRenderFile ()
+	public String getRenderFile()
 	{
 		return "/aktera/dashboard/items/simple-number-item.jsp";
 	}

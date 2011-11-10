@@ -32,7 +32,7 @@ public class Ids implements Serializable
 	/**
 	 * @return
 	 */
-	public Integer getNext_id ()
+	public Integer getNext_id()
 	{
 		return next_id;
 	}
@@ -40,7 +40,7 @@ public class Ids implements Serializable
 	/**
 	 * @param next_id
 	 */
-	public void setNext_id (Integer next_id)
+	public void setNext_id(Integer next_id)
 	{
 		this.next_id = next_id;
 	}
@@ -48,7 +48,7 @@ public class Ids implements Serializable
 	/**
 	 * @return
 	 */
-	public String getTable_name ()
+	public String getTable_name()
 	{
 		return table_name;
 	}
@@ -56,7 +56,7 @@ public class Ids implements Serializable
 	/**
 	 * @param table_name
 	 */
-	public void setTable_name (String table_name)
+	public void setTable_name(String table_name)
 	{
 		this.table_name = table_name;
 	}

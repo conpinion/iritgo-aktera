@@ -32,12 +32,12 @@ public class EchoWebserviceTest extends WebserviceTestCase
 	 * Try to access the echo webservice
 	 */
 	@Test
-	public void callEchoWebservice () throws Exception
+	public void callEchoWebservice() throws Exception
 	{
-		WebserviceRequest request = createWebserviceRequest ("http://aktera.iritgo.de/webservices/webservices", "echo",
+		WebserviceRequest request = createWebserviceRequest("http://aktera.iritgo.de/webservices/webservices", "echo",
 						"admin", "admin");
-		Object result = request.withStringParam ("name", "alice").withStringParam ("message", "How art thou?").send ();
-		assertEquals ("Hello alice! How art thou?", result.toString ());
+		Object result = request.withStringParam("name", "alice").withStringParam("message", "How art thou?").send();
+		assertEquals("Hello alice! How art thou?", result.toString());
 
 	}
 

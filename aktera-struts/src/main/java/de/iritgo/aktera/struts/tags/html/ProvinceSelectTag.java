@@ -44,14 +44,14 @@ public class ProvinceSelectTag extends SelectTagBase
 	private static final long serialVersionUID = 1L;
 
 	/** Province strings. */
-	static Map<String, String[]> provincesByCountry = new HashMap<String, String[]> ();
+	static Map<String, String[]> provincesByCountry = new HashMap<String, String[]>();
 
 	/** Province values. */
-	static Map<String, String[]> provinceValuesByCountry = new HashMap<String, String[]> ();
+	static Map<String, String[]> provinceValuesByCountry = new HashMap<String, String[]>();
 
 	static
 	{
-		provincesByCountry.put ("DE", new String[]
+		provincesByCountry.put("DE", new String[]
 		{
 						"opt-", "1.province.DE.BE", "1.province.DE.BR", "1.province.DE.BW", "1.province.DE.BY",
 						"1.province.DE.HB", "1.province.DE.HE", "1.province.DE.HH", "1.province.DE.MV",
@@ -59,7 +59,7 @@ public class ProvinceSelectTag extends SelectTagBase
 						"1.province.DE.SL", "1.province.DE.SN", "1.province.DE.ST", "1.province.DE.TH"
 		});
 
-		provinceValuesByCountry.put ("DE", new String[]
+		provinceValuesByCountry.put("DE", new String[]
 		{
 						"", "BE", "BR", "BW", "BY", "HB", "HE", "HH", "MV", "NI", "NW", "RP", "SH", "SL", "SN", "ST",
 						"TH"
@@ -80,7 +80,7 @@ public class ProvinceSelectTag extends SelectTagBase
 	 *
 	 * @param readOnly Read only flag.
 	 */
-	public void setReadOnly (boolean readOnly)
+	public void setReadOnly(boolean readOnly)
 	{
 		this.readOnly = readOnly;
 	}
@@ -90,7 +90,7 @@ public class ProvinceSelectTag extends SelectTagBase
 	 *
 	 * @retrun The read only flag.
 	 */
-	public boolean getReadOnly ()
+	public boolean getReadOnly()
 	{
 		return readOnly;
 	}
@@ -100,7 +100,7 @@ public class ProvinceSelectTag extends SelectTagBase
 	 *
 	 * @param country The new country
 	 */
-	public void setCountry (String country)
+	public void setCountry(String country)
 	{
 		this.country = country;
 	}
@@ -110,7 +110,7 @@ public class ProvinceSelectTag extends SelectTagBase
 	 *
 	 * @retrun The country.
 	 */
-	public String getCountry ()
+	public String getCountry()
 	{
 		return country;
 	}
@@ -120,7 +120,7 @@ public class ProvinceSelectTag extends SelectTagBase
 	 *
 	 * @param country The new country property name
 	 */
-	public void setCountryProperty (String countryProperty)
+	public void setCountryProperty(String countryProperty)
 	{
 		this.countryProperty = countryProperty;
 	}
@@ -130,7 +130,7 @@ public class ProvinceSelectTag extends SelectTagBase
 	 *
 	 * @retrun The country property name.
 	 */
-	public String getCountryProperty ()
+	public String getCountryProperty()
 	{
 		return countryProperty;
 	}
@@ -140,17 +140,17 @@ public class ProvinceSelectTag extends SelectTagBase
 	 *
 	 * @exception JspException if a JSP exception has occurred.
 	 */
-	public int doEndTag () throws JspException
+	public int doEndTag() throws JspException
 	{
-		String selectedValue = getBeanProperty ().toString ();
+		String selectedValue = getBeanProperty().toString();
 
-		StringBuffer results = new StringBuffer ();
+		StringBuffer results = new StringBuffer();
 
 		String countryToUse = country;
 
-		if (selectedValue.contains ("."))
+		if (selectedValue.contains("."))
 		{
-			String[] vals = selectedValue.split ("\\.");
+			String[] vals = selectedValue.split("\\.");
 
 			countryToUse = vals[0];
 			selectedValue = vals[1];
@@ -165,7 +165,7 @@ public class ProvinceSelectTag extends SelectTagBase
 		{
 			try
 			{
-				countryToUse = getNamedBeanProperty (countryProperty).toString ();
+				countryToUse = getNamedBeanProperty(countryProperty).toString();
 			}
 			catch (Exception ignored)
 			{
@@ -176,40 +176,40 @@ public class ProvinceSelectTag extends SelectTagBase
 		{
 			try
 			{
-				countryToUse = getBeanProperty ("Country").toString ();
+				countryToUse = getBeanProperty("Country").toString();
 			}
 			catch (Exception ignored)
 			{
 			}
 		}
 
-		String[] provinces = provincesByCountry.get (countryToUse);
-		String[] provinceValues = provinceValuesByCountry.get (countryToUse);
+		String[] provinces = provincesByCountry.get(countryToUse);
+		String[] provinceValues = provinceValuesByCountry.get(countryToUse);
 
 		if (! readOnly)
 		{
-			createSelectTag (results);
+			createSelectTag(results);
 
 			if (provinces != null && provinceValues != null)
 			{
 				for (int i = 0; i < provinces.length; ++i)
 				{
-					results.append ("<option value=\"");
-					results.append (provinceValues[i]);
-					results.append ("\"");
+					results.append("<option value=\"");
+					results.append(provinceValues[i]);
+					results.append("\"");
 
-					if (provinceValues[i].equals (selectedValue))
+					if (provinceValues[i].equals(selectedValue))
 					{
-						results.append (" selected=\"selected\"");
+						results.append(" selected=\"selected\"");
 					}
 
-					results.append (">");
-					results.append (TagUtils.getInstance ().message (pageContext, bundle, locale, provinces[i]));
-					results.append ("</option>");
+					results.append(">");
+					results.append(TagUtils.getInstance().message(pageContext, bundle, locale, provinces[i]));
+					results.append("</option>");
 				}
 			}
 
-			results.append ("</select>\n");
+			results.append("</select>\n");
 		}
 		else
 		{
@@ -217,15 +217,15 @@ public class ProvinceSelectTag extends SelectTagBase
 			{
 				for (int i = 0; i < provinces.length; ++i)
 				{
-					if (provinceValues[i].equals (selectedValue))
+					if (provinceValues[i].equals(selectedValue))
 					{
-						results.append (TagUtils.getInstance ().message (pageContext, bundle, locale, provinces[i]));
+						results.append(TagUtils.getInstance().message(pageContext, bundle, locale, provinces[i]));
 					}
 				}
 			}
 		}
 
-		TagUtils.getInstance ().write (pageContext, results.toString ());
+		TagUtils.getInstance().write(pageContext, results.toString());
 
 		return EVAL_PAGE;
 	}
@@ -233,9 +233,9 @@ public class ProvinceSelectTag extends SelectTagBase
 	/**
 	 * Reset all tag attributes to their default values.
 	 */
-	public void release ()
+	public void release()
 	{
-		super.release ();
+		super.release();
 
 		readOnly = false;
 		country = null;

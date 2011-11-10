@@ -46,9 +46,9 @@ public class BeanRowData extends RowData
 	 * @param listing The listing descriptor.
 	 * @param data The bean containing the row data.
 	 */
-	public BeanRowData (ListingDescriptor listing, Object data)
+	public BeanRowData(ListingDescriptor listing, Object data)
 	{
-		super (listing);
+		super(listing);
 		this.data = data;
 	}
 
@@ -56,15 +56,15 @@ public class BeanRowData extends RowData
 	 * @see de.iritgo.aktera.ui.listing.RowData#get(java.lang.String)
 	 */
 	@Override
-	public Object get (String columnName) throws PersistenceException
+	public Object get(String columnName) throws PersistenceException
 	{
 		try
 		{
-			return PropertyUtils.getProperty (data, columnName);
+			return PropertyUtils.getProperty(data, columnName);
 		}
 		catch (Exception x)
 		{
-			throw new PersistenceException ("[BeanRowData] Error while fetching column '" + columnName + "': " + x);
+			throw new PersistenceException("[BeanRowData] Error while fetching column '" + columnName + "': " + x);
 		}
 	}
 
@@ -77,15 +77,15 @@ public class BeanRowData extends RowData
 	 *   an error occurred during data retrieval.
 	 */
 	@Override
-	public String getString (String columnName) throws PersistenceException
+	public String getString(String columnName) throws PersistenceException
 	{
 		try
 		{
-			return StringTools.trim (PropertyUtils.getProperty (data, columnName));
+			return StringTools.trim(PropertyUtils.getProperty(data, columnName));
 		}
 		catch (Exception x)
 		{
-			throw new PersistenceException ("[BeanRowData] Error while fetching column '" + columnName + "': " + x);
+			throw new PersistenceException("[BeanRowData] Error while fetching column '" + columnName + "': " + x);
 		}
 	}
 
@@ -98,15 +98,15 @@ public class BeanRowData extends RowData
 	 *   an error occurred during data retrieval.
 	 */
 	@Override
-	public int getInt (String columnName) throws PersistenceException
+	public int getInt(String columnName) throws PersistenceException
 	{
 		try
 		{
-			return NumberTools.toInt (PropertyUtils.getProperty (data, columnName), 0);
+			return NumberTools.toInt(PropertyUtils.getProperty(data, columnName), 0);
 		}
 		catch (Exception x)
 		{
-			throw new PersistenceException ("[BeanRowData] Error while fetching column '" + columnName + "': " + x);
+			throw new PersistenceException("[BeanRowData] Error while fetching column '" + columnName + "': " + x);
 		}
 	}
 
@@ -119,15 +119,15 @@ public class BeanRowData extends RowData
 	 *   an error occurred during data retrieval.
 	 */
 	@Override
-	public long getLong (String columnName) throws PersistenceException
+	public long getLong(String columnName) throws PersistenceException
 	{
 		try
 		{
-			return NumberTools.toLong (PropertyUtils.getProperty (data, columnName), 0);
+			return NumberTools.toLong(PropertyUtils.getProperty(data, columnName), 0);
 		}
 		catch (Exception x)
 		{
-			throw new PersistenceException ("[BeanRowData] Error while fetching column '" + columnName + "': " + x);
+			throw new PersistenceException("[BeanRowData] Error while fetching column '" + columnName + "': " + x);
 		}
 	}
 
@@ -140,15 +140,15 @@ public class BeanRowData extends RowData
 	 *   an error occurred during data retrieval.
 	 */
 	@Override
-	public float getFloat (String columnName) throws PersistenceException
+	public float getFloat(String columnName) throws PersistenceException
 	{
 		try
 		{
-			return NumberTools.toFloat (PropertyUtils.getProperty (data, columnName), 0);
+			return NumberTools.toFloat(PropertyUtils.getProperty(data, columnName), 0);
 		}
 		catch (Exception x)
 		{
-			throw new PersistenceException ("[BeanRowData] Error while fetching column '" + columnName + "': " + x);
+			throw new PersistenceException("[BeanRowData] Error while fetching column '" + columnName + "': " + x);
 		}
 	}
 
@@ -161,15 +161,15 @@ public class BeanRowData extends RowData
 	 *   an error occurred during data retrieval.
 	 */
 	@Override
-	public Time getTime (String columnName) throws PersistenceException
+	public Time getTime(String columnName) throws PersistenceException
 	{
 		try
 		{
-			return (Time) PropertyUtils.getProperty (data, columnName);
+			return (Time) PropertyUtils.getProperty(data, columnName);
 		}
 		catch (Exception x)
 		{
-			throw new PersistenceException ("[BeanRowData] Error while fetching column '" + columnName + "': " + x);
+			throw new PersistenceException("[BeanRowData] Error while fetching column '" + columnName + "': " + x);
 		}
 	}
 
@@ -182,15 +182,15 @@ public class BeanRowData extends RowData
 	 *   an error occurred during data retrieval.
 	 */
 	@Override
-	public Date getDate (String columnName) throws PersistenceException
+	public Date getDate(String columnName) throws PersistenceException
 	{
 		try
 		{
-			return (Date) PropertyUtils.getProperty (data, columnName);
+			return (Date) PropertyUtils.getProperty(data, columnName);
 		}
 		catch (Exception x)
 		{
-			throw new PersistenceException ("[BeanRowData] Error while fetching column '" + columnName + "': " + x);
+			throw new PersistenceException("[BeanRowData] Error while fetching column '" + columnName + "': " + x);
 		}
 	}
 
@@ -203,15 +203,15 @@ public class BeanRowData extends RowData
 	 *   an error occurred during data retrieval.
 	 */
 	@Override
-	public Timestamp getTimestamp (String columnName) throws PersistenceException
+	public Timestamp getTimestamp(String columnName) throws PersistenceException
 	{
 		try
 		{
-			return (Timestamp) PropertyUtils.getProperty (data, columnName);
+			return (Timestamp) PropertyUtils.getProperty(data, columnName);
 		}
 		catch (Exception x)
 		{
-			throw new PersistenceException ("[BeanRowData] Error while fetching column '" + columnName + "': " + x);
+			throw new PersistenceException("[BeanRowData] Error while fetching column '" + columnName + "': " + x);
 		}
 	}
 }

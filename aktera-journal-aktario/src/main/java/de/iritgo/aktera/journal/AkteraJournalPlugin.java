@@ -36,36 +36,36 @@ public class AkteraJournalPlugin extends FrameworkPlugin
 	 * @see de.iritgo.aktario.core.plugin.Plugin#registerClientCommands()
 	 */
 	@Override
-	protected void registerClientCommands ()
+	protected void registerClientCommands()
 	{
-		registerCommand (new RefreshJournalPaneCommand ());
+		registerCommand(new RefreshJournalPaneCommand());
 	}
 
 	/**
 	 * @see de.iritgo.aktario.core.plugin.Plugin#registerManagers()
 	 */
 	@Override
-	protected void registerClientManagers ()
+	protected void registerClientManagers()
 	{
-		registerManager (new JournalClientManager ());
+		registerManager(new JournalClientManager());
 	}
 
 	/**
 	 * @see de.iritgo.aktario.core.plugin.Plugin#registerServerManagers()
 	 */
 	@Override
-	protected void registerServerManagers ()
+	protected void registerServerManagers()
 	{
-		registerManager (Plugin.SERVER, new JournalServerManager ());
+		registerManager(Plugin.SERVER, new JournalServerManager());
 	}
 
 	/**
 	 * @see de.iritgo.aktario.core.plugin.Plugin#registerCommands()
 	 */
 	@Override
-	protected void registerCommands ()
+	protected void registerCommands()
 	{
-		registerCommand (new ShowEmbeddedJournal ());
-		registerCommand (new RefreshJournal ());
+		registerCommand(new ShowEmbeddedJournal());
+		registerCommand(new RefreshJournal());
 	}
 }

@@ -83,7 +83,7 @@ public class DefaultQuery extends AbstractKeelServiceable implements Query, Pool
 
 	protected ServiceConfig svcConfig = null;
 
-	private Map criteriaInput = new HashMap ();
+	private Map criteriaInput = new HashMap();
 
 	private Configuration[] criteria = null;
 
@@ -91,7 +91,7 @@ public class DefaultQuery extends AbstractKeelServiceable implements Query, Pool
 
 	private String sql = null;
 
-	private Pattern reParam = Pattern.compile ("%(\\w+)");
+	private Pattern reParam = Pattern.compile("%(\\w+)");
 
 	/**
 	 * The name of the data source we will access for this query. Defined with
@@ -113,9 +113,9 @@ public class DefaultQuery extends AbstractKeelServiceable implements Query, Pool
 	 * @see de.iritgo.aktera.query.Query#setCriteria(java.lang.String, java.
 	 * lang. Object)
 	 */
-	public void setCriteria (String criteriaCode, Object criteriaValue)
+	public void setCriteria(String criteriaCode, Object criteriaValue)
 	{
-		criteriaInput.put (criteriaCode, criteriaValue);
+		criteriaInput.put(criteriaCode, criteriaValue);
 	}
 
 	/**
@@ -129,7 +129,7 @@ public class DefaultQuery extends AbstractKeelServiceable implements Query, Pool
 	 * @return the tabular data from sql data source as a List of Maps (each row is in a single map)
 	 * @throws QueryException Thrown in the case of system failure.
 	 */
-	public List getQueryResults (SortedSet objectKeys) throws QueryException
+	public List getQueryResults(SortedSet objectKeys) throws QueryException
 	{
 		// ===================================================
 		// Declare method variables
@@ -144,12 +144,12 @@ public class DefaultQuery extends AbstractKeelServiceable implements Query, Pool
 		// ===================================================
 		try
 		{
-			myConnection = dataSource.getConnection ();
-			log.debug ("[CONNECTION] instantiated: " + myConnection.toString ());
+			myConnection = dataSource.getConnection();
+			log.debug("[CONNECTION] instantiated: " + myConnection.toString());
 		}
 		catch (SQLException e)
 		{
-			throw new QueryException (e, "Obtaining database connection failed");
+			throw new QueryException(e, "Obtaining database connection failed");
 		}
 
 		//		 modified by aleks
@@ -164,38 +164,38 @@ public class DefaultQuery extends AbstractKeelServiceable implements Query, Pool
 			// ===================================================
 			if (objectKeys != null)
 			{
-				myQueryId = cacheObjectKeys (objectKeys, myQueryId, myConnection);
+				myQueryId = cacheObjectKeys(objectKeys, myQueryId, myConnection);
 			} //end if
 			else
 			{
-				log.warn ("\n\n\n getQueryResults(objectKeys) has been called"
+				log.warn("\n\n\n getQueryResults(objectKeys) has been called"
 								+ " with objectKeys == null, but getQueryResults() without parameters should be used");
 			}
 
 			// ===================================================
 			// now run the query and get tabular report
 			// ===================================================
-			queryResult = runQuery (myConnection, myQueryId);
+			queryResult = runQuery(myConnection, myQueryId);
 
 			// ===================================================
 			// Eliminate the object Keys cache: no longer needed
 			// ===================================================
-			deCacheObjectKeys (myQueryId, myConnection);
+			deCacheObjectKeys(myQueryId, myConnection);
 		}
 		catch (QueryException qe)
 		{
-			throw new QueryException (qe);
+			throw new QueryException(qe);
 		}
 		finally
 		{
 			try
 			{
-				myConnection.close ();
+				myConnection.close();
 				myConnection = null;
 			}
 			catch (SQLException e1)
 			{
-				throw new QueryException (e1);
+				throw new QueryException(e1);
 			}
 		}
 
@@ -212,7 +212,7 @@ public class DefaultQuery extends AbstractKeelServiceable implements Query, Pool
 	 * @return the tabular data from sql data source as a List of Maps (each row is in a single map)
 	 * @throws QueryException Thrown in the case of system failure.
 	 */
-	public List getQueryResults () throws QueryException
+	public List getQueryResults() throws QueryException
 	{
 		// ===================================================
 		// Declare method variables
@@ -226,12 +226,12 @@ public class DefaultQuery extends AbstractKeelServiceable implements Query, Pool
 		// ===================================================
 		try
 		{
-			myConnection = dataSource.getConnection ();
-			log.debug ("[CONNECTION2] instantiated: " + myConnection.toString ());
+			myConnection = dataSource.getConnection();
+			log.debug("[CONNECTION2] instantiated: " + myConnection.toString());
 		}
 		catch (SQLException e)
 		{
-			throw new QueryException (e, "Obtaining database connection failed");
+			throw new QueryException(e, "Obtaining database connection failed");
 		}
 
 		// ===================================================
@@ -241,22 +241,22 @@ public class DefaultQuery extends AbstractKeelServiceable implements Query, Pool
 		//			 modified by aleks
 		try
 		{
-			queryResult = runQuery (myConnection, 0);
+			queryResult = runQuery(myConnection, 0);
 		}
 		catch (QueryException qe)
 		{
-			throw new QueryException (qe);
+			throw new QueryException(qe);
 		}
 		finally
 		{
 			try
 			{
-				myConnection.close ();
+				myConnection.close();
 				myConnection = null;
 			}
 			catch (SQLException e1)
 			{
-				throw new QueryException (e1);
+				throw new QueryException(e1);
 			}
 		}
 
@@ -264,7 +264,7 @@ public class DefaultQuery extends AbstractKeelServiceable implements Query, Pool
 		return queryResult;
 	}
 
-	private int cacheObjectKeys (SortedSet objectKeys, int myQueryId, Connection myConnection) throws QueryException
+	private int cacheObjectKeys(SortedSet objectKeys, int myQueryId, Connection myConnection) throws QueryException
 	{
 		// modified by aleks
 		Statement aStatement = null;
@@ -275,16 +275,15 @@ public class DefaultQuery extends AbstractKeelServiceable implements Query, Pool
 			// ===================================================
 			// Obtain unique cache id
 			// ===================================================
-			IdGenerator myIdGenerator = (IdGenerator) getService (IdGenerator.ROLE, svcConfig
-							.getHint (IdGenerator.ROLE));
+			IdGenerator myIdGenerator = (IdGenerator) getService(IdGenerator.ROLE, svcConfig.getHint(IdGenerator.ROLE));
 
 			try
 			{
-				myQueryId = myIdGenerator.getNextIntegerId ();
+				myQueryId = myIdGenerator.getNextIntegerId();
 			}
 			catch (IdException ie)
 			{
-				throw new QueryException ("Unable to get myQueryId. ");
+				throw new QueryException("Unable to get myQueryId. ");
 			}
 
 			// ===================================================
@@ -294,26 +293,26 @@ public class DefaultQuery extends AbstractKeelServiceable implements Query, Pool
 			String insertStatement = null;
 
 			// modified by aleks
-			aStatement = myConnection.createStatement ();
+			aStatement = myConnection.createStatement();
 
 			// modified by aleks
-			for (Iterator i = objectKeys.iterator (); i.hasNext ();)
+			for (Iterator i = objectKeys.iterator(); i.hasNext();)
 			{
-				ObjectKey oneObj = (ObjectKey) i.next ();
+				ObjectKey oneObj = (ObjectKey) i.next();
 
 				if (oneObj != null)
 				{
 					oneKey = oneObj;
-					log.info ("UniqueId of ObjectKey: " + oneKey.getUniqueId ().toString ());
+					log.info("UniqueId of ObjectKey: " + oneKey.getUniqueId().toString());
 					insertStatement = "INSERT INTO QueryJoin (ObjectId, QueryId, name, alias) VALUES ('"
-									+ oneKey.getUniqueId ().toString () + "', " + myQueryId + ", '" + oneKey.getName ()
-									+ "', '" + oneKey.getAlias () + "')";
-					log.debug ("Running statement '" + insertStatement.toString () + "'");
-					aStatement.addBatch (insertStatement);
+									+ oneKey.getUniqueId().toString() + "', " + myQueryId + ", '" + oneKey.getName()
+									+ "', '" + oneKey.getAlias() + "')";
+					log.debug("Running statement '" + insertStatement.toString() + "'");
+					aStatement.addBatch(insertStatement);
 				}
 			} //end for loop
 
-			aStatement.executeBatch ();
+			aStatement.executeBatch();
 
 			//				int [] updateCounts = aStatement.executeBatch();
 			//		 for (int i = 0; i < updateCounts.length; i++)
@@ -323,15 +322,15 @@ public class DefaultQuery extends AbstractKeelServiceable implements Query, Pool
 		}
 		catch (java.sql.BatchUpdateException be)
 		{
-			throw new QueryException (be, "Cacheing of objectKeys in SQL table failed");
+			throw new QueryException(be, "Cacheing of objectKeys in SQL table failed");
 		}
 		catch (SQLException se)
 		{
-			throw new QueryException (se, "Cacheing of objectKeys in SQL table failed");
+			throw new QueryException(se, "Cacheing of objectKeys in SQL table failed");
 		}
 		catch (ServiceException svce)
 		{
-			throw new QueryException (svce);
+			throw new QueryException(svce);
 		}
 
 		// modified by aleks
@@ -339,12 +338,12 @@ public class DefaultQuery extends AbstractKeelServiceable implements Query, Pool
 		{
 			try
 			{
-				aStatement.close ();
+				aStatement.close();
 				aStatement = null;
 			}
 			catch (SQLException se)
 			{
-				throw new QueryException (se);
+				throw new QueryException(se);
 			}
 		}
 
@@ -352,14 +351,14 @@ public class DefaultQuery extends AbstractKeelServiceable implements Query, Pool
 		return myQueryId;
 	}
 
-	private void deCacheObjectKeys (int myQueryId, Connection myConnection) throws QueryException
+	private void deCacheObjectKeys(int myQueryId, Connection myConnection) throws QueryException
 	{
 		// ===================================================
 		// Now that the tabular report rows are built, remove the objectKeys cache
 		// from table queryJoin for the query. Specifically remove all relevant
 		// rows from table queryJoin.
 		// ===================================================
-		log.debug ("SQL for join cleanup: " + "DELETE FROM queryJoin   " + "WHERE QueryId = '" + myQueryId + "'");
+		log.debug("SQL for join cleanup: " + "DELETE FROM queryJoin   " + "WHERE QueryId = '" + myQueryId + "'");
 
 		// modified by aleks
 		Statement cleanupStatement = null;
@@ -368,13 +367,13 @@ public class DefaultQuery extends AbstractKeelServiceable implements Query, Pool
 		try
 		{
 			// modified by aleks
-			cleanupStatement = myConnection.createStatement ();
+			cleanupStatement = myConnection.createStatement();
 			// modified by aleks
-			cleanupStatement.execute ("DELETE FROM queryJoin   " + "WHERE QueryId = '" + myQueryId + "'");
+			cleanupStatement.execute("DELETE FROM queryJoin   " + "WHERE QueryId = '" + myQueryId + "'");
 		}
 		catch (SQLException se)
 		{
-			throw new QueryException (se, "Failed to remove Cache of objectKeys in table queryJoin");
+			throw new QueryException(se, "Failed to remove Cache of objectKeys in table queryJoin");
 		}
 
 		// modified by aleks
@@ -382,12 +381,12 @@ public class DefaultQuery extends AbstractKeelServiceable implements Query, Pool
 		{
 			try
 			{
-				cleanupStatement.close ();
+				cleanupStatement.close();
 				cleanupStatement = null;
 			}
 			catch (SQLException se)
 			{
-				throw new QueryException (se);
+				throw new QueryException(se);
 			}
 		}
 
@@ -402,19 +401,19 @@ public class DefaultQuery extends AbstractKeelServiceable implements Query, Pool
 	 * @return the query results
 	 * @throws QueryException if the service failed
 	 */
-	private List runQuery (Connection myConnection, int myQueryId) throws QueryException
+	private List runQuery(Connection myConnection, int myQueryId) throws QueryException
 	{
 		// =================================================
 		// Bind parameters of the sql statement to actual values.
 		// =================================================
-		SuperString myStatement = bindParameters (myQueryId);
+		SuperString myStatement = bindParameters(myQueryId);
 
 		// =================================================
 		// Execute massaged sql statement
 		// =================================================
-		log.debug ("Query statement after, join id,  param subsitution and append ORDER by clause:" + myStatement);
+		log.debug("Query statement after, join id,  param subsitution and append ORDER by clause:" + myStatement);
 
-		List tempResult = executeQuery (myConnection, myStatement);
+		List tempResult = executeQuery(myConnection, myStatement);
 
 		// ===================================================
 		// Return tabular report rows
@@ -428,16 +427,16 @@ public class DefaultQuery extends AbstractKeelServiceable implements Query, Pool
 	 * @return  The SQL statement with the actual values in lieu of parameters
 	 * @throws QueryException Thrown if the Query service fails
 	 */
-	private SuperString bindParameters (int myQueryId) throws QueryException
+	private SuperString bindParameters(int myQueryId) throws QueryException
 	{
 		// ===================================================
 		// Now we complete the sql statement that is associated
 		// with this tabular report type. The raw sql statement is provided in
 		// a config file, but this must be modified before execution.
 		// ===================================================
-		SuperString myStatement = new SuperString (sql);
+		SuperString myStatement = new SuperString(sql);
 
-		log.debug ("Config Query statement before param substitution:" + myStatement);
+		log.debug("Config Query statement before param substitution:" + myStatement);
 
 		// ===================================================
 		// Modify sql statement from the config.
@@ -447,14 +446,14 @@ public class DefaultQuery extends AbstractKeelServiceable implements Query, Pool
 		//    order by clauses at run time.
 		//  - If objectKeys is not null, substitute $queryid with myQueryId governing the join.
 		// ===================================================
-		log.debug ("Does Config Query have ORDER by clause, not if this index is -1:"
-						+ (myStatement.toString ().toUpperCase ().indexOf ("ORDER BY ")));
+		log.debug("Does Config Query have ORDER by clause, not if this index is -1:"
+						+ (myStatement.toString().toUpperCase().indexOf("ORDER BY ")));
 
 		// modified by aleks
-		if ((myStatement.toString ().toUpperCase ().indexOf ("ORDER BY ")) == - 1 && myQueryId > 0)
+		if ((myStatement.toString().toUpperCase().indexOf("ORDER BY ")) == - 1 && myQueryId > 0)
 		{
-			log.debug ("sindex not found, so append");
-			myStatement.append ("\n ORDER BY $orderByClause ");
+			log.debug("sindex not found, so append");
+			myStatement.append("\n ORDER BY $orderByClause ");
 		}
 
 		// modified by aleks
@@ -464,26 +463,26 @@ public class DefaultQuery extends AbstractKeelServiceable implements Query, Pool
 
 			for (int i = 0; i < criteria.length; i++)
 			{
-				oneCriteriaCode = criteria[i].getAttribute ("name");
+				oneCriteriaCode = criteria[i].getAttribute("name");
 
 				// ==================================
 				// Replace 0 or more occurancees of criteria code parameter with value
 				// ==================================
-				while (myStatement.toString ().indexOf ("$" + oneCriteriaCode) != - 1)
+				while (myStatement.toString().indexOf("$" + oneCriteriaCode) != - 1)
 				{
-					myStatement = new SuperString (myStatement.replace ("$" + oneCriteriaCode,
+					myStatement = new SuperString(myStatement.replace("$" + oneCriteriaCode,
 					// BUEROBYTE: Don't cast to String, convert to String!
 
 									//  							(String) criteriaInput.get(oneCriteriaCode)));
-									criteriaInput.get (oneCriteriaCode).toString ()));
+									criteriaInput.get(oneCriteriaCode).toString()));
 
 					// BUEROBYTE
 				}
 
 				// BUEROBYTE: Replace '%'-paramters with a '?' for prepared statements.
-				while (myStatement.toString ().indexOf ("%" + oneCriteriaCode) != - 1)
+				while (myStatement.toString().indexOf("%" + oneCriteriaCode) != - 1)
 				{
-					myStatement = new SuperString (myStatement.replace ("%" + oneCriteriaCode, "?"));
+					myStatement = new SuperString(myStatement.replace("%" + oneCriteriaCode, "?"));
 				}
 
 				// BUEROBYTE
@@ -491,11 +490,11 @@ public class DefaultQuery extends AbstractKeelServiceable implements Query, Pool
 		}
 		catch (ConfigurationException ce)
 		{
-			throw new QueryException (ce);
+			throw new QueryException(ce);
 		}
 
-		myStatement = new SuperString (myStatement.replace ("$orderByClause", "queryJoin.name"));
-		myStatement = new SuperString (myStatement.replace ("$queryid", (new Integer (myQueryId)).toString ()));
+		myStatement = new SuperString(myStatement.replace("$orderByClause", "queryJoin.name"));
+		myStatement = new SuperString(myStatement.replace("$queryid", (new Integer(myQueryId)).toString()));
 
 		//Note: SuperString replace does not change "this", but only return value.  Is that desirable?
 		return myStatement;
@@ -508,7 +507,7 @@ public class DefaultQuery extends AbstractKeelServiceable implements Query, Pool
 	 * @return Set queryResultRows containing Maps, each representing a row.
 	 * @throws QueryException Thrown in the case of system failure.
 	 */
-	private List executeQuery (Connection myConnection, SuperString myStatement) throws QueryException
+	private List executeQuery(Connection myConnection, SuperString myStatement) throws QueryException
 	{
 		//Connection myConnection = null;
 
@@ -519,32 +518,32 @@ public class DefaultQuery extends AbstractKeelServiceable implements Query, Pool
 
 		// BUEROBYTE
 		ResultSet myResultSet = null;
-		List queryResultRows = new ArrayList ();
+		List queryResultRows = new ArrayList();
 
 		try
 		{
 			// Populate the display header row with the description field in the result config.
-			if (criteriaInput.containsKey (headerCriteriaName))
+			if (criteriaInput.containsKey(headerCriteriaName))
 			{
 				String oneDisplayHeaderName = null;
 				String oneFieldName = null;
-				SortedMap displayHeaderMap = new TreeMap ();
+				SortedMap displayHeaderMap = new TreeMap();
 
 				for (int i = 0; i < resultFields.length; i++)
 				{
-					oneFieldName = resultFields[i].getAttribute ("name");
-					oneDisplayHeaderName = resultFields[i].getAttribute ("descrip");
-					displayHeaderMap.put (oneFieldName, oneDisplayHeaderName);
+					oneFieldName = resultFields[i].getAttribute("name");
+					oneDisplayHeaderName = resultFields[i].getAttribute("descrip");
+					displayHeaderMap.put(oneFieldName, oneDisplayHeaderName);
 				}
 
-				queryResultRows.add (displayHeaderMap);
+				queryResultRows.add(displayHeaderMap);
 			}
 
 			// ================================
 			// Execute the sql query
 			// ================================
 			//myConnection = dataSource.getConnection();
-			log.debug ("Running statement '" + myStatement.toString () + "'");
+			log.debug("Running statement '" + myStatement.toString() + "'");
 
 			// BUEROBYTE: Use a prepared statement.
 
@@ -552,22 +551,22 @@ public class DefaultQuery extends AbstractKeelServiceable implements Query, Pool
 
 			// 			myResultSet =
 			// 				sqlStatement.executeQuery(myStatement.toString());
-			sqlStatement = myConnection.prepareStatement (myStatement.toString ());
+			sqlStatement = myConnection.prepareStatement(myStatement.toString());
 
 			int paramIndex = 1;
 			int pos = 0;
-			Matcher paramMatcher = reParam.matcher (sql);
+			Matcher paramMatcher = reParam.matcher(sql);
 
-			while (paramMatcher.find (pos))
+			while (paramMatcher.find(pos))
 			{
-				Object value = criteriaInput.get (paramMatcher.group (1));
+				Object value = criteriaInput.get(paramMatcher.group(1));
 
-				sqlStatement.setObject (paramIndex, value);
+				sqlStatement.setObject(paramIndex, value);
 				++paramIndex;
-				pos = paramMatcher.end () + 1;
+				pos = paramMatcher.end() + 1;
 			}
 
-			myResultSet = sqlStatement.executeQuery ();
+			myResultSet = sqlStatement.executeQuery();
 
 			// BUEROBYTE
 
@@ -579,27 +578,27 @@ public class DefaultQuery extends AbstractKeelServiceable implements Query, Pool
 			int recordCount = 0;
 			int retrieveCount = 0;
 
-			while (myResultSet.next ())
+			while (myResultSet.next())
 			{
 				recordCount++;
 				retrieveCount++;
 
-				Map resultMap = new LinkedHashMap ();
+				Map resultMap = new LinkedHashMap();
 				String oneFieldName = null;
 
 				for (int i = 0; i < resultFields.length; i++)
 				{
-					oneFieldName = resultFields[i].getAttribute ("name");
-					resultMap.put (oneFieldName, myResultSet.getString (i + 1));
+					oneFieldName = resultFields[i].getAttribute("name");
+					resultMap.put(oneFieldName, myResultSet.getString(i + 1));
 				}
 
-				log.debug ("Processing new row into map, see size: " + queryResultRows.size ());
-				queryResultRows.add (resultMap);
+				log.debug("Processing new row into map, see size: " + queryResultRows.size());
+				queryResultRows.add(resultMap);
 			}
 		}
 		catch (Exception de)
 		{
-			throw new QueryException (de);
+			throw new QueryException(de);
 		}
 		finally
 		{
@@ -607,13 +606,13 @@ public class DefaultQuery extends AbstractKeelServiceable implements Query, Pool
 			{
 				if (myResultSet != null)
 				{
-					myResultSet.close ();
+					myResultSet.close();
 					myResultSet = null;
 				}
 
 				if (sqlStatement != null)
 				{
-					sqlStatement.close ();
+					sqlStatement.close();
 					sqlStatement = null;
 				}
 
@@ -624,7 +623,7 @@ public class DefaultQuery extends AbstractKeelServiceable implements Query, Pool
 			}
 			catch (SQLException se)
 			{
-				throw new QueryException (se);
+				throw new QueryException(se);
 			}
 		}
 
@@ -634,54 +633,54 @@ public class DefaultQuery extends AbstractKeelServiceable implements Query, Pool
 	// ================================
 	// Keel Container support methods
 	//================================
-	public void enableLogging (Logger newLog)
+	public void enableLogging(Logger newLog)
 	{
 		log = newLog;
 	}
 
-	public void initialize () throws QueryException
+	public void initialize() throws QueryException
 	{
 		try
 		{
 			// Get a reference to a data source
-			dataSource = (DataSourceComponent) getService (DataSourceComponent.ROLE, dataSourceName);
+			dataSource = (DataSourceComponent) getService(DataSourceComponent.ROLE, dataSourceName);
 		}
 		catch (ServiceException se)
 		{
-			throw new QueryException (se);
+			throw new QueryException(se);
 		}
 	}
 
-	public void configure (Configuration configuration) throws ConfigurationException
+	public void configure(Configuration configuration) throws ConfigurationException
 	{
-		svcConfig = new ServiceConfig (configuration);
+		svcConfig = new ServiceConfig(configuration);
 
 		// Obtain a reference to the configured DataSource
-		dataSourceName = configuration.getChild ("dbpool").getValue ();
+		dataSourceName = configuration.getChild("dbpool").getValue();
 
-		sql = configuration.getChild ("sql").getValue ();
+		sql = configuration.getChild("sql").getValue();
 
-		criteria = configuration.getChildren ("criteria");
+		criteria = configuration.getChildren("criteria");
 
 		/* We *must* have defined result field names */
-		resultFields = configuration.getChildren ("result");
+		resultFields = configuration.getChildren("result");
 
 		if (resultFields.length == 0)
 		{
-			throw new ConfigurationException ("No result fields specified");
+			throw new ConfigurationException("No result fields specified");
 		}
 	}
 
-	public void recycle ()
+	public void recycle()
 	{
-		releaseServices ();
+		releaseServices();
 	}
 
 	/* (non-Javadoc)
 	 * @see org.apache.avalon.framework.activity.Disposable#dispose()
 	 */
-	public void dispose ()
+	public void dispose()
 	{
-		releaseServices ();
+		releaseServices();
 	}
 }

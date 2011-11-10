@@ -47,7 +47,7 @@ public interface Query
 	 * @throws QueryException If there is no such criteria, or the value is not
 	 * allowed
 	 */
-	public void setCriteria (String criteriaCode, Object criteriaValue) throws QueryException;
+	public void setCriteria(String criteriaCode, Object criteriaValue) throws QueryException;
 
 	/**
 	 * Using the output set of a Criteria implementation, get a set of
@@ -58,7 +58,7 @@ public interface Query
 	 * @return A List containing Maps, one for each query result. Each map
 	 * is a name / value mapping for each result "row"
 	 */
-	public List getQueryResults (SortedSet objectKeys) throws QueryException;
+	public List getQueryResults(SortedSet objectKeys) throws QueryException;
 
 	/**
 	 * This is a quick query that does not depend on running the Criteria service
@@ -71,5 +71,5 @@ public interface Query
 	 * @return A List containing Maps, one for each query result. Each map
 	 * is a name / value mapping for each result "row"
 	 */
-	public List getQueryResults () throws QueryException;
+	public List getQueryResults() throws QueryException;
 }

@@ -38,7 +38,7 @@ public abstract class StandardLogEnabledModel extends StandardModel implements L
 	/**
 	 * @see org.apache.avalon.framework.logger.LogEnabled#enableLogging(org.apache.avalon.framework.logger.Logger)
 	 */
-	public void enableLogging (Logger logger)
+	public void enableLogging(Logger logger)
 	{
 		log = logger;
 	}

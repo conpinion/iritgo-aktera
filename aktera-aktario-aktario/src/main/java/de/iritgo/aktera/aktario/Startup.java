@@ -48,54 +48,54 @@ public class Startup extends Command
 	/**
 	 * Create a new startup command.
 	 */
-	public Startup ()
+	public Startup()
 	{
-		super ("Startup");
+		super("Startup");
 	}
 
 	/**
 	 * This command is called after a successful server login.
 	 * It opens all initial client windows.
 	 */
-	public void perform ()
+	public void perform()
 	{
-		if (properties.get ("user") == null)
+		if (properties.get("user") == null)
 		{
-			Log.logError ("client", "Startup", "Missing user");
+			Log.logError("client", "Startup", "Missing user");
 
 			return;
 		}
 
 		try
 		{
-			JDesktopPane frame = ((AktarioGUI) Client.instance ().getClientGUI ()).getDesktopPane ();
+			JDesktopPane frame = ((AktarioGUI) Client.instance().getClientGUI()).getDesktopPane();
 
-			Properties props = new Properties ();
+			Properties props = new Properties();
 
-			props.put ("closable", false);
-			props.put ("iconifiable", false);
-			props.put ("maximizable", false);
-			props.put ("maximized", false);
-			props.put ("titlebar", false);
-			props.put ("visible", true);
+			props.put("closable", false);
+			props.put("iconifiable", false);
+			props.put("maximizable", false);
+			props.put("maximized", false);
+			props.put("titlebar", false);
+			props.put("visible", true);
 
-			DataObject dataObject = DataObjectTools.registerDataObject ("BuddyList", AppContext.instance ().getUser ()
-							.getUniqueId ());
+			DataObject dataObject = DataObjectTools.registerDataObject("BuddyList", AppContext.instance().getUser()
+							.getUniqueId());
 
-			CommandTools.performAsync (new ShowWindow ("BuddyListPane", dataObject), props);
+			CommandTools.performAsync(new ShowWindow("BuddyListPane", dataObject), props);
 
-			props = new Properties ();
-			props.put ("closable", false);
-			props.put ("iconifiable", false);
-			props.put ("maximizable", false);
-			props.put ("maximized", false);
-			props.put ("titlebar", false);
-			props.put ("visible", true);
-			CommandTools.performAsync (new ShowWindow ("CallManagerInstantCallPane"), props);
+			props = new Properties();
+			props.put("closable", false);
+			props.put("iconifiable", false);
+			props.put("maximizable", false);
+			props.put("maximized", false);
+			props.put("titlebar", false);
+			props.put("visible", true);
+			CommandTools.performAsync(new ShowWindow("CallManagerInstantCallPane"), props);
 		}
 		catch (Exception x)
 		{
-			Log.logError ("client", "DefaultStartup", x.toString ());
+			Log.logError("client", "DefaultStartup", x.toString());
 		}
 	}
 }

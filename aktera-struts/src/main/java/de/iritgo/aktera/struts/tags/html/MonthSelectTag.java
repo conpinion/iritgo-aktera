@@ -56,7 +56,7 @@ public class MonthSelectTag extends SelectTagBase
 	 *
 	 * @param readOnly Read only flag.
 	 */
-	public void setReadOnly (boolean readOnly)
+	public void setReadOnly(boolean readOnly)
 	{
 		this.readOnly = readOnly;
 	}
@@ -66,7 +66,7 @@ public class MonthSelectTag extends SelectTagBase
 	 *
 	 * @retrun The read only flag.
 	 */
-	public boolean getReadOnly ()
+	public boolean getReadOnly()
 	{
 		return readOnly;
 	}
@@ -76,46 +76,46 @@ public class MonthSelectTag extends SelectTagBase
 	 *
 	 * @exception JspException if a JSP exception has occurred.
 	 */
-	public int doEndTag () throws JspException
+	public int doEndTag() throws JspException
 	{
-		String selectedValue = getBeanProperty ().toString ();
+		String selectedValue = getBeanProperty().toString();
 
-		StringBuffer results = new StringBuffer ();
+		StringBuffer results = new StringBuffer();
 
 		if (! readOnly)
 		{
-			createSelectTag (results);
+			createSelectTag(results);
 
 			for (int i = 0; i < months.length; ++i)
 			{
-				results.append ("<option value=\"");
-				results.append (monthValues[i]);
-				results.append ("\"");
+				results.append("<option value=\"");
+				results.append(monthValues[i]);
+				results.append("\"");
 
-				if (monthValues[i].equals (selectedValue))
+				if (monthValues[i].equals(selectedValue))
 				{
-					results.append (" selected=\"selected\"");
+					results.append(" selected=\"selected\"");
 				}
 
-				results.append (">");
-				results.append (TagUtils.getInstance ().message (pageContext, bundle, locale, months[i]));
-				results.append ("</option>");
+				results.append(">");
+				results.append(TagUtils.getInstance().message(pageContext, bundle, locale, months[i]));
+				results.append("</option>");
 			}
 
-			results.append ("</select>\n");
+			results.append("</select>\n");
 		}
 		else
 		{
 			for (int i = 0; i < months.length; ++i)
 			{
-				if (monthValues[i].equals (selectedValue))
+				if (monthValues[i].equals(selectedValue))
 				{
-					results.append (TagUtils.getInstance ().message (pageContext, bundle, locale, months[i]));
+					results.append(TagUtils.getInstance().message(pageContext, bundle, locale, months[i]));
 				}
 			}
 		}
 
-		TagUtils.getInstance ().write (pageContext, results.toString ());
+		TagUtils.getInstance().write(pageContext, results.toString());
 
 		return EVAL_PAGE;
 	}
@@ -123,9 +123,9 @@ public class MonthSelectTag extends SelectTagBase
 	/**
 	 * Reset all tag attributes to their default values.
 	 */
-	public void release ()
+	public void release()
 	{
-		super.release ();
+		super.release();
 
 		readOnly = false;
 	}

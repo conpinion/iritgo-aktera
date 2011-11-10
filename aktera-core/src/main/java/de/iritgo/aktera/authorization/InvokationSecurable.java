@@ -49,5 +49,5 @@ public interface InvokationSecurable extends InstanceSecurable
 	 * to determine if the current operation is
 	 * permitted
 	 */
-	public Map getAuthorizationProperties ();
+	public Map getAuthorizationProperties();
 }

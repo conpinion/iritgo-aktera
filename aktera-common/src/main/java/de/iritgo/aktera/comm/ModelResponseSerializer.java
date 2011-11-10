@@ -54,7 +54,7 @@ public class ModelResponseSerializer
 	private static int count = 0;
 
 	//--- Do not allow this to be instantiated since it is a Singleton.
-	private ModelResponseSerializer ()
+	private ModelResponseSerializer()
 	{
 	} // ModelResponseSerializer
 
@@ -68,38 +68,38 @@ public class ModelResponseSerializer
 	 * incorrect
 	 * @throws SAXException If an XML error occurrs during serialization
 	 */
-	public static Document serialize (KeelResponse res, String modelName)
+	public static Document serialize(KeelResponse res, String modelName)
 		throws ParserConfigurationException, SAXException
 	{
 		//Obtain DOMImplementation
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance ();
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
-		factory.setNamespaceAware (true);
+		factory.setNamespaceAware(true);
 
-		DocumentBuilder builder = factory.newDocumentBuilder ();
-		DOMImplementation impl = builder.getDOMImplementation ();
+		DocumentBuilder builder = factory.newDocumentBuilder();
+		DOMImplementation impl = builder.getDOMImplementation();
 
-		Document xmldoc = impl.createDocument (null, "model", null);
+		Document xmldoc = impl.createDocument(null, "model", null);
 
-		Element root = xmldoc.getDocumentElement ();
+		Element root = xmldoc.getDocumentElement();
 
-		root.setAttribute ("name", modelName);
+		root.setAttribute("name", modelName);
 
-		Map attrs = res.getAttributes ();
+		Map attrs = res.getAttributes();
 
-		if (attrs.size () > 0)
+		if (attrs.size() > 0)
 		{
 			String oneAttrKey = null;
 			Object oneAttrValue = null;
 
-			for (Iterator ia = attrs.keySet ().iterator (); ia.hasNext ();)
+			for (Iterator ia = attrs.keySet().iterator(); ia.hasNext();)
 			{
-				oneAttrKey = (String) ia.next ();
-				oneAttrValue = attrs.get (oneAttrKey);
+				oneAttrKey = (String) ia.next();
+				oneAttrValue = attrs.get(oneAttrKey);
 
 				if (oneAttrValue != null)
 				{
-					root.setAttribute (oneAttrKey, oneAttrValue.toString ());
+					root.setAttribute(oneAttrKey, oneAttrValue.toString());
 				}
 			}
 		}
@@ -113,71 +113,71 @@ public class ModelResponseSerializer
 		/* Note that when using this with a sequence, the entire sequence is */
 		/* affected */
 		boolean useElementNames = true;
-		String elementNames = (String) res.getAttribute ("element-names");
+		String elementNames = (String) res.getAttribute("element-names");
 
 		if (elementNames != null)
 		{
-			if (elementNames.equalsIgnoreCase ("false") || elementNames.equalsIgnoreCase ("no"))
+			if (elementNames.equalsIgnoreCase("false") || elementNames.equalsIgnoreCase("no"))
 			{
 				useElementNames = false;
 			}
 		}
 
-		Map errors = res.getErrors ();
+		Map errors = res.getErrors();
 
-		if (errors.size () > 0)
+		if (errors.size() > 0)
 		{
-			Element errorsElement = xmldoc.createElement ("errors");
+			Element errorsElement = xmldoc.createElement("errors");
 			String oneErrorKey = null;
 
-			for (Iterator ie = errors.keySet ().iterator (); ie.hasNext ();)
+			for (Iterator ie = errors.keySet().iterator(); ie.hasNext();)
 			{
-				oneErrorKey = (String) ie.next ();
+				oneErrorKey = (String) ie.next();
 
 				if (oneErrorKey == null)
 				{
 					oneErrorKey = "unknown";
 				}
 
-				Element oneError = xmldoc.createElement ("error");
+				Element oneError = xmldoc.createElement("error");
 
-				oneError.setAttribute ("key", oneErrorKey);
+				oneError.setAttribute("key", oneErrorKey);
 
-				Element errorType = xmldoc.createElement ("error-type");
+				Element errorType = xmldoc.createElement("error-type");
 
-				errorType.appendChild (xmldoc.createTextNode (res.getErrorType (oneErrorKey)));
-				oneError.appendChild (errorType);
+				errorType.appendChild(xmldoc.createTextNode(res.getErrorType(oneErrorKey)));
+				oneError.appendChild(errorType);
 
-				Element message = xmldoc.createElement ("message");
+				Element message = xmldoc.createElement("message");
 
-				message.appendChild (xmldoc.createTextNode ((String) errors.get (oneErrorKey)));
-				oneError.appendChild (message);
+				message.appendChild(xmldoc.createTextNode((String) errors.get(oneErrorKey)));
+				oneError.appendChild(message);
 
-				String stack = res.getStackTrace (oneErrorKey);
+				String stack = res.getStackTrace(oneErrorKey);
 
 				if (stack != null)
 				{
-					Element stackElement = xmldoc.createElement ("stacktrace");
+					Element stackElement = xmldoc.createElement("stacktrace");
 
-					stackElement.appendChild (xmldoc.createTextNode (stack));
-					oneError.appendChild (stackElement);
+					stackElement.appendChild(xmldoc.createTextNode(stack));
+					oneError.appendChild(stackElement);
 				}
 
-				errorsElement.appendChild (oneError);
+				errorsElement.appendChild(oneError);
 			}
 
-			xmldoc.getDocumentElement ().appendChild (errorsElement);
+			xmldoc.getDocumentElement().appendChild(errorsElement);
 		}
 
 		ResponseElement oneElement = null;
 
-		for (Iterator reList = res.getAll (); reList.hasNext ();)
+		for (Iterator reList = res.getAll(); reList.hasNext();)
 		{
-			oneElement = (ResponseElement) reList.next ();
+			oneElement = (ResponseElement) reList.next();
 
 			if (oneElement != null)
 			{
-				serialize (oneElement, root, xmldoc, useElementNames);
+				serialize(oneElement, root, xmldoc, useElementNames);
 			}
 		}
 
@@ -194,27 +194,27 @@ public class ModelResponseSerializer
 	 * @throws SAXException If there is an error during serialization
 	 * @throws IOException If there is an error during formatting/serializing
 	 */
-	public static String serializeToString (KeelResponse res, String modelName)
+	public static String serializeToString(KeelResponse res, String modelName)
 		throws ParserConfigurationException, SAXException, IOException
 	{
-		Document xmldoc = serialize (res, modelName);
+		Document xmldoc = serialize(res, modelName);
 
 		// Serialize the document
-		OutputFormat format = new OutputFormat ();
+		OutputFormat format = new OutputFormat();
 
-		format.setLineWidth (65);
-		format.setIndenting (true);
-		format.setIndent (2);
+		format.setLineWidth(65);
+		format.setIndenting(true);
+		format.setIndent(2);
 
 		XMLSerializer serializer;
 
-		ByteArrayOutputStream bos = new ByteArrayOutputStream ();
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
-		serializer = new XMLSerializer (bos, format);
+		serializer = new XMLSerializer(bos, format);
 
-		serializer.serialize (xmldoc);
+		serializer.serialize(xmldoc);
 
-		return new String (bos.toString ());
+		return new String(bos.toString());
 	}
 
 	/**
@@ -226,12 +226,12 @@ public class ModelResponseSerializer
 	 * element?
 	 * @throws SAXException If an XML error occurrs during serialization
 	 */
-	private static void serialize (ResponseElement re, Element parent, Document xmldoc, boolean elementNames)
+	private static void serialize(ResponseElement re, Element parent, Document xmldoc, boolean elementNames)
 		throws SAXException
 	{
 		if (re == null)
 		{
-			throw new IllegalArgumentException ("ResponseElement may not be null: Parent " + parent.toString ());
+			throw new IllegalArgumentException("ResponseElement may not be null: Parent " + parent.toString());
 		}
 
 		//AttributesImpl attr = new AttributesImpl();
@@ -243,58 +243,58 @@ public class ModelResponseSerializer
 
 			if (elementNames)
 			{
-				in = createValidNameElement (xmldoc, i.getName ());
-				in.setAttribute ("element-type", "input");
+				in = createValidNameElement(xmldoc, i.getName());
+				in.setAttribute("element-type", "input");
 			}
 			else
 			{
-				in = xmldoc.createElement ("input");
-				in.setAttribute ("name", i.getName ());
+				in = xmldoc.createElement("input");
+				in.setAttribute("name", i.getName());
 			}
 
-			in.setAttribute ("label", i.getLabel ());
-			parent.appendChild (in);
-			parent.appendChild (xmldoc.createTextNode ("\n"));
+			in.setAttribute("label", i.getLabel());
+			parent.appendChild(in);
+			parent.appendChild(xmldoc.createTextNode("\n"));
 
-			if (i.getDefaultValue () != null)
+			if (i.getDefaultValue() != null)
 			{
-				Element def = xmldoc.createElement ("default-value");
+				Element def = xmldoc.createElement("default-value");
 
-				in.appendChild (def);
-				def.appendChild (xmldoc.createTextNode (i.getDefaultValue ().toString ()));
+				in.appendChild(def);
+				def.appendChild(xmldoc.createTextNode(i.getDefaultValue().toString()));
 			}
 
-			Map vv = i.getValidValues ();
+			Map vv = i.getValidValues();
 
-			if ((vv != null) && (vv.size () > 0))
+			if ((vv != null) && (vv.size() > 0))
 			{
-				Element vvElement = xmldoc.createElement ("valid-values");
+				Element vvElement = xmldoc.createElement("valid-values");
 
-				in.appendChild (vvElement);
+				in.appendChild(vvElement);
 
 				String oneValKey = null;
 				Object oneValObj = null;
 
-				for (Iterator iv = vv.keySet ().iterator (); iv.hasNext ();)
+				for (Iterator iv = vv.keySet().iterator(); iv.hasNext();)
 				{
-					oneValKey = (String) iv.next ();
+					oneValKey = (String) iv.next();
 
-					Element oneVV = xmldoc.createElement ("valid-value");
+					Element oneVV = xmldoc.createElement("valid-value");
 
-					vvElement.appendChild (oneVV);
-					oneVV.setAttribute ("value", oneValKey);
+					vvElement.appendChild(oneVV);
+					oneVV.setAttribute("value", oneValKey);
 
-					oneValObj = vv.get (oneValKey);
+					oneValObj = vv.get(oneValKey);
 
 					if (oneValObj != null)
 					{
-						oneVV.setAttribute ("label", oneValObj.toString ());
+						oneVV.setAttribute("label", oneValObj.toString());
 					}
 				}
 			}
 
-			handleNested (re, in, xmldoc, elementNames);
-			handleAttributes (re, in, xmldoc, elementNames);
+			handleNested(re, in, xmldoc, elementNames);
+			handleAttributes(re, in, xmldoc, elementNames);
 		}
 		else if (re instanceof Output)
 		{
@@ -304,89 +304,89 @@ public class ModelResponseSerializer
 
 			if (elementNames)
 			{
-				out = createValidNameElement (xmldoc, o.getName ());
-				out.setAttribute ("element-type", "output");
+				out = createValidNameElement(xmldoc, o.getName());
+				out.setAttribute("element-type", "output");
 			}
 			else
 			{
-				out = xmldoc.createElement ("output");
-				out.setAttribute ("name", o.getName ());
+				out = xmldoc.createElement("output");
+				out.setAttribute("name", o.getName());
 			}
 
-			if (o.getContent () != null)
+			if (o.getContent() != null)
 			{
-				serializeContents (xmldoc, out, o.getContent ());
+				serializeContents(xmldoc, out, o.getContent());
 			}
 
-			parent.appendChild (out);
+			parent.appendChild(out);
 
-			handleNested (re, out, xmldoc, elementNames);
-			handleAttributes (re, out, xmldoc, elementNames);
-			parent.appendChild (xmldoc.createTextNode ("\n"));
+			handleNested(re, out, xmldoc, elementNames);
+			handleAttributes(re, out, xmldoc, elementNames);
+			parent.appendChild(xmldoc.createTextNode("\n"));
 		}
 		else if (re instanceof Command)
 		{
 			Command c = (Command) re;
 
-			Element comm = xmldoc.createElement ("command");
+			Element comm = xmldoc.createElement("command");
 
-			comm.setAttribute ("name", c.getName ());
-			parent.appendChild (comm);
+			comm.setAttribute("name", c.getName());
+			parent.appendChild(comm);
 			//parent.appendChild(xmldoc.createTextNode("\n"));
-			comm.setAttribute ("label", c.getLabel ());
-			comm.setAttribute ("model", c.getModel ());
+			comm.setAttribute("label", c.getLabel());
+			comm.setAttribute("model", c.getModel());
 
-			Map params = c.getParameters ();
+			Map params = c.getParameters();
 			String oneKey = null;
 			Object oneValue = null;
 
-			for (Iterator ip = params.keySet ().iterator (); ip.hasNext ();)
+			for (Iterator ip = params.keySet().iterator(); ip.hasNext();)
 			{
-				oneKey = (String) ip.next ();
-				oneValue = params.get (oneKey);
+				oneKey = (String) ip.next();
+				oneValue = params.get(oneKey);
 
 				if (oneValue != null)
 				{
-					Element cp = xmldoc.createElement ("parameter");
+					Element cp = xmldoc.createElement("parameter");
 
-					comm.appendChild (cp);
-					cp.setAttribute ("name", oneKey);
-					cp.setAttribute ("value", oneValue.toString ());
+					comm.appendChild(cp);
+					cp.setAttribute("name", oneKey);
+					cp.setAttribute("value", oneValue.toString());
 				}
 			}
 
-			handleNested (re, comm, xmldoc, elementNames);
-			handleAttributes (re, comm, xmldoc, elementNames);
-			comm.appendChild (xmldoc.createTextNode ("\n"));
+			handleNested(re, comm, xmldoc, elementNames);
+			handleAttributes(re, comm, xmldoc, elementNames);
+			comm.appendChild(xmldoc.createTextNode("\n"));
 		}
 	}
 
-	private static void handleAttributes (ResponseElement re, Element e, Document xmldoc, boolean useElementNames)
+	private static void handleAttributes(ResponseElement re, Element e, Document xmldoc, boolean useElementNames)
 		throws SAXException
 	{
-		Map attrs = re.getAttributes ();
+		Map attrs = re.getAttributes();
 		String oneKey = null;
 		Object oneAttr = null;
 
 		if (e == null)
 		{
-			throw new IllegalArgumentException ("Element may not be null");
+			throw new IllegalArgumentException("Element may not be null");
 		}
 
 		if (re == null)
 		{
-			throw new IllegalArgumentException ("ResponseElement may not be null for element " + e.toString ());
+			throw new IllegalArgumentException("ResponseElement may not be null for element " + e.toString());
 		}
 
 		Element oneAttrib = null;
 
-		for (Iterator ai = attrs.keySet ().iterator (); ai.hasNext ();)
+		for (Iterator ai = attrs.keySet().iterator(); ai.hasNext();)
 		{
-			oneKey = (String) ai.next ();
+			oneKey = (String) ai.next();
 
 			if (oneKey != null)
 			{
-				oneAttr = attrs.get (oneKey);
+				oneAttr = attrs.get(oneKey);
 
 				if (oneAttr != null)
 				{
@@ -394,18 +394,18 @@ public class ModelResponseSerializer
 					{
 						if (oneAttrib == null)
 						{
-							oneAttrib = xmldoc.createElement ("attribute");
-							e.appendChild (oneAttrib);
+							oneAttrib = xmldoc.createElement("attribute");
+							e.appendChild(oneAttrib);
 						}
 
-						oneAttrib.setAttribute ("name", oneKey);
+						oneAttrib.setAttribute("name", oneKey);
 
-						serialize ((ResponseElement) oneAttr, oneAttrib, xmldoc, useElementNames);
+						serialize((ResponseElement) oneAttr, oneAttrib, xmldoc, useElementNames);
 					}
 					else
 					{
-						e.setAttribute (oneKey, oneAttr.toString ());
-						e.appendChild (xmldoc.createTextNode ("\n"));
+						e.setAttribute(oneKey, oneAttr.toString());
+						e.appendChild(xmldoc.createTextNode("\n"));
 					}
 				}
 			}
@@ -421,29 +421,29 @@ public class ModelResponseSerializer
 	 * @param useElementNames Use the name of each ResponseElement or generic names?
 	 * @throws SAXException If an XML error occurs during serialization
 	 */
-	private static void handleNested (ResponseElement re, Element e, Document xmldoc, boolean useElementNames)
+	private static void handleNested(ResponseElement re, Element e, Document xmldoc, boolean useElementNames)
 		throws SAXException
 	{
 		if (re == null)
 		{
-			throw new IllegalArgumentException ("ReponseElement may not be null");
+			throw new IllegalArgumentException("ReponseElement may not be null");
 		}
 
 		if (e == null)
 		{
-			throw new IllegalArgumentException ("Element may not be null");
+			throw new IllegalArgumentException("Element may not be null");
 		}
 
 		ResponseElement oneNested = null;
 
-		for (Iterator i = re.getAll ().iterator (); i.hasNext ();)
+		for (Iterator i = re.getAll().iterator(); i.hasNext();)
 		{
-			oneNested = (ResponseElement) i.next ();
+			oneNested = (ResponseElement) i.next();
 
 			if (oneNested != null)
 			{
-				serialize (oneNested, e, xmldoc, useElementNames);
-				e.appendChild (xmldoc.createTextNode ("\n"));
+				serialize(oneNested, e, xmldoc, useElementNames);
+				e.appendChild(xmldoc.createTextNode("\n"));
 			}
 		}
 	}
@@ -455,25 +455,25 @@ public class ModelResponseSerializer
 	 * @param name
 	 * @return Element
 	 */
-	private static Element createValidNameElement (Document xmldoc, String name)
+	private static Element createValidNameElement(Document xmldoc, String name)
 	{
 		Element returnValue = null;
 
 		try
 		{
-			returnValue = xmldoc.createElement (name);
+			returnValue = xmldoc.createElement(name);
 		}
 		catch (DOMException de)
 		{
 			/* probably an invalid name for the element */
 			count++;
-			returnValue = xmldoc.createElement ("invalidElementName" + count);
+			returnValue = xmldoc.createElement("invalidElementName" + count);
 		}
 
 		return returnValue;
 	}
 
-	private static void serializeContents (Document xmldoc, Element parent, Object c)
+	private static void serializeContents(Document xmldoc, Element parent, Object c)
 	{
 		if (c == null)
 		{
@@ -486,15 +486,15 @@ public class ModelResponseSerializer
 			String oneKey = null;
 			Object oneValue = null;
 
-			for (Iterator i = m.keySet ().iterator (); i.hasNext ();)
+			for (Iterator i = m.keySet().iterator(); i.hasNext();)
 			{
-				oneKey = (String) i.next ();
-				oneValue = m.get (oneKey);
+				oneKey = (String) i.next();
+				oneValue = m.get(oneKey);
 
-				Element entry = createValidNameElement (xmldoc, oneKey);
+				Element entry = createValidNameElement(xmldoc, oneKey);
 
-				parent.appendChild (entry);
-				serializeContents (xmldoc, entry, oneValue);
+				parent.appendChild(entry);
+				serializeContents(xmldoc, entry, oneValue);
 			}
 		}
 		else if (c instanceof Collection)
@@ -502,23 +502,23 @@ public class ModelResponseSerializer
 			Collection coll = (Collection) c;
 			Object oneElement = null;
 
-			for (Iterator i = coll.iterator (); i.hasNext ();)
+			for (Iterator i = coll.iterator(); i.hasNext();)
 			{
-				oneElement = i.next ();
+				oneElement = i.next();
 
-				Element member = xmldoc.createElement ("member");
+				Element member = xmldoc.createElement("member");
 
-				parent.appendChild (member);
-				serializeContents (xmldoc, member, oneElement);
+				parent.appendChild(member);
+				serializeContents(xmldoc, member, oneElement);
 			}
 		}
 		else
 		{
-			String contentString = c.toString ();
+			String contentString = c.toString();
 
-			if (! contentString.equals (""))
+			if (! contentString.equals(""))
 			{
-				parent.appendChild (xmldoc.createTextNode (contentString));
+				parent.appendChild(xmldoc.createTextNode(contentString));
 			}
 		}
 	}

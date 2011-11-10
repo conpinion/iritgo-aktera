@@ -51,52 +51,52 @@ public class DownloadList extends StandardLogEnabledModel
 	 * @param request The model request.
 	 * @return The model response.
 	 */
-	public ModelResponse execute (ModelRequest request) throws ModelException
+	public ModelResponse execute(ModelRequest request) throws ModelException
 	{
-		ModelResponse response = request.createResponse ();
+		ModelResponse response = request.createResponse();
 
-		String downloadDir = getConfiguration ().getChild ("directory").getValue (null);
+		String downloadDir = getConfiguration().getChild("directory").getValue(null);
 
 		if (downloadDir == null)
 		{
-			log.error ("No download directory specified");
-			throw new ModelException ("No download directory specified");
+			log.error("No download directory specified");
+			throw new ModelException("No download directory specified");
 		}
 
-		String urlBase = getConfiguration ().getChild ("url").getValue (null);
+		String urlBase = getConfiguration().getChild("url").getValue(null);
 
 		if (urlBase == null)
 		{
-			log.error ("No URL base specified");
-			throw new ModelException ("No URL base specified");
+			log.error("No URL base specified");
+			throw new ModelException("No URL base specified");
 		}
 
-		Output outList = response.createOutput ("list");
+		Output outList = response.createOutput("list");
 
-		response.add (outList);
+		response.add(outList);
 
-		List<File> files = new LinkedList (FileUtils.listFiles (FileTools.newAkteraFile (downloadDir),
+		List<File> files = new LinkedList(FileUtils.listFiles(FileTools.newAkteraFile(downloadDir),
 						TrueFileFilter.INSTANCE, null));
 
-		Collections.sort (files, new Comparator<File> ()
+		Collections.sort(files, new Comparator<File>()
 		{
-			public int compare (File o1, File o2)
+			public int compare(File o1, File o2)
 			{
-				return o1.getName ().compareToIgnoreCase (o2.getName ());
+				return o1.getName().compareToIgnoreCase(o2.getName());
 			}
 		});
 
 		for (File file : files)
 		{
-			Output outFile = response.createOutput ("file" + file.hashCode ());
+			Output outFile = response.createOutput("file" + file.hashCode());
 
-			outFile.setContent (file.getName ());
-			outFile.setAttribute ("extension", FilenameUtils.getExtension (file.getName ()));
-			outFile.setAttribute ("url", urlBase + "/" + file.getName ());
-			outList.add (outFile);
+			outFile.setContent(file.getName());
+			outFile.setAttribute("extension", FilenameUtils.getExtension(file.getName()));
+			outFile.setAttribute("url", urlBase + "/" + file.getName());
+			outList.add(outFile);
 		}
 
-		response.setAttribute ("forward", "aktera.tools.download-list");
+		response.setAttribute("forward", "aktera.tools.download-list");
 
 		return response;
 	}

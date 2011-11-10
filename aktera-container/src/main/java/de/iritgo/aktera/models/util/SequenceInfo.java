@@ -55,50 +55,50 @@ public class SequenceInfo implements LogEnabled
 	/**
 	 * @param sc
 	 */
-	public SequenceInfo (SequenceContext sc)
+	public SequenceInfo(SequenceContext sc)
 	{
-		this.sequenceSteps = sc.getSequenceSteps ();
-		this.seqStepNum = sc.getSeqStepNum ();
-		this.sequenceName = sc.getSequenceName ();
+		this.sequenceSteps = sc.getSequenceSteps();
+		this.seqStepNum = sc.getSeqStepNum();
+		this.sequenceName = sc.getSequenceName();
 	}
 
-	public static SequenceInfo getSequenceInfo (Context context) throws ModelException
+	public static SequenceInfo getSequenceInfo(Context context) throws ModelException
 	{
-		SequenceContext sc = SequenceContext.getSequenceContext (context);
-		SequenceInfo sequenceInfo = new SequenceInfo (sc);
+		SequenceContext sc = SequenceContext.getSequenceContext(context);
+		SequenceInfo sequenceInfo = new SequenceInfo(sc);
 
 		return sequenceInfo;
 	}
 
-	public static SequenceInfo getSequenceInfo (ModelRequest req) throws ModelException
+	public static SequenceInfo getSequenceInfo(ModelRequest req) throws ModelException
 	{
-		SequenceContext sc = SequenceContext.getSequenceContext (req);
-		SequenceInfo sequenceInfo = new SequenceInfo (sc);
+		SequenceContext sc = SequenceContext.getSequenceContext(req);
+		SequenceInfo sequenceInfo = new SequenceInfo(sc);
 
 		return sequenceInfo;
 	}
 
-	public static Configuration getCurrentStep (ModelRequest req) throws ModelException
+	public static Configuration getCurrentStep(ModelRequest req) throws ModelException
 	{
 		Configuration config = null;
-		SequenceInfo si = getSequenceInfo (req);
+		SequenceInfo si = getSequenceInfo(req);
 
 		if (si != null)
 		{
-			config = si.getCurrentStep ();
+			config = si.getCurrentStep();
 		}
 
 		return config;
 	}
 
-	public static Configuration getCurrentStep (Context context) throws ModelException
+	public static Configuration getCurrentStep(Context context) throws ModelException
 	{
 		Configuration config = null;
-		SequenceInfo si = getSequenceInfo (context);
+		SequenceInfo si = getSequenceInfo(context);
 
 		if (si != null)
 		{
-			config = si.getCurrentStep ();
+			config = si.getCurrentStep();
 		}
 
 		return config;
@@ -110,7 +110,7 @@ public class SequenceInfo implements LogEnabled
 	 * or less than one.
 	 * @return
 	 */
-	public Configuration getCurrentStep ()
+	public Configuration getCurrentStep()
 	{
 		Configuration oneElement = null;
 
@@ -125,33 +125,33 @@ public class SequenceInfo implements LogEnabled
 		return oneElement;
 	}
 
-	public static Configuration[] getSequenceSteps (ModelRequest req) throws ModelException
+	public static Configuration[] getSequenceSteps(ModelRequest req) throws ModelException
 	{
 		Configuration[] theSeqSteps = null;
-		SequenceInfo si = getSequenceInfo (req);
+		SequenceInfo si = getSequenceInfo(req);
 
 		if (si != null)
 		{
-			theSeqSteps = si.getSequenceSteps ();
+			theSeqSteps = si.getSequenceSteps();
 		}
 
 		return theSeqSteps;
 	}
 
-	public static Configuration[] getSequenceSteps (Context context) throws ModelException
+	public static Configuration[] getSequenceSteps(Context context) throws ModelException
 	{
 		Configuration[] theSeqSteps = null;
-		SequenceInfo si = getSequenceInfo (context);
+		SequenceInfo si = getSequenceInfo(context);
 
 		if (si != null)
 		{
-			theSeqSteps = si.getSequenceSteps ();
+			theSeqSteps = si.getSequenceSteps();
 		}
 
 		return theSeqSteps;
 	}
 
-	public Configuration[] getSequenceSteps () throws ModelException
+	public Configuration[] getSequenceSteps() throws ModelException
 	{
 		return sequenceSteps;
 	}
@@ -159,16 +159,16 @@ public class SequenceInfo implements LogEnabled
 	/**
 	 * @see org.apache.avalon.framework.logger.LogEnabled#enableLogging(org.apache.avalon.framework.logger.Logger)
 	 */
-	public void enableLogging (Logger logger)
+	public void enableLogging(Logger logger)
 	{
 		theSequenceInfoLogger = logger;
 	}
 
-	protected void debug (String msg)
+	protected void debug(String msg)
 	{
-		if (theSequenceInfoLogger != null && theSequenceInfoLogger.isDebugEnabled ())
+		if (theSequenceInfoLogger != null && theSequenceInfoLogger.isDebugEnabled())
 		{
-			theSequenceInfoLogger.debug (msg);
+			theSequenceInfoLogger.debug(msg);
 		}
 	}
 }

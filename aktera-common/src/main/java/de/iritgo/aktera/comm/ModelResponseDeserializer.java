@@ -41,43 +41,43 @@ import java.util.HashMap;
 public class ModelResponseDeserializer
 {
 	//--- Do not allow this to be instantiated since it is a Singleton.
-	private ModelResponseDeserializer ()
+	private ModelResponseDeserializer()
 	{
 	} // ModelResponseDeserializer
 
-	public static KeelResponse deserialize (Element root)
+	public static KeelResponse deserialize(Element root)
 		throws ParserConfigurationException, SAXException, ModelException
 	{
 		assert root != null;
 
-		ModelResponseMessage res = new ModelResponseMessage ();
+		ModelResponseMessage res = new ModelResponseMessage();
 
-		res.setAttribute ("model", root.getAttribute ("name"));
+		res.setAttribute("model", root.getAttribute("name"));
 
 		/* Handle response attributes */
-		NamedNodeMap attribs = root.getAttributes ();
+		NamedNodeMap attribs = root.getAttributes();
 
-		for (int i = 0; i < attribs.getLength (); i++)
+		for (int i = 0; i < attribs.getLength(); i++)
 		{
-			Node oneAttrib = attribs.item (i);
+			Node oneAttrib = attribs.item(i);
 
-			res.setAttribute (oneAttrib.getLocalName (), oneAttrib.getNodeValue ());
+			res.setAttribute(oneAttrib.getLocalName(), oneAttrib.getNodeValue());
 		}
 
-		NodeList children = root.getChildNodes ();
+		NodeList children = root.getChildNodes();
 		Node oneChild = null;
 
-		for (int i = 0; i < children.getLength (); i++)
+		for (int i = 0; i < children.getLength(); i++)
 		{
-			oneChild = children.item (i);
+			oneChild = children.item(i);
 
-			if (! getAttribute (oneChild, "element-type").equals (""))
+			if (! getAttribute(oneChild, "element-type").equals(""))
 			{
-				ResponseElement child = handleChild (oneChild);
+				ResponseElement child = handleChild(oneChild);
 
 				if (child != null)
 				{
-					res.add (child);
+					res.add(child);
 				}
 			}
 		}
@@ -85,107 +85,107 @@ public class ModelResponseDeserializer
 		return res;
 	}
 
-	private static ResponseElement handleChild (Node oneChild)
+	private static ResponseElement handleChild(Node oneChild)
 	{
 		assert oneChild != null;
 
-		if (oneChild.getNodeType () == Node.TEXT_NODE)
+		if (oneChild.getNodeType() == Node.TEXT_NODE)
 		{
 			return null;
 		}
 
-		if (getAttribute (oneChild, "element-type").equals ("input"))
+		if (getAttribute(oneChild, "element-type").equals("input"))
 		{
-			InputMessage in = new InputMessage ();
+			InputMessage in = new InputMessage();
 
-			in.setLabel (getAttribute (oneChild, "label"));
-			in.setDefaultValue (getAttribute (oneChild, "default-value"));
+			in.setLabel(getAttribute(oneChild, "label"));
+			in.setDefaultValue(getAttribute(oneChild, "default-value"));
 
-			HashMap vvMap = new HashMap ();
+			HashMap vvMap = new HashMap();
 			Node inputChild = null;
 
-			for (int i = 0; i < oneChild.getChildNodes ().getLength (); i++)
+			for (int i = 0; i < oneChild.getChildNodes().getLength(); i++)
 			{
-				inputChild = oneChild.getChildNodes ().item (i);
+				inputChild = oneChild.getChildNodes().item(i);
 
-				if (inputChild.getLocalName ().equals ("valid-values"))
+				if (inputChild.getLocalName().equals("valid-values"))
 				{
 					Node vvChild = null;
 
-					for (int j = 0; j < inputChild.getChildNodes ().getLength (); j++)
+					for (int j = 0; j < inputChild.getChildNodes().getLength(); j++)
 					{
-						vvChild = inputChild.getChildNodes ().item (j);
+						vvChild = inputChild.getChildNodes().item(j);
 
-						if (vvChild.getLocalName ().equals ("valid-value"))
+						if (vvChild.getLocalName().equals("valid-value"))
 						{
-							vvMap.put (getAttribute (vvChild, "name"), getAttribute (vvChild, "value"));
+							vvMap.put(getAttribute(vvChild, "name"), getAttribute(vvChild, "value"));
 						}
 					}
 				}
 			}
 
-			in.setValidValues (vvMap);
-			handleAttributes (in, oneChild);
-			handleNested (in, oneChild);
+			in.setValidValues(vvMap);
+			handleAttributes(in, oneChild);
+			handleNested(in, oneChild);
 
 			return in;
 		}
 
-		if (getAttribute (oneChild, "element-type").equals ("output"))
+		if (getAttribute(oneChild, "element-type").equals("output"))
 		{
-			OutputMessage out = new OutputMessage ();
+			OutputMessage out = new OutputMessage();
 
-			out.setName (oneChild.getLocalName ());
+			out.setName(oneChild.getLocalName());
 
-			StringBuffer contents = new StringBuffer ("");
+			StringBuffer contents = new StringBuffer("");
 			Node outputChild = null;
 
-			for (int i = 0; i < oneChild.getChildNodes ().getLength (); i++)
+			for (int i = 0; i < oneChild.getChildNodes().getLength(); i++)
 			{
-				outputChild = oneChild.getChildNodes ().item (i);
+				outputChild = oneChild.getChildNodes().item(i);
 
-				if (outputChild.getNodeType () == Node.TEXT_NODE)
+				if (outputChild.getNodeType() == Node.TEXT_NODE)
 				{
-					contents.append (outputChild.getNodeValue ());
+					contents.append(outputChild.getNodeValue());
 				}
 			}
 
-			out.setContent (contents);
-			handleAttributes (out, oneChild);
-			handleNested (out, oneChild);
+			out.setContent(contents);
+			handleAttributes(out, oneChild);
+			handleNested(out, oneChild);
 
 			return out;
 		}
 
-		if (getAttribute (oneChild, "element-type").equals ("command"))
+		if (getAttribute(oneChild, "element-type").equals("command"))
 		{
-			CommandMessage cmd = new CommandMessage ();
+			CommandMessage cmd = new CommandMessage();
 
-			cmd.setName (oneChild.getLocalName ());
-			cmd.setModel (getAttribute (oneChild, "model"));
-			cmd.setBean (getAttribute (oneChild, "bean"));
-			cmd.setLabel (getAttribute (oneChild, "label"));
+			cmd.setName(oneChild.getLocalName());
+			cmd.setModel(getAttribute(oneChild, "model"));
+			cmd.setBean(getAttribute(oneChild, "bean"));
+			cmd.setLabel(getAttribute(oneChild, "label"));
 
 			Node commandChild = null;
 
-			for (int i = 0; i < oneChild.getChildNodes ().getLength (); i++)
+			for (int i = 0; i < oneChild.getChildNodes().getLength(); i++)
 			{
-				commandChild = oneChild.getChildNodes ().item (i);
+				commandChild = oneChild.getChildNodes().item(i);
 
-				if (commandChild.getLocalName ().equals ("parameter"))
+				if (commandChild.getLocalName().equals("parameter"))
 				{
-					cmd.setParameter (getAttribute (oneChild, "name"), getAttribute (oneChild, "value"));
+					cmd.setParameter(getAttribute(oneChild, "name"), getAttribute(oneChild, "value"));
 				}
 			}
 
-			handleAttributes (cmd, oneChild);
-			handleNested (cmd, oneChild);
+			handleAttributes(cmd, oneChild);
+			handleNested(cmd, oneChild);
 
 			return cmd;
 		}
 
-		throw new IllegalArgumentException ("Unknown element-type '" + getAttribute (oneChild, "element-type")
-						+ "' in element '" + oneChild.toString () + "'");
+		throw new IllegalArgumentException("Unknown element-type '" + getAttribute(oneChild, "element-type")
+						+ "' in element '" + oneChild.toString() + "'");
 	}
 
 	/**
@@ -195,19 +195,19 @@ public class ModelResponseDeserializer
 	 * @param attribName
 	 * @return
 	 */
-	private static void handleNested (ResponseElement re, Node oneChild)
+	private static void handleNested(ResponseElement re, Node oneChild)
 	{
 		Node oneSub = null;
 
-		for (int i = 0; i < oneChild.getChildNodes ().getLength (); i++)
+		for (int i = 0; i < oneChild.getChildNodes().getLength(); i++)
 		{
-			oneSub = oneChild.getChildNodes ().item (i);
+			oneSub = oneChild.getChildNodes().item(i);
 
-			if (oneSub.getNodeType () != Node.TEXT_NODE)
+			if (oneSub.getNodeType() != Node.TEXT_NODE)
 			{
-				if (oneSub.getLocalName ().equals ("attribute"))
+				if (oneSub.getLocalName().equals("attribute"))
 				{
-					re.setAttribute (getAttribute (oneChild, "name"), getAttribute (oneChild, "value"));
+					re.setAttribute(getAttribute(oneChild, "name"), getAttribute(oneChild, "value"));
 				}
 			}
 		}
@@ -218,19 +218,19 @@ public class ModelResponseDeserializer
 	 * @param re
 	 * @param oneChild
 	 */
-	private static void handleAttributes (ResponseElement re, Node oneChild)
+	private static void handleAttributes(ResponseElement re, Node oneChild)
 	{
 		Node oneSub = null;
 
-		for (int i = 0; i < oneChild.getChildNodes ().getLength (); i++)
+		for (int i = 0; i < oneChild.getChildNodes().getLength(); i++)
 		{
-			oneSub = oneChild.getChildNodes ().item (i);
+			oneSub = oneChild.getChildNodes().item(i);
 
-			if (! getAttribute (oneChild, "element-type").equals (""))
+			if (! getAttribute(oneChild, "element-type").equals(""))
 			{
-				ResponseElement ne = handleChild (oneSub);
+				ResponseElement ne = handleChild(oneSub);
 
-				re.add (ne);
+				re.add(ne);
 			}
 		}
 	}
@@ -242,14 +242,14 @@ public class ModelResponseDeserializer
 	 * @param attribName
 	 * @return String
 	 */
-	private static String getAttribute (Node n, String attribName)
+	private static String getAttribute(Node n, String attribName)
 	{
 		if (n == null)
 		{
 			return "";
 		}
 
-		NamedNodeMap paramAttrs = n.getAttributes ();
+		NamedNodeMap paramAttrs = n.getAttributes();
 
 		if (paramAttrs == null)
 		{
@@ -258,13 +258,13 @@ public class ModelResponseDeserializer
 
 		Node oneParamAttr = null;
 
-		for (int k = 0; k < paramAttrs.getLength (); k++)
+		for (int k = 0; k < paramAttrs.getLength(); k++)
 		{
-			oneParamAttr = paramAttrs.item (k);
+			oneParamAttr = paramAttrs.item(k);
 
-			if (oneParamAttr.getLocalName ().equals (attribName))
+			if (oneParamAttr.getLocalName().equals(attribName))
 			{
-				return oneParamAttr.getNodeValue ();
+				return oneParamAttr.getNodeValue();
 			}
 		}
 

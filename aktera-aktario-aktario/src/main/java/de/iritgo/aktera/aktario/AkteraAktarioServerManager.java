@@ -42,22 +42,22 @@ public class AkteraAktarioServerManager extends BaseObject implements Manager
 	/**
 	 * Create a new client manager.
 	 */
-	public AkteraAktarioServerManager ()
+	public AkteraAktarioServerManager()
 	{
-		super ("AkteraAktarioServerManager");
+		super("AkteraAktarioServerManager");
 	}
 
 	/**
 	 * Initialize the client manager.
 	 */
-	public void init ()
+	public void init()
 	{
 	}
 
 	/**
 	 * Free all client manager resources.
 	 */
-	public void unload ()
+	public void unload()
 	{
 	}
 
@@ -66,33 +66,33 @@ public class AkteraAktarioServerManager extends BaseObject implements Manager
 	 *
 	 * @param props Model request properties.
 	 */
-	public void doModel (Properties props)
+	public void doModel(Properties props)
 	{
 		try
 		{
-			Container keelContainer = (Container) ServerAppContext.serverInstance ().getObject ("keel.container");
+			Container keelContainer = (Container) ServerAppContext.serverInstance().getObject("keel.container");
 
-			Model model = (Model) keelContainer.getService (Model.ROLE, props.getProperty ("model"));
+			Model model = (Model) keelContainer.getService(Model.ROLE, props.getProperty("model"));
 
-			ModelRequest req = (ModelRequest) keelContainer.getService (ModelRequest.ROLE);
-			DefaultContext context = new DefaultContext ();
+			ModelRequest req = (ModelRequest) keelContainer.getService(ModelRequest.ROLE);
+			DefaultContext context = new DefaultContext();
 
-			((KeelContextualizable) req).setKeelContext (context);
+			((KeelContextualizable) req).setKeelContext(context);
 
 			String attributeName = null;
 
-			for (Iterator i = props.keySet ().iterator (); i.hasNext ();)
+			for (Iterator i = props.keySet().iterator(); i.hasNext();)
 			{
-				attributeName = (String) i.next ();
-				req.setParameter (attributeName, props.getProperty (attributeName));
+				attributeName = (String) i.next();
+				req.setParameter(attributeName, props.getProperty(attributeName));
 			}
 
-			model.execute (req);
+			model.execute(req);
 		}
 		catch (Exception x)
 		{
-			Log.logError ("server", "AkteraAktarioServerManager.doModel", "Unable to execute model: " + x.toString ());
-			x.printStackTrace ();
+			Log.logError("server", "AkteraAktarioServerManager.doModel", "Unable to execute model: " + x.toString());
+			x.printStackTrace();
 		}
 	}
 }

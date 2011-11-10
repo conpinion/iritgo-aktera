@@ -49,105 +49,104 @@ public abstract class AbstractAddressListingHandler extends ListingHandler
 	protected PermissionManager permissionManager;
 
 	@Override
-	public Map<String, String> createSearchCategories (ModelRequest request, ListingDescriptor listing)
+	public Map<String, String> createSearchCategories(ModelRequest request, ListingDescriptor listing)
 		throws ModelException
 	{
-		Map<String, String> addressStores = new TreeMap<String, String> ();
+		Map<String, String> addressStores = new TreeMap<String, String>();
 		try
 		{
-			String userName = getActualUserName (request);
-			for (Tuple2<Integer, String> store : addressManager.listAddressStoresIdAndTitle ())
+			String userName = getActualUserName(request);
+			for (Tuple2<Integer, String> store : addressManager.listAddressStoresIdAndTitle())
 			{
-				if (permissionManager.hasPermission (userName, "de.iritgo.aktera.address.view", AddressStore.class
-								.getName (), store.get1 ()))
+				if (permissionManager.hasPermission(userName, "de.iritgo.aktera.address.view", AddressStore.class
+								.getName(), store.get1()))
 				{
-					addressStores.put (store.get1 ().toString (), store.get2 ());
+					addressStores.put(store.get1().toString(), store.get2());
 				}
 			}
 		}
 		catch (PersistenceException x)
 		{
-			throw new ModelException (x);
+			throw new ModelException(x);
 		}
 		return addressStores;
 	}
 
 	@Override
-	public String getCurrentSearchCategory (ModelRequest request, ListingDescriptor listing) throws ModelException
+	public String getCurrentSearchCategory(ModelRequest request, ListingDescriptor listing) throws ModelException
 	{
 		try
 		{
-			return addressManager.getAddressStoreById (NumberTools.toInt (listing.getCategory (), - 1)).getId ()
-							.toString ();
+			return addressManager.getAddressStoreById(NumberTools.toInt(listing.getCategory(), - 1)).getId().toString();
 		}
 		catch (AddressStoreNotFoundException x)
 		{
-			return addressManager.getDefaultAddressStore ().getId ().toString ();
+			return addressManager.getDefaultAddressStore().getId().toString();
 		}
 	}
 
 	@Override
-	public ListFiller createListing (ModelRequest request, ListingDescriptor listing, ListingHandler handler,
+	public ListFiller createListing(ModelRequest request, ListingDescriptor listing, ListingHandler handler,
 					ListContext context) throws ModelException, PersistenceException
 	{
 		try
 		{
-			AddressStore store = addressManager.getAddressStoreById (NumberTools.toInt (getCurrentSearchCategory (
-							request, listing), - 1));
+			AddressStore store = addressManager.getAddressStoreById(NumberTools.toInt(getCurrentSearchCategory(request,
+							listing), - 1));
 
-			final long addressCount = store.countAddressesByOwnerAndSearch (UserTools.getCurrentUserId (request),
-							request.getParameterAsString (listing.getId () + "Search", ""));
+			final long addressCount = store.countAddressesByOwnerAndSearch(UserTools.getCurrentUserId(request), request
+							.getParameterAsString(listing.getId() + "Search", ""));
 
-			context.setFirstResult (Math.min (context.getFirstResult (), context.getResultsPerPage ()
-							* (int) (addressCount / context.getResultsPerPage ())));
+			context.setFirstResult(Math.min(context.getFirstResult(), context.getResultsPerPage()
+							* (int) (addressCount / context.getResultsPerPage())));
 
-			final List<Address> addresses = store.createAddressListing (UserTools.getCurrentUserId (request), request
-							.getParameterAsString (listing.getId () + "Search", ""), listing.getSortColumnName (),
-							listing.getSortOrder (), context.getFirstResult (), context.getResultsPerPage ());
+			final List<Address> addresses = store.createAddressListing(UserTools.getCurrentUserId(request), request
+							.getParameterAsString(listing.getId() + "Search", ""), listing.getSortColumnName(), listing
+							.getSortOrder(), context.getFirstResult(), context.getResultsPerPage());
 
-			return new ListFiller ()
+			return new ListFiller()
 			{
-				Iterator<Address> i = addresses.iterator ();
+				Iterator<Address> i = addresses.iterator();
 
 				Address address = null;
 
 				@Override
-				public long getTotalRowCount ()
+				public long getTotalRowCount()
 				{
 					return addressCount;
 				}
 
 				@Override
-				public int getRowCount ()
+				public int getRowCount()
 				{
-					return addresses.size ();
+					return addresses.size();
 				}
 
 				@Override
-				public boolean next ()
+				public boolean next()
 				{
-					boolean more = i.hasNext ();
+					boolean more = i.hasNext();
 
 					if (more)
 					{
-						address = i.next ();
+						address = i.next();
 					}
 
 					return more;
 				}
 
 				@Override
-				public Object getId ()
+				public Object getId()
 				{
-					return StringTools.trim (address.getAnyId ());
+					return StringTools.trim(address.getAnyId());
 				}
 
 				@Override
-				public Object getValue (String column)
+				public Object getValue(String column)
 				{
 					try
 					{
-						return PropertyUtils.getNestedProperty (address, column);
+						return PropertyUtils.getNestedProperty(address, column);
 					}
 					catch (IllegalAccessException x)
 					{
@@ -165,7 +164,7 @@ public abstract class AbstractAddressListingHandler extends ListingHandler
 		}
 		catch (AddressStoreNotFoundException x)
 		{
-			throw new ModelException (x);
+			throw new ModelException(x);
 		}
 	}
 }

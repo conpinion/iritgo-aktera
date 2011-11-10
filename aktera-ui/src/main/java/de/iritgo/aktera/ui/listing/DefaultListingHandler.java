@@ -33,7 +33,7 @@ public class DefaultListingHandler extends ListingHandler
 	/**
 	 * Create a default listing handler.
 	 */
-	public DefaultListingHandler ()
+	public DefaultListingHandler()
 	{
 	}
 
@@ -41,7 +41,7 @@ public class DefaultListingHandler extends ListingHandler
 	 * @see de.iritgo.aktera.ui.listing.ListingHandler#adjustListing(de.iritgo.aktera.model.ModelRequest, de.iritgo.aktera.ui.listing.ListingDescriptor, ListContext)
 	 */
 	@Override
-	public void adjustListing (ModelRequest req, ListingDescriptor listing, ListContext context) throws ModelException
+	public void adjustListing(ModelRequest req, ListingDescriptor listing, ListContext context) throws ModelException
 	{
 	}
 
@@ -49,7 +49,7 @@ public class DefaultListingHandler extends ListingHandler
 	 * @see de.iritgo.aktera.ui.listing.ListingHandler#createListing(de.iritgo.aktera.model.ModelRequest, de.iritgo.aktera.ui.listing.ListingDescriptor, de.iritgo.aktera.ui.listing.ListingHandler, ListContext)
 	 */
 	@Override
-	public ListFiller createListing (ModelRequest request, ListingDescriptor listing, ListingHandler handler,
+	public ListFiller createListing(ModelRequest request, ListingDescriptor listing, ListingHandler handler,
 					ListContext context) throws ModelException, PersistenceException
 	{
 		return null;

@@ -24,7 +24,7 @@ public interface SystemCheckService
 {
 	public static String ID = "de.iritgo.aktera.base.server.SystemCheckService";
 
-	public boolean isSystemReady ();
+	public boolean isSystemReady();
 
-	public String getSystemCheckModel ();
+	public String getSystemCheckModel();
 }

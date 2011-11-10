@@ -37,24 +37,24 @@ public class PersistentDynaClassFactory
 	/**
 	 * Static singleton pattern
 	 */
-	private PersistentDynaClassFactory ()
+	private PersistentDynaClassFactory()
 	{
 	}
 
-	public static BasicDynaClass getInstance (Persistent pe)
+	public static BasicDynaClass getInstance(Persistent pe)
 	{
 		try
 		{
-			PersistentMetaData pmd = pe.getMetaData ();
+			PersistentMetaData pmd = pe.getMetaData();
 			int propCount = 0;
-			DynaProperty[] props = new DynaProperty[pmd.getFieldNames ().size ()];
+			DynaProperty[] props = new DynaProperty[pmd.getFieldNames().size()];
 			String oneFieldName = null;
 			int oneType;
 
-			for (Iterator ef = pmd.getFieldNames ().iterator (); ef.hasNext ();)
+			for (Iterator ef = pmd.getFieldNames().iterator(); ef.hasNext();)
 			{
-				oneFieldName = (String) ef.next ();
-				oneType = JDBCDatabaseType.stringToType (pmd.getType (oneFieldName));
+				oneFieldName = (String) ef.next();
+				oneType = JDBCDatabaseType.stringToType(pmd.getType(oneFieldName));
 
 				String typeClass = "java.lang.Object";
 
@@ -206,19 +206,19 @@ public class PersistentDynaClassFactory
 						break;
 				}
 
-				DynaProperty fieldProp = new DynaProperty (oneFieldName, Class.forName (typeClass));
+				DynaProperty fieldProp = new DynaProperty(oneFieldName, Class.forName(typeClass));
 
 				props[propCount++] = fieldProp;
 			}
 
-			return new BasicDynaClass (pe.getName (), Class
-							.forName ("de.iritgo.aktera.persist.defaultpersist.PersistentDynaBean"), props);
+			return new BasicDynaClass(pe.getName(), Class
+							.forName("de.iritgo.aktera.persist.defaultpersist.PersistentDynaBean"), props);
 		}
 		catch (Exception e)
 		{
-			System.err.println ("Unable to get instance of dynaclass");
-			e.printStackTrace (System.err);
-			throw new IllegalArgumentException (e.getMessage ());
+			System.err.println("Unable to get instance of dynaclass");
+			e.printStackTrace(System.err);
+			throw new IllegalArgumentException(e.getMessage());
 		}
 	}
 }

@@ -25,13 +25,13 @@ import de.iritgo.aktera.core.exception.NestedException;
 
 public class ContainerException extends NestedException
 {
-	public ContainerException (String s)
+	public ContainerException(String s)
 	{
-		super (s);
+		super(s);
 	}
 
-	public ContainerException (String s, Throwable t)
+	public ContainerException(String s, Throwable t)
 	{
-		super (s, t);
+		super(s, t);
 	}
 }

@@ -31,7 +31,7 @@ public final class TimeTools
 	 * @param minutes The time span in minutes.
 	 * @return The time span in milli seconds.
 	 */
-	public static long minutesToMillis (int minutes)
+	public static long minutesToMillis(int minutes)
 	{
 		return ((long) minutes) * 60L * 1000L;
 	}
@@ -42,7 +42,7 @@ public final class TimeTools
 	 * @param days The time span in days.
 	 * @return The time span in milli seconds.
 	 */
-	public static long daysToMillis (int days)
+	public static long daysToMillis(int days)
 	{
 		return ((long) days) * 24L * 60L * 60L * 1000L;
 	}
@@ -53,9 +53,9 @@ public final class TimeTools
 	 * @param months The time span in days.
 	 * @return The time span in milli seconds.
 	 */
-	public static long monthsToMillis (int months)
+	public static long monthsToMillis(int months)
 	{
-		return daysToMillis (months * 31);
+		return daysToMillis(months * 31);
 	}
 
 	/**
@@ -64,8 +64,8 @@ public final class TimeTools
 	 * @param weeks The time span in weeks.
 	 * @return The time span in milli seconds.
 	 */
-	public static long weeksToMillis (int weeks)
+	public static long weeksToMillis(int weeks)
 	{
-		return daysToMillis (weeks * 7);
+		return daysToMillis(weeks * 7);
 	}
 }

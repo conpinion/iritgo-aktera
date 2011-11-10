@@ -48,16 +48,16 @@ public class NewAkteraObjectResponse extends FrameworkAction
 	/**
 	 *
 	 */
-	public NewAkteraObjectResponse ()
+	public NewAkteraObjectResponse()
 	{
 	}
 
 	/**
 	 *
 	 */
-	public NewAkteraObjectResponse (String model, long dataObjectUniqueId, String jFrameId, String queryPaneId)
+	public NewAkteraObjectResponse(String model, long dataObjectUniqueId, String jFrameId, String queryPaneId)
 	{
-		this ();
+		this();
 		this.dataObjectUniqueId = dataObjectUniqueId;
 		this.model = model;
 		this.jFrameId = jFrameId;
@@ -69,12 +69,12 @@ public class NewAkteraObjectResponse extends FrameworkAction
 	 *
 	 * @param stream The stream to read from.
 	 */
-	public void readObject (FrameworkInputStream stream) throws IOException
+	public void readObject(FrameworkInputStream stream) throws IOException
 	{
-		model = stream.readUTF ();
-		dataObjectUniqueId = stream.readLong ();
-		jFrameId = stream.readUTF ();
-		queryPaneId = stream.readUTF ();
+		model = stream.readUTF();
+		dataObjectUniqueId = stream.readLong();
+		jFrameId = stream.readUTF();
+		queryPaneId = stream.readUTF();
 	}
 
 	/**
@@ -82,33 +82,33 @@ public class NewAkteraObjectResponse extends FrameworkAction
 	 *
 	 * @param stream The stream to write to.
 	 */
-	public void writeObject (FrameworkOutputStream stream) throws IOException
+	public void writeObject(FrameworkOutputStream stream) throws IOException
 	{
-		stream.writeUTF (model);
-		stream.writeLong (dataObjectUniqueId);
-		stream.writeUTF (jFrameId);
-		stream.writeUTF (queryPaneId);
+		stream.writeUTF(model);
+		stream.writeLong(dataObjectUniqueId);
+		stream.writeUTF(jFrameId);
+		stream.writeUTF(queryPaneId);
 	}
 
 	/**
 	 * Perform the action.
 	 */
-	public void perform ()
+	public void perform()
 	{
-		Properties props = new Properties ();
+		Properties props = new Properties();
 
-		props.put ("closable", Boolean.FALSE);
-		props.put ("iconifiable", Boolean.FALSE);
-		props.put ("maximizable", Boolean.FALSE);
-		props.put ("maximized", Boolean.TRUE);
-		props.put ("titlebar", Boolean.FALSE);
-		props.put ("queryPaneId", queryPaneId);
-		props.setProperty ("toolbar", "yes");
+		props.put("closable", Boolean.FALSE);
+		props.put("iconifiable", Boolean.FALSE);
+		props.put("maximizable", Boolean.FALSE);
+		props.put("maximized", Boolean.TRUE);
+		props.put("titlebar", Boolean.FALSE);
+		props.put("queryPaneId", queryPaneId);
+		props.setProperty("toolbar", "yes");
 
-		DynDataObject dataObject = (DynDataObject) DataObjectTools.createDynDataObject (model, dataObjectUniqueId);
+		DynDataObject dataObject = (DynDataObject) DataObjectTools.createDynDataObject(model, dataObjectUniqueId);
 
-		String onScreenUniqueId = "onScreenUniqueId-" + Engine.instance ().getTransientIDGenerator ().createId ();
+		String onScreenUniqueId = "onScreenUniqueId-" + Engine.instance().getTransientIDGenerator().createId();
 
-		CommandTools.performAsync (new ShowWindow ("DataObjectGUIPane", onScreenUniqueId, jFrameId, dataObject), props);
+		CommandTools.performAsync(new ShowWindow("DataObjectGUIPane", onScreenUniqueId, jFrameId, dataObject), props);
 	}
 }

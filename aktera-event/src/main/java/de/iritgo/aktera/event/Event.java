@@ -34,12 +34,12 @@ public class Event implements Serializable, Cloneable
 	/** Event id. */
 	private String eventId;
 
-	public String getEventId ()
+	public String getEventId()
 	{
 		return eventId;
 	}
 
-	public void setEventId (String eventId)
+	public void setEventId(String eventId)
 	{
 		this.eventId = eventId;
 	}
@@ -47,12 +47,12 @@ public class Event implements Serializable, Cloneable
 	/** Additional event properties. */
 	private Properties properties;
 
-	public void setProperties (Properties properties)
+	public void setProperties(Properties properties)
 	{
 		this.properties = properties;
 	}
 
-	public Properties getProperties ()
+	public Properties getProperties()
 	{
 		return properties;
 	}
@@ -60,12 +60,12 @@ public class Event implements Serializable, Cloneable
 	/** A model request. */
 	private ModelRequest request;
 
-	public void setRequest (ModelRequest request)
+	public void setRequest(ModelRequest request)
 	{
 		this.request = request;
 	}
 
-	public ModelRequest getRequest ()
+	public ModelRequest getRequest()
 	{
 		return request;
 	}
@@ -73,12 +73,12 @@ public class Event implements Serializable, Cloneable
 	/** A logger. */
 	private Logger logger;
 
-	public void setLogger (Logger logger)
+	public void setLogger(Logger logger)
 	{
 		this.logger = logger;
 	}
 
-	public Logger getLogger ()
+	public Logger getLogger()
 	{
 		return logger;
 	}
@@ -88,7 +88,7 @@ public class Event implements Serializable, Cloneable
 	 *
 	 * @param eventId The event id.
 	 */
-	public Event (String eventId)
+	public Event(String eventId)
 	{
 		this.eventId = eventId;
 	}
@@ -98,11 +98,11 @@ public class Event implements Serializable, Cloneable
 	 *
 	 * @see java.lang.Object#clone()
 	 */
-	public Event clone ()
+	public Event clone()
 	{
 		try
 		{
-			return (Event) super.clone ();
+			return (Event) super.clone();
 		}
 		catch (CloneNotSupportedException x)
 		{

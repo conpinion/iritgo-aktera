@@ -39,41 +39,41 @@ public interface User
 	{
 		private static int nextOrdinal = 0;
 
-		public static final Property UID = new Property ("UID");
+		public static final Property UID = new Property("UID");
 
-		public static final Property NAME = new Property ("NAME");
+		public static final Property NAME = new Property("NAME");
 
-		public static final Property PASSWORD = new Property ("PASSWORD");
+		public static final Property PASSWORD = new Property("PASSWORD");
 
-		public static final Property EMAIL = new Property ("EMAIL");
+		public static final Property EMAIL = new Property("EMAIL");
 
 		protected final String name;
 
 		private final int ordinal = nextOrdinal++;
 
-		protected Property (String name)
+		protected Property(String name)
 		{
 			this.name = name;
 		}
 
-		public String toString ()
+		public String toString()
 		{
 			return name;
 		}
 
-		public int compareTo (Object o)
+		public int compareTo(Object o)
 		{
 			return ordinal - ((Property) o).ordinal;
 		}
 	}
 
-	public final static String ROLE = User.class.getName ();
+	public final static String ROLE = User.class.getName();
 
-	public Object get (Property property) throws UserMgrException;
+	public Object get(Property property) throws UserMgrException;
 
-	public boolean set (Property property, Object value) throws UserMgrException;
+	public boolean set(Property property, Object value) throws UserMgrException;
 
-	public UserManager getUserManager () throws UserMgrException;
+	public UserManager getUserManager() throws UserMgrException;
 
-	public Group[] listGroups () throws UserMgrException;
+	public Group[] listGroups() throws UserMgrException;
 }

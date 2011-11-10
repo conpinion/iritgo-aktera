@@ -42,7 +42,7 @@ public class SelectTag extends org.apache.struts.taglib.html.SelectTag
 	 *
 	 * @param readOnly Read only flag.
 	 */
-	public void setReadOnly (boolean readOnly)
+	public void setReadOnly(boolean readOnly)
 	{
 		this.readOnly = readOnly;
 	}
@@ -52,7 +52,7 @@ public class SelectTag extends org.apache.struts.taglib.html.SelectTag
 	 *
 	 * @retrun The read only flag.
 	 */
-	public boolean getReadOnly ()
+	public boolean getReadOnly()
 	{
 		return readOnly;
 	}
@@ -60,9 +60,9 @@ public class SelectTag extends org.apache.struts.taglib.html.SelectTag
 	/**
 	 * Reset all tag attributes to their default values.
 	 */
-	public void release ()
+	public void release()
 	{
-		super.release ();
+		super.release();
 
 		readOnly = false;
 	}
@@ -74,16 +74,16 @@ public class SelectTag extends org.apache.struts.taglib.html.SelectTag
 	 *
 	 * @exception JspException if a JSP exception has occurred
 	 */
-	public int doStartTag () throws JspException
+	public int doStartTag() throws JspException
 	{
 		if (! readOnly)
 		{
-			return super.doStartTag ();
+			return super.doStartTag();
 		}
 
-		pageContext.setAttribute (Constants.SELECT_KEY, this);
+		pageContext.setAttribute(Constants.SELECT_KEY, this);
 
-		this.myCalculateMatchValues ();
+		this.myCalculateMatchValues();
 
 		return EVAL_BODY_TAG;
 	}
@@ -92,7 +92,7 @@ public class SelectTag extends org.apache.struts.taglib.html.SelectTag
 	 * Calculate the match values we will actually be using.
 	 * @throws JspException
 	 */
-	private void myCalculateMatchValues () throws JspException
+	private void myCalculateMatchValues() throws JspException
 	{
 		if (this.value != null)
 		{
@@ -101,19 +101,19 @@ public class SelectTag extends org.apache.struts.taglib.html.SelectTag
 		}
 		else
 		{
-			Object bean = TagUtils.getInstance ().lookup (pageContext, name, null);
+			Object bean = TagUtils.getInstance().lookup(pageContext, name, null);
 
 			if (bean == null)
 			{
-				JspException x = new JspException (messages.getMessage ("getter.bean", name));
+				JspException x = new JspException(messages.getMessage("getter.bean", name));
 
-				TagUtils.getInstance ().saveException (pageContext, x);
+				TagUtils.getInstance().saveException(pageContext, x);
 				throw x;
 			}
 
 			try
 			{
-				this.match = BeanUtils.getArrayProperty (bean, property);
+				this.match = BeanUtils.getArrayProperty(bean, property);
 
 				if (this.match == null)
 				{
@@ -122,20 +122,20 @@ public class SelectTag extends org.apache.struts.taglib.html.SelectTag
 			}
 			catch (IllegalAccessException x)
 			{
-				TagUtils.getInstance ().saveException (pageContext, x);
-				throw new JspException (messages.getMessage ("getter.access", property, name));
+				TagUtils.getInstance().saveException(pageContext, x);
+				throw new JspException(messages.getMessage("getter.access", property, name));
 			}
 			catch (InvocationTargetException x)
 			{
-				Throwable t = x.getTargetException ();
+				Throwable t = x.getTargetException();
 
-				TagUtils.getInstance ().saveException (pageContext, t);
-				throw new JspException (messages.getMessage ("getter.result", property, t.toString ()));
+				TagUtils.getInstance().saveException(pageContext, t);
+				throw new JspException(messages.getMessage("getter.result", property, t.toString()));
 			}
 			catch (NoSuchMethodException x)
 			{
-				TagUtils.getInstance ().saveException (pageContext, x);
-				throw new JspException (messages.getMessage ("getter.method", property, name));
+				TagUtils.getInstance().saveException(pageContext, x);
+				throw new JspException(messages.getMessage("getter.method", property, name));
 			}
 		}
 	}
@@ -145,19 +145,19 @@ public class SelectTag extends org.apache.struts.taglib.html.SelectTag
 	 *
 	 * @exception JspException if a JSP exception has occurred
 	 */
-	public int doEndTag () throws JspException
+	public int doEndTag() throws JspException
 	{
 		if (! readOnly)
 		{
-			return super.doEndTag ();
+			return super.doEndTag();
 		}
 
 		if (saveBody != null)
 		{
-			TagUtils.getInstance ().write (pageContext, saveBody);
+			TagUtils.getInstance().write(pageContext, saveBody);
 		}
 
-		pageContext.removeAttribute (Constants.SELECT_KEY);
+		pageContext.removeAttribute(Constants.SELECT_KEY);
 
 		return EVAL_PAGE;
 	}

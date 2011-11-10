@@ -36,7 +36,7 @@ public class ScriptContextImplBase
 	/**
 	 * Get the logger service.
 	 */
-	public Logger getLogger ()
+	public Logger getLogger()
 	{
 		return logger;
 	}
@@ -44,7 +44,7 @@ public class ScriptContextImplBase
 	/**
 	 * Set the logger service.
 	 */
-	public void setLogger (Logger logger)
+	public void setLogger(Logger logger)
 	{
 		this.logger = logger;
 	}
@@ -55,15 +55,15 @@ public class ScriptContextImplBase
 	 * @param name The service name
 	 * @return The service
 	 */
-	public Object getService (String name) throws IllegalArgumentException
+	public Object getService(String name) throws IllegalArgumentException
 	{
-		Map<String, Object> services = (Map<String, Object>) KeelContainer.defaultContainer ().getSpringBean (
+		Map<String, Object> services = (Map<String, Object>) KeelContainer.defaultContainer().getSpringBean(
 						"de.iritgo.aktera.script.Services");
-		Object service = services.get (name);
+		Object service = services.get(name);
 
 		if (service == null)
 		{
-			throw new IllegalArgumentException ("Unable to find script service: " + name);
+			throw new IllegalArgumentException("Unable to find script service: " + name);
 		}
 
 		return service;

@@ -27,7 +27,7 @@ import org.w3c.dom.Element;
 public class FormularGroupBeanDefinitionParser extends ConfigurationBeanDefinitionParser
 {
 	@Override
-	protected Class getBeanClass (Element element)
+	protected Class getBeanClass(Element element)
 	{
 		return FormularGroup.class;
 	}

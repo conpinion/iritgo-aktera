@@ -44,7 +44,7 @@ public class ScheduleActionListingHandler extends ListingHandler
 	/**
 	 * @param scheduleActionFormPartManager The new scheduleActionFormPartManager.
 	 */
-	public void setScheduleActionFormPartManager (ScheduleActionFormPartManager scheduleActionFormPartManager)
+	public void setScheduleActionFormPartManager(ScheduleActionFormPartManager scheduleActionFormPartManager)
 	{
 		this.scheduleActionFormPartManager = scheduleActionFormPartManager;
 	}
@@ -53,18 +53,18 @@ public class ScheduleActionListingHandler extends ListingHandler
 	 * @see de.iritgo.aktera.ui.listing.ListingHandler#handleResult(de.iritgo.aktera.model.ModelRequest, de.iritgo.aktera.model.ModelResponse, de.iritgo.aktera.ui.listing.ListingDescriptor, de.iritgo.aktera.ui.listing.RowData, de.iritgo.aktera.ui.listing.ColumnDescriptor)
 	 */
 	@Override
-	public CellData handleResult (ModelRequest request, ModelResponse res, ListingDescriptor listing, RowData data,
+	public CellData handleResult(ModelRequest request, ModelResponse res, ListingDescriptor listing, RowData data,
 					ColumnDescriptor column) throws PersistenceException, ModelException, SQLException
 	{
-		String type = data.getString ("action.type");
-		ScheduleActionFormPartInfo partInfo = scheduleActionFormPartManager.getActionFormPart (type);
-		String info = partInfo.getFormPart ().createListInfo (request, data);
+		String type = data.getString("action.type");
+		ScheduleActionFormPartInfo partInfo = scheduleActionFormPartManager.getActionFormPart(type);
+		String info = partInfo.getFormPart().createListInfo(request, data);
 
 		if (info != null)
 		{
-			return new CellData (info, ListingColumnViewer.MESSAGE, partInfo.getBundle ());
+			return new CellData(info, ListingColumnViewer.MESSAGE, partInfo.getBundle());
 		}
 
-		return new CellData (partInfo.getInfoKey (), ListingColumnViewer.MESSAGE, partInfo.getBundle ());
+		return new CellData(partInfo.getInfoKey(), ListingColumnViewer.MESSAGE, partInfo.getBundle());
 	}
 }

@@ -33,9 +33,9 @@ public class TestShowBuddyListCommand extends Command
 	/**
 	 * Login command
 	 */
-	public TestShowBuddyListCommand ()
+	public TestShowBuddyListCommand()
 	{
-		super ("test.aktera-aktario.showBuddyListCommand");
+		super("test.aktera-aktario.showBuddyListCommand");
 	}
 
 	/**
@@ -44,11 +44,11 @@ public class TestShowBuddyListCommand extends Command
 	 * @see de.buerobyte.iritgo.core.command.Command#perform()
 	 */
 	@Override
-	public void perform ()
+	public void perform()
 	{
-		AkteraAktarioGUI gui = (AkteraAktarioGUI) Client.instance ().getClientGUI ();
+		AkteraAktarioGUI gui = (AkteraAktarioGUI) Client.instance().getClientGUI();
 
-		gui.getDesktopManager ().getDisplay ("BuddyListPane").bringToFront ();
-		gui.getDesktopManager ().getDisplay ("BuddyListPane").show ();
+		gui.getDesktopManager().getDisplay("BuddyListPane").bringToFront();
+		gui.getDesktopManager().getDisplay("BuddyListPane").show();
 	}
 }

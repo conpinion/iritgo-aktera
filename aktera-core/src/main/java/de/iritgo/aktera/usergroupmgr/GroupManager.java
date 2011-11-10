@@ -28,25 +28,25 @@ package de.iritgo.aktera.usergroupmgr;
  */
 public interface GroupManager
 {
-	public final static String ROLE = GroupManager.class.getName ();
+	public final static String ROLE = GroupManager.class.getName();
 
-	public Group find (Group.Property property, Object value) throws UserMgrException;
+	public Group find(Group.Property property, Object value) throws UserMgrException;
 
-	public Group[] list () throws UserMgrException;
+	public Group[] list() throws UserMgrException;
 
-	public Group add (Group group) throws UserMgrException;
+	public Group add(Group group) throws UserMgrException;
 
-	public boolean delete (Group group) throws UserMgrException;
+	public boolean delete(Group group) throws UserMgrException;
 
-	public boolean update (Group group) throws UserMgrException;
+	public boolean update(Group group) throws UserMgrException;
 
-	public User[] listUsers (Group group) throws UserMgrException;
+	public User[] listUsers(Group group) throws UserMgrException;
 
-	public boolean addUser (Group group, User user) throws UserMgrException;
+	public boolean addUser(Group group, User user) throws UserMgrException;
 
-	public boolean deleteUser (Group group, User user) throws UserMgrException;
+	public boolean deleteUser(Group group, User user) throws UserMgrException;
 
-	public Group[] listGroups (User user) throws UserMgrException;
+	public Group[] listGroups(User user) throws UserMgrException;
 
-	public Group createGroup (String name, String description) throws UserMgrException;
+	public Group createGroup(String name, String description) throws UserMgrException;
 }

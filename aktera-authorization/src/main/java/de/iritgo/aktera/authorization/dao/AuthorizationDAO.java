@@ -37,7 +37,7 @@ public interface AuthorizationDAO
 	 * @param group The group name
 	 * @return The ComponentSecurity or null if none was found
 	 */
-	public ComponentSecurity findComponentSecurityById (String component, String group);
+	public ComponentSecurity findComponentSecurityById(String component, String group);
 
 	/**
 	 * Find a instance security by it's id, which consists of the component
@@ -47,5 +47,5 @@ public interface AuthorizationDAO
 	 * @param group The group name
 	 * @return The ComponentSecurity or null if none was found
 	 */
-	public InstanceSecurity findInstanceSecurityById (String component, String instance, String group);
+	public InstanceSecurity findInstanceSecurityById(String component, String instance, String group);
 }

@@ -40,10 +40,10 @@ public class MoveAddressStoreOnePositionUp extends AbstractListCommandUIControll
 	private AddressManager addressManager;
 
 	@Override
-	protected void execute (UIRequest request, UIResponse response, String id) throws UIControllerException
+	protected void execute(UIRequest request, UIResponse response, String id) throws UIControllerException
 	{
-		AddressStore store = addressDAO.getAddressStoreById (NumberTools.toIntInstance (id));
-		addressDAO.moveAddressStoreOnePositionUp (store);
-		addressManager.initializeAddressStores ();
+		AddressStore store = addressDAO.getAddressStoreById(NumberTools.toIntInstance(id));
+		addressDAO.moveAddressStoreOnePositionUp(store);
+		addressManager.initializeAddressStores();
 	}
 }

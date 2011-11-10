@@ -41,12 +41,12 @@ public class DelegatingEventHandler implements StandardEventHandler, Serializabl
 	/** Our logger. */
 	private Logger logger;
 
-	public void setLogger (Logger logger)
+	public void setLogger(Logger logger)
 	{
 		this.logger = logger;
 	}
 
-	public Logger getLogger ()
+	public Logger getLogger()
 	{
 		return logger;
 	}
@@ -54,12 +54,12 @@ public class DelegatingEventHandler implements StandardEventHandler, Serializabl
 	/** Event id */
 	private String event;
 
-	public void setEvent (String event)
+	public void setEvent(String event)
 	{
 		this.event = event;
 	}
 
-	public String getEvent ()
+	public String getEvent()
 	{
 		return event;
 	}
@@ -67,7 +67,7 @@ public class DelegatingEventHandler implements StandardEventHandler, Serializabl
 	/** Class name of the event handler. */
 	private String klass;
 
-	public void setClass (String klass)
+	public void setClass(String klass)
 	{
 		this.klass = klass;
 	}
@@ -75,7 +75,7 @@ public class DelegatingEventHandler implements StandardEventHandler, Serializabl
 	/** Name of the method to call. */
 	private String method;
 
-	public void setMethod (String method)
+	public void setMethod(String method)
 	{
 		this.method = method;
 	}
@@ -83,7 +83,7 @@ public class DelegatingEventHandler implements StandardEventHandler, Serializabl
 	/** Name of a bean to call. */
 	private String bean;
 
-	public void setBean (String bean)
+	public void setBean(String bean)
 	{
 		this.bean = bean;
 	}
@@ -91,7 +91,7 @@ public class DelegatingEventHandler implements StandardEventHandler, Serializabl
 	/** Name of a model to call. */
 	private String model;
 
-	public void setModel (String model)
+	public void setModel(String model)
 	{
 		this.model = model;
 	}
@@ -99,7 +99,7 @@ public class DelegatingEventHandler implements StandardEventHandler, Serializabl
 	/**
 	 * Initialize the event handler.
 	 */
-	public DelegatingEventHandler ()
+	public DelegatingEventHandler()
 	{
 	}
 
@@ -109,13 +109,13 @@ public class DelegatingEventHandler implements StandardEventHandler, Serializabl
 	 * @param config Configuration to use
 	 * @param log Logger to use
 	 */
-	public DelegatingEventHandler (Configuration config, Logger log)
+	public DelegatingEventHandler(Configuration config, Logger log)
 	{
 		this.logger = log;
-		klass = config.getAttribute ("class", null);
-		method = config.getAttribute ("method", null);
-		bean = config.getAttribute ("bean", null);
-		model = config.getAttribute ("model", null);
+		klass = config.getAttribute("class", null);
+		method = config.getAttribute("method", null);
+		bean = config.getAttribute("bean", null);
+		model = config.getAttribute("model", null);
 	}
 
 	/**
@@ -123,7 +123,7 @@ public class DelegatingEventHandler implements StandardEventHandler, Serializabl
 	 *
 	 * @param className Event handler class name
 	 */
-	public DelegatingEventHandler (String className)
+	public DelegatingEventHandler(String className)
 	{
 		this.klass = className;
 	}
@@ -134,7 +134,7 @@ public class DelegatingEventHandler implements StandardEventHandler, Serializabl
 	 * @param klass Event handler class name
 	 * @param method Event handler method name
 	 */
-	public DelegatingEventHandler (String klass, String method)
+	public DelegatingEventHandler(String klass, String method)
 	{
 		this.klass = klass;
 		this.method = method;
@@ -143,108 +143,108 @@ public class DelegatingEventHandler implements StandardEventHandler, Serializabl
 	/**
 	 * @see de.iritgo.aktera.event.StandardEventHandler#handle(de.iritgo.aktera.event.Event)
 	 */
-	public void handle (Event event)
+	public void handle(Event event)
 	{
 		try
 		{
 			if (klass != null)
 			{
-				Object handler = Class.forName (klass).newInstance ();
+				Object handler = Class.forName(klass).newInstance();
 
 				if (handler != null)
 				{
 					if (method != null)
 					{
-						MethodUtils.invokeMethod (handler, method, event);
+						MethodUtils.invokeMethod(handler, method, event);
 					}
 					else
 					{
-						((StandardEventHandler) handler).handle (event);
+						((StandardEventHandler) handler).handle(event);
 					}
 				}
 				else
 				{
-					logger.error ("Unable to create event handler class '" + klass + "'");
+					logger.error("Unable to create event handler class '" + klass + "'");
 				}
 			}
 			else if (bean != null)
 			{
-				Object theBean = KeelContainer.defaultContainer ().getSpringBean (bean);
+				Object theBean = KeelContainer.defaultContainer().getSpringBean(bean);
 
 				if (theBean != null)
 				{
 					if (method != null)
 					{
-						MethodUtils.invokeMethod (theBean, method, event);
+						MethodUtils.invokeMethod(theBean, method, event);
 					}
 					else
 					{
-						((StandardEventHandler) theBean).handle (event);
+						((StandardEventHandler) theBean).handle(event);
 					}
 				}
 				else
 				{
-					logger.error ("Unable to find event handler bean '" + bean + "'");
+					logger.error("Unable to find event handler bean '" + bean + "'");
 				}
 			}
 			else if (model != null)
 			{
 				try
 				{
-					Object handler = KeelTools.getService (model);
+					Object handler = KeelTools.getService(model);
 
 					if (method != null)
 					{
-						MethodUtils.invokeMethod (handler, method, event);
+						MethodUtils.invokeMethod(handler, method, event);
 					}
 					else
 					{
-						((StandardEventHandler) handler).handle (event);
+						((StandardEventHandler) handler).handle(event);
 					}
 				}
 				catch (ServiceException x)
 				{
-					logger.error ("Unable to find event handler model '" + model + "'");
+					logger.error("Unable to find event handler model '" + model + "'");
 				}
 			}
 			else
 			{
-				logger.error ("No class or bean event handler specifed");
+				logger.error("No class or bean event handler specifed");
 			}
 		}
 		catch (InstantiationException x)
 		{
 			if (logger != null)
 			{
-				logger.error ("Unable to call event handler", x);
+				logger.error("Unable to call event handler", x);
 			}
 		}
 		catch (IllegalAccessException x)
 		{
 			if (logger != null)
 			{
-				logger.error ("Unable to call event handler", x);
+				logger.error("Unable to call event handler", x);
 			}
 		}
 		catch (ClassNotFoundException x)
 		{
 			if (logger != null)
 			{
-				logger.error ("Unable to call event handler", x);
+				logger.error("Unable to call event handler", x);
 			}
 		}
 		catch (NoSuchMethodException x)
 		{
 			if (logger != null)
 			{
-				logger.error ("Unable to call event handler", x);
+				logger.error("Unable to call event handler", x);
 			}
 		}
 		catch (InvocationTargetException x)
 		{
 			if (logger != null)
 			{
-				logger.error ("Unable to call event handler", x.getTargetException ());
+				logger.error("Unable to call event handler", x.getTargetException());
 			}
 		}
 	}

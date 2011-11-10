@@ -37,24 +37,24 @@ public class HolidayDAOImpl extends HibernateDaoSupport implements HolidayDAO
 	/**
 	 * @see de.iritgo.aktera.scheduler.entity.HolidayDAO#dateIsHoliday(java.util.Date, java.lang.String, java.lang.String)
 	 */
-	public boolean dateIsHoliday (Date date, String country, String province)
+	public boolean dateIsHoliday(Date date, String country, String province)
 	{
-		Calendar cal = GregorianCalendar.getInstance ();
+		Calendar cal = GregorianCalendar.getInstance();
 
-		cal.setTime (date);
+		cal.setTime(date);
 
 		String query = "select count(h) from Holiday h" + " where h.country = ?"
 						+ " and ((h.province is null or h.province = '')"
 						+ (province != null ? " or h.province = ?)" : " and '' = ?)") + " and day = ?"
 						+ " and month = ?" + " and (year is null or year = ?)";
 
-		long count = (Long) getHibernateTemplate ().find (
+		long count = (Long) getHibernateTemplate().find(
 						query,
 						new Object[]
 						{
-										country, StringTools.trim (province), cal.get (Calendar.DAY_OF_MONTH),
-										cal.get (Calendar.MONTH) + 1, cal.get (Calendar.YEAR)
-						}).get (0);
+										country, StringTools.trim(province), cal.get(Calendar.DAY_OF_MONTH),
+										cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR)
+						}).get(0);
 
 		return count != 0;
 	}

@@ -50,22 +50,22 @@ public class Themer extends StandardLogEnabledModel
 	 * @param req The model request.
 	 * @throws ModelException In case of a business failure.
 	 */
-	public ModelResponse execute (ModelRequest req) throws ModelException
+	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
-		PersistentFactory persistentManager = (PersistentFactory) req.getService (PersistentFactory.ROLE, req
-						.getDomain ());
+		PersistentFactory persistentManager = (PersistentFactory) req.getService(PersistentFactory.ROLE, req
+						.getDomain());
 
-		SystemConfigManager systemConfigManager = (SystemConfigManager) req.getSpringBean (SystemConfigManager.ID);
+		SystemConfigManager systemConfigManager = (SystemConfigManager) req.getSpringBean(SystemConfigManager.ID);
 
-		ModelResponse res = req.createResponse ();
+		ModelResponse res = req.createResponse();
 
-		Configuration config = getConfiguration ();
+		Configuration config = getConfiguration();
 
 		String layoutName = "iritgo";
 
 		try
 		{
-			layoutName = systemConfigManager.getString ("gui", "layout");
+			layoutName = systemConfigManager.getString("gui", "layout");
 		}
 		catch (Exception x)
 		{
@@ -75,11 +75,11 @@ public class Themer extends StandardLogEnabledModel
 
 		try
 		{
-			themeName = (String) systemConfigManager.get ("gui", "defaultTheme");
+			themeName = (String) systemConfigManager.get("gui", "defaultTheme");
 
 			if (themeName == null && config != null)
 			{
-				themeName = config.getChild ("theme-name").getValue ("root");
+				themeName = config.getChild("theme-name").getValue("root");
 			}
 
 			if (themeName == null)
@@ -87,17 +87,17 @@ public class Themer extends StandardLogEnabledModel
 				themeName = "iritgong";
 			}
 
-			if (! systemConfigManager.getBool ("gui", "disableThemeChange"))
+			if (! systemConfigManager.getBool("gui", "disableThemeChange"))
 			{
-				Preferences preferences = (Preferences) UserTools.getUserEnvObject (req, "sessionPreferences");
+				Preferences preferences = (Preferences) UserTools.getUserEnvObject(req, "sessionPreferences");
 
 				if (preferences != null)
 				{
-					themeName = preferences.getTheme ();
+					themeName = preferences.getTheme();
 
 					try
 					{
-						if (! persistentManager.create ("aktera.Preferences").getValidValues ("theme").containsKey (
+						if (! persistentManager.create("aktera.Preferences").getValidValues("theme").containsKey(
 										themeName))
 						{
 							themeName = "iritgong";
@@ -114,10 +114,10 @@ public class Themer extends StandardLogEnabledModel
 		{
 		}
 
-		res.addOutput ("themeStyleUrl", "/aktera/styles/" + themeName + ".css");
-		res.addOutput ("themeImagesUrl", "/aktera/images/" + themeName);
-		res.addOutput ("layoutUrl", "/aktera/templates/" + layoutName + "/");
-		res.addOutput ("includeUrl", "/aktera/include/" + layoutName + "-");
+		res.addOutput("themeStyleUrl", "/aktera/styles/" + themeName + ".css");
+		res.addOutput("themeImagesUrl", "/aktera/images/" + themeName);
+		res.addOutput("layoutUrl", "/aktera/templates/" + layoutName + "/");
+		res.addOutput("includeUrl", "/aktera/include/" + layoutName + "-");
 
 		return res;
 	}

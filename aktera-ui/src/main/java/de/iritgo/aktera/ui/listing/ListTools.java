@@ -73,25 +73,25 @@ public class ListTools
 	 *            The list filler.
 	 * @throws ModelException.
 	 */
-	public static void createListing (ModelRequest request, ModelResponse response, ListingDescriptor listing,
+	public static void createListing(ModelRequest request, ModelResponse response, ListingDescriptor listing,
 					ListingHandler handler, ListContext context, ListFiller filler)
 		throws ModelException, PersistenceException
 	{
-		if (filler == null && listing.getQuerySample () != null)
+		if (filler == null && listing.getQuerySample() != null)
 		{
-			createListingWithSample (request, response, listing, handler, context);
+			createListingWithSample(request, response, listing, handler, context);
 		}
-		else if (listing.getQuery () != null)
+		else if (listing.getQuery() != null)
 		{
-			createListingWithQuery (request, response, listing, handler, context);
+			createListingWithQuery(request, response, listing, handler, context);
 		}
-		else if (filler == null && listing.getPersistents () != null && listing.getCondition () != null)
+		else if (filler == null && listing.getPersistents() != null && listing.getCondition() != null)
 		{
-			createListingWithCondition (request, response, listing, handler, context);
+			createListingWithCondition(request, response, listing, handler, context);
 		}
 		else
 		{
-			createListingWithFiller (request, response, listing, filler, context);
+			createListingWithFiller(request, response, listing, filler, context);
 		}
 	}
 
@@ -103,251 +103,250 @@ public class ListTools
 	 * @param context
 	 * @throws ModelException
 	 */
-	private static void createListingWithQuery (ModelRequest request, ModelResponse response,
-					ListingDescriptor listing, ListingHandler handler, ListContext context)
-		throws ModelException, PersistenceException
+	private static void createListingWithQuery(ModelRequest request, ModelResponse response, ListingDescriptor listing,
+					ListingHandler handler, ListContext context) throws ModelException, PersistenceException
 	{
-		StandardDao standardDao = (StandardDao) SpringTools.getBean (StandardDao.ID);
-		QueryDescriptor query = listing.getQuery ();
-		Properties queryParams = ExpressionLanguageContext.evalExpressionLanguageValue (context, request, query
-						.getParams ());
+		StandardDao standardDao = (StandardDao) SpringTools.getBean(StandardDao.ID);
+		QueryDescriptor query = listing.getQuery();
+		Properties queryParams = ExpressionLanguageContext.evalExpressionLanguageValue(context, request, query
+						.getParams());
 		int count = 0;
 
-		if (query.getDaoName () != null)
+		if (query.getDaoName() != null)
 		{
 			try
 			{
-				java.util.List list = (java.util.List) MethodUtils.invokeExactMethod (SpringTools.getBean (query
-								.getDaoName ()), query.getDaoMethodName (), queryParams);
+				java.util.List list = (java.util.List) MethodUtils.invokeExactMethod(SpringTools.getBean(query
+								.getDaoName()), query.getDaoMethodName(), queryParams);
 
-				count = list.size ();
+				count = list.size();
 			}
 			catch (NoSuchMethodException x)
 			{
-				throw new ModelException (x);
+				throw new ModelException(x);
 			}
 			catch (IllegalAccessException x)
 			{
-				throw new ModelException (x);
+				throw new ModelException(x);
 			}
 			catch (InvocationTargetException x)
 			{
-				throw new ModelException (x.getTargetException ());
+				throw new ModelException(x.getTargetException());
 			}
 		}
-		else if (query.getCountName () != null)
+		else if (query.getCountName() != null)
 		{
-			count = (int) standardDao.countByNamedQuery (query.getCountName (), queryParams);
+			count = (int) standardDao.countByNamedQuery(query.getCountName(), queryParams);
 		}
-		else if (query.getName () != null)
+		else if (query.getName() != null)
 		{
-			count = (int) standardDao.countByNamedFindQuery (query.getName (), queryParams);
+			count = (int) standardDao.countByNamedFindQuery(query.getName(), queryParams);
 		}
 		else
 		{
-			if (query.getCountQuery () != null)
+			if (query.getCountQuery() != null)
 			{
-				count = (int) standardDao.countByQuery (query.getCountQuery (), queryParams);
+				count = (int) standardDao.countByQuery(query.getCountQuery(), queryParams);
 			}
 			else
 			{
-				count = (int) standardDao.countByFindQuery (query.getQuery (), queryParams);
+				count = (int) standardDao.countByFindQuery(query.getQuery(), queryParams);
 			}
 		}
 
-		int page = Math.max (listing.getPage (), 1);
-		int maxPage = (Math.max (0, count - 1) / context.getResultsPerPage ()) + 1;
+		int page = Math.max(listing.getPage(), 1);
+		int maxPage = (Math.max(0, count - 1) / context.getResultsPerPage()) + 1;
 
-		page = Math.min (page, maxPage);
+		page = Math.min(page, maxPage);
 
-		context.setPage (page);
-		context.setFirstResult ((page - 1) * context.getResultsPerPage ());
+		context.setPage(page);
+		context.setFirstResult((page - 1) * context.getResultsPerPage());
 
-		Output outList = createHeaderElements (request, response, listing, context);
+		Output outList = createHeaderElements(request, response, listing, context);
 
-		outList.setAttribute ("pageCount", new Integer (maxPage));
-		outList.setAttribute ("page", String.valueOf (page));
+		outList.setAttribute("pageCount", new Integer(maxPage));
+		outList.setAttribute("page", String.valueOf(page));
 
-		int firstResult = (page - 1) * context.getResultsPerPage ();
-		int maxResults = context.getResultsPerPage ();
+		int firstResult = (page - 1) * context.getResultsPerPage();
+		int maxResults = context.getResultsPerPage();
 		java.util.List res = null;
 
-		if (query.getDaoName () != null)
+		if (query.getDaoName() != null)
 		{
 			try
 			{
-				res = (java.util.List) MethodUtils.invokeExactMethod (SpringTools.getBean (query.getDaoName ()), query
-								.getDaoMethodName (), queryParams);
+				res = (java.util.List) MethodUtils.invokeExactMethod(SpringTools.getBean(query.getDaoName()), query
+								.getDaoMethodName(), queryParams);
 			}
 			catch (NoSuchMethodException x)
 			{
-				throw new ModelException (x);
+				throw new ModelException(x);
 			}
 			catch (IllegalAccessException x)
 			{
-				throw new ModelException (x);
+				throw new ModelException(x);
 			}
 			catch (InvocationTargetException x)
 			{
-				throw new ModelException (x.getTargetException ());
+				throw new ModelException(x.getTargetException());
 			}
 		}
-		else if (query.getName () != null)
+		else if (query.getName() != null)
 		{
-			res = standardDao.findByNamedQuery (query.getName (), queryParams, firstResult, maxResults, listing
-							.getSortColumnName (), listing.getSortOrder ());
+			res = standardDao.findByNamedQuery(query.getName(), queryParams, firstResult, maxResults, listing
+							.getSortColumnName(), listing.getSortOrder());
 		}
 		else
 		{
-			res = standardDao.findByQuery (query.getQuery (), queryParams, firstResult, maxResults, listing
-							.getSortColumnName (), listing.getSortOrder ());
+			res = standardDao.findByQuery(query.getQuery(), queryParams, firstResult, maxResults, listing
+							.getSortColumnName(), listing.getSortOrder());
 		}
 
 		int rowNum = 1;
 
 		for (Object row : res)
 		{
-			context.setIt (row);
+			context.setIt(row);
 
-			Output outItem = response.createOutput ("item");
+			Output outItem = response.createOutput("item");
 
-			outList.add (outItem);
+			outList.add(outItem);
 
-			String idExpression = listing.getIdColumn ();
+			String idExpression = listing.getIdColumn();
 
 			if (idExpression == null)
 			{
 				idExpression = "#{it.id}";
 			}
 
-			String id = ExpressionLanguageContext.evalExpressionLanguageValue (context, request, idExpression)
-							.toString ();
+			String id = ExpressionLanguageContext.evalExpressionLanguageValue(context, request, idExpression)
+							.toString();
 
 			try
 			{
-				outItem.setAttribute ("id", id);
+				outItem.setAttribute("id", id);
 			}
 			catch (Exception x)
 			{
-				throw new ModelException ("Unable to retrieve id property in listing '" + listing.getId () + "' ("
-								+ x.getMessage () + ")");
+				throw new ModelException("Unable to retrieve id property in listing '" + listing.getId() + "' ("
+								+ x.getMessage() + ")");
 			}
 
-			outItem.setAttribute ("odd", new Boolean (rowNum % 2 == 1));
-			outItem.setAttribute ("even", new Boolean (rowNum % 2 == 0));
+			outItem.setAttribute("odd", new Boolean(rowNum % 2 == 1));
+			outItem.setAttribute("even", new Boolean(rowNum % 2 == 0));
 			++rowNum;
 
 			int colNum = 0;
 
-			for (ColumnDescriptor column : listing.getColumns ())
+			for (ColumnDescriptor column : listing.getColumns())
 			{
-				Output outColumn = response.createOutput (String.valueOf (colNum++));
-				outItem.add (outColumn);
+				Output outColumn = response.createOutput(String.valueOf(colNum++));
+				outItem.add(outColumn);
 
-				if ("custom".equals (column.getViewer ()))
+				if ("custom".equals(column.getViewer()))
 				{
-					outColumn.setAttribute ("viewer", "text");
+					outColumn.setAttribute("viewer", "text");
 					if (handler != null)
 					{
 						try
 						{
-							CellData cellData = handler.handleResult (request, response, listing, new BeanRowData (
+							CellData cellData = handler.handleResult(request, response, listing, new BeanRowData(
 											listing, row), column);
-							outColumn.setContent (cellData.getValue ());
-							outColumn.setAttribute ("viewer", cellData.getViewer ().toString ());
-							outColumn.setAttribute ("bundle", cellData.getBundle ());
+							outColumn.setContent(cellData.getValue());
+							outColumn.setAttribute("viewer", cellData.getViewer().toString());
+							outColumn.setAttribute("bundle", cellData.getBundle());
 						}
 						catch (Exception x)
 						{
-							outColumn.setAttribute ("viewer", "error");
-							outColumn.setContent (x.getMessage ());
+							outColumn.setAttribute("viewer", "error");
+							outColumn.setContent(x.getMessage());
 						}
 					}
 					else
 					{
-						outColumn.setContent ("");
+						outColumn.setContent("");
 					}
 				}
 				else
 				{
-					String valueExpression = column.getValue ();
+					String valueExpression = column.getValue();
 					if (valueExpression == null)
 					{
-						valueExpression = "#{it." + column.getName () + "}";
+						valueExpression = "#{it." + column.getName() + "}";
 					}
-					Object value = ExpressionLanguageContext.evalExpressionLanguageValue (context, request,
+					Object value = ExpressionLanguageContext.evalExpressionLanguageValue(context, request,
 									valueExpression);
 
-					if ("combo".equals (column.getViewer ()))
+					if ("combo".equals(column.getViewer()))
 					{
-						outColumn.setAttribute ("viewer", column.getViewer ());
-						outColumn.setAttribute ("bundle", column.getBundle ());
-						outColumn.setContent (! StringTools.isTrimEmpty (value) ? "opt" + value : "-");
+						outColumn.setAttribute("viewer", column.getViewer());
+						outColumn.setAttribute("bundle", column.getBundle());
+						outColumn.setContent(! StringTools.isTrimEmpty(value) ? "opt" + value : "-");
 					}
-					else if ("message".equals (column.getViewer ()))
+					else if ("message".equals(column.getViewer()))
 					{
-						outColumn.setAttribute ("viewer", column.getViewer ());
-						outColumn.setAttribute ("bundle", column.getBundle ());
+						outColumn.setAttribute("viewer", column.getViewer());
+						outColumn.setAttribute("bundle", column.getBundle());
 
-						String[] parts = value.toString ().split ("\\|");
-						StringBuffer sb = new StringBuffer (parts[0]);
+						String[] parts = value.toString().split("\\|");
+						StringBuffer sb = new StringBuffer(parts[0]);
 
 						for (int j = 1; j < parts.length; ++j)
 						{
-							if (parts[j].startsWith ("#{") && parts[j].endsWith ("}"))
+							if (parts[j].startsWith("#{") && parts[j].endsWith("}"))
 							{
-								sb.append ("|"
-												+ ExpressionLanguageContext.evalExpressionLanguageValue (context,
+								sb.append("|"
+												+ ExpressionLanguageContext.evalExpressionLanguageValue(context,
 																request, parts[j]));
 							}
 							else
 							{
-								sb.append ("|" + parts[j]);
+								sb.append("|" + parts[j]);
 							}
 						}
 
-						outColumn.setContent (sb.toString ());
+						outColumn.setContent(sb.toString());
 					}
-					else if (column.getViewer ().startsWith ("icon:"))
+					else if (column.getViewer().startsWith("icon:"))
 					{
-						String viewer = column.getViewer ();
-						int slashPos = viewer.indexOf ('|');
-						String iconTrue = viewer.substring (5, slashPos > 0 ? slashPos : viewer.length ());
-						String iconFalse = slashPos > 0 ? viewer.substring (slashPos + 1, viewer.length ()) : "blank";
-						outColumn.setAttribute ("viewer", "icon");
-						outColumn.setContent (NumberTools.toBool (value, false) ? iconTrue : iconFalse);
+						String viewer = column.getViewer();
+						int slashPos = viewer.indexOf('|');
+						String iconTrue = viewer.substring(5, slashPos > 0 ? slashPos : viewer.length());
+						String iconFalse = slashPos > 0 ? viewer.substring(slashPos + 1, viewer.length()) : "blank";
+						outColumn.setAttribute("viewer", "icon");
+						outColumn.setContent(NumberTools.toBool(value, false) ? iconTrue : iconFalse);
 					}
-					else if (column.getViewer ().startsWith ("handler:"))
+					else if (column.getViewer().startsWith("handler:"))
 					{
 						try
 						{
-							CellData cellData = (CellData) MethodUtils.invokeMethod (handler, column.getViewer ()
-											.substring (8), value);
-							outColumn.setContent (cellData.getValue ());
-							outColumn.setAttribute ("viewer", cellData.getViewer () != null ? cellData.getViewer ()
-											.toString () : "text");
-							outColumn.setAttribute ("bundle", cellData.getBundle () != null ? cellData.getBundle ()
-											: listing.getBundle ());
+							CellData cellData = (CellData) MethodUtils.invokeMethod(handler, column.getViewer()
+											.substring(8), value);
+							outColumn.setContent(cellData.getValue());
+							outColumn.setAttribute("viewer", cellData.getViewer() != null ? cellData.getViewer()
+											.toString() : "text");
+							outColumn.setAttribute("bundle", cellData.getBundle() != null ? cellData.getBundle()
+											: listing.getBundle());
 						}
 						catch (InvocationTargetException x)
 						{
-							outColumn.setContent (x.getTargetException ().toString ());
+							outColumn.setContent(x.getTargetException().toString());
 						}
 						catch (Exception x)
 						{
-							outColumn.setContent (x.toString ());
+							outColumn.setContent(x.toString());
 						}
 					}
-					else if (column.getViewer ().startsWith ("js:"))
+					else if (column.getViewer().startsWith("js:"))
 					{
-						String[] params = column.getViewer ().split (":");
+						String[] params = column.getViewer().split(":");
 
-						outColumn.setAttribute ("viewer", "js");
-						outColumn.setContent (params[1]);
-						outColumn.setAttribute ("name", column.getName ());
-						outColumn.setAttribute ("id", id);
+						outColumn.setAttribute("viewer", "js");
+						outColumn.setContent(params[1]);
+						outColumn.setAttribute("name", column.getName());
+						outColumn.setAttribute("id", id);
 					}
-					else if ("province".equals (column.getViewer ()))
+					else if ("province".equals(column.getViewer()))
 					{
 						//					outColumn.setAttribute ("viewer", column.getViewer ());
 						//					Object country = null;
@@ -368,44 +367,44 @@ public class ListTools
 						//					{
 						//						outColumn.setContent ("");
 						//					}
-						outColumn.setContent ("");
+						outColumn.setContent("");
 					}
 					else
 					{
-						outColumn.setAttribute ("viewer", column.getViewer ());
-						outColumn.setContent (! StringTools.isTrimEmpty (value) ? value : "");
+						outColumn.setAttribute("viewer", column.getViewer());
+						outColumn.setContent(! StringTools.isTrimEmpty(value) ? value : "");
 					}
 				}
 
-				if (! column.isVisible ())
+				if (! column.isVisible())
 				{
-					outColumn.setAttribute ("hide", "Y");
+					outColumn.setAttribute("hide", "Y");
 				}
 			}
 
-			CommandInfo viewCommand = listing.getCommand (ListingDescriptor.COMMAND_VIEW);
+			CommandInfo viewCommand = listing.getCommand(ListingDescriptor.COMMAND_VIEW);
 
 			if (viewCommand != null)
 			{
-				Command cmd = viewCommand.createCommand (request, response, context);
+				Command cmd = viewCommand.createCommand(request, response, context);
 
-				cmd.setName ("command");
-				cmd.setParameter (listing.getKeyName (), id);
-				cmd.setParameter ("link", "Y");
-				outItem.setAttribute ("command", cmd);
+				cmd.setName("command");
+				cmd.setParameter(listing.getKeyName(), id);
+				cmd.setParameter("link", "Y");
+				outItem.setAttribute("command", cmd);
 			}
 		}
 
-		while (rowNum <= context.getResultsPerPage ())
+		while (rowNum <= context.getResultsPerPage())
 		{
-			Output outItem = response.createOutput ("item");
+			Output outItem = response.createOutput("item");
 
-			outList.add (outItem);
-			outItem.setAttribute ("empty", Boolean.TRUE);
+			outList.add(outItem);
+			outItem.setAttribute("empty", Boolean.TRUE);
 			++rowNum;
 		}
 
-		createListingControls (request, response, listing, outList, 1, maxPage, page, context);
+		createListingControls(request, response, listing, outList, 1, maxPage, page, context);
 	}
 
 	/**
@@ -423,73 +422,73 @@ public class ListTools
 	 *            TODO
 	 * @throws ModelException.
 	 */
-	private static void createListingWithSample (ModelRequest request, ModelResponse response,
+	private static void createListingWithSample(ModelRequest request, ModelResponse response,
 					ListingDescriptor listing, ListingHandler handler, ListContext context)
 		throws ModelException, PersistenceException
 	{
-		Output outList = createHeaderElements (request, response, listing, context);
+		Output outList = createHeaderElements(request, response, listing, context);
 
-		int page = Math.max (listing.getPage (), 1);
+		int page = Math.max(listing.getPage(), 1);
 
 		int maxPage = 1;
 
-		if (! context.isDescribe ())
+		if (! context.isDescribe())
 		{
-			int count = listing.getQuerySample ().count ();
+			int count = listing.getQuerySample().count();
 
-			outList.setAttribute ("count", new Integer (count));
+			outList.setAttribute("count", new Integer(count));
 
-			maxPage = (Math.max (0, count - 1) / context.getResultsPerPage ()) + 1;
-			page = Math.min (page, maxPage);
+			maxPage = (Math.max(0, count - 1) / context.getResultsPerPage()) + 1;
+			page = Math.min(page, maxPage);
 
-			context.setPage (page);
-			context.setFirstResult ((page - 1) * context.getResultsPerPage ());
+			context.setPage(page);
+			context.setFirstResult((page - 1) * context.getResultsPerPage());
 
-			outList.setAttribute ("pageCount", new Integer (maxPage));
-			outList.setAttribute ("page", String.valueOf (page));
+			outList.setAttribute("pageCount", new Integer(maxPage));
+			outList.setAttribute("page", String.valueOf(page));
 
-			listing.getQuerySample ().setMaxRecords (context.getResultsPerPage ());
-			listing.getQuerySample ().setOffsetRecord ((page - 1) * context.getResultsPerPage ());
+			listing.getQuerySample().setMaxRecords(context.getResultsPerPage());
+			listing.getQuerySample().setOffsetRecord((page - 1) * context.getResultsPerPage());
 
 			int num = 1;
 
-			String sortColumn = listing.getSortColumnName ();
+			String sortColumn = listing.getSortColumnName();
 
-			if (listing.getSortOrder () == SortOrder.DESCENDING)
+			if (listing.getSortOrder() == SortOrder.DESCENDING)
 			{
 				sortColumn += " DESC";
 			}
 
-			Iterator result = listing.getQuerySample ().query (sortColumn).iterator ();
+			Iterator result = listing.getQuerySample().query(sortColumn).iterator();
 
-			while (result.hasNext ())
+			while (result.hasNext())
 			{
-				Persistent persistent = (Persistent) result.next ();
+				Persistent persistent = (Persistent) result.next();
 
-				Output outItem = response.createOutput ("item");
+				Output outItem = response.createOutput("item");
 
-				outList.add (outItem);
+				outList.add(outItem);
 
-				outItem.setAttribute ("id", persistent.getFieldString (listing.getIdField ()));
-				outItem.setAttribute ("odd", new Boolean (num % 2 == 1));
-				outItem.setAttribute ("even", new Boolean (num % 2 == 0));
+				outItem.setAttribute("id", persistent.getFieldString(listing.getIdField()));
+				outItem.setAttribute("odd", new Boolean(num % 2 == 1));
+				outItem.setAttribute("even", new Boolean(num % 2 == 0));
 
-				handleResult (request, response, listing, outItem, persistent, context);
+				handleResult(request, response, listing, outItem, persistent, context);
 
 				++num;
 			}
 
-			while (num < context.getResultsPerPage ())
+			while (num < context.getResultsPerPage())
 			{
-				Output outItem = response.createOutput ("item");
+				Output outItem = response.createOutput("item");
 
-				outList.add (outItem);
-				outItem.setAttribute ("empty", Boolean.TRUE);
+				outList.add(outItem);
+				outItem.setAttribute("empty", Boolean.TRUE);
 				++num;
 			}
 		}
 
-		createListingControls (request, response, listing, outList, 1, maxPage, page, context);
+		createListingControls(request, response, listing, outList, 1, maxPage, page, context);
 	}
 
 	/**
@@ -507,17 +506,17 @@ public class ListTools
 	 *            TODO
 	 * @throws ModelException.
 	 */
-	private static void createListingWithCondition (ModelRequest request, ModelResponse response,
+	private static void createListingWithCondition(ModelRequest request, ModelResponse response,
 					ListingDescriptor listing, ListingHandler handler, ListContext context)
 		throws ModelException, PersistenceException
 	{
-		Output outList = createHeaderElements (request, response, listing, context);
+		Output outList = createHeaderElements(request, response, listing, context);
 
 		int count = 0;
-		int page = Math.max (listing.getPage (), 1);
+		int page = Math.max(listing.getPage(), 1);
 		int maxPage = 1;
 
-		if (! context.isDescribe ())
+		if (! context.isDescribe())
 		{
 			Connection connection = null;
 			PreparedStatement stmt = null;
@@ -525,35 +524,35 @@ public class ListTools
 
 			try
 			{
-				DataSourceComponent dataSource = (DataSourceComponent) request.getService (DataSourceComponent.ROLE,
+				DataSourceComponent dataSource = (DataSourceComponent) request.getService(DataSourceComponent.ROLE,
 								"keel-dbpool");
 
-				connection = dataSource.getConnection ();
+				connection = dataSource.getConnection();
 
-				stmt = createPreparedStatement (listing, connection, createSqlSelectFields (listing) + " "
-								+ createSqlFrom (listing) + " " + createSqlWhere (request, listing));
-				set = stmt.executeQuery ();
-				set.last ();
-				count = set.getRow ();
+				stmt = createPreparedStatement(listing, connection, createSqlSelectFields(listing) + " "
+								+ createSqlFrom(listing) + " " + createSqlWhere(request, listing));
+				set = stmt.executeQuery();
+				set.last();
+				count = set.getRow();
 
-				maxPage = (Math.max (0, count - 1) / context.getResultsPerPage ()) + 1;
-				page = Math.min (page, maxPage);
+				maxPage = (Math.max(0, count - 1) / context.getResultsPerPage()) + 1;
+				page = Math.min(page, maxPage);
 
-				context.setPage (page);
-				context.setFirstResult ((page - 1) * context.getResultsPerPage ());
+				context.setPage(page);
+				context.setFirstResult((page - 1) * context.getResultsPerPage());
 
-				outList.setAttribute ("pageCount", new Integer (maxPage));
-				outList.setAttribute ("page", String.valueOf (page));
+				outList.setAttribute("pageCount", new Integer(maxPage));
+				outList.setAttribute("page", String.valueOf(page));
 
-				set.beforeFirst ();
+				set.beforeFirst();
 
 				int num = 1;
 
-				int offsetRecord = (page - 1) * context.getResultsPerPage ();
+				int offsetRecord = (page - 1) * context.getResultsPerPage();
 				int recordCount = 0;
 				int retrieveCount = 0;
 
-				while (set.next ())
+				while (set.next())
 				{
 					recordCount++;
 					retrieveCount++;
@@ -569,76 +568,76 @@ public class ListTools
 						continue;
 					}
 
-					Output outItem = response.createOutput ("item");
+					Output outItem = response.createOutput("item");
 
-					outList.add (outItem);
+					outList.add(outItem);
 
 					StringBuffer ids = null;
 
-					if (listing.getNumIdColumns () == 1)
+					if (listing.getNumIdColumns() == 1)
 					{
-						ids = new StringBuffer (set.getString ("id") != null ? set.getString ("id") : "0");
+						ids = new StringBuffer(set.getString("id") != null ? set.getString("id") : "0");
 					}
 					else
 					{
-						ids = new StringBuffer ();
+						ids = new StringBuffer();
 
 						int col = 1;
 
-						for (Iterator i = listing.getIdColumns ().iterator (); i.hasNext ();)
+						for (Iterator i = listing.getIdColumns().iterator(); i.hasNext();)
 						{
-							ListingDescriptor.IdColumnInfo idInfo = (ListingDescriptor.IdColumnInfo) i.next ();
+							ListingDescriptor.IdColumnInfo idInfo = (ListingDescriptor.IdColumnInfo) i.next();
 
 							if (col > 1)
 							{
-								ids.append ("|");
+								ids.append("|");
 							}
 
-							ids.append (idInfo.field + ":"
-											+ (set.getString ("id" + col) != null ? set.getString ("id" + col) : "0"));
+							ids.append(idInfo.field + ":"
+											+ (set.getString("id" + col) != null ? set.getString("id" + col) : "0"));
 							++col;
 						}
 					}
 
-					outItem.setAttribute ("id", ids.toString ());
-					outItem.setAttribute ("odd", new Boolean (num % 2 == 1));
-					outItem.setAttribute ("even", new Boolean (num % 2 == 0));
+					outItem.setAttribute("id", ids.toString());
+					outItem.setAttribute("odd", new Boolean(num % 2 == 1));
+					outItem.setAttribute("even", new Boolean(num % 2 == 0));
 
-					handleResult (request, response, listing, outItem, set, handler, context);
+					handleResult(request, response, listing, outItem, set, handler, context);
 
 					++num;
 
-					if (recordCount == context.getResultsPerPage ())
+					if (recordCount == context.getResultsPerPage())
 					{
 						break;
 					}
 				}
 
-				while (num <= context.getResultsPerPage ())
+				while (num <= context.getResultsPerPage())
 				{
-					Output outItem = response.createOutput ("item");
+					Output outItem = response.createOutput("item");
 
-					outList.add (outItem);
-					outItem.setAttribute ("empty", Boolean.TRUE);
+					outList.add(outItem);
+					outItem.setAttribute("empty", Boolean.TRUE);
 					++num;
 				}
 			}
 			catch (SQLException x)
 			{
-				System.out.println ("[ListTools] SQLError: " + x);
-				throw new ModelException ("[ListTools] SQLError " + x);
+				System.out.println("[ListTools] SQLError: " + x);
+				throw new ModelException("[ListTools] SQLError " + x);
 			}
 			finally
 			{
-				DbUtils.closeQuietly (set);
-				DbUtils.closeQuietly (stmt);
-				DbUtils.closeQuietly (connection);
+				DbUtils.closeQuietly(set);
+				DbUtils.closeQuietly(stmt);
+				DbUtils.closeQuietly(connection);
 			}
 
-			outList.setAttribute ("count", new Integer (count));
+			outList.setAttribute("count", new Integer(count));
 		}
 
-		createListingControls (request, response, listing, outList, 1, maxPage, page, context);
+		createListingControls(request, response, listing, outList, 1, maxPage, page, context);
 	}
 
 	/**
@@ -650,51 +649,51 @@ public class ListTools
 	 *            TODO
 	 * @throws ModelException
 	 */
-	private static void createListingWithFiller (ModelRequest request, ModelResponse response,
+	private static void createListingWithFiller(ModelRequest request, ModelResponse response,
 					ListingDescriptor listing, ListFiller filler, ListContext context) throws ModelException
 	{
-		Output outList = createHeaderElements (request, response, listing, context);
+		Output outList = createHeaderElements(request, response, listing, context);
 
-		int page = Math.max (listing.getPage (), 1);
+		int page = Math.max(listing.getPage(), 1);
 		int maxPage = 1;
 
-		if (! context.isDescribe ())
+		if (! context.isDescribe())
 		{
-			outList.setAttribute ("count", new Integer (filler.getRowCount ()));
+			outList.setAttribute("count", new Integer(filler.getRowCount()));
 
-			long totalCount = filler.getTotalRowCount ();
+			long totalCount = filler.getTotalRowCount();
 
 			if (totalCount < 0)
 			{
-				totalCount = filler.getRowCount ();
+				totalCount = filler.getRowCount();
 			}
 
-			page = Math.max (request.getParameterAsInt (context.getListName () + "Page", 1), 1);
+			page = Math.max(request.getParameterAsInt(context.getListName() + "Page", 1), 1);
 
-			if (request.hasParameter (context.getListName () + "Page"))
+			if (request.hasParameter(context.getListName() + "Page"))
 			{
-				page = Math.max (request.getParameterAsInt (context.getListName () + "Page", 1), 1);
+				page = Math.max(request.getParameterAsInt(context.getListName() + "Page", 1), 1);
 			}
 
-			maxPage = (int) ((Math.max (0, totalCount - 1) / context.getResultsPerPage ()) + 1);
-			page = Math.min (page, maxPage);
+			maxPage = (int) ((Math.max(0, totalCount - 1) / context.getResultsPerPage()) + 1);
+			page = Math.min(page, maxPage);
 
-			context.setPage (page);
-			context.setFirstResult ((page - 1) * context.getResultsPerPage ());
+			context.setPage(page);
+			context.setFirstResult((page - 1) * context.getResultsPerPage());
 
-			outList.setAttribute ("pageCount", new Integer (maxPage));
-			outList.setAttribute ("page", String.valueOf (page));
+			outList.setAttribute("pageCount", new Integer(maxPage));
+			outList.setAttribute("page", String.valueOf(page));
 
 			int num = 1;
 			int recordCount = 0;
 			int retrieveCount = 0;
-			int offsetRecord = (page - 1) * context.getResultsPerPage ();
+			int offsetRecord = (page - 1) * context.getResultsPerPage();
 
-			while (filler.next ())
+			while (filler.next())
 			{
 				recordCount++;
 
-				if (filler.getTotalRowCount () < 0)
+				if (filler.getTotalRowCount() < 0)
 				{
 					retrieveCount++;
 
@@ -710,95 +709,95 @@ public class ListTools
 					}
 				}
 
-				Output outItem = response.createOutput ("item");
+				Output outItem = response.createOutput("item");
 
-				outList.add (outItem);
-				outItem.setAttribute ("id", filler.getId ());
-				outItem.setAttribute ("odd", new Boolean (num % 2 == 1));
-				outItem.setAttribute ("even", new Boolean (num % 2 == 0));
+				outList.add(outItem);
+				outItem.setAttribute("id", filler.getId());
+				outItem.setAttribute("odd", new Boolean(num % 2 == 1));
+				outItem.setAttribute("even", new Boolean(num % 2 == 0));
 
 				int colNum = 0;
 
-				for (Iterator j = listing.columnIterator (); j.hasNext ();)
+				for (Iterator j = listing.columnIterator(); j.hasNext();)
 				{
-					ColumnDescriptor column = (ColumnDescriptor) j.next ();
+					ColumnDescriptor column = (ColumnDescriptor) j.next();
 
-					Output outColumn = response.createOutput (String.valueOf (colNum++));
-					String value = StringTools.trim (filler.getValue (column.getField ()));
+					Output outColumn = response.createOutput(String.valueOf(colNum++));
+					String value = StringTools.trim(filler.getValue(column.getField()));
 
-					if (column.getViewer ().startsWith ("js:"))
+					if (column.getViewer().startsWith("js:"))
 					{
-						outColumn.setContent (value);
+						outColumn.setContent(value);
 
-						String[] params = column.getViewer ().split (":");
+						String[] params = column.getViewer().split(":");
 
-						outColumn.setAttribute ("viewer", "js");
-						outColumn.setContent (params[1]);
-						outColumn.setAttribute ("name", column.getName ());
-						outColumn.setAttribute ("id", filler.getId ());
+						outColumn.setAttribute("viewer", "js");
+						outColumn.setContent(params[1]);
+						outColumn.setAttribute("name", column.getName());
+						outColumn.setAttribute("id", filler.getId());
 					}
-					else if (column.getViewer ().equals ("message"))
+					else if (column.getViewer().equals("message"))
 					{
-						outColumn.setAttribute ("viewer", "message");
+						outColumn.setAttribute("viewer", "message");
 
-						int bundlePos = value.indexOf (":");
+						int bundlePos = value.indexOf(":");
 
 						if (bundlePos >= 0)
 						{
-							outColumn.setAttribute ("bundle", value.substring (0, bundlePos));
+							outColumn.setAttribute("bundle", value.substring(0, bundlePos));
 						}
 						else
 						{
-							outColumn.setAttribute ("bundle", column.getBundle ());
+							outColumn.setAttribute("bundle", column.getBundle());
 						}
 
-						outColumn.setContent (value.substring (bundlePos + 1));
+						outColumn.setContent(value.substring(bundlePos + 1));
 					}
 					else
 					{
-						outColumn.setContent (value);
-						outColumn.setAttribute ("viewer", column.getViewer ());
+						outColumn.setContent(value);
+						outColumn.setAttribute("viewer", column.getViewer());
 					}
 
-					if (! column.isVisible ())
+					if (! column.isVisible())
 					{
-						outColumn.setAttribute ("hide", "Y");
+						outColumn.setAttribute("hide", "Y");
 					}
 
-					outItem.add (outColumn);
+					outItem.add(outColumn);
 				}
 
-				CommandInfo viewCommand = listing.getCommand (ListingDescriptor.COMMAND_VIEW);
+				CommandInfo viewCommand = listing.getCommand(ListingDescriptor.COMMAND_VIEW);
 
 				if (viewCommand != null)
 				{
-					Command cmd = viewCommand.createCommand (request, response, context);
+					Command cmd = viewCommand.createCommand(request, response, context);
 
-					cmd.setName ("command");
-					cmd.setParameter ("id", filler.getId ());
-					cmd.setParameter ("link", "Y");
-					outItem.setAttribute ("command", cmd);
+					cmd.setName("command");
+					cmd.setParameter("id", filler.getId());
+					cmd.setParameter("link", "Y");
+					outItem.setAttribute("command", cmd);
 				}
 
 				++num;
 
-				if (recordCount == context.getResultsPerPage ())
+				if (recordCount == context.getResultsPerPage())
 				{
 					break;
 				}
 			}
 
-			while (num <= context.getResultsPerPage ())
+			while (num <= context.getResultsPerPage())
 			{
-				Output outItem = response.createOutput ("item");
+				Output outItem = response.createOutput("item");
 
-				outList.add (outItem);
-				outItem.setAttribute ("empty", Boolean.TRUE);
+				outList.add(outItem);
+				outItem.setAttribute("empty", Boolean.TRUE);
 				++num;
 			}
 		}
 
-		createListingControls (request, response, listing, outList, 1, maxPage, page, context);
+		createListingControls(request, response, listing, outList, 1, maxPage, page, context);
 	}
 
 	/**
@@ -815,41 +814,41 @@ public class ListTools
 	 * @param persistent
 	 *            The resulting persitent.
 	 */
-	private static void handleResult (ModelRequest request, ModelResponse response, ListingDescriptor listing,
+	private static void handleResult(ModelRequest request, ModelResponse response, ListingDescriptor listing,
 					Output outItem, Persistent persistent, ListContext context)
 		throws PersistenceException, ModelException
 	{
 		int colNum = 0;
 
-		for (Iterator i = listing.columnIterator (); i.hasNext ();)
+		for (Iterator i = listing.columnIterator(); i.hasNext();)
 		{
-			ColumnDescriptor column = (ColumnDescriptor) i.next ();
+			ColumnDescriptor column = (ColumnDescriptor) i.next();
 
-			String fieldName = column.getName ().substring (column.getName ().lastIndexOf ('.') + 1);
+			String fieldName = column.getName().substring(column.getName().lastIndexOf('.') + 1);
 
-			Output outColumn = response.createOutput (String.valueOf (colNum++));
+			Output outColumn = response.createOutput(String.valueOf(colNum++));
 
-			outColumn.setContent (persistent.getField (fieldName));
-			outColumn.setAttribute ("viewer", column.getViewer ());
+			outColumn.setContent(persistent.getField(fieldName));
+			outColumn.setAttribute("viewer", column.getViewer());
 
-			if (! column.isVisible ())
+			if (! column.isVisible())
 			{
-				outColumn.setAttribute ("hide", "Y");
+				outColumn.setAttribute("hide", "Y");
 			}
 
-			outItem.add (outColumn);
+			outItem.add(outColumn);
 		}
 
-		CommandInfo viewCommand = listing.getCommand (ListingDescriptor.COMMAND_VIEW);
+		CommandInfo viewCommand = listing.getCommand(ListingDescriptor.COMMAND_VIEW);
 
 		if (viewCommand != null)
 		{
-			Command cmd = viewCommand.createCommand (request, response, context);
+			Command cmd = viewCommand.createCommand(request, response, context);
 
-			cmd.setName ("command");
-			cmd.setParameter (listing.getKeyName (), persistent.getFieldString (listing.getIdColumn ()));
-			cmd.setParameter ("link", "Y");
-			outItem.setAttribute ("command", cmd);
+			cmd.setName("command");
+			cmd.setParameter(listing.getKeyName(), persistent.getFieldString(listing.getIdColumn()));
+			cmd.setParameter("link", "Y");
+			outItem.setAttribute("command", cmd);
 		}
 	}
 
@@ -860,66 +859,67 @@ public class ListTools
 	 *            The listing for which to generate the statement
 	 * @return The SQL SELECT fields clause (SELECT a,b,c...)
 	 */
-	private static String createSqlSelectFields (ListingDescriptor listing)
+	private static String createSqlSelectFields(ListingDescriptor listing)
 		throws ModelException, PersistenceException, SQLException
 	{
-		PersistentDescriptor persistents = listing.getPersistents ();
-		StringBuffer sql = new StringBuffer ("SELECT ");
-		PersistentMetaData idPersistentMeta = persistents.getMetaData (listing.getIdPersistent ());
+		PersistentDescriptor persistents = listing.getPersistents();
+		StringBuffer sql = new StringBuffer("SELECT ");
+		PersistentMetaData idPersistentMeta = persistents.getMetaData(listing.getIdPersistent());
 
 		if (idPersistentMeta == null)
 		{
-			throw new ModelException ("ListTools: Unknown persistent specified for id column '"
-							+ listing.getIdColumn () + "'");
+			throw new ModelException("ListTools: Unknown persistent specified for id column '" + listing.getIdColumn()
+							+ "'");
 		}
 
-		if (listing.getNumIdColumns () == 1)
+		if (listing.getNumIdColumns() == 1)
 		{
-			sql.append (listing.getIdPersistent () + "." + idPersistentMeta.getDBFieldName (listing.getIdField ())
+			sql.append(listing.getIdPersistent() + "." + idPersistentMeta.getDBFieldName(listing.getIdField())
 							+ " AS id");
 		}
 		else
 		{
 			int col = 1;
 
-			for (Iterator i = listing.getIdColumns ().iterator (); i.hasNext ();)
+			for (Iterator i = listing.getIdColumns().iterator(); i.hasNext();)
 			{
-				ListingDescriptor.IdColumnInfo idInfo = (ListingDescriptor.IdColumnInfo) i.next ();
+				ListingDescriptor.IdColumnInfo idInfo = (ListingDescriptor.IdColumnInfo) i.next();
 
 				if (col > 1)
 				{
-					sql.append (", ");
+					sql.append(", ");
 				}
 
-				sql.append (idInfo.persistent + "." + idPersistentMeta.getDBFieldName (idInfo.field) + " AS id"
-								+ (col++));
+				sql
+								.append(idInfo.persistent + "." + idPersistentMeta.getDBFieldName(idInfo.field)
+												+ " AS id" + (col++));
 			}
 		}
 
-		for (Iterator i = listing.columnIterator (); i.hasNext ();)
+		for (Iterator i = listing.columnIterator(); i.hasNext();)
 		{
-			ColumnDescriptor column = (ColumnDescriptor) i.next ();
+			ColumnDescriptor column = (ColumnDescriptor) i.next();
 
-			if ("custom".equals (column.getViewer ()) || column.getViewer ().startsWith ("js:"))
+			if ("custom".equals(column.getViewer()) || column.getViewer().startsWith("js:"))
 			{
 				continue;
 			}
 
-			sql.append (", ");
+			sql.append(", ");
 
-			PersistentMetaData columnPersistentMeta = persistents.getMetaData (column.getPersistent ());
+			PersistentMetaData columnPersistentMeta = persistents.getMetaData(column.getPersistent());
 
 			if (columnPersistentMeta == null)
 			{
-				throw new ModelException ("ListTools: Unknown persistent specified for column '" + column.getName ()
+				throw new ModelException("ListTools: Unknown persistent specified for column '" + column.getName()
 								+ "'");
 			}
 
-			sql.append (column.getPersistent () + "." + columnPersistentMeta.getDBFieldName (column.getField ())
-							+ " AS " + column.getAs ());
+			sql.append(column.getPersistent() + "." + columnPersistentMeta.getDBFieldName(column.getField()) + " AS "
+							+ column.getAs());
 		}
 
-		return sql.toString ();
+		return sql.toString();
 	}
 
 	/**
@@ -929,48 +929,48 @@ public class ListTools
 	 *            The listing for which to generate the statement
 	 * @return The SQL FROM clause
 	 */
-	private static String createSqlFrom (ListingDescriptor listing)
+	private static String createSqlFrom(ListingDescriptor listing)
 		throws ModelException, PersistenceException, SQLException
 	{
-		PersistentDescriptor persistents = listing.getPersistents ();
-		StringBuffer sql = new StringBuffer ("");
-		Iterator iKey = persistents.keyIterator ();
+		PersistentDescriptor persistents = listing.getPersistents();
+		StringBuffer sql = new StringBuffer("");
+		Iterator iKey = persistents.keyIterator();
 
-		if (! iKey.hasNext ())
+		if (! iKey.hasNext())
 		{
-			throw new ModelException ("No persistents defined for listing " + listing.getHeader ());
+			throw new ModelException("No persistents defined for listing " + listing.getHeader());
 		}
 
-		String key = (String) iKey.next ();
-		PersistentMetaData persistentMeta = persistents.getMetaData (key);
+		String key = (String) iKey.next();
+		PersistentMetaData persistentMeta = persistents.getMetaData(key);
 
-		sql.append (" FROM " + persistentMeta.getTableName () + " AS " + key);
+		sql.append(" FROM " + persistentMeta.getTableName() + " AS " + key);
 
-		for (; iKey.hasNext ();)
+		for (; iKey.hasNext();)
 		{
-			key = (String) iKey.next ();
-			persistentMeta = persistents.getMetaData (key);
-			sql.append (" LEFT JOIN " + persistentMeta.getTableName () + " AS " + key + " ON ");
+			key = (String) iKey.next();
+			persistentMeta = persistents.getMetaData(key);
+			sql.append(" LEFT JOIN " + persistentMeta.getTableName() + " AS " + key + " ON ");
 
-			PersistentDescriptor.JoinInfo join = persistents.getJoin (key);
+			PersistentDescriptor.JoinInfo join = persistents.getJoin(key);
 
 			if (join == null)
 			{
-				throw new ModelException ("ListTools: No join info defined for persistent '" + key + "'");
+				throw new ModelException("ListTools: No join info defined for persistent '" + key + "'");
 			}
 
-			PersistentMetaData persistentMetaJoin = persistents.getMetaData (join.getPersistent ());
+			PersistentMetaData persistentMetaJoin = persistents.getMetaData(join.getPersistent());
 
-			sql.append (join.getPersistent () + "." + persistentMetaJoin.getDBFieldName (join.getKey ()) + " = " + key
-							+ "." + persistentMeta.getDBFieldName (join.getMyKey ()));
+			sql.append(join.getPersistent() + "." + persistentMetaJoin.getDBFieldName(join.getKey()) + " = " + key
+							+ "." + persistentMeta.getDBFieldName(join.getMyKey()));
 
-			if (join.getCondition () != null)
+			if (join.getCondition() != null)
 			{
-				sql.append (" AND " + join.getCondition ());
+				sql.append(" AND " + join.getCondition());
 			}
 		}
 
-		return sql.toString ();
+		return sql.toString();
 	}
 
 	/**
@@ -982,138 +982,137 @@ public class ListTools
 	 *            The listing for which to generate the statement
 	 * @return The SQL WHERE clause
 	 */
-	private static String createSqlWhere (ModelRequest request, ListingDescriptor listing) throws PersistenceException
+	private static String createSqlWhere(ModelRequest request, ListingDescriptor listing) throws PersistenceException
 	{
-		PersistentDescriptor persistents = listing.getPersistents ();
-		PersistentMetaData idPersistentMeta = persistents.getMetaData (listing.getIdPersistent ());
+		PersistentDescriptor persistents = listing.getPersistents();
+		PersistentMetaData idPersistentMeta = persistents.getMetaData(listing.getIdPersistent());
 
-		StringBuffer condition = new StringBuffer ();
+		StringBuffer condition = new StringBuffer();
 
-		if (! StringTools.isTrimEmpty (listing.getCondition ()))
+		if (! StringTools.isTrimEmpty(listing.getCondition()))
 		{
-			condition.append (" WHERE " + listing.getCondition ());
+			condition.append(" WHERE " + listing.getCondition());
 		}
 
-		if (listing.getSortColumns ().size () > 0)
+		if (listing.getSortColumns().size() > 0)
 		{
-			condition.append (" ORDER BY ");
+			condition.append(" ORDER BY ");
 		}
 
-		for (Iterator i = listing.sortColumnIterator (); i.hasNext ();)
+		for (Iterator i = listing.sortColumnIterator(); i.hasNext();)
 		{
-			ColumnDescriptor column = (ColumnDescriptor) i.next ();
+			ColumnDescriptor column = (ColumnDescriptor) i.next();
 
-			condition.append (column.getName () + (column.getSort () == SortOrder.DESCENDING ? " DESC" : " ASC"));
+			condition.append(column.getName() + (column.getSort() == SortOrder.DESCENDING ? " DESC" : " ASC"));
 
-			if (i.hasNext ())
+			if (i.hasNext())
 			{
-				condition.append (", ");
+				condition.append(", ");
 			}
 		}
 
-		StringBuffer sqlCondition = new StringBuffer ();
+		StringBuffer sqlCondition = new StringBuffer();
 
-		for (StringTokenizer st = new StringTokenizer (condition.toString ()); st.hasMoreTokens ();)
+		for (StringTokenizer st = new StringTokenizer(condition.toString()); st.hasMoreTokens();)
 		{
-			String token = st.nextToken ();
-			int dotIndex = token.indexOf ('.');
+			String token = st.nextToken();
+			int dotIndex = token.indexOf('.');
 
 			if (dotIndex != - 1)
 			{
-				String persistent = token.substring (0, dotIndex);
-				String field = token.substring (dotIndex + 1);
-				PersistentMetaData meta = persistents.getMetaData (persistent);
+				String persistent = token.substring(0, dotIndex);
+				String field = token.substring(dotIndex + 1);
+				PersistentMetaData meta = persistents.getMetaData(persistent);
 
 				if (meta != null)
 				{
-					sqlCondition.append (" " + persistent + "." + meta.getDBFieldName (field) + " ");
+					sqlCondition.append(" " + persistent + "." + meta.getDBFieldName(field) + " ");
 				}
 			}
-			else if (token.startsWith ("#") || (token.startsWith ("'#") && token.endsWith ("'")))
+			else if (token.startsWith("#") || (token.startsWith("'#") && token.endsWith("'")))
 			{
 				String paramName = null;
-				String quote = token.startsWith ("'") ? "'" : "";
+				String quote = token.startsWith("'") ? "'" : "";
 
-				if (token.startsWith ("'"))
+				if (token.startsWith("'"))
 				{
-					paramName = token.substring (2, token.length () - 1);
+					paramName = token.substring(2, token.length() - 1);
 				}
 				else
 				{
-					paramName = token.substring (1);
+					paramName = token.substring(1);
 				}
 
-				String param = request.getParameterAsString (paramName);
+				String param = request.getParameterAsString(paramName);
 
-				if (paramName.equals ("id") && request.getParameter ("prevId") != null)
+				if (paramName.equals("id") && request.getParameter("prevId") != null)
 				{
-					param = request.getParameterAsString ("prevId");
+					param = request.getParameterAsString("prevId");
 				}
 
-				if (StringTools.isTrimEmpty (param))
+				if (StringTools.isTrimEmpty(param))
 				{
 					param = "0";
 				}
 
-				sqlCondition.append (" " + quote + param + quote + " ");
+				sqlCondition.append(" " + quote + param + quote + " ");
 			}
-			else if (token.startsWith ("$") || token.startsWith ("~")
-							|| (token.startsWith ("'$") && token.endsWith ("'"))
-							|| (token.startsWith ("'~") && token.endsWith ("'")))
+			else if (token.startsWith("$") || token.startsWith("~") || (token.startsWith("'$") && token.endsWith("'"))
+							|| (token.startsWith("'~") && token.endsWith("'")))
 			{
 				String var = null;
-				String quote = token.startsWith ("'") ? "'" : "";
-				boolean like = token.startsWith ("~") || token.startsWith ("'~");
+				String quote = token.startsWith("'") ? "'" : "";
+				boolean like = token.startsWith("~") || token.startsWith("'~");
 
-				if (token.startsWith ("'"))
+				if (token.startsWith("'"))
 				{
-					var = token.substring (2, token.length () - 1).toLowerCase ();
+					var = token.substring(2, token.length() - 1).toLowerCase();
 				}
 				else
 				{
-					var = token.substring (1).toLowerCase ();
+					var = token.substring(1).toLowerCase();
 				}
 
 				String value = null;
 
-				if ("search".compareToIgnoreCase (var) == 0)
+				if ("search".compareToIgnoreCase(var) == 0)
 				{
-					value = request.getParameterAsString (listing.getId (request) + "Search");
+					value = request.getParameterAsString(listing.getId(request) + "Search");
 				}
-				else if ("searchcategory".compareToIgnoreCase (var) == 0)
+				else if ("searchcategory".compareToIgnoreCase(var) == 0)
 				{
-					value = listing.getCategory ();
+					value = listing.getCategory();
 				}
-				else if ("userid".compareToIgnoreCase (var) == 0)
+				else if ("userid".compareToIgnoreCase(var) == 0)
 				{
-					value = UserTools.getCurrentUserId (request).toString ();
+					value = UserTools.getCurrentUserId(request).toString();
 				}
 
-				value = StringTools.trim (value);
-				sqlCondition.append (" " + quote);
+				value = StringTools.trim(value);
+				sqlCondition.append(" " + quote);
 
 				if (like)
 				{
-					sqlCondition.append ("%" + (StringTools.isEmpty (value) ? "" : value) + "%");
+					sqlCondition.append("%" + (StringTools.isEmpty(value) ? "" : value) + "%");
 				}
 				else
 				{
-					sqlCondition.append (StringTools.isEmpty (value) ? "0" : value);
+					sqlCondition.append(StringTools.isEmpty(value) ? "0" : value);
 				}
 
-				sqlCondition.append (quote + " ");
+				sqlCondition.append(quote + " ");
 			}
-			else if ("like".compareToIgnoreCase (token) == 0)
+			else if ("like".compareToIgnoreCase(token) == 0)
 			{
-				sqlCondition.append (idPersistentMeta.getDatabaseType ().getLikeStatement ());
+				sqlCondition.append(idPersistentMeta.getDatabaseType().getLikeStatement());
 			}
 			else
 			{
-				sqlCondition.append (" " + token + " ");
+				sqlCondition.append(" " + token + " ");
 			}
 		}
 
-		return sqlCondition.toString ();
+		return sqlCondition.toString();
 	}
 
 	/**
@@ -1129,17 +1128,17 @@ public class ListTools
 	 * @throws SQLException
 	 *             In case of an SQL error
 	 */
-	private static PreparedStatement createPreparedStatement (ListingDescriptor listing, Connection connection,
+	private static PreparedStatement createPreparedStatement(ListingDescriptor listing, Connection connection,
 					String sql) throws PersistenceException, SQLException
 	{
-		PreparedStatement stmt = connection.prepareStatement (sql.toString (), ResultSet.TYPE_SCROLL_INSENSITIVE,
+		PreparedStatement stmt = connection.prepareStatement(sql.toString(), ResultSet.TYPE_SCROLL_INSENSITIVE,
 						ResultSet.CONCUR_READ_ONLY);
 
-		if (listing.getCondition () != null && listing.getConditionParams () != null)
+		if (listing.getCondition() != null && listing.getConditionParams() != null)
 		{
-			for (int i = 0; i < listing.getConditionParams ().length; ++i)
+			for (int i = 0; i < listing.getConditionParams().length; ++i)
 			{
-				stmt.setObject (i + 1, listing.getConditionParams ()[i]);
+				stmt.setObject(i + 1, listing.getConditionParams()[i]);
 			}
 		}
 
@@ -1162,195 +1161,195 @@ public class ListTools
 	 * @param handler
 	 *            The listing handler.
 	 */
-	private static void handleResult (ModelRequest request, ModelResponse response, ListingDescriptor listing,
+	private static void handleResult(ModelRequest request, ModelResponse response, ListingDescriptor listing,
 					Output outItem, ResultSet set, ListingHandler handler, ListContext context)
 		throws PersistenceException, ModelException, SQLException
 	{
 		String ids = "";
 
-		if (listing.getNumIdColumns () == 1)
+		if (listing.getNumIdColumns() == 1)
 		{
-			ids = set.getString ("id");
+			ids = set.getString("id");
 		}
 		else
 		{
-			StringBuffer idsBuf = new StringBuffer ();
+			StringBuffer idsBuf = new StringBuffer();
 
 			int col = 1;
 
-			for (Iterator i = listing.getIdColumns ().iterator (); i.hasNext ();)
+			for (Iterator i = listing.getIdColumns().iterator(); i.hasNext();)
 			{
-				ListingDescriptor.IdColumnInfo idInfo = (ListingDescriptor.IdColumnInfo) i.next ();
+				ListingDescriptor.IdColumnInfo idInfo = (ListingDescriptor.IdColumnInfo) i.next();
 
 				if (col > 1)
 				{
-					idsBuf.append ("|");
+					idsBuf.append("|");
 				}
 
-				idsBuf.append (idInfo.field + ":"
-								+ (set.getString ("id" + col) != null ? set.getString ("id" + col) : "0"));
+				idsBuf.append(idInfo.field + ":"
+								+ (set.getString("id" + col) != null ? set.getString("id" + col) : "0"));
 				++col;
 			}
 
-			ids = idsBuf.toString ();
+			ids = idsBuf.toString();
 		}
 
 		int colNum = 0;
 
-		for (Iterator i = listing.columnIterator (); i.hasNext ();)
+		for (Iterator i = listing.columnIterator(); i.hasNext();)
 		{
-			ColumnDescriptor column = (ColumnDescriptor) i.next ();
+			ColumnDescriptor column = (ColumnDescriptor) i.next();
 
-			Output outColumn = response.createOutput (String.valueOf (colNum++));
+			Output outColumn = response.createOutput(String.valueOf(colNum++));
 
-			if ("custom".equals (column.getViewer ()))
+			if ("custom".equals(column.getViewer()))
 			{
-				outColumn.setAttribute ("viewer", "text");
+				outColumn.setAttribute("viewer", "text");
 
 				if (handler != null)
 				{
-					CellData cellData = handler.handleResult (request, response, listing,
-									new SqlRowData (listing, set), column);
+					CellData cellData = handler.handleResult(request, response, listing, new SqlRowData(listing, set),
+									column);
 
-					outColumn.setContent (cellData.getValue ());
-					outColumn.setAttribute ("viewer", cellData.getViewer ().toString ());
-					outColumn.setAttribute ("bundle", cellData.getBundle ());
+					outColumn.setContent(cellData.getValue());
+					outColumn.setAttribute("viewer", cellData.getViewer().toString());
+					outColumn.setAttribute("bundle", cellData.getBundle());
 				}
 				else
 				{
-					outColumn.setContent ("");
+					outColumn.setContent("");
 				}
 			}
-			else if ("combo".equals (column.getViewer ()))
+			else if ("combo".equals(column.getViewer()))
 			{
-				Object value = set.getObject (column.getAs ());
+				Object value = set.getObject(column.getAs());
 
-				outColumn.setAttribute ("viewer", column.getViewer ());
-				outColumn.setAttribute ("bundle", column.getBundle ());
-				outColumn.setContent (! StringTools.isTrimEmpty (value) ? "opt" + value : "-");
+				outColumn.setAttribute("viewer", column.getViewer());
+				outColumn.setAttribute("bundle", column.getBundle());
+				outColumn.setContent(! StringTools.isTrimEmpty(value) ? "opt" + value : "-");
 			}
-			else if ("message".equals (column.getViewer ()))
+			else if ("message".equals(column.getViewer()))
 			{
-				outColumn.setAttribute ("viewer", column.getViewer ());
+				outColumn.setAttribute("viewer", column.getViewer());
 
-				Object value = set.getObject (column.getAs ());
+				Object value = set.getObject(column.getAs());
 
-				outColumn.setAttribute ("bundle", column.getBundle ());
+				outColumn.setAttribute("bundle", column.getBundle());
 
-				String[] parts = value.toString ().split ("\\|");
-				StringBuffer sb = new StringBuffer (parts[0]);
+				String[] parts = value.toString().split("\\|");
+				StringBuffer sb = new StringBuffer(parts[0]);
 
 				for (int j = 1; j < parts.length; ++j)
 				{
-					if (parts[j].startsWith ("?"))
+					if (parts[j].startsWith("?"))
 					{
-						sb.append ("|" + set.getString (parts[j].substring (1).replace ('.', '_')));
+						sb.append("|" + set.getString(parts[j].substring(1).replace('.', '_')));
 					}
 					else
 					{
-						sb.append ("|" + parts[j]);
+						sb.append("|" + parts[j]);
 					}
 				}
 
-				outColumn.setContent (sb.toString ());
+				outColumn.setContent(sb.toString());
 			}
-			else if (column.getViewer ().startsWith ("icon:"))
+			else if (column.getViewer().startsWith("icon:"))
 			{
-				Object value = set.getObject (column.getAs ());
-				String viewer = column.getViewer ();
-				int slashPos = viewer.indexOf ('|');
-				String iconTrue = viewer.substring (5, slashPos > 0 ? slashPos : viewer.length ());
-				String iconFalse = slashPos > 0 ? viewer.substring (slashPos + 1, viewer.length ()) : "blank";
-				outColumn.setAttribute ("viewer", "icon");
-				outColumn.setContent (NumberTools.toBool (value, false) ? iconTrue : iconFalse);
+				Object value = set.getObject(column.getAs());
+				String viewer = column.getViewer();
+				int slashPos = viewer.indexOf('|');
+				String iconTrue = viewer.substring(5, slashPos > 0 ? slashPos : viewer.length());
+				String iconFalse = slashPos > 0 ? viewer.substring(slashPos + 1, viewer.length()) : "blank";
+				outColumn.setAttribute("viewer", "icon");
+				outColumn.setContent(NumberTools.toBool(value, false) ? iconTrue : iconFalse);
 			}
-			else if (column.getViewer ().startsWith ("handler:"))
+			else if (column.getViewer().startsWith("handler:"))
 			{
-				Object value = set.getObject (column.getAs ());
+				Object value = set.getObject(column.getAs());
 
-				outColumn.setAttribute ("viewer", "text");
+				outColumn.setAttribute("viewer", "text");
 
 				try
 				{
-					Class cellHandler = Class.forName (column.getViewer ().substring (8));
-					String cellRes = cellHandler.getMethod ("format", new Class[]
+					Class cellHandler = Class.forName(column.getViewer().substring(8));
+					String cellRes = cellHandler.getMethod("format", new Class[]
 					{
 						Object.class
-					}).invoke (null, value).toString ();
+					}).invoke(null, value).toString();
 
-					outColumn.setContent (cellRes);
+					outColumn.setContent(cellRes);
 				}
 				catch (InvocationTargetException x)
 				{
-					outColumn.setContent (x.getTargetException ().toString ());
+					outColumn.setContent(x.getTargetException().toString());
 				}
 				catch (Exception x)
 				{
-					outColumn.setContent (x.toString ());
+					outColumn.setContent(x.toString());
 				}
 			}
-			else if (column.getViewer ().startsWith ("js:"))
+			else if (column.getViewer().startsWith("js:"))
 			{
-				String[] params = column.getViewer ().split (":");
+				String[] params = column.getViewer().split(":");
 
-				outColumn.setAttribute ("viewer", "js");
-				outColumn.setContent (params[1]);
-				outColumn.setAttribute ("name", column.getName ());
-				outColumn.setAttribute ("id", ids);
+				outColumn.setAttribute("viewer", "js");
+				outColumn.setContent(params[1]);
+				outColumn.setAttribute("name", column.getName());
+				outColumn.setAttribute("id", ids);
 			}
-			else if ("province".equals (column.getViewer ()))
+			else if ("province".equals(column.getViewer()))
 			{
-				outColumn.setAttribute ("viewer", column.getViewer ());
+				outColumn.setAttribute("viewer", column.getViewer());
 
 				Object country = null;
 
 				try
 				{
-					country = set.getObject (column.getAs () + "country");
+					country = set.getObject(column.getAs() + "country");
 				}
 				catch (Exception ignored)
 				{
 				}
 
-				Object value = set.getObject (column.getAs ());
+				Object value = set.getObject(column.getAs());
 
-				if (! StringTools.isTrimEmpty (value))
+				if (! StringTools.isTrimEmpty(value))
 				{
-					outColumn.setContent ((! StringTools.isTrimEmpty (country) ? country + "." : "")
-									+ StringTools.trim (value));
+					outColumn.setContent((! StringTools.isTrimEmpty(country) ? country + "." : "")
+									+ StringTools.trim(value));
 				}
 				else
 				{
-					outColumn.setContent ("");
+					outColumn.setContent("");
 				}
 			}
 			else
 			{
-				outColumn.setAttribute ("viewer", column.getViewer ());
+				outColumn.setAttribute("viewer", column.getViewer());
 
-				Object value = set.getObject (column.getAs ());
+				Object value = set.getObject(column.getAs());
 
-				outColumn.setContent (! StringTools.isTrimEmpty (value) ? value : "");
+				outColumn.setContent(! StringTools.isTrimEmpty(value) ? value : "");
 			}
 
-			if (! column.isVisible ())
+			if (! column.isVisible())
 			{
-				outColumn.setAttribute ("hide", "Y");
+				outColumn.setAttribute("hide", "Y");
 			}
 
-			outItem.add (outColumn);
+			outItem.add(outColumn);
 		}
 
-		CommandInfo viewCommand = listing.getCommand (ListingDescriptor.COMMAND_VIEW);
+		CommandInfo viewCommand = listing.getCommand(ListingDescriptor.COMMAND_VIEW);
 
 		if (viewCommand != null)
 		{
-			Command cmd = viewCommand.createCommand (request, response, context);
+			Command cmd = viewCommand.createCommand(request, response, context);
 
-			cmd.setName ("command");
-			cmd.setParameter (listing.getKeyName (), ids);
-			cmd.setParameter ("link", "Y");
-			outItem.setAttribute ("command", cmd);
+			cmd.setName("command");
+			cmd.setParameter(listing.getKeyName(), ids);
+			cmd.setParameter("link", "Y");
+			outItem.setAttribute("command", cmd);
 		}
 	}
 
@@ -1367,259 +1366,259 @@ public class ListTools
 	 *            The command name.
 	 * @throws ModelException.
 	 */
-	private static void createListingControls (ModelRequest request, ModelResponse response, ListingDescriptor listing,
+	private static void createListingControls(ModelRequest request, ModelResponse response, ListingDescriptor listing,
 					Output outList, int minPage, int maxPage, int currentPage, ListContext context)
 		throws ModelException
 	{
-		outList.setAttribute ("keyName", listing.getKeyName ());
+		outList.setAttribute("keyName", listing.getKeyName());
 
-		outList.setAttribute ("headerTitle", listing.getHeader ());
+		outList.setAttribute("headerTitle", listing.getHeader());
 
-		outList.setAttribute ("bundle", listing.getBundle ());
+		outList.setAttribute("bundle", listing.getBundle());
 
-		if (listing.getTitle () != null)
+		if (listing.getTitle() != null)
 		{
-			outList.setAttribute ("title", listing.getTitle ());
-			outList.setAttribute ("titleBundle", listing.getTitleBundle () != null ? listing.getTitleBundle ()
-							: listing.getBundle ());
+			outList.setAttribute("title", listing.getTitle());
+			outList.setAttribute("titleBundle", listing.getTitleBundle() != null ? listing.getTitleBundle() : listing
+							.getBundle());
 		}
 
-		if (listing.getIcon () != null)
+		if (listing.getIcon() != null)
 		{
-			outList.setAttribute ("icon", listing.getIcon ());
+			outList.setAttribute("icon", listing.getIcon());
 		}
 
-		if (listing.isEmbedded ())
+		if (listing.isEmbedded())
 		{
-			outList.setAttribute ("embedded", "Y");
+			outList.setAttribute("embedded", "Y");
 		}
 
-		outList.setAttribute ("commandStyle", listing.getCommandStyle ());
+		outList.setAttribute("commandStyle", listing.getCommandStyle());
 
-		CommandInfo viewCommand = listing.getCommand (ListingDescriptor.COMMAND_VIEW);
+		CommandInfo viewCommand = listing.getCommand(ListingDescriptor.COMMAND_VIEW);
 
-		if (viewCommand != null && viewCommand.checkPermission (request))
+		if (viewCommand != null && viewCommand.checkPermission(request))
 		{
-			Command cmd = viewCommand.createCommand (request, response, context);
+			Command cmd = viewCommand.createCommand(request, response, context);
 
-			cmd.setName (outList.getName () + "CmdEdit");
-			cmd.setLabel (viewCommand.getLabel () != null ? viewCommand.getLabel () : "edit");
-			outList.setAttribute ("cmdEdit", cmd);
+			cmd.setName(outList.getName() + "CmdEdit");
+			cmd.setLabel(viewCommand.getLabel() != null ? viewCommand.getLabel() : "edit");
+			outList.setAttribute("cmdEdit", cmd);
 		}
 
-		CommandInfo cmdNew = listing.getCommand (ListingDescriptor.COMMAND_NEW);
+		CommandInfo cmdNew = listing.getCommand(ListingDescriptor.COMMAND_NEW);
 
-		if (cmdNew != null && cmdNew.isVisible () && cmdNew.checkPermission (request))
+		if (cmdNew != null && cmdNew.isVisible() && cmdNew.checkPermission(request))
 		{
-			Command cmd = cmdNew.createCommand (request, response, context);
+			Command cmd = cmdNew.createCommand(request, response, context);
 
-			cmd.setName (outList.getName () + "CmdNew");
-			outList.setAttribute ("cmdNew", cmd);
+			cmd.setName(outList.getName() + "CmdNew");
+			outList.setAttribute("cmdNew", cmd);
 		}
 
-		String outListName = outList.getName ();
+		String outListName = outList.getName();
 
 		if (currentPage > 1)
 		{
-			Command cmdPageStart = createPageCommand (request, response, listing, "cmdPageStart", new String[]
+			Command cmdPageStart = createPageCommand(request, response, listing, "cmdPageStart", new String[]
 			{
 				"~listSort"
 			});
 
-			cmdPageStart.setParameter (outListName + "Page", String.valueOf (minPage));
-			cmdPageStart.setLabel ("$start");
-			outList.setAttribute ("cmdPageStart", cmdPageStart);
+			cmdPageStart.setParameter(outListName + "Page", String.valueOf(minPage));
+			cmdPageStart.setLabel("$start");
+			outList.setAttribute("cmdPageStart", cmdPageStart);
 
-			Command cmdPageBack = createPageCommand (request, response, listing, "cmdPageBack", new String[]
+			Command cmdPageBack = createPageCommand(request, response, listing, "cmdPageBack", new String[]
 			{
 				"~listSort"
 			});
 
-			cmdPageBack.setParameter (outListName + "Page", String.valueOf (currentPage - 1));
-			cmdPageBack.setLabel ("$back");
-			outList.setAttribute ("cmdPageBack", cmdPageBack);
+			cmdPageBack.setParameter(outListName + "Page", String.valueOf(currentPage - 1));
+			cmdPageBack.setLabel("$back");
+			outList.setAttribute("cmdPageBack", cmdPageBack);
 
-			Output outPrevPages = response.createOutput ("prevPages");
+			Output outPrevPages = response.createOutput("prevPages");
 
-			outList.setAttribute ("prevPages", outPrevPages);
+			outList.setAttribute("prevPages", outPrevPages);
 
-			int firstPrevPage = Math.max (minPage, currentPage - context.getNumPrevPages ());
+			int firstPrevPage = Math.max(minPage, currentPage - context.getNumPrevPages());
 
 			for (int i = currentPage - 1; i >= firstPrevPage; --i)
 			{
-				Command cmdPage = createPageCommand (request, response, listing, "cmdPage", new String[]
+				Command cmdPage = createPageCommand(request, response, listing, "cmdPage", new String[]
 				{
 					"~listSort"
 				});
 
-				cmdPage.setParameter (outListName + "Page", String.valueOf (currentPage - i - 1 + firstPrevPage));
-				cmdPage.setLabel (String.valueOf (currentPage - i - 1 + firstPrevPage));
-				outPrevPages.add (cmdPage);
+				cmdPage.setParameter(outListName + "Page", String.valueOf(currentPage - i - 1 + firstPrevPage));
+				cmdPage.setLabel(String.valueOf(currentPage - i - 1 + firstPrevPage));
+				outPrevPages.add(cmdPage);
 			}
 		}
 
 		if (currentPage < maxPage)
 		{
-			Command cmdPageEnd = createPageCommand (request, response, listing, "cmdPageEnd", new String[]
+			Command cmdPageEnd = createPageCommand(request, response, listing, "cmdPageEnd", new String[]
 			{
 				"~listSort"
 			});
 
-			cmdPageEnd.setParameter (outListName + "Page", String.valueOf (maxPage));
-			cmdPageEnd.setLabel ("$end");
-			outList.setAttribute ("cmdPageEnd", cmdPageEnd);
+			cmdPageEnd.setParameter(outListName + "Page", String.valueOf(maxPage));
+			cmdPageEnd.setLabel("$end");
+			outList.setAttribute("cmdPageEnd", cmdPageEnd);
 
-			Command cmdPageNext = createPageCommand (request, response, listing, "cmdPageNext", new String[]
+			Command cmdPageNext = createPageCommand(request, response, listing, "cmdPageNext", new String[]
 			{
 				"~listSort"
 			});
 
-			cmdPageNext.setParameter (outListName + "Page", String.valueOf (currentPage + 1));
-			cmdPageNext.setLabel ("$next");
-			outList.setAttribute ("cmdPageNext", cmdPageNext);
+			cmdPageNext.setParameter(outListName + "Page", String.valueOf(currentPage + 1));
+			cmdPageNext.setLabel("$next");
+			outList.setAttribute("cmdPageNext", cmdPageNext);
 
-			Output outNextPages = response.createOutput ("nextPages");
+			Output outNextPages = response.createOutput("nextPages");
 
-			outList.setAttribute ("nextPages", outNextPages);
+			outList.setAttribute("nextPages", outNextPages);
 
-			int lastNextPage = Math.min (maxPage, currentPage + context.getNumNextPages ());
+			int lastNextPage = Math.min(maxPage, currentPage + context.getNumNextPages());
 
 			for (int i = currentPage + 1; i <= lastNextPage; ++i)
 			{
-				Command cmdPage = createPageCommand (request, response, listing, "page", new String[]
+				Command cmdPage = createPageCommand(request, response, listing, "page", new String[]
 				{
 					"~listSort"
 				});
 
-				cmdPage.setParameter (outListName + "Page", String.valueOf (i));
-				cmdPage.setLabel (String.valueOf (i));
-				outNextPages.add (cmdPage);
+				cmdPage.setParameter(outListName + "Page", String.valueOf(i));
+				cmdPage.setLabel(String.valueOf(i));
+				outNextPages.add(cmdPage);
 			}
 		}
 
-		if (listing.getListCommands () != null)
+		if (listing.getListCommands() != null)
 		{
-			Output outCommands = response.createOutput ("commands");
+			Output outCommands = response.createOutput("commands");
 
-			outList.setAttribute ("commands", outCommands);
+			outList.setAttribute("commands", outCommands);
 
-			for (Iterator i = listing.getListCommands ().iterator (); i.hasNext ();)
+			for (Iterator i = listing.getListCommands().iterator(); i.hasNext();)
 			{
-				CommandInfo descriptor = (CommandInfo) i.next ();
-				Command command = descriptor.createCommand (request, response, context);
+				CommandInfo descriptor = (CommandInfo) i.next();
+				Command command = descriptor.createCommand(request, response, context);
 
-				outCommands.add (command);
+				outCommands.add(command);
 			}
 		}
 
-		if (listing.getItemCommands () != null)
+		if (listing.getItemCommands() != null)
 		{
-			Output outItemCommands = response.createOutput ("itemCommands");
+			Output outItemCommands = response.createOutput("itemCommands");
 
-			CommandInfo viewCmd = listing.getCommand (ListingDescriptor.COMMAND_VIEW);
+			CommandInfo viewCmd = listing.getCommand(ListingDescriptor.COMMAND_VIEW);
 
-			if (viewCmd != null && viewCmd.checkPermission (request))
+			if (viewCmd != null && viewCmd.checkPermission(request))
 			{
-				Command cmd = viewCmd.createCommand (request, response, context);
+				Command cmd = viewCmd.createCommand(request, response, context);
 
-				outItemCommands.add (cmd);
+				outItemCommands.add(cmd);
 			}
 
-			outItemCommands.setAttribute ("label", listing.getItemCommands ().getLabel ());
-			outList.setAttribute ("itemCommands", outItemCommands);
+			outItemCommands.setAttribute("label", listing.getItemCommands().getLabel());
+			outList.setAttribute("itemCommands", outItemCommands);
 
-			for (Iterator i = listing.getItemCommands ().iterator (); i.hasNext ();)
+			for (Iterator i = listing.getItemCommands().iterator(); i.hasNext();)
 			{
-				CommandInfo descriptor = (CommandInfo) i.next ();
+				CommandInfo descriptor = (CommandInfo) i.next();
 
-				if (viewCmd == null || ! descriptor.getName ().equals (viewCmd.getName ()))
+				if (viewCmd == null || ! descriptor.getName().equals(viewCmd.getName()))
 				{
-					Command command = descriptor.createCommand (request, response, context);
+					Command command = descriptor.createCommand(request, response, context);
 
-					outItemCommands.add (command);
+					outItemCommands.add(command);
 				}
 			}
 
 			Command cmdExecute;
 
-			if (listing.getCommand (ListingDescriptor.COMMAND_EXECUTE) == null)
+			if (listing.getCommand(ListingDescriptor.COMMAND_EXECUTE) == null)
 			{
-				if (listing.isNg ())
+				if (listing.isNg())
 				{
-					cmdExecute = response.createCommand (null);
-					cmdExecute.setBean ("de.iritgo.aktera.ui.ExecuteListItemCommand");
+					cmdExecute = response.createCommand(null);
+					cmdExecute.setBean("de.iritgo.aktera.ui.ExecuteListItemCommand");
 				}
 				else
 				{
-					cmdExecute = response.createCommand ("aktera.tools.execute-listitem-command");
+					cmdExecute = response.createCommand("aktera.tools.execute-listitem-command");
 				}
 
-				cmdExecute.setName (outListName + "CmdExecute");
-				cmdExecute.setLabel ("execute");
+				cmdExecute.setName(outListName + "CmdExecute");
+				cmdExecute.setLabel("execute");
 			}
 			else
 			{
-				cmdExecute = listing.getCommand (ListingDescriptor.COMMAND_EXECUTE).createCommand (request, response,
+				cmdExecute = listing.getCommand(ListingDescriptor.COMMAND_EXECUTE).createCommand(request, response,
 								"_lep", context);
 			}
 
-			outList.setAttribute ("cmdExecute", cmdExecute);
-			cmdExecute.setParameter ("_lm", listing.getListModel () != null ? listing.getListModel () : ModelTools
-							.getPreviousModel (request));
+			outList.setAttribute("cmdExecute", cmdExecute);
+			cmdExecute.setParameter("_lm", listing.getListModel() != null ? listing.getListModel() : ModelTools
+							.getPreviousModel(request));
 
-			for (Iterator i = request.getParameters ().keySet ().iterator (); i.hasNext ();)
+			for (Iterator i = request.getParameters().keySet().iterator(); i.hasNext();)
 			{
-				String key = (String) i.next ();
+				String key = (String) i.next();
 
-				if ("model".equals (key) || "orig-model".equals (key) || key.startsWith ("_lp"))
+				if ("model".equals(key) || "orig-model".equals(key) || key.startsWith("_lp"))
 				{
 					continue;
 				}
 
-				cmdExecute.setParameter ("_lp" + key, request.getParameter (key));
+				cmdExecute.setParameter("_lp" + key, request.getParameter(key));
 			}
 
-			for (Iterator i = listing.getItemCommands ().iterator (); i.hasNext ();)
+			for (Iterator i = listing.getItemCommands().iterator(); i.hasNext();)
 			{
-				CommandInfo descriptor = (CommandInfo) i.next ();
+				CommandInfo descriptor = (CommandInfo) i.next();
 
-				descriptor.setParameters (request, cmdExecute, "_lp", context);
+				descriptor.setParameters(request, cmdExecute, "_lp", context);
 			}
 		}
 
-		CommandInfo cmdSearch = listing.getCommand (ListingDescriptor.COMMAND_SEARCH);
+		CommandInfo cmdSearch = listing.getCommand(ListingDescriptor.COMMAND_SEARCH);
 
 		if (cmdSearch != null)
 		{
 			String searchInputName = outListName + "Search";
 
-			Input input = response.createInput (searchInputName);
+			Input input = response.createInput(searchInputName);
 
-			input.setLabel ("search");
-			input.setDefaultValue (request.getParameterAsString (searchInputName));
-			response.add (input);
+			input.setLabel("search");
+			input.setDefaultValue(request.getParameterAsString(searchInputName));
+			response.add(input);
 
-			if (listing.getCategories () != null)
+			if (listing.getCategories() != null)
 			{
-				input = response.createInput (searchInputName + "Category");
-				input.setDefaultValue (listing.getCategory ());
-				input.setValidValues (listing.getCategories ());
-				response.add (input);
+				input = response.createInput(searchInputName + "Category");
+				input.setDefaultValue(listing.getCategory());
+				input.setValidValues(listing.getCategories());
+				response.add(input);
 			}
 
-			Command cmd = cmdSearch.createCommand (request, response, context);
+			Command cmd = cmdSearch.createCommand(request, response, context);
 
-			cmd.setName (outListName + "CmdSearch");
-			outList.setAttribute ("cmdSearch", cmd);
+			cmd.setName(outListName + "CmdSearch");
+			outList.setAttribute("cmdSearch", cmd);
 		}
 
-		CommandInfo cmdBack = listing.getCommand (ListingDescriptor.COMMAND_BACK);
+		CommandInfo cmdBack = listing.getCommand(ListingDescriptor.COMMAND_BACK);
 
 		if (cmdBack != null)
 		{
-			Command cmd = cmdBack.createCommand (request, response, context);
+			Command cmd = cmdBack.createCommand(request, response, context);
 
-			outList.setAttribute ("cmdBack", cmd);
+			outList.setAttribute("cmdBack", cmd);
 		}
 	}
 
@@ -1637,10 +1636,10 @@ public class ListTools
 	 * @return The new command.
 	 * @throws ModelException.
 	 */
-	private static Command createPageCommand (ModelRequest request, ModelResponse response, ListingDescriptor listing,
+	private static Command createPageCommand(ModelRequest request, ModelResponse response, ListingDescriptor listing,
 					String name) throws ModelException
 	{
-		return createPageCommand (request, response, listing, name, null);
+		return createPageCommand(request, response, listing, name, null);
 	}
 
 	/**
@@ -1657,13 +1656,13 @@ public class ListTools
 	 * @return The new command.
 	 * @throws ModelException.
 	 */
-	private static Command createPageCommand (ModelRequest request, ModelResponse response, ListingDescriptor listing,
+	private static Command createPageCommand(ModelRequest request, ModelResponse response, ListingDescriptor listing,
 					String name, String[] ommitPrevParameters) throws ModelException
 	{
-		Command cmd = ModelTools.createPreviousModelCommand (request, response, listing.getListModel (),
+		Command cmd = ModelTools.createPreviousModelCommand(request, response, listing.getListModel(),
 						ommitPrevParameters);
 
-		cmd.setName (name);
+		cmd.setName(name);
 
 		return cmd;
 	}
@@ -1682,53 +1681,52 @@ public class ListTools
 	 * @return The listing output element.
 	 * @throws ModelException.
 	 */
-	private static Output createHeaderElements (ModelRequest req, ModelResponse res, ListingDescriptor listing,
+	private static Output createHeaderElements(ModelRequest req, ModelResponse res, ListingDescriptor listing,
 					ListContext context) throws ModelException
 	{
-		Output outList = res.createOutput (context.getListName ());
+		Output outList = res.createOutput(context.getListName());
 
-		res.add (outList);
+		res.add(outList);
 
-		outList.setAttribute ("columnCount", new Integer (listing.getVisibleColumnCount ()
-						+ (listing.getItemCommands () != null ? 1 : 0)));
+		outList.setAttribute("columnCount", new Integer(listing.getVisibleColumnCount()
+						+ (listing.getItemCommands() != null ? 1 : 0)));
 
-		Output outHeader = res.createOutput ("header");
+		Output outHeader = res.createOutput("header");
 
-		outList.setAttribute ("header", outHeader);
+		outList.setAttribute("header", outHeader);
 
 		int colNum = 0;
 
-		for (Iterator i = listing.columnIterator (); i.hasNext ();)
+		for (Iterator i = listing.columnIterator(); i.hasNext();)
 		{
-			ColumnDescriptor column = (ColumnDescriptor) i.next ();
+			ColumnDescriptor column = (ColumnDescriptor) i.next();
 
-			Output outColumn = res.createOutput (String.valueOf (colNum++));
+			Output outColumn = res.createOutput(String.valueOf(colNum++));
 
-			outColumn.setContent (column.getAs ());
-			outColumn.setAttribute ("label", column.getLabel ());
-			outColumn.setAttribute ("bundle", column.getBundle () != null ? column.getBundle () : listing.getBundle ());
-			outColumn.setAttribute ("width", new Integer (column.getWidth ()));
+			outColumn.setContent(column.getAs());
+			outColumn.setAttribute("label", column.getLabel());
+			outColumn.setAttribute("bundle", column.getBundle() != null ? column.getBundle() : listing.getBundle());
+			outColumn.setAttribute("width", new Integer(column.getWidth()));
 
-			if (column.getSort () != SortOrder.NONE)
+			if (column.getSort() != SortOrder.NONE)
 			{
-				outColumn.setAttribute ("sort", column.getSort () == SortOrder.ASCENDING ? "U" : "D");
+				outColumn.setAttribute("sort", column.getSort() == SortOrder.ASCENDING ? "U" : "D");
 			}
 
-			if (! column.isVisible ())
+			if (! column.isVisible())
 			{
-				outColumn.setAttribute ("hide", "Y");
+				outColumn.setAttribute("hide", "Y");
 			}
 
-			if (column.isSortable () && ! "custom".equals (column.getViewer ())
-							&& ! column.getViewer ().startsWith ("js:"))
+			if (column.isSortable() && ! "custom".equals(column.getViewer()) && ! column.getViewer().startsWith("js:"))
 			{
-				Command sortCommand = createPageCommand (req, res, listing, "sort" + colNum);
+				Command sortCommand = createPageCommand(req, res, listing, "sort" + colNum);
 
-				sortCommand.setParameter (context.getListName () + "Sort", column.getName ());
-				outColumn.setAttribute ("sortCommand", sortCommand);
+				sortCommand.setParameter(context.getListName() + "Sort", column.getName());
+				outColumn.setAttribute("sortCommand", sortCommand);
 			}
 
-			outHeader.add (outColumn);
+			outHeader.add(outColumn);
 		}
 
 		return outList;

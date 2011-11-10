@@ -28,11 +28,11 @@ import de.iritgo.aktera.webservices.webservices.*;
 public class PingPongEndpoint
 {
 	@PayloadRoot(localPart = "pingRequest", namespace = "http://aktera.iritgo.de/webservices/webservices")
-	public PongResponse ping (PingRequest request)
+	public PongResponse ping(PingRequest request)
 	{
-		PongResponse pong = new PongResponse ();
+		PongResponse pong = new PongResponse();
 
-		pong.setSequence (request.getSequence () + 1);
+		pong.setSequence(request.getSequence() + 1);
 
 		return pong;
 	}

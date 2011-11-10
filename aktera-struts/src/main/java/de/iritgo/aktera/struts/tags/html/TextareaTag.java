@@ -39,7 +39,7 @@ public class TextareaTag extends org.apache.struts.taglib.html.TextareaTag
 	 *
 	 * @param wrap Wrap flag.
 	 */
-	public void setWrap (boolean wrap)
+	public void setWrap(boolean wrap)
 	{
 		this.wrap = wrap;
 	}
@@ -49,7 +49,7 @@ public class TextareaTag extends org.apache.struts.taglib.html.TextareaTag
 	 *
 	 * @retrun The wrap flag.
 	 */
-	public boolean getWrap ()
+	public boolean getWrap()
 	{
 		return wrap;
 	}
@@ -57,9 +57,9 @@ public class TextareaTag extends org.apache.struts.taglib.html.TextareaTag
 	/**
 	 * Reset all tag attributes to their default values.
 	 */
-	public void release ()
+	public void release()
 	{
-		super.release ();
+		super.release();
 
 		wrap = true;
 	}
@@ -69,61 +69,61 @@ public class TextareaTag extends org.apache.struts.taglib.html.TextareaTag
 	 * @throws JspException
 	 * @since Struts 1.1
 	 */
-	protected String renderTextareaElement () throws JspException
+	protected String renderTextareaElement() throws JspException
 	{
-		StringBuffer results = new StringBuffer ("<textarea");
+		StringBuffer results = new StringBuffer("<textarea");
 
-		results.append (" name=\"");
+		results.append(" name=\"");
 
 		if (indexed)
 		{
-			prepareIndex (results, name);
+			prepareIndex(results, name);
 		}
 
-		results.append (property);
-		results.append ("\"");
+		results.append(property);
+		results.append("\"");
 
 		if (accesskey != null)
 		{
-			results.append (" accesskey=\"");
-			results.append (accesskey);
-			results.append ("\"");
+			results.append(" accesskey=\"");
+			results.append(accesskey);
+			results.append("\"");
 		}
 
 		if (tabindex != null)
 		{
-			results.append (" tabindex=\"");
-			results.append (tabindex);
-			results.append ("\"");
+			results.append(" tabindex=\"");
+			results.append(tabindex);
+			results.append("\"");
 		}
 
 		if (cols != null)
 		{
-			results.append (" cols=\"");
-			results.append (cols);
-			results.append ("\"");
+			results.append(" cols=\"");
+			results.append(cols);
+			results.append("\"");
 		}
 
 		if (rows != null)
 		{
-			results.append (" rows=\"");
-			results.append (rows);
-			results.append ("\"");
+			results.append(" rows=\"");
+			results.append(rows);
+			results.append("\"");
 		}
 
 		if (! wrap)
 		{
-			results.append (" wrap=\"off\"");
+			results.append(" wrap=\"off\"");
 		}
 
-		results.append (prepareEventHandlers ());
-		results.append (prepareStyles ());
-		results.append (">");
+		results.append(prepareEventHandlers());
+		results.append(prepareStyles());
+		results.append(">");
 
-		results.append (this.renderData ());
+		results.append(this.renderData());
 
-		results.append ("</textarea>");
+		results.append("</textarea>");
 
-		return results.toString ();
+		return results.toString();
 	}
 }

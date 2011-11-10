@@ -68,14 +68,14 @@ public class SequenceContext implements Serializable
 	/**
 	 * Constructor for SequenceContext.
 	 */
-	public SequenceContext ()
+	public SequenceContext()
 	{
-		super ();
+		super();
 	}
 
-	public SequenceContext (String theSequenceName, int newSeq)
+	public SequenceContext(String theSequenceName, int newSeq)
 	{
-		super ();
+		super();
 		sequenceName = theSequenceName;
 		seqStepNum = newSeq;
 	}
@@ -87,14 +87,14 @@ public class SequenceContext implements Serializable
 	 * @param children - An array of Configuration elements.  Each element in the Configuration[] represents a step in the sequence.
 	 * @param res - The current response object.
 	 */
-	public SequenceContext (String theSequenceName, int sequenceStep, Configuration[] children, ModelResponse res)
+	public SequenceContext(String theSequenceName, int sequenceStep, Configuration[] children, ModelResponse res)
 	{
-		super ();
+		super();
 		sequenceName = theSequenceName;
 		seqStepNum = sequenceStep;
 		sequenceSteps = children;
 		currentResponse = res;
-		modelName = findModelName (children, sequenceStep);
+		modelName = findModelName(children, sequenceStep);
 	}
 
 	/**
@@ -103,7 +103,7 @@ public class SequenceContext implements Serializable
 	 * @param sequenceStep
 	 * @return
 	 */
-	private String findModelName (Configuration[] children, int sequenceStep)
+	private String findModelName(Configuration[] children, int sequenceStep)
 	{
 		String retVal = "";
 
@@ -115,7 +115,7 @@ public class SequenceContext implements Serializable
 
 				if (config != null)
 				{
-					retVal = config.getAttribute ("name", "");
+					retVal = config.getAttribute("name", "");
 				}
 			}
 		}
@@ -132,7 +132,7 @@ public class SequenceContext implements Serializable
 	 * @param modelName
 	 * @return
 	 */
-	public int getFirstSequenceStep (String modelName)
+	public int getFirstSequenceStep(String modelName)
 	{
 		int returnStep = 0;
 
@@ -150,7 +150,7 @@ public class SequenceContext implements Serializable
 
 			if (config != null)
 			{
-				if (modelName.equals (config.getAttribute ("name", "")))
+				if (modelName.equals(config.getAttribute("name", "")))
 				{
 					returnStep = i + 1;
 				}
@@ -168,23 +168,23 @@ public class SequenceContext implements Serializable
 	 * @return
 	 * @throws ModelException
 	 */
-	public static SequenceContext getSequenceContext (ModelRequest req) throws ModelException
+	public static SequenceContext getSequenceContext(ModelRequest req) throws ModelException
 	{
 		SequenceContext sc = null;
 
 		try
 		{
-			Context ctx = req.getContext ();
+			Context ctx = req.getContext();
 
 			if (ctx instanceof DefaultContext)
 			{
 				DefaultContext defContext = (DefaultContext) ctx;
 
-				sc = (SequenceContext) defContext.get (CONTEXT_KEY);
+				sc = (SequenceContext) defContext.get(CONTEXT_KEY);
 			}
 			else
 			{
-				sc = (SequenceContext) ctx.get (CONTEXT_KEY);
+				sc = (SequenceContext) ctx.get(CONTEXT_KEY);
 			}
 		}
 		catch (ContextException e)
@@ -195,7 +195,7 @@ public class SequenceContext implements Serializable
 		}
 		catch (ClassCastException e)
 		{
-			throw new ModelException (e.getLocalizedMessage (), e);
+			throw new ModelException(e.getLocalizedMessage(), e);
 		}
 		catch (NullPointerException e)
 		{
@@ -213,23 +213,23 @@ public class SequenceContext implements Serializable
 	 * @return
 	 * @throws ModelException
 	 */
-	public static SequenceContext getSequenceContext (Context context) throws ModelException
+	public static SequenceContext getSequenceContext(Context context) throws ModelException
 	{
 		try
 		{
 			SequenceContext sc = null;
 
-			sc = (SequenceContext) context.get (SequenceContext.CONTEXT_KEY);
+			sc = (SequenceContext) context.get(SequenceContext.CONTEXT_KEY);
 
 			return sc;
 		}
 		catch (ContextException e)
 		{
-			throw new ModelException (e.getLocalizedMessage (), e);
+			throw new ModelException(e.getLocalizedMessage(), e);
 		}
 		catch (ClassCastException e)
 		{
-			throw new ModelException (e.getLocalizedMessage (), e);
+			throw new ModelException(e.getLocalizedMessage(), e);
 		}
 		catch (NullPointerException e)
 		{
@@ -243,7 +243,7 @@ public class SequenceContext implements Serializable
 	 * @return int
 	 * @deprecated  - use getSeqStepNum instead
 	 */
-	public int getSeq ()
+	public int getSeq()
 	{
 		return seqStepNum;
 	}
@@ -252,7 +252,7 @@ public class SequenceContext implements Serializable
 	 * Returns the name of the sequence
 	 * @return String
 	 */
-	public String getSequenceName ()
+	public String getSequenceName()
 	{
 		return sequenceName;
 	}
@@ -262,7 +262,7 @@ public class SequenceContext implements Serializable
 	 * @return String
 	 * @deprecated - use getSequenceName() instead
 	 */
-	public String getSequenceModel ()
+	public String getSequenceModel()
 	{
 		return sequenceName;
 	}
@@ -273,7 +273,7 @@ public class SequenceContext implements Serializable
 	 * @param seqStepNum The seqStepNum to set
 	 * @deprecated - use setSeqStepNum instead
 	 */
-	public void setSeq (int seq)
+	public void setSeq(int seq)
 	{
 		this.seqStepNum = seq;
 	}
@@ -283,7 +283,7 @@ public class SequenceContext implements Serializable
 	 * @param sequenceName The sequenceName to set
 	 * @deprecated - use setSequenceName instead
 	 */
-	public void setSequenceModel (String sequenceModel)
+	public void setSequenceModel(String sequenceModel)
 	{
 		this.sequenceName = sequenceModel;
 	}
@@ -292,7 +292,7 @@ public class SequenceContext implements Serializable
 	 * Returns the currentResponse.
 	 * @return Modelesponse
 	 */
-	public ModelResponse getCurrentResponse ()
+	public ModelResponse getCurrentResponse()
 	{
 		return currentResponse;
 	}
@@ -301,12 +301,12 @@ public class SequenceContext implements Serializable
 	 * Sets the currentResponse.
 	 * @param currentResponse The currentResponse to set
 	 */
-	public void setCurrentResponse (ModelResponse newResponse) throws ModelException
+	public void setCurrentResponse(ModelResponse newResponse) throws ModelException
 	{
 		this.currentResponse = newResponse;
 	}
 
-	public static ModelResponse mergeResponse (ModelResponse base, ModelResponse layer) throws ModelException
+	public static ModelResponse mergeResponse(ModelResponse base, ModelResponse layer) throws ModelException
 	{
 		if (layer == null)
 		{
@@ -318,39 +318,39 @@ public class SequenceContext implements Serializable
 			return layer;
 		}
 
-		for (Iterator i = layer.getAll (); i.hasNext ();)
+		for (Iterator i = layer.getAll(); i.hasNext();)
 		{
-			ResponseElement newElement = (ResponseElement) i.next ();
+			ResponseElement newElement = (ResponseElement) i.next();
 
-			base.add (newElement);
+			base.add(newElement);
 		}
 
 		String oneAttribName = null;
 
-		for (Iterator j = layer.getAttributes ().keySet ().iterator (); j.hasNext ();)
+		for (Iterator j = layer.getAttributes().keySet().iterator(); j.hasNext();)
 		{
-			oneAttribName = (String) j.next ();
-			base.setAttribute (oneAttribName, layer.getAttribute (oneAttribName));
+			oneAttribName = (String) j.next();
+			base.setAttribute(oneAttribName, layer.getAttribute(oneAttribName));
 		}
 
-		Map errors = new HashMap (layer.getErrors ());
+		Map errors = new HashMap(layer.getErrors());
 		String oneErrorName = null;
 		Throwable throwable = null;
 
-		for (Iterator k = errors.keySet ().iterator (); k.hasNext ();)
+		for (Iterator k = errors.keySet().iterator(); k.hasNext();)
 		{
-			oneErrorName = (String) k.next ();
-			throwable = layer.getThrowable (oneErrorName);
+			oneErrorName = (String) k.next();
+			throwable = layer.getThrowable(oneErrorName);
 
-			String oneMessage = (String) errors.get (oneErrorName);
+			String oneMessage = (String) errors.get(oneErrorName);
 
 			if (throwable != null)
 			{
-				base.addError (oneErrorName, oneMessage, throwable);
+				base.addError(oneErrorName, oneMessage, throwable);
 			}
 			else
 			{
-				base.addError (oneErrorName, oneMessage);
+				base.addError(oneErrorName, oneMessage);
 			}
 		}
 
@@ -360,7 +360,7 @@ public class SequenceContext implements Serializable
 	/**
 	 * @return
 	 */
-	public Configuration[] getSequenceSteps ()
+	public Configuration[] getSequenceSteps()
 	{
 		return sequenceSteps;
 	}
@@ -368,7 +368,7 @@ public class SequenceContext implements Serializable
 	/**
 	 * @param configurations
 	 */
-	public void setSequenceSteps (Configuration[] configurations)
+	public void setSequenceSteps(Configuration[] configurations)
 	{
 		sequenceSteps = configurations;
 	}
@@ -376,7 +376,7 @@ public class SequenceContext implements Serializable
 	/**
 	 * @return
 	 */
-	public int getSeqStepNum ()
+	public int getSeqStepNum()
 	{
 		return seqStepNum;
 	}
@@ -384,7 +384,7 @@ public class SequenceContext implements Serializable
 	/**
 	 * @param i
 	 */
-	public void setSeqStepNum (int i)
+	public void setSeqStepNum(int i)
 	{
 		seqStepNum = i;
 	}
@@ -392,7 +392,7 @@ public class SequenceContext implements Serializable
 	/**
 	 * @param string
 	 */
-	public void setSequenceName (String string)
+	public void setSequenceName(String string)
 	{
 		sequenceName = string;
 	}
@@ -401,7 +401,7 @@ public class SequenceContext implements Serializable
 	 * This method sets the value that will be returned by a call to getMergeDefault()
 	 * @param mergeDefault
 	 */
-	public void setMergeResponsesDefault (boolean mergeDefault)
+	public void setMergeResponsesDefault(boolean mergeDefault)
 	{
 		this.mergeDefault = mergeDefault;
 	}
@@ -411,7 +411,7 @@ public class SequenceContext implements Serializable
 	 * If setMergeDefault wasn't called, then it returns the static final boolean value Sequence.defaultForMergeResponse
 	 * @return
 	 */
-	public boolean getMergeResponsesDefault ()
+	public boolean getMergeResponsesDefault()
 	{
 		return mergeDefault;
 	}
@@ -419,7 +419,7 @@ public class SequenceContext implements Serializable
 	/**
 	 * @return
 	 */
-	public String getModelName ()
+	public String getModelName()
 	{
 		return modelName;
 	}
@@ -427,7 +427,7 @@ public class SequenceContext implements Serializable
 	/**
 	 * @param string
 	 */
-	public void setModelName (String string)
+	public void setModelName(String string)
 	{
 		modelName = string;
 	}

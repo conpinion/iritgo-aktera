@@ -34,33 +34,33 @@ public class SystemConfigDAOImpl extends HibernateDaoSupport implements SystemCo
 	/**
 	 * @see de.iritgo.aktera.base.configuration.SystemConfigDAO#findByCategoryAndName(java.lang.String, java.lang.String)
 	 */
-	public SystemConfig findByCategoryAndName (String category, String name)
+	public SystemConfig findByCategoryAndName(String category, String name)
 	{
-		List<SystemConfig> res = getHibernateTemplate ().find ("from SystemConfig where category = ? and name = ?",
+		List<SystemConfig> res = getHibernateTemplate().find("from SystemConfig where category = ? and name = ?",
 						new Object[]
 						{
 										category, name
 						});
 
-		return res.size () > 0 ? res.get (0) : null;
+		return res.size() > 0 ? res.get(0) : null;
 	}
 
 	/**
 	 * @see de.iritgo.aktera.base.configuration.SystemConfigDAO#createOrUpdate(de.iritgo.aktera.base.configuration.SystemConfig)
 	 */
 	@Transactional(readOnly = false)
-	public void createOrUpdate (SystemConfig configValue)
+	public void createOrUpdate(SystemConfig configValue)
 	{
-		SystemConfig config = findByCategoryAndName (configValue.getCategory (), configValue.getName ());
+		SystemConfig config = findByCategoryAndName(configValue.getCategory(), configValue.getName());
 
 		if (config != null)
 		{
-			config.setValue (configValue.getValue ());
-			getHibernateTemplate ().update (config);
+			config.setValue(configValue.getValue());
+			getHibernateTemplate().update(config);
 		}
 		else
 		{
-			getHibernateTemplate ().save (configValue);
+			getHibernateTemplate().save(configValue);
 		}
 	}
 
@@ -68,22 +68,22 @@ public class SystemConfigDAOImpl extends HibernateDaoSupport implements SystemCo
 	 * @see de.iritgo.aktera.base.configuration.SystemConfigDAO#delete(de.iritgo.aktera.base.configuration.SystemConfig)
 	 */
 	@Transactional(readOnly = false)
-	public void delete (SystemConfig configValue)
+	public void delete(SystemConfig configValue)
 	{
-		getHibernateTemplate ().delete (configValue);
+		getHibernateTemplate().delete(configValue);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.base.configuration.SystemConfigDAO#delete(de.iritgo.aktera.base.configuration.SystemConfig)
 	 */
 	@Transactional(readOnly = false)
-	public void delete (String category, String name)
+	public void delete(String category, String name)
 	{
-		SystemConfig config = findByCategoryAndName (category, name);
+		SystemConfig config = findByCategoryAndName(category, name);
 
 		if (config != null)
 		{
-			getHibernateTemplate ().delete (config);
+			getHibernateTemplate().delete(config);
 		}
 	}
 }

@@ -195,7 +195,7 @@ public class ScheduleAction implements Serializable
 	 *   null-allowed="false"
 	 *   auto-increment="identity"
 	 */
-	public Integer getId ()
+	public Integer getId()
 	{
 		return id;
 	}
@@ -203,7 +203,7 @@ public class ScheduleAction implements Serializable
 	/**
 	 * Set the primary key.
 	 */
-	public void setId (Integer id)
+	public void setId(Integer id)
 	{
 		this.id = id;
 	}
@@ -218,7 +218,7 @@ public class ScheduleAction implements Serializable
 	 *   null-allowed="false"
 	 *   default-value="1"
 	 */
-	public Integer getPosition ()
+	public Integer getPosition()
 	{
 		return position;
 	}
@@ -226,7 +226,7 @@ public class ScheduleAction implements Serializable
 	/**
 	 * Set the position.
 	 */
-	public void setPosition (Integer position)
+	public void setPosition(Integer position)
 	{
 		this.position = position;
 	}
@@ -239,7 +239,7 @@ public class ScheduleAction implements Serializable
 	 *   db-name="disabled"
 	 *   type="boolean"
 	 */
-	public Boolean getDisabled ()
+	public Boolean getDisabled()
 	{
 		return disabled;
 	}
@@ -247,7 +247,7 @@ public class ScheduleAction implements Serializable
 	/**
 	 * Set the disabled flag.
 	 */
-	public void setDisabled (Boolean disabled)
+	public void setDisabled(Boolean disabled)
 	{
 		this.disabled = disabled;
 	}
@@ -262,7 +262,7 @@ public class ScheduleAction implements Serializable
 	 *   primary-key="true"
 	 *   null-allowed="false"
 	 */
-	public Integer getScheduleId ()
+	public Integer getScheduleId()
 	{
 		return scheduleId;
 	}
@@ -270,7 +270,7 @@ public class ScheduleAction implements Serializable
 	/**
 	 * Set the schedule id.
 	 */
-	public void setScheduleId (Integer scheduleId)
+	public void setScheduleId(Integer scheduleId)
 	{
 		this.scheduleId = scheduleId;
 	}
@@ -285,7 +285,7 @@ public class ScheduleAction implements Serializable
 	 *   length="80"
 	 *   null-allowed="false"
 	 */
-	public String getType ()
+	public String getType()
 	{
 		return type;
 	}
@@ -293,7 +293,7 @@ public class ScheduleAction implements Serializable
 	/**
 	 * Set the action type.
 	 */
-	public void setType (String type)
+	public void setType(String type)
 	{
 		this.type = type;
 	}
@@ -307,7 +307,7 @@ public class ScheduleAction implements Serializable
 	 *   type="varchar"
 	 *   length="255"
 	 */
-	public String getStringParam1 ()
+	public String getStringParam1()
 	{
 		return stringParam1;
 	}
@@ -315,7 +315,7 @@ public class ScheduleAction implements Serializable
 	/**
 	 * Set the string parameter 1.
 	 */
-	public void setStringParam1 (String stringParam1)
+	public void setStringParam1(String stringParam1)
 	{
 		this.stringParam1 = stringParam1;
 	}
@@ -329,7 +329,7 @@ public class ScheduleAction implements Serializable
 	 *   type="varchar"
 	 *   length="255"
 	 */
-	public String getStringParam2 ()
+	public String getStringParam2()
 	{
 		return stringParam2;
 	}
@@ -337,7 +337,7 @@ public class ScheduleAction implements Serializable
 	/**
 	 * Set the string parameter 2.
 	 */
-	public void setStringParam2 (String stringParam2)
+	public void setStringParam2(String stringParam2)
 	{
 		this.stringParam2 = stringParam2;
 	}
@@ -351,7 +351,7 @@ public class ScheduleAction implements Serializable
 	 *   type="varchar"
 	 *   length="255"
 	 */
-	public String getStringParam3 ()
+	public String getStringParam3()
 	{
 		return stringParam3;
 	}
@@ -359,7 +359,7 @@ public class ScheduleAction implements Serializable
 	/**
 	 * Set the string parameter 3.
 	 */
-	public void setStringParam3 (String stringParam3)
+	public void setStringParam3(String stringParam3)
 	{
 		this.stringParam3 = stringParam3;
 	}
@@ -373,7 +373,7 @@ public class ScheduleAction implements Serializable
 	 *   type="varchar"
 	 *   length="255"
 	 */
-	public String getStringParam4 ()
+	public String getStringParam4()
 	{
 		return stringParam4;
 	}
@@ -381,7 +381,7 @@ public class ScheduleAction implements Serializable
 	/**
 	 * Set the string parameter 4.
 	 */
-	public void setStringParam4 (String stringParam4)
+	public void setStringParam4(String stringParam4)
 	{
 		this.stringParam4 = stringParam4;
 	}
@@ -395,7 +395,7 @@ public class ScheduleAction implements Serializable
 	 *   type="varchar"
 	 *   length="255"
 	 */
-	public String getStringParam5 ()
+	public String getStringParam5()
 	{
 		return stringParam5;
 	}
@@ -403,7 +403,7 @@ public class ScheduleAction implements Serializable
 	/**
 	 * Set the string parameter 5.
 	 */
-	public void setStringParam5 (String stringParam5)
+	public void setStringParam5(String stringParam5)
 	{
 		this.stringParam5 = stringParam5;
 	}
@@ -417,7 +417,7 @@ public class ScheduleAction implements Serializable
 	 *   type="varchar"
 	 *   length="255"
 	 */
-	public String getStringParam6 ()
+	public String getStringParam6()
 	{
 		return stringParam6;
 	}
@@ -425,7 +425,7 @@ public class ScheduleAction implements Serializable
 	/**
 	 * Set the string parameter 6.
 	 */
-	public void setStringParam6 (String stringParam6)
+	public void setStringParam6(String stringParam6)
 	{
 		this.stringParam6 = stringParam6;
 	}
@@ -439,7 +439,7 @@ public class ScheduleAction implements Serializable
 	 *   type="varchar"
 	 *   length="255"
 	 */
-	public String getStringParam7 ()
+	public String getStringParam7()
 	{
 		return stringParam7;
 	}
@@ -447,7 +447,7 @@ public class ScheduleAction implements Serializable
 	/**
 	 * Set the string parameter 7.
 	 */
-	public void setStringParam7 (String stringParam7)
+	public void setStringParam7(String stringParam7)
 	{
 		this.stringParam7 = stringParam7;
 	}
@@ -461,7 +461,7 @@ public class ScheduleAction implements Serializable
 	 *   type="varchar"
 	 *   length="255"
 	 */
-	public String getStringParam8 ()
+	public String getStringParam8()
 	{
 		return stringParam8;
 	}
@@ -469,7 +469,7 @@ public class ScheduleAction implements Serializable
 	/**
 	 * Set the string parameter 8.
 	 */
-	public void setStringParam8 (String stringParam8)
+	public void setStringParam8(String stringParam8)
 	{
 		this.stringParam8 = stringParam8;
 	}
@@ -482,7 +482,7 @@ public class ScheduleAction implements Serializable
 	 *   db-name="integerParam1"
 	 *   type="integer"
 	 */
-	public Integer getIntegerParam1 ()
+	public Integer getIntegerParam1()
 	{
 		return integerParam1;
 	}
@@ -490,7 +490,7 @@ public class ScheduleAction implements Serializable
 	/**
 	 * Set the integer parameter 1.
 	 */
-	public void setIntegerParam1 (Integer integerParam1)
+	public void setIntegerParam1(Integer integerParam1)
 	{
 		this.integerParam1 = integerParam1;
 	}
@@ -503,7 +503,7 @@ public class ScheduleAction implements Serializable
 	 *   db-name="integerParam2"
 	 *   type="integer"
 	 */
-	public Integer getIntegerParam2 ()
+	public Integer getIntegerParam2()
 	{
 		return integerParam2;
 	}
@@ -511,7 +511,7 @@ public class ScheduleAction implements Serializable
 	/**
 	 * Set the integer parameter 2.
 	 */
-	public void setIntegerParam2 (Integer integerParam2)
+	public void setIntegerParam2(Integer integerParam2)
 	{
 		this.integerParam2 = integerParam2;
 	}
@@ -524,7 +524,7 @@ public class ScheduleAction implements Serializable
 	 *   db-name="integerParam3"
 	 *   type="integer"
 	 */
-	public Integer getIntegerParam3 ()
+	public Integer getIntegerParam3()
 	{
 		return integerParam3;
 	}
@@ -532,7 +532,7 @@ public class ScheduleAction implements Serializable
 	/**
 	 * Set the integer parameter 3.
 	 */
-	public void setIntegerParam3 (Integer integerParam3)
+	public void setIntegerParam3(Integer integerParam3)
 	{
 		this.integerParam3 = integerParam3;
 	}
@@ -545,7 +545,7 @@ public class ScheduleAction implements Serializable
 	 *   db-name="integerParam4"
 	 *   type="integer"
 	 */
-	public Integer getIntegerParam4 ()
+	public Integer getIntegerParam4()
 	{
 		return integerParam4;
 	}
@@ -553,7 +553,7 @@ public class ScheduleAction implements Serializable
 	/**
 	 * Set the integer parameter 4.
 	 */
-	public void setIntegerParam4 (Integer integerParam4)
+	public void setIntegerParam4(Integer integerParam4)
 	{
 		this.integerParam4 = integerParam4;
 	}
@@ -566,7 +566,7 @@ public class ScheduleAction implements Serializable
 	 *   db-name="integerParam5"
 	 *   type="integer"
 	 */
-	public Integer getIntegerParam5 ()
+	public Integer getIntegerParam5()
 	{
 		return integerParam5;
 	}
@@ -574,7 +574,7 @@ public class ScheduleAction implements Serializable
 	/**
 	 * Set the integer parameter 5.
 	 */
-	public void setIntegerParam5 (Integer integerParam5)
+	public void setIntegerParam5(Integer integerParam5)
 	{
 		this.integerParam5 = integerParam5;
 	}
@@ -587,7 +587,7 @@ public class ScheduleAction implements Serializable
 	 *   db-name="integerParam6"
 	 *   type="integer"
 	 */
-	public Integer getIntegerParam6 ()
+	public Integer getIntegerParam6()
 	{
 		return integerParam6;
 	}
@@ -595,7 +595,7 @@ public class ScheduleAction implements Serializable
 	/**
 	 * Set the integer parameter 6.
 	 */
-	public void setIntegerParam6 (Integer integerParam6)
+	public void setIntegerParam6(Integer integerParam6)
 	{
 		this.integerParam6 = integerParam6;
 	}
@@ -608,7 +608,7 @@ public class ScheduleAction implements Serializable
 	 *   db-name="integerParam7"
 	 *   type="integer"
 	 */
-	public Integer getIntegerParam7 ()
+	public Integer getIntegerParam7()
 	{
 		return integerParam7;
 	}
@@ -616,7 +616,7 @@ public class ScheduleAction implements Serializable
 	/**
 	 * Set the integer parameter 7.
 	 */
-	public void setIntegerParam7 (Integer integerParam7)
+	public void setIntegerParam7(Integer integerParam7)
 	{
 		this.integerParam7 = integerParam7;
 	}
@@ -629,7 +629,7 @@ public class ScheduleAction implements Serializable
 	 *   db-name="integerParam8"
 	 *   type="integer"
 	 */
-	public Integer getIntegerParam8 ()
+	public Integer getIntegerParam8()
 	{
 		return integerParam8;
 	}
@@ -637,7 +637,7 @@ public class ScheduleAction implements Serializable
 	/**
 	 * Set the integer parameter 8.
 	 */
-	public void setIntegerParam8 (Integer integerParam8)
+	public void setIntegerParam8(Integer integerParam8)
 	{
 		this.integerParam8 = integerParam8;
 	}
@@ -650,7 +650,7 @@ public class ScheduleAction implements Serializable
 	 *   db-name="booleanParam1"
 	 *   type="boolean"
 	 */
-	public Boolean getBooleanParam1 ()
+	public Boolean getBooleanParam1()
 	{
 		return booleanParam1;
 	}
@@ -658,7 +658,7 @@ public class ScheduleAction implements Serializable
 	/**
 	 * Set the boolean parameter 1.
 	 */
-	public void setBooleanParam1 (Boolean booleanParam1)
+	public void setBooleanParam1(Boolean booleanParam1)
 	{
 		this.booleanParam1 = booleanParam1;
 	}
@@ -671,7 +671,7 @@ public class ScheduleAction implements Serializable
 	 *   db-name="booleanParam2"
 	 *   type="boolean"
 	 */
-	public Boolean getBooleanParam2 ()
+	public Boolean getBooleanParam2()
 	{
 		return booleanParam2;
 	}
@@ -679,7 +679,7 @@ public class ScheduleAction implements Serializable
 	/**
 	 * Set the boolean parameter 2.
 	 */
-	public void setBooleanParam2 (Boolean booleanParam2)
+	public void setBooleanParam2(Boolean booleanParam2)
 	{
 		this.booleanParam2 = booleanParam2;
 	}
@@ -692,7 +692,7 @@ public class ScheduleAction implements Serializable
 	 *   db-name="booleanParam3"
 	 *   type="boolean"
 	 */
-	public Boolean getBooleanParam3 ()
+	public Boolean getBooleanParam3()
 	{
 		return booleanParam3;
 	}
@@ -700,7 +700,7 @@ public class ScheduleAction implements Serializable
 	/**
 	 * Set the boolean parameter 3.
 	 */
-	public void setBooleanParam3 (Boolean booleanParam3)
+	public void setBooleanParam3(Boolean booleanParam3)
 	{
 		this.booleanParam3 = booleanParam3;
 	}
@@ -713,7 +713,7 @@ public class ScheduleAction implements Serializable
 	 *   db-name="booleanParam4"
 	 *   type="boolean"
 	 */
-	public Boolean getBooleanParam4 ()
+	public Boolean getBooleanParam4()
 	{
 		return booleanParam4;
 	}
@@ -721,7 +721,7 @@ public class ScheduleAction implements Serializable
 	/**
 	 * Set the boolean parameter 4.
 	 */
-	public void setBooleanParam4 (Boolean booleanParam4)
+	public void setBooleanParam4(Boolean booleanParam4)
 	{
 		this.booleanParam4 = booleanParam4;
 	}
@@ -734,7 +734,7 @@ public class ScheduleAction implements Serializable
 	 *   db-name="booleanParam5"
 	 *   type="boolean"
 	 */
-	public Boolean getBooleanParam5 ()
+	public Boolean getBooleanParam5()
 	{
 		return booleanParam5;
 	}
@@ -742,7 +742,7 @@ public class ScheduleAction implements Serializable
 	/**
 	 * Set the boolean parameter 5.
 	 */
-	public void setBooleanParam5 (Boolean booleanParam5)
+	public void setBooleanParam5(Boolean booleanParam5)
 	{
 		this.booleanParam5 = booleanParam5;
 	}
@@ -755,7 +755,7 @@ public class ScheduleAction implements Serializable
 	 *   db-name="booleanParam6"
 	 *   type="boolean"
 	 */
-	public Boolean getBooleanParam6 ()
+	public Boolean getBooleanParam6()
 	{
 		return booleanParam6;
 	}
@@ -763,7 +763,7 @@ public class ScheduleAction implements Serializable
 	/**
 	 * Set the boolean parameter 6.
 	 */
-	public void setBooleanParam6 (Boolean booleanParam6)
+	public void setBooleanParam6(Boolean booleanParam6)
 	{
 		this.booleanParam6 = booleanParam6;
 	}
@@ -776,7 +776,7 @@ public class ScheduleAction implements Serializable
 	 *   db-name="booleanParam7"
 	 *   type="boolean"
 	 */
-	public Boolean getBooleanParam7 ()
+	public Boolean getBooleanParam7()
 	{
 		return booleanParam7;
 	}
@@ -784,7 +784,7 @@ public class ScheduleAction implements Serializable
 	/**
 	 * Set the boolean parameter 7.
 	 */
-	public void setBooleanParam7 (Boolean booleanParam7)
+	public void setBooleanParam7(Boolean booleanParam7)
 	{
 		this.booleanParam7 = booleanParam7;
 	}
@@ -797,7 +797,7 @@ public class ScheduleAction implements Serializable
 	 *   db-name="booleanParam8"
 	 *   type="boolean"
 	 */
-	public Boolean getBooleanParam8 ()
+	public Boolean getBooleanParam8()
 	{
 		return booleanParam8;
 	}
@@ -805,7 +805,7 @@ public class ScheduleAction implements Serializable
 	/**
 	 * Set the boolean parameter 8.
 	 */
-	public void setBooleanParam8 (Boolean booleanParam8)
+	public void setBooleanParam8(Boolean booleanParam8)
 	{
 		this.booleanParam8 = booleanParam8;
 	}
@@ -818,7 +818,7 @@ public class ScheduleAction implements Serializable
 	 *   db-name="timeParam1"
 	 *   type="time"
 	 */
-	public Time getTimeParam1 ()
+	public Time getTimeParam1()
 	{
 		return timeParam1;
 	}
@@ -826,7 +826,7 @@ public class ScheduleAction implements Serializable
 	/**
 	 * Set the time parameter 1.
 	 */
-	public void setTimeParam1 (Time timeParam1)
+	public void setTimeParam1(Time timeParam1)
 	{
 		this.timeParam1 = timeParam1;
 	}
@@ -839,7 +839,7 @@ public class ScheduleAction implements Serializable
 	 *   db-name="timeParam2"
 	 *   type="time"
 	 */
-	public Time getTimeParam2 ()
+	public Time getTimeParam2()
 	{
 		return timeParam2;
 	}
@@ -847,7 +847,7 @@ public class ScheduleAction implements Serializable
 	/**
 	 * Set the time parameter 2.
 	 */
-	public void setTimeParam2 (Time timeParam2)
+	public void setTimeParam2(Time timeParam2)
 	{
 		this.timeParam2 = timeParam2;
 	}
@@ -860,7 +860,7 @@ public class ScheduleAction implements Serializable
 	 *   db-name="timeParam3"
 	 *   type="time"
 	 */
-	public Time getTimeParam3 ()
+	public Time getTimeParam3()
 	{
 		return timeParam3;
 	}
@@ -868,7 +868,7 @@ public class ScheduleAction implements Serializable
 	/**
 	 * Set the time parameter 3.
 	 */
-	public void setTimeParam3 (Time timeParam3)
+	public void setTimeParam3(Time timeParam3)
 	{
 		this.timeParam3 = timeParam3;
 	}
@@ -881,7 +881,7 @@ public class ScheduleAction implements Serializable
 	 *   db-name="timeParam4"
 	 *   type="time"
 	 */
-	public Time getTimeParam4 ()
+	public Time getTimeParam4()
 	{
 		return timeParam4;
 	}
@@ -889,7 +889,7 @@ public class ScheduleAction implements Serializable
 	/**
 	 * Set the time parameter 4.
 	 */
-	public void setTimeParam4 (Time timeParam4)
+	public void setTimeParam4(Time timeParam4)
 	{
 		this.timeParam4 = timeParam4;
 	}
@@ -902,7 +902,7 @@ public class ScheduleAction implements Serializable
 	 *   db-name="dateParam1"
 	 *   type="date"
 	 */
-	public Date getDateParam1 ()
+	public Date getDateParam1()
 	{
 		return dateParam1;
 	}
@@ -910,7 +910,7 @@ public class ScheduleAction implements Serializable
 	/**
 	 * Set the date parameter 1.
 	 */
-	public void setDateParam1 (Date dateParam1)
+	public void setDateParam1(Date dateParam1)
 	{
 		this.dateParam1 = dateParam1;
 	}
@@ -923,7 +923,7 @@ public class ScheduleAction implements Serializable
 	 *   db-name="dateParam2"
 	 *   type="date"
 	 */
-	public Date getDateParam2 ()
+	public Date getDateParam2()
 	{
 		return dateParam2;
 	}
@@ -931,7 +931,7 @@ public class ScheduleAction implements Serializable
 	/**
 	 * Set the date parameter 2.
 	 */
-	public void setDateParam2 (Date dateParam2)
+	public void setDateParam2(Date dateParam2)
 	{
 		this.dateParam2 = dateParam2;
 	}
@@ -944,7 +944,7 @@ public class ScheduleAction implements Serializable
 	 *   db-name="dateParam3"
 	 *   type="date"
 	 */
-	public Date getDateParam3 ()
+	public Date getDateParam3()
 	{
 		return dateParam3;
 	}
@@ -952,7 +952,7 @@ public class ScheduleAction implements Serializable
 	/**
 	 * Set the date parameter 3.
 	 */
-	public void setDateParam3 (Date dateParam3)
+	public void setDateParam3(Date dateParam3)
 	{
 		this.dateParam3 = dateParam3;
 	}
@@ -965,7 +965,7 @@ public class ScheduleAction implements Serializable
 	 *   db-name="dateParam4"
 	 *   type="date"
 	 */
-	public Date getDateParam4 ()
+	public Date getDateParam4()
 	{
 		return dateParam4;
 	}
@@ -973,7 +973,7 @@ public class ScheduleAction implements Serializable
 	/**
 	 * Set the date parameter 4.
 	 */
-	public void setDateParam4 (Date dateParam4)
+	public void setDateParam4(Date dateParam4)
 	{
 		this.dateParam4 = dateParam4;
 	}
@@ -986,7 +986,7 @@ public class ScheduleAction implements Serializable
 	 *   db-name="textParam1"
 	 *   type="text"
 	 */
-	public String getTextParam1 ()
+	public String getTextParam1()
 	{
 		return textParam1;
 	}
@@ -994,7 +994,7 @@ public class ScheduleAction implements Serializable
 	/**
 	 * Set the text parameter 1.
 	 */
-	public void setTextParam1 (String textParam1)
+	public void setTextParam1(String textParam1)
 	{
 		this.textParam1 = textParam1;
 	}
@@ -1007,7 +1007,7 @@ public class ScheduleAction implements Serializable
 	 *   db-name="textParam2"
 	 *   type="text"
 	 */
-	public String getTextParam2 ()
+	public String getTextParam2()
 	{
 		return textParam2;
 	}
@@ -1015,7 +1015,7 @@ public class ScheduleAction implements Serializable
 	/**
 	 * Set the text parameter 2.
 	 */
-	public void setTextParam2 (String textParam2)
+	public void setTextParam2(String textParam2)
 	{
 		this.textParam2 = textParam2;
 	}
@@ -1028,7 +1028,7 @@ public class ScheduleAction implements Serializable
 	 *   db-name="textParam3"
 	 *   type="text"
 	 */
-	public String getTextParam3 ()
+	public String getTextParam3()
 	{
 		return textParam3;
 	}
@@ -1036,7 +1036,7 @@ public class ScheduleAction implements Serializable
 	/**
 	 * Set the text parameter 3.
 	 */
-	public void setTextParam3 (String textParam3)
+	public void setTextParam3(String textParam3)
 	{
 		this.textParam3 = textParam3;
 	}
@@ -1049,7 +1049,7 @@ public class ScheduleAction implements Serializable
 	 *   db-name="textParam4"
 	 *   type="text"
 	 */
-	public String getTextParam4 ()
+	public String getTextParam4()
 	{
 		return textParam4;
 	}
@@ -1057,7 +1057,7 @@ public class ScheduleAction implements Serializable
 	/**
 	 * Set the text parameter 4.
 	 */
-	public void setTextParam4 (String textParam4)
+	public void setTextParam4(String textParam4)
 	{
 		this.textParam4 = textParam4;
 	}

@@ -42,13 +42,13 @@ public class KeelContainerHelper
 
 	public static final int CONFIG_TYPE_LOG = 4;
 
-	public static Configuration getConfiguration (Context context, final int type)
+	public static Configuration getConfiguration(Context context, final int type)
 	{
 		Configuration configuration = null;
 
 		if (context == null)
 		{
-			configuration = new DefaultConfiguration ("empty");
+			configuration = new DefaultConfiguration("empty");
 		}
 		else
 		{
@@ -57,32 +57,32 @@ public class KeelContainerHelper
 				switch (type)
 				{
 					case CONFIG_TYPE_ROLE:
-						configuration = (Configuration) context.get ("keel.config.roles");
+						configuration = (Configuration) context.get("keel.config.roles");
 
 						break;
 
 					case CONFIG_TYPE_SYSTEM:
-						configuration = (Configuration) context.get ("keel.config.system");
+						configuration = (Configuration) context.get("keel.config.system");
 
 						break;
 
 					case CONFIG_TYPE_INSTRUMENTATION:
-						configuration = (Configuration) context.get ("keel.config.instr");
+						configuration = (Configuration) context.get("keel.config.instr");
 
 						break;
 
 					case CONFIG_TYPE_LOG:
-						configuration = (Configuration) context.get ("keel.config.log");
+						configuration = (Configuration) context.get("keel.config.log");
 
 						break;
 
 					default:
-						configuration = new DefaultConfiguration ("empty");
+						configuration = new DefaultConfiguration("empty");
 				}
 			}
 			catch (ContextException e)
 			{
-				throw new RuntimeException ("Error geting configuration from context:" + e.getMessage ());
+				throw new RuntimeException("Error geting configuration from context:" + e.getMessage());
 			}
 		}
 
@@ -93,7 +93,7 @@ public class KeelContainerHelper
 	 * @param shortHand
 	 * @return
 	 */
-	public static Class getClassForShortHand (String shortHand)
+	public static Class getClassForShortHand(String shortHand)
 	{
 		return null;
 	}

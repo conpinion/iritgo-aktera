@@ -71,20 +71,20 @@ public class BinaryWrapper implements Serializable
 
 		IOException e;
 
-		protected SlowStreamReader (final InputStream inStream)
+		protected SlowStreamReader(final InputStream inStream)
 		{
 			this.inStream = inStream;
 		}
 
-		public void run ()
+		public void run()
 		{
 			try
 			{
-				b = (byte) inStream.read ();
+				b = (byte) inStream.read();
 			}
 			catch (IOException e)
 			{
-				e.printStackTrace ();
+				e.printStackTrace();
 				this.e = e;
 			}
 		} //end run
@@ -170,23 +170,23 @@ public class BinaryWrapper implements Serializable
 	 *                      exceed the threshold.   If null, will be stored in
 	 *                      temporarily in the system tmp directory.
 	 */
-	public BinaryWrapper (String keelServer, String contentType, String fileName, int sizeThreshold, File repository)
+	public BinaryWrapper(String keelServer, String contentType, String fileName, int sizeThreshold, File repository)
 	{
 		//Parameter valid value checks...
 		if (sizeThreshold <= 512)
 		{
 			//1/2K is smallest buffer size allowed
-			throw new IllegalArgumentException ("Threshold is too small for buffer: " + sizeThreshold);
+			throw new IllegalArgumentException("Threshold is too small for buffer: " + sizeThreshold);
 		}
 
 		if (contentType == null)
 		{
-			throw new NullPointerException ("ContentType is null");
+			throw new NullPointerException("ContentType is null");
 		}
 
 		if (fileName == null)
 		{
-			throw new NullPointerException ("Filename is null");
+			throw new NullPointerException("Filename is null");
 		}
 
 		//else needed parameters supplied, with hopefully valid values.
@@ -204,7 +204,7 @@ public class BinaryWrapper implements Serializable
 	 *
 	 * @param newPath
 	 */
-	public void setExecutablePath (String newPath)
+	public void setExecutablePath(String newPath)
 	{
 		assert newPath != null;
 		execPath = newPath;
@@ -216,7 +216,7 @@ public class BinaryWrapper implements Serializable
 	 *
 	 * @return True if this is an "executable"-style BinaryWrapper, false if it's not.
 	 */
-	public boolean isExecutable ()
+	public boolean isExecutable()
 	{
 		if (execPath != null)
 		{
@@ -237,40 +237,40 @@ public class BinaryWrapper implements Serializable
 	 *
 	 * @exception IOException if an error occurs.
 	 */
-	public InputStream getInputStream () throws IOException
+	public InputStream getInputStream() throws IOException
 	{
 		if (execPath != null)
 		{
 			if (currentProcess != null)
 			{
-				throw new IOException ("InputStream already open, please close first");
+				throw new IOException("InputStream already open, please close first");
 			} //else No currently running processes, so we can get input stream
 			//Note that some processes may lock files when running, and some
 			//can only be called one at a time.
 
-			currentProcess = Runtime.getRuntime ().exec (execPath);
+			currentProcess = Runtime.getRuntime().exec(execPath);
 
-			return currentProcess.getInputStream ();
+			return currentProcess.getInputStream();
 		}
 
 		if (dfos == null)
 		{
 			//Fresh Wrapper, with Data available on Disk...
-			return new FileInputStream (new File (this.repository, this.fileName));
+			return new FileInputStream(new File(this.repository, this.fileName));
 		}
 		else
 		{
-			if (! dfos.isInMemory ())
+			if (! dfos.isInMemory())
 			{
-				return new FileInputStream (dfos.getFile ());
+				return new FileInputStream(dfos.getFile());
 			}
 
 			if (cachedContent == null)
 			{
-				cachedContent = dfos.getData ();
+				cachedContent = dfos.getData();
 			}
 
-			return new ByteArrayInputStream (cachedContent);
+			return new ByteArrayInputStream(cachedContent);
 		} //end else
 	} //end getInputStream()
 
@@ -281,7 +281,7 @@ public class BinaryWrapper implements Serializable
 	 * @return The content type passed by the browser or <code>null</code> if
 	 *         not defined.
 	 */
-	public String getContentType ()
+	public String getContentType()
 	{
 		return contentType;
 	}
@@ -291,7 +291,7 @@ public class BinaryWrapper implements Serializable
 	 *
 	 * @return The original filename in the client's filesystem.
 	 */
-	public String getName ()
+	public String getName()
 	{
 		return fileName;
 	}
@@ -305,9 +305,9 @@ public class BinaryWrapper implements Serializable
 	 * @return <code>true</code> if the file contents will be read
 	 *         from memory; <code>false</code> otherwise.
 	 */
-	public boolean isInMemory ()
+	public boolean isInMemory()
 	{
-		return (dfos.isInMemory ());
+		return (dfos.isInMemory());
 	}
 
 	/**
@@ -315,7 +315,7 @@ public class BinaryWrapper implements Serializable
 	 *
 	 * @return The size of the file, in bytes.
 	 */
-	public long getSize ()
+	public long getSize()
 	{
 		if (this.execPath != null)
 		{
@@ -329,27 +329,26 @@ public class BinaryWrapper implements Serializable
 		}
 		else if (dfos != null)
 		{
-			if (dfos.isInMemory ())
+			if (dfos.isInMemory())
 			{
-				return dfos.getData ().length;
+				return dfos.getData().length;
 			}
 			else
 			{
-				return dfos.getFile ().length ();
+				return dfos.getFile().length();
 			}
 		}
 		else
 		{
 			//No output stream, so probably fresh wrapper for an input Stream
-			final File thisFile = new File (this.repository, this.fileName);
+			final File thisFile = new File(this.repository, this.fileName);
 
-			if (! (thisFile.exists () && thisFile.isFile ()))
+			if (! (thisFile.exists() && thisFile.isFile()))
 			{
-				throw new IllegalStateException ("File does not exist or is a directory: "
-								+ thisFile.getAbsolutePath ());
+				throw new IllegalStateException("File does not exist or is a directory: " + thisFile.getAbsolutePath());
 			}
 
-			return (thisFile.length ());
+			return (thisFile.length());
 		}
 	}
 
@@ -360,25 +359,25 @@ public class BinaryWrapper implements Serializable
 	 *
 	 * @return The contents of the file as an array of bytes.
 	 */
-	public byte[] get ()
+	public byte[] get()
 	{
-		if (dfos.isInMemory ())
+		if (dfos.isInMemory())
 		{
 			if (cachedContent == null)
 			{
-				cachedContent = dfos.getData ();
+				cachedContent = dfos.getData();
 			}
 
 			return cachedContent;
 		}
 
-		byte[] fileData = new byte[(int) getSize ()];
+		byte[] fileData = new byte[(int) getSize()];
 		FileInputStream fis = null;
 
 		try
 		{
-			fis = new FileInputStream (dfos.getFile ());
-			fis.read (fileData);
+			fis = new FileInputStream(dfos.getFile());
+			fis.read(fileData);
 		}
 		catch (IOException e)
 		{
@@ -390,7 +389,7 @@ public class BinaryWrapper implements Serializable
 			{
 				try
 				{
-					fis.close ();
+					fis.close();
 				}
 				catch (IOException e)
 				{
@@ -414,9 +413,9 @@ public class BinaryWrapper implements Serializable
 	 * @exception UnsupportedEncodingException if the requested character
 	 *                                         encoding is not available.
 	 */
-	public String getString (String encoding) throws UnsupportedEncodingException
+	public String getString(String encoding) throws UnsupportedEncodingException
 	{
-		return new String (get (), encoding);
+		return new String(get(), encoding);
 	}
 
 	/**
@@ -426,9 +425,9 @@ public class BinaryWrapper implements Serializable
 	 *
 	 * @return The contents of the file, as a string.
 	 */
-	public String getString ()
+	public String getString()
 	{
-		return new String (get ());
+		return new String(get());
 	}
 
 	/**
@@ -451,28 +450,28 @@ public class BinaryWrapper implements Serializable
 	 *
 	 * @exception IOException if an error occurs.
 	 */
-	public void write (File file) throws IOException
+	public void write(File file) throws IOException
 	{
-		if (isInMemory ())
+		if (isInMemory())
 		{
 			FileOutputStream fout = null;
 
 			try
 			{
-				fout = new FileOutputStream (file);
-				fout.write (get ());
+				fout = new FileOutputStream(file);
+				fout.write(get());
 			}
 			finally
 			{
 				if (fout != null)
 				{
-					fout.close ();
+					fout.close();
 				}
 			}
 		}
 		else
 		{
-			File outputFile = getStoreLocation ();
+			File outputFile = getStoreLocation();
 
 			if (outputFile != null)
 			{
@@ -481,29 +480,29 @@ public class BinaryWrapper implements Serializable
 				 * in a temporary location so move it to the
 				 * desired file.
 				 */
-				if (! outputFile.renameTo (file))
+				if (! outputFile.renameTo(file))
 				{
 					BufferedInputStream in = null;
 					BufferedOutputStream out = null;
 
 					try
 					{
-						in = new BufferedInputStream (new FileInputStream (outputFile));
-						out = new BufferedOutputStream (new FileOutputStream (file));
+						in = new BufferedInputStream(new FileInputStream(outputFile));
+						out = new BufferedOutputStream(new FileOutputStream(file));
 
 						byte[] bytes = new byte[2048];
 						int s = 0;
 
-						while ((s = in.read (bytes)) != - 1)
+						while ((s = in.read(bytes)) != - 1)
 						{
-							out.write (bytes, 0, s);
+							out.write(bytes, 0, s);
 						}
 					}
 					finally
 					{
 						try
 						{
-							in.close ();
+							in.close();
 						}
 						catch (IOException e)
 						{
@@ -512,7 +511,7 @@ public class BinaryWrapper implements Serializable
 
 						try
 						{
-							out.close ();
+							out.close();
 						}
 						catch (IOException e)
 						{
@@ -524,7 +523,7 @@ public class BinaryWrapper implements Serializable
 			else
 			{
 				// For whatever reason we cannot write the file to disk.
-				throw new IOException ("Cannot write file data to disk!");
+				throw new IOException("Cannot write file data to disk!");
 			} //end else
 		} //end else
 	} //end write
@@ -533,7 +532,7 @@ public class BinaryWrapper implements Serializable
 	 * Closes and flushes the underlying output stream.
 	 * @throws IOException Thrown if any errors occur with the output streams
 	 */
-	public void close () throws IOException
+	public void close() throws IOException
 	{
 		IOException ioe = null;
 
@@ -541,7 +540,7 @@ public class BinaryWrapper implements Serializable
 		{
 			try
 			{
-				this.dfos.flush ();
+				this.dfos.flush();
 			}
 			catch (IOException e)
 			{
@@ -552,14 +551,14 @@ public class BinaryWrapper implements Serializable
 				//Force a close attempt even if flush fails...
 				try
 				{
-					this.dfos.close ();
+					this.dfos.close();
 				}
 				catch (IOException e)
 				{
 					if (ioe != null)
 					{
 						//Cascading errors.  Print current one before dumping.
-						ioe.printStackTrace ();
+						ioe.printStackTrace();
 					}
 
 					ioe = e;
@@ -572,11 +571,11 @@ public class BinaryWrapper implements Serializable
 			//Streams are closed, kill process?
 			try
 			{
-				final int exitValue = currentProcess.exitValue ();
+				final int exitValue = currentProcess.exitValue();
 
 				if (exitValue != 0)
 				{
-					System.err.println (this.getClass ().getName () + ".close:\'" + this.execPath
+					System.err.println(this.getClass().getName() + ".close:\'" + this.execPath
 									+ "\' exited with value of " + exitValue);
 				} //end if
 				//Otherwise normal exit.
@@ -584,7 +583,7 @@ public class BinaryWrapper implements Serializable
 			catch (IllegalThreadStateException e)
 			{
 				//Still running, so kill process.
-				currentProcess.destroy ();
+				currentProcess.destroy();
 			}
 
 			currentProcess = null;
@@ -603,15 +602,15 @@ public class BinaryWrapper implements Serializable
 	 * collected, this method can be used to ensure that this is done at an
 	 * earlier time, thus preserving system resources.
 	 */
-	public void delete ()
+	public void delete()
 	{
 		cachedContent = null;
 
-		File outputFile = getStoreLocation ();
+		File outputFile = getStoreLocation();
 
-		if (outputFile != null && outputFile.exists ())
+		if (outputFile != null && outputFile.exists())
 		{
-			outputFile.delete ();
+			outputFile.delete();
 		}
 	}
 
@@ -624,23 +623,23 @@ public class BinaryWrapper implements Serializable
 	 *
 	 * @exception IOException if an error occurs.
 	 */
-	public OutputStream getOutputStream () throws IOException
+	public OutputStream getOutputStream() throws IOException
 	{
 		if (execPath != null)
 		{
 			if (currentProcess != null)
 			{
-				currentProcess = Runtime.getRuntime ().exec (execPath);
+				currentProcess = Runtime.getRuntime().exec(execPath);
 			}
 
-			return currentProcess.getOutputStream ();
+			return currentProcess.getOutputStream();
 		}
 
 		if (dfos == null)
 		{
-			File outputFile = getTempFile ();
+			File outputFile = getTempFile();
 
-			dfos = new DeferredFileOutputStream (sizeThreshold, outputFile);
+			dfos = new DeferredFileOutputStream(sizeThreshold, outputFile);
 		}
 
 		return dfos;
@@ -661,9 +660,9 @@ public class BinaryWrapper implements Serializable
 	 * @return The data file, or <code>null</code> if the data is stored in
 	 *         memory.
 	 */
-	public File getStoreLocation ()
+	public File getStoreLocation()
 	{
-		return dfos.getFile ();
+		return dfos.getFile();
 	}
 
 	/**
@@ -673,21 +672,21 @@ public class BinaryWrapper implements Serializable
 	 * @return The number of bytes written.
 	 * @throws IOException Thrown if an error occurs reading/writing streams.
 	 */
-	public long writeFrom (final InputStream inStream) throws IOException
+	public long writeFrom(final InputStream inStream) throws IOException
 	{
-		final OutputStream outStream = this.getOutputStream ();
+		final OutputStream outStream = this.getOutputStream();
 
 		try
 		{
 			//Don't close local output stream here, as more may get written later.
-			return (write (inStream, outStream));
+			return (write(inStream, outStream));
 		}
 		finally
 		{
-			if (this.isInMemory ())
+			if (this.isInMemory())
 			{
 				//reload/resize cache (or clear if dfos data not cached.
-				this.cachedContent = dfos.getData ();
+				this.cachedContent = dfos.getData();
 			} //end if
 		} //end finally
 	} //end writeFrom
@@ -699,30 +698,30 @@ public class BinaryWrapper implements Serializable
 	 * @return The number of bytes written.
 	 * @throws IOException Thrown if an error occurs reading/writing streams.
 	 */
-	public long writeTo (final OutputStream outStream) throws IOException
+	public long writeTo(final OutputStream outStream) throws IOException
 	{
-		final InputStream inStream = new BufferedInputStream (this.getInputStream ());
+		final InputStream inStream = new BufferedInputStream(this.getInputStream());
 
 		try
 		{
-			return (write (inStream, outStream));
+			return (write(inStream, outStream));
 		}
 		finally
 		{
 			try
 			{
-				this.close ();
+				this.close();
 			}
 
 			//Closing anyways, so just log the exception and carry on.
 			catch (IOException e)
 			{
-				e.printStackTrace ();
+				e.printStackTrace();
 			}
 		} //end finally
 	} //end writeTo
 
-	protected long write (final InputStream inStream, final OutputStream outStream) throws IOException
+	protected long write(final InputStream inStream, final OutputStream outStream) throws IOException
 	{
 		int len;
 		long written = 0;
@@ -731,7 +730,7 @@ public class BinaryWrapper implements Serializable
 		this.cachedContent = new byte[this.sizeThreshold];
 
 		//TODO: See if one (or both) of the streams support Channels, and specifically Byte channel operations
-		int available = inStream.available ();
+		int available = inStream.available();
 
 		//SPDDBG:
 		//         System.out.println("***Available = " + available);
@@ -741,10 +740,10 @@ public class BinaryWrapper implements Serializable
 			{
 				for (int totalRead = 0; totalRead < available; totalRead += len)
 				{
-					len = inStream.read (cachedContent, 0,
+					len = inStream.read(cachedContent, 0,
 									this.sizeThreshold < available - totalRead ? this.sizeThreshold : available
 													- totalRead);
-					outStream.write (cachedContent, 0, len);
+					outStream.write(cachedContent, 0, len);
 					written += len;
 				} //end for
 			}
@@ -752,32 +751,32 @@ public class BinaryWrapper implements Serializable
 			{
 				//First block available not size of cache, but everything seems
 				//to be running normally...
-				while ((available > 0) && (len = inStream.read (cachedContent, 0, available)) >= 0)
+				while ((available > 0) && (len = inStream.read(cachedContent, 0, available)) >= 0)
 				{
 					//SPDDBG:
 					//                     System.out.println("***Read Bytes: " + len);
-					outStream.write (cachedContent, 0, len);
+					outStream.write(cachedContent, 0, len);
 					written += len;
-					available = inStream.available ();
+					available = inStream.available();
 
 					//SPDDBG:
 					//                     System.out.println("***Available Bytes: " + available);
 					if (available < 1)
 					{
 						//Check to see if EOF -- Danger, this can hang!
-						final SlowStreamReader reader = new SlowStreamReader (inStream);
-						final Thread t = new Thread (reader);
+						final SlowStreamReader reader = new SlowStreamReader(inStream);
+						final Thread t = new Thread(reader);
 
-						t.start ();
+						t.start();
 
 						try
 						{
-							t.join (TIME_OUT);
+							t.join(TIME_OUT);
 						}
 						catch (InterruptedException e)
 						{
 							//Something woke us up.
-							e.printStackTrace ();
+							e.printStackTrace();
 						}
 
 						if (reader.e != null)
@@ -785,11 +784,11 @@ public class BinaryWrapper implements Serializable
 							throw reader.e;
 						} //else
 
-						if (t.isAlive ())
+						if (t.isAlive())
 						{
 							//Still running, but is hung
-							System.err.println ("Hung Reader -- Killing it.");
-							t.interrupt ();
+							System.err.println("Hung Reader -- Killing it.");
+							t.interrupt();
 							reader.b = - 2;
 						}
 
@@ -808,11 +807,11 @@ public class BinaryWrapper implements Serializable
 						}
 						else
 						{
-							outStream.write (b);
+							outStream.write(b);
 							written++;
 
 							//Recursive call, as entire routine needs to be restarted.
-							return (written + write (inStream, outStream));
+							return (written + write(inStream, outStream));
 						}
 					} //end if (available
 				} //end while
@@ -822,19 +821,19 @@ public class BinaryWrapper implements Serializable
 		{
 			//Nothing avaible, Sleep & Retry two more times, then check to see if
 			//Error available and dump that to System.err
-			sleep ();
+			sleep();
 
-			if (inStream.available () > 0)
+			if (inStream.available() > 0)
 			{
-				return (write (inStream, outStream));
+				return (write(inStream, outStream));
 			}
 			else
 			{
-				sleep ();
+				sleep();
 
-				if (inStream.available () > 0)
+				if (inStream.available() > 0)
 				{
-					return (write (inStream, outStream));
+					return (write(inStream, outStream));
 				}
 				else
 				{
@@ -842,24 +841,24 @@ public class BinaryWrapper implements Serializable
 					if (currentProcess != null)
 					{
 						//Get Error stream, and any messages on it.
-						final InputStream processError = currentProcess.getErrorStream ();
+						final InputStream processError = currentProcess.getErrorStream();
 
-						if (processError.available () > 0)
+						if (processError.available() > 0)
 						{
 							//Process has error data available!
-							final StringBuffer error = new StringBuffer (processError.available ());
+							final StringBuffer error = new StringBuffer(processError.available());
 
-							for (; processError.available () > 0;)
+							for (; processError.available() > 0;)
 							{
-								final char c = (char) processError.read ();
+								final char c = (char) processError.read();
 
 								if (c >= 0)
 								{
-									error.append (c);
+									error.append(c);
 								} //end if b
 							} //end for
 
-							throw new IOException (error.toString ());
+							throw new IOException(error.toString());
 						} //end if(processError.available()
 					} //end if (currentProcess
 				} //end else
@@ -870,33 +869,33 @@ public class BinaryWrapper implements Serializable
 		//            outStream.write(cachedContent, 0, len);
 		//            written += len;
 		//        }
-		outStream.flush ();
+		outStream.flush();
 
 		if (currentProcess != null)
 		{
 			//Get Error stream, and any messages on it.
-			final InputStream processError = currentProcess.getErrorStream ();
+			final InputStream processError = currentProcess.getErrorStream();
 
-			if (processError.available () > 0)
+			if (processError.available() > 0)
 			{
 				//Process has error data available!
-				write (processError, System.err);
+				write(processError, System.err);
 			} //end if(processError.available()
 		}
 
 		return (written);
 	} //end write
 
-	private void sleep ()
+	private void sleep()
 	{
 		try
 		{
-			Thread.sleep (TIME_OUT);
+			Thread.sleep(TIME_OUT);
 		}
 		catch (InterruptedException e)
 		{
 			// TODO Auto-generated catch block
-			e.printStackTrace ();
+			e.printStackTrace();
 		}
 	} //end sleep
 
@@ -905,27 +904,27 @@ public class BinaryWrapper implements Serializable
 	/**
 	 * Removes the file contents from the temporary storage.
 	 */
-	protected void finalize () throws Throwable
+	protected void finalize() throws Throwable
 	{
 		try
 		{
-			this.close ();
+			this.close();
 		}
 		catch (IOException e)
 		{
 			//In garbage collector, so just flag and carry on.
-			e.printStackTrace ();
+			e.printStackTrace();
 		}
 
-		File outputFile = dfos.getFile ();
+		File outputFile = dfos.getFile();
 
-		if (outputFile != null && outputFile.exists ()
-						&& (outputFile.getName ().startsWith ("upload_") && outputFile.getName ().endsWith (".tmp")))
+		if (outputFile != null && outputFile.exists()
+						&& (outputFile.getName().startsWith("upload_") && outputFile.getName().endsWith(".tmp")))
 		{
-			outputFile.delete ();
+			outputFile.delete();
 		} //else not a temp file, so don't delete it.
 
-		super.finalize ();
+		super.finalize();
 	}
 
 	/**
@@ -934,20 +933,20 @@ public class BinaryWrapper implements Serializable
 	 *
 	 * @return The {@link java.io.File File} to be used for temporary storage.
 	 */
-	protected File getTempFile ()
+	protected File getTempFile()
 	{
 		File tempDir = repository;
 
 		if (tempDir == null)
 		{
-			tempDir = new File (System.getProperty ("java.io.tmpdir"));
+			tempDir = new File(System.getProperty("java.io.tmpdir"));
 		}
 
-		String fileName = "upload_" + getUniqueId () + ".tmp";
+		String fileName = "upload_" + getUniqueId() + ".tmp";
 
-		File f = new File (tempDir, fileName);
+		File f = new File(tempDir, fileName);
 
-		f.deleteOnExit ();
+		f.deleteOnExit();
 
 		return f;
 	}
@@ -960,7 +959,7 @@ public class BinaryWrapper implements Serializable
 	 *
 	 * @return A String with the non-random looking instance identifier.
 	 */
-	private static String getUniqueId ()
+	private static String getUniqueId()
 	{
 		int current;
 		String id;
@@ -975,10 +974,10 @@ public class BinaryWrapper implements Serializable
 				counter = 0;
 			}
 
-			id = Integer.toString (current);
+			id = Integer.toString(current);
 		}
 
-		id = ("00000000" + id).substring (id.length ());
+		id = ("00000000" + id).substring(id.length());
 
 		return id;
 	}

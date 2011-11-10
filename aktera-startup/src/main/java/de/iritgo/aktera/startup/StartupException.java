@@ -32,32 +32,32 @@ public class StartupException extends Exception
 	/**
 	 *
 	 */
-	public StartupException ()
+	public StartupException()
 	{
 	}
 
 	/**
 	 * @param message
 	 */
-	public StartupException (String message)
+	public StartupException(String message)
 	{
-		super (message);
+		super(message);
 	}
 
 	/**
 	 * @param cause
 	 */
-	public StartupException (Throwable cause)
+	public StartupException(Throwable cause)
 	{
-		super (cause);
+		super(cause);
 	}
 
 	/**
 	 * @param message
 	 * @param cause
 	 */
-	public StartupException (String message, Throwable cause)
+	public StartupException(String message, Throwable cause)
 	{
-		super (message, cause);
+		super(message, cause);
 	}
 }

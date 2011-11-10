@@ -44,7 +44,7 @@ public class DefaultOperation implements Operation
 	/**
 	 * @see de.iritgo.aktera.authorization.Operation#setService(Object)
 	 */
-	public void setService (Object o)
+	public void setService(Object o)
 	{
 		assert o != null;
 		this.o = o;
@@ -53,7 +53,7 @@ public class DefaultOperation implements Operation
 	/**
 	 * @see de.iritgo.aktera.authorization.Operation#setOperationCode(String)
 	 */
-	public void setOperationCode (String opCode)
+	public void setOperationCode(String opCode)
 	{
 		assert opCode != null;
 		this.opCode = opCode;
@@ -62,7 +62,7 @@ public class DefaultOperation implements Operation
 	/**
 	 * @see de.iritgo.aktera.authorization.Operation#setParameter(Map)
 	 */
-	public void setParameter (Map params)
+	public void setParameter(Map params)
 	{
 		this.params = params;
 	}
@@ -70,7 +70,7 @@ public class DefaultOperation implements Operation
 	/**
 	 * @see de.iritgo.aktera.authorization.Operation#getService()
 	 */
-	public Object getService ()
+	public Object getService()
 	{
 		return this.o;
 	}
@@ -78,7 +78,7 @@ public class DefaultOperation implements Operation
 	/**
 	 * @see de.iritgo.aktera.authorization.Operation#getOperationCode()
 	 */
-	public String getOperationCode ()
+	public String getOperationCode()
 	{
 		return this.opCode;
 	}
@@ -86,41 +86,41 @@ public class DefaultOperation implements Operation
 	/**
 	 * @see de.iritgo.aktera.authorization.Operation#getParams()
 	 */
-	public Map getParams ()
+	public Map getParams()
 	{
 		return this.params;
 	}
 
-	public String toString ()
+	public String toString()
 	{
-		StringBuffer buf = new StringBuffer ("Component [" + getComponentName (o) + "] Op:[" + opCode + "]");
+		StringBuffer buf = new StringBuffer("Component [" + getComponentName(o) + "] Op:[" + opCode + "]");
 
 		if (o instanceof InstanceSecurable)
 		{
-			buf.append (" Instance:[" + ((InstanceSecurable) o).getInstanceIdentifier () + "]");
+			buf.append(" Instance:[" + ((InstanceSecurable) o).getInstanceIdentifier() + "]");
 		}
 		else
 		{
-			buf.append (" Service:[" + getService ().toString () + "]");
+			buf.append(" Service:[" + getService().toString() + "]");
 		}
 
-		return buf.toString ();
+		return buf.toString();
 	}
 
-	private String getComponentName (Object component)
+	private String getComponentName(Object component)
 	{
 		String returnValue = null;
 
-		if (Proxy.isProxyClass (component.getClass ()))
+		if (Proxy.isProxyClass(component.getClass()))
 		{
 			Proxy proxy = (Proxy) component;
-			Object o = ProxyObjectFactory.getObject (proxy);
+			Object o = ProxyObjectFactory.getObject(proxy);
 
-			returnValue = o.getClass ().getName ();
+			returnValue = o.getClass().getName();
 		}
 		else
 		{
-			returnValue = component.getClass ().getName ();
+			returnValue = component.getClass().getName();
 		}
 
 		return returnValue;

@@ -35,81 +35,81 @@ public class AkteraQuery extends AbstractQuery
 	/**
 	 * Create aktera query.
 	 */
-	public AkteraQuery ()
+	public AkteraQuery()
 	{
-		super ("AkteraQuery");
+		super("AkteraQuery");
 
-		addAttribute ("model", "none");
-		addAttribute ("listName", "none");
-		addAttribute ("listSearchCategory", "");
-		addAttribute ("listSearchValues", "");
+		addAttribute("model", "none");
+		addAttribute("listName", "none");
+		addAttribute("listSearchCategory", "");
+		addAttribute("listSearchValues", "");
 
-		User user = AppContext.instance ().getUser ();
+		User user = AppContext.instance().getUser();
 
 		if (user != null)
 		{
-			setUserUniqueId (user.getUniqueId ());
+			setUserUniqueId(user.getUniqueId());
 		}
 	}
 
 	/**
 	 * Create aktera query.
 	 */
-	public AkteraQuery (String model, String listName)
+	public AkteraQuery(String model, String listName)
 	{
-		this ();
-		setAttribute ("model", model);
-		setAttribute ("listName", listName);
-		setAttribute ("dataObjectTypeId", model);
+		this();
+		setAttribute("model", model);
+		setAttribute("listName", listName);
+		setAttribute("dataObjectTypeId", model);
 	}
 
 	/**
 	 * Create aktera query.
 	 */
-	public AkteraQuery (String model, String listName, String listSearchCategory)
+	public AkteraQuery(String model, String listName, String listSearchCategory)
 	{
-		this ();
-		setAttribute ("model", model);
-		setAttribute ("listName", listName);
-		setAttribute ("dataObjectTypeId", model);
-		setAttribute ("listSearchCategory", listSearchCategory);
+		this();
+		setAttribute("model", model);
+		setAttribute("listName", listName);
+		setAttribute("dataObjectTypeId", model);
+		setAttribute("listSearchCategory", listSearchCategory);
 	}
 
-	public String getListSearchCategory ()
+	public String getListSearchCategory()
 	{
-		return getStringAttribute ("listSearchCategory");
+		return getStringAttribute("listSearchCategory");
 	}
 
-	public String getListSearchValues ()
+	public String getListSearchValues()
 	{
-		return getStringAttribute ("listSearchValues");
+		return getStringAttribute("listSearchValues");
 	}
 
-	public void setListSearchValues (String listSearchValues)
+	public void setListSearchValues(String listSearchValues)
 	{
-		setAttribute ("listSearchValues", listSearchValues);
+		setAttribute("listSearchValues", listSearchValues);
 	}
 
-	public void refresh ()
+	public void refresh()
 	{
-		IObjectList results = (IObjectList) getIObjectListResults ();
+		IObjectList results = (IObjectList) getIObjectListResults();
 
-		results.clearIObjectList ();
-		doQuery ();
+		results.clearIObjectList();
+		doQuery();
 	}
 
 	/**
 	 * Do a aktera keel query.
 	 */
-	public void doQuery ()
+	public void doQuery()
 	{
-		String model = getStringAttribute ("model");
-		String listName = getStringAttribute ("listName");
+		String model = getStringAttribute("model");
+		String listName = getStringAttribute("listName");
 
-		ConnectorServerManager connectorServerManager = (ConnectorServerManager) Engine.instance ()
-						.getManagerRegistry ().getManager ("ConnectorServerManager");
+		ConnectorServerManager connectorServerManager = (ConnectorServerManager) Engine.instance().getManagerRegistry()
+						.getManager("ConnectorServerManager");
 
-		connectorServerManager.doQuery (model, listName, getUserUniqueId (), this, getSearchCondition (),
-						getListSearchCategory ());
+		connectorServerManager.doQuery(model, listName, getUserUniqueId(), this, getSearchCondition(),
+						getListSearchCategory());
 	}
 }

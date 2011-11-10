@@ -87,57 +87,57 @@ public abstract class AddressStore implements Serializable
 	@Autowired
 	transient protected SystemConfigManager systemConfigManager;
 
-	public String getDisplayedTitle ()
+	public String getDisplayedTitle()
 	{
-		return StringTools.isNotTrimEmpty (title) ? title : name;
+		return StringTools.isNotTrimEmpty(title) ? title : name;
 	}
 
-	public abstract void init ();
+	public abstract void init();
 
-	public abstract void shutdown ();
+	public abstract void shutdown();
 
-	public abstract Option<Address> findAddressByDn (Object addressDn);
+	public abstract Option<Address> findAddressByDn(Object addressDn);
 
-	public abstract Option<Address> findAddressByLastNameOrCompany (String name);
+	public abstract Option<Address> findAddressByLastNameOrCompany(String name);
 
-	public abstract List<Address> findAddressByNameStartsWith (String name);
+	public abstract List<Address> findAddressByNameStartsWith(String name);
 
-	public abstract List<Address> findAddressOfOwnerByNameStartsWith (String name, Integer ownerId);
+	public abstract List<Address> findAddressOfOwnerByNameStartsWith(String name, Integer ownerId);
 
-	public abstract Option<Address> findAddressByPhoneNumber (PhoneNumber phoneNumber);
+	public abstract Option<Address> findAddressByPhoneNumber(PhoneNumber phoneNumber);
 
-	public abstract Option<Address> findAddressByPhoneNumber (String number);
+	public abstract Option<Address> findAddressByPhoneNumber(String number);
 
-	public abstract Option<Address> findAddressOfOwnerByPhoneNumber (PhoneNumber phoneNumber, Integer ownerId);
+	public abstract Option<Address> findAddressOfOwnerByPhoneNumber(PhoneNumber phoneNumber, Integer ownerId);
 
-	public abstract List<PhoneNumber> findPhoneNumbersEndingWith (String number);
+	public abstract List<PhoneNumber> findPhoneNumbersEndingWith(String number);
 
-	public abstract List<PhoneNumber> findPhoneNumbersOfOwnerEndingWith (String number, Integer ownerId);
+	public abstract List<PhoneNumber> findPhoneNumbersOfOwnerEndingWith(String number, Integer ownerId);
 
-	public abstract Option<Address> findAddressByOwnerAndContactNumber (Integer ownerId, String contactNumber);
+	public abstract Option<Address> findAddressByOwnerAndContactNumber(Integer ownerId, String contactNumber);
 
-	public abstract Option<Address> findAddressByOnwerAndFirstNameOrLastNameOrCompany (Integer ownerId,
+	public abstract Option<Address> findAddressByOnwerAndFirstNameOrLastNameOrCompany(Integer ownerId,
 					String firstName, String lastName, String company);
 
-	public abstract List<PhoneNumber> findAllPhoneNumbersByAddressDnSortedByCategoryList (String addressDn,
+	public abstract List<PhoneNumber> findAllPhoneNumbersByAddressDnSortedByCategoryList(String addressDn,
 					String[] categories);
 
-	public abstract List<Address> createAddressListing (Integer userId, String search, String orderBy,
+	public abstract List<Address> createAddressListing(Integer userId, String search, String orderBy,
 					SortOrder orderDir, int firstResult, int maxResults);
 
-	public abstract void updateAddress (Address address);
+	public abstract void updateAddress(Address address);
 
-	public abstract Object createAddress (Address address, Integer ownerId);
+	public abstract Object createAddress(Address address, Integer ownerId);
 
-	public abstract void deleteAddressWithDn (Object addressDn);
+	public abstract void deleteAddressWithDn(Object addressDn);
 
-	public abstract void deleteAllAddresses ();
+	public abstract void deleteAllAddresses();
 
-	public abstract boolean isGlobalStore ();
+	public abstract boolean isGlobalStore();
 
-	public abstract long countAddressesByOwnerAndSearch (Integer userId, String search);
+	public abstract long countAddressesByOwnerAndSearch(Integer userId, String search);
 
-	public abstract boolean canBeDeleted ();
+	public abstract boolean canBeDeleted();
 
-	public abstract void deleteAllAddressesOfOwner (Integer userId);
+	public abstract void deleteAllAddressesOfOwner(Integer userId);
 }

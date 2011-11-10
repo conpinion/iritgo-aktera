@@ -50,19 +50,19 @@ public class OracleDatabaseType extends JDBCDatabaseType implements Poolable
 	/**
 	 * Initialize the default type map from this datasource.
 	 */
-	public void setDataSource (DataSourceComponent ds) throws PersistenceException
+	public void setDataSource(DataSourceComponent ds) throws PersistenceException
 	{
 		Connection myConnection = null;
 
 		try
 		{
-			myConnection = ds.getConnection ();
+			myConnection = ds.getConnection();
 
-			DatabaseMetaData dm = myConnection.getMetaData ();
+			DatabaseMetaData dm = myConnection.getMetaData();
 
-			if (! super.supportsTransactions ())
+			if (! super.supportsTransactions())
 			{
-				if (dm.supportsTransactions ())
+				if (dm.supportsTransactions())
 				{
 					supportsTransactions = true;
 				}
@@ -72,54 +72,54 @@ public class OracleDatabaseType extends JDBCDatabaseType implements Poolable
 				}
 			}
 
-			ResultSet rsx = dm.getTypeInfo ();
+			ResultSet rsx = dm.getTypeInfo();
 
-			while (rsx.next ())
+			while (rsx.next())
 			{
-				TypeMapEntry oneType = new TypeMapEntry ();
+				TypeMapEntry oneType = new TypeMapEntry();
 
 				//--- quikdraw: Changed the resultSet extraction from indexes to
 				//	column names as defined in the Sun JavaDoc for JDBC.
-				oneType.setTypeName (rsx.getString ("TYPE_NAME"));
-				oneType.setDataType (rsx.getShort ("DATA_TYPE"));
+				oneType.setTypeName(rsx.getString("TYPE_NAME"));
+				oneType.setDataType(rsx.getShort("DATA_TYPE"));
 
-				if (! "BLOB".equals (oneType.getTypeName ()) && ! "CLOB".equals (oneType.getTypeName ()))
+				if (! "BLOB".equals(oneType.getTypeName()) && ! "CLOB".equals(oneType.getTypeName()))
 				{
-					oneType.setPrecision (rsx.getInt ("PRECISION"));
-					oneType.setLiteralPrefix (rsx.getString ("LITERAL_PREFIX"));
-					oneType.setLiteralSuffix (rsx.getString ("LITERAL_SUFFIX"));
-					oneType.setCreateParams (rsx.getString ("CREATE_PARAMS"));
-					oneType.setNullable (rsx.getShort ("NULLABLE"));
-					oneType.setCaseSensitive (rsx.getBoolean ("CASE_SENSITIVE"));
-					oneType.setSearchable (rsx.getShort ("SEARCHABLE"));
-					oneType.setUnsigned (rsx.getBoolean ("UNSIGNED_ATTRIBUTE"));
-					oneType.setFixedPrecision (rsx.getBoolean ("FIXED_PREC_SCALE"));
-					oneType.setAutoIncrement (rsx.getBoolean ("AUTO_INCREMENT"));
-					oneType.setLocalTypeName (rsx.getString ("LOCAL_TYPE_NAME"));
-					oneType.setMinScale (rsx.getShort ("MINIMUM_SCALE"));
-					oneType.setMaxScale (rsx.getShort ("MAXIMUM_SCALE"));
+					oneType.setPrecision(rsx.getInt("PRECISION"));
+					oneType.setLiteralPrefix(rsx.getString("LITERAL_PREFIX"));
+					oneType.setLiteralSuffix(rsx.getString("LITERAL_SUFFIX"));
+					oneType.setCreateParams(rsx.getString("CREATE_PARAMS"));
+					oneType.setNullable(rsx.getShort("NULLABLE"));
+					oneType.setCaseSensitive(rsx.getBoolean("CASE_SENSITIVE"));
+					oneType.setSearchable(rsx.getShort("SEARCHABLE"));
+					oneType.setUnsigned(rsx.getBoolean("UNSIGNED_ATTRIBUTE"));
+					oneType.setFixedPrecision(rsx.getBoolean("FIXED_PREC_SCALE"));
+					oneType.setAutoIncrement(rsx.getBoolean("AUTO_INCREMENT"));
+					oneType.setLocalTypeName(rsx.getString("LOCAL_TYPE_NAME"));
+					oneType.setMinScale(rsx.getShort("MINIMUM_SCALE"));
+					oneType.setMaxScale(rsx.getShort("MAXIMUM_SCALE"));
 					//--- quikdraw: This was index 16, but the JavaDoc for DatabaseMetaData
 					//	states the index for the Radix is 18.
-					oneType.setNumPrecRadix (rsx.getInt ("NUM_PREC_RADIX"));
+					oneType.setNumPrecRadix(rsx.getInt("NUM_PREC_RADIX"));
 				}
 
-				String typeAsString = typeToString (oneType.getDataType ());
+				String typeAsString = typeToString(oneType.getDataType());
 
-				TypeMapEntry oldType = (TypeMapEntry) this.getTypeMap ().get (typeAsString);
+				TypeMapEntry oldType = (TypeMapEntry) this.getTypeMap().get(typeAsString);
 
 				if (oldType == null)
 				{
-					this.getTypeMap ().put (typeAsString, oneType);
+					this.getTypeMap().put(typeAsString, oneType);
 				}
 				else
 				{
-					log.warn ("Type '" + typeAsString + "' overridden by configuration or mapped twice");
+					log.warn("Type '" + typeAsString + "' overridden by configuration or mapped twice");
 				}
 			}
 		}
 		catch (SQLException se)
 		{
-			throw new PersistenceException (se);
+			throw new PersistenceException(se);
 		}
 		finally
 		{
@@ -127,94 +127,94 @@ public class OracleDatabaseType extends JDBCDatabaseType implements Poolable
 			{
 				if (myConnection != null)
 				{
-					myConnection.close ();
+					myConnection.close();
 				}
 			}
 			catch (SQLException se)
 			{
-				throw new PersistenceException (se);
+				throw new PersistenceException(se);
 			}
 		}
 	} // setDataSource
 
-	protected StringBuffer getCreateTableStatement (PersistentMetaData pmd, DataSourceComponent dataSource)
+	protected StringBuffer getCreateTableStatement(PersistentMetaData pmd, DataSourceComponent dataSource)
 		throws PersistenceException
 	{
 		String fieldName = null;
 		boolean addComma = false;
 		String identityFieldName = null;
 
-		StringBuffer createStatement = new StringBuffer ("CREATE TABLE ");
+		StringBuffer createStatement = new StringBuffer("CREATE TABLE ");
 
-		createStatement.append (pmd.getTableName () + " (");
+		createStatement.append(pmd.getTableName() + " (");
 
-		StringBuffer oneType = new StringBuffer ("");
+		StringBuffer oneType = new StringBuffer("");
 
-		for (Iterator lf = pmd.getFieldNames ().iterator (); lf.hasNext ();)
+		for (Iterator lf = pmd.getFieldNames().iterator(); lf.hasNext();)
 		{
-			fieldName = (String) lf.next ();
+			fieldName = (String) lf.next();
 
 			if (addComma)
 			{
-				createStatement.append (", ");
+				createStatement.append(", ");
 			}
 
-			if (pmd.isAutoIncremented (fieldName))
+			if (pmd.isAutoIncremented(fieldName))
 			{
-				if (pmd.isKeyField (fieldName) && (identityFieldName == null) && isIdentitySupported ()
-								&& (pmd.getIdGenerator (fieldName) == null))
+				if (pmd.isKeyField(fieldName) && (identityFieldName == null) && isIdentitySupported()
+								&& (pmd.getIdGenerator(fieldName) == null))
 				{
 					identityFieldName = fieldName;
-					createStatement.append (pmd.getDBFieldName (fieldName) + " ");
-					createStatement.append (getCreateIdentitySyntax ());
+					createStatement.append(pmd.getDBFieldName(fieldName) + " ");
+					createStatement.append(getCreateIdentitySyntax());
 				}
-				else if (isSequenceSupported ())
+				else if (isSequenceSupported())
 				{
-					createStatement.append (getCreateSequenceSyntax (fieldName));
+					createStatement.append(getCreateSequenceSyntax(fieldName));
 				}
 				else
 				{
-					createStatement.append (pmd.getDBFieldName (fieldName) + " ");
-					createStatement.append (pmd.getDBType (fieldName));
-					createStatement.append (" not null");
+					createStatement.append(pmd.getDBFieldName(fieldName) + " ");
+					createStatement.append(pmd.getDBType(fieldName));
+					createStatement.append(" not null");
 				}
 			}
 			else
 			{
-				createStatement.append (pmd.getDBFieldName (fieldName) + " ");
-				oneType = new StringBuffer ("");
-				oneType.append (pmd.getDBType (fieldName));
+				createStatement.append(pmd.getDBFieldName(fieldName) + " ");
+				oneType = new StringBuffer("");
+				oneType.append(pmd.getDBType(fieldName));
 
-				if (pmd.getLength (fieldName) != 0)
+				if (pmd.getLength(fieldName) != 0)
 				{
-					oneType.append ("(" + pmd.getLength (fieldName));
+					oneType.append("(" + pmd.getLength(fieldName));
 
-					if (pmd.getPrecision (fieldName) > 0)
+					if (pmd.getPrecision(fieldName) > 0)
 					{
-						oneType.append (", " + pmd.getPrecision (fieldName));
+						oneType.append(", " + pmd.getPrecision(fieldName));
 					}
 
-					oneType.append (")");
+					oneType.append(")");
 				}
 				else
 				{
 					//varchar2 or varchar datatypes must have length defined
-					if ("varchar2".equalsIgnoreCase (pmd.getDBType (fieldName))
-									|| "varchar".equalsIgnoreCase (pmd.getDBType (fieldName)))
+					if ("varchar2".equalsIgnoreCase(pmd.getDBType(fieldName))
+									|| "varchar".equalsIgnoreCase(pmd.getDBType(fieldName)))
 					{
-						oneType.append ("(2000)");
+						oneType.append("(2000)");
 					}
 				}
 
-				createStatement.append (oneType.toString ());
+				createStatement.append(oneType.toString());
 
-				if (! pmd.allowsNull (fieldName))
+				if (! pmd.allowsNull(fieldName))
 				{
-					createStatement.append (" not null");
+					createStatement.append(" not null");
 				}
 				else
 				{
-					createStatement.append (" null");
+					createStatement.append(" null");
 				}
 			}
 
@@ -224,46 +224,46 @@ public class OracleDatabaseType extends JDBCDatabaseType implements Poolable
 		 * the particular DBType in use doesn't support that syntax.
 		 * In that case, the key is specified as part of the CREATE TABLE syntax
 		 */
-		if (! isAlterKeySupported ())
+		if (! isAlterKeySupported())
 		{
 			short keyCount = 0;
 
 			addComma = false;
 
-			for (Iterator kf = pmd.getKeyFieldNames ().iterator (); kf.hasNext ();)
+			for (Iterator kf = pmd.getKeyFieldNames().iterator(); kf.hasNext();)
 			{
-				fieldName = (String) kf.next ();
+				fieldName = (String) kf.next();
 
-				if (! (pmd.isAutoIncremented (fieldName) && isIdentitySupported ()))
+				if (! (pmd.isAutoIncremented(fieldName) && isIdentitySupported()))
 				{
 					keyCount++;
 
 					if (addComma)
 					{
-						createStatement.append (",");
+						createStatement.append(",");
 					}
 					else
 					{
-						createStatement.append (", PRIMARY KEY (");
+						createStatement.append(", PRIMARY KEY (");
 					}
 
-					createStatement.append (fieldName);
+					createStatement.append(fieldName);
 					addComma = true;
 				}
 			}
 
 			if (keyCount != 0)
 			{
-				createStatement.append (")");
+				createStatement.append(")");
 			}
 
-			if (pmd.getKeyFieldNames ().size () == 0)
+			if (pmd.getKeyFieldNames().size() == 0)
 			{
-				log.warn ("No primary key on table '" + pmd.getTableName () + "'");
+				log.warn("No primary key on table '" + pmd.getTableName() + "'");
 			}
 		}
 
-		createStatement.append (")");
+		createStatement.append(")");
 
 		return createStatement;
 	} // getCreateTableStatement
@@ -271,7 +271,7 @@ public class OracleDatabaseType extends JDBCDatabaseType implements Poolable
 	/**
 	 * @see de.iritgo.aktera.persist.defaultpersist.JDBCDatabaseType#getDateTimeUpdateFormat()
 	 */
-	public String getDateTimeUpdateFormat ()
+	public String getDateTimeUpdateFormat()
 	{
 		return "yyyy-MM-dd HH mm ss";
 	} // getDateTimeUpdateFormat
@@ -279,7 +279,7 @@ public class OracleDatabaseType extends JDBCDatabaseType implements Poolable
 	/**
 	 * @see de.iritgo.aktera.persist.defaultpersist.JDBCDatabaseType#getDateTimeUpdateFunction()
 	 */
-	public String getDateTimeUpdateFunction ()
+	public String getDateTimeUpdateFunction()
 	{
 		return "TO_DATE(%s, 'YYYY-MM-DD HH24 MI SS')";
 	} // getDateTimeUpdateFunction
@@ -287,7 +287,7 @@ public class OracleDatabaseType extends JDBCDatabaseType implements Poolable
 	/**
 	 * @see de.iritgo.aktera.persist.defaultpersist.JDBCDatabaseType#getDateUpdateFormat()
 	 */
-	public String getDateUpdateFormat ()
+	public String getDateUpdateFormat()
 	{
 		return "yyyy-MM-dd";
 	} // getDateUpdateFormat
@@ -295,7 +295,7 @@ public class OracleDatabaseType extends JDBCDatabaseType implements Poolable
 	/**
 	 * @see de.iritgo.aktera.persist.defaultpersist.JDBCDatabaseType#getDateUpdateFunction()
 	 */
-	public String getDateUpdateFunction ()
+	public String getDateUpdateFunction()
 	{
 		return "TO_DATE(%s, 'YYYY-MM-DD')";
 	} // getDateUpdateFunction
@@ -303,7 +303,7 @@ public class OracleDatabaseType extends JDBCDatabaseType implements Poolable
 	/**
 	 * @see de.iritgo.aktera.persist.DatabaseType#isSequenceSupported()
 	 */
-	public boolean isSequenceSupported ()
+	public boolean isSequenceSupported()
 	{
 		return false;
 	} // isSequenceSupported
@@ -311,7 +311,7 @@ public class OracleDatabaseType extends JDBCDatabaseType implements Poolable
 	/**
 	 * @see de.iritgo.aktera.persist.DatabaseType#getDropSequenceSyntax(String)
 	 */
-	public String getDropSequenceSyntax (String sequenceName) throws PersistenceException
+	public String getDropSequenceSyntax(String sequenceName) throws PersistenceException
 	{
 		return "DROP SEQUENCE " + sequenceName;
 	} // getDropSequenceSyntax
@@ -321,7 +321,7 @@ public class OracleDatabaseType extends JDBCDatabaseType implements Poolable
 	 * in case the parent's default is changed - since Oracle supports this.
 	 * @see de.iritgo.aktera.persist.DatabaseType#isAlterKeySupported()
 	 */
-	public boolean isAlterKeySupported ()
+	public boolean isAlterKeySupported()
 	{
 		return true;
 	} // isAlterKeySupported
@@ -334,11 +334,11 @@ public class OracleDatabaseType extends JDBCDatabaseType implements Poolable
 	 * @return    A list of the wild-card characters used by
 	 *            this database connection
 	 */
-	public Set getWildCards ()
+	public Set getWildCards()
 	{
-		HashSet newChars = new HashSet (1);
+		HashSet newChars = new HashSet(1);
 
-		newChars.add (new String ("%"));
+		newChars.add(new String("%"));
 
 		return newChars;
 	} // getWildCards
@@ -346,12 +346,12 @@ public class OracleDatabaseType extends JDBCDatabaseType implements Poolable
 	/**
 	 * @see de.iritgo.aktera.persist.DatabaseType#getCreateSequenceSyntax(String)
 	 */
-	public String getCreateSequenceSyntax (String sequenceName) throws PersistenceException
+	public String getCreateSequenceSyntax(String sequenceName) throws PersistenceException
 	{
 		return "CREATE SEQUENCE " + sequenceName + " START WITH 1000 INCREMENT BY 1";
 	} // getCreateSequenceSyntax
 
-	public String getRetrieveSequenceSyntax (String sequenceName) throws PersistenceException
+	public String getRetrieveSequenceSyntax(String sequenceName) throws PersistenceException
 	{
 		return "SELECT " + sequenceName + ".NEXTVAL FROM DUAL";
 	} // getRetrieveSequenceSyntax

@@ -29,12 +29,12 @@ import java.util.Vector;
 
 public class SEnvelope extends SoapSerializationEnvelope
 {
-	public SEnvelope (int version)
+	public SEnvelope(int version)
 	{
-		super (version);
+		super(version);
 	}
 
-	public Vector<Object> getResponseVector () throws SoapFault
+	public Vector<Object> getResponseVector() throws SoapFault
 	{
 		if (bodyIn instanceof SoapFault)
 		{
@@ -42,23 +42,23 @@ public class SEnvelope extends SoapSerializationEnvelope
 		}
 
 		KvmSerializable ks = (KvmSerializable) bodyIn;
-		Vector<Object> v = new Vector<Object> (ks.getPropertyCount ());
+		Vector<Object> v = new Vector<Object>(ks.getPropertyCount());
 
-		for (int i = 0; i < ks.getPropertyCount (); ++i)
+		for (int i = 0; i < ks.getPropertyCount(); ++i)
 		{
-			v.add (ks.getProperty (i));
+			v.add(ks.getProperty(i));
 		}
 
 		return v;
 	}
 
-	public void addHeader (Element header)
+	public void addHeader(Element header)
 	{
 		if (headerOut != null)
 		{
 			Element[] newHeaderOut = new Element[headerOut.length + 1];
 
-			System.arraycopy (headerOut, 0, newHeaderOut, 0, newHeaderOut.length);
+			System.arraycopy(headerOut, 0, newHeaderOut, 0, newHeaderOut.length);
 			newHeaderOut[headerOut.length] = header;
 		}
 		else
@@ -68,31 +68,31 @@ public class SEnvelope extends SoapSerializationEnvelope
 		}
 	}
 
-	public void addWsseHeader (String userName, String userPassword)
+	public void addWsseHeader(String userName, String userPassword)
 	{
-		Element usernameTag = new Element ();
+		Element usernameTag = new Element();
 
-		usernameTag.setName ("wsse:Username");
-		usernameTag.addChild (Element.TEXT, userName);
+		usernameTag.setName("wsse:Username");
+		usernameTag.addChild(Element.TEXT, userName);
 
-		Element passwordTag = new Element ();
+		Element passwordTag = new Element();
 
-		passwordTag.setName ("wsse:Password");
-		passwordTag.addChild (Element.TEXT, userPassword);
+		passwordTag.setName("wsse:Password");
+		passwordTag.addChild(Element.TEXT, userPassword);
 
-		Element tokenTag = new Element ();
+		Element tokenTag = new Element();
 
-		tokenTag.setName ("wsse:UsernameToken");
-		tokenTag.addChild (Element.ELEMENT, usernameTag);
-		tokenTag.addChild (Element.ELEMENT, passwordTag);
+		tokenTag.setName("wsse:UsernameToken");
+		tokenTag.addChild(Element.ELEMENT, usernameTag);
+		tokenTag.addChild(Element.ELEMENT, passwordTag);
 
-		Element securityHeader = new Element ();
+		Element securityHeader = new Element();
 
-		securityHeader.setName ("wsse:Security");
-		securityHeader.setPrefix ("wsse",
+		securityHeader.setName("wsse:Security");
+		securityHeader.setPrefix("wsse",
 						"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd");
-		securityHeader.addChild (Element.ELEMENT, tokenTag);
+		securityHeader.addChild(Element.ELEMENT, tokenTag);
 
-		addHeader (securityHeader);
+		addHeader(securityHeader);
 	}
 }

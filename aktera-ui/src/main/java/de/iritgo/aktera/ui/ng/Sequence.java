@@ -40,58 +40,58 @@ public class Sequence extends AbstractUIController
 {
 	private AuthorizationManager authorizationManager;
 
-	public void setAuthorizationManager (AuthorizationManager authorizationManager)
+	public void setAuthorizationManager(AuthorizationManager authorizationManager)
 	{
 		this.authorizationManager = authorizationManager;
 	}
 
 	private List<String> controllerIds;
 
-	public void setControllerIds (List<String> controllerIds)
+	public void setControllerIds(List<String> controllerIds)
 	{
 		this.controllerIds = controllerIds;
 	}
 
-	public Map<String, Properties> controllerParams = new HashMap ();
+	public Map<String, Properties> controllerParams = new HashMap();
 
-	public void setControllerParams (Map<String, Properties> controllerParams)
+	public void setControllerParams(Map<String, Properties> controllerParams)
 	{
 		this.controllerParams = controllerParams;
 	}
 
-	public Sequence ()
+	public Sequence()
 	{
 		security = Security.INSTANCE;
 	}
 
-	public void execute (UIRequest request, UIResponse response) throws UIControllerException
+	public void execute(UIRequest request, UIResponse response) throws UIControllerException
 	{
 		for (String controllerId : controllerIds)
 		{
-			UIController controller = (UIController) SpringTools.getBean (controllerId);
+			UIController controller = (UIController) SpringTools.getBean(controllerId);
 
 			try
 			{
-				if (! authorizationManager.allowed (controller, controllerId, request.getUserEnvironment ()))
+				if (! authorizationManager.allowed(controller, controllerId, request.getUserEnvironment()))
 				{
-					throw new SecurityException ("Controller '" + controllerId + "' not authorized");
+					throw new SecurityException("Controller '" + controllerId + "' not authorized");
 				}
 			}
 			catch (AuthorizationException x)
 			{
-				throw new SecurityException ("Controller '" + controllerId + "' not authorized", x);
+				throw new SecurityException("Controller '" + controllerId + "' not authorized", x);
 			}
 
-			Properties props = controllerParams.get (controllerId);
+			Properties props = controllerParams.get(controllerId);
 			if (props != null)
 			{
-				for (Entry<Object, Object> param : props.entrySet ())
+				for (Entry<Object, Object> param : props.entrySet())
 				{
-					request.getParameters ().put (param.getKey ().toString (), param.getValue ());
+					request.getParameters().put(param.getKey().toString(), param.getValue());
 				}
 			}
 
-			controller.execute (request, response);
+			controller.execute(request, response);
 		}
 	}
 }

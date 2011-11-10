@@ -28,38 +28,38 @@ public class UIControllerException extends NestedException
 	/** */
 	private static final long serialVersionUID = 1L;
 
-	public UIControllerException ()
+	public UIControllerException()
 	{
-		super ();
+		super();
 	}
 
-	public UIControllerException (String s)
+	public UIControllerException(String s)
 	{
-		super (s);
+		super(s);
 	}
 
-	public UIControllerException (String s, String newErrorKey)
+	public UIControllerException(String s, String newErrorKey)
 	{
-		super (s, newErrorKey);
+		super(s, newErrorKey);
 	}
 
-	public UIControllerException (String message, Throwable newNested)
+	public UIControllerException(String message, Throwable newNested)
 	{
-		super (message, newNested);
+		super(message, newNested);
 	}
 
-	public UIControllerException (String message, Throwable newNested, String newErrorKey)
+	public UIControllerException(String message, Throwable newNested, String newErrorKey)
 	{
-		super (message, newNested, newErrorKey);
+		super(message, newNested, newErrorKey);
 	}
 
-	public UIControllerException (Throwable newNested)
+	public UIControllerException(Throwable newNested)
 	{
-		super (newNested);
+		super(newNested);
 	}
 
-	public UIControllerException (Throwable newNested, String newErrorKey)
+	public UIControllerException(Throwable newNested, String newErrorKey)
 	{
-		super (newNested, newErrorKey);
+		super(newNested, newErrorKey);
 	}
 }

@@ -37,7 +37,7 @@ public abstract class SecurableStandardLogEnabledModel extends StandardLogEnable
 	/* (non-Javadoc)
 	 * @see de.iritgo.aktera.authorization.Securable#setAuthorizationManager(de.iritgo.aktera.authorization.AuthorizationManager)
 	 */
-	public void setAuthorizationManager (AuthorizationManager newAm) throws ServiceException
+	public void setAuthorizationManager(AuthorizationManager newAm) throws ServiceException
 	{
 		am = newAm;
 	}
@@ -45,7 +45,7 @@ public abstract class SecurableStandardLogEnabledModel extends StandardLogEnable
 	/* (non-Javadoc)
 	 * @see de.iritgo.aktera.authorization.Securable#getAuthorizationManager()
 	 */
-	public AuthorizationManager getAuthorizationManager ()
+	public AuthorizationManager getAuthorizationManager()
 	{
 		return am;
 	}

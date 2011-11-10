@@ -49,31 +49,31 @@ public class HTTPSHackUtil
 		private static final X509Certificate[] _AcceptedIssuers = new X509Certificate[]
 		{};
 
-		public void checkClientTrusted (X509Certificate[] arg0, String arg1) throws CertificateException
+		public void checkClientTrusted(X509Certificate[] arg0, String arg1) throws CertificateException
 		{
 		}
 
-		public void checkServerTrusted (X509Certificate[] arg0, String arg1) throws CertificateException
+		public void checkServerTrusted(X509Certificate[] arg0, String arg1) throws CertificateException
 		{
 		}
 
-		public boolean isClientTrusted (@SuppressWarnings("unused") X509Certificate[] chain)
-		{
-			return true;
-		}
-
-		public boolean isServerTrusted (@SuppressWarnings("unused") X509Certificate[] chain)
+		public boolean isClientTrusted(@SuppressWarnings("unused") X509Certificate[] chain)
 		{
 			return true;
 		}
 
-		public X509Certificate[] getAcceptedIssuers ()
+		public boolean isServerTrusted(@SuppressWarnings("unused") X509Certificate[] chain)
+		{
+			return true;
+		}
+
+		public X509Certificate[] getAcceptedIssuers()
 		{
 			return _AcceptedIssuers;
 		}
 	}
 
-	private static final String TAG = HTTPSHackUtil.class.getSimpleName ();
+	private static final String TAG = HTTPSHackUtil.class.getSimpleName();
 
 	private static final String ORIGINAL_HTTPS_SCHEME_BACKUP = "originalhttps";
 
@@ -97,7 +97,7 @@ public class HTTPSHackUtil
 	 * This method allow all hostnames, disabling verifying of hostnames during
 	 * handshake
 	 */
-	public void allowAllHostname ()
+	public void allowAllHostname()
 	{
 		if (! allHostnameAllowed)
 		{
@@ -105,28 +105,28 @@ public class HTTPSHackUtil
 
 			if (hackedHostnameVerifier == null)
 			{
-				hackedHostnameVerifier = new AllowAllHostnameVerifier ();
+				hackedHostnameVerifier = new AllowAllHostnameVerifier();
 			}
 
 			if (originalHostnameVerifier == null)
 			{
-				originalHostnameVerifier = HttpsURLConnection.getDefaultHostnameVerifier ();
+				originalHostnameVerifier = HttpsURLConnection.getDefaultHostnameVerifier();
 			}
 
-			HttpsURLConnection.setDefaultHostnameVerifier (hackedHostnameVerifier);
+			HttpsURLConnection.setDefaultHostnameVerifier(hackedHostnameVerifier);
 		}
 	}
 
 	/**
 	 * Removes the effects of allowAllHostname()
 	 */
-	public void disableAllowAllHostname ()
+	public void disableAllowAllHostname()
 	{
 		if (allHostnameAllowed)
 		{
-			disableAllowAllSSL ();
+			disableAllowAllSSL();
 
-			HttpsURLConnection.setDefaultHostnameVerifier (originalHostnameVerifier);
+			HttpsURLConnection.setDefaultHostnameVerifier(originalHostnameVerifier);
 
 			allHostnameAllowed = false;
 		}
@@ -135,18 +135,18 @@ public class HTTPSHackUtil
 	/**
 	 * Allow all SSL certificates for HttpsURLConnection.
 	 */
-	public void allowAllSSL ()
+	public void allowAllSSL()
 	{
 		if (! allSSLAllowed)
 		{
-			allowAllHostname ();
+			allowAllHostname();
 
 			if (originalSocketFactory == null)
 			{
-				originalSocketFactory = HttpsURLConnection.getDefaultSSLSocketFactory ();
+				originalSocketFactory = HttpsURLConnection.getDefaultSSLSocketFactory();
 			}
 
-			HttpsURLConnection.setDefaultSSLSocketFactory (getAllowAllSocketFactory ());
+			HttpsURLConnection.setDefaultSSLSocketFactory(getAllowAllSocketFactory());
 
 			allSSLAllowed = true;
 		}
@@ -155,11 +155,11 @@ public class HTTPSHackUtil
 	/**
 	 * Removes the effects of allowAllSSL()
 	 */
-	public void disableAllowAllSSL ()
+	public void disableAllowAllSSL()
 	{
 		if (allSSLAllowed)
 		{
-			HttpsURLConnection.setDefaultSSLSocketFactory (originalSocketFactory);
+			HttpsURLConnection.setDefaultSSLSocketFactory(originalSocketFactory);
 
 			allSSLAllowed = false;
 		}
@@ -171,19 +171,19 @@ public class HTTPSHackUtil
 	 *
 	 * @param client
 	 */
-	public void httpClientAllowAllSSL (HttpClient client)
+	public void httpClientAllowAllSSL(HttpClient client)
 	{
-		SchemeRegistry registry = client.getConnectionManager ().getSchemeRegistry ();
+		SchemeRegistry registry = client.getConnectionManager().getSchemeRegistry();
 
-		Scheme originalScheme = registry.get ("https");
+		Scheme originalScheme = registry.get("https");
 
-		if (! (originalScheme.getSocketFactory () instanceof AllowingAllSSLSocketFactory))
+		if (! (originalScheme.getSocketFactory() instanceof AllowingAllSSLSocketFactory))
 		{
-			allowAllSSL ();
+			allowAllSSL();
 
 			Scheme newHackedScheme;
 
-			Scheme hackedScheme = registry.get (HACKED_HTTPS_SCHEME_BACKUP);
+			Scheme hackedScheme = registry.get(HACKED_HTTPS_SCHEME_BACKUP);
 
 			if (hackedScheme == null)
 			{
@@ -191,26 +191,26 @@ public class HTTPSHackUtil
 
 				try
 				{
-					socketFactory = new AllowingAllSSLSocketFactory (getAllowAllSocketFactory ());
+					socketFactory = new AllowingAllSSLSocketFactory(getAllowAllSocketFactory());
 				}
 				catch (Exception e)
 				{
 					return;
 				}
 
-				newHackedScheme = new Scheme ("https", socketFactory, originalScheme.getDefaultPort ());
+				newHackedScheme = new Scheme("https", socketFactory, originalScheme.getDefaultPort());
 			}
 			else
 			{
-				newHackedScheme = new Scheme ("https", hackedScheme.getSocketFactory (), hackedScheme.getDefaultPort ());
-				registry.unregister (HACKED_HTTPS_SCHEME_BACKUP);
+				newHackedScheme = new Scheme("https", hackedScheme.getSocketFactory(), hackedScheme.getDefaultPort());
+				registry.unregister(HACKED_HTTPS_SCHEME_BACKUP);
 			}
 
-			Scheme newOriginalScheme = new Scheme (ORIGINAL_HTTPS_SCHEME_BACKUP, originalScheme.getSocketFactory (),
-							originalScheme.getDefaultPort ());
+			Scheme newOriginalScheme = new Scheme(ORIGINAL_HTTPS_SCHEME_BACKUP, originalScheme.getSocketFactory(),
+							originalScheme.getDefaultPort());
 
-			registry.register (newHackedScheme);
-			registry.register (newOriginalScheme);
+			registry.register(newHackedScheme);
+			registry.register(newOriginalScheme);
 		}
 	}
 
@@ -219,31 +219,31 @@ public class HTTPSHackUtil
 	 *
 	 * @param client
 	 */
-	public void httpClientDisableAllSSL (HttpClient client)
+	public void httpClientDisableAllSSL(HttpClient client)
 	{
-		SchemeRegistry registry = client.getConnectionManager ().getSchemeRegistry ();
+		SchemeRegistry registry = client.getConnectionManager().getSchemeRegistry();
 
-		Scheme hackedScheme = registry.get ("https");
+		Scheme hackedScheme = registry.get("https");
 
-		if (hackedScheme.getSocketFactory () instanceof AllowingAllSSLSocketFactory)
+		if (hackedScheme.getSocketFactory() instanceof AllowingAllSSLSocketFactory)
 		{
-			disableAllowAllSSL ();
+			disableAllowAllSSL();
 
-			Scheme originalScheme = registry.get (ORIGINAL_HTTPS_SCHEME_BACKUP);
+			Scheme originalScheme = registry.get(ORIGINAL_HTTPS_SCHEME_BACKUP);
 
-			Scheme newHackedScheme = new Scheme (HACKED_HTTPS_SCHEME_BACKUP, hackedScheme.getSocketFactory (),
-							hackedScheme.getDefaultPort ());
+			Scheme newHackedScheme = new Scheme(HACKED_HTTPS_SCHEME_BACKUP, hackedScheme.getSocketFactory(),
+							hackedScheme.getDefaultPort());
 
-			Scheme newOriginalScheme = new Scheme ("https", originalScheme.getSocketFactory (), originalScheme
-							.getDefaultPort ());
+			Scheme newOriginalScheme = new Scheme("https", originalScheme.getSocketFactory(), originalScheme
+							.getDefaultPort());
 
-			registry.unregister (ORIGINAL_HTTPS_SCHEME_BACKUP);
-			registry.register (newHackedScheme);
-			registry.register (newOriginalScheme);
+			registry.unregister(ORIGINAL_HTTPS_SCHEME_BACKUP);
+			registry.register(newHackedScheme);
+			registry.register(newOriginalScheme);
 		}
 	}
 
-	protected SSLSocketFactory getAllowAllSocketFactory ()
+	protected SSLSocketFactory getAllowAllSocketFactory()
 	{
 		if (hackedSocketFactory == null)
 		{
@@ -251,7 +251,7 @@ public class HTTPSHackUtil
 			{
 				trustManagers = new TrustManager[]
 				{
-					new _FakeX509TrustManager ()
+					new _FakeX509TrustManager()
 				};
 			}
 
@@ -259,8 +259,8 @@ public class HTTPSHackUtil
 
 			try
 			{
-				context = SSLContext.getInstance ("TLS");
-				context.init (null, trustManagers, new SecureRandom ());
+				context = SSLContext.getInstance("TLS");
+				context.init(null, trustManagers, new SecureRandom());
 			}
 			catch (NoSuchAlgorithmException e)
 			{
@@ -271,19 +271,19 @@ public class HTTPSHackUtil
 				return null;
 			}
 
-			hackedSocketFactory = context.getSocketFactory ();
+			hackedSocketFactory = context.getSocketFactory();
 		}
 
 		return hackedSocketFactory;
 	}
 
 	// GETTERS
-	public boolean getAllSSLAllowed ()
+	public boolean getAllSSLAllowed()
 	{
 		return allSSLAllowed;
 	}
 
-	public boolean getAllHostnameAllowed ()
+	public boolean getAllHostnameAllowed()
 	{
 		return allHostnameAllowed;
 	}

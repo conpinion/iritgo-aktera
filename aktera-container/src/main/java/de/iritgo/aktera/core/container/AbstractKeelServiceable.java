@@ -50,13 +50,13 @@ public abstract class AbstractKeelServiceable implements KeelServiceable
 	/**
 	 * The list of components looked up via this class
 	 */
-	private List components = new ArrayList ();
+	private List components = new ArrayList();
 
 	/**
 	 * Sets the parent service manager to lookup services from
 	 * @see org.apache.avalon.framework.service.Serviceable#service(org.apache.avalon.framework.service.ServiceManager)
 	 */
-	public void service (final ServiceManager parent) throws ServiceException
+	public void service(final ServiceManager parent) throws ServiceException
 	{
 		if (parent instanceof KeelServiceManager)
 		{
@@ -64,9 +64,9 @@ public abstract class AbstractKeelServiceable implements KeelServiceable
 		}
 		else
 		{
-			throw new ServiceException ("servicemanager",
+			throw new ServiceException("servicemanager",
 							"Supplied service manager is not an instance of a KeelService Manager, instead it is a "
-											+ parent.getClass ().getName ());
+											+ parent.getClass().getName());
 		}
 	}
 
@@ -74,7 +74,7 @@ public abstract class AbstractKeelServiceable implements KeelServiceable
 	 * Return the parent service manager
 	 * @return ServiceManager
 	 */
-	public ServiceManager getServiceManager ()
+	public ServiceManager getServiceManager()
 	{
 		return serviceManager;
 	}
@@ -86,12 +86,12 @@ public abstract class AbstractKeelServiceable implements KeelServiceable
 	 * @return Object - Cast to the correct service interface
 	 * @throws ServiceException
 	 */
-	public Object getService (String role, String hint) throws ServiceException
+	public Object getService(String role, String hint) throws ServiceException
 	{
 		String svcHint = hint;
 
 		//Make sure the default hint is specified correctly
-		if (hint == null || "".equals (hint) || "default".equals (hint))
+		if (hint == null || "".equals(hint) || "default".equals(hint))
 		{
 			svcHint = "*";
 		}
@@ -99,10 +99,10 @@ public abstract class AbstractKeelServiceable implements KeelServiceable
 		/*
 		 * Lookup the service
 		 */
-		Object o = serviceManager.lookup (role + "/" + svcHint);
+		Object o = serviceManager.lookup(role + "/" + svcHint);
 
 		// Keep the service in the list for later release
-		addService (o);
+		addService(o);
 
 		return o;
 	}
@@ -115,12 +115,12 @@ public abstract class AbstractKeelServiceable implements KeelServiceable
 	 * @return Object - Cast to the correct service interface
 	 * @throws ServiceException
 	 */
-	public Object getService (String role, String hint, Context c) throws ServiceException
+	public Object getService(String role, String hint, Context c) throws ServiceException
 	{
 		String svcHint = hint;
 
 		//Make sure the default hint is specified correctly
-		if (hint == null || "".equals (hint) || "default".equals (hint))
+		if (hint == null || "".equals(hint) || "default".equals(hint))
 		{
 			svcHint = "*";
 		}
@@ -128,10 +128,10 @@ public abstract class AbstractKeelServiceable implements KeelServiceable
 		/*
 		 * Lookup the service
 		 */
-		Object o = serviceManager.lookup (role + "/" + svcHint, c);
+		Object o = serviceManager.lookup(role + "/" + svcHint, c);
 
 		// Keep the service in the list for later release
-		addService (o);
+		addService(o);
 
 		return o;
 	}
@@ -142,9 +142,9 @@ public abstract class AbstractKeelServiceable implements KeelServiceable
 	 * @return Object - Cast to the correct service interface
 	 * @throws ServiceException
 	 */
-	public Object getService (String role) throws ServiceException
+	public Object getService(String role) throws ServiceException
 	{
-		return getService (role, "*");
+		return getService(role, "*");
 	}
 
 	/**
@@ -154,9 +154,9 @@ public abstract class AbstractKeelServiceable implements KeelServiceable
 	 * @return Object - Cast to the correct service interface
 	 * @throws ServiceException
 	 */
-	public Object getService (String role, Context c) throws ServiceException
+	public Object getService(String role, Context c) throws ServiceException
 	{
-		return getService (role, "*", c);
+		return getService(role, "*", c);
 	}
 
 	/**
@@ -165,30 +165,30 @@ public abstract class AbstractKeelServiceable implements KeelServiceable
 	 * @return Object - Cast to the correct service interface
 	 * @throws ServiceException
 	 */
-	public Object getServiceSelector (String role) throws ServiceException
+	public Object getServiceSelector(String role) throws ServiceException
 	{
-		return getService (role, "$");
+		return getService(role, "$");
 	}
 
 	/**
 	 * Add a service to the list of retrieved services
 	 */
-	private synchronized void addService (Object o)
+	private synchronized void addService(Object o)
 	{
-		components.add (o);
+		components.add(o);
 	}
 
 	/**
 	 * Delete a service from the list of retrieved services
 	 */
-	private synchronized void deleteService (Object o)
+	private synchronized void deleteService(Object o)
 	{
-		for (int i = 0; i < components.size (); ++i)
+		for (int i = 0; i < components.size(); ++i)
 		{
-			if (components.get (i) == o || components.get (i).equals (o))
+			if (components.get(i) == o || components.get(i).equals(o))
 			{
 				// 				releaseChild (components.get (i));
-				components.remove (i);
+				components.remove(i);
 
 				return;
 			}
@@ -198,30 +198,30 @@ public abstract class AbstractKeelServiceable implements KeelServiceable
 	/**
 	 * Release all services retrieved so far
 	 */
-	public synchronized void releaseServices ()
+	public synchronized void releaseServices()
 	{
-		for (Iterator i = components.iterator (); i.hasNext ();)
+		for (Iterator i = components.iterator(); i.hasNext();)
 		{
-			Object serviceable = (Object) i.next ();
+			Object serviceable = (Object) i.next();
 
-			releaseChild (serviceable);
+			releaseChild(serviceable);
 
-			serviceManager.release (serviceable);
+			serviceManager.release(serviceable);
 		}
 
-		components.clear ();
+		components.clear();
 	}
 
 	/**
 	 * @param serviceable
 	 */
-	private void releaseChild (Object serviceable)
+	private void releaseChild(Object serviceable)
 	{
 		Proxy proxy = (Proxy) serviceable;
 
 		try
 		{
-			proxy.getInvocationHandler (proxy).invoke (proxy, KeelServiceable.class.getMethod ("releaseServices"),
+			proxy.getInvocationHandler(proxy).invoke(proxy, KeelServiceable.class.getMethod("releaseServices"),
 							new Object[]
 							{});
 		}
@@ -242,9 +242,9 @@ public abstract class AbstractKeelServiceable implements KeelServiceable
 	 * Release a particular service
 	 * @param o Service to release
 	 */
-	public void releaseService (Object o)
+	public void releaseService(Object o)
 	{
-		serviceManager.release (o);
-		deleteService (o);
+		serviceManager.release(o);
+		deleteService(o);
 	}
 }

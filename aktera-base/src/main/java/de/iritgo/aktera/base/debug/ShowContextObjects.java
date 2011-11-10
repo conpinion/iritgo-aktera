@@ -39,49 +39,49 @@ public class ShowContextObjects extends AbstractUIController
 	/**
 	 * @see de.iritgo.aktera.ui.UIController#execute(de.iritgo.aktera.ui.UIRequest, de.iritgo.aktera.ui.UIResponse)
 	 */
-	public void execute (UIRequest request, UIResponse response) throws UIControllerException
+	public void execute(UIRequest request, UIResponse response) throws UIControllerException
 	{
-		Output outContexts = response.createOutput ("contexts");
+		Output outContexts = response.createOutput("contexts");
 
-		response.add (outContexts);
+		response.add(outContexts);
 
 		int contextNum = 0;
 
-		for (Map.Entry<String, ComparableContext> contextEntry : KeelAbstractServer.getContexts ().entrySet ())
+		for (Map.Entry<String, ComparableContext> contextEntry : KeelAbstractServer.getContexts().entrySet())
 		{
-			Output outContext = response.createOutput ("context-" + (contextNum++));
+			Output outContext = response.createOutput("context-" + (contextNum++));
 
-			outContexts.add (outContext);
-			outContext.setContent (contextEntry.getKey ());
+			outContexts.add(outContext);
+			outContext.setContent(contextEntry.getKey());
 
-			ComparableContext context = contextEntry.getValue ();
+			ComparableContext context = contextEntry.getValue();
 			int entryNum = 0;
 
 			while (context != null)
 			{
-				for (Map.Entry<Object, Object> dataEntry : context.getData ().entrySet ())
+				for (Map.Entry<Object, Object> dataEntry : context.getData().entrySet())
 				{
-					Output outEntry = response.createOutput ("entry-" + (entryNum++));
+					Output outEntry = response.createOutput("entry-" + (entryNum++));
 
-					outContext.add (outEntry);
-					outEntry.setContent (dataEntry.getKey () + ":" + dataEntry.getValue ());
+					outContext.add(outEntry);
+					outEntry.setContent(dataEntry.getKey() + ":" + dataEntry.getValue());
 
-					if (dataEntry.getValue () instanceof DefaultUserEnvironment)
+					if (dataEntry.getValue() instanceof DefaultUserEnvironment)
 					{
 						int attrNum = 0;
 
-						for (Map.Entry<String, Object> attrEntry : ((DefaultUserEnvironment) dataEntry.getValue ())
-										.getAttributes ().entrySet ())
+						for (Map.Entry<String, Object> attrEntry : ((DefaultUserEnvironment) dataEntry.getValue())
+										.getAttributes().entrySet())
 						{
-							Output outAttr = response.createOutput ("attr-" + (attrNum++));
+							Output outAttr = response.createOutput("attr-" + (attrNum++));
 
-							outEntry.add (outAttr);
-							outAttr.setContent (attrEntry.getKey () + "=" + attrEntry.getValue ());
+							outEntry.add(outAttr);
+							outAttr.setContent(attrEntry.getKey() + "=" + attrEntry.getValue());
 						}
 					}
 				}
 
-				context = context.getParentContext ();
+				context = context.getParentContext();
 			}
 		}
 	}

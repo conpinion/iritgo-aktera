@@ -75,7 +75,7 @@ public class BeanAction extends Action
 
 	protected static final String COMMAND_PARAM = "COMMAND_";
 
-	protected static final int COMMAND_PARAM_LEN = COMMAND_PARAM.length ();
+	protected static final int COMMAND_PARAM_LEN = COMMAND_PARAM.length();
 
 	protected static final String PARAMETER_PARAM = "PARAMS_";
 
@@ -88,7 +88,7 @@ public class BeanAction extends Action
 	protected static final String BEAN_PARAM = "bean";
 
 	/** Logger */
-	private static Log log = LogFactory.getFactory ().getInstance ("de.iritgo.aktera.struts.BeanAction");
+	private static Log log = LogFactory.getFactory().getInstance("de.iritgo.aktera.struts.BeanAction");
 
 	/**
 	 * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping,
@@ -97,70 +97,70 @@ public class BeanAction extends Action
 	 *      javax.servlet.http.HttpServletResponse)
 	 */
 	@Override
-	public ActionForward execute (ActionMapping mapping, ActionForm form, HttpServletRequest request,
+	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 					HttpServletResponse response) throws Exception
 	{
 		String controllerId = "?";
 
 		try
 		{
-			BeanRequest uiRequest = new BeanRequest ();
+			BeanRequest uiRequest = new BeanRequest();
 
-			uiRequest.setLocale (request.getLocale ());
-			setRequestParameters (uiRequest, request);
-			setRequestBean (uiRequest, request);
-			controllerId = uiRequest.getBean ();
+			uiRequest.setLocale(request.getLocale());
+			setRequestParameters(uiRequest, request);
+			setRequestBean(uiRequest, request);
+			controllerId = uiRequest.getBean();
 
-			if (controllerId != null && controllerId.startsWith ("_MODEL_."))
+			if (controllerId != null && controllerId.startsWith("_MODEL_."))
 			{
-				StringBuffer redirectLocation = new StringBuffer ();
+				StringBuffer redirectLocation = new StringBuffer();
 
-				redirectLocation.append (request.getRequestURL ().toString ().replace ("bean.do", "model.do"));
-				redirectLocation.append ("?model=" + controllerId.replace ("_MODEL_.", ""));
+				redirectLocation.append(request.getRequestURL().toString().replace("bean.do", "model.do"));
+				redirectLocation.append("?model=" + controllerId.replace("_MODEL_.", ""));
 
-				for (Map.Entry<String, Object> parameter : uiRequest.getParameters ().entrySet ())
+				for (Map.Entry<String, Object> parameter : uiRequest.getParameters().entrySet())
 				{
-					if ("bean".equals (parameter.getKey ()))
+					if ("bean".equals(parameter.getKey()))
 					{
 						continue;
 					}
 
-					redirectLocation.append ("&");
-					redirectLocation.append (parameter.getKey ());
-					redirectLocation.append ("=");
-					redirectLocation.append (parameter.getValue ());
+					redirectLocation.append("&");
+					redirectLocation.append(parameter.getKey());
+					redirectLocation.append("=");
+					redirectLocation.append(parameter.getValue());
 				}
 
-				response.sendRedirect (redirectLocation.toString ());
+				response.sendRedirect(redirectLocation.toString());
 
 				return null;
 			}
 
-			UserEnvironment userEnvironment = getUserEnvironment (request);
+			UserEnvironment userEnvironment = getUserEnvironment(request);
 
-			uiRequest.setUserEnvironment (userEnvironment);
+			uiRequest.setUserEnvironment(userEnvironment);
 
-			UIController controller = (UIController) KeelContainer.defaultContainer ().getSpringBean (controllerId);
+			UIController controller = (UIController) KeelContainer.defaultContainer().getSpringBean(controllerId);
 
-			AuthorizationManager authorizationManager = (AuthorizationManager) KeelContainer.defaultContainer ()
-							.getSpringBean (AuthorizationManager.ID);
+			AuthorizationManager authorizationManager = (AuthorizationManager) KeelContainer.defaultContainer()
+							.getSpringBean(AuthorizationManager.ID);
 
-			if (! authorizationManager.allowed (controller, controllerId, userEnvironment))
+			if (! authorizationManager.allowed(controller, controllerId, userEnvironment))
 			{
-				throw new SecurityException ("Controller '" + controllerId + "' not authorized");
+				throw new SecurityException("Controller '" + controllerId + "' not authorized");
 			}
 
-			BeanResponse uiResponse = new BeanResponse ();
+			BeanResponse uiResponse = new BeanResponse();
 
-			controller.execute (uiRequest, uiResponse);
-			createDynaBean (controller, uiResponse, request, response, controllerId);
-			handleErrors (controller, uiResponse, request, response, controllerId);
+			controller.execute(uiRequest, uiResponse);
+			createDynaBean(controller, uiResponse, request, response, controllerId);
+			handleErrors(controller, uiResponse, request, response, controllerId);
 
-			String forward = uiResponse.getForward ();
+			String forward = uiResponse.getForward();
 
 			if (forward == null)
 			{
-				forward = controller.getForward ();
+				forward = controller.getForward();
 
 				if (forward == null)
 				{
@@ -168,55 +168,55 @@ public class BeanAction extends Action
 				}
 			}
 
-			return mapping.findForward (forward);
+			return mapping.findForward(forward);
 		}
 		catch (ClassCastException x)
 		{
 			String msg = "Requested controller '" + controllerId + "' doesn't implement interface UIConroller: "
-							+ x.toString ();
+							+ x.toString();
 
-			log.error (msg);
-			throw new ServletException (msg);
+			log.error(msg);
+			throw new ServletException(msg);
 		}
 	}
 
-	public static void execute (UIRequest request, UIResponse response)
+	public static void execute(UIRequest request, UIResponse response)
 		throws AuthorizationException, UIControllerException
 	{
-		UIController controller = (UIController) KeelContainer.defaultContainer ().getSpringBean (request.getBean ());
+		UIController controller = (UIController) KeelContainer.defaultContainer().getSpringBean(request.getBean());
 
-		AuthorizationManager authorizationManager = (AuthorizationManager) KeelContainer.defaultContainer ()
-						.getSpringBean (AuthorizationManager.ID);
+		AuthorizationManager authorizationManager = (AuthorizationManager) KeelContainer.defaultContainer()
+						.getSpringBean(AuthorizationManager.ID);
 
-		if (! authorizationManager.allowed (controller, request.getBean (), request.getUserEnvironment ()))
+		if (! authorizationManager.allowed(controller, request.getBean(), request.getUserEnvironment()))
 		{
-			throw new SecurityException ("Controller '" + request.getBean () + "' not authorized");
+			throw new SecurityException("Controller '" + request.getBean() + "' not authorized");
 		}
 
-		controller.execute (request, response);
+		controller.execute(request, response);
 
-		if (response.getForward () == null)
+		if (response.getForward() == null)
 		{
-			response.setForward (controller.getForward ());
+			response.setForward(controller.getForward());
 
-			if (response.getForward () == null)
+			if (response.getForward() == null)
 			{
-				response.setForward ("default");
+				response.setForward("default");
 			}
 		}
 	}
 
-	private UserEnvironment getUserEnvironment (HttpServletRequest request) throws ContextException
+	private UserEnvironment getUserEnvironment(HttpServletRequest request) throws ContextException
 	{
-		String sessionId = request.getSession (true).getId ();
-		ComparableContext context = KeelAbstractServer.getContexts ().get (sessionId);
+		String sessionId = request.getSession(true).getId();
+		ComparableContext context = KeelAbstractServer.getContexts().get(sessionId);
 		UserEnvironment userEnvironment = null;
 
 		if (context != null)
 		{
 			try
 			{
-				userEnvironment = (UserEnvironment) context.get (UserEnvironment.CONTEXT_KEY);
+				userEnvironment = (UserEnvironment) context.get(UserEnvironment.CONTEXT_KEY);
 			}
 			catch (ContextException ignored)
 			{
@@ -225,7 +225,7 @@ public class BeanAction extends Action
 
 		if (userEnvironment == null)
 		{
-			userEnvironment = new DefaultUserEnvironment ();
+			userEnvironment = new DefaultUserEnvironment();
 		}
 
 		return userEnvironment;
@@ -241,141 +241,141 @@ public class BeanAction extends Action
 	 * @param beanName
 	 * @throws ClientException
 	 */
-	private void createDynaBean (UIController controller, BeanResponse uiResponse, HttpServletRequest request,
+	private void createDynaBean(UIController controller, BeanResponse uiResponse, HttpServletRequest request,
 					HttpServletResponse response, String beanName) throws ClientException
 	{
-		ArrayList inputs = new ArrayList ();
-		ArrayList outputs = new ArrayList ();
-		ArrayList commands = new ArrayList ();
-		Iterator<ResponseElement> allElements = uiResponse.getAll ();
+		ArrayList inputs = new ArrayList();
+		ArrayList outputs = new ArrayList();
+		ArrayList commands = new ArrayList();
+		Iterator<ResponseElement> allElements = uiResponse.getAll();
 
-		if (! allElements.hasNext ())
+		if (! allElements.hasNext())
 		{
-			log.error ("No elements in response from server");
+			log.error("No elements in response from server");
 		}
 
-		MessageResources messages = getMessageResources (controller, request, beanName);
+		MessageResources messages = getMessageResources(controller, request, beanName);
 
 		ResponseElement re = null;
 
-		for (Iterator i = allElements; i.hasNext ();)
+		for (Iterator i = allElements; i.hasNext();)
 		{
-			re = (ResponseElement) i.next ();
-			internationalize (re, messages);
+			re = (ResponseElement) i.next();
+			internationalize(re, messages);
 
-			ResponseElementDynaBean reAsBean = new ResponseElementDynaBean (re);
+			ResponseElementDynaBean reAsBean = new ResponseElementDynaBean(re);
 
-			request.setAttribute (re.getName (), reAsBean);
+			request.setAttribute(re.getName(), reAsBean);
 
 			if (re instanceof Input)
 			{
-				inputs.add (reAsBean);
+				inputs.add(reAsBean);
 			}
 			else if (re instanceof Output)
 			{
 				// HACK: For the moment, if re is output file, write to stream
 				// here, as not being written otherwise
-				final String outputType = (String) re.getAttribute ("type");
+				final String outputType = (String) re.getAttribute("type");
 
-				if ((outputType != null) && outputType.equals ("binary"))
+				if ((outputType != null) && outputType.equals("binary"))
 				{
 					// Binary data, so dump to output stream now....
-					log.debug ("File Data is available");
+					log.debug("File Data is available");
 
-					final BinaryWrapper data = (BinaryWrapper) ((Output) re).getContent ();
+					final BinaryWrapper data = (BinaryWrapper) ((Output) re).getContent();
 
 					// hres.setContentLength(new
 					// Integer(((Long)re.getAttribute("ContentLength")).toString()).intValue());
-					final long dataSize = data.getSize ();
+					final long dataSize = data.getSize();
 
 					if ((dataSize > 0) && (dataSize < Integer.MAX_VALUE))
 					{
 						// Have a valid content length.
-						response.setContentLength ((int) data.getSize ());
+						response.setContentLength((int) data.getSize());
 					}
 
-					response.setContentType (data.getContentType ());
-					response.setHeader ("Content-Disposition", (String) re.getAttribute ("Content-Disposition"));
+					response.setContentType(data.getContentType());
+					response.setHeader("Content-Disposition", (String) re.getAttribute("Content-Disposition"));
 
 					// String encodings = hreq.getHeader ("Accept-Encoding");
 					BufferedOutputStream buffOut = null;
 
 					try
 					{
-						log.info ("Writing data with no compression");
+						log.info("Writing data with no compression");
 
-						OutputStream out = response.getOutputStream ();
+						OutputStream out = response.getOutputStream();
 
-						buffOut = new BufferedOutputStream (out, BUFFER_SIZE);
-						data.writeTo (buffOut);
-						log.trace ("Wrote Buffer.");
+						buffOut = new BufferedOutputStream(out, BUFFER_SIZE);
+						data.writeTo(buffOut);
+						log.trace("Wrote Buffer.");
 					}
 					catch (IOException e)
 					{
-						e.printStackTrace ();
-						log.error ("Exception during file read/write:", e);
-						throw new ClientException ("Exception during file read/write", e);
+						e.printStackTrace();
+						log.error("Exception during file read/write:", e);
+						throw new ClientException("Exception during file read/write", e);
 					}
 					finally
 					{
 						try
 						{
-							data.close ();
+							data.close();
 						}
 						catch (IOException e1)
 						{
-							e1.printStackTrace ();
+							e1.printStackTrace();
 						}
 
 						try
 						{
-							buffOut.flush ();
+							buffOut.flush();
 						}
 						catch (IOException e2)
 						{
-							e2.printStackTrace ();
+							e2.printStackTrace();
 						}
 					}
 				}
 				else
 				{
-					outputs.add (reAsBean);
+					outputs.add(reAsBean);
 				}
 			}
 			else if (re instanceof Command)
 			{
-				commands.add (reAsBean);
+				commands.add(reAsBean);
 			}
 		}
 
-		request.setAttribute ("inputs", inputs);
-		request.setAttribute ("outputs", outputs);
-		request.setAttribute ("commands", commands);
+		request.setAttribute("inputs", inputs);
+		request.setAttribute("outputs", outputs);
+		request.setAttribute("commands", commands);
 
 		int inputCount = 0;
-		DynaProperty[] dps = new DynaProperty[inputs.size ()];
+		DynaProperty[] dps = new DynaProperty[inputs.size()];
 		ResponseElementDynaBean oneInput = null;
 
-		for (Iterator ii = inputs.iterator (); ii.hasNext ();)
+		for (Iterator ii = inputs.iterator(); ii.hasNext();)
 		{
-			oneInput = (ResponseElementDynaBean) ii.next ();
+			oneInput = (ResponseElementDynaBean) ii.next();
 
-			Object defValue = oneInput.get ("defaultValue");
+			Object defValue = oneInput.get("defaultValue");
 			DynaProperty dp = null;
 
 			if (defValue != null)
 			{
-				dp = new DynaProperty ((String) oneInput.get ("name"), oneInput.get ("defaultValue").getClass ());
+				dp = new DynaProperty((String) oneInput.get("name"), oneInput.get("defaultValue").getClass());
 			}
 			else
 			{
 				try
 				{
-					dp = new DynaProperty ((String) oneInput.get ("name"), Class.forName ("java.lang.String"));
+					dp = new DynaProperty((String) oneInput.get("name"), Class.forName("java.lang.String"));
 				}
 				catch (ClassNotFoundException e)
 				{
-					throw new ClientException ("Cannot create String dynaproperty", e);
+					throw new ClientException("Cannot create String dynaproperty", e);
 				}
 			}
 
@@ -386,29 +386,29 @@ public class BeanAction extends Action
 
 		try
 		{
-			bd = new BasicDynaClass (beanName, Class.forName ("org.apache.commons.beanutils.BasicDynaBean"), dps);
+			bd = new BasicDynaClass(beanName, Class.forName("org.apache.commons.beanutils.BasicDynaBean"), dps);
 
-			BasicDynaBean newForm = (BasicDynaBean) bd.newInstance ();
+			BasicDynaBean newForm = (BasicDynaBean) bd.newInstance();
 
-			for (Iterator i2 = inputs.iterator (); i2.hasNext ();)
+			for (Iterator i2 = inputs.iterator(); i2.hasNext();)
 			{
-				oneInput = (ResponseElementDynaBean) i2.next ();
-				newForm.set ((String) oneInput.get ("name"), oneInput.get ("defaultValue"));
+				oneInput = (ResponseElementDynaBean) i2.next();
+				newForm.set((String) oneInput.get("name"), oneInput.get("defaultValue"));
 			}
 
-			request.setAttribute ("default", newForm);
+			request.setAttribute("default", newForm);
 		}
 		catch (ClassNotFoundException e)
 		{
-			throw new ClientException (e);
+			throw new ClientException(e);
 		}
 		catch (IllegalAccessException e)
 		{
-			throw new ClientException (e);
+			throw new ClientException(e);
 		}
 		catch (InstantiationException e)
 		{
-			throw new ClientException (e);
+			throw new ClientException(e);
 		}
 	}
 
@@ -420,40 +420,40 @@ public class BeanAction extends Action
 	 * @param beanName
 	 * @return
 	 */
-	private MessageResources getMessageResources (UIController controller, HttpServletRequest request, String beanName)
+	private MessageResources getMessageResources(UIController controller, HttpServletRequest request, String beanName)
 	{
-		MessageResources appMessages = (MessageResources) request.getAttribute (Globals.MESSAGES_KEY);
+		MessageResources appMessages = (MessageResources) request.getAttribute(Globals.MESSAGES_KEY);
 
-		if (appMessages.getReturnNull ())
+		if (appMessages.getReturnNull())
 		{
-			appMessages.setReturnNull (false);
+			appMessages.setReturnNull(false);
 		}
 
-		String bundle = (String) controller.getBundle ();
+		String bundle = (String) controller.getBundle();
 
 		if (bundle == null)
 		{
-			if (beanName.indexOf (".") > 0)
+			if (beanName.indexOf(".") > 0)
 			{
-				String appName = beanName.substring (0, beanName.indexOf ("."));
-				MessageResources newMessages = (MessageResources) getServlet ().getServletContext ().getAttribute (
-								appName);
+				String appName = beanName.substring(0, beanName.indexOf("."));
+				MessageResources newMessages = (MessageResources) getServlet().getServletContext()
+								.getAttribute(appName);
 
 				if (newMessages != null)
 				{
 					appMessages = newMessages;
 
-					if (log.isDebugEnabled ())
+					if (log.isDebugEnabled())
 					{
-						log.debug ("Application-specific message bundle for controller '" + beanName
+						log.debug("Application-specific message bundle for controller '" + beanName
 										+ "' found under key '" + appName + "'");
 					}
 				}
 				else
 				{
-					if (log.isDebugEnabled ())
+					if (log.isDebugEnabled())
 					{
-						log.debug ("No application-specific message bundle for controller '" + beanName
+						log.debug("No application-specific message bundle for controller '" + beanName
 										+ "' found under key '" + appName + "'");
 					}
 				}
@@ -461,18 +461,16 @@ public class BeanAction extends Action
 		}
 		else
 		{
-			MessageResources newMessages = (MessageResources) getServlet ().getServletContext ().getAttribute (bundle);
+			MessageResources newMessages = (MessageResources) getServlet().getServletContext().getAttribute(bundle);
 
 			if (newMessages != null)
 			{
 				appMessages = newMessages;
-				log
-								.warn ("Controller specified message bundle '" + bundle
-												+ ", but no bundle was found under that key");
+				log.warn("Controller specified message bundle '" + bundle + ", but no bundle was found under that key");
 			}
 		}
 
-		appMessages.setReturnNull (false);
+		appMessages.setReturnNull(false);
 
 		return appMessages;
 	}
@@ -483,40 +481,40 @@ public class BeanAction extends Action
 	 * @param re
 	 * @param messages
 	 */
-	private void internationalize (ResponseElement re, MessageResources messages)
+	private void internationalize(ResponseElement re, MessageResources messages)
 	{
 		ResponseElement oneNested = null;
 
-		for (Iterator i = re.getAll ().iterator (); i.hasNext ();)
+		for (Iterator i = re.getAll().iterator(); i.hasNext();)
 		{
-			oneNested = (ResponseElement) i.next ();
-			internationalize (oneNested, messages);
+			oneNested = (ResponseElement) i.next();
+			internationalize(oneNested, messages);
 		}
 
 		String oneAttribKey = null;
 		Object oneAttrib = null;
-		Map attribs = re.getAttributes ();
+		Map attribs = re.getAttributes();
 
-		for (Iterator ia = attribs.keySet ().iterator (); ia.hasNext ();)
+		for (Iterator ia = attribs.keySet().iterator(); ia.hasNext();)
 		{
-			oneAttribKey = (String) ia.next ();
-			oneAttrib = attribs.get (oneAttribKey);
+			oneAttribKey = (String) ia.next();
+			oneAttrib = attribs.get(oneAttribKey);
 
 			if (oneAttrib instanceof String)
 			{
 				String s = (String) oneAttrib;
 
-				re.setAttribute (oneAttribKey, translateString (s, messages));
+				re.setAttribute(oneAttribKey, translateString(s, messages));
 			}
 			else if (oneAttrib instanceof Message)
 			{
 				Message m = (Message) oneAttrib;
 
-				re.setAttribute (oneAttribKey, translateMessage (m, messages));
+				re.setAttribute(oneAttribKey, translateMessage(m, messages));
 			}
 			else if (oneAttrib instanceof ResponseElement)
 			{
-				internationalize ((ResponseElement) oneAttrib, messages);
+				internationalize((ResponseElement) oneAttrib, messages);
 			}
 		}
 
@@ -524,54 +522,54 @@ public class BeanAction extends Action
 		{
 			Input i = (Input) re;
 
-			i.setLabel (translateString (i.getLabel (), messages));
+			i.setLabel(translateString(i.getLabel(), messages));
 
-			Map validValues = i.getValidValues ();
+			Map validValues = i.getValidValues();
 
 			if (validValues != null)
 			{
-				TreeMap newMap = new TreeMap ();
+				TreeMap newMap = new TreeMap();
 				String oneKey = null;
 				Object oneValue = null;
 
-				for (Iterator iv = validValues.keySet ().iterator (); iv.hasNext ();)
+				for (Iterator iv = validValues.keySet().iterator(); iv.hasNext();)
 				{
-					oneKey = iv.next ().toString ();
-					oneValue = validValues.get (oneKey);
+					oneKey = iv.next().toString();
+					oneValue = validValues.get(oneKey);
 
 					if (oneValue instanceof String)
 					{
-						newMap.put (oneKey, translateString (oneValue.toString (), messages));
+						newMap.put(oneKey, translateString(oneValue.toString(), messages));
 					}
 					else
 					{
-						newMap.put (oneKey, oneValue);
+						newMap.put(oneKey, oneValue);
 					}
 				}
 
-				i.setValidValues (newMap);
+				i.setValidValues(newMap);
 			}
 		}
 		else if (re instanceof Output)
 		{
 			Output o = (Output) re;
-			Object c = o.getContent ();
+			Object c = o.getContent();
 
 			if (c instanceof String)
 			{
-				o.setContent (translateString ((String) c, messages));
+				o.setContent(translateString((String) c, messages));
 			}
 
 			if (c instanceof Message)
 			{
-				o.setContent (translateMessage ((Message) c, messages));
+				o.setContent(translateMessage((Message) c, messages));
 			}
 		}
 		else if (re instanceof Command)
 		{
 			Command c = (Command) re;
 
-			c.setLabel (translateString (c.getLabel (), messages));
+			c.setLabel(translateString(c.getLabel(), messages));
 		}
 	}
 
@@ -582,28 +580,28 @@ public class BeanAction extends Action
 	 * @param messages
 	 * @return
 	 */
-	private String translateString (String orig, MessageResources messages)
+	private String translateString(String orig, MessageResources messages)
 	{
 		if (orig == null)
 		{
 			return null;
 		}
 
-		messages.setReturnNull (true);
+		messages.setReturnNull(true);
 
-		if (orig.startsWith ("$$"))
+		if (orig.startsWith("$$"))
 		{
-			return orig.substring (1);
+			return orig.substring(1);
 		}
 
-		if (orig.startsWith ("$"))
+		if (orig.startsWith("$"))
 		{
-			if (orig.indexOf ("|") > 0)
+			if (orig.indexOf("|") > 0)
 			{
-				String argString = orig.substring (orig.indexOf ("|") + 1);
-				Object[] args = tokenize (argString, messages);
-				String key = orig.substring (1, orig.indexOf ("|"));
-				String xlatedMsg = messages.getMessage (key, args);
+				String argString = orig.substring(orig.indexOf("|") + 1);
+				Object[] args = tokenize(argString, messages);
+				String key = orig.substring(1, orig.indexOf("|"));
+				String xlatedMsg = messages.getMessage(key, args);
 
 				if (xlatedMsg == null)
 				{
@@ -621,7 +619,7 @@ public class BeanAction extends Action
 				return xlatedMsg;
 			}
 
-			String xlated = messages.getMessage (orig.substring (1));
+			String xlated = messages.getMessage(orig.substring(1));
 
 			if (xlated == null)
 			{
@@ -647,31 +645,31 @@ public class BeanAction extends Action
 	 * @param messages
 	 * @return
 	 */
-	private Object[] tokenize (String orig, MessageResources messages)
+	private Object[] tokenize(String orig, MessageResources messages)
 	{
-		ArrayList params = new ArrayList ();
-		StringTokenizer stk = new StringTokenizer (orig, "|");
+		ArrayList params = new ArrayList();
+		StringTokenizer stk = new StringTokenizer(orig, "|");
 
-		while (stk.hasMoreTokens ())
+		while (stk.hasMoreTokens())
 		{
-			params.add (stk.nextToken ());
+			params.add(stk.nextToken());
 		}
 
-		Object[] args = new Object[params.size ()];
-		Iterator ai = params.iterator ();
+		Object[] args = new Object[params.size()];
+		Iterator ai = params.iterator();
 		Object oneParam = null;
 
-		for (int i = 0; i < params.size (); i++)
+		for (int i = 0; i < params.size(); i++)
 		{
-			oneParam = ai.next ();
+			oneParam = ai.next();
 
 			if ((oneParam != null) && (oneParam instanceof String))
 			{
-				args[i] = translateString (oneParam.toString (), messages);
+				args[i] = translateString(oneParam.toString(), messages);
 			}
 			else
 			{
-				args[i] = ai.next ();
+				args[i] = ai.next();
 			}
 		}
 
@@ -685,24 +683,24 @@ public class BeanAction extends Action
 	 * @param messages
 	 * @return
 	 */
-	private Message translateMessage (Message message, MessageResources messages)
+	private Message translateMessage(Message message, MessageResources messages)
 	{
 		MessageResources useMessages = messages;
 
-		if (message.getBundle () != null)
+		if (message.getBundle() != null)
 		{
-			useMessages = (MessageResources) getServlet ().getServletContext ().getAttribute (message.getBundle ());
+			useMessages = (MessageResources) getServlet().getServletContext().getAttribute(message.getBundle());
 
 			if (useMessages == null)
 			{
 				useMessages = messages;
 
-				log.warn ("Message '" + message.getKey () + "' specified message bundle '" + message.getBundle ()
+				log.warn("Message '" + message.getKey() + "' specified message bundle '" + message.getBundle()
 								+ ", but no bundle was found under that key");
 			}
 		}
 
-		Object[] values = message.getValues ();
+		Object[] values = message.getValues();
 
 		for (int i = 0; i < values.length; i++)
 		{
@@ -710,204 +708,204 @@ public class BeanAction extends Action
 			{
 				String oneString = (String) values[i];
 
-				values[i] = translateString (oneString, useMessages);
+				values[i] = translateString(oneString, useMessages);
 			}
 		}
 
-		message.setValues (values);
-		message.setResultString (useMessages.getMessage (message.getKey (), message.getValues ()));
+		message.setValues(values);
+		message.setResultString(useMessages.getMessage(message.getKey(), message.getValues()));
 
 		return message;
 	}
 
-	private void setRequestParameters (UIRequest uiRequest, HttpServletRequest request) throws ClientException
+	private void setRequestParameters(UIRequest uiRequest, HttpServletRequest request) throws ClientException
 	{
 		String oneParamName = null;
 
-		for (Enumeration e = request.getParameterNames (); e.hasMoreElements ();)
+		for (Enumeration e = request.getParameterNames(); e.hasMoreElements();)
 		{
-			oneParamName = (String) e.nextElement ();
+			oneParamName = (String) e.nextElement();
 
-			if (! oneParamName.equals (""))
+			if (! oneParamName.equals(""))
 			{
-				if (oneParamName.startsWith (COMMAND_PARAM))
+				if (oneParamName.startsWith(COMMAND_PARAM))
 				{
-					processCommandParam (uiRequest, request, oneParamName.substring (COMMAND_PARAM_LEN));
+					processCommandParam(uiRequest, request, oneParamName.substring(COMMAND_PARAM_LEN));
 				}
-				else if (oneParamName.equals (MODEL_PARAMS_PARAM))
+				else if (oneParamName.equals(MODEL_PARAMS_PARAM))
 				{
-					processCommandParam (uiRequest, request, request.getParameter (MODEL_PARAMS_PARAM));
+					processCommandParam(uiRequest, request, request.getParameter(MODEL_PARAMS_PARAM));
 				}
 
-				if ((! oneParamName.startsWith (COMMAND_PARAM)) && (! oneParamName.startsWith (PARAMETER_PARAM))
-								&& (! oneParamName.equals (MODEL_PARAMS_PARAM)))
+				if ((! oneParamName.startsWith(COMMAND_PARAM)) && (! oneParamName.startsWith(PARAMETER_PARAM))
+								&& (! oneParamName.equals(MODEL_PARAMS_PARAM)))
 				{
-					processNonCommandParam (uiRequest, request, oneParamName);
+					processNonCommandParam(uiRequest, request, oneParamName);
 				}
 			}
 		}
 	}
 
-	private void processNonCommandParam (UIRequest uiRequest, HttpServletRequest request, String oneParamName)
+	private void processNonCommandParam(UIRequest uiRequest, HttpServletRequest request, String oneParamName)
 	{
-		final String[] values = request.getParameterValues (oneParamName);
+		final String[] values = request.getParameterValues(oneParamName);
 
 		if (values.length <= 1)
 		{
-			uiRequest.setParameter (oneParamName, request.getParameter (oneParamName));
+			uiRequest.setParameter(oneParamName, request.getParameter(oneParamName));
 		}
 		else
 		{
-			uiRequest.setParameter (oneParamName, values);
+			uiRequest.setParameter(oneParamName, values);
 		}
 
-		if (log.isDebugEnabled ())
+		if (log.isDebugEnabled())
 		{
-			log.debug ("Regular form parameter '" + oneParamName + "', '" + request.getParameter (oneParamName) + "'");
+			log.debug("Regular form parameter '" + oneParamName + "', '" + request.getParameter(oneParamName) + "'");
 		}
 	}
 
-	private void processCommandParam (UIRequest uiRequest, HttpServletRequest request, String commandName)
+	private void processCommandParam(UIRequest uiRequest, HttpServletRequest request, String commandName)
 		throws ClientException
 	{
-		if (commandName == null || "".equals (commandName))
+		if (commandName == null || "".equals(commandName))
 		{
 			return;
 		}
 
-		if (log.isDebugEnabled ())
+		if (log.isDebugEnabled())
 		{
-			log.debug ("Command:'" + commandName + "'");
+			log.debug("Command:'" + commandName + "'");
 		}
 
-		String associatedParams = request.getParameter (PARAMETER_PARAM + commandName);
+		String associatedParams = request.getParameter(PARAMETER_PARAM + commandName);
 
 		if (associatedParams == null)
 		{
-			throw new ClientException ("Command '" + commandName + "' was found, but no parameters under name '"
+			throw new ClientException("Command '" + commandName + "' was found, but no parameters under name '"
 							+ PARAMETER_PARAM + commandName + "' was found");
 		}
 
-		StringTokenizer stk1 = new StringTokenizer (associatedParams, "&");
+		StringTokenizer stk1 = new StringTokenizer(associatedParams, "&");
 		String onePair = null;
 		String oneCommandParamName = null;
 		String oneCommandParamValue = null;
 
-		while (stk1.hasMoreTokens ())
+		while (stk1.hasMoreTokens())
 		{
-			onePair = stk1.nextToken ();
+			onePair = stk1.nextToken();
 
-			StringTokenizer stk2 = new StringTokenizer (onePair, "=");
+			StringTokenizer stk2 = new StringTokenizer(onePair, "=");
 
-			oneCommandParamName = stk2.nextToken ();
+			oneCommandParamName = stk2.nextToken();
 
-			if (! stk2.hasMoreTokens ())
+			if (! stk2.hasMoreTokens())
 			{
 				oneCommandParamValue = "";
 			}
 			else
 			{
-				oneCommandParamValue = stk2.nextToken ();
+				oneCommandParamValue = stk2.nextToken();
 			}
 
-			if (oneCommandParamName.equals (MODEL_PARAM))
+			if (oneCommandParamName.equals(MODEL_PARAM))
 			{
-				if (log.isDebugEnabled ())
+				if (log.isDebugEnabled())
 				{
-					log.debug ("Model from command:'" + oneCommandParamValue + "'");
+					log.debug("Model from command:'" + oneCommandParamValue + "'");
 				}
 
-				uiRequest.setParameter (KEEL_MODEL_PARAM, oneCommandParamValue);
+				uiRequest.setParameter(KEEL_MODEL_PARAM, oneCommandParamValue);
 			}
 			else
 			{
-				if (log.isDebugEnabled ())
+				if (log.isDebugEnabled())
 				{
-					log.debug ("Parameter '" + oneCommandParamName + "', '" + oneCommandParamValue + "'");
+					log.debug("Parameter '" + oneCommandParamName + "', '" + oneCommandParamValue + "'");
 				}
 
-				uiRequest.setParameter (oneCommandParamName, oneCommandParamValue);
+				uiRequest.setParameter(oneCommandParamName, oneCommandParamValue);
 			}
 		}
 	}
 
-	private void setRequestBean (BeanRequest uiRequest, HttpServletRequest request) throws ClientException
+	private void setRequestBean(BeanRequest uiRequest, HttpServletRequest request) throws ClientException
 	{
-		String beanName = (String) request.getParameter (BEAN_PARAM);
+		String beanName = (String) request.getParameter(BEAN_PARAM);
 
-		if (StringTools.isTrimEmpty (beanName))
+		if (StringTools.isTrimEmpty(beanName))
 		{
-			beanName = (String) uiRequest.getParameter (BEAN_PARAM);
+			beanName = (String) uiRequest.getParameter(BEAN_PARAM);
 
-			if (StringTools.isTrimEmpty (beanName))
+			if (StringTools.isTrimEmpty(beanName))
 			{
-				throw new ClientException ("No bean specified in request: '" + request.getRequestURL () + "?"
-								+ request.getQueryString () + "'");
+				throw new ClientException("No bean specified in request: '" + request.getRequestURL() + "?"
+								+ request.getQueryString() + "'");
 			}
 		}
 
-		uiRequest.setBean (beanName);
+		uiRequest.setBean(beanName);
 	}
 
-	protected void handleErrors (UIController controller, BeanResponse uiResponse, HttpServletRequest request,
+	protected void handleErrors(UIController controller, BeanResponse uiResponse, HttpServletRequest request,
 					HttpServletResponse response, String beanName)
 	{
-		MessageResources messages = getMessageResources (controller, request, beanName);
+		MessageResources messages = getMessageResources(controller, request, beanName);
 
-		Map errors = uiResponse.getErrors ();
-		StringBuffer fatalMessage = new StringBuffer ();
+		Map errors = uiResponse.getErrors();
+		StringBuffer fatalMessage = new StringBuffer();
 
-		if (errors.size () > 0)
+		if (errors.size() > 0)
 		{
 			String oneKey = null;
 			String oneErrorMessage = null;
 			String translatedMessage = null;
 
-			ActionErrors ae = new ActionErrors ();
+			ActionErrors ae = new ActionErrors();
 
-			for (Iterator ei = errors.keySet ().iterator (); ei.hasNext ();)
+			for (Iterator ei = errors.keySet().iterator(); ei.hasNext();)
 			{
-				oneKey = ei.next ().toString ();
+				oneKey = ei.next().toString();
 
-				Object o = errors.get (oneKey);
+				Object o = errors.get(oneKey);
 
 				if (o != null)
 				{
-					oneErrorMessage = o.toString ();
+					oneErrorMessage = o.toString();
 				}
 				else
 				{
 					oneErrorMessage = "No error message provided";
 				}
 
-				if (oneErrorMessage.startsWith ("\n"))
+				if (oneErrorMessage.startsWith("\n"))
 				{
-					oneErrorMessage = oneErrorMessage.substring (1);
+					oneErrorMessage = oneErrorMessage.substring(1);
 				}
 
-				translatedMessage = translateString (oneErrorMessage, messages);
+				translatedMessage = translateString(oneErrorMessage, messages);
 
-				fatalMessage.append (translatedMessage + "\n");
+				fatalMessage.append(translatedMessage + "\n");
 
-				String t = uiResponse.getStackTrace (oneKey);
+				String t = uiResponse.getStackTrace(oneKey);
 
 				if (t != null)
 				{
-					log.debug ("Exception for error '" + oneKey + "' (" + translatedMessage + ")\n" + t);
-					fatalMessage.append (t + "\n");
+					log.debug("Exception for error '" + oneKey + "' (" + translatedMessage + ")\n" + t);
+					fatalMessage.append(t + "\n");
 				}
 
-				String errorType = uiResponse.getErrorType (oneKey);
+				String errorType = uiResponse.getErrorType(oneKey);
 
 				if (errorType != null)
 				{
-					if (errorType.equals ("java.lang.SecurityException"))
+					if (errorType.equals("java.lang.SecurityException"))
 					{
-						throw new SecurityException (translatedMessage);
+						throw new SecurityException(translatedMessage);
 					}
-					else if (errorType.equals ("de.iritgo.aktera.permissions.PermissionException"))
+					else if (errorType.equals("de.iritgo.aktera.permissions.PermissionException"))
 					{
-						throw new PermissionException (translatedMessage);
+						throw new PermissionException(translatedMessage);
 					}
 				}
 
@@ -920,65 +918,65 @@ public class BeanAction extends Action
 				 * application-specific message bundle. E.g. for poll, you
 				 * probably want <html:errors bundle="poll"/>
 				 */
-				if (oneErrorMessage.startsWith ("$") && (! oneErrorMessage.startsWith ("$$")))
+				if (oneErrorMessage.startsWith("$") && (! oneErrorMessage.startsWith("$$")))
 				{
-					oneErrorMessage = oneErrorMessage.substring (1);
+					oneErrorMessage = oneErrorMessage.substring(1);
 				}
 				else
 				{
-					if (log.isDebugEnabled ())
+					if (log.isDebugEnabled())
 					{
-						log.debug ("WARNING: Non-internationalized message '" + oneErrorMessage
+						log.debug("WARNING: Non-internationalized message '" + oneErrorMessage
 										+ "' added to ActionErrors. <html:errors/> may not work correctly");
 					}
 				}
 
 				ActionMessage oneError = null;
-				int pipePosition = oneErrorMessage.indexOf ("|");
+				int pipePosition = oneErrorMessage.indexOf("|");
 
 				if (pipePosition >= 0)
 				{
-					oneError = new ActionMessage (oneErrorMessage.substring (0, pipePosition),
-									makeArgArray (oneErrorMessage));
+					oneError = new ActionMessage(oneErrorMessage.substring(0, pipePosition),
+									makeArgArray(oneErrorMessage));
 				}
 				else
 				{
-					oneError = new ActionMessage (oneErrorMessage);
+					oneError = new ActionMessage(oneErrorMessage);
 				}
 
-				ae.add (oneKey, oneError);
+				ae.add(oneKey, oneError);
 			}
 
-			request.setAttribute (Globals.ERROR_KEY, ae);
+			request.setAttribute(Globals.ERROR_KEY, ae);
 		}
 	}
 
-	private Object[] makeArgArray (String msg)
+	private Object[] makeArgArray(String msg)
 	{
-		ArrayList args = new ArrayList (3);
+		ArrayList args = new ArrayList(3);
 
-		int pipeStart = msg.indexOf ("|");
+		int pipeStart = msg.indexOf("|");
 		int pipeEnd = - 1;
 
 		while (pipeStart >= 0)
 		{
 			String oneArg = null;
 
-			pipeEnd = msg.indexOf ("|", pipeStart + 1);
+			pipeEnd = msg.indexOf("|", pipeStart + 1);
 
 			if (pipeEnd >= 0)
 			{
-				oneArg = msg.substring (pipeStart + 1, pipeEnd);
+				oneArg = msg.substring(pipeStart + 1, pipeEnd);
 			}
 			else
 			{
-				oneArg = msg.substring (pipeStart + 1);
+				oneArg = msg.substring(pipeStart + 1);
 			}
 
-			args.add (oneArg);
+			args.add(oneArg);
 			pipeStart = pipeEnd;
 		}
 
-		return args.toArray ();
+		return args.toArray();
 	}
 }

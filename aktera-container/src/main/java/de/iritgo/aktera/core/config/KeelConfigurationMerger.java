@@ -35,7 +35,7 @@ import java.util.Set;
 public class KeelConfigurationMerger
 {
 	//--- Do not allow this to be instantiated since it is a Singleton.
-	private KeelConfigurationMerger ()
+	private KeelConfigurationMerger()
 	{
 	} // KeelConfigurationMerger
 
@@ -49,82 +49,81 @@ public class KeelConfigurationMerger
 	 *
 	 * @exception ConfigurationException if unable to merge
 	 */
-	public static Configuration merge (final Configuration layer, final Configuration base)
+	public static Configuration merge(final Configuration layer, final Configuration base)
 		throws ConfigurationException
 	{
-		final DefaultConfiguration merged = new DefaultConfiguration (base.getName (), "Merged [layer: "
-						+ layer.getLocation () + ", base: " + base.getLocation () + "]");
+		final DefaultConfiguration merged = new DefaultConfiguration(base.getName(), "Merged [layer: "
+						+ layer.getLocation() + ", base: " + base.getLocation() + "]");
 
-		copyAttributes (base, merged);
-		copyAttributes (layer, merged);
+		copyAttributes(base, merged);
+		copyAttributes(layer, merged);
 
-		mergeChildren (layer, base, merged);
+		mergeChildren(layer, base, merged);
 
-		merged.setValue (getValue (layer, base));
-		merged.makeReadOnly ();
+		merged.setValue(getValue(layer, base));
+		merged.makeReadOnly();
 
 		return merged;
 	}
 
-	private static void mergeChildren (final Configuration layer, final Configuration base,
+	private static void mergeChildren(final Configuration layer, final Configuration base,
 					final DefaultConfiguration merged) throws ConfigurationException
 	{
-		final Configuration[] lc = layer.getChildren ();
-		final Configuration[] bc = base.getChildren ();
-		final Set baseUsed = new HashSet ();
+		final Configuration[] lc = layer.getChildren();
+		final Configuration[] bc = base.getChildren();
+		final Set baseUsed = new HashSet();
 
 		for (int i = 0; i < lc.length; i++)
 		{
-			final Configuration mergeWith = getMergePartner (lc[i], layer, base);
+			final Configuration mergeWith = getMergePartner(lc[i], layer, base);
 
 			if (null == mergeWith)
 			{
-				merged.addChild (lc[i]);
+				merged.addChild(lc[i]);
 			}
 			else
 			{
-				merged.addChild (merge (lc[i], mergeWith));
+				merged.addChild(merge(lc[i], mergeWith));
 
-				baseUsed.add (mergeWith);
+				baseUsed.add(mergeWith);
 			}
 		}
 
 		for (int i = 0; i < bc.length; i++)
 		{
-			if (! baseUsed.contains (bc[i]))
+			if (! baseUsed.contains(bc[i]))
 			{
-				merged.addChild (bc[i]);
+				merged.addChild(bc[i]);
 			}
 		}
 	}
 
-	private static Configuration getMergePartner (final Configuration toMerge, final Configuration layer,
+	private static Configuration getMergePartner(final Configuration toMerge, final Configuration layer,
 					final Configuration base) throws ConfigurationException
 	{
 		if (true)
 		{
-			String keyAttribute = toMerge.getAttribute ("merge-key", "id");
+			String keyAttribute = toMerge.getAttribute("merge-key", "id");
 
-			if (toMerge.getName ().equals ("role"))
+			if (toMerge.getName().equals("role"))
 			{
 				keyAttribute = "name";
 			}
-			else if (toMerge.getName ().equals ("component"))
+			else if (toMerge.getName().equals("component"))
 			{
 				keyAttribute = "shorthand";
 			}
 
-			final String keyvalue = toMerge.getAttribute (keyAttribute, null);
+			final String keyvalue = toMerge.getAttribute(keyAttribute, null);
 
 			if (keyvalue == null)
 			{
 				return null;
 			}
 
-			final Configuration[] layerKids = ConfigurationUtil.match (layer, toMerge.getName (), keyAttribute,
-							keyvalue);
+			final Configuration[] layerKids = ConfigurationUtil.match(layer, toMerge.getName(), keyAttribute, keyvalue);
 
-			final Configuration[] baseKids = ConfigurationUtil.match (base, toMerge.getName (), keyAttribute, keyvalue);
+			final Configuration[] baseKids = ConfigurationUtil.match(base, toMerge.getName(), keyAttribute, keyvalue);
 
 			if (baseKids.length == 0)
 			{
@@ -137,41 +136,41 @@ public class KeelConfigurationMerger
 			}
 			else
 			{
-				throw new ConfigurationException ("Attempting to merge '" + toMerge.getName () + "', layer '"
-								+ layer.getName () + "' with id '" + layer.getAttribute ("id", "null")
-								+ "', there were " + baseKids.length + " base items to merge with, and "
-								+ layerKids.length + " layer items to merge them with. Cannot merge");
+				throw new ConfigurationException("Attempting to merge '" + toMerge.getName() + "', layer '"
+								+ layer.getName() + "' with id '" + layer.getAttribute("id", "null") + "', there were "
+								+ baseKids.length + " base items to merge with, and " + layerKids.length
+								+ " layer items to merge them with. Cannot merge");
 			}
 		}
 
 		return null;
 	}
 
-	private static String getValue (final Configuration layer, final Configuration base)
+	private static String getValue(final Configuration layer, final Configuration base)
 	{
 		String returnValue = null;
 
 		try
 		{
-			returnValue = layer.getValue ();
+			returnValue = layer.getValue();
 		}
 		catch (ConfigurationException e)
 		{
-			returnValue = base.getValue (null);
+			returnValue = base.getValue(null);
 		}
 
 		return returnValue;
 	}
 
-	private static void copyAttributes (final Configuration source, final DefaultConfiguration dest)
+	private static void copyAttributes(final Configuration source, final DefaultConfiguration dest)
 		throws ConfigurationException
 	{
-		final String[] names = source.getAttributeNames ();
+		final String[] names = source.getAttributeNames();
 
 		for (int i = 0; i < names.length; i++)
 		{
 			//if (!names[i].startsWith(Constants.MERGE_METADATA_PREFIX)) {
-			dest.setAttribute (names[i], source.getAttribute (names[i]));
+			dest.setAttribute(names[i], source.getAttribute(names[i]));
 
 			//}
 		}

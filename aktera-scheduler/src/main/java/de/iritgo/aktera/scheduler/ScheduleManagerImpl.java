@@ -68,15 +68,15 @@ public class ScheduleManagerImpl implements ScheduleManager, StartupHandler
 	private Configuration configuration;
 
 	/** Action handler bean names */
-	private Map<String, String> actionHandlers = new HashMap<String, String> ();
+	private Map<String, String> actionHandlers = new HashMap<String, String>();
 
 	/** Action cache (List of actions by schedule id) */
-	private Map<Integer, List<ScheduleAction>> scheduleActions = new HashMap<Integer, List<ScheduleAction>> ();
+	private Map<Integer, List<ScheduleAction>> scheduleActions = new HashMap<Integer, List<ScheduleAction>>();
 
 	/**
 	 * Set the scheduler.
 	 */
-	public void setScheduler (Scheduler scheduler)
+	public void setScheduler(Scheduler scheduler)
 	{
 		this.scheduler = scheduler;
 	}
@@ -84,7 +84,7 @@ public class ScheduleManagerImpl implements ScheduleManager, StartupHandler
 	/**
 	 * Set the schedule DAO.
 	 */
-	public void setScheduleDAO (ScheduleDAO scheduleDAO)
+	public void setScheduleDAO(ScheduleDAO scheduleDAO)
 	{
 		this.scheduleDAO = scheduleDAO;
 	}
@@ -92,7 +92,7 @@ public class ScheduleManagerImpl implements ScheduleManager, StartupHandler
 	/**
 	 * Set the holiday DAO.
 	 */
-	public void setHolidayDAO (HolidayDAO holidayDAO)
+	public void setHolidayDAO(HolidayDAO holidayDAO)
 	{
 		this.holidayDAO = holidayDAO;
 	}
@@ -100,7 +100,7 @@ public class ScheduleManagerImpl implements ScheduleManager, StartupHandler
 	/**
 	 * Set the logger.
 	 */
-	public void setLogger (Logger logger)
+	public void setLogger(Logger logger)
 	{
 		this.logger = logger;
 	}
@@ -108,7 +108,7 @@ public class ScheduleManagerImpl implements ScheduleManager, StartupHandler
 	/**
 	 * Set the Action form part configuration.
 	 */
-	public void setConfiguration (Configuration configuration)
+	public void setConfiguration(Configuration configuration)
 	{
 		this.configuration = configuration;
 	}
@@ -116,11 +116,11 @@ public class ScheduleManagerImpl implements ScheduleManager, StartupHandler
 	/**
 	 * Manager initialization.
 	 */
-	public void initialize ()
+	public void initialize()
 	{
-		logger.info ("Creating schedule action handlers");
+		logger.info("Creating schedule action handlers");
 
-		Configuration[] configs = configuration.getChildren ("handler");
+		Configuration[] configs = configuration.getChildren("handler");
 
 		for (int i = 0; i < configs.length; ++i)
 		{
@@ -128,13 +128,13 @@ public class ScheduleManagerImpl implements ScheduleManager, StartupHandler
 
 			try
 			{
-				String id = config.getAttribute ("id");
+				String id = config.getAttribute("id");
 
-				actionHandlers.put (id, config.getAttribute ("bean"));
+				actionHandlers.put(id, config.getAttribute("bean"));
 			}
 			catch (Exception x)
 			{
-				logger.error ("Unable to create action handler '" + config.getAttribute ("id", "?") + "'", x);
+				logger.error("Unable to create action handler '" + config.getAttribute("id", "?") + "'", x);
 			}
 		}
 	}
@@ -142,157 +142,156 @@ public class ScheduleManagerImpl implements ScheduleManager, StartupHandler
 	/**
 	 * @see de.iritgo.aktera.startup.StartupHandler#startup()
 	 */
-	public void startup () throws StartupException
+	public void startup() throws StartupException
 	{
-		restart ();
+		restart();
 	}
 
 	/**
 	 * @see de.iritgo.aktera.scheduler.ScheduleManager#restart()
 	 */
-	public synchronized void restart ()
+	public synchronized void restart()
 	{
-		removeJobs ();
-		createJobs ();
+		removeJobs();
+		createJobs();
 	}
 
 	/**
 	 * Remove all currently running jobs.
 	 */
-	private synchronized void removeJobs ()
+	private synchronized void removeJobs()
 	{
-		logger.info ("Removing all currently running jobs");
-		scheduler.removeAllJobsInGroup (JOB_GROUP);
-		scheduleActions.clear ();
+		logger.info("Removing all currently running jobs");
+		scheduler.removeAllJobsInGroup(JOB_GROUP);
+		scheduleActions.clear();
 	}
 
 	/**
 	 * Create all scheduled jobs.
 	 */
-	private synchronized void createJobs ()
+	private synchronized void createJobs()
 	{
-		logger.info ("Scheduling jobs");
+		logger.info("Scheduling jobs");
 
-		Collection<Schedule> schedules = scheduleDAO.findAllSchedules ();
+		Collection<Schedule> schedules = scheduleDAO.findAllSchedules();
 		String errorSchedule = "";
 
 		try
 		{
 			for (Schedule schedule : schedules)
 			{
-				errorSchedule = schedule.getName ();
+				errorSchedule = schedule.getName();
 
-				if (! schedule.getAllSeconds () && StringTools.isTrimEmpty (schedule.getSeconds ()))
+				if (! schedule.getAllSeconds() && StringTools.isTrimEmpty(schedule.getSeconds()))
 				{
 					continue;
 				}
 
-				if (! schedule.getAllMinutes () && StringTools.isTrimEmpty (schedule.getMinutes ()))
+				if (! schedule.getAllMinutes() && StringTools.isTrimEmpty(schedule.getMinutes()))
 				{
 					continue;
 				}
 
-				if (! schedule.getAllHours () && StringTools.isTrimEmpty (schedule.getHours ()))
+				if (! schedule.getAllHours() && StringTools.isTrimEmpty(schedule.getHours()))
 				{
 					continue;
 				}
 
-				if (! schedule.getAllDays () && StringTools.isTrimEmpty (schedule.getDays ())
-								&& ! schedule.getAllDaysOfWeek ()
-								&& StringTools.isTrimEmpty (schedule.getDaysOfWeek ())
-								&& StringTools.isTrimEmpty (schedule.getHolidaysCountry ()))
+				if (! schedule.getAllDays() && StringTools.isTrimEmpty(schedule.getDays())
+								&& ! schedule.getAllDaysOfWeek() && StringTools.isTrimEmpty(schedule.getDaysOfWeek())
+								&& StringTools.isTrimEmpty(schedule.getHolidaysCountry()))
 				{
 					continue;
 				}
 
-				Properties params = new Properties ();
+				Properties params = new Properties();
 
-				params.put ("scheduleId", schedule.getId ());
+				params.put("scheduleId", schedule.getId());
 
-				ScheduleOn times = new ScheduleOn ();
+				ScheduleOn times = new ScheduleOn();
 
-				times.setSeconds (schedule.getAllSeconds () ? "*" : schedule.getSeconds ());
-				times.setMinutes (schedule.getAllMinutes () ? "*" : schedule.getMinutes ());
-				times.setHours (schedule.getAllHours () ? "*" : schedule.getHours ());
+				times.setSeconds(schedule.getAllSeconds() ? "*" : schedule.getSeconds());
+				times.setMinutes(schedule.getAllMinutes() ? "*" : schedule.getMinutes());
+				times.setHours(schedule.getAllHours() ? "*" : schedule.getHours());
 
-				times.setMonths (schedule.getAllMonths () ? "*" : schedule.getMonths ());
+				times.setMonths(schedule.getAllMonths() ? "*" : schedule.getMonths());
 
-				if (schedule.getAllDays () || ! StringTools.isTrimEmpty (schedule.getDays ()))
+				if (schedule.getAllDays() || ! StringTools.isTrimEmpty(schedule.getDays()))
 				{
-					times.setDaysOfMonth (schedule.getAllDays () ? "*" : schedule.getDays ());
+					times.setDaysOfMonth(schedule.getAllDays() ? "*" : schedule.getDays());
 				}
-				else if (schedule.getAllDaysOfWeek () || ! StringTools.isTrimEmpty (schedule.getDaysOfWeek ()))
+				else if (schedule.getAllDaysOfWeek() || ! StringTools.isTrimEmpty(schedule.getDaysOfWeek()))
 				{
-					times.setDaysOfWeek (schedule.getAllDaysOfWeek () ? "*" : schedule.getDaysOfWeek ());
+					times.setDaysOfWeek(schedule.getAllDaysOfWeek() ? "*" : schedule.getDaysOfWeek());
 				}
 
-				if (schedule.getHolidaysAllowance () != null && schedule.getHolidaysAllowance () != 0
-								&& ! StringTools.isTrimEmpty (schedule.getHolidaysCountry ()))
+				if (schedule.getHolidaysAllowance() != null && schedule.getHolidaysAllowance() != 0
+								&& ! StringTools.isTrimEmpty(schedule.getHolidaysCountry()))
 				{
-					if (schedule.getHolidaysAllowance () == SCHEDULE_ONLY_ON_HOLIDAYS)
+					if (schedule.getHolidaysAllowance() == SCHEDULE_ONLY_ON_HOLIDAYS)
 					{
-						times.setDaysOfMonth ("*");
+						times.setDaysOfMonth("*");
 					}
 
-					params.put ("holidaysAllowance", schedule.getHolidaysAllowance ());
-					params.put ("holidaysCountry", schedule.getHolidaysCountry ());
+					params.put("holidaysAllowance", schedule.getHolidaysAllowance());
+					params.put("holidaysCountry", schedule.getHolidaysCountry());
 
-					if (! StringTools.isTrimEmpty (schedule.getHolidaysProvince ()))
+					if (! StringTools.isTrimEmpty(schedule.getHolidaysProvince()))
 					{
-						params.put ("holidaysProvince", schedule.getHolidaysProvince ());
+						params.put("holidaysProvince", schedule.getHolidaysProvince());
 					}
 				}
 
-				scheduler.scheduleBean ("Job-" + schedule.getId () + ": " + schedule.getName (), JOB_GROUP,
+				scheduler.scheduleBean("Job-" + schedule.getId() + ": " + schedule.getName(), JOB_GROUP,
 								"de.iritgo.aktera.scheduler.ScheduleActionJob", params, times);
 
-				logger.debug ("Job '" + schedule.getName () + "' created");
+				logger.debug("Job '" + schedule.getName() + "' created");
 			}
 		}
 		catch (Exception x)
 		{
-			logger.error ("Can't set scheduler for service: " + errorSchedule);
+			logger.error("Can't set scheduler for service: " + errorSchedule);
 		}
 	}
 
 	/**
 	 * @see de.iritgo.aktera.scheduler.ScheduleManager#executeSchedule(java.lang.Integer)
 	 */
-	public void executeSchedule (Integer scheduleId)
+	public void executeSchedule(Integer scheduleId)
 	{
-		List<ScheduleAction> actions = getScheduleActions (scheduleId);
+		List<ScheduleAction> actions = getScheduleActions(scheduleId);
 
 		for (ScheduleAction action : actions)
 		{
-			executeAction (action);
+			executeAction(action);
 		}
 	}
 
 	/**
 	 * @see de.iritgo.aktera.scheduler.ScheduleManager#executeAction(de.iritgo.aktera.scheduler.entity.ScheduleAction)
 	 */
-	public void executeAction (ScheduleAction action)
+	public void executeAction(ScheduleAction action)
 	{
-		ScheduleActionHandler handler = (ScheduleActionHandler) KeelContainer.defaultContainer ().getSpringBean (
-						actionHandlers.get (action.getType ()));
+		ScheduleActionHandler handler = (ScheduleActionHandler) KeelContainer.defaultContainer().getSpringBean(
+						actionHandlers.get(action.getType()));
 
-		handler.execute (action);
+		handler.execute(action);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.scheduler.ScheduleManager#getScheduleActions(java.lang.Integer)
 	 */
-	public synchronized List<ScheduleAction> getScheduleActions (Integer scheduleId)
+	public synchronized List<ScheduleAction> getScheduleActions(Integer scheduleId)
 	{
-		List<ScheduleAction> actions = scheduleActions.get (scheduleId);
+		List<ScheduleAction> actions = scheduleActions.get(scheduleId);
 
 		if (actions != null)
 		{
 			return actions;
 		}
 
-		actions = scheduleDAO.findScheduleActionsByScheduleId (scheduleId);
-		scheduleActions.put (scheduleId, actions);
+		actions = scheduleDAO.findScheduleActionsByScheduleId(scheduleId);
+		scheduleActions.put(scheduleId, actions);
 
 		return actions;
 	}
@@ -301,19 +300,19 @@ public class ScheduleManagerImpl implements ScheduleManager, StartupHandler
 	 * @see de.iritgo.aktera.scheduler.ScheduleManager#dateIsHoliday(java.util.Date,
 	 *      java.lang.String, java.lang.String)
 	 */
-	public boolean dateIsHoliday (Date date, String country, String province)
+	public boolean dateIsHoliday(Date date, String country, String province)
 	{
-		return holidayDAO.dateIsHoliday (date, country, province);
+		return holidayDAO.dateIsHoliday(date, country, province);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.startup.StartupHandler#shutdown()
 	 */
-	public void shutdown () throws ShutdownException
+	public void shutdown() throws ShutdownException
 	{
 		try
 		{
-			scheduler.dispose ();
+			scheduler.dispose();
 		}
 		catch (SchedulerException ignored)
 		{

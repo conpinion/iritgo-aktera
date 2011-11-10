@@ -24,19 +24,19 @@ public class Principal
 {
 	private String user;
 
-	public Principal (String user)
+	public Principal(String user)
 	{
 		this.user = user;
 	}
 
 	@Override
-	public boolean equals (Object another)
+	public boolean equals(Object another)
 	{
 		if (another instanceof Principal)
 		{
 			Principal p = (Principal) another;
 
-			return user.equals (p.toString ());
+			return user.equals(p.toString());
 		}
 		else
 		{
@@ -45,18 +45,18 @@ public class Principal
 	}
 
 	@Override
-	public String toString ()
+	public String toString()
 	{
 		return user;
 	}
 
 	@Override
-	public int hashCode ()
+	public int hashCode()
 	{
-		return user.hashCode ();
+		return user.hashCode();
 	}
 
-	public String getName ()
+	public String getName()
 	{
 		return user;
 	}

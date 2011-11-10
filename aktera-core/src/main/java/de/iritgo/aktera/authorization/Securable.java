@@ -36,7 +36,7 @@ public interface Securable
 	 * Securable service will have the same authorizations - if you need per-
 	 * instance authorization, see InstanceSecurable.
 	 */
-	public void setAuthorizationManager (AuthorizationManager am) throws ServiceException;
+	public void setAuthorizationManager(AuthorizationManager am) throws ServiceException;
 
-	public AuthorizationManager getAuthorizationManager ();
+	public AuthorizationManager getAuthorizationManager();
 }

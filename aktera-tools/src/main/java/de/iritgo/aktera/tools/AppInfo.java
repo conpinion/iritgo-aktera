@@ -70,7 +70,7 @@ public class AppInfo extends StandardLogEnabledModel implements StartupHandler
 
 		private String fileName;
 
-		public Info (String id, String productId, String name, String nameLong, String version, String versionLong,
+		public Info(String id, String productId, String name, String nameLong, String version, String versionLong,
 						String description, String copyright, String vendor, String fileName)
 		{
 			this.id = id;
@@ -85,52 +85,52 @@ public class AppInfo extends StandardLogEnabledModel implements StartupHandler
 			this.fileName = fileName;
 		}
 
-		public String getId ()
+		public String getId()
 		{
 			return id;
 		}
 
-		public String getProductId ()
+		public String getProductId()
 		{
 			return productId;
 		}
 
-		public String getName ()
+		public String getName()
 		{
 			return name;
 		}
 
-		public String getNameLong ()
+		public String getNameLong()
 		{
 			return nameLong;
 		}
 
-		public String getVersion ()
+		public String getVersion()
 		{
 			return version;
 		}
 
-		public String getVersionLong ()
+		public String getVersionLong()
 		{
 			return versionLong;
 		}
 
-		public String getDescription ()
+		public String getDescription()
 		{
 			return description;
 		}
 
-		public String getCopyright ()
+		public String getCopyright()
 		{
 			return copyright;
 		}
 
-		public String getVendor ()
+		public String getVendor()
 		{
 			return vendor;
 		}
 
-		public String getFileName ()
+		public String getFileName()
 		{
 			return fileName;
 		}
@@ -140,12 +140,12 @@ public class AppInfo extends StandardLogEnabledModel implements StartupHandler
 	public static final String SYSTEM = "system";
 
 	/** Applications by id. */
-	protected static Map appById = new TreeMap ();
+	protected static Map appById = new TreeMap();
 
 	/** Application configuration */
 	private Configuration configuration;
 
-	public void setConfiguration (Configuration configuration)
+	public void setConfiguration(Configuration configuration)
 	{
 		this.configuration = configuration;
 	}
@@ -156,22 +156,22 @@ public class AppInfo extends StandardLogEnabledModel implements StartupHandler
 	 * @param id The application info to retrieve.
 	 * @return The application info.
 	 */
-	public static Info getAppInfo (String id)
+	public static Info getAppInfo(String id)
 	{
-		Info info = (Info) appById.get (id);
+		Info info = (Info) appById.get(id);
 
 		if (info == null)
 		{
-			return new Info ("unknown", "unknown", "unknown", "unknown", "0", "0", "unknown", "unknown", "unknown",
+			return new Info("unknown", "unknown", "unknown", "unknown", "0", "0", "unknown", "unknown", "unknown",
 							"unknown");
 		}
 
 		return info;
 	}
 
-	public void startup () throws StartupException
+	public void startup() throws StartupException
 	{
-		Configuration[] configs = configuration.getChildren ("app");
+		Configuration[] configs = configuration.getChildren("app");
 
 		for (int i = 0; i < configs.length; ++i)
 		{
@@ -179,17 +179,17 @@ public class AppInfo extends StandardLogEnabledModel implements StartupHandler
 
 			try
 			{
-				appById.put (config.getAttribute ("id"), new Info (config.getAttribute ("id"), config.getChild (
-								"productId").getValue (""), config.getChild ("name").getValue (), config.getChild (
-								"nameLong").getValue (config.getChild ("name").getValue ()), config
-								.getChild ("version").getValue (), config.getChild ("versionLong").getValue (""),
-								config.getChild ("description").getValue (""), config.getChild ("copyright").getValue (
-												""), config.getChild ("vendor").getValue (""), config.getChild (
-												"fileName").getValue ("")));
+				appById.put(config.getAttribute("id"), new Info(config.getAttribute("id"), config.getChild("productId")
+								.getValue(""), config.getChild("name").getValue(), config.getChild("nameLong")
+								.getValue(config.getChild("name").getValue()), config.getChild("version").getValue(),
+								config.getChild("versionLong").getValue(""), config.getChild("description")
+												.getValue(""), config.getChild("copyright").getValue(""), config
+												.getChild("vendor").getValue(""), config.getChild("fileName").getValue(
+												"")));
 			}
 			catch (Exception x)
 			{
-				System.out.println ("[AppInfo] " + x);
+				System.out.println("[AppInfo] " + x);
 			}
 		}
 	}
@@ -197,32 +197,32 @@ public class AppInfo extends StandardLogEnabledModel implements StartupHandler
 	/**
 	 * @see de.iritgo.aktera.model.Model#execute(de.iritgo.aktera.model.ModelRequest)
 	 */
-	public ModelResponse execute (ModelRequest request) throws ModelException
+	public ModelResponse execute(ModelRequest request) throws ModelException
 	{
-		ModelResponse res = request.createResponse ();
+		ModelResponse res = request.createResponse();
 
-		Output outAppList = res.createOutput ("apps");
+		Output outAppList = res.createOutput("apps");
 
-		res.add (outAppList);
+		res.add(outAppList);
 
-		for (Iterator<Info> i = appById.values ().iterator (); i.hasNext ();)
+		for (Iterator<Info> i = appById.values().iterator(); i.hasNext();)
 		{
-			Info appInfo = i.next ();
+			Info appInfo = i.next();
 
-			if (SYSTEM.equals (appInfo.getId ()))
+			if (SYSTEM.equals(appInfo.getId()))
 			{
 				continue;
 			}
 
-			if (LicenseTools.getLicenseInfo ().appAllowed (appInfo.getId ()))
+			if (LicenseTools.getLicenseInfo().appAllowed(appInfo.getId()))
 			{
-				Output outApp = res.createOutput ("app_" + appInfo.getId ());
+				Output outApp = res.createOutput("app_" + appInfo.getId());
 
-				outAppList.add (outApp);
-				outApp.setAttribute ("name", appInfo.getNameLong ());
-				outApp.setAttribute ("version", appInfo.getVersion ());
-				outApp.setAttribute ("description", appInfo.getDescription ());
-				outApp.setAttribute ("copyright", appInfo.getCopyright ().replaceAll ("\\\\n", "<br />"));
+				outAppList.add(outApp);
+				outApp.setAttribute("name", appInfo.getNameLong());
+				outApp.setAttribute("version", appInfo.getVersion());
+				outApp.setAttribute("description", appInfo.getDescription());
+				outApp.setAttribute("copyright", appInfo.getCopyright().replaceAll("\\\\n", "<br />"));
 			}
 		}
 
@@ -232,7 +232,7 @@ public class AppInfo extends StandardLogEnabledModel implements StartupHandler
 	/**
 	 * @see de.iritgo.aktera.startup.StartupHandler#shutdown()
 	 */
-	public void shutdown () throws ShutdownException
+	public void shutdown() throws ShutdownException
 	{
 	}
 }

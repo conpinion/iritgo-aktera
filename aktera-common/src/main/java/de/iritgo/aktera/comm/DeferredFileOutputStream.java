@@ -96,10 +96,10 @@ public class DeferredFileOutputStream extends OutputStream implements Serializab
 	 *
 	 * @param threshold The number of bytes at which to trigger an event.
 	 */
-	public DeferredFileOutputStream (int threshold)
+	public DeferredFileOutputStream(int threshold)
 	{
 		this.threshold = threshold;
-		memoryOutputStream = new ByteArrayOutputStream (threshold);
+		memoryOutputStream = new ByteArrayOutputStream(threshold);
 		currentOutputStream = memoryOutputStream;
 	}
 
@@ -110,9 +110,9 @@ public class DeferredFileOutputStream extends OutputStream implements Serializab
 	 * @param threshold  The number of bytes at which to trigger an event.
 	 * @param outputFile The file to which data is saved beyond the threshold.
 	 */
-	public DeferredFileOutputStream (int threshold, File outputFile)
+	public DeferredFileOutputStream(int threshold, File outputFile)
 	{
-		this (threshold);
+		this(threshold);
 		this.outputFile = outputFile;
 	}
 
@@ -125,10 +125,10 @@ public class DeferredFileOutputStream extends OutputStream implements Serializab
 	 *
 	 * @exception IOException if an error occurs.
 	 */
-	public void write (int b) throws IOException
+	public void write(int b) throws IOException
 	{
-		checkThreshold (1);
-		getStream ().write (b);
+		checkThreshold(1);
+		getStream().write(b);
 		written++;
 	}
 
@@ -140,10 +140,10 @@ public class DeferredFileOutputStream extends OutputStream implements Serializab
 	 *
 	 * @exception IOException if an error occurs.
 	 */
-	public void write (byte[] b) throws IOException
+	public void write(byte[] b) throws IOException
 	{
-		checkThreshold (b.length);
-		getStream ().write (b);
+		checkThreshold(b.length);
+		getStream().write(b);
 		written += b.length;
 	}
 
@@ -157,10 +157,10 @@ public class DeferredFileOutputStream extends OutputStream implements Serializab
 	 *
 	 * @exception IOException if an error occurs.
 	 */
-	public void write (byte[] b, int off, int len) throws IOException
+	public void write(byte[] b, int off, int len) throws IOException
 	{
-		checkThreshold (len);
-		getStream ().write (b, off, len);
+		checkThreshold(len);
+		getStream().write(b, off, len);
 		written += len;
 	} //end write(byte[], int, int)
 
@@ -170,11 +170,11 @@ public class DeferredFileOutputStream extends OutputStream implements Serializab
 	 *
 	 * @exception IOException if an error occurs.
 	 */
-	public void flush () throws IOException
+	public void flush() throws IOException
 	{
-		if (getStream () != null)
+		if (getStream() != null)
 		{
-			getStream ().flush ();
+			getStream().flush();
 		}
 	} //end flush
 
@@ -184,20 +184,20 @@ public class DeferredFileOutputStream extends OutputStream implements Serializab
 	 *
 	 * @exception IOException if an error occurs.
 	 */
-	public void close () throws IOException
+	public void close() throws IOException
 	{
-		if (getStream () != null)
+		if (getStream() != null)
 		{
 			try
 			{
-				flush ();
+				flush();
 			}
 			catch (IOException ignored)
 			{
 				// ignore
 			}
 
-			getStream ().close ();
+			getStream().close();
 		}
 	}
 
@@ -208,7 +208,7 @@ public class DeferredFileOutputStream extends OutputStream implements Serializab
 	 *
 	 * @return The threshold point, in bytes.
 	 */
-	public int getThreshold ()
+	public int getThreshold()
 	{
 		return threshold;
 	}
@@ -218,7 +218,7 @@ public class DeferredFileOutputStream extends OutputStream implements Serializab
 	 *
 	 * @return The number of bytes written.
 	 */
-	public long getByteCount ()
+	public long getByteCount()
 	{
 		return written;
 	}
@@ -230,7 +230,7 @@ public class DeferredFileOutputStream extends OutputStream implements Serializab
 	 * @return <code>true</code> if the threshold has been reached;
 	 *         <code>false</code> otherwise.
 	 */
-	public boolean isThresholdExceeded ()
+	public boolean isThresholdExceeded()
 	{
 		return (written > threshold);
 	}
@@ -242,9 +242,9 @@ public class DeferredFileOutputStream extends OutputStream implements Serializab
 	 * @return <code>true</code> if the data is available in memory;
 	 *         <code>false</code> otherwise.
 	 */
-	public boolean isInMemory ()
+	public boolean isInMemory()
 	{
-		return (! isThresholdExceeded ());
+		return (! isThresholdExceeded());
 	}
 
 	/**
@@ -255,11 +255,11 @@ public class DeferredFileOutputStream extends OutputStream implements Serializab
 	 * @return The data for this output stream, or <code>null</code> if no such
 	 *         data is available.
 	 */
-	public byte[] getData ()
+	public byte[] getData()
 	{
 		if (memoryOutputStream != null)
 		{
-			return memoryOutputStream.toByteArray ();
+			return memoryOutputStream.toByteArray();
 		}
 
 		return null;
@@ -273,7 +273,7 @@ public class DeferredFileOutputStream extends OutputStream implements Serializab
 	 * @return The file for this output stream, or <code>null</code> if no such
 	 *         file exists.
 	 */
-	public File getFile ()
+	public File getFile()
 	{
 		return outputFile;
 	}
@@ -290,11 +290,11 @@ public class DeferredFileOutputStream extends OutputStream implements Serializab
 	 *
 	 * @exception IOException if an error occurs.
 	 */
-	protected void checkThreshold (int count) throws IOException
+	protected void checkThreshold(int count) throws IOException
 	{
 		if (! thresholdExceeded && (written + count > threshold))
 		{
-			thresholdReached ();
+			thresholdReached();
 			thresholdExceeded = true;
 		}
 	}
@@ -307,7 +307,7 @@ public class DeferredFileOutputStream extends OutputStream implements Serializab
 	 *
 	 * @exception IOException if an error occurs.
 	 */
-	protected OutputStream getStream () throws IOException
+	protected OutputStream getStream() throws IOException
 	{
 		return currentOutputStream;
 	}
@@ -320,43 +320,43 @@ public class DeferredFileOutputStream extends OutputStream implements Serializab
 	 *
 	 * @exception IOException if an error occurs.
 	 */
-	protected void thresholdReached () throws IOException
+	protected void thresholdReached() throws IOException
 	{
-		byte[] data = memoryOutputStream.toByteArray ();
-		FileOutputStream fos = new FileOutputStream (outputFile);
+		byte[] data = memoryOutputStream.toByteArray();
+		FileOutputStream fos = new FileOutputStream(outputFile);
 
-		fos.write (data);
+		fos.write(data);
 		diskOutputStream = fos;
 		currentOutputStream = fos;
 		memoryOutputStream = null;
 	}
 
 	// ------------------------------------------- Private Serialization methods
-	private void writeObject (java.io.ObjectOutputStream out) throws IOException
+	private void writeObject(java.io.ObjectOutputStream out) throws IOException
 	{
-		out.writeInt (this.threshold);
-		out.writeLong (this.written);
-		out.writeBoolean (this.thresholdExceeded);
-		out.writeObject (outputFile);
+		out.writeInt(this.threshold);
+		out.writeLong(this.written);
+		out.writeBoolean(this.thresholdExceeded);
+		out.writeObject(outputFile);
 
 		if (! this.thresholdExceeded)
 		{
 			//Everything is stored in Memory, so write the data to the stream
-			this.memoryOutputStream.writeTo (out);
+			this.memoryOutputStream.writeTo(out);
 		}
 		else
 		{
 			//Just make sure everything is written to disk for deserialization
-			flush ();
+			flush();
 		}
 	} //end writeObject
 
-	private void readObject (java.io.ObjectInputStream in) throws IOException, ClassNotFoundException
+	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
-		this.threshold = in.readInt ();
-		this.written = in.readLong ();
-		this.thresholdExceeded = in.readBoolean ();
-		this.outputFile = (File) in.readObject ();
+		this.threshold = in.readInt();
+		this.written = in.readLong();
+		this.thresholdExceeded = in.readBoolean();
+		this.outputFile = (File) in.readObject();
 
 		if (! this.thresholdExceeded)
 		{
@@ -364,24 +364,24 @@ public class DeferredFileOutputStream extends OutputStream implements Serializab
 			//Note that if we are here, written will always be <= threshold, an int
 			byte[] buf = new byte[(int) this.written];
 
-			in.readFully (buf);
-			this.memoryOutputStream = new ByteArrayOutputStream (buf.length);
-			this.memoryOutputStream.write (buf);
+			in.readFully(buf);
+			this.memoryOutputStream = new ByteArrayOutputStream(buf.length);
+			this.memoryOutputStream.write(buf);
 		}
 	} //end readObject
 
-	protected void finalize () throws Throwable
+	protected void finalize() throws Throwable
 	{
 		try
 		{
-			this.close ();
+			this.close();
 		}
 		catch (IOException e)
 		{
 			//In garbage collector, so just flag and carry on.
-			e.printStackTrace ();
+			e.printStackTrace();
 		}
 
-		super.finalize ();
+		super.finalize();
 	}
 }

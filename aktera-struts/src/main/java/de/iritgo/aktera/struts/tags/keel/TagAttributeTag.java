@@ -44,7 +44,7 @@ public class TagAttributeTag extends BaseBodyTagSupport
 	 *
 	 * @param name The attribute name.
 	 */
-	public void setName (String name)
+	public void setName(String name)
 	{
 		this.name = name;
 	}
@@ -54,7 +54,7 @@ public class TagAttributeTag extends BaseBodyTagSupport
 	 *
 	 * @return The attribute name.
 	 */
-	public String getName ()
+	public String getName()
 	{
 		return name;
 	}
@@ -64,7 +64,7 @@ public class TagAttributeTag extends BaseBodyTagSupport
 	 *
 	 * @param value The attribute value.
 	 */
-	public void setValue (String value)
+	public void setValue(String value)
 	{
 		this.value = value;
 	}
@@ -74,7 +74,7 @@ public class TagAttributeTag extends BaseBodyTagSupport
 	 *
 	 * @return The attribute value.
 	 */
-	public String getValue ()
+	public String getValue()
 	{
 		return value;
 	}
@@ -82,7 +82,7 @@ public class TagAttributeTag extends BaseBodyTagSupport
 	/**
 	 * Reset all tag attributes to their default values.
 	 */
-	public void release ()
+	public void release()
 	{
 		name = null;
 		value = null;
@@ -93,22 +93,22 @@ public class TagAttributeTag extends BaseBodyTagSupport
 	 *
 	 * @return SKIP_BODY.
 	 */
-	public int doAfterBody () throws JspException
+	public int doAfterBody() throws JspException
 	{
 		try
 		{
 			if (value == null)
 			{
-				value = bodyContent.getString ();
+				value = bodyContent.getString();
 			}
 
-			bodyContent.clear ();
+			bodyContent.clear();
 
 			return SKIP_BODY;
 		}
 		catch (Exception x)
 		{
-			throw new JspException (x);
+			throw new JspException(x);
 		}
 	}
 
@@ -117,22 +117,22 @@ public class TagAttributeTag extends BaseBodyTagSupport
 	 *
 	 * @return EVAL_PAGE.
 	 */
-	public int doEndTag () throws JspException
+	public int doEndTag() throws JspException
 	{
 		if (name == null)
 		{
-			throw new JspException ("[TagAttributeTag] No attribute name specified");
+			throw new JspException("[TagAttributeTag] No attribute name specified");
 		}
 
 		try
 		{
-			PropertyUtils.setProperty (getParent (), name, value);
+			PropertyUtils.setProperty(getParent(), name, value);
 
 			return EVAL_PAGE;
 		}
 		catch (Exception x)
 		{
-			throw new JspException (x);
+			throw new JspException(x);
 		}
 	}
 }

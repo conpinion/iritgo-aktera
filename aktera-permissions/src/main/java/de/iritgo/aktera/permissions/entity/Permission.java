@@ -94,7 +94,7 @@ public class Permission implements Serializable
 	 *   null-allowed="false"
 	 *   auto-increment="identity"
 	 */
-	public Integer getId ()
+	public Integer getId()
 	{
 		return id;
 	}
@@ -102,7 +102,7 @@ public class Permission implements Serializable
 	/**
 	 * Set the primary key.
 	 */
-	public void setId (Integer id)
+	public void setId(Integer id)
 	{
 		this.id = id;
 	}
@@ -116,7 +116,7 @@ public class Permission implements Serializable
 	 *   type="integer"
 	 *   null-allowed="false"
 	 */
-	public Integer getPrincipalId ()
+	public Integer getPrincipalId()
 	{
 		return principalId;
 	}
@@ -124,7 +124,7 @@ public class Permission implements Serializable
 	/**
 	 * Set the foreign principal id.
 	 */
-	public void setPrincipalId (Integer principalId)
+	public void setPrincipalId(Integer principalId)
 	{
 		this.principalId = principalId;
 	}
@@ -139,7 +139,7 @@ public class Permission implements Serializable
 	 *   length="255"
 	 *   null-allowed="false"
 	 */
-	public String getPrincipalType ()
+	public String getPrincipalType()
 	{
 		return principalType;
 	}
@@ -147,7 +147,7 @@ public class Permission implements Serializable
 	/**
 	 * Set the foreign principal type.
 	 */
-	public void setPrincipalType (String principalType)
+	public void setPrincipalType(String principalType)
 	{
 		this.principalType = principalType;
 	}
@@ -160,7 +160,7 @@ public class Permission implements Serializable
 	 *   db-name="objectId"
 	 *   type="integer"
 	 */
-	public Integer getObjectId ()
+	public Integer getObjectId()
 	{
 		return objectId;
 	}
@@ -170,7 +170,7 @@ public class Permission implements Serializable
 	 *
 	 * @param objectId The new object id.
 	 */
-	public void setObjectId (Integer objectId)
+	public void setObjectId(Integer objectId)
 	{
 		this.objectId = objectId;
 	}
@@ -184,7 +184,7 @@ public class Permission implements Serializable
 	 *   type="varchar"
 	 *   length="255"
 	 */
-	public String getObjectType ()
+	public String getObjectType()
 	{
 		return objectType;
 	}
@@ -192,7 +192,7 @@ public class Permission implements Serializable
 	/**
 	 * Set the foreign object type.
 	 */
-	public void setObjectType (String objectType)
+	public void setObjectType(String objectType)
 	{
 		this.objectType = objectType;
 	}
@@ -207,7 +207,7 @@ public class Permission implements Serializable
 	 *   length="255"
 	 *   null-allowed="false"
 	 */
-	public String getPermission ()
+	public String getPermission()
 	{
 		return permission;
 	}
@@ -215,7 +215,7 @@ public class Permission implements Serializable
 	/**
 	 * Set the permission value
 	 */
-	public void setPermission (String permission)
+	public void setPermission(String permission)
 	{
 		this.permission = permission;
 	}
@@ -229,7 +229,7 @@ public class Permission implements Serializable
 	 *   type="boolean"
 	 *   default-value="false"
 	 */
-	public Boolean getNegative ()
+	public Boolean getNegative()
 	{
 		return negative;
 	}
@@ -237,7 +237,7 @@ public class Permission implements Serializable
 	/**
 	 * Set the negative flag.
 	 */
-	public void setNegative (Boolean negative)
+	public void setNegative(Boolean negative)
 	{
 		this.negative = negative;
 	}

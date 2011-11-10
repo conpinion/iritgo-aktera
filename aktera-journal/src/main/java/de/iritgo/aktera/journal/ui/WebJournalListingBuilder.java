@@ -33,66 +33,66 @@ public class WebJournalListingBuilder
 	private Map<String, WebJournalListingEntryBuilder> entryBuilders;
 
 	/** Set the web journal entry builder */
-	public void setEntryBuilders (Map<String, WebJournalListingEntryBuilder> entryBuilders)
+	public void setEntryBuilders(Map<String, WebJournalListingEntryBuilder> entryBuilders)
 	{
 		this.entryBuilders = entryBuilders;
 	}
 
-	public ListFiller createListFiller (final List<Map<String, Object>> journal, final long numEntries,
+	public ListFiller createListFiller(final List<Map<String, Object>> journal, final long numEntries,
 					final Locale locale)
 	{
-		return new ListFiller ()
+		return new ListFiller()
 		{
-			Iterator<Map<String, Object>> i = journal.iterator ();
+			Iterator<Map<String, Object>> i = journal.iterator();
 
 			Map<String, Object> entry = null;
 
 			@Override
-			public long getTotalRowCount ()
+			public long getTotalRowCount()
 			{
 				return numEntries;
 			}
 
 			@Override
-			public int getRowCount ()
+			public int getRowCount()
 			{
-				return journal.size ();
+				return journal.size();
 			}
 
 			@Override
-			public boolean next ()
+			public boolean next()
 			{
-				boolean more = i.hasNext ();
+				boolean more = i.hasNext();
 
 				if (more)
 				{
-					entry = i.next ();
+					entry = i.next();
 				}
 
 				return more;
 			}
 
 			@Override
-			public Object getId ()
+			public Object getId()
 			{
-				return entry.get ("id").toString ();
+				return entry.get("id").toString();
 			}
 
 			@Override
-			public Object getValue (String column)
+			public Object getValue(String column)
 			{
-				WebJournalListingEntryBuilder jeb = entryBuilders.get (entry.get ("extendedInfoType"));
+				WebJournalListingEntryBuilder jeb = entryBuilders.get(entry.get("extendedInfoType"));
 				Object value = null;
 
 				if (jeb != null)
 				{
-					value = jeb.getValue (entry, column, jeb.getBundle (), locale);
+					value = jeb.getValue(entry, column, jeb.getBundle(), locale);
 				}
 
 				if (value == null)
 				{
-					value = entryBuilders.get (WebJournalListingEntryBuilder.BASE).getValue (entry, column,
-									jeb.getBundle (), locale);
+					value = entryBuilders.get(WebJournalListingEntryBuilder.BASE).getValue(entry, column,
+									jeb.getBundle(), locale);
 				}
 
 				return value;

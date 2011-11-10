@@ -40,29 +40,29 @@ public class BeanComparator implements Comparator
 	/**
 	 * Constructor for BeanComparator.
 	 */
-	public BeanComparator (String newValue)
+	public BeanComparator(String newValue)
 	{
-		super ();
+		super();
 		valueName = newValue;
 	}
 
 	/**
 	 * @see java.util.Comparator#compare(Object, Object)
 	 */
-	public int compare (Object o1, Object o2)
+	public int compare(Object o1, Object o2)
 	{
 		int returnValue = - 1;
 
 		/* Can't compare anything except dynabeans */
 		if ((! (o1 instanceof DynaBean)) || (! (o2 instanceof DynaBean)))
 		{
-			throw new IllegalArgumentException ("Objects are not dynabeans");
+			throw new IllegalArgumentException("Objects are not dynabeans");
 		}
 
 		DynaBean db1 = (DynaBean) o1;
 		DynaBean db2 = (DynaBean) o2;
-		Object oneVal = db1.get (valueName);
-		Object twoVal = db2.get (valueName);
+		Object oneVal = db1.get(valueName);
+		Object twoVal = db2.get(valueName);
 
 		if ((oneVal == null) && (twoVal == null))
 		{
@@ -79,9 +79,9 @@ public class BeanComparator implements Comparator
 			returnValue = 1;
 		}
 
-		Collator c = Collator.getInstance ();
+		Collator c = Collator.getInstance();
 
-		returnValue = c.compare (oneVal.toString (), twoVal.toString ());
+		returnValue = c.compare(oneVal.toString(), twoVal.toString());
 
 		return returnValue;
 	}

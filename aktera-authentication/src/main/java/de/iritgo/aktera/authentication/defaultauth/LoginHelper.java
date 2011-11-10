@@ -57,7 +57,7 @@ public class LoginHelper extends AbstractKeelServiceable
 	/**
 	 * Processes the login request.
 	 */
-	protected Subject attemptLogin (String domain, String loginName, String providedPassword, String passwordSeq,
+	protected Subject attemptLogin(String domain, String loginName, String providedPassword, String passwordSeq,
 					Logger log, Configuration config, ServiceManager myManager)
 		throws LoginException, FailedLoginException
 	{
@@ -65,24 +65,24 @@ public class LoginHelper extends AbstractKeelServiceable
 
 		try
 		{
-			if (log.isDebugEnabled ())
+			if (log.isDebugEnabled())
 			{
-				log.debug ("Attempting login in LoginHelper (persistent)  for user " + loginName + " in domain "
+				log.debug("Attempting login in LoginHelper (persistent)  for user " + loginName + " in domain "
 								+ domain);
 			}
 
 			try
 			{
-				service (myManager);
+				service(myManager);
 			}
 			catch (ServiceException se)
 			{
-				log.error ("Service Exception", se);
-				throw new LoginException ("Service exception setting ServiceManager:" + se.getMessage ());
+				log.error("Service Exception", se);
+				throw new LoginException("Service exception setting ServiceManager:" + se.getMessage());
 			}
 
-			SuperString.assertNotBlank (domain, "Must specify domain");
-			SuperString.assertNotBlank (loginName, "Must specify login name");
+			SuperString.assertNotBlank(domain, "Must specify domain");
+			SuperString.assertNotBlank(loginName, "Must specify login name");
 
 			Persistent myUser = null;
 
@@ -90,14 +90,14 @@ public class LoginHelper extends AbstractKeelServiceable
 
 			try
 			{
-				String bypassAmName = config.getChild ("bypass-am").getValue ("*");
+				String bypassAmName = config.getChild("bypass-am").getValue("*");
 
-				bypassAm = (AuthorizationManager) getService (AuthorizationManager.ROLE, bypassAmName);
+				bypassAm = (AuthorizationManager) getService(AuthorizationManager.ROLE, bypassAmName);
 			}
 			catch (ServiceException e1)
 			{
-				log.error ("Error trying to get bypass auth manager ", e1);
-				throw new LoginException ("Error trying to get bypass auth manager " + e1.getMessage ());
+				log.error("Error trying to get bypass auth manager ", e1);
+				throw new LoginException("Error trying to get bypass auth manager " + e1.getMessage());
 			}
 
 			boolean authenticated = false;
@@ -106,47 +106,47 @@ public class LoginHelper extends AbstractKeelServiceable
 
 			try
 			{
-				PersistentFactory pf1 = (PersistentFactory) getService (PersistentFactory.ROLE, domain);
+				PersistentFactory pf1 = (PersistentFactory) getService(PersistentFactory.ROLE, domain);
 
-				pf = (PersistentFactory) getService (PersistentFactory.ROLE, pf1.getSecurity ());
-				myUser = pf.create ("keel.user");
-				myUser.setBypassAuthorizationManager (bypassAm);
-				myUser.setField ("name", loginName);
+				pf = (PersistentFactory) getService(PersistentFactory.ROLE, pf1.getSecurity());
+				myUser = pf.create("keel.user");
+				myUser.setBypassAuthorizationManager(bypassAm);
+				myUser.setField("name", loginName);
 
-				if (! myUser.find ())
+				if (! myUser.find())
 				{
-					log.debug ("Bad login name '" + loginName + "' - no such user");
-					throw new FailedLoginException ("Bad login name");
+					log.debug("Bad login name '" + loginName + "' - no such user");
+					throw new FailedLoginException("Bad login name");
 				}
 
 				/* If the user persistent supports an account status, check it */
-				if (myUser.getMetaData ().getFieldNames ().contains ("status"))
+				if (myUser.getMetaData().getFieldNames().contains("status"))
 				{
-					if (! myUser.getFieldString ("status").equals ("A"))
+					if (! myUser.getFieldString("status").equals("A"))
 					{
-						log.debug ("Account for '" + loginName + "' inactive");
-						throw new FailedLoginException ("Account not active");
+						log.debug("Account for '" + loginName + "' inactive");
+						throw new FailedLoginException("Account not active");
 					}
 				}
 			}
 			catch (ServiceException e)
 			{
-				log.error ("ServiceException during login", e);
-				throw new LoginException (e.toString ());
+				log.error("ServiceException during login", e);
+				throw new LoginException(e.toString());
 			}
 			catch (PersistenceException e)
 			{
-				log.error ("PersistenceException during login", e);
-				throw new LoginException (e.toString ());
+				log.error("PersistenceException during login", e);
+				throw new LoginException(e.toString());
 			}
 
 			try
 			{
-				List<Authenticator> authenticators = (List<Authenticator>) SpringTools.getBean (Authenticator.LIST_ID);
+				List<Authenticator> authenticators = (List<Authenticator>) SpringTools.getBean(Authenticator.LIST_ID);
 
 				for (Authenticator authenticator : authenticators)
 				{
-					if (authenticator.authenticate (loginName, providedPassword))
+					if (authenticator.authenticate(loginName, providedPassword))
 					{
 						authenticated = true;
 
@@ -156,51 +156,51 @@ public class LoginHelper extends AbstractKeelServiceable
 
 				if (! authenticated)
 				{
-					log.debug ("Invalid user name or password for user '" + loginName + "'");
-					throw new FailedLoginException ("Invalid user name or password for user '" + loginName + "'");
+					log.debug("Invalid user name or password for user '" + loginName + "'");
+					throw new FailedLoginException("Invalid user name or password for user '" + loginName + "'");
 				}
 
-				log.debug ("Login successful - setting subject");
-				subject = new Subject ();
+				log.debug("Login successful - setting subject");
+				subject = new Subject();
 
-				Set s = subject.getPrincipals ();
+				Set s = subject.getPrincipals();
 
-				s.clear ();
+				s.clear();
 
-				Principal p = new LoginPrincipal (myUser.getFieldString ("name"));
+				Principal p = new LoginPrincipal(myUser.getFieldString("name"));
 
-				s.add (p);
-				p = new UserDescripPrincipal (myUser.getFieldString ("name"));
-				s.add (p);
-				p = new UidPrincipal (myUser.getFieldString ("uid"));
-				s.add (p);
-				p = new DomainPrincipal (domain);
-				s.add (p);
+				s.add(p);
+				p = new UserDescripPrincipal(myUser.getFieldString("name"));
+				s.add(p);
+				p = new UidPrincipal(myUser.getFieldString("uid"));
+				s.add(p);
+				p = new DomainPrincipal(domain);
+				s.add(p);
 
-				Persistent groupmembers = pf.create ("keel.groupmembers");
+				Persistent groupmembers = pf.create("keel.groupmembers");
 
-				groupmembers.setBypassAuthorizationManager (bypassAm);
-				groupmembers.setField ("uid", new Integer (myUser.getFieldString ("uid")));
+				groupmembers.setBypassAuthorizationManager(bypassAm);
+				groupmembers.setField("uid", new Integer(myUser.getFieldString("uid")));
 
-				List memberOf = groupmembers.query ();
+				List memberOf = groupmembers.query();
 				Persistent oneMember = null;
 
-				for (Iterator gi = memberOf.iterator (); gi.hasNext ();)
+				for (Iterator gi = memberOf.iterator(); gi.hasNext();)
 				{
-					oneMember = (Persistent) gi.next ();
-					p = new GroupPrincipal (oneMember.getFieldString ("groupname"));
-					s.add (p);
+					oneMember = (Persistent) gi.next();
+					p = new GroupPrincipal(oneMember.getFieldString("groupname"));
+					s.add(p);
 				}
 			}
 			catch (PersistenceException e)
 			{
-				log.error ("PersistenceException during login", e);
-				throw new LoginException (e.toString ());
+				log.error("PersistenceException during login", e);
+				throw new LoginException(e.toString());
 			}
 		}
 		finally
 		{
-			releaseServices ();
+			releaseServices();
 		}
 
 		return subject;

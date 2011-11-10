@@ -40,37 +40,37 @@ public class CallHierarchyTools
 	 * @param req The model request.
 	 * @return The uuid of the new request.
 	 */
-	public static UUID storeModelRequest (ModelRequest req)
+	public static UUID storeModelRequest(ModelRequest req)
 	{
 		UUID parentCid = null;
 
 		try
 		{
-			parentCid = UUID.fromString (req.getParameterAsString ("cid"));
+			parentCid = UUID.fromString(req.getParameterAsString("cid"));
 		}
 		catch (IllegalArgumentException x)
 		{
 		}
 
-		UUID newCid = UUID.randomUUID ();
+		UUID newCid = UUID.randomUUID();
 
-		CallHierarchy ch = new CallHierarchy (newCid, req);
+		CallHierarchy ch = new CallHierarchy(newCid, req);
 
-		Map callHierarchy = (Map) UserTools.getContextObject (req, "callHierarchy");
+		Map callHierarchy = (Map) UserTools.getContextObject(req, "callHierarchy");
 
 		if (callHierarchy == null)
 		{
-			callHierarchy = new HashMap ();
-			UserTools.setContextObject (req, "callHierarchy", callHierarchy);
+			callHierarchy = new HashMap();
+			UserTools.setContextObject(req, "callHierarchy", callHierarchy);
 		}
 
-		callHierarchy.put (newCid, ch);
+		callHierarchy.put(newCid, ch);
 
-		if (parentCid != null && callHierarchy.get (parentCid) != null)
+		if (parentCid != null && callHierarchy.get(parentCid) != null)
 		{
-			CallHierarchy parentCh = (CallHierarchy) callHierarchy.get (parentCid);
+			CallHierarchy parentCh = (CallHierarchy) callHierarchy.get(parentCid);
 
-			parentCh.add (ch);
+			parentCh.add(ch);
 		}
 
 		return newCid;
@@ -79,7 +79,7 @@ public class CallHierarchyTools
 	/**
 	 * Dump the call hierarchy tree.
 	 */
-	public static void dumpCallHierarchy (ModelRequest req)
+	public static void dumpCallHierarchy(ModelRequest req)
 	{
 		//		CallHierarchy root = (CallHierarchy) UserTools.getContextObject (req, "callHierarchy");
 		//		root.dump (System.out, 0);

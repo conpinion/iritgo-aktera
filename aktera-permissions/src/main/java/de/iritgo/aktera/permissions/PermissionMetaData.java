@@ -29,12 +29,12 @@ public class PermissionMetaData
 	/** The permission id */
 	private String id;
 
-	public void setId (String id)
+	public void setId(String id)
 	{
 		this.id = id;
 	}
 
-	public String getId ()
+	public String getId()
 	{
 		return id;
 	}
@@ -42,12 +42,12 @@ public class PermissionMetaData
 	/** The permission display name */
 	private String name;
 
-	public void setName (String name)
+	public void setName(String name)
 	{
 		this.name = name;
 	}
 
-	public String getName ()
+	public String getName()
 	{
 		return name;
 	}
@@ -55,7 +55,7 @@ public class PermissionMetaData
 	/** Permission DAO */
 	protected PermissionDAO permissionDAO;
 
-	public void setPermissionDAO (PermissionDAO permissionDAO)
+	public void setPermissionDAO(PermissionDAO permissionDAO)
 	{
 		this.permissionDAO = permissionDAO;
 	}
@@ -63,12 +63,12 @@ public class PermissionMetaData
 	/** Object type or null if global permission */
 	String objectType;
 
-	public void setObjectType (String objectType)
+	public void setObjectType(String objectType)
 	{
 		this.objectType = objectType;
 	}
 
-	public String getObjectType ()
+	public String getObjectType()
 	{
 		return objectType;
 	}

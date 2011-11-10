@@ -45,7 +45,7 @@ public class NeximUserDAOImpl implements UserDAO
 	 *
 	 * @param akteraUserDao The user DAO
 	 */
-	public void setAkteraUserDao (de.iritgo.aktera.authentication.defaultauth.entity.UserDAO akteraUserDao)
+	public void setAkteraUserDao(de.iritgo.aktera.authentication.defaultauth.entity.UserDAO akteraUserDao)
 	{
 		this.akteraUserDao = akteraUserDao;
 	}
@@ -53,7 +53,7 @@ public class NeximUserDAOImpl implements UserDAO
 	/**
 	 * @param akteraAuthenticator The new akteraAuthenticator.
 	 */
-	public void setAkteraAuthenticator (de.iritgo.aktera.authentication.Authenticator akteraAuthenticator)
+	public void setAkteraAuthenticator(de.iritgo.aktera.authentication.Authenticator akteraAuthenticator)
 	{
 		this.akteraAuthenticator = akteraAuthenticator;
 	}
@@ -61,24 +61,24 @@ public class NeximUserDAOImpl implements UserDAO
 	/**
 	 * @see de.iritgo.nexim.user.UserDAO#addUser(de.iritgo.nexim.user.User)
 	 */
-	public void addUser (User newUser)
+	public void addUser(User newUser)
 	{
 	}
 
 	/**
 	 * @see de.iritgo.nexim.user.UserDAO#getUser(java.lang.String)
 	 */
-	public User getUser (String username)
+	public User getUser(String username)
 	{
 		de.iritgo.aktera.authentication.defaultauth.entity.AkteraUser akteraUser = akteraUserDao
-						.findUserByName (username);
+						.findUserByName(username);
 
 		if (akteraUser != null)
 		{
-			User user = new User ();
+			User user = new User();
 
-			user.setName (akteraUser.getName ());
-			user.setPassword (akteraUser.getPassword ());
+			user.setName(akteraUser.getName());
+			user.setPassword(akteraUser.getPassword());
 
 			return user;
 		}
@@ -89,7 +89,7 @@ public class NeximUserDAOImpl implements UserDAO
 	/**
 	 * @see de.iritgo.nexim.user.UserDAO#getUsers(java.lang.String)
 	 */
-	public List<User> getUsers (String searchPattern)
+	public List<User> getUsers(String searchPattern)
 	{
 		return null;
 	}
@@ -97,7 +97,7 @@ public class NeximUserDAOImpl implements UserDAO
 	/**
 	 * @see de.iritgo.nexim.user.UserDAO#removeUser(java.lang.String)
 	 */
-	public User removeUser (String username)
+	public User removeUser(String username)
 	{
 		return null;
 	}
@@ -105,12 +105,12 @@ public class NeximUserDAOImpl implements UserDAO
 	/**
 	 * @see de.iritgo.nexim.user.UserDAO#isValidPassword(de.iritgo.nexim.user.User, java.lang.String, de.iritgo.nexim.user.UserManager.AuthenticationType)
 	 */
-	public boolean isValidPassword (User user, UserManager.AuthenticationType type, String password, String sessionId)
+	public boolean isValidPassword(User user, UserManager.AuthenticationType type, String password, String sessionId)
 	{
 		switch (type)
 		{
 			case PLAIN:
-				return akteraAuthenticator.authenticate (user.getName (), password);
+				return akteraAuthenticator.authenticate(user.getName(), password);
 
 			default:
 				return false;

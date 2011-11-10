@@ -44,7 +44,7 @@ public interface MimeTypeResolver
 	 * @return String
 	 * @throws NestedException
 	 */
-	public String getExtension (String type) throws NestedException;
+	public String getExtension(String type) throws NestedException;
 
 	/**
 	 * Retrieve the mime-type, given a file-extension
@@ -52,7 +52,7 @@ public interface MimeTypeResolver
 	 * @return String
 	 * @throws NestedException
 	 */
-	public String getType (String extension) throws NestedException;
+	public String getType(String extension) throws NestedException;
 
 	/**
 	 * Retrieve the type description, given the content-type
@@ -60,7 +60,7 @@ public interface MimeTypeResolver
 	 * @return String
 	 * @throws NestedException
 	 */
-	public String getDescriptionByType (String type) throws NestedException;
+	public String getDescriptionByType(String type) throws NestedException;
 
 	/**
 	 * Retrieve the type description, given a file-extension
@@ -68,5 +68,5 @@ public interface MimeTypeResolver
 	 * @return String
 	 * @throws NestedException
 	 */
-	public String getDescriptionByExtension (String extension) throws NestedException;
+	public String getDescriptionByExtension(String extension) throws NestedException;
 }

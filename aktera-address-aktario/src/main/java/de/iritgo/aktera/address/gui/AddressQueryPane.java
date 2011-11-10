@@ -62,39 +62,39 @@ public class AddressQueryPane extends SwingGUIPane
 {
 	private class AddressTableModel extends AbstractTableModel
 	{
-		public int getColumnCount ()
+		public int getColumnCount()
 		{
-			return columns.size ();
+			return columns.size();
 		}
 
-		public int getRowCount ()
+		public int getRowCount()
 		{
-			return addresses.size ();
+			return addresses.size();
 		}
 
 		@Override
-		public String getColumnName (int column)
+		public String getColumnName(int column)
 		{
-			return columns.get (column).getTitle ().get ();
+			return columns.get(column).getTitle().get();
 		}
 
-		public Object getValueAt (int row, int column)
+		public Object getValueAt(int row, int column)
 		{
-			Address address = addresses.get (row);
+			Address address = addresses.get(row);
 
 			switch (column)
 			{
 				case 0:
-					return address.getId ();
+					return address.getId();
 
 				case 1:
-					return address.getLastName ();
+					return address.getLastName();
 
 				case 2:
-					return address.getFirstName ();
+					return address.getFirstName();
 
 				case 3:
-					return address.getCompany ();
+					return address.getCompany();
 
 				default:
 					return "";
@@ -102,7 +102,7 @@ public class AddressQueryPane extends SwingGUIPane
 		}
 
 		@Override
-		public void setValueAt (Object value, int row, int column)
+		public void setValueAt(Object value, int row, int column)
 		{
 		}
 	}
@@ -110,16 +110,16 @@ public class AddressQueryPane extends SwingGUIPane
 	private class AddressTableCellRenderer extends DefaultTableCellRenderer
 	{
 		@Override
-		public Component getTableCellRendererComponent (JTable table, Object value, boolean isSelected,
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
 						boolean hasFocus, int rowIndex, int colIndex)
 		{
-			super.getTableCellRendererComponent (table, value, isSelected, hasFocus, rowIndex, colIndex);
+			super.getTableCellRendererComponent(table, value, isSelected, hasFocus, rowIndex, colIndex);
 
 			switch (colIndex)
 			{
 				default:
-					setIcon (columns.get (colIndex).getCellIcon ());
-					setText (value.toString ());
+					setIcon(columns.get(colIndex).getCellIcon());
+					setText(value.toString());
 
 					break;
 			}
@@ -128,22 +128,22 @@ public class AddressQueryPane extends SwingGUIPane
 		}
 
 		@Override
-		public void validate ()
+		public void validate()
 		{
 		}
 
 		@Override
-		public void revalidate ()
+		public void revalidate()
 		{
 		}
 
 		@Override
-		protected void firePropertyChange (String propertyName, Object oldValue, Object newValue)
+		protected void firePropertyChange(String propertyName, Object oldValue, Object newValue)
 		{
 		}
 
 		@Override
-		public void firePropertyChange (String propertyName, boolean oldValue, boolean newValue)
+		public void firePropertyChange(String propertyName, boolean oldValue, boolean newValue)
 		{
 		}
 	}
@@ -151,38 +151,38 @@ public class AddressQueryPane extends SwingGUIPane
 	private class AddressTableMouseListener extends MouseAdapter
 	{
 		@Override
-		public void mouseClicked (MouseEvent e)
+		public void mouseClicked(MouseEvent e)
 		{
-			int col = addressTable.columnAtPoint (e.getPoint ());
-			int row = addressTable.getSelectedRow ();
+			int col = addressTable.columnAtPoint(e.getPoint());
+			int row = addressTable.getSelectedRow();
 
 			if ((col < 0) || (row < 0))
 			{
 				return;
 			}
 
-			col = addressTable.getColumnModel ().getColumn (col).getModelIndex ();
+			col = addressTable.getColumnModel().getColumn(col).getModelIndex();
 
-			String addressId = (String) addressTable.getValueAt (addressTable.getSelectedRow (), 0);
+			String addressId = (String) addressTable.getValueAt(addressTable.getSelectedRow(), 0);
 			Address address = null;
 
 			for (Address searchAddress : addresses)
 			{
-				if (searchAddress.getId ().equals (addressId))
+				if (searchAddress.getId().equals(addressId))
 				{
 					address = searchAddress;
 				}
 			}
 
-			if (e.getClickCount () == 2)
+			if (e.getClickCount() == 2)
 			{
-				AddressViewDialog dialog = new AddressViewDialog ();
+				AddressViewDialog dialog = new AddressViewDialog();
 
-				dialog.show (address.getStoreId (), address.getId ());
+				dialog.show(address.getStoreId(), address.getId());
 			}
 			else
 			{
-				columns.get (col).onCellClicked (address, addressTable, e);
+				columns.get(col).onCellClicked(address, addressTable, e);
 			}
 		}
 	}
@@ -195,168 +195,168 @@ public class AddressQueryPane extends SwingGUIPane
 
 	public JTable addressTable;
 
-	private List<Address> addresses = new LinkedList ();
+	private List<Address> addresses = new LinkedList();
 
 	public IBusyButton search;
 
-	public Action doSearch = new AbstractAction ()
+	public Action doSearch = new AbstractAction()
 	{
-		public void actionPerformed (ActionEvent e)
+		public void actionPerformed(ActionEvent e)
 		{
-			if (IComboBoxIdItem.getSelectedId (addressStore) != null)
+			if (IComboBoxIdItem.getSelectedId(addressStore) != null)
 			{
-				new Thread ()
+				new Thread()
 				{
-					public void run ()
+					public void run()
 					{
-						search (IComboBoxIdItem.getSelectedId (addressStore).toString (), searchText.getText ());
+						search(IComboBoxIdItem.getSelectedId(addressStore).toString(), searchText.getText());
 					}
-				}.start ();
+				}.start();
 			}
 		}
 	};
 
-	public AddressQueryPane ()
+	public AddressQueryPane()
 	{
-		super ("AddressQueryGuiPane");
+		super("AddressQueryGuiPane");
 	}
 
 	@Override
-	public void initGUI ()
+	public void initGUI()
 	{
 		try
 		{
-			final ResourceService resources = Engine.instance ().getResourceService ();
-			SwingEngine swingEngine = new SwingEngine (this);
+			final ResourceService resources = Engine.instance().getResourceService();
+			SwingEngine swingEngine = new SwingEngine(this);
 
-			AddressClientManager acm = (AddressClientManager) Engine.instance ().getManager (AddressClientManager.ID);
+			AddressClientManager acm = (AddressClientManager) Engine.instance().getManager(AddressClientManager.ID);
 
-			columns = acm.getAddressTableColumns ();
+			columns = acm.getAddressTableColumns();
 
-			JPanel panel = (JPanel) swingEngine.render (getClass ().getResource ("/swixml/AddressQueryPane.xml"));
+			JPanel panel = (JPanel) swingEngine.render(getClass().getResource("/swixml/AddressQueryPane.xml"));
 
-			content.add (panel, createConstraints (0, 0, 1, 1, GridBagConstraints.BOTH, 100, 100, null));
+			content.add(panel, createConstraints(0, 0, 1, 1, GridBagConstraints.BOTH, 100, 100, null));
 
-			search.idle ();
+			search.idle();
 
-			AddressTableCellRenderer renderer = new AddressTableCellRenderer ();
-			AddressTableModel model = new AddressTableModel ();
+			AddressTableCellRenderer renderer = new AddressTableCellRenderer();
+			AddressTableModel model = new AddressTableModel();
 
-			addressTable.setModel (model);
-			addressTable.getColumnModel ().getColumn (0).setMinWidth (0);
-			addressTable.getColumnModel ().getColumn (0).setMaxWidth (0);
+			addressTable.setModel(model);
+			addressTable.getColumnModel().getColumn(0).setMinWidth(0);
+			addressTable.getColumnModel().getColumn(0).setMaxWidth(0);
 
-			for (int i = 1; i < model.getColumnCount (); ++i)
+			for (int i = 1; i < model.getColumnCount(); ++i)
 			{
-				addressTable.getColumnModel ().getColumn (i).setCellRenderer (renderer);
+				addressTable.getColumnModel().getColumn(i).setCellRenderer(renderer);
 			}
 
-			addressTable.addMouseListener (new AddressTableMouseListener ());
+			addressTable.addMouseListener(new AddressTableMouseListener());
 
-			for (int i : new IntRange (0, columns.size () - 1))
+			for (int i : new IntRange(0, columns.size() - 1))
 			{
-				ITableColumn c = columns.get (i);
+				ITableColumn c = columns.get(i);
 
-				if (StringTools.isTrimEmpty (c.getTitle ().get ()))
+				if (StringTools.isTrimEmpty(c.getTitle().get()))
 				{
-					if (c.getCellIcon () != null)
+					if (c.getCellIcon() != null)
 					{
-						addressTable.getColumnModel ().getColumn (i).setMinWidth (c.getCellIcon ().getIconWidth () + 4);
-						addressTable.getColumnModel ().getColumn (i).setMaxWidth (c.getCellIcon ().getIconWidth () + 4);
+						addressTable.getColumnModel().getColumn(i).setMinWidth(c.getCellIcon().getIconWidth() + 4);
+						addressTable.getColumnModel().getColumn(i).setMaxWidth(c.getCellIcon().getIconWidth() + 4);
 					}
 					else
 					{
-						addressTable.getColumnModel ().getColumn (i).setMinWidth (4);
-						addressTable.getColumnModel ().getColumn (i).setMaxWidth (4);
+						addressTable.getColumnModel().getColumn(i).setMinWidth(4);
+						addressTable.getColumnModel().getColumn(i).setMaxWidth(4);
 					}
 				}
 			}
 
-			TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel> ();
+			TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>();
 
-			addressTable.setRowSorter (sorter);
-			sorter.setModel (model);
+			addressTable.setRowSorter(sorter);
+			sorter.setModel(model);
 
-			addressStore.addActionListener (new ActionListener ()
+			addressStore.addActionListener(new ActionListener()
 			{
-				public void actionPerformed (ActionEvent e)
+				public void actionPerformed(ActionEvent e)
 				{
-					search (IComboBoxIdItem.getSelectedId (addressStore).toString (), searchText.getText ());
+					search(IComboBoxIdItem.getSelectedId(addressStore).toString(), searchText.getText());
 				}
 			});
 
-			searchText.grabFocus ();
+			searchText.grabFocus();
 
-			new Thread ()
+			new Thread()
 			{
 				@Override
-				public void run ()
+				public void run()
 				{
-					search.busy ();
+					search.busy();
 
-					AddressClientService acs = (AddressClientService) Engine.instance ().getManager (
+					AddressClientService acs = (AddressClientService) Engine.instance().getManager(
 									AddressClientService.ID);
 
-					for (final AddressStore ads : acs.listAddressStores ())
+					for (final AddressStore ads : acs.listAddressStores())
 					{
-						SwingUtilities.invokeLater (new Runnable ()
+						SwingUtilities.invokeLater(new Runnable()
 						{
-							public void run ()
+							public void run()
 							{
-								addressStore.addItem (new IComboBoxIdItem (ads.getName (), resources
-												.getStringWithoutException (ads.getTitle ())));
+								addressStore.addItem(new IComboBoxIdItem(ads.getName(), resources
+												.getStringWithoutException(ads.getTitle())));
 							}
 						});
 					}
 
-					final String defaultAddressStoreId = acs.getDefaultAddressStoreName ();
+					final String defaultAddressStoreId = acs.getDefaultAddressStoreName();
 
-					SwingUtilities.invokeLater (new Runnable ()
+					SwingUtilities.invokeLater(new Runnable()
 					{
-						public void run ()
+						public void run()
 						{
-							IComboBoxIdItem.selectItemWithId (addressStore, defaultAddressStoreId);
+							IComboBoxIdItem.selectItemWithId(addressStore, defaultAddressStoreId);
 						}
 					});
-					search (defaultAddressStoreId, "");
-					search.idle ();
+					search(defaultAddressStoreId, "");
+					search.idle();
 				}
-			}.start ();
+			}.start();
 		}
 		catch (Exception x)
 		{
-			Log.logError ("plugin", "AddressQueryPane.initGUI", x.toString ());
+			Log.logError("plugin", "AddressQueryPane.initGUI", x.toString());
 		}
 	}
 
-	private void search (String addressStoreName, String searchText)
+	private void search(String addressStoreName, String searchText)
 	{
-		search.busy ();
-		AddressClientService acs = (AddressClientService) Engine.instance ().getManager (AddressClientService.ID);
-		addresses = acs.listAddresses (addressStoreName, searchText, 0, 100);
-		SwingUtilities.invokeLater (new Runnable ()
+		search.busy();
+		AddressClientService acs = (AddressClientService) Engine.instance().getManager(AddressClientService.ID);
+		addresses = acs.listAddresses(addressStoreName, searchText, 0, 100);
+		SwingUtilities.invokeLater(new Runnable()
 		{
-			public void run ()
+			public void run()
 			{
-				((AddressTableModel) addressTable.getModel ()).fireTableDataChanged ();
+				((AddressTableModel) addressTable.getModel()).fireTableDataChanged();
 			}
 		});
-		search.idle ();
+		search.idle();
 	}
 
 	@Override
-	public void loadFromObject (IObject iObject)
+	public void loadFromObject(IObject iObject)
 	{
 	}
 
 	@Override
-	public void storeToObject (IObject iObject)
+	public void storeToObject(IObject iObject)
 	{
 	}
 
 	@Override
-	public GUIPane cloneGUIPane ()
+	public GUIPane cloneGUIPane()
 	{
-		return new AddressQueryPane ();
+		return new AddressQueryPane();
 	}
 }

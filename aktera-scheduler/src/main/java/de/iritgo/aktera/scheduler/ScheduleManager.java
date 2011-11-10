@@ -36,21 +36,21 @@ public interface ScheduleManager
 	/**
 	 * Restart all scheduled jobs.
 	 */
-	public void restart ();
+	public void restart();
 
 	/**
 	 * Execute a schedule.
 	 *
 	 * @param scheduleId The id of the schedule to execute.
 	 */
-	public void executeSchedule (Integer scheduleId);
+	public void executeSchedule(Integer scheduleId);
 
 	/**
 	 * Execute a schedule action.
 	 *
 	 * @param action The schedule action to execute.
 	 */
-	public void executeAction (ScheduleAction action);
+	public void executeAction(ScheduleAction action);
 
 	/**
 	 * Retrieve a list of all actions of the specified schedule.
@@ -58,7 +58,7 @@ public interface ScheduleManager
 	 * @param scheduleId The id of the schedule
 	 * @return A list of schedule actions
 	 */
-	public List<ScheduleAction> getScheduleActions (Integer scheduleId);
+	public List<ScheduleAction> getScheduleActions(Integer scheduleId);
 
 	/**
 	 * Check if the given date is a holiday.
@@ -68,5 +68,5 @@ public interface ScheduleManager
 	 * @param province The (optional) country province
 	 * @return True if date is a holiday
 	 */
-	public boolean dateIsHoliday (Date date, String country, String province);
+	public boolean dateIsHoliday(Date date, String country, String province);
 }

@@ -32,7 +32,7 @@ public class ScriptMethodNotFoundException extends Exception
 	/**
 	 * Initialize a ScriptNotFoundException.
 	 */
-	public ScriptMethodNotFoundException ()
+	public ScriptMethodNotFoundException()
 	{
 	}
 
@@ -41,9 +41,9 @@ public class ScriptMethodNotFoundException extends Exception
 	 *
 	 * @param message The exception message
 	 */
-	public ScriptMethodNotFoundException (String message)
+	public ScriptMethodNotFoundException(String message)
 	{
-		super (message);
+		super(message);
 	}
 
 	/**
@@ -51,9 +51,9 @@ public class ScriptMethodNotFoundException extends Exception
 	 *
 	 * @param cause Original exception
 	 */
-	public ScriptMethodNotFoundException (Throwable cause)
+	public ScriptMethodNotFoundException(Throwable cause)
 	{
-		super (cause);
+		super(cause);
 	}
 
 	/**
@@ -62,8 +62,8 @@ public class ScriptMethodNotFoundException extends Exception
 	 * @param message The exception message
 	 * @param cause Original exception
 	 */
-	public ScriptMethodNotFoundException (String message, Throwable cause)
+	public ScriptMethodNotFoundException(String message, Throwable cause)
 	{
-		super (message, cause);
+		super(message, cause);
 	}
 }

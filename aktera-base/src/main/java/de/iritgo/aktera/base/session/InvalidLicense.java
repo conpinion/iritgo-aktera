@@ -44,22 +44,22 @@ public class InvalidLicense extends StandardLogEnabledModel
 	 * @param req The model request.
 	 * @return The model response.
 	 */
-	public ModelResponse execute (ModelRequest req) throws ModelException
+	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
-		ModelResponse res = req.createResponse ();
+		ModelResponse res = req.createResponse();
 
-		Input license = res.createInput ("license");
+		Input license = res.createInput("license");
 
-		res.add (license);
+		res.add(license);
 
-		Input fileUpload1 = res.createInput ("fileUpload1");
+		Input fileUpload1 = res.createInput("fileUpload1");
 
-		res.add (fileUpload1);
+		res.add(fileUpload1);
 
-		Command cmd = res.createCommand ("aktera.session.store-license");
+		Command cmd = res.createCommand("aktera.session.store-license");
 
-		cmd.setName ("cmdStore");
-		res.add (cmd);
+		cmd.setName("cmdStore");
+		res.add(cmd);
 
 		return res;
 	}

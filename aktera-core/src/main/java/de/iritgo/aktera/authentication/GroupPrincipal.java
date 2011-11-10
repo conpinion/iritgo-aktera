@@ -44,7 +44,7 @@ public class GroupPrincipal implements Principal, java.io.Serializable
 	 * user name.
 	 *
 	 */
-	public GroupPrincipal ()
+	public GroupPrincipal()
 	{
 		name = "";
 	}
@@ -59,7 +59,7 @@ public class GroupPrincipal implements Principal, java.io.Serializable
 	 * @param name the user identification number (UID) for this user.
 	 *
 	 */
-	public GroupPrincipal (String newName)
+	public GroupPrincipal(String newName)
 	{
 		name = newName;
 	}
@@ -79,7 +79,7 @@ public class GroupPrincipal implements Principal, java.io.Serializable
 	 * @return true if the specified Object is equal equal to this
 	 *                <code>GroupPrincipal</code>.
 	 */
-	public boolean equals (Object o)
+	public boolean equals(Object o)
 	{
 		if (o == null)
 		{
@@ -93,7 +93,7 @@ public class GroupPrincipal implements Principal, java.io.Serializable
 
 		if (o instanceof GroupPrincipal)
 		{
-			if (((GroupPrincipal) o).getName ().equals (name))
+			if (((GroupPrincipal) o).getName().equals(name))
 			{
 				return true;
 			}
@@ -115,9 +115,9 @@ public class GroupPrincipal implements Principal, java.io.Serializable
 	 *
 	 * @return a hash code for this <code>GroupPrincipal</code>.
 	 */
-	public int hashCode ()
+	public int hashCode()
 	{
-		return name.hashCode ();
+		return name.hashCode();
 	}
 
 	/**
@@ -129,9 +129,9 @@ public class GroupPrincipal implements Principal, java.io.Serializable
 	 * @return a string representation of this
 	 *                <code>GroupPrincipal</code>.
 	 */
-	public String toString ()
+	public String toString()
 	{
-		return getClass ().getName ().substring (getClass ().getName ().lastIndexOf ('.') + 1) + ": " + name;
+		return getClass().getName().substring(getClass().getName().lastIndexOf('.') + 1) + ": " + name;
 	}
 
 	/**
@@ -143,7 +143,7 @@ public class GroupPrincipal implements Principal, java.io.Serializable
 	 * @return the user name for this
 	 *                <code>GroupPrincipal</code>
 	 */
-	public String getName ()
+	public String getName()
 	{
 		return name;
 	}

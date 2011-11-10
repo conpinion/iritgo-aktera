@@ -57,7 +57,7 @@ public class SecurableDefaultPersistentFactory extends DefaultPersistentFactory 
 	/**
 	 * @see de.iritgo.aktera.authorization.Securable#setAuthorizationManager(de.iritgo.aktera.authorization.AuthorizationManager)
 	 */
-	public void setAuthorizationManager (AuthorizationManager am) throws ServiceException
+	public void setAuthorizationManager(AuthorizationManager am) throws ServiceException
 	{
 		this.authMgr = am;
 	}
@@ -65,7 +65,7 @@ public class SecurableDefaultPersistentFactory extends DefaultPersistentFactory 
 	/**
 	 * @see de.iritgo.aktera.authorization.Securable#getAuthorizationManager()
 	 */
-	public AuthorizationManager getAuthorizationManager ()
+	public AuthorizationManager getAuthorizationManager()
 	{
 		return authMgr;
 	}

@@ -37,7 +37,7 @@ public class ScheduleActionJob implements Scheduleable
 	/**
 	 * Set the logger.
 	 */
-	public void setLogger (Logger logger)
+	public void setLogger(Logger logger)
 	{
 		this.logger = logger;
 	}
@@ -45,7 +45,7 @@ public class ScheduleActionJob implements Scheduleable
 	/**
 	 * Set the schedule manager.
 	 */
-	public void setScheduleManager (ScheduleManager scheduleManager)
+	public void setScheduleManager(ScheduleManager scheduleManager)
 	{
 		this.scheduleManager = scheduleManager;
 	}
@@ -53,22 +53,22 @@ public class ScheduleActionJob implements Scheduleable
 	/**
 	 * @see de.iritgo.aktera.scheduler.Scheduleable#schedule(java.util.Map)
 	 */
-	public void schedule (Map parameters)
+	public void schedule(Map parameters)
 	{
-		if (parameters.containsKey ("holidaysAllowance"))
+		if (parameters.containsKey("holidaysAllowance"))
 		{
-			Schedule.HolidaysAllowance allowance = Schedule.HolidaysAllowance.values ()[(Integer) parameters
-							.get ("holidaysAllowance")];
-			boolean isHoliday = scheduleManager.dateIsHoliday (new Date (),
-							(String) parameters.get ("holidaysCountry"), (String) parameters.get ("holidaysProvince"));
+			Schedule.HolidaysAllowance allowance = Schedule.HolidaysAllowance.values()[(Integer) parameters
+							.get("holidaysAllowance")];
+			boolean isHoliday = scheduleManager.dateIsHoliday(new Date(), (String) parameters.get("holidaysCountry"),
+							(String) parameters.get("holidaysProvince"));
 
-			if ((allowance.equals (Schedule.HolidaysAllowance.ONLY_HOLIDAYS) && ! isHoliday)
-							|| (allowance.equals (Schedule.HolidaysAllowance.EXCLUDE_HOLIDAYS) && isHoliday))
+			if ((allowance.equals(Schedule.HolidaysAllowance.ONLY_HOLIDAYS) && ! isHoliday)
+							|| (allowance.equals(Schedule.HolidaysAllowance.EXCLUDE_HOLIDAYS) && isHoliday))
 			{
 				return;
 			}
 		}
 
-		scheduleManager.executeSchedule ((Integer) parameters.get ("scheduleId"));
+		scheduleManager.executeSchedule((Integer) parameters.get("scheduleId"));
 	}
 }

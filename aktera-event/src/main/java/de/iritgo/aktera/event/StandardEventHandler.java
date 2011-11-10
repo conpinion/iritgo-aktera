@@ -33,33 +33,33 @@ public interface StandardEventHandler extends EventHandler
 	 *
 	 * @param event The event
 	 */
-	public void handle (Event event);
+	public void handle(Event event);
 
 	/**
 	 * Set the id of the handled event.
 	 *
 	 * @param event The new event id
 	 */
-	public void setEvent (String event);
+	public void setEvent(String event);
 
 	/**
 	 * Get the id of the handled event.
 	 *
 	 * @return The event id
 	 */
-	public String getEvent ();
+	public String getEvent();
 
 	/**
 	 * Set the logger.
 	 *
 	 * @param logger The logger
 	 */
-	public void setLogger (Logger logger);
+	public void setLogger(Logger logger);
 
 	/**
 	 * Get the logger.
 	 *
 	 * @return The logger
 	 */
-	public Logger getLogger ();
+	public Logger getLogger();
 }

@@ -110,14 +110,14 @@ public class FieldDescriptor
 	 * @param editor The field type.
 	 * @param size Display size of the editor.
 	 */
-	public FieldDescriptor (String name, String bundle, String editor, int size)
+	public FieldDescriptor(String name, String bundle, String editor, int size)
 	{
 		this.name = name;
 		this.bundle = bundle;
 		this.editor = editor;
 		this.size = size;
-		this.commands = new CommandDescriptor ();
-		this.subFields = new LinkedList<FieldDescriptor> ();
+		this.commands = new CommandDescriptor();
+		this.subFields = new LinkedList<FieldDescriptor>();
 	}
 
 	/**
@@ -128,9 +128,9 @@ public class FieldDescriptor
 	 * @param editor The field type.
 	 * @param size Display size of the editor.
 	 */
-	public FieldDescriptor (String name, String label, String bundle, String editor, int size)
+	public FieldDescriptor(String name, String label, String bundle, String editor, int size)
 	{
-		this (name, bundle, editor, size);
+		this(name, bundle, editor, size);
 		this.label = label;
 	}
 
@@ -143,9 +143,9 @@ public class FieldDescriptor
 	 * @param size Display size of the editor.
 	 * @param className The class name of the validation class.
 	 */
-	public FieldDescriptor (String name, String bundle, String editor, int size, String validationClassName)
+	public FieldDescriptor(String name, String bundle, String editor, int size, String validationClassName)
 	{
-		this (name, bundle, editor, size);
+		this(name, bundle, editor, size);
 
 		this.validationClassName = validationClassName;
 	}
@@ -155,7 +155,7 @@ public class FieldDescriptor
 	 *
 	 * @return The field name.
 	 */
-	public String getName ()
+	public String getName()
 	{
 		return name;
 	}
@@ -165,7 +165,7 @@ public class FieldDescriptor
 	 *
 	 * @return The ressource bundle name
 	 */
-	public String getBundle ()
+	public String getBundle()
 	{
 		return bundle;
 	}
@@ -175,7 +175,7 @@ public class FieldDescriptor
 	 *
 	 * @param bundle The ressource bundle name
 	 */
-	public void setBundle (String bundle)
+	public void setBundle(String bundle)
 	{
 		this.bundle = bundle;
 	}
@@ -185,7 +185,7 @@ public class FieldDescriptor
 	 *
 	 * @return The editor id.
 	 */
-	public String getEditor ()
+	public String getEditor()
 	{
 		return editor;
 	}
@@ -195,7 +195,7 @@ public class FieldDescriptor
 	 *
 	 * @return The editor size.
 	 */
-	public int getSize ()
+	public int getSize()
 	{
 		return size;
 	}
@@ -205,7 +205,7 @@ public class FieldDescriptor
 	 *
 	 * @return The field flags.
 	 */
-	public int getFlags ()
+	public int getFlags()
 	{
 		return flags;
 	}
@@ -215,7 +215,7 @@ public class FieldDescriptor
 	 *
 	 * @return The number of editor rows.
 	 */
-	public int getRows ()
+	public int getRows()
 	{
 		return rows;
 	}
@@ -225,7 +225,7 @@ public class FieldDescriptor
 	 *
 	 * @param rows The new number of editor rows.
 	 */
-	public void setRows (int rows)
+	public void setRows(int rows)
 	{
 		this.rows = rows;
 	}
@@ -235,7 +235,7 @@ public class FieldDescriptor
 	 *
 	 * @return True for a read only field.
 	 */
-	public boolean isReadOnly ()
+	public boolean isReadOnly()
 	{
 		return readOnly;
 	}
@@ -245,7 +245,7 @@ public class FieldDescriptor
 	 *
 	 * @param readOnly True for a read only field.
 	 */
-	public void setReadOnly (boolean readOnly)
+	public void setReadOnly(boolean readOnly)
 	{
 		this.readOnly = readOnly;
 	}
@@ -255,7 +255,7 @@ public class FieldDescriptor
 	 *
 	 * @return True for a duty field.
 	 */
-	public boolean isDuty ()
+	public boolean isDuty()
 	{
 		return duty;
 	}
@@ -265,7 +265,7 @@ public class FieldDescriptor
 	 *
 	 * @param duty True for a duty field.
 	 */
-	public void setDuty (boolean duty)
+	public void setDuty(boolean duty)
 	{
 		this.duty = duty;
 	}
@@ -275,7 +275,7 @@ public class FieldDescriptor
 	 *
 	 * @return True for a custom validation class field.
 	 */
-	public boolean hasValidationClass ()
+	public boolean hasValidationClass()
 	{
 		return (validationClassName) != null;
 	}
@@ -285,7 +285,7 @@ public class FieldDescriptor
 	 *
 	 * @param True if this field is unbound.
 	 */
-	public void setUnbound (boolean unbound)
+	public void setUnbound(boolean unbound)
 	{
 		this.unbound = unbound;
 	}
@@ -295,7 +295,7 @@ public class FieldDescriptor
 	 *
 	 * @return True for an unbound field.
 	 */
-	public boolean isUnbound ()
+	public boolean isUnbound()
 	{
 		return unbound;
 	}
@@ -305,9 +305,9 @@ public class FieldDescriptor
 	 *
 	 * @return True for a bound field.
 	 */
-	public boolean isBound ()
+	public boolean isBound()
 	{
-		return ! isUnbound ();
+		return ! isUnbound();
 	}
 
 	/**
@@ -315,7 +315,7 @@ public class FieldDescriptor
 	 *
 	 * @return True if the field should be hidden when no value is set.
 	 */
-	public boolean isHideIfNull ()
+	public boolean isHideIfNull()
 	{
 		return hideIfNull;
 	}
@@ -325,7 +325,7 @@ public class FieldDescriptor
 	 *
 	 * @return True for a description field.
 	 */
-	public boolean isComment ()
+	public boolean isComment()
 	{
 		return comment;
 	}
@@ -335,15 +335,15 @@ public class FieldDescriptor
 	 *
 	 * @return True for a hidden field.
 	 */
-	public boolean isHidden ()
+	public boolean isHidden()
 	{
-		return "hidden".equals (editor);
+		return "hidden".equals(editor);
 	}
 
 	/**
 	 * Set this field to be hidden.
 	 */
-	public void hide ()
+	public void hide()
 	{
 		editor = "hidden";
 	}
@@ -353,7 +353,7 @@ public class FieldDescriptor
 	 *
 	 * @return True for a submit field.
 	 */
-	public boolean isSubmit ()
+	public boolean isSubmit()
 	{
 		return submit;
 	}
@@ -361,7 +361,7 @@ public class FieldDescriptor
 	/**
 	 * Determine wether this is a submit field or not.
 	 */
-	public void setSubmit (boolean submit)
+	public void setSubmit(boolean submit)
 	{
 		this.submit = submit;
 	}
@@ -371,11 +371,11 @@ public class FieldDescriptor
 	 *
 	 * @return The field validator.
 	 */
-	public Validation getValidationClass ()
+	public Validation getValidationClass()
 	{
 		try
 		{
-			return (Validation) Class.forName (validationClassName).newInstance ();
+			return (Validation) Class.forName(validationClassName).newInstance();
 		}
 		catch (Exception x)
 		{
@@ -389,7 +389,7 @@ public class FieldDescriptor
 	 *
 	 * @param validationClassName The name of the field validator.
 	 */
-	public void setValidationClassName (String validationClassName)
+	public void setValidationClassName(String validationClassName)
 	{
 		this.validationClassName = validationClassName;
 	}
@@ -399,7 +399,7 @@ public class FieldDescriptor
 	 *
 	 * @return The field resource label.
 	 */
-	public String getLabel ()
+	public String getLabel()
 	{
 		return label;
 	}
@@ -409,7 +409,7 @@ public class FieldDescriptor
 	 *
 	 * @param label The new field resource label.
 	 */
-	public void setLabel (String label)
+	public void setLabel(String label)
 	{
 		this.label = label;
 	}
@@ -419,7 +419,7 @@ public class FieldDescriptor
 	 *
 	 * @return The field commands.
 	 */
-	public CommandDescriptor getCommands ()
+	public CommandDescriptor getCommands()
 	{
 		return commands;
 	}
@@ -430,9 +430,9 @@ public class FieldDescriptor
 	 * @param name The name of the command to retrieve.
 	 * @return The command or null if it wasn't found.
 	 */
-	public CommandInfo getCommand (String name)
+	public CommandInfo getCommand(String name)
 	{
-		return commands.getCommand (name);
+		return commands.getCommand(name);
 	}
 
 	/**
@@ -441,9 +441,9 @@ public class FieldDescriptor
 	 * @param name The parameter name.
 	 * @param value The parameter value.
 	 */
-	public void putParameter (String name, Object value)
+	public void putParameter(String name, Object value)
 	{
-		params.put (name, value);
+		params.put(name, value);
 	}
 
 	/**
@@ -452,9 +452,9 @@ public class FieldDescriptor
 	 * @param name The parameter name.
 	 * @return The parameter value.
 	 */
-	public Object getParameter (String name)
+	public Object getParameter(String name)
 	{
-		return params.get (name);
+		return params.get(name);
 	}
 
 	/**
@@ -462,7 +462,7 @@ public class FieldDescriptor
 	 *
 	 * @param noLabel If true, this field has no label.
 	 */
-	public void setNoLabel (boolean noLabel)
+	public void setNoLabel(boolean noLabel)
 	{
 		this.noLabel = noLabel;
 	}
@@ -472,7 +472,7 @@ public class FieldDescriptor
 	 *
 	 * @return True if this field has no label.
 	 */
-	public boolean isNoLabel ()
+	public boolean isNoLabel()
 	{
 		return noLabel;
 	}
@@ -482,7 +482,7 @@ public class FieldDescriptor
 	 *
 	 * @return True if this field is a multi field.
 	 */
-	public boolean isMulti ()
+	public boolean isMulti()
 	{
 		return multi;
 	}
@@ -492,7 +492,7 @@ public class FieldDescriptor
 	 *
 	 * @param omitted If true, this field is omitted.
 	 */
-	public void setOmitted (boolean omitted)
+	public void setOmitted(boolean omitted)
 	{
 		this.omitted = omitted;
 	}
@@ -502,17 +502,17 @@ public class FieldDescriptor
 	 *
 	 * @param omitted If true, this field is omitted.
 	 */
-	public void setVisible (boolean visible)
+	public void setVisible(boolean visible)
 	{
-		setOmitted (! visible);
+		setOmitted(! visible);
 	}
 
 	/**
 	 * Specify that the field should be omitted
 	 */
-	public void setOmitted ()
+	public void setOmitted()
 	{
-		setOmitted (true);
+		setOmitted(true);
 	}
 
 	/**
@@ -520,7 +520,7 @@ public class FieldDescriptor
 	 *
 	 * @return True If this field is omitted.
 	 */
-	public boolean isOmitted ()
+	public boolean isOmitted()
 	{
 		return omitted;
 	}
@@ -530,9 +530,9 @@ public class FieldDescriptor
 	 *
 	 * @param field The field descriptor.
 	 */
-	public void addField (FieldDescriptor field)
+	public void addField(FieldDescriptor field)
 	{
-		subFields.add (field);
+		subFields.add(field);
 	}
 
 	/**
@@ -540,7 +540,7 @@ public class FieldDescriptor
 	 *
 	 * @return The the toop tip.
 	 */
-	public String getToolTip ()
+	public String getToolTip()
 	{
 		return toolTip;
 	}
@@ -550,7 +550,7 @@ public class FieldDescriptor
 	 *
 	 * @param toolTip The new tool tip.
 	 */
-	public void setToolTip (String toolTip)
+	public void setToolTip(String toolTip)
 	{
 		this.toolTip = toolTip;
 	}
@@ -558,7 +558,7 @@ public class FieldDescriptor
 	/**
 	 * Get the trim flag.
 	 */
-	public boolean isTrim ()
+	public boolean isTrim()
 	{
 		return trim;
 	}
@@ -566,7 +566,7 @@ public class FieldDescriptor
 	/**
 	 * Set the trim flag.
 	 */
-	public void setTrim (boolean trim)
+	public void setTrim(boolean trim)
 	{
 		this.trim = trim;
 	}
@@ -576,7 +576,7 @@ public class FieldDescriptor
 	 *
 	 * @param selectabel If true, the field can be selected.
 	 */
-	public boolean isSelectable ()
+	public boolean isSelectable()
 	{
 		return selectable;
 	}
@@ -586,7 +586,7 @@ public class FieldDescriptor
 	 *
 	 * @param selectabel If true, the field can be selected.
 	 */
-	public void setSelectable (boolean selectable)
+	public void setSelectable(boolean selectable)
 	{
 		this.selectable = selectable;
 	}
@@ -594,7 +594,7 @@ public class FieldDescriptor
 	/**
 	 * @param comment
 	 */
-	public void setComment (boolean comment)
+	public void setComment(boolean comment)
 	{
 		this.comment = comment;
 
@@ -608,7 +608,7 @@ public class FieldDescriptor
 	/**
 	 * @param multi
 	 */
-	public void setMulti (boolean multi)
+	public void setMulti(boolean multi)
 	{
 		this.multi = multi;
 	}

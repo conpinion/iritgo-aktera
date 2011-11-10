@@ -49,9 +49,9 @@ public class ClientException extends NestedException
 	/**
 	 * Default constructor
 	 */
-	public ClientException ()
+	public ClientException()
 	{
-		super ();
+		super();
 	} /* ModelException() */
 
 	/**
@@ -59,17 +59,17 @@ public class ClientException extends NestedException
 	 *
 	 * @param   s exception message
 	 */
-	public ClientException (String s)
+	public ClientException(String s)
 	{
-		super (s);
+		super(s);
 	} /*  ModelException */
 
 	/**
 	 * String message and error key
 	 */
-	public ClientException (String s, String newErrorKey)
+	public ClientException(String s, String newErrorKey)
 	{
-		super (s, newErrorKey);
+		super(s, newErrorKey);
 	}
 
 	/**
@@ -78,9 +78,9 @@ public class ClientException extends NestedException
 	 * @param   s The exception message
 	 * @param   newNested The nested item
 	 */
-	public ClientException (String message, Throwable newNested)
+	public ClientException(String message, Throwable newNested)
 	{
-		super (message, newNested);
+		super(message, newNested);
 	} /* ModelException(String, Throwable) */
 
 	/**
@@ -90,9 +90,9 @@ public class ClientException extends NestedException
 	 * @param   newNested The nested item
 	 * @param   errorKey A string key to the messages bundle
 	 */
-	public ClientException (String message, Throwable newNested, String newErrorKey)
+	public ClientException(String message, Throwable newNested, String newErrorKey)
 	{
-		super (message, newNested, newErrorKey);
+		super(message, newNested, newErrorKey);
 	} /* ModelException(String, Throwable, String) */
 
 	/**
@@ -100,9 +100,9 @@ public class ClientException extends NestedException
 	 *
 	 * @param   newNested The nested exception
 	 */
-	public ClientException (Throwable newNested)
+	public ClientException(Throwable newNested)
 	{
-		super (newNested);
+		super(newNested);
 	} /* ModelException(Throwable) */
 
 	/**
@@ -110,8 +110,8 @@ public class ClientException extends NestedException
 	 *
 	 * @param   newNested The nested exception
 	 */
-	public ClientException (Throwable newNested, String newErrorKey)
+	public ClientException(Throwable newNested, String newErrorKey)
 	{
-		super (newNested, newErrorKey);
+		super(newNested, newErrorKey);
 	}
 }

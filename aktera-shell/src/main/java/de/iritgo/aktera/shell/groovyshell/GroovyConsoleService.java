@@ -33,30 +33,30 @@ public class GroovyConsoleService extends GroovyService
 
 	private Thread thread;
 
-	public GroovyConsoleService ()
+	public GroovyConsoleService()
 	{
-		super ();
+		super();
 	}
 
-	public void launch ()
+	public void launch()
 	{
-		thread = new Thread ()
+		thread = new Thread()
 		{
 			@Override
-			public void run ()
+			public void run()
 			{
 				try
 				{
-					new Console (createBinding ()).run ();
+					new Console(createBinding()).run();
 				}
 				catch (Exception e)
 				{
-					e.printStackTrace ();
+					e.printStackTrace();
 				}
 			}
 		};
 
-		thread.setDaemon (true);
-		thread.start ();
+		thread.setDaemon(true);
+		thread.start();
 	}
 }

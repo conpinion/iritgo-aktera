@@ -79,7 +79,7 @@ public class ImageTag extends BaseTagSupport
 	 *
 	 * @return The image name.
 	 */
-	public String getSrc ()
+	public String getSrc()
 	{
 		return src;
 	}
@@ -89,7 +89,7 @@ public class ImageTag extends BaseTagSupport
 	 *
 	 * @param src The image name.
 	 */
-	public void setSrc (String src)
+	public void setSrc(String src)
 	{
 		this.src = src;
 	}
@@ -99,7 +99,7 @@ public class ImageTag extends BaseTagSupport
 	 *
 	 * @return The image name.
 	 */
-	public String getName ()
+	public String getName()
 	{
 		return name;
 	}
@@ -109,7 +109,7 @@ public class ImageTag extends BaseTagSupport
 	 *
 	 * @param name The image name.
 	 */
-	public void setName (String name)
+	public void setName(String name)
 	{
 		this.name = name;
 	}
@@ -119,7 +119,7 @@ public class ImageTag extends BaseTagSupport
 	 *
 	 * @return The image name.
 	 */
-	public String getProperty ()
+	public String getProperty()
 	{
 		return property;
 	}
@@ -129,7 +129,7 @@ public class ImageTag extends BaseTagSupport
 	 *
 	 * @param property The image name.
 	 */
-	public void setProperty (String property)
+	public void setProperty(String property)
 	{
 		this.property = property;
 	}
@@ -139,7 +139,7 @@ public class ImageTag extends BaseTagSupport
 	 *
 	 * @return The image name.
 	 */
-	public String getScope ()
+	public String getScope()
 	{
 		return scope;
 	}
@@ -149,7 +149,7 @@ public class ImageTag extends BaseTagSupport
 	 *
 	 * @param scope The image name.
 	 */
-	public void setScope (String scope)
+	public void setScope(String scope)
 	{
 		this.scope = scope;
 	}
@@ -159,7 +159,7 @@ public class ImageTag extends BaseTagSupport
 	 *
 	 * @return The alternate image text.
 	 */
-	public String getAlt ()
+	public String getAlt()
 	{
 		return alt;
 	}
@@ -169,7 +169,7 @@ public class ImageTag extends BaseTagSupport
 	 *
 	 * @param alt The alternate image text.
 	 */
-	public void setAlt (String alt)
+	public void setAlt(String alt)
 	{
 		this.alt = alt;
 	}
@@ -179,7 +179,7 @@ public class ImageTag extends BaseTagSupport
 	 *
 	 * @return The image border.
 	 */
-	public String getBorder ()
+	public String getBorder()
 	{
 		return border;
 	}
@@ -189,7 +189,7 @@ public class ImageTag extends BaseTagSupport
 	 *
 	 * @param border The image border.
 	 */
-	public void setBorder (String border)
+	public void setBorder(String border)
 	{
 		this.border = border;
 	}
@@ -199,7 +199,7 @@ public class ImageTag extends BaseTagSupport
 	 *
 	 * @return The image alignment.
 	 */
-	public String getAlign ()
+	public String getAlign()
 	{
 		return align;
 	}
@@ -209,7 +209,7 @@ public class ImageTag extends BaseTagSupport
 	 *
 	 * @param align The image alignment.
 	 */
-	public void setAlign (String align)
+	public void setAlign(String align)
 	{
 		this.align = align;
 	}
@@ -219,7 +219,7 @@ public class ImageTag extends BaseTagSupport
 	 *
 	 * @return The image style class.
 	 */
-	public String getStyleClass ()
+	public String getStyleClass()
 	{
 		return styleClass;
 	}
@@ -229,7 +229,7 @@ public class ImageTag extends BaseTagSupport
 	 *
 	 * @param style The image style class.
 	 */
-	public void setStyleClass (String styleClass)
+	public void setStyleClass(String styleClass)
 	{
 		this.styleClass = styleClass;
 	}
@@ -239,7 +239,7 @@ public class ImageTag extends BaseTagSupport
 	 *
 	 * @return The image width.
 	 */
-	public String getWidth ()
+	public String getWidth()
 	{
 		return width;
 	}
@@ -249,7 +249,7 @@ public class ImageTag extends BaseTagSupport
 	 *
 	 * @param width The image width.
 	 */
-	public void setWidth (String width)
+	public void setWidth(String width)
 	{
 		this.width = width;
 	}
@@ -259,7 +259,7 @@ public class ImageTag extends BaseTagSupport
 	 *
 	 * @return The image height.
 	 */
-	public String getHeight ()
+	public String getHeight()
 	{
 		return height;
 	}
@@ -269,7 +269,7 @@ public class ImageTag extends BaseTagSupport
 	 *
 	 * @param height The image height.
 	 */
-	public void setHeight (String height)
+	public void setHeight(String height)
 	{
 		this.height = height;
 	}
@@ -279,7 +279,7 @@ public class ImageTag extends BaseTagSupport
 	 *
 	 * @return The image path.
 	 */
-	public String getPath ()
+	public String getPath()
 	{
 		return path;
 	}
@@ -289,9 +289,9 @@ public class ImageTag extends BaseTagSupport
 	 *
 	 * @param path The image path.
 	 */
-	public void setPath (String path)
+	public void setPath(String path)
 	{
-		if (! path.endsWith ("/"))
+		if (! path.endsWith("/"))
 		{
 			this.path = path + "/";
 		}
@@ -306,7 +306,7 @@ public class ImageTag extends BaseTagSupport
 	 *
 	 * @return The on click code.
 	 */
-	public String getOnclick ()
+	public String getOnclick()
 	{
 		return onclick;
 	}
@@ -316,7 +316,7 @@ public class ImageTag extends BaseTagSupport
 	 *
 	 * @param src The on click code.
 	 */
-	public void setOnclick (String onclick)
+	public void setOnclick(String onclick)
 	{
 		this.onclick = onclick;
 	}
@@ -326,7 +326,7 @@ public class ImageTag extends BaseTagSupport
 	 *
 	 * @return The tag id.
 	 */
-	public String getStyleId ()
+	public String getStyleId()
 	{
 		return styleId;
 	}
@@ -336,7 +336,7 @@ public class ImageTag extends BaseTagSupport
 	 *
 	 * @param styleId The tag id.
 	 */
-	public void setStyleId (String styleId)
+	public void setStyleId(String styleId)
 	{
 		this.styleId = styleId;
 	}
@@ -344,7 +344,7 @@ public class ImageTag extends BaseTagSupport
 	/**
 	 * Reset all tag attributes to their default values.
 	 */
-	public void release ()
+	public void release()
 	{
 		src = null;
 		alt = null;
@@ -366,37 +366,37 @@ public class ImageTag extends BaseTagSupport
 	 *
 	 * @return EVAL_PAGE.
 	 */
-	public int doEndTag () throws JspException
+	public int doEndTag() throws JspException
 	{
 		try
 		{
 			if (name != null)
 			{
-				Object value = TagUtils.getInstance ().lookup (pageContext, name, property, scope);
+				Object value = TagUtils.getInstance().lookup(pageContext, name, property, scope);
 
 				if (value != null)
 				{
-					src = value.toString ();
+					src = value.toString();
 				}
 			}
 
-			String browser = ((HttpServletRequest) pageContext.getRequest ()).getHeader ("User-Agent");
+			String browser = ((HttpServletRequest) pageContext.getRequest()).getHeader("User-Agent");
 
 			if (browser == null)
 			{
 				browser = "unknown";
 			}
 
-			browser = browser.toLowerCase ();
+			browser = browser.toLowerCase();
 
-			String url = ((HttpServletRequest) pageContext.getRequest ()).getContextPath () + path + src;
+			String url = ((HttpServletRequest) pageContext.getRequest()).getContextPath() + path + src;
 
-			if (! url.endsWith (".gif") && ! url.endsWith (".png") && ! url.endsWith (".jpg"))
+			if (! url.endsWith(".gif") && ! url.endsWith(".png") && ! url.endsWith(".jpg"))
 			{
-				url = url + ((browser.indexOf ("msie") != - 1) && (browser.indexOf ("opera") == - 1) ? ".gif" : ".png");
+				url = url + ((browser.indexOf("msie") != - 1) && (browser.indexOf("opera") == - 1) ? ".gif" : ".png");
 			}
 
-			pageContext.getOut ().print (
+			pageContext.getOut().print(
 							"<img src=\"" + url + "\"" + ((alt != null) ? (" alt=\"" + alt + "\"") : "")
 											+ ((styleId != null) ? (" styleId=\"" + styleId + "\"") : "")
 											+ ((border != null) ? (" border=\"" + border + "\"") : "")
@@ -410,7 +410,7 @@ public class ImageTag extends BaseTagSupport
 		}
 		catch (Exception x)
 		{
-			throw new JspException (x);
+			throw new JspException(x);
 		}
 	}
 }

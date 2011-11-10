@@ -60,16 +60,16 @@ public class KeelServiceManager implements ServiceManager
 
 	private final ServiceManager m_parent;
 
-	public KeelServiceManager (final Container container, final ServiceManager parent)
+	public KeelServiceManager(final Container container, final ServiceManager parent)
 	{
 		if (null == container)
 		{
-			throw new NullPointerException ("impl");
+			throw new NullPointerException("impl");
 		}
 
 		m_parent = parent;
 		m_container = container;
-		m_used = Collections.synchronizedMap (new HashMap ());
+		m_used = Collections.synchronizedMap(new HashMap());
 	}
 
 	/**
@@ -77,13 +77,13 @@ public class KeelServiceManager implements ServiceManager
 	 * get it from this ServiceManager, then we try to get it from the parent
 	 * manager. If it exists, we will lastly try the JNDI context.
 	 */
-	public Object lookup (String role) throws ServiceException
+	public Object lookup(String role) throws ServiceException
 	{
-		Object o = lookupFManager (role);
+		Object o = lookupFManager(role);
 
 		if (o instanceof Securable)
 		{
-			throw new ServiceException (role, "Securable components cannot be obtained here");
+			throw new ServiceException(role, "Securable components cannot be obtained here");
 		}
 		else
 		{
@@ -96,63 +96,63 @@ public class KeelServiceManager implements ServiceManager
 	 * get it from this ServiceManager, then we try to get it from the parent
 	 * manager. If it exists, we will lastly try the JNDI context.
 	 */
-	public Object lookup (String role, Context c) throws ServiceException
+	public Object lookup(String role, Context c) throws ServiceException
 	{
 		if (c == null)
 		{
-			throw new ServiceException (role, "Unable to pass null context");
+			throw new ServiceException(role, "Unable to pass null context");
 		}
 
-		Object o = lookupFManager (role);
+		Object o = lookupFManager(role);
 
 		if ((o instanceof KeelContextualizable))
 		{
 			try
 			{
-				((KeelContextualizable) o).setKeelContext (c);
+				((KeelContextualizable) o).setKeelContext(c);
 			}
 			catch (ContextException e)
 			{
-				throw new ServiceException (role, e.getMessage ());
+				throw new ServiceException(role, e.getMessage());
 			}
 		}
 
 		if (o instanceof Securable)
 		{
-			AuthorizationManager am = ((Securable) o).getAuthorizationManager ();
+			AuthorizationManager am = ((Securable) o).getAuthorizationManager();
 
 			if (am == null)
 			{
-				throw new ServiceException (role,
+				throw new ServiceException(role,
 								"Authorization Manager was not setup properly, this is a container setup problem");
 			}
 
 			try
 			{
-				if (! am.allowed (o, c))
+				if (! am.allowed(o, c))
 				{
-					throw new SecurityException ("Service '" + role + "' Not Authorized");
+					throw new SecurityException("Service '" + role + "' Not Authorized");
 				}
 			}
 			catch (AuthorizationException e)
 			{
-				throw new ServiceException (role, "Error authorizing service " + role + " -  " + e.toString ());
+				throw new ServiceException(role, "Error authorizing service " + role + " -  " + e.toString());
 			}
 		}
 
 		return o;
 	}
 
-	public Object lookupFManager (final String role) throws ServiceException
+	public Object lookupFManager(final String role) throws ServiceException
 	{
-		final Lookup lookup = parseRole (role);
+		final Lookup lookup = parseRole(role);
 
-		if (! m_container.has (lookup.m_role, lookup.m_hint))
+		if (! m_container.has(lookup.m_role, lookup.m_hint))
 		{
-			return m_parent.lookup (role);
+			return m_parent.lookup(role);
 		}
 
-		final Object result = m_container.get (lookup.m_role, lookup.m_hint);
+		final Object result = m_container.get(lookup.m_role, lookup.m_hint);
 
 		if (result instanceof ServiceSelector)
 		{
@@ -161,22 +161,22 @@ public class KeelServiceManager implements ServiceManager
 
 		if (result instanceof ComponentSelector)
 		{
-			return new WrapperServiceSelector (lookup.m_role, (ComponentSelector) result);
+			return new WrapperServiceSelector(lookup.m_role, (ComponentSelector) result);
 		}
 
 		if (! (result instanceof ComponentHandler))
 		{
 			final String message = "Invalid entry in component manager";
 
-			throw new ServiceException (role, message);
+			throw new ServiceException(role, message);
 		}
 
 		try
 		{
 			final ComponentHandler handler = (ComponentHandler) result;
-			final Object component = handler.get ();
+			final Object component = handler.get();
 
-			m_used.put (new ComponentKeelKey (component), handler);
+			m_used.put(new ComponentKeelKey(component), handler);
 
 			return component;
 		}
@@ -188,29 +188,29 @@ public class KeelServiceManager implements ServiceManager
 		{
 			final String message = "Could not return a reference to the Component";
 
-			throw new ServiceException (role, message, e);
+			throw new ServiceException(role, message, e);
 		}
 	}
 
-	public boolean hasService (final String role)
+	public boolean hasService(final String role)
 	{
-		final Lookup lookup = parseRole (role);
+		final Lookup lookup = parseRole(role);
 
-		if (m_container.has (lookup.m_role, lookup.m_hint))
+		if (m_container.has(lookup.m_role, lookup.m_hint))
 		{
 			return true;
 		}
 		else
 		{
-			return null != m_parent ? m_parent.hasService (role) : false;
+			return null != m_parent ? m_parent.hasService(role) : false;
 		}
 	}
 
-	public void release (final Object component)
+	public void release(final Object component)
 	{
 		try
 		{
-			final ComponentHandler handler = (ComponentHandler) m_used.remove (new ComponentKeelKey (component));
+			final ComponentHandler handler = (ComponentHandler) m_used.remove(new ComponentKeelKey(component));
 
 			if (null == handler)
 			{
@@ -232,40 +232,40 @@ public class KeelServiceManager implements ServiceManager
 				}
 				else
 				{
-					m_parent.release (component);
+					m_parent.release(component);
 				}
 			}
 			else
 			{
-				handler.put (component);
+				handler.put(component);
 			}
 		}
 		catch (Exception x)
 		{
-			System.out.println ("ERROR [KeelServiceManager]: " + x);
+			System.out.println("ERROR [KeelServiceManager]: " + x);
 		}
 	}
 
-	private Lookup parseRole (final String role)
+	private Lookup parseRole(final String role)
 	{
-		final Lookup lookup = new Lookup ();
+		final Lookup lookup = new Lookup();
 
 		lookup.m_role = role;
 		lookup.m_hint = AbstractContainer.DEFAULT_ENTRY;
 
-		if (role.endsWith ("Selector"))
+		if (role.endsWith("Selector"))
 		{
-			lookup.m_role = role.substring (0, role.length () - "Selector".length ());
+			lookup.m_role = role.substring(0, role.length() - "Selector".length());
 			lookup.m_hint = AbstractContainer.SELECTOR_ENTRY;
 		}
 
-		final int index = role.lastIndexOf ("/");
+		final int index = role.lastIndexOf("/");
 
 		// needs to be further than the first character
 		if (index > 0)
 		{
-			lookup.m_role = role.substring (0, index);
-			lookup.m_hint = role.substring (index + 1);
+			lookup.m_role = role.substring(0, index);
+			lookup.m_hint = role.substring(index + 1);
 		}
 
 		return lookup;

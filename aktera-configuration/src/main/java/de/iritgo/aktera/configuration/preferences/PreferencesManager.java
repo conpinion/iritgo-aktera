@@ -33,15 +33,14 @@ public interface PreferencesManager
 	 *
 	 * @param userId The id of the user
 	 */
-	public void clearCache (Integer userId);
-
+	public void clearCache(Integer userId);
 
 	/**
 	 * Create the default prefrence configs for the given user id
 	 *
 	 * @param userId The user id
 	 */
-	public void createDefaultPrefrenceConfigsForUserId (Integer userId);
+	public void createDefaultPrefrenceConfigsForUserId(Integer userId);
 
 	/**
 	 * Retrieve a preference value.
@@ -51,7 +50,7 @@ public interface PreferencesManager
 	 * @param name The preference name
 	 * @return The preference value or null if none was found
 	 */
-	public Object get (Integer userId, String category, String name);
+	public Object get(Integer userId, String category, String name);
 
 	/**
 	 * Retrieve a preference value, eventually converting it to an int.
@@ -63,7 +62,7 @@ public interface PreferencesManager
 	 *   value wasn't found
 	 * @return The preference value
 	 */
-	public Integer getInt (Integer userId, String category, String name, Integer defaultValue);
+	public Integer getInt(Integer userId, String category, String name, Integer defaultValue);
 
 	/**
 	 * Retrieve a preference value, eventually converting it to a string.
@@ -75,7 +74,7 @@ public interface PreferencesManager
 	 *   value wasn't found
 	 * @return The preference value
 	 */
-	public String getString (Integer userId, String category, String name, String defaultValue);
+	public String getString(Integer userId, String category, String name, String defaultValue);
 
 	/**
 	 * Set a preference value.
@@ -85,5 +84,5 @@ public interface PreferencesManager
 	 * @param name The preference name
 	 * @param value The new preference value
 	 */
-	public void set (Integer userId, String category, String name, Object value);
+	public void set(Integer userId, String category, String name, Object value);
 }

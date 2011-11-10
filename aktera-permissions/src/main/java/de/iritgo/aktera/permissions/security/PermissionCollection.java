@@ -40,7 +40,7 @@ public abstract class PermissionCollection implements java.io.Serializable
 	 * @exception SecurityException - if this PermissionCollection object has
 	 *                been marked readonly
 	 */
-	public abstract void add (AbstractPermission permission);
+	public abstract void add(AbstractPermission permission);
 
 	/**
 	 * Checks to see if the specified permission is implied by the collection of
@@ -51,21 +51,21 @@ public abstract class PermissionCollection implements java.io.Serializable
 	 * @return true if "permission" is implied by the permissions in the
 	 *         collection, false if not.
 	 */
-	public abstract boolean implies (AbstractPermission permission);
+	public abstract boolean implies(AbstractPermission permission);
 
 	/**
 	 * Returns an enumeration of all the Permission objects in the collection.
 	 *
 	 * @return an enumeration of all the Permissions.
 	 */
-	public abstract Enumeration<AbstractPermission> elements ();
+	public abstract Enumeration<AbstractPermission> elements();
 
 	/**
 	 * Marks this PermissionCollection object as "readonly". After a
 	 * PermissionCollection object is marked as readonly, no new Permission
 	 * objects can be added to it using <code>add</code>.
 	 */
-	public void setReadOnly ()
+	public void setReadOnly()
 	{
 		readOnly = true;
 	}
@@ -82,7 +82,7 @@ public abstract class PermissionCollection implements java.io.Serializable
 	 * @return true if this PermissionCollection object is marked as readonly,
 	 *         false otherwise.
 	 */
-	public boolean isReadOnly ()
+	public boolean isReadOnly()
 	{
 		return readOnly;
 	}
@@ -110,25 +110,25 @@ public abstract class PermissionCollection implements java.io.Serializable
 	 *
 	 */
 	@Override
-	public String toString ()
+	public String toString()
 	{
-		Enumeration enum_ = elements ();
-		StringBuilder sb = new StringBuilder ();
-		sb.append (super.toString () + " (\n");
-		while (enum_.hasMoreElements ())
+		Enumeration enum_ = elements();
+		StringBuilder sb = new StringBuilder();
+		sb.append(super.toString() + " (\n");
+		while (enum_.hasMoreElements())
 		{
 			try
 			{
-				sb.append (" ");
-				sb.append (enum_.nextElement ().toString ());
-				sb.append ("\n");
+				sb.append(" ");
+				sb.append(enum_.nextElement().toString());
+				sb.append("\n");
 			}
 			catch (NoSuchElementException e)
 			{
 				// ignore
 			}
 		}
-		sb.append (")\n");
-		return sb.toString ();
+		sb.append(")\n");
+		return sb.toString();
 	}
 }

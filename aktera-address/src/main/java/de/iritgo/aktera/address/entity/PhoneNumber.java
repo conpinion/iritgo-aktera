@@ -43,7 +43,7 @@ import de.iritgo.simplelife.string.*;
 public class PhoneNumber implements Serializable
 {
 	/** Empty phone number */
-	public static PhoneNumber EMPTY = new PhoneNumber ();
+	public static PhoneNumber EMPTY = new PhoneNumber();
 
 	/** The primary key */
 	@Id
@@ -80,7 +80,7 @@ public class PhoneNumber implements Serializable
 	 * @persist.field name="id" db-name="id" type="integer" primary-key="true"
 	 *                null-allowed="false" auto-increment="identity"
 	 */
-	public Integer getId ()
+	public Integer getId()
 	{
 		return id;
 	}
@@ -88,7 +88,7 @@ public class PhoneNumber implements Serializable
 	/**
 	 * Set the primary key.
 	 */
-	public void setId (Integer id)
+	public void setId(Integer id)
 	{
 		this.id = id;
 	}
@@ -99,7 +99,7 @@ public class PhoneNumber implements Serializable
 	 * @persist.field name="addressId" db-name="addressId" type="integer"
 	 *                null-allowed="false"
 	 */
-	public Integer getAddressId ()
+	public Integer getAddressId()
 	{
 		return addressId;
 	}
@@ -107,7 +107,7 @@ public class PhoneNumber implements Serializable
 	/**
 	 * Set the foreign address key.
 	 */
-	public void setAddressId (Integer addressId)
+	public void setAddressId(Integer addressId)
 	{
 		this.addressId = addressId;
 	}
@@ -115,7 +115,7 @@ public class PhoneNumber implements Serializable
 	/**
 	 * Get the address.
 	 */
-	public Address getAddress ()
+	public Address getAddress()
 	{
 		return address;
 	}
@@ -123,7 +123,7 @@ public class PhoneNumber implements Serializable
 	/**
 	 * Set the address.
 	 */
-	public void setAddress (Address address)
+	public void setAddress(Address address)
 	{
 		this.address = address;
 	}
@@ -142,7 +142,7 @@ public class PhoneNumber implements Serializable
 	 * @persist.valid-value value="PF" descrip="$phonePrivateFax"
 	 * @persist.valid-value value="VOIP" descrip="$phoneVoip"
 	 */
-	public String getCategory ()
+	public String getCategory()
 	{
 		return category;
 	}
@@ -150,7 +150,7 @@ public class PhoneNumber implements Serializable
 	/**
 	 * Set the phone number category.
 	 */
-	public void setCategory (String category)
+	public void setCategory(String category)
 	{
 		this.category = category;
 	}
@@ -160,7 +160,7 @@ public class PhoneNumber implements Serializable
 	 *
 	 * @persist.field name="number" db-name="number" type="varchar" length="80"
 	 */
-	public String getNumber ()
+	public String getNumber()
 	{
 		return number;
 	}
@@ -168,21 +168,21 @@ public class PhoneNumber implements Serializable
 	/**
 	 * Set the human readable phone number.
 	 */
-	public void setNumber (String number)
+	public void setNumber(String number)
 	{
-		SystemConfigManager systemConfigManager = (SystemConfigManager) SpringTools.getBean (SystemConfigManager.ID);
+		SystemConfigManager systemConfigManager = (SystemConfigManager) SpringTools.getBean(SystemConfigManager.ID);
 
 		this.number = number;
-		this.internalNumber = StringTools.trim (number).replaceAll ("[^0-9+]+", "");
+		this.internalNumber = StringTools.trim(number).replaceAll("[^0-9+]+", "");
 
-		if (this.internalNumber.startsWith ("+", 0))
+		if (this.internalNumber.startsWith("+", 0))
 		{
-			this.internalNumber = systemConfigManager.getString ("phone", "internationalPrefix")
-							+ this.internalNumber.replaceAll ("[^0-9]+", "");
+			this.internalNumber = systemConfigManager.getString("phone", "internationalPrefix")
+							+ this.internalNumber.replaceAll("[^0-9]+", "");
 		}
 		else
 		{
-			this.internalNumber = StringTools.trim (number).replaceAll ("[^0-9]+", "");
+			this.internalNumber = StringTools.trim(number).replaceAll("[^0-9]+", "");
 		}
 	}
 
@@ -192,7 +192,7 @@ public class PhoneNumber implements Serializable
 	 * @persist.field name="internalNumber" db-name="internalNumber"
 	 *                type="varchar" length="80"
 	 */
-	public String getInternalNumber ()
+	public String getInternalNumber()
 	{
 		return internalNumber;
 	}
@@ -200,7 +200,7 @@ public class PhoneNumber implements Serializable
 	/**
 	 * Set the normalized phone number.
 	 */
-	public void setInternalNumber (String internalNumber)
+	public void setInternalNumber(String internalNumber)
 	{
 		this.internalNumber = internalNumber;
 	}
@@ -209,9 +209,9 @@ public class PhoneNumber implements Serializable
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
-	public String toString ()
+	public String toString()
 	{
-		return getClass ().getName () + " (id=" + id + ",addressId=" + address.getId () + ",category=" + category
+		return getClass().getName() + " (id=" + id + ",addressId=" + address.getId() + ",category=" + category
 						+ ",number=" + number + ",internalNumber=" + internalNumber + ")";
 	}
 }

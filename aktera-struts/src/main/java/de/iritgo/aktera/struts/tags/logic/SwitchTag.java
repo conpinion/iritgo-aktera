@@ -37,9 +37,9 @@ public class SwitchTag extends org.apache.struts.taglib.logic.CompareTagBase
 	/**
 	 * Reset all tag attributes to their default values.
 	 */
-	public void release ()
+	public void release()
 	{
-		super.release ();
+		super.release();
 
 		caseApplied = false;
 	}
@@ -48,7 +48,7 @@ public class SwitchTag extends org.apache.struts.taglib.logic.CompareTagBase
 	 * The switch tag always includes it's body.
 	 * The condition is check in the CaseTag children.
 	 */
-	protected boolean condition () throws JspException
+	protected boolean condition() throws JspException
 	{
 		return true;
 	}
@@ -57,9 +57,9 @@ public class SwitchTag extends org.apache.struts.taglib.logic.CompareTagBase
 	 * Called by the CaseTag children to check the condition against
 	 * their value.
 	 */
-	public boolean checkCondition () throws JspException
+	public boolean checkCondition() throws JspException
 	{
-		boolean check = condition (0, 0);
+		boolean check = condition(0, 0);
 
 		caseApplied |= check;
 
@@ -71,7 +71,7 @@ public class SwitchTag extends org.apache.struts.taglib.logic.CompareTagBase
 	 *
 	 * @return True if a case option was applied.
 	 */
-	public boolean isCaseApplied ()
+	public boolean isCaseApplied()
 	{
 		return caseApplied;
 	}
@@ -79,10 +79,10 @@ public class SwitchTag extends org.apache.struts.taglib.logic.CompareTagBase
 	/**
 	 * Execute the tag.
 	 */
-	public int doStartTag () throws JspException
+	public int doStartTag() throws JspException
 	{
 		caseApplied = false;
 
-		return super.doStartTag ();
+		return super.doStartTag();
 	}
 }

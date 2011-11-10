@@ -41,28 +41,28 @@ public class HsqldbDatabaseType extends JDBCDatabaseType
 {
 	/* @see de.iritgo.aktera.persist.DatabaseType#getCreateIdentitySyntax()
 	 */
-	public String getCreateIdentitySyntax () throws PersistenceException
+	public String getCreateIdentitySyntax() throws PersistenceException
 	{
 		return "IDENTITY";
 	}
 
 	/* @see de.iritgo.aktera.persist.DatabaseType#getInsertIdentitySyntax()
 	 */
-	public String getInsertIdentitySyntax () throws PersistenceException
+	public String getInsertIdentitySyntax() throws PersistenceException
 	{
 		return "null";
 	}
 
 	/* @see de.iritgo.aktera.persist.DatabaseType#getRetrieveIdentitySyntax()
 	 */
-	public String getRetrieveIdentitySyntax (PersistentMetaData pmd, String idFieldName) throws PersistenceException
+	public String getRetrieveIdentitySyntax(PersistentMetaData pmd, String idFieldName) throws PersistenceException
 	{
 		return "CALL IDENTITY()";
 	}
 
 	/* @see de.iritgo.aktera.persist.DatabaseType#isIdentitySupported()
 	 */
-	public boolean isIdentitySupported ()
+	public boolean isIdentitySupported()
 	{
 		//Although HsqlDB does support Identity columns, it does not
 		// allow use of additional primary keys when an identity column is
@@ -72,7 +72,7 @@ public class HsqldbDatabaseType extends JDBCDatabaseType
 
 	/* @see de.iritgo.aktera.persist.DatabaseType#isAlterKeySupported()
 	 */
-	public boolean isAlterKeySupported ()
+	public boolean isAlterKeySupported()
 	{
 		return false;
 	}
@@ -81,7 +81,7 @@ public class HsqldbDatabaseType extends JDBCDatabaseType
 	 * Theoretically Hypersonic does support transactions,
 	 * but the unit tests say otherwise...
 	 */
-	public boolean supportsTransactions ()
+	public boolean supportsTransactions()
 	{
 		return false;
 	} // supportsTransactions

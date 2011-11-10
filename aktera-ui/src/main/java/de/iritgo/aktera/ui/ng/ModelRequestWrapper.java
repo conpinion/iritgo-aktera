@@ -48,20 +48,20 @@ public class ModelRequestWrapper implements ModelRequest
 
 	private Context context;
 
-	private List<Object> services = new LinkedList ();
+	private List<Object> services = new LinkedList();
 
-	private Map attributes = new HashMap ();
+	private Map attributes = new HashMap();
 
-	public ModelRequestWrapper (UIRequest request)
+	public ModelRequestWrapper(UIRequest request)
 	{
 		this.request = request;
-		this.context = new Context ()
+		this.context = new Context()
 		{
-			public Object get (Object key) throws ContextException
+			public Object get(Object key) throws ContextException
 			{
-				if (UserEnvironment.CONTEXT_KEY.equals (key))
+				if (UserEnvironment.CONTEXT_KEY.equals(key))
 				{
-					return ModelRequestWrapper.this.request.getUserEnvironment ();
+					return ModelRequestWrapper.this.request.getUserEnvironment();
 				}
 
 				return null;
@@ -69,349 +69,349 @@ public class ModelRequestWrapper implements ModelRequest
 		};
 	}
 
-	public void release ()
+	public void release()
 	{
 		for (Object service : services)
 		{
-			KeelTools.releaseService (service);
+			KeelTools.releaseService(service);
 		}
 	}
 
-	public void addError (String errorName, String errorMessage)
+	public void addError(String errorName, String errorMessage)
 	{
 	}
 
-	public void copyFrom (KeelRequest newRequest) throws ModelException
+	public void copyFrom(KeelRequest newRequest) throws ModelException
 	{
 	}
 
-	public ModelResponse createResponse () throws ModelException
+	public ModelResponse createResponse() throws ModelException
 	{
-		return new ModelResponseWrapper (new BeanResponse ());
+		return new ModelResponseWrapper(new BeanResponse());
 	}
 
-	public ModelResponse execute () throws ModelException
-	{
-		return null;
-	}
-
-	public Object getConfiguration ()
+	public ModelResponse execute() throws ModelException
 	{
 		return null;
 	}
 
-	public Context getContext () throws ModelException
+	public Object getConfiguration()
+	{
+		return null;
+	}
+
+	public Context getContext() throws ModelException
 	{
 		return context;
 	}
 
-	public Object getDefaultService (String role) throws ModelException
+	public Object getDefaultService(String role) throws ModelException
 	{
 		return null;
 	}
 
-	public String getDomain ()
+	public String getDomain()
 	{
 		return "default";
 	}
 
-	public Map getErrors ()
+	public Map getErrors()
 	{
 		return null;
 	}
 
-	public Object[] getParameterAsArray (String name)
+	public Object[] getParameterAsArray(String name)
 	{
-		return request.getParameterAsArray (name);
+		return request.getParameterAsArray(name);
 	}
 
-	public Date getParameterAsDate (String name)
+	public Date getParameterAsDate(String name)
 	{
-		return request.getParameterAsDate (name);
+		return request.getParameterAsDate(name);
 	}
 
-	public Date getParameterAsDate (String name, Date defaultValue)
+	public Date getParameterAsDate(String name, Date defaultValue)
 	{
-		return request.getParameterAsDate (name, defaultValue);
+		return request.getParameterAsDate(name, defaultValue);
 	}
 
-	public double getParameterAsDouble (String name)
+	public double getParameterAsDouble(String name)
 	{
-		return request.getParameterAsDouble (name);
+		return request.getParameterAsDouble(name);
 	}
 
-	public double getParameterAsDouble (String name, double defaultValue)
+	public double getParameterAsDouble(String name, double defaultValue)
 	{
-		return request.getParameterAsDouble (name, defaultValue);
+		return request.getParameterAsDouble(name, defaultValue);
 	}
 
-	public float getParameterAsFloat (String name)
+	public float getParameterAsFloat(String name)
 	{
-		return request.getParameterAsFloat (name);
+		return request.getParameterAsFloat(name);
 	}
 
-	public float getParameterAsFloat (String name, float defaultValue)
+	public float getParameterAsFloat(String name, float defaultValue)
 	{
-		return request.getParameterAsFloat (name, defaultValue);
+		return request.getParameterAsFloat(name, defaultValue);
 	}
 
-	public int getParameterAsInt (String name)
+	public int getParameterAsInt(String name)
 	{
-		return request.getParameterAsInt (name);
+		return request.getParameterAsInt(name);
 	}
 
-	public int getParameterAsInt (String name, int defaultValue)
+	public int getParameterAsInt(String name, int defaultValue)
 	{
-		return request.getParameterAsInt (name, defaultValue);
+		return request.getParameterAsInt(name, defaultValue);
 	}
 
-	public List getParameterAsList (String name)
+	public List getParameterAsList(String name)
 	{
-		return request.getParameterAsList (name);
+		return request.getParameterAsList(name);
 	}
 
-	public List getParameterAsList (String name, List defaultValue)
+	public List getParameterAsList(String name, List defaultValue)
 	{
-		return request.getParameterAsList (name, defaultValue);
+		return request.getParameterAsList(name, defaultValue);
 	}
 
-	public long getParameterAsLong (String name)
+	public long getParameterAsLong(String name)
 	{
-		return request.getParameterAsLong (name);
+		return request.getParameterAsLong(name);
 	}
 
-	public long getParameterAsLong (String name, long defaultValue)
+	public long getParameterAsLong(String name, long defaultValue)
 	{
-		return request.getParameterAsLong (name, defaultValue);
+		return request.getParameterAsLong(name, defaultValue);
 	}
 
-	public String getParameterAsString (String name)
+	public String getParameterAsString(String name)
 	{
-		return request.getParameterAsString (name);
+		return request.getParameterAsString(name);
 	}
 
-	public String getParameterAsString (String name, String defaultValue)
+	public String getParameterAsString(String name, String defaultValue)
 	{
-		return request.getParameterAsString (name, defaultValue);
+		return request.getParameterAsString(name, defaultValue);
 	}
 
-	public Map getParams ()
+	public Map getParams()
 	{
-		return request.getParameters ();
+		return request.getParameters();
 	}
 
-	public Map getPreviousRequest ()
+	public Map getPreviousRequest()
 	{
 		return null;
 	}
 
-	public Object getService (String role) throws ModelException
+	public Object getService(String role) throws ModelException
 	{
 		try
 		{
-			Object service = KeelTools.getService (role);
+			Object service = KeelTools.getService(role);
 
-			services.add (service);
+			services.add(service);
 
 			return service;
 		}
 		catch (ServiceException x)
 		{
-			throw new ModelException (x);
+			throw new ModelException(x);
 		}
 	}
 
-	public Object getService (String role, String hint) throws ModelException
+	public Object getService(String role, String hint) throws ModelException
 	{
 		try
 		{
-			Object service = KeelTools.getService (role, hint);
+			Object service = KeelTools.getService(role, hint);
 
-			services.add (service);
+			services.add(service);
 
 			return service;
 		}
 		catch (ServiceException x)
 		{
-			throw new ModelException (x);
+			throw new ModelException(x);
 		}
 	}
 
-	public Object getService (String role, String hint, Context ctx) throws ModelException
+	public Object getService(String role, String hint, Context ctx) throws ModelException
 	{
 		try
 		{
-			Object service = KeelTools.getService (role, hint, ctx);
+			Object service = KeelTools.getService(role, hint, ctx);
 
-			services.add (service);
+			services.add(service);
 
 			return service;
 		}
 		catch (ServiceException x)
 		{
-			throw new ModelException (x);
+			throw new ModelException(x);
 		}
 	}
 
-	public Object getSpringBean (String name) throws ModelException
+	public Object getSpringBean(String name) throws ModelException
 	{
-		return SpringTools.getBean (name);
+		return SpringTools.getBean(name);
 	}
 
-	public int getUid ()
+	public int getUid()
 	{
-		return UserTools.getCurrentUserId (this);
+		return UserTools.getCurrentUserId(this);
 	}
 
-	public boolean hasParameter (String name)
+	public boolean hasParameter(String name)
 	{
 		return false;
 	}
 
-	public void setPreviousRequest (Map newPrevious)
+	public void setPreviousRequest(Map newPrevious)
 	{
 	}
 
-	public KeelRequest deserialize (byte[] bytes) throws IOException
+	public KeelRequest deserialize(byte[] bytes) throws IOException
 	{
 		return null;
 	}
 
-	public Object getAttribute (String key)
+	public Object getAttribute(String key)
 	{
-		return attributes.get (key);
+		return attributes.get(key);
 	}
 
-	public Map getAttributes ()
+	public Map getAttributes()
 	{
 		return attributes;
 	}
 
-	public String getBean ()
+	public String getBean()
 	{
 		return null;
 	}
 
-	public String getContextPath ()
+	public String getContextPath()
 	{
 		return null;
 	}
 
-	public String getHeader (String headerKey)
+	public String getHeader(String headerKey)
 	{
 		return null;
 	}
 
-	public Map getHeaders ()
+	public Map getHeaders()
 	{
 		return null;
 	}
 
-	public Locale getLocale ()
+	public Locale getLocale()
 	{
 		return null;
 	}
 
-	public String getModel ()
+	public String getModel()
 	{
-		return request.getBean ();
+		return request.getBean();
 	}
 
-	public Object getParameter (String paramKey)
+	public Object getParameter(String paramKey)
 	{
-		return request.getParameter (paramKey);
+		return request.getParameter(paramKey);
 	}
 
-	public Map getParameters ()
+	public Map getParameters()
 	{
-		return request.getParameters ();
+		return request.getParameters();
 	}
 
-	public String getQueryString ()
-	{
-		return null;
-	}
-
-	public String getRequestUrl ()
+	public String getQueryString()
 	{
 		return null;
 	}
 
-	public String getScheme ()
+	public String getRequestUrl()
 	{
 		return null;
 	}
 
-	public String getServerName ()
+	public String getScheme()
 	{
 		return null;
 	}
 
-	public int getServerPort ()
+	public String getServerName()
+	{
+		return null;
+	}
+
+	public int getServerPort()
 	{
 		return 0;
 	}
 
-	public String getSource ()
+	public String getSource()
 	{
 		return null;
 	}
 
-	public byte[] serialize () throws IOException
+	public byte[] serialize() throws IOException
 	{
 		return null;
 	}
 
-	public void setAttribute (String key, Object value)
+	public void setAttribute(String key, Object value)
 	{
-		attributes.put (key, value);
+		attributes.put(key, value);
 	}
 
-	public void setBean (String bean)
-	{
-	}
-
-	public void setContextPath (String contextPath)
+	public void setBean(String bean)
 	{
 	}
 
-	public void setHeader (String headerKey, String header)
+	public void setContextPath(String contextPath)
 	{
 	}
 
-	public void setLocale (Locale locale)
+	public void setHeader(String headerKey, String header)
 	{
 	}
 
-	public void setModel (String modelName)
+	public void setLocale(Locale locale)
 	{
 	}
 
-	public void setParameter (String paramKey, Object param)
+	public void setModel(String modelName)
 	{
 	}
 
-	public void setQueryString (String queryString)
+	public void setParameter(String paramKey, Object param)
 	{
 	}
 
-	public void setRequestUrl (String requestUrl)
+	public void setQueryString(String queryString)
 	{
 	}
 
-	public void setScheme (String scheme)
+	public void setRequestUrl(String requestUrl)
 	{
 	}
 
-	public void setServerName (String serverName)
+	public void setScheme(String scheme)
 	{
 	}
 
-	public void setServerPort (int serverPort)
+	public void setServerName(String serverName)
 	{
 	}
 
-	public void setSource (String source)
+	public void setServerPort(int serverPort)
+	{
+	}
+
+	public void setSource(String source)
 	{
 	}
 }

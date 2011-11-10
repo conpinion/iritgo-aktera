@@ -46,99 +46,99 @@ import java.util.regex.Pattern;
 public class I18NImpl implements I18N
 {
 	/** Regular expression: Template variables ${var}. */
-	private static Pattern reTemplateVariables = Pattern.compile ("(\\{([.&[^\\{\\}]]*)\\})");
+	private static Pattern reTemplateVariables = Pattern.compile("(\\{([.&[^\\{\\}]]*)\\})");
 
 	/** Regular expression: For Template to trim or extends (with space) the length. */
-	private static Pattern reTrimOrExtendTemplateVariables = Pattern.compile ("^(.+):(\\+?)([0-9]+):?(\\D*)");
+	private static Pattern reTrimOrExtendTemplateVariables = Pattern.compile("^(.+):(\\+?)([0-9]+):?(\\D*)");
 
-	private Map<String, ResourceBundle> bundles = new HashMap<String, ResourceBundle> ();
+	private Map<String, ResourceBundle> bundles = new HashMap<String, ResourceBundle>();
 
 	/**
 	 * @see de.iritgo.aktera.i18n.I18N#msg(de.iritgo.aktera.model.ModelRequest, java.lang.String, java.lang.String)
 	 */
-	public String msg (ModelRequest req, String bundle, String key)
+	public String msg(ModelRequest req, String bundle, String key)
 	{
-		return msg (req, bundle, key, (Object[]) null);
+		return msg(req, bundle, key, (Object[]) null);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.i18n.I18N#msg(de.iritgo.aktera.ui.UIRequest, java.lang.String, java.lang.String)
 	 */
-	public String msg (UIRequest request, String bundle, String key)
+	public String msg(UIRequest request, String bundle, String key)
 	{
-		return msg (request.getLocale (), bundle, key);
+		return msg(request.getLocale(), bundle, key);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.i18n.I18N#msg(java.util.Locale, java.lang.String, java.lang.String)
 	 */
-	public String msg (Locale locale, String bundle, String key)
+	public String msg(Locale locale, String bundle, String key)
 	{
-		return msg (locale, bundle, key, (Object[]) null);
+		return msg(locale, bundle, key, (Object[]) null);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.i18n.I18N#msg(de.iritgo.aktera.model.ModelRequest, java.lang.String, java.lang.String, java.lang.Object[])
 	 */
-	public String msg (ModelRequest req, String bundle, String key, Object... params)
+	public String msg(ModelRequest req, String bundle, String key, Object... params)
 	{
-		return msg (getLocale (req), bundle, key, params);
+		return msg(getLocale(req), bundle, key, params);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.i18n.I18N#msg(de.iritgo.aktera.ui.UIRequest, java.lang.String, java.lang.String, java.lang.Object[])
 	 */
-	public String msg (UIRequest request, String bundle, String key, Object... params)
+	public String msg(UIRequest request, String bundle, String key, Object... params)
 	{
-		return msg (request.getLocale (), bundle, key, params);
+		return msg(request.getLocale(), bundle, key, params);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.i18n.I18N#msg(java.util.Locale, java.lang.String, java.lang.String, java.lang.Object[])
 	 */
-	public String msg (Locale locale, String bundle, String key, Object... params)
+	public String msg(Locale locale, String bundle, String key, Object... params)
 	{
-		if (key.startsWith ("$"))
+		if (key.startsWith("$"))
 		{
-			int colonIndex = key.indexOf (":");
+			int colonIndex = key.indexOf(":");
 
 			if (colonIndex != - 1)
 			{
-				bundle = key.substring (1, colonIndex);
-				key = key.substring (colonIndex + 1);
+				bundle = key.substring(1, colonIndex);
+				key = key.substring(colonIndex + 1);
 			}
 		}
 
 		try
 		{
-			ResourceBundle rb = getResourceBundle (locale, bundle);
+			ResourceBundle rb = getResourceBundle(locale, bundle);
 
-			String text = rb.getString (key);
+			String text = rb.getString(key);
 
-			if (text.startsWith ("$"))
+			if (text.startsWith("$"))
 			{
-				String[] bundleAndKey = text.substring (1).split (":");
+				String[] bundleAndKey = text.substring(1).split(":");
 
 				if (bundleAndKey.length == 2)
 				{
-					return msg (locale, bundleAndKey[0], bundleAndKey[1], params);
+					return msg(locale, bundleAndKey[0], bundleAndKey[1], params);
 				}
 				else
 				{
-					return msg (locale, bundle, bundleAndKey[0], params);
+					return msg(locale, bundle, bundleAndKey[0], params);
 				}
 			}
 			else
 			{
 				if (params != null)
 				{
-					text = StringTools.replaceTemplate (text, reTemplateVariables, reTrimOrExtendTemplateVariables,
+					text = StringTools.replaceTemplate(text, reTemplateVariables, reTrimOrExtendTemplateVariables,
 									false, params);
 				}
 
-				if (text.startsWith ("\\$"))
+				if (text.startsWith("\\$"))
 				{
-					return text.substring (1);
+					return text.substring(1);
 				}
 
 				return text;
@@ -162,19 +162,19 @@ public class I18NImpl implements I18N
 	 * @return
 	 * @throws MalformedURLException
 	 */
-	private ResourceBundle getResourceBundle (Locale locale, String bundle) throws MalformedURLException
+	private ResourceBundle getResourceBundle(Locale locale, String bundle) throws MalformedURLException
 	{
-		ResourceBundle rb = bundles.get (bundle + "Resources_" + locale.toString ());
+		ResourceBundle rb = bundles.get(bundle + "Resources_" + locale.toString());
 
 		if (rb == null)
 		{
-			KeelURLClassLoader cl = new KeelURLClassLoader (new URL[]
+			KeelURLClassLoader cl = new KeelURLClassLoader(new URL[]
 			{
-				new URL ("file://" + System.getProperty ("keel.config.dir") + "/../resources/")
+				new URL("file://" + System.getProperty("keel.config.dir") + "/../resources/")
 			});
 
-			rb = ResourceBundle.getBundle (bundle + "Resources", locale, cl);
-			bundles.put (bundle + "Resources_" + locale.toString (), rb);
+			rb = ResourceBundle.getBundle(bundle + "Resources", locale, cl);
+			bundles.put(bundle + "Resources_" + locale.toString(), rb);
 		}
 
 		return rb;
@@ -183,30 +183,30 @@ public class I18NImpl implements I18N
 	/**
 	 * @see de.iritgo.aktera.i18n.I18N#sentenceMsg(java.util.Locale, java.lang.String, java.lang.String)
 	 */
-	public String sentenceMsg (Locale locale, String defaultBundle, String sentence)
+	public String sentenceMsg(Locale locale, String defaultBundle, String sentence)
 	{
-		StringBuffer buffer = new StringBuffer ();
-		Matcher m = reTemplateVariables.matcher (sentence);
+		StringBuffer buffer = new StringBuffer();
+		Matcher m = reTemplateVariables.matcher(sentence);
 		int pos = 0;
 
-		while (m.find (pos))
+		while (m.find(pos))
 		{
-			buffer.append (sentence.substring (pos, m.start ()));
+			buffer.append(sentence.substring(pos, m.start()));
 
-			String propertyName = m.group (2) != null ? m.group (2) : m.group (3);
-			String[] split = propertyName.split ("|");
+			String propertyName = m.group(2) != null ? m.group(2) : m.group(3);
+			String[] split = propertyName.split("|");
 
 			if (split.length > 1)
 			{
-				buffer.append (msg (locale, defaultBundle, split[0], split[1]));
+				buffer.append(msg(locale, defaultBundle, split[0], split[1]));
 			}
 			else
 			{
-				buffer.append (msg (locale, defaultBundle, split[0]));
+				buffer.append(msg(locale, defaultBundle, split[0]));
 			}
 		}
 
-		return buffer.toString ();
+		return buffer.toString();
 	}
 
 	/**
@@ -215,30 +215,30 @@ public class I18NImpl implements I18N
 	 * @param req A model reuqest.
 	 * @return The users locale.
 	 */
-	protected Locale getLocale (ModelRequest req)
+	protected Locale getLocale(ModelRequest req)
 	{
 		try
 		{
-			Context ctx = req.getContext ();
+			Context ctx = req.getContext();
 
 			if (ctx == null)
 			{
 				return defaultLocale;
 			}
 
-			UserEnvironment userEnv = (UserEnvironment) ctx.get (UserEnvironment.CONTEXT_KEY);
+			UserEnvironment userEnv = (UserEnvironment) ctx.get(UserEnvironment.CONTEXT_KEY);
 
-			if (userEnv == null || userEnv.getUid () != UserEnvironment.ANONYMOUS_UID)
+			if (userEnv == null || userEnv.getUid() != UserEnvironment.ANONYMOUS_UID)
 			{
 				return defaultLocale;
 			}
 
-			if (userEnv.getAttribute (USER_CONTEXT_LOCALE_KEY) == null)
+			if (userEnv.getAttribute(USER_CONTEXT_LOCALE_KEY) == null)
 			{
 				return defaultLocale;
 			}
 
-			return (Locale) userEnv.getAttribute (USER_CONTEXT_LOCALE_KEY);
+			return (Locale) userEnv.getAttribute(USER_CONTEXT_LOCALE_KEY);
 		}
 		catch (ModelException x)
 		{
@@ -256,24 +256,24 @@ public class I18NImpl implements I18N
 	/**
 	 * @see de.iritgo.aktera.i18n.I18N#hasMsg(java.util.Locale, java.lang.String, java.lang.String)
 	 */
-	public boolean hasMsg (Locale locale, String bundle, String key)
+	public boolean hasMsg(Locale locale, String bundle, String key)
 	{
-		if (key.startsWith ("$"))
+		if (key.startsWith("$"))
 		{
-			int colonIndex = key.indexOf (":");
+			int colonIndex = key.indexOf(":");
 
 			if (colonIndex != - 1)
 			{
-				bundle = key.substring (1, colonIndex);
-				key = key.substring (colonIndex + 1);
+				bundle = key.substring(1, colonIndex);
+				key = key.substring(colonIndex + 1);
 			}
 		}
 
 		try
 		{
-			ResourceBundle rb = getResourceBundle (locale, bundle);
+			ResourceBundle rb = getResourceBundle(locale, bundle);
 
-			rb.getString (key);
+			rb.getString(key);
 
 			return true;
 		}

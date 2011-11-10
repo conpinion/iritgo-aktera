@@ -40,20 +40,20 @@ public class SystemStartup implements StartupHandler
 	/**
 	 * @see de.iritgo.aktera.startup.StartupHandler#startup()
 	 */
-	public void startup () throws StartupException
+	public void startup() throws StartupException
 	{
 		ModelRequest request = null;
 
 		try
 		{
-			request = ModelTools.createModelRequest ();
+			request = ModelTools.createModelRequest();
 
 			SystemConfigManager systemConfigManager = (SystemConfigManager) request
-							.getSpringBean (SystemConfigManager.ID);
+							.getSpringBean(SystemConfigManager.ID);
 
-			if (! StringTools.isTrimEmpty (systemConfigManager.getString ("tb2", "logLevel")))
+			if (! StringTools.isTrimEmpty(systemConfigManager.getString("tb2", "logLevel")))
 			{
-				KeelContainer.defaultContainer ().setLogLevel (systemConfigManager.getString ("tb2", "logLevel"));
+				KeelContainer.defaultContainer().setLogLevel(systemConfigManager.getString("tb2", "logLevel"));
 			}
 		}
 		catch (ServiceException x)
@@ -64,14 +64,14 @@ public class SystemStartup implements StartupHandler
 		}
 		finally
 		{
-			ModelTools.releaseModelRequest (request);
+			ModelTools.releaseModelRequest(request);
 		}
 	}
 
 	/**
 	 * @see de.iritgo.aktera.startup.StartupHandler#shutdown()
 	 */
-	public void shutdown () throws ShutdownException
+	public void shutdown() throws ShutdownException
 	{
 	}
 }

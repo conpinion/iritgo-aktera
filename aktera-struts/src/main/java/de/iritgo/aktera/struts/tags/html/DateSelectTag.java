@@ -38,10 +38,10 @@ public class DateSelectTag extends SelectTagBase
 	private static final long serialVersionUID = 1L;
 
 	/** String formatter. */
-	protected static DecimalFormat timeFormat = new DecimalFormat ("00");
+	protected static DecimalFormat timeFormat = new DecimalFormat("00");
 
 	/** String formatter. */
-	protected static DecimalFormat yearFormat = new DecimalFormat ("0000");
+	protected static DecimalFormat yearFormat = new DecimalFormat("0000");
 
 	/** Read only. */
 	protected boolean readOnly = false;
@@ -51,7 +51,7 @@ public class DateSelectTag extends SelectTagBase
 	 *
 	 * @param readOnly Read only flag.
 	 */
-	public void setReadOnly (boolean readOnly)
+	public void setReadOnly(boolean readOnly)
 	{
 		this.readOnly = readOnly;
 	}
@@ -61,7 +61,7 @@ public class DateSelectTag extends SelectTagBase
 	 *
 	 * @retrun The read only flag.
 	 */
-	public boolean getReadOnly ()
+	public boolean getReadOnly()
 	{
 		return readOnly;
 	}
@@ -71,90 +71,90 @@ public class DateSelectTag extends SelectTagBase
 	 *
 	 * @exception JspException if a JSP exception has occurred.
 	 */
-	public int doEndTag () throws JspException
+	public int doEndTag() throws JspException
 	{
-		String day = getBeanProperty ("Day").toString ();
-		String month = getBeanProperty ("Month").toString ();
-		String year = getBeanProperty ("Year").toString ();
+		String day = getBeanProperty("Day").toString();
+		String month = getBeanProperty("Month").toString();
+		String year = getBeanProperty("Year").toString();
 
-		StringBuffer results = new StringBuffer ();
+		StringBuffer results = new StringBuffer();
 
-		createSelectTag (results, "Day");
-		results.append ("<option value=\"-1\">---</option>");
+		createSelectTag(results, "Day");
+		results.append("<option value=\"-1\">---</option>");
 
 		for (int i = 1; i <= 31; ++i)
 		{
-			String value = String.valueOf (i);
+			String value = String.valueOf(i);
 
-			results.append ("<option value=\"");
-			results.append (value);
-			results.append ("\"");
+			results.append("<option value=\"");
+			results.append(value);
+			results.append("\"");
 
-			if (value.equals (day))
+			if (value.equals(day))
 			{
-				results.append (" selected=\"selected\"");
+				results.append(" selected=\"selected\"");
 			}
 
-			results.append (">");
-			results.append (timeFormat.format (i, new StringBuffer (), new FieldPosition (0)).toString ());
-			results.append ("</option>");
+			results.append(">");
+			results.append(timeFormat.format(i, new StringBuffer(), new FieldPosition(0)).toString());
+			results.append("</option>");
 		}
 
-		results.append ("</select>\n");
+		results.append("</select>\n");
 
-		results.append ("<b>.</b>\n");
+		results.append("<b>.</b>\n");
 
-		createSelectTag (results, "Month");
-		results.append ("<option value=\"-1\">---</option>");
+		createSelectTag(results, "Month");
+		results.append("<option value=\"-1\">---</option>");
 
 		for (int i = 1; i <= 12; ++i)
 		{
-			String value = String.valueOf (i);
+			String value = String.valueOf(i);
 
-			results.append ("<option value=\"");
-			results.append (value);
-			results.append ("\"");
+			results.append("<option value=\"");
+			results.append(value);
+			results.append("\"");
 
-			if (value.equals (month))
+			if (value.equals(month))
 			{
-				results.append (" selected=\"selected\"");
+				results.append(" selected=\"selected\"");
 			}
 
-			results.append (">");
-			results.append (timeFormat.format (i, new StringBuffer (), new FieldPosition (0)).toString ());
-			results.append ("</option>");
+			results.append(">");
+			results.append(timeFormat.format(i, new StringBuffer(), new FieldPosition(0)).toString());
+			results.append("</option>");
 		}
 
-		results.append ("</select>\n");
+		results.append("</select>\n");
 
-		results.append ("<b>.</b>\n");
+		results.append("<b>.</b>\n");
 
-		createSelectTag (results, "Year");
-		results.append ("<option value=\"-1\">---</option>");
+		createSelectTag(results, "Year");
+		results.append("<option value=\"-1\">---</option>");
 
-		Calendar cal = GregorianCalendar.getInstance ();
+		Calendar cal = GregorianCalendar.getInstance();
 
-		for (int i = cal.get (Calendar.YEAR) + 15; i >= cal.get (Calendar.YEAR) - 15; --i)
+		for (int i = cal.get(Calendar.YEAR) + 15; i >= cal.get(Calendar.YEAR) - 15; --i)
 		{
-			String value = String.valueOf (i);
+			String value = String.valueOf(i);
 
-			results.append ("<option value=\"");
-			results.append (value);
-			results.append ("\"");
+			results.append("<option value=\"");
+			results.append(value);
+			results.append("\"");
 
-			if (value.equals (year))
+			if (value.equals(year))
 			{
-				results.append (" selected=\"selected\"");
+				results.append(" selected=\"selected\"");
 			}
 
-			results.append (">");
-			results.append (yearFormat.format (i, new StringBuffer (), new FieldPosition (0)).toString ());
-			results.append ("</option>");
+			results.append(">");
+			results.append(yearFormat.format(i, new StringBuffer(), new FieldPosition(0)).toString());
+			results.append("</option>");
 		}
 
-		results.append ("</select>\n");
+		results.append("</select>\n");
 
-		TagUtils.getInstance ().write (pageContext, results.toString ());
+		TagUtils.getInstance().write(pageContext, results.toString());
 
 		return EVAL_PAGE;
 	}
@@ -162,9 +162,9 @@ public class DateSelectTag extends SelectTagBase
 	/**
 	 * Reset all tag attributes to their default values.
 	 */
-	public void release ()
+	public void release()
 	{
-		super.release ();
+		super.release();
 
 		readOnly = false;
 	}

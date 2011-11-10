@@ -31,13 +31,13 @@ public class DelayedAsyncExecutionManagerImpl implements DelayedAsyncExecutionMa
 
 	private ScheduledExecutorService scheduler;
 
-	public DelayedAsyncExecutionManagerImpl ()
+	public DelayedAsyncExecutionManagerImpl()
 	{
-		scheduler = Executors.newScheduledThreadPool (poolSize);
+		scheduler = Executors.newScheduledThreadPool(poolSize);
 	}
 
-	public void addDelayedExecution (long delay, Runnable runnable)
+	public void addDelayedExecution(long delay, Runnable runnable)
 	{
-		scheduler.schedule (runnable, delay, MILLISECONDS);
+		scheduler.schedule(runnable, delay, MILLISECONDS);
 	}
 }

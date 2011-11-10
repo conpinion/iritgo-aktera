@@ -38,7 +38,7 @@ import org.apache.avalon.framework.context.ContextException;
  */
 public interface KeelContextualizable
 {
-	public void setKeelContext (Context Context) throws ContextException;
+	public void setKeelContext(Context Context) throws ContextException;
 
-	public Context getKeelContext ();
+	public Context getKeelContext();
 }

@@ -29,5 +29,5 @@ public interface ScheduleActionHandler
 	 * @param action TODO
 	 *
 	 */
-	public void execute (ScheduleAction action);
+	public void execute(ScheduleAction action);
 }

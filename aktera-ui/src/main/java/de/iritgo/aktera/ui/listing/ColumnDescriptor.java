@@ -75,16 +75,16 @@ public class ColumnDescriptor
 	 * @param viewer The column viewer.
 	 * @param with The column width.
 	 */
-	public ColumnDescriptor (String name, String bundle, String viewer, int width)
+	public ColumnDescriptor(String name, String bundle, String viewer, int width)
 	{
 		this.name = name;
 		this.label = null;
 		this.bundle = bundle;
 		this.viewer = viewer;
 		this.width = width;
-		this.field = name.substring (name.indexOf ('.') + 1);
-		this.persistent = name.substring (0, Math.max (name.indexOf ('.'), 0));
-		this.as = name.replace ('.', '_');
+		this.field = name.substring(name.indexOf('.') + 1);
+		this.persistent = name.substring(0, Math.max(name.indexOf('.'), 0));
+		this.as = name.replace('.', '_');
 	}
 
 	/**
@@ -96,16 +96,16 @@ public class ColumnDescriptor
 	 * @param viewer The column viewer.
 	 * @param with The column width.
 	 */
-	public ColumnDescriptor (String name, String label, String bundle, String viewer, int width)
+	public ColumnDescriptor(String name, String label, String bundle, String viewer, int width)
 	{
 		this.name = name;
 		this.label = label;
 		this.bundle = bundle;
 		this.viewer = viewer;
 		this.width = width;
-		this.field = name.substring (name.indexOf ('.') + 1);
-		this.persistent = name.substring (0, Math.max (name.indexOf ('.'), 0));
-		this.as = name.replace ('.', '_');
+		this.field = name.substring(name.indexOf('.') + 1);
+		this.persistent = name.substring(0, Math.max(name.indexOf('.'), 0));
+		this.as = name.replace('.', '_');
 	}
 
 	/**
@@ -113,7 +113,7 @@ public class ColumnDescriptor
 	 *
 	 * @return The column name.
 	 */
-	public String getName ()
+	public String getName()
 	{
 		return name;
 	}
@@ -123,7 +123,7 @@ public class ColumnDescriptor
 	 *
 	 * @return The renamed column name.
 	 */
-	public String getRename ()
+	public String getRename()
 	{
 		return rename;
 	}
@@ -133,13 +133,13 @@ public class ColumnDescriptor
 	 *
 	 * @param rename The renamed column name.
 	 */
-	public void setRename (String rename)
+	public void setRename(String rename)
 	{
 		this.rename = rename;
 
 		if (rename != null)
 		{
-			as = rename.replace ('.', '_');
+			as = rename.replace('.', '_');
 		}
 	}
 
@@ -148,7 +148,7 @@ public class ColumnDescriptor
 	 *
 	 * @return The column resource bundle.
 	 */
-	public String getBundle ()
+	public String getBundle()
 	{
 		return bundle;
 	}
@@ -158,7 +158,7 @@ public class ColumnDescriptor
 	 *
 	 * @return The column viewer.
 	 */
-	public String getViewer ()
+	public String getViewer()
 	{
 		return viewer;
 	}
@@ -168,7 +168,7 @@ public class ColumnDescriptor
 	 *
 	 * @return The column width.
 	 */
-	public int getWidth ()
+	public int getWidth()
 	{
 		return width;
 	}
@@ -178,7 +178,7 @@ public class ColumnDescriptor
 	 *
 	 * @return The persistent name.
 	 */
-	public String getPersistent ()
+	public String getPersistent()
 	{
 		return persistent;
 	}
@@ -188,7 +188,7 @@ public class ColumnDescriptor
 	 *
 	 * @return The persistent field name.
 	 */
-	public String getField ()
+	public String getField()
 	{
 		return field;
 	}
@@ -198,7 +198,7 @@ public class ColumnDescriptor
 	 *
 	 * @return The renamed column name.
 	 */
-	public String getAs ()
+	public String getAs()
 	{
 		return as;
 	}
@@ -208,7 +208,7 @@ public class ColumnDescriptor
 	 *
 	 * @return The sort order.
 	 */
-	public SortOrder getSort ()
+	public SortOrder getSort()
 	{
 		return sort;
 	}
@@ -218,7 +218,7 @@ public class ColumnDescriptor
 	 *
 	 * @param sort The new sort order.
 	 */
-	public void setSort (SortOrder sort)
+	public void setSort(SortOrder sort)
 	{
 		this.sort = sort;
 	}
@@ -228,9 +228,9 @@ public class ColumnDescriptor
 	 *
 	 * @return The column label.
 	 */
-	public String getLabel ()
+	public String getLabel()
 	{
-		return label != null ? label : name.substring (name.lastIndexOf ('.') + 1);
+		return label != null ? label : name.substring(name.lastIndexOf('.') + 1);
 	}
 
 	/**
@@ -238,7 +238,7 @@ public class ColumnDescriptor
 	 *
 	 * @return True for a visible column.
 	 */
-	public boolean isVisible ()
+	public boolean isVisible()
 	{
 		return visible;
 	}
@@ -248,7 +248,7 @@ public class ColumnDescriptor
 	 *
 	 * @param visible True for a visible column.
 	 */
-	public void setVisible (boolean visible)
+	public void setVisible(boolean visible)
 	{
 		this.visible = visible;
 	}
@@ -256,7 +256,7 @@ public class ColumnDescriptor
 	/**
 	 * @param sortable The new sortable.
 	 */
-	public void setSortable (boolean sortable)
+	public void setSortable(boolean sortable)
 	{
 		this.sortable = sortable;
 	}
@@ -264,7 +264,7 @@ public class ColumnDescriptor
 	/**
 	 * @return The sortable.
 	 */
-	public boolean isSortable ()
+	public boolean isSortable()
 	{
 		return sortable;
 	}
@@ -274,7 +274,7 @@ public class ColumnDescriptor
 	 *
 	 * @return The column value
 	 */
-	public String getValue ()
+	public String getValue()
 	{
 		return value;
 	}
@@ -284,7 +284,7 @@ public class ColumnDescriptor
 	 *
 	 * @param value The column value
 	 */
-	public void setValue (String value)
+	public void setValue(String value)
 	{
 		this.value = value;
 	}

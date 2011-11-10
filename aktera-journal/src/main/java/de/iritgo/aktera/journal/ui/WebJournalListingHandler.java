@@ -57,83 +57,82 @@ public class WebJournalListingHandler extends ListingHandler
 	private Map<String, JournalSearch> journalSearches;
 
 	/** Set the journal manager. */
-	public void setJournalManager (JournalManager journalManager)
+	public void setJournalManager(JournalManager journalManager)
 	{
 		this.journalManager = journalManager;
 	}
 
 	/** Set the web journal listing builder. */
-	public void setWebJournalListingBuilder (WebJournalListingBuilder webJournalListingBuilder)
+	public void setWebJournalListingBuilder(WebJournalListingBuilder webJournalListingBuilder)
 	{
 		this.webJournalListingBuilder = webJournalListingBuilder;
 	}
 
 	/** Set the user dao */
-	public void setUserDAO (UserDAO userDAO)
+	public void setUserDAO(UserDAO userDAO)
 	{
 		this.userDAO = userDAO;
 	}
 
 	/** Set the journal searches */
-	public void setJournalSearches (List<JournalSearch> journalSearchesTmp)
+	public void setJournalSearches(List<JournalSearch> journalSearchesTmp)
 	{
-		journalSearches = new HashMap<String, JournalSearch> ();
+		journalSearches = new HashMap<String, JournalSearch>();
 
 		for (JournalSearch search : journalSearchesTmp)
 		{
-			journalSearches.put (search.getCategoryId (), search);
+			journalSearches.put(search.getCategoryId(), search);
 		}
 	}
 
 	/**
 	 * @see de.iritgo.aktera.ui.listing.ListingHandler#createSearchCategories(de.iritgo.aktera.model.ModelRequest, ListingDescriptor)
 	 */
-	public Map<String, String> createSearchCategories (ModelRequest request, ListingDescriptor listing)
+	public Map<String, String> createSearchCategories(ModelRequest request, ListingDescriptor listing)
 		throws ModelException
 	{
-		AkteraUser user = userDAO.findUserById (UserTools.getCurrentUserId (request));
-		TreeMap searchTypes = new TreeMap ();
+		AkteraUser user = userDAO.findUserById(UserTools.getCurrentUserId(request));
+		TreeMap searchTypes = new TreeMap();
 
-		for (JournalSearch search : journalSearches.values ())
+		for (JournalSearch search : journalSearches.values())
 		{
-			searchTypes.put (search.getCategoryId (), search.getCategoryLabel (user));
+			searchTypes.put(search.getCategoryId(), search.getCategoryLabel(user));
 		}
 
 		return searchTypes;
 	}
 
-	public ListFiller createListing (ModelRequest request, ListingDescriptor listing, ListingHandler handler,
+	public ListFiller createListing(ModelRequest request, ListingDescriptor listing, ListingHandler handler,
 					ListContext context) throws ModelException, PersistenceException
 	{
-		AkteraUser user = userDAO.findUserById (UserTools.getCurrentUserId (request));
+		AkteraUser user = userDAO.findUserById(UserTools.getCurrentUserId(request));
 
-		String search = StringTools.trim ((String) request.getParameter ("listSearch"));
+		String search = StringTools.trim((String) request.getParameter("listSearch"));
 		String condition = "";
 		Map<String, Object> conditionMap = null;
 
-		if (! StringTools.isTrimEmpty (listing.getCategory ()))
+		if (! StringTools.isTrimEmpty(listing.getCategory()))
 		{
-			condition = journalSearches.get (listing.getCategory ()).getCondition (search, user);
-			conditionMap = journalSearches.get (listing.getCategory ()).getConditionMap (search, user);
+			condition = journalSearches.get(listing.getCategory()).getCondition(search, user);
+			conditionMap = journalSearches.get(listing.getCategory()).getConditionMap(search, user);
 
-			long numEntries = journalManager.countJournalEntriesByCondition (condition, conditionMap);
+			long numEntries = journalManager.countJournalEntriesByCondition(condition, conditionMap);
 
-			List<Map<String, Object>> journal = journalManager.listJournalEntriesByCondition (listing
-							.getSortColumnName (), listing.getSortOrder (), context.getFirstResult (), context
-							.getResultsPerPage (), condition, conditionMap);
+			List<Map<String, Object>> journal = journalManager.listJournalEntriesByCondition(listing
+							.getSortColumnName(), listing.getSortOrder(), context.getFirstResult(), context
+							.getResultsPerPage(), condition, conditionMap);
 
-			return webJournalListingBuilder.createListFiller (journal, numEntries, request.getLocale ());
+			return webJournalListingBuilder.createListFiller(journal, numEntries, request.getLocale());
 		}
 
-		long numEntries = journalManager.countJournalEntries (request.getParameterAsString ("listSearch", ""),
-						new Timestamp (0), new Timestamp (new Date ().getTime ()),
-						UserTools.getCurrentUserId (request), "");
+		long numEntries = journalManager.countJournalEntries(request.getParameterAsString("listSearch", ""),
+						new Timestamp(0), new Timestamp(new Date().getTime()), UserTools.getCurrentUserId(request), "");
 
-		List<Map<String, Object>> journal = journalManager.listJournalEntries (request.getParameterAsString (
-						"listSearch", ""), new Timestamp (0), new Timestamp (new Date ().getTime ()), UserTools
-						.getCurrentUserId (request), "", listing.getSortColumnName (), listing.getSortOrder (), context
-						.getFirstResult (), context.getResultsPerPage ());
+		List<Map<String, Object>> journal = journalManager.listJournalEntries(request.getParameterAsString(
+						"listSearch", ""), new Timestamp(0), new Timestamp(new Date().getTime()), UserTools
+						.getCurrentUserId(request), "", listing.getSortColumnName(), listing.getSortOrder(), context
+						.getFirstResult(), context.getResultsPerPage());
 
-		return webJournalListingBuilder.createListFiller (journal, numEntries, request.getLocale ());
+		return webJournalListingBuilder.createListFiller(journal, numEntries, request.getLocale());
 	}
 }

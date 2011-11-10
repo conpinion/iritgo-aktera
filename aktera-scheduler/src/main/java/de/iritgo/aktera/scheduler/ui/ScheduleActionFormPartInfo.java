@@ -40,7 +40,7 @@ public class ScheduleActionFormPartInfo
 	/**
 	 * Get the part id.
 	 */
-	public String getId ()
+	public String getId()
 	{
 		return id;
 	}
@@ -48,7 +48,7 @@ public class ScheduleActionFormPartInfo
 	/**
 	 * Set the part id.
 	 */
-	public void setId (String id)
+	public void setId(String id)
 	{
 		this.id = id;
 	}
@@ -56,7 +56,7 @@ public class ScheduleActionFormPartInfo
 	/**
 	 * Set the form handler.
 	 */
-	public ScheduleActionFomPart getFormPart ()
+	public ScheduleActionFomPart getFormPart()
 	{
 		return formPart;
 	}
@@ -64,7 +64,7 @@ public class ScheduleActionFormPartInfo
 	/**
 	 * Get the form handler.
 	 */
-	public void setFormPart (ScheduleActionFomPart formPart)
+	public void setFormPart(ScheduleActionFomPart formPart)
 	{
 		this.formPart = formPart;
 	}
@@ -72,7 +72,7 @@ public class ScheduleActionFormPartInfo
 	/**
 	 * Get the reource bundle.
 	 */
-	public String getBundle ()
+	public String getBundle()
 	{
 		return bundle;
 	}
@@ -80,7 +80,7 @@ public class ScheduleActionFormPartInfo
 	/**
 	 * Set the resource bundle.
 	 */
-	public void setBundle (String bundle)
+	public void setBundle(String bundle)
 	{
 		this.bundle = bundle;
 	}
@@ -88,7 +88,7 @@ public class ScheduleActionFormPartInfo
 	/**
 	 * Get the info resource key.
 	 */
-	public String getInfoKey ()
+	public String getInfoKey()
 	{
 		return infoKey;
 	}
@@ -96,7 +96,7 @@ public class ScheduleActionFormPartInfo
 	/**
 	 * Set the info resource key.
 	 */
-	public void setInfoKey (String infoKey)
+	public void setInfoKey(String infoKey)
 	{
 		this.infoKey = infoKey;
 	}

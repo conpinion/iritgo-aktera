@@ -30,66 +30,66 @@ public abstract class AbstractHelper implements Helper
 {
 	private Persistent myPersistent = null;
 
-	protected Persistent getPersistent ()
+	protected Persistent getPersistent()
 	{
 		return myPersistent;
 	}
 
-	public void setPersistent (Persistent current)
+	public void setPersistent(Persistent current)
 	{
 		myPersistent = current;
 	}
 
-	public void beforeUpdate (Persistent current)
+	public void beforeUpdate(Persistent current)
 	{
-		setPersistent (current);
+		setPersistent(current);
 	}
 
-	public void afterUpdate (Persistent current)
+	public void afterUpdate(Persistent current)
 	{
-		setPersistent (current);
+		setPersistent(current);
 	}
 
-	public void beforeAdd (Persistent current)
+	public void beforeAdd(Persistent current)
 	{
-		setPersistent (current);
+		setPersistent(current);
 	}
 
-	public void afterAdd (Persistent current)
+	public void afterAdd(Persistent current)
 	{
-		setPersistent (current);
+		setPersistent(current);
 	}
 
-	public void beforeDelete (Persistent current)
+	public void beforeDelete(Persistent current)
 	{
-		setPersistent (current);
+		setPersistent(current);
 	}
 
-	public void afterDelete (Persistent current)
+	public void afterDelete(Persistent current)
 	{
-		setPersistent (current);
+		setPersistent(current);
 	}
 
-	public void beforeClear (Persistent current)
+	public void beforeClear(Persistent current)
 	{
-		setPersistent (current);
+		setPersistent(current);
 	}
 
-	public void beforeQuery (Persistent current)
+	public void beforeQuery(Persistent current)
 	{
-		setPersistent (current);
+		setPersistent(current);
 	}
 
-	public void afterQuery (Persistent current)
+	public void afterQuery(Persistent current)
 	{
-		setPersistent (current);
+		setPersistent(current);
 	}
 
-	public void beforeSetField (String fieldName, Object oldValue, Object newValue)
+	public void beforeSetField(String fieldName, Object oldValue, Object newValue)
 	{
 	}
 
-	public void afterSetField (String fieldName, Object oldValue, Object newValue)
+	public void afterSetField(String fieldName, Object oldValue, Object newValue)
 	{
 	}
 }

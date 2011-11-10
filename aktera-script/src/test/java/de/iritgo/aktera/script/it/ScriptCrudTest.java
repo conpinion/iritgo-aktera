@@ -29,71 +29,71 @@ import java.util.Properties;
 public class ScriptCrudTest extends BrowserTestCase
 {
 	@Test
-	public void createUpdateAndDeleteScript ()
+	public void createUpdateAndDeleteScript()
 	{
 		try
 		{
-			UserTools.loginAsAdmin (selenium);
+			UserTools.loginAsAdmin(selenium);
 
 			// create script
-			String scriptName = "pseudoscript" + String.valueOf (randomNumber (4));
-			Properties myScript = new Properties ();
+			String scriptName = "pseudoscript" + String.valueOf(randomNumber(4));
+			Properties myScript = new Properties();
 
-			myScript.setProperty ("script_name", scriptName);
-			myScript.setProperty ("script_displayName", scriptName);
-			myScript.setProperty ("script_author", "selenium");
-			myScript.setProperty ("script_version", "0.1");
-			myScript.setProperty ("script_description", "I am a pseudo script for test purposes.");
-			myScript.setProperty ("script_code", "// hic sunt leones");
-			createScript (myScript);
+			myScript.setProperty("script_name", scriptName);
+			myScript.setProperty("script_displayName", scriptName);
+			myScript.setProperty("script_author", "selenium");
+			myScript.setProperty("script_version", "0.1");
+			myScript.setProperty("script_description", "I am a pseudo script for test purposes.");
+			myScript.setProperty("script_code", "// hic sunt leones");
+			createScript(myScript);
 
 			// update script
-			updateScript (scriptName, "script_version", "0.11");
+			updateScript(scriptName, "script_version", "0.11");
 
 			// delete script
-			deleteScript (scriptName);
+			deleteScript(scriptName);
 
-			UserTools.logout (selenium);
+			UserTools.logout(selenium);
 		}
 		catch (com.thoughtworks.selenium.SeleniumException e)
 		{
-			selenium.captureScreenshot ("exception-" + this + ".png");
+			selenium.captureScreenshot("exception-" + this + ".png");
 			throw (e);
 		}
 	}
 
-	protected void createScript (Properties scriptProperties)
+	protected void createScript(Properties scriptProperties)
 	{
-		selenium.openController ("de.iritgo.aktera.script.ListScripts");
-		selenium.clickButton ("COMMAND_listCmdNew");
-		selenium.type ("script_name", scriptProperties.getProperty ("script_name", "")); // required
-		selenium.type ("script_displayName", scriptProperties.getProperty ("script_displayName", "")); // required
-		selenium.type ("script_author", scriptProperties.getProperty ("script_author", ""));
-		selenium.type ("script_version", scriptProperties.getProperty ("script_version", ""));
-		selenium.type ("script_description", scriptProperties.getProperty ("script_description", ""));
-		selenium.type ("script_code", scriptProperties.getProperty ("script_code", ""));
-		selenium.clickButton ("COMMAND_save");
+		selenium.openController("de.iritgo.aktera.script.ListScripts");
+		selenium.clickButton("COMMAND_listCmdNew");
+		selenium.type("script_name", scriptProperties.getProperty("script_name", "")); // required
+		selenium.type("script_displayName", scriptProperties.getProperty("script_displayName", "")); // required
+		selenium.type("script_author", scriptProperties.getProperty("script_author", ""));
+		selenium.type("script_version", scriptProperties.getProperty("script_version", ""));
+		selenium.type("script_description", scriptProperties.getProperty("script_description", ""));
+		selenium.type("script_code", scriptProperties.getProperty("script_code", ""));
+		selenium.clickButton("COMMAND_save");
 	}
 
-	protected void deleteScript (String scriptName)
+	protected void deleteScript(String scriptName)
 	{
-		selenium.openController ("de.iritgo.aktera.script.ListScripts");
-		selenium.type ("listSearch", scriptName);
-		selenium.clickButton ("COMMAND_listCmdSearch");
-		selenium.selectTable (scriptName);
-		selenium.select ("listExecuteModel", "label=Löschen");
-		selenium.clickButton ("COMMAND_listCmdExecute");
+		selenium.openController("de.iritgo.aktera.script.ListScripts");
+		selenium.type("listSearch", scriptName);
+		selenium.clickButton("COMMAND_listCmdSearch");
+		selenium.selectTable(scriptName);
+		selenium.select("listExecuteModel", "label=Löschen");
+		selenium.clickButton("COMMAND_listCmdExecute");
 	}
 
-	protected void updateScript (String scriptName, String updateProperty, String updateValue)
+	protected void updateScript(String scriptName, String updateProperty, String updateValue)
 	{
-		selenium.openController ("de.iritgo.aktera.script.ListScripts");
-		selenium.type ("listSearch", scriptName);
-		selenium.clickButton ("COMMAND_listCmdSearch");
-		selenium.selectTable (scriptName);
-		selenium.select ("listExecuteModel", "label=Bearbeiten");
-		selenium.clickButton ("COMMAND_listCmdExecute");
-		selenium.type (updateProperty, updateValue);
-		selenium.clickButton ("COMMAND_save");
+		selenium.openController("de.iritgo.aktera.script.ListScripts");
+		selenium.type("listSearch", scriptName);
+		selenium.clickButton("COMMAND_listCmdSearch");
+		selenium.selectTable(scriptName);
+		selenium.select("listExecuteModel", "label=Bearbeiten");
+		selenium.clickButton("COMMAND_listCmdExecute");
+		selenium.type(updateProperty, updateValue);
+		selenium.clickButton("COMMAND_save");
 	}
 }

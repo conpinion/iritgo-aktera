@@ -54,51 +54,51 @@ public class ImportManagerTest
 	{
 		private String id;
 
-		public TestImportHandler (String id)
+		public TestImportHandler(String id)
 		{
 			this.id = id;
 		}
 
-		public boolean analyze (ModelRequest req, Document doc, Node importElem, PrintWriter reporter, I18N i18n,
+		public boolean analyze(ModelRequest req, Document doc, Node importElem, PrintWriter reporter, I18N i18n,
 						Properties properties) throws ModelException, XPathExpressionException
 		{
 			return false;
 		}
 
-		public void endRootElement (String uri, String localName, String name, PrintWriter reporter,
+		public void endRootElement(String uri, String localName, String name, PrintWriter reporter,
 						Properties properties) throws SAXException
 		{
-			protocol.append ("^" + id + ":" + localName);
+			protocol.append("^" + id + ":" + localName);
 		}
 
-		public void endElement (String uri, String localName, String name, PrintWriter reporter, Properties properties)
+		public void endElement(String uri, String localName, String name, PrintWriter reporter, Properties properties)
 			throws SAXException
 		{
-			protocol.append ("-" + id + ":" + localName);
+			protocol.append("-" + id + ":" + localName);
 		}
 
-		public boolean perform (ModelRequest req, Document doc, Node importElem, PrintWriter reporter, I18N i18n,
+		public boolean perform(ModelRequest req, Document doc, Node importElem, PrintWriter reporter, I18N i18n,
 						Properties properties) throws ModelException, XPathExpressionException
 		{
 			return false;
 		}
 
-		public void startRootElement (String uri, String localName, String name, Attributes attributes,
+		public void startRootElement(String uri, String localName, String name, Attributes attributes,
 						PrintWriter reporter, Properties properties)
 		{
-			protocol.append ("$" + id + ":" + localName);
+			protocol.append("$" + id + ":" + localName);
 		}
 
-		public void startElement (String uri, String localName, String name, Attributes attributes,
+		public void startElement(String uri, String localName, String name, Attributes attributes,
 						PrintWriter reporter, Properties properties)
 		{
-			protocol.append ("+" + id + ":" + localName);
+			protocol.append("+" + id + ":" + localName);
 		}
 
-		public void elementContent (String uri, String localName, String name, String content, PrintWriter reporter,
+		public void elementContent(String uri, String localName, String name, String content, PrintWriter reporter,
 						Properties properties) throws SAXException
 		{
-			protocol.append ("*" + id + ":" + content);
+			protocol.append("*" + id + ":" + content);
 		}
 	}
 
@@ -106,68 +106,68 @@ public class ImportManagerTest
 
 	private File xmlFile = null;
 
-	private StringBuilder protocol = new StringBuilder ();
+	private StringBuilder protocol = new StringBuilder();
 
 	private TestImportHandler aHandler;
 
 	private TestImportHandler bHandler;
 
 	@Before
-	public void before () throws IOException
+	public void before() throws IOException
 	{
-		importManager = new ImportManagerImpl ();
+		importManager = new ImportManagerImpl();
 
-		List<ImportHandlerConfig> ihcs = new LinkedList<ImportHandlerConfig> ();
+		List<ImportHandlerConfig> ihcs = new LinkedList<ImportHandlerConfig>();
 
-		aHandler = new TestImportHandler ("a");
-		bHandler = new TestImportHandler ("b");
-		ihcs.add (new ImportHandlerConfig ("a", "as", aHandler));
-		ihcs.add (new ImportHandlerConfig ("b", "bs", bHandler));
-		((ImportManagerImpl) importManager).setImportHandlerConfigs (ihcs);
+		aHandler = new TestImportHandler("a");
+		bHandler = new TestImportHandler("b");
+		ihcs.add(new ImportHandlerConfig("a", "as", aHandler));
+		ihcs.add(new ImportHandlerConfig("b", "bs", bHandler));
+		((ImportManagerImpl) importManager).setImportHandlerConfigs(ihcs);
 
 		String xml = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>"
 						+ "<import><as><a atr=\"1\"><aa>x</aa>\n</a></as><bs><b atr=\"2\"><bb/></b></bs></import>";
 
-		xmlFile = File.createTempFile ("Aktera", ".xml");
-		FileUtils.writeStringToFile (xmlFile, xml);
+		xmlFile = File.createTempFile("Aktera", ".xml");
+		FileUtils.writeStringToFile(xmlFile, xml);
 	}
 
 	@After
-	public void after ()
+	public void after()
 	{
-		xmlFile.delete ();
+		xmlFile.delete();
 	}
 
 	@Test
-	public void validateNotExistingXmlFile ()
+	public void validateNotExistingXmlFile()
 	{
-		assertFalse (importManager.validateXmlFile (new File ("this-file-does-not-exist.xml")));
+		assertFalse(importManager.validateXmlFile(new File("this-file-does-not-exist.xml")));
 	}
 
 	@Test
-	public void validateInvalidXmlFile ()
+	public void validateInvalidXmlFile()
 	{
-		assertFalse (importManager.validateXmlFile (new File ("/etc/passwd")));
+		assertFalse(importManager.validateXmlFile(new File("/etc/passwd")));
 	}
 
 	@Test
-	public void validateValidXmlFile ()
+	public void validateValidXmlFile()
 	{
-		assertTrue (importManager.validateXmlFile (xmlFile));
+		assertTrue(importManager.validateXmlFile(xmlFile));
 	}
 
 	@Test
-	public void importXmlFile ()
+	public void importXmlFile()
 	{
-		importManager.importXmlFile (xmlFile, new NullPrintWriter ());
-		assertEquals ("Wrong handler call sequence", "$a:as+a:a+a:aa*a:x-a:aa-a:a^a:as$b:bs+b:b+b:bb-b:bb-b:b^b:bs",
-						protocol.toString ());
+		importManager.importXmlFile(xmlFile, new NullPrintWriter());
+		assertEquals("Wrong handler call sequence", "$a:as+a:a+a:aa*a:x-a:aa-a:a^a:as$b:bs+b:b+b:bb-b:bb-b:b^b:bs",
+						protocol.toString());
 	}
 
 	@Test
-	public void importXmlFileOnlyATags ()
+	public void importXmlFileOnlyATags()
 	{
-		importManager.importXmlFile (xmlFile, "a", new NullPrintWriter ());
-		assertEquals ("Wrong handler call sequence", "$a:as+a:a+a:aa*a:x-a:aa-a:a^a:as", protocol.toString ());
+		importManager.importXmlFile(xmlFile, "a", new NullPrintWriter());
+		assertEquals("Wrong handler call sequence", "$a:as+a:a+a:aa*a:x-a:aa-a:a^a:as", protocol.toString());
 	}
 }

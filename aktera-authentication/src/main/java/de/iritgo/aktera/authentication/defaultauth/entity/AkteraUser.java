@@ -80,7 +80,7 @@ public class AkteraUser
 	 *                null-allowed="false" primary-key="true"
 	 *                auto-increment="identity"
 	 */
-	public Integer getUid ()
+	public Integer getUid()
 	{
 		return uid;
 	}
@@ -88,7 +88,7 @@ public class AkteraUser
 	/**
 	 * Get the primary key.
 	 */
-	public Integer getId ()
+	public Integer getId()
 	{
 		return uid;
 	}
@@ -96,7 +96,7 @@ public class AkteraUser
 	/**
 	 * Set the primary key.
 	 */
-	public void setUid (Integer id)
+	public void setUid(Integer id)
 	{
 		uid = id;
 	}
@@ -104,7 +104,7 @@ public class AkteraUser
 	/**
 	 * Set the primary key.
 	 */
-	public void setId (Integer id)
+	public void setId(Integer id)
 	{
 		uid = id;
 	}
@@ -115,7 +115,7 @@ public class AkteraUser
 	 * @persist.field name="name" db-name="userName" type="varchar" length="80"
 	 *                null-allowed="false"
 	 */
-	public String getName ()
+	public String getName()
 	{
 		return name;
 	}
@@ -123,7 +123,7 @@ public class AkteraUser
 	/**
 	 * Set the user name.
 	 */
-	public void setName (String name)
+	public void setName(String name)
 	{
 		this.name = name;
 	}
@@ -134,7 +134,7 @@ public class AkteraUser
 	 * @persist.field name="password" db-name="passwd" type="varchar"
 	 *                length="255"
 	 */
-	public String getPassword ()
+	public String getPassword()
 	{
 		return password;
 	}
@@ -142,7 +142,7 @@ public class AkteraUser
 	/**
 	 * Set the password.
 	 */
-	public void setPassword (String password)
+	public void setPassword(String password)
 	{
 		this.password = password;
 	}
@@ -152,7 +152,7 @@ public class AkteraUser
 	 *
 	 * @persist.field name="email" db-name="email" type="varchar" length="132"
 	 */
-	public String getEmail ()
+	public String getEmail()
 	{
 		return email;
 	}
@@ -160,7 +160,7 @@ public class AkteraUser
 	/**
 	 * Set the user's email address.
 	 */
-	public void setEmail (String email)
+	public void setEmail(String email)
 	{
 		this.email = email;
 	}
@@ -171,7 +171,7 @@ public class AkteraUser
 	 * @persist.field name="ldapName" db-name="ldapName" type="varchar"
 	 *                length="120"
 	 */
-	public String getLdapName ()
+	public String getLdapName()
 	{
 		return ldapName;
 	}
@@ -179,7 +179,7 @@ public class AkteraUser
 	/**
 	 * Set the LDAP name.
 	 */
-	public void setLdapName (String ldapName)
+	public void setLdapName(String ldapName)
 	{
 		this.ldapName = ldapName;
 	}

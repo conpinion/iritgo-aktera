@@ -32,7 +32,7 @@ import org.apache.avalon.framework.logger.Logger;
  */
 public interface LoggerFactory
 {
-	public Logger getLoggerForCategory (String category);
+	public Logger getLoggerForCategory(String category);
 
-	public Logger getDefaultLogger ();
+	public Logger getDefaultLogger();
 }

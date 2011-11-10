@@ -79,7 +79,7 @@ public class KeelAuthorizationManager extends AbstractKeelServiceable implements
 
 	private AuthorizationManager bypassAm = null;
 
-	public void enableLogging (Logger newLog)
+	public void enableLogging(Logger newLog)
 	{
 		log = newLog;
 	}
@@ -90,33 +90,33 @@ public class KeelAuthorizationManager extends AbstractKeelServiceable implements
 	 * for specific user permission if none of the groups this
 	 * user belongs to are permitted this operation.
 	 */
-	public boolean allowed (Operation o, UserEnvironment ue) throws AuthorizationException
+	public boolean allowed(Operation o, UserEnvironment ue) throws AuthorizationException
 	{
 		if (rootBypass)
 		{
-			if (ue.getGroups ().contains ("root"))
+			if (ue.getGroups().contains("root"))
 			{
 				return true;
 			}
 		}
 
-		if (log.isDebugEnabled ())
+		if (log.isDebugEnabled())
 		{
-			log.debug ("Checking access for operation " + o.toString () + " for user " + ue.toString () + " component "
-							+ o.getService ().toString ());
+			log.debug("Checking access for operation " + o.toString() + " for user " + ue.toString() + " component "
+							+ o.getService().toString());
 		}
 
-		if (o.getService () instanceof InvokationSecurable)
+		if (o.getService() instanceof InvokationSecurable)
 		{
-			return checkInvokationSecurable (o, ue);
+			return checkInvokationSecurable(o, ue);
 		}
-		else if (o.getService () instanceof InstanceSecurable)
+		else if (o.getService() instanceof InstanceSecurable)
 		{
-			return checkInstanceSecurable (o, ue);
+			return checkInstanceSecurable(o, ue);
 		}
 		else
 		{
-			return checkSecurable (o, ue);
+			return checkSecurable(o, ue);
 		}
 	}
 
@@ -129,60 +129,60 @@ public class KeelAuthorizationManager extends AbstractKeelServiceable implements
 	 * @return
 	 * @throws AuthorizationException
 	 */
-	private boolean checkSecurable (Operation o, UserEnvironment ue) throws AuthorizationException
+	private boolean checkSecurable(Operation o, UserEnvironment ue) throws AuthorizationException
 	{
 		PersistentFactory pf = null;
-		String operationCode = o.getOperationCode ();
+		String operationCode = o.getOperationCode();
 
-		if ((operationCode == null) || (operationCode.trim ().equals ("")))
+		if ((operationCode == null) || (operationCode.trim().equals("")))
 		{
 			operationCode = "*";
 		}
 
-		if (ue.getGroups ().size () == 0)
+		if (ue.getGroups().size() == 0)
 		{
-			throw new AuthorizationException ("User '" + ue.getLoginName () + "' is not a member of any groups");
+			throw new AuthorizationException("User '" + ue.getLoginName() + "' is not a member of any groups");
 		}
 
 		try
 		{
-			pf = getPersistentFactory ();
+			pf = getPersistentFactory();
 
-			Persistent serviceSecurity = pf.create ("component-security.componentsecurity");
+			Persistent serviceSecurity = pf.create("component-security.componentsecurity");
 
-			serviceSecurity.setBypassAuthorizationManager (bypassAm);
+			serviceSecurity.setBypassAuthorizationManager(bypassAm);
 
 			/* Iterate through all the groups that this principal is a member of */
 			String oneGroup = null;
 
-			for (Iterator j = ue.getGroups ().iterator (); j.hasNext ();)
+			for (Iterator j = ue.getGroups().iterator(); j.hasNext();)
 			{
-				oneGroup = (String) j.next ();
+				oneGroup = (String) j.next();
 
-				serviceSecurity.clear ();
-				serviceSecurity.setField ("component", getComponentName (o.getService ()));
-				serviceSecurity.setField ("groupname", oneGroup);
+				serviceSecurity.clear();
+				serviceSecurity.setField("component", getComponentName(o.getService()));
+				serviceSecurity.setField("groupname", oneGroup);
 
-				if (log.isDebugEnabled ())
+				if (log.isDebugEnabled())
 				{
-					log.debug ("Looking for " + serviceSecurity.toString ());
+					log.debug("Looking for " + serviceSecurity.toString());
 				}
 
-				if (serviceSecurity.find ())
+				if (serviceSecurity.find())
 				{
-					log.debug ("Found componentsecurity record, checking operation " + operationCode);
+					log.debug("Found componentsecurity record, checking operation " + operationCode);
 
-					if (operationCode.equals ("*"))
+					if (operationCode.equals("*"))
 					{
 						return true;
 					}
 
-					if (serviceSecurity.getFieldString ("operationsallowed").indexOf (operationCode) > 0)
+					if (serviceSecurity.getFieldString("operationsallowed").indexOf(operationCode) > 0)
 					{
 						return true;
 					}
 
-					if (serviceSecurity.getFieldString ("operationsallowed").equals ("*"))
+					if (serviceSecurity.getFieldString("operationsallowed").equals("*"))
 					{
 						return true;
 					}
@@ -191,23 +191,23 @@ public class KeelAuthorizationManager extends AbstractKeelServiceable implements
 		}
 		catch (PersistenceException pe)
 		{
-			log.error ("Database error checking authorization", pe);
-			throw new AuthorizationException (pe);
+			log.error("Database error checking authorization", pe);
+			throw new AuthorizationException(pe);
 		}
 		catch (AuthorizationException ae)
 		{
-			log.error ("Authorization error while checking authorization", ae);
-			throw new AuthorizationException (ae);
+			log.error("Authorization error while checking authorization", ae);
+			throw new AuthorizationException(ae);
 		}
 		finally
 		{
-			releaseService (pf);
+			releaseService(pf);
 
 			try
 			{
 				Proxy proxy = (Proxy) pf;
 
-				proxy.getInvocationHandler (proxy).invoke (proxy, KeelServiceable.class.getMethod ("releaseServices"),
+				proxy.getInvocationHandler(proxy).invoke(proxy, KeelServiceable.class.getMethod("releaseServices"),
 								new Object[]
 								{});
 			}
@@ -216,10 +216,9 @@ public class KeelAuthorizationManager extends AbstractKeelServiceable implements
 			}
 		}
 
-		if (log.isDebugEnabled ())
+		if (log.isDebugEnabled())
 		{
-			log.debug ("No authorization found of any type for " + o.toString () + ", denied access to "
-							+ ue.toString ());
+			log.debug("No authorization found of any type for " + o.toString() + ", denied access to " + ue.toString());
 		}
 
 		return false;
@@ -236,14 +235,14 @@ public class KeelAuthorizationManager extends AbstractKeelServiceable implements
 	 *
 	 * @return True if the component is allowed at all, false if it is denied
 	 */
-	public boolean allowed (Object component, UserEnvironment ue) throws AuthorizationException
+	public boolean allowed(Object component, UserEnvironment ue) throws AuthorizationException
 	{
-		Operation o = new DefaultOperation ();
+		Operation o = new DefaultOperation();
 
-		o.setOperationCode ("*");
-		o.setService (component);
+		o.setOperationCode("*");
+		o.setService(component);
 
-		return allowed (o, ue);
+		return allowed(o, ue);
 	}
 
 	/**
@@ -254,30 +253,30 @@ public class KeelAuthorizationManager extends AbstractKeelServiceable implements
 	 * @throws AuthorizationException If an error occurs trying to determine if the access
 	 * is granted or not.
 	 */
-	public boolean allowed (Object service, Context c) throws AuthorizationException
+	public boolean allowed(Object service, Context c) throws AuthorizationException
 	{
 		try
 		{
-			UserEnvironment ue = (UserEnvironment) c.get (UserEnvironment.CONTEXT_KEY);
+			UserEnvironment ue = (UserEnvironment) c.get(UserEnvironment.CONTEXT_KEY);
 
 			if (rootBypass)
 			{
 				// Group "root" is an exception: granted auth in all cases
-				if (ue.getGroups ().contains ("root"))
+				if (ue.getGroups().contains("root"))
 				{
 					return true;
 				}
 			}
 
-			return allowed (service, ue);
+			return allowed(service, ue);
 		}
 		catch (AuthorizationException ae)
 		{
-			log.error ("Authorization exception while checking authorization", ae);
+			log.error("Authorization exception while checking authorization", ae);
 		}
 		catch (ContextException e)
 		{
-			log.error ("Context exception while checking authorization: " + e.getMessage ());
+			log.error("Context exception while checking authorization: " + e.getMessage());
 		}
 
 		return false;
@@ -288,9 +287,9 @@ public class KeelAuthorizationManager extends AbstractKeelServiceable implements
 	 * @return A persistent factory initialized with a default context
 	 * @throws AuthorizationException if it is not possible to access the factory
 	 */
-	private PersistentFactory getPersistentFactory () throws AuthorizationException
+	private PersistentFactory getPersistentFactory() throws AuthorizationException
 	{
-		return getPersistentFactory (new DefaultContext ());
+		return getPersistentFactory(new DefaultContext());
 	}
 
 	/**
@@ -302,17 +301,17 @@ public class KeelAuthorizationManager extends AbstractKeelServiceable implements
 	 * at the invokation level
 	 * @throws AuthorizationException If an error occurs during verification of authorization
 	 */
-	private boolean checkInvokationSecurable (Operation o, UserEnvironment ue) throws AuthorizationException
+	private boolean checkInvokationSecurable(Operation o, UserEnvironment ue) throws AuthorizationException
 	{
-		if (log.isDebugEnabled ())
+		if (log.isDebugEnabled())
 		{
-			log.debug ("Checking invokation security for operation " + o.toString () + " for user " + ue.getUid ()
-							+ " to component " + o.getService ().toString ());
+			log.debug("Checking invokation security for operation " + o.toString() + " for user " + ue.getUid()
+							+ " to component " + o.getService().toString());
 		}
 
-		String operationCode = o.getOperationCode ();
+		String operationCode = o.getOperationCode();
 
-		if ((operationCode == null) || (operationCode.trim ().equals ("")))
+		if ((operationCode == null) || (operationCode.trim().equals("")))
 		{
 			operationCode = "*";
 		}
@@ -327,48 +326,48 @@ public class KeelAuthorizationManager extends AbstractKeelServiceable implements
 
 		try
 		{
-			pf = getPersistentFactory ();
+			pf = getPersistentFactory();
 
 			String oneGroup = null;
 
-			for (Iterator j = ue.getGroups ().iterator (); j.hasNext ();)
+			for (Iterator j = ue.getGroups().iterator(); j.hasNext();)
 			{
-				oneGroup = (String) j.next ();
+				oneGroup = (String) j.next();
 
-				Persistent ruleList = pf.create ("component-security.invokationsecurity");
+				Persistent ruleList = pf.create("component-security.invokationsecurity");
 
-				ruleList.setBypassAuthorizationManager (bypassAm);
-				ruleList.setField ("component", getComponentName (o.getService ()));
-				ruleList.setField ("instance", ((InstanceSecurable) o.getService ()).getInstanceIdentifier ());
-				ruleList.setField ("groupname", oneGroup);
+				ruleList.setBypassAuthorizationManager(bypassAm);
+				ruleList.setField("component", getComponentName(o.getService()));
+				ruleList.setField("instance", ((InstanceSecurable) o.getService()).getInstanceIdentifier());
+				ruleList.setField("groupname", oneGroup);
 
-				ArrayList rules = new ArrayList ();
+				ArrayList rules = new ArrayList();
 
-				for (Iterator i = ruleList.query ().iterator (); i.hasNext ();)
+				for (Iterator i = ruleList.query().iterator(); i.hasNext();)
 				{
-					rules.add (i.next ());
+					rules.add(i.next());
 				}
 
-				totalRules = totalRules + rules.size ();
+				totalRules = totalRules + rules.size();
 
-				if (rules.size () != 0)
+				if (rules.size() != 0)
 				{
-					Map props = ((InvokationSecurable) o.getService ()).getAuthorizationProperties ();
+					Map props = ((InvokationSecurable) o.getService()).getAuthorizationProperties();
 					String onePropName = null;
 					Persistent oneRule = null;
 
-					for (Iterator ir = rules.iterator (); ir.hasNext ();)
+					for (Iterator ir = rules.iterator(); ir.hasNext();)
 					{
-						oneRule = (Persistent) ir.next ();
-						onePropName = oneRule.getFieldString ("property");
+						oneRule = (Persistent) ir.next();
+						onePropName = oneRule.getFieldString("property");
 
-						if (compare (oneRule, props.get (onePropName), ue))
+						if (compare(oneRule, props.get(onePropName), ue))
 						{
-							if ((operationCode.equals ("*"))
-											|| (oneRule.getFieldString ("operationsallowed").equals ("*"))
-											|| (oneRule.getFieldString ("operationsallowed").indexOf (operationCode) >= 0))
+							if ((operationCode.equals("*"))
+											|| (oneRule.getFieldString("operationsallowed").equals("*"))
+											|| (oneRule.getFieldString("operationsallowed").indexOf(operationCode) >= 0))
 							{
-								log.debug ("Rule " + oneRule.toString () + " succeeds, authorization granted so far");
+								log.debug("Rule " + oneRule.toString() + " succeeds, authorization granted so far");
 								rulesMatched++;
 							}
 						}
@@ -378,17 +377,17 @@ public class KeelAuthorizationManager extends AbstractKeelServiceable implements
 		}
 		catch (PersistenceException pe)
 		{
-			throw new AuthorizationException (pe);
+			throw new AuthorizationException(pe);
 		}
 		finally
 		{
-			releaseService (pf);
+			releaseService(pf);
 
 			try
 			{
 				Proxy proxy = (Proxy) pf;
 
-				proxy.getInvocationHandler (proxy).invoke (proxy, KeelServiceable.class.getMethod ("releaseServices"),
+				proxy.getInvocationHandler(proxy).invoke(proxy, KeelServiceable.class.getMethod("releaseServices"),
 								new Object[]
 								{});
 			}
@@ -399,21 +398,21 @@ public class KeelAuthorizationManager extends AbstractKeelServiceable implements
 
 		if (totalRules == 0)
 		{
-			log.debug ("No InvokationSecurity rules found to try - authorization denied");
+			log.debug("No InvokationSecurity rules found to try - authorization denied");
 
 			return false;
 		}
 
 		if (totalRules == rulesMatched)
 		{
-			log.debug ("All rules tested succeeded - authorization granted");
+			log.debug("All rules tested succeeded - authorization granted");
 
 			return true;
 		}
 
-		if (log.isDebugEnabled ())
+		if (log.isDebugEnabled())
 		{
-			log.debug ("There were " + totalRules + " rules tested, but only " + rulesMatched + ", auth denied");
+			log.debug("There were " + totalRules + " rules tested, but only " + rulesMatched + ", auth denied");
 		}
 
 		return false;
@@ -422,19 +421,19 @@ public class KeelAuthorizationManager extends AbstractKeelServiceable implements
 	/* Check the specified rule against the property provided by
 	 * the InvokationSecurity
 	 */
-	private boolean compare (Persistent rule, Object propValue, UserEnvironment ue)
+	private boolean compare(Persistent rule, Object propValue, UserEnvironment ue)
 		throws PersistenceException, AuthorizationException
 	{
-		String comparator = rule.getFieldString ("comparator").trim ();
+		String comparator = rule.getFieldString("comparator").trim();
 
 		/* Comparator "ok" means all requests are allowed */
-		if (comparator.equals ("ok"))
+		if (comparator.equals("ok"))
 		{
 			return true;
 		}
 
 		/* Strict equality, no null allowed */
-		if (comparator.equals ("eq") || comparator.equals ("="))
+		if (comparator.equals("eq") || comparator.equals("="))
 		{
 			if (propValue == null)
 			{
@@ -442,7 +441,7 @@ public class KeelAuthorizationManager extends AbstractKeelServiceable implements
 				return false;
 			}
 
-			if (propValue.toString ().equals (expandValue (rule.getFieldString ("value"), ue)))
+			if (propValue.toString().equals(expandValue(rule.getFieldString("value"), ue)))
 			{
 				return true;
 			}
@@ -451,7 +450,7 @@ public class KeelAuthorizationManager extends AbstractKeelServiceable implements
 				return false;
 			}
 		}
-		else if (comparator.equals ("en"))
+		else if (comparator.equals("en"))
 		{ /* Equal or null */
 
 			if (propValue == null)
@@ -459,24 +458,24 @@ public class KeelAuthorizationManager extends AbstractKeelServiceable implements
 				return true;
 			}
 
-			if (propValue.toString ().equals (expandValue (rule.getFieldString ("value"), ue)))
+			if (propValue.toString().equals(expandValue(rule.getFieldString("value"), ue)))
 			{
 				return true;
 			}
 
 			return false;
 		}
-		else if (comparator.equals ("in"))
+		else if (comparator.equals("in"))
 		{ /* contained in */
 
-			String valueString = expandValue (rule.getFieldString ("value").trim (), ue);
-			StringTokenizer stk = new StringTokenizer (valueString, " ");
+			String valueString = expandValue(rule.getFieldString("value").trim(), ue);
+			StringTokenizer stk = new StringTokenizer(valueString, " ");
 
-			while (stk.hasMoreTokens ())
+			while (stk.hasMoreTokens())
 			{
-				String oneToken = stk.nextToken ();
+				String oneToken = stk.nextToken();
 
-				if (propValue.equals (oneToken))
+				if (propValue.equals(oneToken))
 				{
 					return true;
 				}
@@ -486,7 +485,7 @@ public class KeelAuthorizationManager extends AbstractKeelServiceable implements
 		}
 		else
 		{
-			throw new AuthorizationException ("Unknown comparator '" + comparator + "'");
+			throw new AuthorizationException("Unknown comparator '" + comparator + "'");
 		}
 	}
 
@@ -495,21 +494,21 @@ public class KeelAuthorizationManager extends AbstractKeelServiceable implements
 	/**
 	 * @see org.apache.avalon.framework.configuration.Configurable#configure(org.apache.avalon.framework.configuration.Configuration)
 	 */
-	public void configure (Configuration configuration) throws ConfigurationException
+	public void configure(Configuration configuration) throws ConfigurationException
 	{
 		// Obtain a reference to the configured DataSource
-		String bypassAmName = configuration.getChild ("bypass-am").getValue ("*");
+		String bypassAmName = configuration.getChild("bypass-am").getValue("*");
 
 		try
 		{
-			bypassAm = (AuthorizationManager) getService (AuthorizationManager.ROLE, bypassAmName);
+			bypassAm = (AuthorizationManager) getService(AuthorizationManager.ROLE, bypassAmName);
 		}
 		catch (ServiceException e)
 		{
-			throw new ConfigurationException ("Cannot obtain bypass auth. manager", e);
+			throw new ConfigurationException("Cannot obtain bypass auth. manager", e);
 		}
 
-		rootBypass = configuration.getChild ("root-bypass").getValueAsBoolean (false);
+		rootBypass = configuration.getChild("root-bypass").getValueAsBoolean(false);
 	}
 
 	/********* Convenience methods below here ******************/
@@ -525,34 +524,34 @@ public class KeelAuthorizationManager extends AbstractKeelServiceable implements
 	 * @return True if the operation is allowed, false if not.
 	 * @throws AuthorizationException If an error occurs while trying to determine authorization
 	 */
-	public boolean allowed (Operation o, Context c) throws AuthorizationException
+	public boolean allowed(Operation o, Context c) throws AuthorizationException
 	{
 		boolean returnValue = false;
 		assert c != null;
 
-		if (log.isDebugEnabled ())
+		if (log.isDebugEnabled())
 		{
-			log.debug ("Checking auth for operation " + o.toString () + " for user in context for "
-							+ o.getService ().toString ());
+			log.debug("Checking auth for operation " + o.toString() + " for user in context for "
+							+ o.getService().toString());
 		}
 
 		try
 		{
-			UserEnvironment ue = (UserEnvironment) c.get (UserEnvironment.CONTEXT_KEY);
+			UserEnvironment ue = (UserEnvironment) c.get(UserEnvironment.CONTEXT_KEY);
 
-			returnValue = allowed (o, ue);
+			returnValue = allowed(o, ue);
 		}
 		catch (AuthorizationException ae)
 		{
-			log.error ("Authorization exception while checking authorization", ae);
+			log.error("Authorization exception while checking authorization", ae);
 		}
 		catch (ContextException e)
 		{
-			throw new AuthorizationException ("Context exception - no login", e);
+			throw new AuthorizationException("Context exception - no login", e);
 		}
 		catch (NullPointerException ne)
 		{
-			throw new AuthorizationException ("Null pointer exception retrieving from context", ne);
+			throw new AuthorizationException("Null pointer exception retrieving from context", ne);
 		}
 
 		return returnValue;
@@ -563,19 +562,19 @@ public class KeelAuthorizationManager extends AbstractKeelServiceable implements
 	/**
 	 * Obtains the PersistentFactory initialized with a specific context
 	 */
-	private PersistentFactory getPersistentFactory (Context c) throws AuthorizationException
+	private PersistentFactory getPersistentFactory(Context c) throws AuthorizationException
 	{
 		PersistentFactory myFactory = null;
 
 		try
 		{
-			PersistentFactory tmpFactory = (PersistentFactory) getService (PersistentFactory.ROLE, "default", c);
+			PersistentFactory tmpFactory = (PersistentFactory) getService(PersistentFactory.ROLE, "default", c);
 
-			myFactory = (PersistentFactory) getService (PersistentFactory.ROLE, tmpFactory.getSecurity (), c);
+			myFactory = (PersistentFactory) getService(PersistentFactory.ROLE, tmpFactory.getSecurity(), c);
 		}
 		catch (ServiceException se)
 		{
-			throw new AuthorizationException ("An error occured while trying to fetch the PersistentFactory.", se);
+			throw new AuthorizationException("An error occured while trying to fetch the PersistentFactory.", se);
 		}
 
 		return myFactory;
@@ -588,36 +587,36 @@ public class KeelAuthorizationManager extends AbstractKeelServiceable implements
 	 * @return Either the same value unchanged (if it does not begin with a "$" or is
 	 * not a recognized special tag value), or the translated value.
 	 */
-	private String expandValue (String value, UserEnvironment ue) throws AuthorizationException
+	private String expandValue(String value, UserEnvironment ue) throws AuthorizationException
 	{
-		if (! value.startsWith ("$"))
+		if (! value.startsWith("$"))
 		{
 			return value;
 		}
 
-		if (value.equals ("$uid"))
+		if (value.equals("$uid"))
 		{
-			return "" + ue.getUid ();
+			return "" + ue.getUid();
 		}
-		else if (value.equals ("$login"))
+		else if (value.equals("$login"))
 		{
-			return ue.getLoginName ();
+			return ue.getLoginName();
 		}
-		else if (value.equals ("$groups"))
+		else if (value.equals("$groups"))
 		{
-			StringBuffer groups = new StringBuffer ();
+			StringBuffer groups = new StringBuffer();
 			boolean needSpace = false;
 
-			for (Iterator i = ue.getGroups ().iterator (); i.hasNext ();)
+			for (Iterator i = ue.getGroups().iterator(); i.hasNext();)
 			{
 				if (needSpace)
 				{
-					groups.append (" ");
+					groups.append(" ");
 				}
 
-				groups.append ((String) i.next ());
+				groups.append((String) i.next());
 
-				return groups.toString ();
+				return groups.toString();
 			}
 		}
 
@@ -629,33 +628,33 @@ public class KeelAuthorizationManager extends AbstractKeelServiceable implements
 	 * @param component
 	 * @return
 	 */
-	private String getComponentName (Object component)
+	private String getComponentName(Object component)
 	{
 		String returnValue = null;
 
-		if (Proxy.isProxyClass (component.getClass ()))
+		if (Proxy.isProxyClass(component.getClass()))
 		{
 			Proxy proxy = (Proxy) component;
-			Object o = ProxyObjectFactory.getObject (proxy);
+			Object o = ProxyObjectFactory.getObject(proxy);
 
-			returnValue = o.getClass ().getName ();
+			returnValue = o.getClass().getName();
 		}
 		else
 		{
-			returnValue = component.getClass ().getName ();
+			returnValue = component.getClass().getName();
 		}
 
 		return returnValue;
 	}
 
-	private boolean checkInstanceSecurable (Operation o, UserEnvironment ue) throws AuthorizationException
+	private boolean checkInstanceSecurable(Operation o, UserEnvironment ue) throws AuthorizationException
 	{
-		if (checkInstanceSecurableInstance (o, ue, ((InstanceSecurable) o.getService ()).getInstanceIdentifier ()))
+		if (checkInstanceSecurableInstance(o, ue, ((InstanceSecurable) o.getService()).getInstanceIdentifier()))
 		{
 			return true;
 		}
 
-		if (checkInstanceSecurableInstance (o, ue, "*"))
+		if (checkInstanceSecurableInstance(o, ue, "*"))
 		{
 			return true;
 		}
@@ -672,61 +671,61 @@ public class KeelAuthorizationManager extends AbstractKeelServiceable implements
 	 * @return
 	 * @throws AuthorizationException
 	 */
-	private boolean checkInstanceSecurableInstance (Operation o, UserEnvironment ue, String instanceName)
+	private boolean checkInstanceSecurableInstance(Operation o, UserEnvironment ue, String instanceName)
 		throws AuthorizationException
 	{
-		String operationCode = o.getOperationCode ();
+		String operationCode = o.getOperationCode();
 
-		if ((operationCode == null) || (operationCode.trim ().equals ("")))
+		if ((operationCode == null) || (operationCode.trim().equals("")))
 		{
 			operationCode = "*";
 		}
 
 		PersistentFactory pf = null;
 
-		if (ue.getGroups ().size () == 0)
+		if (ue.getGroups().size() == 0)
 		{
-			throw new AuthorizationException ("User '" + ue.getLoginName () + "' is not a member of any groups");
+			throw new AuthorizationException("User '" + ue.getLoginName() + "' is not a member of any groups");
 		}
 
 		try
 		{
-			pf = getPersistentFactory ();
+			pf = getPersistentFactory();
 
-			Persistent serviceSecurity = pf.create ("component-security.instancesecurity");
+			Persistent serviceSecurity = pf.create("component-security.instancesecurity");
 
-			serviceSecurity.setBypassAuthorizationManager (bypassAm);
+			serviceSecurity.setBypassAuthorizationManager(bypassAm);
 
 			/* Iterate through all the groups that this principal is a member of */
 			String oneGroup = null;
 
-			for (Iterator j = ue.getGroups ().iterator (); j.hasNext ();)
+			for (Iterator j = ue.getGroups().iterator(); j.hasNext();)
 			{
-				oneGroup = (String) j.next ();
+				oneGroup = (String) j.next();
 
-				serviceSecurity.clear ();
-				serviceSecurity.setField ("component", getComponentName (o.getService ()));
-				serviceSecurity.setField ("groupname", oneGroup);
-				serviceSecurity.setField ("instance", instanceName);
+				serviceSecurity.clear();
+				serviceSecurity.setField("component", getComponentName(o.getService()));
+				serviceSecurity.setField("groupname", oneGroup);
+				serviceSecurity.setField("instance", instanceName);
 
-				if (log.isDebugEnabled ())
+				if (log.isDebugEnabled())
 				{
-					log.debug ("Looking for " + serviceSecurity.toString ());
+					log.debug("Looking for " + serviceSecurity.toString());
 				}
 
-				if (serviceSecurity.find ())
+				if (serviceSecurity.find())
 				{
-					if (operationCode.equals ("*"))
+					if (operationCode.equals("*"))
 					{
 						return true;
 					}
 
-					if (serviceSecurity.getFieldString ("allowedoperations").indexOf (operationCode) > 0)
+					if (serviceSecurity.getFieldString("allowedoperations").indexOf(operationCode) > 0)
 					{
 						return true;
 					}
 
-					if (serviceSecurity.getFieldString ("allowedoperations").equals ("*"))
+					if (serviceSecurity.getFieldString("allowedoperations").equals("*"))
 					{
 						return true;
 					}
@@ -735,23 +734,23 @@ public class KeelAuthorizationManager extends AbstractKeelServiceable implements
 		}
 		catch (PersistenceException pe)
 		{
-			log.error ("Database error checking authorization", pe);
-			throw new AuthorizationException (pe);
+			log.error("Database error checking authorization", pe);
+			throw new AuthorizationException(pe);
 		}
 		catch (AuthorizationException ae)
 		{
-			log.error ("Authorization error while checking authorization", ae);
-			throw new AuthorizationException (ae);
+			log.error("Authorization error while checking authorization", ae);
+			throw new AuthorizationException(ae);
 		}
 		finally
 		{
-			releaseService (pf);
+			releaseService(pf);
 
 			try
 			{
 				Proxy proxy = (Proxy) pf;
 
-				proxy.getInvocationHandler (proxy).invoke (proxy, KeelServiceable.class.getMethod ("releaseServices"),
+				proxy.getInvocationHandler(proxy).invoke(proxy, KeelServiceable.class.getMethod("releaseServices"),
 								new Object[]
 								{});
 			}
@@ -760,10 +759,9 @@ public class KeelAuthorizationManager extends AbstractKeelServiceable implements
 			}
 		}
 
-		if (log.isDebugEnabled ())
+		if (log.isDebugEnabled())
 		{
-			log.debug ("No authorization found of any type for " + o.toString () + ", denied access to "
-							+ ue.toString ());
+			log.debug("No authorization found of any type for " + o.toString() + ", denied access to " + ue.toString());
 		}
 
 		return false;
@@ -772,8 +770,8 @@ public class KeelAuthorizationManager extends AbstractKeelServiceable implements
 	/**
 	 * @see de.iritgo.aktera.authorization.AuthorizationManager#allowed(java.lang.Object, java.lang.String, de.iritgo.aktera.authentication.UserEnvironment)
 	 */
-	public boolean allowed (Object service, String id, UserEnvironment ue) throws AuthorizationException
+	public boolean allowed(Object service, String id, UserEnvironment ue) throws AuthorizationException
 	{
-		return allowed (service, ue);
+		return allowed(service, ue);
 	}
 }

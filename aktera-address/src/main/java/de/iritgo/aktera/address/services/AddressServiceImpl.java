@@ -29,8 +29,8 @@ public class AddressServiceImpl implements AddressService
 	@Setter
 	private AddressManager addressManager;
 
-	public void deleteAllAddresses (String storeName) throws AddressStoreNotFoundException
+	public void deleteAllAddresses(String storeName) throws AddressStoreNotFoundException
 	{
-		addressManager.getAddressStoreByName (storeName).deleteAllAddresses ();
+		addressManager.getAddressStoreByName(storeName).deleteAllAddresses();
 	}
 }

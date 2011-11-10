@@ -34,7 +34,7 @@ public class ListFiller
 	 *
 	 * @return The total row count
 	 */
-	public long getTotalRowCount ()
+	public long getTotalRowCount()
 	{
 		return - 1;
 	}
@@ -44,7 +44,7 @@ public class ListFiller
 	 *
 	 * @return The row count
 	 */
-	public int getRowCount ()
+	public int getRowCount()
 	{
 		return 0;
 	}
@@ -54,7 +54,7 @@ public class ListFiller
 	 *
 	 * @return True if there was another row
 	 */
-	public boolean next ()
+	public boolean next()
 	{
 		return false;
 	}
@@ -66,7 +66,7 @@ public class ListFiller
 	 * @param column The column to retrieve
 	 * @return The value
 	 */
-	public Object getValue (String column)
+	public Object getValue(String column)
 	{
 		return null;
 	}
@@ -76,7 +76,7 @@ public class ListFiller
 	 *
 	 * @return The current row's id
 	 */
-	public Object getId ()
+	public Object getId()
 	{
 		return "0";
 	}

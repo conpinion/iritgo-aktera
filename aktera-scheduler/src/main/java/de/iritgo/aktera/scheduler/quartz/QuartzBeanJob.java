@@ -37,15 +37,15 @@ public class QuartzBeanJob implements Job
 	/**
 	 * @see org.quartz.Job#execute(org.quartz.JobExecutionContext)
 	 */
-	public void execute (JobExecutionContext jobContext) throws JobExecutionException
+	public void execute(JobExecutionContext jobContext) throws JobExecutionException
 	{
-		JobDetail jobDetail = jobContext.getJobDetail ();
+		JobDetail jobDetail = jobContext.getJobDetail();
 
-		String beanName = (String) jobDetail.getJobDataMap ().get ("bean");
-		Map parameters = (Map) jobDetail.getJobDataMap ().get ("parameters");
+		String beanName = (String) jobDetail.getJobDataMap().get("bean");
+		Map parameters = (Map) jobDetail.getJobDataMap().get("parameters");
 
-		Scheduleable scheduleable = (Scheduleable) KeelContainer.defaultContainer ().getSpringBean (beanName);
+		Scheduleable scheduleable = (Scheduleable) KeelContainer.defaultContainer().getSpringBean(beanName);
 
-		scheduleable.schedule (parameters);
+		scheduleable.schedule(parameters);
 	}
 }

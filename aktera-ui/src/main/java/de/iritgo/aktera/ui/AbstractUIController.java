@@ -44,12 +44,12 @@ public abstract class AbstractUIController implements UIController
 	/**
 	 * @see de.iritgo.aktera.ui.UIController#getForward()
 	 */
-	public String getForward ()
+	public String getForward()
 	{
 		return forward;
 	}
 
-	public void setForward (String forward)
+	public void setForward(String forward)
 	{
 		this.forward = forward;
 	}
@@ -57,12 +57,12 @@ public abstract class AbstractUIController implements UIController
 	/**
 	 * @see de.iritgo.aktera.ui.UIController#getBundle()
 	 */
-	public String getBundle ()
+	public String getBundle()
 	{
 		return bundle;
 	}
 
-	public void setBundle (String bundle)
+	public void setBundle(String bundle)
 	{
 		this.bundle = bundle;
 	}
@@ -70,17 +70,17 @@ public abstract class AbstractUIController implements UIController
 	/**
 	 * @see de.iritgo.aktera.ui.UIController#getSecurity()
 	 */
-	public Security getSecurity ()
+	public Security getSecurity()
 	{
 		return security;
 	}
 
-	public void setSecurity (Security security)
+	public void setSecurity(Security security)
 	{
 		this.security = security;
 	}
 
-	public void setLogger (Logger logger)
+	public void setLogger(Logger logger)
 	{
 		this.logger = logger;
 	}
@@ -88,30 +88,30 @@ public abstract class AbstractUIController implements UIController
 	/**
 	 * @see de.iritgo.aktera.ui.UIController#redirect(java.lang.String, de.iritgo.aktera.ui.UIRequest, de.iritgo.aktera.ui.UIResponse)
 	 */
-	public void redirect (String bean, UIRequest request, UIResponse response) throws UIControllerException
+	public void redirect(String bean, UIRequest request, UIResponse response) throws UIControllerException
 	{
-		UIController controller = (UIController) KeelContainer.defaultContainer ().getSpringBean (bean);
+		UIController controller = (UIController) KeelContainer.defaultContainer().getSpringBean(bean);
 
-		AuthorizationManager authorizationManager = (AuthorizationManager) KeelContainer.defaultContainer ()
-						.getSpringBean (AuthorizationManager.ID);
+		AuthorizationManager authorizationManager = (AuthorizationManager) KeelContainer.defaultContainer()
+						.getSpringBean(AuthorizationManager.ID);
 
 		try
 		{
-			if (! authorizationManager.allowed (controller, bean, request.getUserEnvironment ()))
+			if (! authorizationManager.allowed(controller, bean, request.getUserEnvironment()))
 			{
-				throw new SecurityException ("Controller '" + bean + "' not authorized");
+				throw new SecurityException("Controller '" + bean + "' not authorized");
 			}
 		}
 		catch (AuthorizationException x)
 		{
-			throw new SecurityException ("Controller '" + bean + "' unable to check authorization", x);
+			throw new SecurityException("Controller '" + bean + "' unable to check authorization", x);
 		}
 
-		controller.execute (request, response);
+		controller.execute(request, response);
 
-		if (response.getForward () == null)
+		if (response.getForward() == null)
 		{
-			response.setForward (controller.getForward ());
+			response.setForward(controller.getForward());
 		}
 	}
 }

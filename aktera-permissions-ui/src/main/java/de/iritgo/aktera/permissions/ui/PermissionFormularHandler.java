@@ -44,124 +44,124 @@ public class PermissionFormularHandler extends FormularHandler
 	@Autowired
 	private List<PermissionFormPart> permissionFormParts;
 
-	private Map<String, PermissionFormPart> permissionFormPartsByKey = new HashMap ();
+	private Map<String, PermissionFormPart> permissionFormPartsByKey = new HashMap();
 
-	public PermissionFormularHandler ()
+	public PermissionFormularHandler()
 	{
 	}
 
-	public PermissionFormularHandler (PermissionFormularHandler handler)
+	public PermissionFormularHandler(PermissionFormularHandler handler)
 	{
-		super (handler);
+		super(handler);
 	}
 
 	@PostConstruct
-	public void init ()
+	public void init()
 	{
 		for (PermissionFormPart part : permissionFormParts)
 		{
-			for (String key : part.getPermissionKeys ())
+			for (String key : part.getPermissionKeys())
 			{
-				permissionFormPartsByKey.put (key, part);
+				permissionFormPartsByKey.put(key, part);
 			}
 		}
 	}
 
 	@Override
-	public void adjustFormular (ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents)
+	public void adjustFormular(ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents)
 		throws ModelException, PersistenceException
 	{
-		TreeMap permissions = new TreeMap ();
-		persistents.putAttributeValidValues ("permission.permission", permissions);
-		permissions.put ("", "$opt-");
+		TreeMap permissions = new TreeMap();
+		persistents.putAttributeValidValues("permission.permission", permissions);
+		permissions.put("", "$opt-");
 
-		for (PermissionMetaData pmd : permissionManager.getPermissionMetaData ())
+		for (PermissionMetaData pmd : permissionManager.getPermissionMetaData())
 		{
-			permissions.put (pmd.getId (), "$" + pmd.getName ());
+			permissions.put(pmd.getId(), "$" + pmd.getName());
 		}
 
-		String permission = (String) persistents.getAttribute ("permission.permission");
+		String permission = (String) persistents.getAttribute("permission.permission");
 
-		for (GroupDescriptor group : formular.getGroups ())
+		for (GroupDescriptor group : formular.getGroups())
 		{
-			group.setVisible (group.getName ().equals ("permission") || group.getName ().equals (permission));
+			group.setVisible(group.getName().equals("permission") || group.getName().equals(permission));
 		}
 
-		PermissionFormPart part = permissionFormPartsByKey.get (permission);
+		PermissionFormPart part = permissionFormPartsByKey.get(permission);
 		if (part != null)
 		{
-			part.adjustFormular (request, formular, persistents);
+			part.adjustFormular(request, formular, persistents);
 		}
 	}
 
 	@Override
-	public void loadPersistents (ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents,
+	public void loadPersistents(ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents,
 					List<Configuration> persistentConfig, Integer id) throws ModelException, PersistenceException
 	{
-		super.loadPersistents (request, formular, persistents, persistentConfig, id);
+		super.loadPersistents(request, formular, persistents, persistentConfig, id);
 
-		Persistent permission = persistents.getPersistent ("permission");
+		Persistent permission = persistents.getPersistent("permission");
 
-		if (permission.getStatus () == Persistent.NEW)
+		if (permission.getStatus() == Persistent.NEW)
 		{
-			permission.setField ("principalType", request.getParameterAsString ("principalType"));
-			permission.setField ("principalId", request.getParameterAsString ("principalId"));
+			permission.setField("principalType", request.getParameterAsString("principalType"));
+			permission.setField("principalId", request.getParameterAsString("principalId"));
 		}
 	}
 
 	@Override
-	public void validatePersistents (List<Configuration> persistentConfig, ModelRequest request,
-					ModelResponse response, FormularDescriptor formular, PersistentDescriptor persistents,
-					boolean create, ValidationResult result) throws ModelException, PersistenceException
+	public void validatePersistents(List<Configuration> persistentConfig, ModelRequest request, ModelResponse response,
+					FormularDescriptor formular, PersistentDescriptor persistents, boolean create,
+					ValidationResult result) throws ModelException, PersistenceException
 	{
-		String permission = (String) persistents.getAttribute ("permission.permission");
-		PermissionFormPart part = permissionFormPartsByKey.get (permission);
+		String permission = (String) persistents.getAttribute("permission.permission");
+		PermissionFormPart part = permissionFormPartsByKey.get(permission);
 		if (part != null)
 		{
-			part.validatePersistents (request, response, formular, persistents, create, result);
+			part.validatePersistents(request, response, formular, persistents, create, result);
 		}
 	}
 
 	@Override
-	public void updatePersistents (ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents,
+	public void updatePersistents(ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents,
 					List<Configuration> persistentConfig, boolean modified) throws ModelException, PersistenceException
 	{
-		Persistent permission = persistents.getPersistent ("permission");
-		String permissionType = (String) persistents.getAttribute ("permission.permission");
-		if (StringTools.isTrimEmpty (permission.getField ("objectType")))
+		Persistent permission = persistents.getPersistent("permission");
+		String permissionType = (String) persistents.getAttribute("permission.permission");
+		if (StringTools.isTrimEmpty(permission.getField("objectType")))
 		{
-			permission.setField ("objectType", (permissionManager.getMetaDataById (permissionType).getObjectType ()));
+			permission.setField("objectType", (permissionManager.getMetaDataById(permissionType).getObjectType()));
 		}
 
-		super.updatePersistents (request, formular, persistents, persistentConfig, modified);
+		super.updatePersistents(request, formular, persistents, persistentConfig, modified);
 
-		permissionManager.clear ();
+		permissionManager.clear();
 	}
 
 	@Override
-	public int createPersistents (ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents,
+	public int createPersistents(ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents,
 					List<Configuration> persistentConfig) throws ModelException, PersistenceException
 	{
-		Persistent permission = persistents.getPersistent ("permission");
-		String permissionType = (String) persistents.getAttribute ("permission.permission");
-		if (StringTools.isTrimEmpty (permission.getField ("objectType")))
+		Persistent permission = persistents.getPersistent("permission");
+		String permissionType = (String) persistents.getAttribute("permission.permission");
+		if (StringTools.isTrimEmpty(permission.getField("objectType")))
 		{
-			permission.setField ("objectType", (permissionManager.getMetaDataById (permissionType).getObjectType ()));
+			permission.setField("objectType", (permissionManager.getMetaDataById(permissionType).getObjectType()));
 		}
 
-		int res = super.createPersistents (request, formular, persistents, persistentConfig);
+		int res = super.createPersistents(request, formular, persistents, persistentConfig);
 
-		permissionManager.clear ();
+		permissionManager.clear();
 
 		return res;
 	}
 
 	@Override
-	public void deletePersistent (ModelRequest request, ModelResponse response, Object id, Persistent persistent,
+	public void deletePersistent(ModelRequest request, ModelResponse response, Object id, Persistent persistent,
 					boolean systemDelete) throws ModelException, PersistenceException
 	{
-		super.deletePersistent (request, response, id, persistent, systemDelete);
+		super.deletePersistent(request, response, id, persistent, systemDelete);
 
-		permissionManager.clear ();
+		permissionManager.clear();
 	}
 }

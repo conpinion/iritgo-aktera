@@ -55,21 +55,21 @@ public class JournalExecutionExtension implements ExtensionTile
 	{
 		private long journalId;
 
-		public ExecutionAction (long journalId)
+		public ExecutionAction(long journalId)
 		{
-			super ();
+			super();
 			this.journalId = journalId;
 		}
 
-		public void actionPerformed (ActionEvent e)
+		public void actionPerformed(ActionEvent e)
 		{
-			Properties props = new Properties ();
+			Properties props = new Properties();
 
-			props.setProperty ("model", "aktera.journal.execute-journal-entry");
-			props.setProperty ("name", AppContext.instance ().getUser ().getName ());
-			props.setProperty ("id", "" + journalId);
+			props.setProperty("model", "aktera.journal.execute-journal-entry");
+			props.setProperty("name", AppContext.instance().getUser().getName());
+			props.setProperty("id", "" + journalId);
 
-			CommandTools.performAsync ("AkteraAktarioKeelCommand", props);
+			CommandTools.performAsync("AkteraAktarioKeelCommand", props);
 		}
 	}
 
@@ -77,21 +77,21 @@ public class JournalExecutionExtension implements ExtensionTile
 	{
 		private long journalId;
 
-		public DeleteAction (long journalId)
+		public DeleteAction(long journalId)
 		{
-			super ();
+			super();
 			this.journalId = journalId;
 		}
 
-		public void actionPerformed (ActionEvent e)
+		public void actionPerformed(ActionEvent e)
 		{
-			Properties props = new Properties ();
+			Properties props = new Properties();
 
-			props.setProperty ("model", "aktera.journal.delete-journal-entry");
-			props.setProperty ("name", AppContext.instance ().getUser ().getName ());
-			props.setProperty ("id", "" + journalId);
+			props.setProperty("model", "aktera.journal.delete-journal-entry");
+			props.setProperty("name", AppContext.instance().getUser().getName());
+			props.setProperty("id", "" + journalId);
 
-			CommandTools.performAsync ("AkteraAktarioKeelCommand", props);
+			CommandTools.performAsync("AkteraAktarioKeelCommand", props);
 		}
 	}
 
@@ -99,21 +99,21 @@ public class JournalExecutionExtension implements ExtensionTile
 	{
 		private long journalId;
 
-		public DeleteAllAction (long journalId)
+		public DeleteAllAction(long journalId)
 		{
-			super ();
+			super();
 			this.journalId = journalId;
 		}
 
-		public void actionPerformed (ActionEvent e)
+		public void actionPerformed(ActionEvent e)
 		{
-			Properties props = new Properties ();
+			Properties props = new Properties();
 
-			props.setProperty ("model", "de.telcat.iptell.base.journal.JournalDeleteAll");
-			props.setProperty ("name", AppContext.instance ().getUser ().getName ());
-			props.setProperty ("id", "" + journalId);
+			props.setProperty("model", "de.telcat.iptell.base.journal.JournalDeleteAll");
+			props.setProperty("name", AppContext.instance().getUser().getName());
+			props.setProperty("id", "" + journalId);
 
-			CommandTools.performAsync ("AkteraAktarioKeelCommand", props);
+			CommandTools.performAsync("AkteraAktarioKeelCommand", props);
 		}
 	}
 
@@ -123,18 +123,18 @@ public class JournalExecutionExtension implements ExtensionTile
 
 	private DefaultTableCellRenderer defaultTableCellRenderer;
 
-	public JournalExecutionExtension ()
+	public JournalExecutionExtension()
 	{
-		executeIcon = new ImageIcon (JournalExecutionExtension.class.getResource ("/resources/tool-accept-16.png"));
-		deleteIcon = new ImageIcon (JournalExecutionExtension.class.getResource ("/resources/tool-delete-16.gif"));
+		executeIcon = new ImageIcon(JournalExecutionExtension.class.getResource("/resources/tool-accept-16.png"));
+		deleteIcon = new ImageIcon(JournalExecutionExtension.class.getResource("/resources/tool-delete-16.gif"));
 	}
 
-	public String getTileId ()
+	public String getTileId()
 	{
 		return "journal.execution";
 	}
 
-	public void command (GUIPane guiPane, IObject iObject, Properties properties)
+	public void command(GUIPane guiPane, IObject iObject, Properties properties)
 	{
 		QueryPane queryPane = (QueryPane) guiPane;
 		DataObject dataObject = (DataObject) iObject;
@@ -144,58 +144,57 @@ public class JournalExecutionExtension implements ExtensionTile
 			return;
 		}
 
-		Point point = (Point) properties.get ("mousePosition");
-		JTable table = (JTable) properties.get ("table");
+		Point point = (Point) properties.get("mousePosition");
+		JTable table = (JTable) properties.get("table");
 
-		JPopupMenu popupMenu = new JPopupMenu ();
-		long id = dataObject.getUniqueId ();
-		String rawData = StringTools.trim (dataObject.getStringAttribute ("journal_rawData"));
+		JPopupMenu popupMenu = new JPopupMenu();
+		long id = dataObject.getUniqueId();
+		String rawData = StringTools.trim(dataObject.getStringAttribute("journal_rawData"));
 
-		String executeString = Engine.instance ().getResourceService ().getStringWithoutException ("journalExecute");
-		JMenuItem call = new JMenuItem ("<html><span style=\"width:8em\"><b>" + executeString + "</b></span> "
-						+ rawData + "</html>", (Icon) executeIcon);
+		String executeString = Engine.instance().getResourceService().getStringWithoutException("journalExecute");
+		JMenuItem call = new JMenuItem("<html><span style=\"width:8em\"><b>" + executeString + "</b></span> " + rawData
+						+ "</html>", (Icon) executeIcon);
 
-		call.addActionListener (new ExecutionAction (id));
-		popupMenu.add (call);
+		call.addActionListener(new ExecutionAction(id));
+		popupMenu.add(call);
 
-		String deleteString = Engine.instance ().getResourceService ().getStringWithoutException ("journalDelete");
-		JMenuItem delete = new JMenuItem ("<html><span style=\"width:8em\"><b>" + deleteString + "</b></span> "
+		String deleteString = Engine.instance().getResourceService().getStringWithoutException("journalDelete");
+		JMenuItem delete = new JMenuItem("<html><span style=\"width:8em\"><b>" + deleteString + "</b></span> "
 						+ rawData + "</html>", (Icon) deleteIcon);
 
-		delete.addActionListener (new DeleteAction (id));
-		popupMenu.add (delete);
+		delete.addActionListener(new DeleteAction(id));
+		popupMenu.add(delete);
 
-		JSeparator sep = new JSeparator ();
+		JSeparator sep = new JSeparator();
 
-		popupMenu.add (sep);
+		popupMenu.add(sep);
 
-		String deleteAllString = Engine.instance ().getResourceService ()
-						.getStringWithoutException ("journalDeleteAll");
-		JMenuItem deleteAll = new JMenuItem ("<html><span style=\"width:8em\"><b>" + deleteAllString + "</b></span>"
+		String deleteAllString = Engine.instance().getResourceService().getStringWithoutException("journalDeleteAll");
+		JMenuItem deleteAll = new JMenuItem("<html><span style=\"width:8em\"><b>" + deleteAllString + "</b></span>"
 						+ "</html>", (Icon) deleteIcon);
 
-		deleteAll.addActionListener (new DeleteAllAction (id));
-		popupMenu.add (deleteAll);
+		deleteAll.addActionListener(new DeleteAllAction(id));
+		popupMenu.add(deleteAll);
 
-		popupMenu.show (table, (int) point.getX (), (int) point.getY ());
+		popupMenu.show(table, (int) point.getX(), (int) point.getY());
 	}
 
-	public boolean isDoubleClickCommand ()
+	public boolean isDoubleClickCommand()
 	{
 		return false;
 	}
 
-	public JComponent getTile (GUIPane guiPane, IObject iObject, Properties properties)
+	public JComponent getTile(GUIPane guiPane, IObject iObject, Properties properties)
 	{
-		defaultTableCellRenderer = new DefaultTableCellRenderer ()
+		defaultTableCellRenderer = new DefaultTableCellRenderer()
 		{
-			public Component getTableCellRendererComponent (JTable table, Object value, boolean isSelected,
+			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
 							boolean hasFocus, int row, int column)
 			{
-				setIcon (executeIcon);
+				setIcon(executeIcon);
 
-				table.getColumnModel ().getColumn (column).setMinWidth (executeIcon.getIconWidth ());
-				table.getColumnModel ().getColumn (column).setMaxWidth (executeIcon.getIconWidth () + 4);
+				table.getColumnModel().getColumn(column).setMinWidth(executeIcon.getIconWidth());
+				table.getColumnModel().getColumn(column).setMaxWidth(executeIcon.getIconWidth() + 4);
 
 				return this;
 			}
@@ -204,12 +203,12 @@ public class JournalExecutionExtension implements ExtensionTile
 		return defaultTableCellRenderer;
 	}
 
-	public String getLabel ()
+	public String getLabel()
 	{
 		return "0.empty";
 	}
 
-	public Object getConstraints ()
+	public Object getConstraints()
 	{
 		return null;
 	}

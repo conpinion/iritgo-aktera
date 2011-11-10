@@ -111,9 +111,9 @@ public class Edit extends SecurableStandardLogEnabledModel implements InstanceSe
 	 *
 	 * @return The instance id.
 	 */
-	public String getInstanceIdentifier ()
+	public String getInstanceIdentifier()
 	{
-		return getConfiguration ().getAttribute ("id", "aktera.edit");
+		return getConfiguration().getAttribute("id", "aktera.edit");
 	}
 
 	/**
@@ -122,100 +122,99 @@ public class Edit extends SecurableStandardLogEnabledModel implements InstanceSe
 	 * @param req The model request.
 	 * @return The model response.
 	 */
-	public ModelResponse execute (ModelRequest req) throws ModelException
+	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
-		EditFormContext context = new EditFormContext ();
+		EditFormContext context = new EditFormContext();
 
-		context.setRequest (req);
+		context.setRequest(req);
 
-		ModelResponse res = req.createResponse ();
+		ModelResponse res = req.createResponse();
 
 		try
 		{
-			readConfig (req);
+			readConfig(req);
 
-			Object id = handler.getPersistentId (req, contextId, keyName);
+			Object id = handler.getPersistentId(req, contextId, keyName);
 
-			if (StringTools.isTrimEmpty (id))
+			if (StringTools.isTrimEmpty(id))
 			{
-				id = new Integer (- 1);
+				id = new Integer(- 1);
 			}
 
-			context.setId (id);
+			context.setId(id);
 
-			String persistentsId = FormTools.createContextKey (contextId, id);
+			String persistentsId = FormTools.createContextKey(contextId, id);
 
-			FormularDescriptor formular = createFormular (req);
+			FormularDescriptor formular = createFormular(req);
 
-			if (req.getParameter ("page") != null)
+			if (req.getParameter("page") != null)
 			{
-				formular.setPage (NumberTools.toInt (req.getParameter ("page"), formular.getPage ()));
+				formular.setPage(NumberTools.toInt(req.getParameter("page"), formular.getPage()));
 			}
 
-			if (NumberTools.toBool (req.getParameter ("AKTERA_auto"), false)
-							&& req.getParameter ("AKTERA_page") != null)
+			if (NumberTools.toBool(req.getParameter("AKTERA_auto"), false) && req.getParameter("AKTERA_page") != null)
 			{
-				formular.setPage (NumberTools.toInt (req.getParameter ("AKTERA_page"), formular.getPage ()));
+				formular.setPage(NumberTools.toInt(req.getParameter("AKTERA_page"), formular.getPage()));
 			}
 
-			handler.prepareFormular (req, res, formular);
+			handler.prepareFormular(req, res, formular);
 
-			PersistentDescriptor persistents = formular.getPersistents ();
+			PersistentDescriptor persistents = formular.getPersistents();
 
 			if (persistents == null
-							|| (req.getParameter ("error") == null && req.getParameter ("reedit") == null && ! reeditAlways))
+							|| (req.getParameter("error") == null && req.getParameter("reedit") == null && ! reeditAlways))
 			{
-				persistents = new PersistentDescriptor (persistentsId);
-				formular.setPersistents (persistents);
-				handler.loadPersistents (req, formular, persistents, persistentConfig, NumberTools.toIntInstance (id,
-								- 1));
-				handler.afterLoad (req, formular, persistents);
-				FormTools.loadPersistents (formular, persistents);
+				persistents = new PersistentDescriptor(persistentsId);
+				formular.setPersistents(persistents);
+				handler.loadPersistents(req, formular, persistents, persistentConfig, NumberTools
+								.toIntInstance(id, - 1));
+				handler.afterLoad(req, formular, persistents);
+				FormTools.loadPersistents(formular, persistents);
 			}
 			else
 			{
-				handler.afterLoad (req, formular, persistents);
+				handler.afterLoad(req, formular, persistents);
 			}
 
-			handler.adjustFormular (req, formular, persistents);
+			handler.adjustFormular(req, formular, persistents);
 
-			if (NumberTools.toBool (req.getParameter (SYSTEM_EDIT), false))
+			if (NumberTools.toBool(req.getParameter(SYSTEM_EDIT), false))
 			{
-				Output out = res.createOutput (FORM_KEY);
+				Output out = res.createOutput(FORM_KEY);
 
-				out.setContent (formular);
-				res.add (out);
+				out.setContent(formular);
+				res.add(out);
 			}
 			else
 			{
-				if (req.getParameter ("ajax") != null)
+				if (req.getParameter("ajax") != null)
 				{
-					res.setAttribute ("forward", "aktera.formular.ajax");
+					res.setAttribute("forward", "aktera.formular.ajax");
 				}
 				else
 				{
-					res.setAttribute ("forward", forward);
+					res.setAttribute("forward", forward);
 				}
 
-				FormTools.createResponseElements (req, res, formular, persistents, formular.getCommands (), readOnly
-								|| formular.getReadOnly (), context);
+				FormTools.createResponseElements(req, res, formular, persistents, formular.getCommands(), readOnly
+								|| formular.getReadOnly(), context);
 			}
 
-			res.addOutput ("formAction", "model");
+			res.addOutput("formAction", "model");
 
 			return res;
 		}
 		catch (ModelException x)
 		{
-			throw ModelTools.handleException (res, x, log);
+			throw ModelTools.handleException(res, x, log);
 		}
 		catch (PersistenceException x)
 		{
-			throw ModelTools.handleException (res, x, log);
+			throw ModelTools.handleException(res, x, log);
 		}
 		catch (ConfigurationException x)
 		{
-			throw ModelTools.handleException (res, x, log);
+			throw ModelTools.handleException(res, x, log);
 		}
 	}
 
@@ -224,127 +223,127 @@ public class Edit extends SecurableStandardLogEnabledModel implements InstanceSe
 	 *
 	 * @param req The model configuration.
 	 */
-	public void readConfig (ModelRequest req) throws ModelException, ConfigurationException
+	public void readConfig(ModelRequest req) throws ModelException, ConfigurationException
 	{
 		if (configRead)
 		{
 			return;
 		}
 
-		java.util.List configPath = ModelTools.getDerivationPath (req, this);
+		java.util.List configPath = ModelTools.getDerivationPath(req, this);
 
-		readOnly = ModelTools.getConfigBool (configPath, "readOnly", false);
-		reeditAlways = ModelTools.getConfigBool (configPath, "reeditAlways", false);
+		readOnly = ModelTools.getConfigBool(configPath, "readOnly", false);
+		reeditAlways = ModelTools.getConfigBool(configPath, "reeditAlways", false);
 
 		if (! readOnly)
 		{
-			cmdSave = readCommandConfig (configPath, "command-save", "save", null, "save", "S");
+			cmdSave = readCommandConfig(configPath, "command-save", "save", null, "save", "S");
 
 			if (cmdSave != null)
 			{
-				cmdSave.setVisible (ModelTools.getConfigBool (configPath, "command-save", "visible", true));
+				cmdSave.setVisible(ModelTools.getConfigBool(configPath, "command-save", "visible", true));
 
-				if (cmdSave.getIcon () == null)
+				if (cmdSave.getIcon() == null)
 				{
-					cmdSave.setIcon ("tool-ok-16");
+					cmdSave.setIcon("tool-ok-16");
 				}
 			}
 		}
 		else
 		{
-			cmdEdit = readCommandConfig (configPath, "command-edit", "save", null, "edit", "S");
+			cmdEdit = readCommandConfig(configPath, "command-edit", "save", null, "edit", "S");
 
 			if (cmdEdit != null)
 			{
-				if (cmdEdit.getIcon () == null)
+				if (cmdEdit.getIcon() == null)
 				{
-					cmdEdit.setIcon ("tool-edit-16");
+					cmdEdit.setIcon("tool-edit-16");
 				}
 			}
 		}
 
-		cmdCancel = readCommandConfig (configPath, "command-cancel", "cancel", null, "cancel", "E");
+		cmdCancel = readCommandConfig(configPath, "command-cancel", "cancel", null, "cancel", "E");
 
 		if (cmdCancel != null)
 		{
-			cmdCancel.addAttribute ("cancel", "Y");
-			cmdCancel.addParameter ("cancel", "Y");
+			cmdCancel.addAttribute("cancel", "Y");
+			cmdCancel.addParameter("cancel", "Y");
 
-			if (cmdCancel.getIcon () == null)
+			if (cmdCancel.getIcon() == null)
 			{
-				cmdCancel.setIcon ("tool-cancel-16");
+				cmdCancel.setIcon("tool-cancel-16");
 			}
 		}
 
-		formularClassName = ModelTools.getConfigString (configPath, "formular", "class", null);
+		formularClassName = ModelTools.getConfigString(configPath, "formular", "class", null);
 
-		formularModelName = ModelTools.getConfigString (configPath, "formular", "id", null);
+		formularModelName = ModelTools.getConfigString(configPath, "formular", "id", null);
 
-		persistentConfig = ModelTools.getConfigChildren (configPath, "persistent");
+		persistentConfig = ModelTools.getConfigChildren(configPath, "persistent");
 
-		contextId = ModelTools.getConfigString (configPath, "context", "id", null);
+		contextId = ModelTools.getConfigString(configPath, "context", "id", null);
 
-		keyName = ModelTools.getConfigString (configPath, "keyName", null);
+		keyName = ModelTools.getConfigString(configPath, "keyName", null);
 
-		commandConfig = ModelTools.getConfigChildrenReverse (configPath, "command");
+		commandConfig = ModelTools.getConfigChildrenReverse(configPath, "command");
 
-		Configuration forwardConfig = ModelTools.findConfig (configPath, "attribute", "name", "forward");
+		Configuration forwardConfig = ModelTools.findConfig(configPath, "attribute", "name", "forward");
 
-		forward = forwardConfig != null ? forwardConfig.getAttribute ("value", "aktera.formular") : "aktera.formular";
+		forward = forwardConfig != null ? forwardConfig.getAttribute("value", "aktera.formular") : "aktera.formular";
 
-		title = ModelTools.getConfigString (configPath, "title", null);
-		titleBundle = ModelTools.getConfigString (configPath, "title", "bundle", null);
+		title = ModelTools.getConfigString(configPath, "title", null);
+		titleBundle = ModelTools.getConfigString(configPath, "title", "bundle", null);
 
 		if (titleBundle == null)
 		{
-			titleBundle = ModelTools.getConfigString (configPath, "titleBundle", null);
+			titleBundle = ModelTools.getConfigString(configPath, "titleBundle", null);
 		}
 
-		icon = ModelTools.getConfigString (configPath, "icon", null);
+		icon = ModelTools.getConfigString(configPath, "icon", null);
 
-		String handlerClassName = ModelTools.getConfigString (configPath, "handler", "class", null);
+		String handlerClassName = ModelTools.getConfigString(configPath, "handler", "class", null);
 
 		if (handlerClassName != null)
 		{
 			try
 			{
-				handler = (FormularHandler) Class.forName (handlerClassName).newInstance ();
+				handler = (FormularHandler) Class.forName(handlerClassName).newInstance();
 			}
 			catch (ClassNotFoundException x)
 			{
-				throw new ModelException ("[aktera.edit] Unable to create handler " + handlerClassName + " (" + x + ")");
+				throw new ModelException("[aktera.edit] Unable to create handler " + handlerClassName + " (" + x + ")");
 			}
 			catch (InstantiationException x)
 			{
-				throw new ModelException ("[aktera.edit] Unable to create handler " + handlerClassName + " (" + x + ")");
+				throw new ModelException("[aktera.edit] Unable to create handler " + handlerClassName + " (" + x + ")");
 			}
 			catch (IllegalAccessException x)
 			{
-				throw new ModelException ("[aktera.edit] Unable to create handler " + handlerClassName + " (" + x + ")");
+				throw new ModelException("[aktera.edit] Unable to create handler " + handlerClassName + " (" + x + ")");
 			}
 		}
 		else
 		{
-			String handlerBeanName = ModelTools.getConfigString (configPath, "handler", "bean", null);
+			String handlerBeanName = ModelTools.getConfigString(configPath, "handler", "bean", null);
 
 			if (handlerBeanName != null)
 			{
-				handler = (FormularHandler) SpringTools.getBean (handlerBeanName);
+				handler = (FormularHandler) SpringTools.getBean(handlerBeanName);
 			}
 		}
 
 		if (handler != null)
 		{
-			handler.setDefaultHandler (new DefaultFormularHandler ());
+			handler.setDefaultHandler(new DefaultFormularHandler());
 		}
 		else
 		{
-			handler = new DefaultFormularHandler ();
+			handler = new DefaultFormularHandler();
 		}
 
 		if (handler != null)
 		{
-			handler.setLogger (log);
+			handler.setLogger(log);
 		}
 
 		configRead = true;
@@ -359,35 +358,35 @@ public class Edit extends SecurableStandardLogEnabledModel implements InstanceSe
 	 * @param defaultLabel The default command label.
 	 * @return The command info.
 	 */
-	public CommandInfo readCommandConfig (java.util.List configPath, String configName, String name,
+	public CommandInfo readCommandConfig(java.util.List configPath, String configName, String name,
 					String defaultModel, String defaultLabel, String defaultPos)
 		throws ModelException, ConfigurationException
 	{
-		Configuration config = ModelTools.getConfig (configPath, configName);
+		Configuration config = ModelTools.getConfig(configPath, configName);
 
-		String model = config != null ? config.getAttribute ("model", defaultModel) : defaultModel;
-		String label = config != null ? config.getAttribute ("label", defaultLabel) : defaultLabel;
-		String bundle = config != null ? config.getAttribute ("bundle", "Aktera") : "Aktera";
-		String pos = config != null ? config.getAttribute ("pos", defaultPos) : defaultPos;
+		String model = config != null ? config.getAttribute("model", defaultModel) : defaultModel;
+		String label = config != null ? config.getAttribute("label", defaultLabel) : defaultLabel;
+		String bundle = config != null ? config.getAttribute("bundle", "Aktera") : "Aktera";
+		String pos = config != null ? config.getAttribute("pos", defaultPos) : defaultPos;
 
 		if (config != null)
 		{
-			CommandInfo cmd = new CommandInfo (model, name, label);
+			CommandInfo cmd = new CommandInfo(model, name, label);
 
-			cmd.setBundle (bundle);
-			cmd.setPosition (pos);
+			cmd.setBundle(bundle);
+			cmd.setPosition(pos);
 
 			if (config != null)
 			{
-				Configuration[] params = config.getChildren ("param");
+				Configuration[] params = config.getChildren("param");
 
 				for (int i = 0; i < params.length; ++i)
 				{
-					cmd.addParameter (params[i].getAttribute ("name"), params[i].getAttribute ("value"));
+					cmd.addParameter(params[i].getAttribute("name"), params[i].getAttribute("value"));
 				}
 			}
 
-			cmd.setIcon (config.getAttribute ("icon", null));
+			cmd.setIcon(config.getAttribute("icon", null));
 
 			return cmd;
 		}
@@ -405,23 +404,22 @@ public class Edit extends SecurableStandardLogEnabledModel implements InstanceSe
 	 * @throws ConfigurationException If a configuration value cannot be found.
 	 * @throws PersistenceException If a persistent cannot be found.
 	 */
-	public FormularDescriptor createFormular (ModelRequest req)
+	public FormularDescriptor createFormular(ModelRequest req)
 		throws ModelException, ConfigurationException, PersistenceException
 	{
-		Object id = handler.getPersistentId (req, contextId, keyName);
+		Object id = handler.getPersistentId(req, contextId, keyName);
 
-		if (StringTools.isTrimEmpty (id))
+		if (StringTools.isTrimEmpty(id))
 		{
-			id = new Integer (- 1);
+			id = new Integer(- 1);
 		}
 
-		String persistentsId = FormTools.createContextKey (contextId, id);
+		String persistentsId = FormTools.createContextKey(contextId, id);
 
-		FormularDescriptor formular = FormTools.getFormularFromContext (req, contextId, keyName);
+		FormularDescriptor formular = FormTools.getFormularFromContext(req, contextId, keyName);
 
 		if (formular != null
-						&& (formular.getId ().equals (formularModelName) || formular.getId ()
-										.equals (formularClassName)))
+						&& (formular.getId().equals(formularModelName) || formular.getId().equals(formularClassName)))
 		{
 			return formular;
 		}
@@ -432,18 +430,18 @@ public class Edit extends SecurableStandardLogEnabledModel implements InstanceSe
 		{
 			try
 			{
-				Model formularModel = (Model) req.getService (Model.ROLE, formularModelName);
+				Model formularModel = (Model) req.getService(Model.ROLE, formularModelName);
 
-				Output formularOutput = (Output) formularModel.execute (req).get ("formular");
+				Output formularOutput = (Output) formularModel.execute(req).get("formular");
 
 				if (formularOutput != null)
 				{
-					formular = (FormularDescriptor) formularOutput.getContent ();
+					formular = (FormularDescriptor) formularOutput.getContent();
 				}
 			}
 			catch (Exception x)
 			{
-				throw new ModelException ("[aktera.edit] Unable to create formular from model " + formularModelName
+				throw new ModelException("[aktera.edit] Unable to create formular from model " + formularModelName
 								+ " (" + x + ")");
 			}
 		}
@@ -451,89 +449,89 @@ public class Edit extends SecurableStandardLogEnabledModel implements InstanceSe
 		{
 			try
 			{
-				formular = (FormularDescriptor) Class.forName (formularClassName).newInstance ();
+				formular = (FormularDescriptor) Class.forName(formularClassName).newInstance();
 			}
 			catch (ClassNotFoundException x)
 			{
-				throw new ModelException ("[aktera.edit] Unable to create formular from class " + formularClassName
+				throw new ModelException("[aktera.edit] Unable to create formular from class " + formularClassName
 								+ " (" + x + ")");
 			}
 			catch (InstantiationException x)
 			{
-				throw new ModelException ("[aktera.edit] Unable to create formular from class " + formularClassName
+				throw new ModelException("[aktera.edit] Unable to create formular from class " + formularClassName
 								+ " (" + x + ")");
 			}
 			catch (IllegalAccessException x)
 			{
-				throw new ModelException ("[aktera.edit] Unable to create formular from class " + formularClassName
+				throw new ModelException("[aktera.edit] Unable to create formular from class " + formularClassName
 								+ " (" + x + ")");
 			}
 		}
 
 		if (formular == null)
 		{
-			throw new ModelException ("[aktera.edit] No formular defined");
+			throw new ModelException("[aktera.edit] No formular defined");
 		}
 
 		if (formularModelName != null)
 		{
-			formular.setId (formularModelName);
+			formular.setId(formularModelName);
 		}
 		else if (formularClassName != null)
 		{
-			formular.setId (formularClassName);
+			formular.setId(formularClassName);
 		}
 
-		formular.setTitle (title);
-		formular.setTitleBundle (titleBundle);
-		formular.setIcon (icon);
+		formular.setTitle(title);
+		formular.setTitleBundle(titleBundle);
+		formular.setIcon(icon);
 
 		if (oldFormular != null)
 		{
-			formular.setPersistents (oldFormular.getPersistents ());
+			formular.setPersistents(oldFormular.getPersistents());
 		}
 
-		CommandDescriptor commands = formular.getCommands ();
+		CommandDescriptor commands = formular.getCommands();
 
-		if (! readOnly && cmdSave != null && cmdSave.getModel () != null)
+		if (! readOnly && cmdSave != null && cmdSave.getModel() != null)
 		{
-			commands.add ((CommandInfo) cmdSave.clone ());
+			commands.add((CommandInfo) cmdSave.clone());
 		}
 		else
 		{
-			if (cmdEdit != null && cmdEdit.getModel () != null)
+			if (cmdEdit != null && cmdEdit.getModel() != null)
 			{
-				CommandInfo cmd = (CommandInfo) cmdEdit.clone ();
+				CommandInfo cmd = (CommandInfo) cmdEdit.clone();
 
-				cmd.addParameter ("id", id);
-				commands.add (cmd);
+				cmd.addParameter("id", id);
+				commands.add(cmd);
 			}
 		}
 
-		if (commandConfig.size () > 0)
+		if (commandConfig.size() > 0)
 		{
-			for (Iterator i = commandConfig.iterator (); i.hasNext ();)
+			for (Iterator i = commandConfig.iterator(); i.hasNext();)
 			{
-				Configuration aCommandConfig = (Configuration) i.next ();
+				Configuration aCommandConfig = (Configuration) i.next();
 
-				CommandInfo cmdInfo = new CommandInfo (aCommandConfig.getAttribute ("model"), aCommandConfig
-								.getAttribute ("id"), aCommandConfig.getAttribute ("label"), aCommandConfig
-								.getAttribute ("icon", null));
+				CommandInfo cmdInfo = new CommandInfo(aCommandConfig.getAttribute("model"), aCommandConfig
+								.getAttribute("id"), aCommandConfig.getAttribute("label"), aCommandConfig.getAttribute(
+								"icon", null));
 
-				cmdInfo.setBundle (aCommandConfig.getAttribute ("bundle", "Aktera"));
+				cmdInfo.setBundle(aCommandConfig.getAttribute("bundle", "Aktera"));
 
-				commands.add (cmdInfo);
+				commands.add(cmdInfo);
 			}
 		}
 
-		if (cmdCancel != null && cmdCancel.getModel () != null)
+		if (cmdCancel != null && cmdCancel.getModel() != null)
 		{
-			commands.add ((CommandInfo) cmdCancel.clone ());
+			commands.add((CommandInfo) cmdCancel.clone());
 		}
 
-		commands.sortCommands ();
+		commands.sortCommands();
 
-		UserTools.setContextObject (req, persistentsId, formular);
+		UserTools.setContextObject(req, persistentsId, formular);
 
 		return formular;
 	}
@@ -545,20 +543,20 @@ public class Edit extends SecurableStandardLogEnabledModel implements InstanceSe
 	 * @param model The edit model to call.
 	 * @return The formular descriptor.
 	 */
-	public static FormularDescriptor start (ModelRequest req, String model, Object id) throws ModelException
+	public static FormularDescriptor start(ModelRequest req, String model, Object id) throws ModelException
 	{
-		Properties props = new Properties ();
+		Properties props = new Properties();
 
-		props.put (SYSTEM_EDIT, Boolean.TRUE);
+		props.put(SYSTEM_EDIT, Boolean.TRUE);
 
 		if (id != null)
 		{
-			props.put ("id", id);
+			props.put("id", id);
 		}
 
-		ModelResponse res = ModelTools.callModel (req, model, props);
+		ModelResponse res = ModelTools.callModel(req, model, props);
 
-		return (FormularDescriptor) ModelTools.getOutputContent (res, FORM_KEY);
+		return (FormularDescriptor) ModelTools.getOutputContent(res, FORM_KEY);
 	}
 
 	/**
@@ -568,9 +566,9 @@ public class Edit extends SecurableStandardLogEnabledModel implements InstanceSe
 	 * @param model The edit model to call.
 	 * @return The formular descriptor.
 	 */
-	public static FormularDescriptor start (ModelRequest req, String model) throws ModelException
+	public static FormularDescriptor start(ModelRequest req, String model) throws ModelException
 	{
-		return start (req, model, null);
+		return start(req, model, null);
 	}
 
 	/**
@@ -581,21 +579,21 @@ public class Edit extends SecurableStandardLogEnabledModel implements InstanceSe
 	 * @param id The id of the persistent to reedit.
 	 * @return The formular descriptor.
 	 */
-	public static FormularDescriptor restart (ModelRequest req, String model, Object id) throws ModelException
+	public static FormularDescriptor restart(ModelRequest req, String model, Object id) throws ModelException
 	{
-		Properties props = new Properties ();
+		Properties props = new Properties();
 
-		props.put (SYSTEM_EDIT, Boolean.TRUE);
-		props.put ("reedit", Boolean.TRUE);
+		props.put(SYSTEM_EDIT, Boolean.TRUE);
+		props.put("reedit", Boolean.TRUE);
 
 		if (id != null)
 		{
-			props.put ("id", id);
+			props.put("id", id);
 		}
 
-		ModelResponse res = ModelTools.callModel (req, model, props);
+		ModelResponse res = ModelTools.callModel(req, model, props);
 
-		return (FormularDescriptor) ModelTools.getOutputContent (res, FORM_KEY);
+		return (FormularDescriptor) ModelTools.getOutputContent(res, FORM_KEY);
 	}
 
 	/**
@@ -605,9 +603,9 @@ public class Edit extends SecurableStandardLogEnabledModel implements InstanceSe
 	 * @param model The edit model to call.
 	 * @return The formular descriptor.
 	 */
-	public static FormularDescriptor restart (ModelRequest req, String model) throws ModelException
+	public static FormularDescriptor restart(ModelRequest req, String model) throws ModelException
 	{
-		return restart (req, model, null);
+		return restart(req, model, null);
 	}
 
 	/**
@@ -618,18 +616,18 @@ public class Edit extends SecurableStandardLogEnabledModel implements InstanceSe
 	 * @param id The id of the persistent to save.
 	 * @return The formular descriptor.
 	 */
-	public static ModelResponse finish (ModelRequest req, String model, Object id) throws ModelException
+	public static ModelResponse finish(ModelRequest req, String model, Object id) throws ModelException
 	{
-		Properties props = new Properties ();
+		Properties props = new Properties();
 
-		props.put (SYSTEM_EDIT, Boolean.TRUE);
+		props.put(SYSTEM_EDIT, Boolean.TRUE);
 
 		if (id != null)
 		{
-			props.put ("id", id);
+			props.put("id", id);
 		}
 
-		return ModelTools.callModel (req, model, props);
+		return ModelTools.callModel(req, model, props);
 	}
 
 	/**
@@ -639,9 +637,9 @@ public class Edit extends SecurableStandardLogEnabledModel implements InstanceSe
 	 * @param model The save model to call.
 	 * @return The formular descriptor.
 	 */
-	public static ModelResponse finish (ModelRequest req, String model) throws ModelException
+	public static ModelResponse finish(ModelRequest req, String model) throws ModelException
 	{
-		return finish (req, model, null);
+		return finish(req, model, null);
 	}
 
 	/**
@@ -652,13 +650,13 @@ public class Edit extends SecurableStandardLogEnabledModel implements InstanceSe
 	 * @param id The id of the persistent to delete.
 	 * @return The formular descriptor.
 	 */
-	public static ModelResponse delete (ModelRequest req, String model, Object id) throws ModelException
+	public static ModelResponse delete(ModelRequest req, String model, Object id) throws ModelException
 	{
-		Properties props = new Properties ();
+		Properties props = new Properties();
 
-		props.put (Delete.SYSTEM_DELETE, Boolean.TRUE);
-		props.put ("id", id);
+		props.put(Delete.SYSTEM_DELETE, Boolean.TRUE);
+		props.put("id", id);
 
-		return ModelTools.callModel (req, model, props);
+		return ModelTools.callModel(req, model, props);
 	}
 }

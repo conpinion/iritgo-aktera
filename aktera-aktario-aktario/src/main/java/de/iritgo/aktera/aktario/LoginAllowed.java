@@ -27,16 +27,16 @@ import de.iritgo.aktera.spring.SpringTools;
 
 public class LoginAllowed extends Command
 {
-	public LoginAllowed ()
+	public LoginAllowed()
 	{
-		super ("LoginAllowed");
+		super("LoginAllowed");
 	}
 
 	@Override
-	public Object performWithResult ()
+	public Object performWithResult()
 	{
-		String userName = properties.getProperty ("userName");
-		PermissionManager permissionManager = (PermissionManager) SpringTools.getBean (PermissionManager.ID);
-		return permissionManager.hasPermission (userName, "de.iritgo.aktera.client.login");
+		String userName = properties.getProperty("userName");
+		PermissionManager permissionManager = (PermissionManager) SpringTools.getBean(PermissionManager.ID);
+		return permissionManager.hasPermission(userName, "de.iritgo.aktera.client.login");
 	}
 }

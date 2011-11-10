@@ -39,14 +39,14 @@ public interface ScheduleDAO
 	 * @param id The primary key of the schedule
 	 * @return The schedule object or null if none was found
 	 */
-	public Schedule findScheduleById (Integer id);
+	public Schedule findScheduleById(Integer id);
 
 	/**
 	 * Retrieve all schedules.
 	 *
 	 * @return A collection of all schedules
 	 */
-	public Collection<Schedule> findAllSchedules ();
+	public Collection<Schedule> findAllSchedules();
 
 	/**
 	 * Move a schedule one position up in the list of all schedules.
@@ -54,7 +54,7 @@ public interface ScheduleDAO
 	 * @param schedule The schedule to move
 	 * @return True if the schedule was moved up
 	 */
-	public boolean moveScheduleUp (Schedule schedule);
+	public boolean moveScheduleUp(Schedule schedule);
 
 	/**
 	 * Move a schedule one position down in the list of all schedules.
@@ -62,7 +62,7 @@ public interface ScheduleDAO
 	 * @param schedule The schedule to move
 	 * @return True if the schedule was moved up
 	 */
-	public boolean moveScheduleDown (Schedule schedule);
+	public boolean moveScheduleDown(Schedule schedule);
 
 	/**
 	 * Move a schedule to the first position in the list of all schedules.
@@ -70,7 +70,7 @@ public interface ScheduleDAO
 	 * @param schedule The schedule to move
 	 * @return True if the schedule was moved
 	 */
-	public boolean moveScheduleToFront (Schedule schedule);
+	public boolean moveScheduleToFront(Schedule schedule);
 
 	/**
 	 * Move a schedule to the last position in the list of all schedules.
@@ -78,14 +78,14 @@ public interface ScheduleDAO
 	 * @param schedule The schedule to move
 	 * @return True if the schedule was moved
 	 */
-	public boolean moveScheduleToEnd (Schedule schedule);
+	public boolean moveScheduleToEnd(Schedule schedule);
 
 	/**
 	 * Retrieve the position of the last schedule.
 	 *
 	 * @return The position of the last schedule
 	 */
-	public int maxSchedulePosition ();
+	public int maxSchedulePosition();
 
 	/**
 	 * Retrieve a schedule action by it's id.
@@ -93,7 +93,7 @@ public interface ScheduleDAO
 	 * @param id The primary key of the schedule action
 	 * @return The schedule action object or null if none was found
 	 */
-	public ScheduleAction findScheduleActionById (Integer id);
+	public ScheduleAction findScheduleActionById(Integer id);
 
 	/**
 	 * Retrieve a list of all actions of a specific schedule.
@@ -101,7 +101,7 @@ public interface ScheduleDAO
 	 * @param scheduleId The primary key of the schedule
 	 * @return A list of the schedule'a actions
 	 */
-	public List<ScheduleAction> findScheduleActionsByScheduleId (Integer scheduleId);
+	public List<ScheduleAction> findScheduleActionsByScheduleId(Integer scheduleId);
 
 	/**
 	 * Move a schedule action one position up in the list of all schedules.
@@ -109,7 +109,7 @@ public interface ScheduleDAO
 	 * @param schedule The schedule action to move
 	 * @return True if the schedule action was moved up
 	 */
-	public boolean moveScheduleActionUp (ScheduleAction action);
+	public boolean moveScheduleActionUp(ScheduleAction action);
 
 	/**
 	 * Move a schedule action one position down in the list of all schedules.
@@ -117,7 +117,7 @@ public interface ScheduleDAO
 	 * @param schedule The schedule action to move
 	 * @return True if the schedule action was moved up
 	 */
-	public boolean moveScheduleActionDown (ScheduleAction action);
+	public boolean moveScheduleActionDown(ScheduleAction action);
 
 	/**
 	 * Move a schedule action to the first position in the list of all schedules.
@@ -125,7 +125,7 @@ public interface ScheduleDAO
 	 * @param schedule The schedule action to move
 	 * @return True if the schedule action was moved
 	 */
-	public boolean moveScheduleActionToFront (ScheduleAction action);
+	public boolean moveScheduleActionToFront(ScheduleAction action);
 
 	/**
 	 * Move a schedule action to the last position in the list of all schedules.
@@ -133,7 +133,7 @@ public interface ScheduleDAO
 	 * @param schedule The schedule action to move
 	 * @return True if the schedule action was moved
 	 */
-	public boolean moveScheduleActionToEnd (ScheduleAction action);
+	public boolean moveScheduleActionToEnd(ScheduleAction action);
 
 	/**
 	 * Retrieve the position of the last action of a spceified schedule.
@@ -141,14 +141,14 @@ public interface ScheduleDAO
 	 * @param scheduleId Primary key of the schedule
 	 * @return The position of the last schedule action
 	 */
-	public int maxScheduleActionPosition (Integer scheduleId);
+	public int maxScheduleActionPosition(Integer scheduleId);
 
 	/**
 	 * Delete all actions of a specific scheulde.
 	 *
 	 * @param schedule The schedule which actions should be deleted.
 	 */
-	public void deleteAllActionsOfSchedule (Schedule schedule);
+	public void deleteAllActionsOfSchedule(Schedule schedule);
 
 	/**
 	 * Retrieve all schedule actions by the given action type
@@ -156,7 +156,7 @@ public interface ScheduleDAO
 	 * @param type The type
 	 * @return The schedule actions
 	 */
-	public Collection<ScheduleAction> findScheduleActionByType (String type);
+	public Collection<ScheduleAction> findScheduleActionByType(String type);
 
 	/**
 	 * Update the given schedule action
@@ -164,5 +164,5 @@ public interface ScheduleDAO
 	 * @param scheduleAction The schedule action
 	 */
 	@Transactional(readOnly = false)
-	public void update (ScheduleAction action);
+	public void update(ScheduleAction action);
 }

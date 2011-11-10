@@ -28,11 +28,11 @@ import de.iritgo.aktera.permissions.entity.Permission;
 
 public interface PermissionDAO
 {
-	public List<Permission> findUserPermissions (AkteraUser user);
+	public List<Permission> findUserPermissions(AkteraUser user);
 
-	public List<Permission> findGroupPermissions (AkteraGroup group);
+	public List<Permission> findGroupPermissions(AkteraGroup group);
 
-	public void deletePermissionWithObjectTypeAndObjectId (String objectType, Integer objectId);
+	public void deletePermissionWithObjectTypeAndObjectId(String objectType, Integer objectId);
 
-	public void deleteAllPermissionsOfPrincipal (Integer principalId, String principalType);
+	public void deleteAllPermissionsOfPrincipal(Integer principalId, String principalType);
 }

@@ -41,9 +41,9 @@ public class ComparableContext extends DefaultContext
 	/**
 	 * Constructor for ComparableContext.
 	 */
-	public ComparableContext ()
+	public ComparableContext()
 	{
-		super ();
+		super();
 	}
 
 	/**
@@ -51,45 +51,45 @@ public class ComparableContext extends DefaultContext
 	 * @param contextData
 	 * @param parent
 	 */
-	public ComparableContext (Map contextData, Context parent)
+	public ComparableContext(Map contextData, Context parent)
 	{
-		super (contextData, parent);
+		super(contextData, parent);
 	}
 
 	/**
 	 * Constructor for ComparableContext.
 	 * @param contextData
 	 */
-	public ComparableContext (Map contextData)
+	public ComparableContext(Map contextData)
 	{
-		super (contextData);
+		super(contextData);
 	}
 
 	/**
 	 * Constructor for ComparableContext.
 	 * @param parent
 	 */
-	public ComparableContext (Context parent)
+	public ComparableContext(Context parent)
 	{
-		super (parent);
+		super(parent);
 	}
 
-	public void put (final Object key, final Object value) throws IllegalStateException
+	public void put(final Object key, final Object value) throws IllegalStateException
 	{
 		if (! (key instanceof Serializable))
 		{
-			throw new IllegalStateException ("Context key is not serializable");
+			throw new IllegalStateException("Context key is not serializable");
 		}
 
 		if (! (value instanceof Serializable) && (value != null))
 		{
-			throw new IllegalStateException ("Context value is not serializable");
+			throw new IllegalStateException("Context value is not serializable");
 		}
 
-		super.put (key, value);
+		super.put(key, value);
 	}
 
-	public boolean equals (Object o)
+	public boolean equals(Object o)
 	{
 		if (o == null)
 		{
@@ -101,19 +101,19 @@ public class ComparableContext extends DefaultContext
 			return false;
 		}
 
-		Map m = this.getContextData ();
+		Map m = this.getContextData();
 		Context oc = (Context) o;
 		Object oneKey = null;
 		Object oneValue = null;
 
-		for (Iterator i = m.keySet ().iterator (); i.hasNext ();)
+		for (Iterator i = m.keySet().iterator(); i.hasNext();)
 		{
-			oneKey = i.next ();
-			oneValue = m.get (oneKey);
+			oneKey = i.next();
+			oneValue = m.get(oneKey);
 
 			try
 			{
-				if (! oc.get (oneKey).equals (oneValue))
+				if (! oc.get(oneKey).equals(oneValue))
 				{
 					return false;
 				}
@@ -135,71 +135,71 @@ public class ComparableContext extends DefaultContext
 	                return super.hashCode();
 	        }
 	 */
-	public String toString ()
+	public String toString()
 	{
-		StringBuffer res = new StringBuffer ("{ComparableContext:");
-		Map contextData = getContextData ();
+		StringBuffer res = new StringBuffer("{ComparableContext:");
+		Map contextData = getContextData();
 		int count = 0;
 
-		for (Iterator i = contextData.keySet ().iterator (); i.hasNext ();)
+		for (Iterator i = contextData.keySet().iterator(); i.hasNext();)
 		{
-			Object key = i.next ();
+			Object key = i.next();
 
 			count++;
 
-			Object value = contextData.get (key);
+			Object value = contextData.get(key);
 
-			res.append (key.toString () + "=" + value.toString ());
-			res.append (",");
+			res.append(key.toString() + "=" + value.toString());
+			res.append(",");
 		}
 
 		if (count == 0)
 		{
-			res.append ("(no items)");
+			res.append("(no items)");
 		}
 
-		res.append ("}");
+		res.append("}");
 
-		return res.toString ();
+		return res.toString();
 	}
 
-	public SequencedHashMap getMap ()
+	public SequencedHashMap getMap()
 	{
-		SequencedHashMap newMap = new SequencedHashMap ();
-		Map contextData = getContextData ();
+		SequencedHashMap newMap = new SequencedHashMap();
+		Map contextData = getContextData();
 
-		for (Iterator i = contextData.keySet ().iterator (); i.hasNext ();)
+		for (Iterator i = contextData.keySet().iterator(); i.hasNext();)
 		{
-			Object key = i.next ();
-			Object value = contextData.get (key);
+			Object key = i.next();
+			Object value = contextData.get(key);
 
-			newMap.put (key, value);
+			newMap.put(key, value);
 		}
 
 		return newMap;
 	}
 
-	public void putMap (SequencedHashMap sm)
+	public void putMap(SequencedHashMap sm)
 	{
-		for (Iterator i = sm.keySet ().iterator (); i.hasNext ();)
+		for (Iterator i = sm.keySet().iterator(); i.hasNext();)
 		{
-			Object key = i.next ();
-			Object value = sm.get (key);
+			Object key = i.next();
+			Object value = sm.get(key);
 
-			put (key, value);
+			put(key, value);
 		}
 	}
 
-	public Map<Object, Object> getData ()
+	public Map<Object, Object> getData()
 	{
-		return getContextData ();
+		return getContextData();
 	}
 
-	public ComparableContext getParentContext ()
+	public ComparableContext getParentContext()
 	{
-		if (getParent () != null && getParent () instanceof ComparableContext)
+		if (getParent() != null && getParent() instanceof ComparableContext)
 		{
-			return (ComparableContext) getParent ();
+			return (ComparableContext) getParent();
 		}
 		else
 		{

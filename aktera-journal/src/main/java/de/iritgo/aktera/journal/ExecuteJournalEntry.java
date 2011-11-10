@@ -45,16 +45,16 @@ public class ExecuteJournalEntry extends StandardLogEnabledModel
 	 * @param req The model request.
 	 * @return The model response.
 	 */
-	public ModelResponse execute (ModelRequest req) throws ModelException
+	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
-		JournalManager journalManager = (JournalManager) req.getSpringBean (JournalManager.ID);
+		JournalManager journalManager = (JournalManager) req.getSpringBean(JournalManager.ID);
 
-		if (req.getParameter ("id") != null)
+		if (req.getParameter("id") != null)
 		{
-			journalManager.executeJournalEntry (JournalManager.COMMANDS.EXECUTE.toString (), NumberTools.toInt (req
-							.getParameter ("id"), - 1), "", req);
+			journalManager.executeJournalEntry(JournalManager.COMMANDS.EXECUTE.toString(), NumberTools.toInt(req
+							.getParameter("id"), - 1), "", req);
 		}
 
-		return req.createResponse ();
+		return req.createResponse();
 	}
 }

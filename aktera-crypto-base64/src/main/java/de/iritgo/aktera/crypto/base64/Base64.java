@@ -34,27 +34,27 @@ public class Base64 extends AbstractEncryptor
 	/**
 	 *
 	 */
-	public byte[] decrypt (byte[] bdata) throws IllegalArgumentException
+	public byte[] decrypt(byte[] bdata) throws IllegalArgumentException
 	{
 		assert bdata.length != 0;
 
-		return org.apache.commons.codec.binary.Base64.decodeBase64 (bdata);
+		return org.apache.commons.codec.binary.Base64.decodeBase64(bdata);
 	}
 
 	/**
 	 *
 	 */
-	public byte[] encrypt (byte[] inBuffer) throws IllegalArgumentException
+	public byte[] encrypt(byte[] inBuffer) throws IllegalArgumentException
 	{
 		assert inBuffer.length != 0;
 
-		return org.apache.commons.codec.binary.Base64.encodeBase64 (inBuffer);
+		return org.apache.commons.codec.binary.Base64.encodeBase64(inBuffer);
 	}
 
 	/**
 	 * The Key isn't use for this kind of simple encryption
 	 */
-	public void setKey (String newKey)
+	public void setKey(String newKey)
 	{
 	}
 }

@@ -44,7 +44,7 @@ public class ValidationResult
 
 		public String errorTextId;
 
-		public Error (String field, int type, int pageNum, String errorTextId)
+		public Error(String field, int type, int pageNum, String errorTextId)
 		{
 			this.field = field;
 			this.type = type;
@@ -58,7 +58,7 @@ public class ValidationResult
 	{
 		public String messageTextId;
 
-		public Message (String messageTextId)
+		public Message(String messageTextId)
 		{
 			this.messageTextId = messageTextId;
 		}
@@ -124,10 +124,10 @@ public class ValidationResult
 	/**
 	 * Create a new ValidationResult.
 	 */
-	public ValidationResult ()
+	public ValidationResult()
 	{
-		errors = new LinkedList<Error> ();
-		messages = new LinkedList<Message> ();
+		errors = new LinkedList<Error>();
+		messages = new LinkedList<Message>();
 	}
 
 	/**
@@ -136,7 +136,7 @@ public class ValidationResult
 	 * @param formular The formular.
 	 * @return The first error field.
 	 */
-	public String getFirstErrorField (FormularDescriptor formular)
+	public String getFirstErrorField(FormularDescriptor formular)
 	{
 		for (Error error : errors)
 		{
@@ -154,9 +154,9 @@ public class ValidationResult
 	 * @param pageNum The index of the page that contains the field.
 	 * @param errorTextId Optional error text id.
 	 */
-	public void addError (String inputField, int errorType, int pageNum, String errorTextId)
+	public void addError(String inputField, int errorType, int pageNum, String errorTextId)
 	{
-		errors.add (new Error (inputField, errorType, pageNum, errorTextId));
+		errors.add(new Error(inputField, errorType, pageNum, errorTextId));
 	}
 
 	/**
@@ -165,9 +165,9 @@ public class ValidationResult
 	 * @param inputName The name of the bad input field.
 	 * @param errorTextId Optional error text id.
 	 */
-	public void addError (String inputField, String errorTextId)
+	public void addError(String inputField, String errorTextId)
 	{
-		errors.add (new Error (inputField, ERROR_GENERAL, 0, errorTextId));
+		errors.add(new Error(inputField, ERROR_GENERAL, 0, errorTextId));
 	}
 
 	/**
@@ -175,9 +175,9 @@ public class ValidationResult
 	 *
 	 * @param errorTextId Optional error text id.
 	 */
-	public void addInfo (String messageTextId)
+	public void addInfo(String messageTextId)
 	{
-		messages.add (new Message (messageTextId));
+		messages.add(new Message(messageTextId));
 	}
 
 	/**
@@ -185,9 +185,9 @@ public class ValidationResult
 	 *
 	 * @return True if an error occurred.
 	 */
-	public boolean hasErrors ()
+	public boolean hasErrors()
 	{
-		return errors.size () > 0;
+		return errors.size() > 0;
 	}
 
 	/**
@@ -195,9 +195,9 @@ public class ValidationResult
 	 *
 	 * @return True if an error occurred.
 	 */
-	public boolean isValid ()
+	public boolean isValid()
 	{
-		return ! hasErrors ();
+		return ! hasErrors();
 	}
 
 	/**
@@ -206,28 +206,28 @@ public class ValidationResult
 	 * @param res Model response.
 	 * @param formular The formular.
 	 */
-	public void createResponseElements (ModelResponse res, FormularDescriptor formular)
+	public void createResponseElements(ModelResponse res, FormularDescriptor formular)
 	{
-		if (messages.size () > 0)
+		if (messages.size() > 0)
 		{
 			try
 			{
-				Output outMessages = res.createOutput ("IRITGO_formMessages");
+				Output outMessages = res.createOutput("IRITGO_formMessages");
 
-				res.add (outMessages);
+				res.add(outMessages);
 
 				int num = 1;
 
 				for (Message message : messages)
 				{
-					String[] parts = message.messageTextId.split (":");
+					String[] parts = message.messageTextId.split(":");
 
 					if (parts.length == 2)
 					{
-						Output outMessage = res.createOutput (String.valueOf (num++), parts[1]);
+						Output outMessage = res.createOutput(String.valueOf(num++), parts[1]);
 
-						outMessage.setAttribute ("bundle", parts[0]);
-						outMessages.add (outMessage);
+						outMessage.setAttribute("bundle", parts[0]);
+						outMessages.add(outMessage);
 					}
 				}
 			}
@@ -236,169 +236,169 @@ public class ValidationResult
 			}
 		}
 
-		if (errors.size () > 0)
+		if (errors.size() > 0)
 		{
 			boolean[] errorFlags = new boolean[NUM_ERROR_TYPES];
 
 			for (Error error : errors)
 			{
-				if (formular == null || ! formular.hasPages ()
-								|| formular.getPageWithField (error.field.replaceAll ("_", ".")) == formular.getPage ())
+				if (formular == null || ! formular.hasPages()
+								|| formular.getPageWithField(error.field.replaceAll("_", ".")) == formular.getPage())
 				{
 					switch (error.type)
 					{
 						case ERROR_GENERAL:
-							res.addError (error.field, "$" + error.errorTextId);
-							res.addError ("GLOBAL_" + error.field, "$" + error.errorTextId);
+							res.addError(error.field, "$" + error.errorTextId);
+							res.addError("GLOBAL_" + error.field, "$" + error.errorTextId);
 
 							break;
 
 						case ERROR_MISSING_DUTY_FIELD:
-							res.addError (error.field, "$missingDutyField");
+							res.addError(error.field, "$missingDutyField");
 
 							if (! errorFlags[error.type])
 							{
-								res.addError ("GLOBAL_missingDutyField", "$missingDutyField");
+								res.addError("GLOBAL_missingDutyField", "$missingDutyField");
 							}
 
 							break;
 
 						case ERROR_MISSING_DATE_FIELD:
-							res.addError (error.field, "$fillInAllDateFields");
+							res.addError(error.field, "$fillInAllDateFields");
 
 							if (! errorFlags[error.type])
 							{
-								res.addError ("GLOBAL_fillInAllDateFields", "$fillInAllDateFields");
+								res.addError("GLOBAL_fillInAllDateFields", "$fillInAllDateFields");
 							}
 
 							break;
 
 						case ERROR_MISSING_TIME_FIELD:
-							res.addError (error.field, "$fillInAllTimeFields");
+							res.addError(error.field, "$fillInAllTimeFields");
 
 							if (! errorFlags[error.type])
 							{
-								res.addError ("GLOBAL_fillInAllTimeFields", "$fillInAllTimeFields");
+								res.addError("GLOBAL_fillInAllTimeFields", "$fillInAllTimeFields");
 							}
 
 							break;
 
 						case ERROR_NOT_A_NUMBER:
-							res.addError (error.field, "$notANumber");
+							res.addError(error.field, "$notANumber");
 
 							if (! errorFlags[error.type])
 							{
-								res.addError ("GLOBAL_notANumber", "$notANumber");
+								res.addError("GLOBAL_notANumber", "$notANumber");
 							}
 
 							break;
 
 						case ERROR_ONLY_DIGITS_ALLOWED:
-							res.addError (error.field, "$onlyDigitsAllowed");
+							res.addError(error.field, "$onlyDigitsAllowed");
 
 							if (! errorFlags[error.type])
 							{
-								res.addError ("GLOBAL_onlyDigitsAllowed", "$onlyDigitsAllowed");
+								res.addError("GLOBAL_onlyDigitsAllowed", "$onlyDigitsAllowed");
 							}
 
 							break;
 
 						case ERROR_NOT_A_REAL_NUMBER:
-							res.addError (error.field, "$notARealNumber");
+							res.addError(error.field, "$notARealNumber");
 
 							if (! errorFlags[error.type])
 							{
-								res.addError ("GLOBAL_notARealNumber", "$notARealNumber");
+								res.addError("GLOBAL_notARealNumber", "$notARealNumber");
 							}
 
 							break;
 
 						case ERROR_NOT_A_IP_ADDRESS:
-							res.addError (error.field, "$notAIpAddress");
+							res.addError(error.field, "$notAIpAddress");
 
 							if (! errorFlags[error.type])
 							{
-								res.addError ("GLOBAL_notAIpAddress", "$notAIpAddress");
+								res.addError("GLOBAL_notAIpAddress", "$notAIpAddress");
 							}
 
 							break;
 
 						case ERROR_WHITESPACE_NOT_ALLOWED:
-							res.addError (error.field, "$whiteSpaceNotAllowed");
+							res.addError(error.field, "$whiteSpaceNotAllowed");
 
 							if (! errorFlags[error.type])
 							{
-								res.addError ("GLOBAL_whiteSpaceNotAllowed", "$whiteSpaceNotAllowed");
+								res.addError("GLOBAL_whiteSpaceNotAllowed", "$whiteSpaceNotAllowed");
 							}
 
 							break;
 
 						case ERROR_WHITESPACE_OR_SPECIAL_NOT_ALLOWED:
-							res.addError (error.field, "$whiteSpaceOrSpecialNotAllowed");
+							res.addError(error.field, "$whiteSpaceOrSpecialNotAllowed");
 
 							if (! errorFlags[error.type])
 							{
-								res.addError ("GLOBAL_whiteSpaceOrSpecialNotAllowed", "$whiteSpaceOrSpecialNotAllowed");
+								res.addError("GLOBAL_whiteSpaceOrSpecialNotAllowed", "$whiteSpaceOrSpecialNotAllowed");
 							}
 
 							break;
 
 						case ERROR_VALIDATION_CLASS:
-							res.addError (error.field, "$" + error.errorTextId);
+							res.addError(error.field, "$" + error.errorTextId);
 
 							if (! errorFlags[error.type])
 							{
-								res.addError ("GLOBAL_errorValidationClass", "$" + error.errorTextId);
+								res.addError("GLOBAL_errorValidationClass", "$" + error.errorTextId);
 							}
 
 							break;
 
 						case ERROR_REGEXP:
-							res.addError (error.field, "$regexpNotMatched");
+							res.addError(error.field, "$regexpNotMatched");
 
 							if (! errorFlags[error.type])
 							{
-								res.addError ("GLOBAL_regexpNotMatched", "$regexpNotMatched");
+								res.addError("GLOBAL_regexpNotMatched", "$regexpNotMatched");
 							}
 
 							break;
 
 						case ERROR_NO_VALID_VALUES:
-							res.addError (error.field, "$noValidValuesDefined");
+							res.addError(error.field, "$noValidValuesDefined");
 
 							if (! errorFlags[error.type])
 							{
-								res.addError ("GLOBAL_noValidValuesDefined", "$noValidValuesDefined");
+								res.addError("GLOBAL_noValidValuesDefined", "$noValidValuesDefined");
 							}
 
 							break;
 
 						case ERROR_NOT_AN_EMAIL:
-							res.addError (error.field, "$notAnEmail");
+							res.addError(error.field, "$notAnEmail");
 
 							if (! errorFlags[error.type])
 							{
-								res.addError ("GLOBAL_notAnEmail", "$notAnEmail");
+								res.addError("GLOBAL_notAnEmail", "$notAnEmail");
 							}
 
 							break;
 
 						case ERROR_NOT_AN_INTEGER:
-							res.addError (error.field, "$notAnInteger");
+							res.addError(error.field, "$notAnInteger");
 
 							if (! errorFlags[error.type])
 							{
-								res.addError ("GLOBAL_notAnInteger", "$notAnInteger");
+								res.addError("GLOBAL_notAnInteger", "$notAnInteger");
 							}
 
 							break;
 
 						case ERROR_NOT_A_MACADDRESS:
-							res.addError (error.field, "$notAMacAddress");
+							res.addError(error.field, "$notAMacAddress");
 
 							if (! errorFlags[error.type])
 							{
-								res.addError ("GLOBAL_notAMacAddress", "$notAMacAddress");
+								res.addError("GLOBAL_notAMacAddress", "$notAMacAddress");
 							}
 
 							break;

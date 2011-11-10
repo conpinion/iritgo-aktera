@@ -59,7 +59,7 @@ public class Party implements Serializable
 	 *                primary-key="true" null-allowed="false"
 	 *                auto-increment="identity"
 	 */
-	public Integer getPartyId ()
+	public Integer getPartyId()
 	{
 		return partyId;
 	}
@@ -67,15 +67,15 @@ public class Party implements Serializable
 	/**
 	 * Get the primary key.
 	 */
-	public Integer getId ()
+	public Integer getId()
 	{
-		return getPartyId ();
+		return getPartyId();
 	}
 
 	/**
 	 * Set the primary key.
 	 */
-	public void setPartyId (Integer partyId)
+	public void setPartyId(Integer partyId)
 	{
 		this.partyId = partyId;
 	}
@@ -83,9 +83,9 @@ public class Party implements Serializable
 	/**
 	 * Set the primary key.
 	 */
-	public void setId (Integer id)
+	public void setId(Integer id)
 	{
-		setPartyId (id);
+		setPartyId(id);
 	}
 
 	/**
@@ -93,7 +93,7 @@ public class Party implements Serializable
 	 *
 	 * @persist.field name="userId" db-name="userId" type="integer"
 	 */
-	public Integer getUserId ()
+	public Integer getUserId()
 	{
 		return userId;
 	}
@@ -101,7 +101,7 @@ public class Party implements Serializable
 	/**
 	 * Set the foreign user key.
 	 */
-	public void setUserId (Integer userId)
+	public void setUserId(Integer userId)
 	{
 		this.userId = userId;
 	}
@@ -115,7 +115,7 @@ public class Party implements Serializable
 	 * @persist.valid-value value="C" descrip="$company"
 	 * @persist.valid-value value="P" descrip="$person"
 	 */
-	public String getCategory ()
+	public String getCategory()
 	{
 		return category;
 	}
@@ -125,7 +125,7 @@ public class Party implements Serializable
 	 *
 	 * @param category The new category.
 	 */
-	public void setCategory (String category)
+	public void setCategory(String category)
 	{
 		this.category = category;
 	}

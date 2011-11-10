@@ -35,11 +35,11 @@ import java.sql.SQLException;
  */
 public class ModuleCreateHandler extends CreateHandler
 {
-	public void createTables (ModelRequest request, PersistentFactory persistentFactory, Connection connection,
+	public void createTables(ModelRequest request, PersistentFactory persistentFactory, Connection connection,
 					Logger logger) throws ModelException, PersistenceException, SQLException
 	{
 		// Create the script table.
-		update ("CREATE TABLE script (" + " author varchar(255) NULL," + " code text NULL,"
+		update("CREATE TABLE script (" + " author varchar(255) NULL," + " code text NULL,"
 						+ " copyright varchar(255) NULL," + " description text NULL," + " id serial primary key,"
 						+ " language varchar(32) NOT NULL," + " name varchar(255) NOT NULL,"
 						+ " displayname varchar(255) NOT NULL," + " version varchar(80) NULL" + ")");
@@ -49,7 +49,7 @@ public class ModuleCreateHandler extends CreateHandler
 	 * @see de.iritgo.aktera.base.services.persist.CreateHandler#createData(de.iritgo.aktera.persist.PersistentFactory, java.sql.Connection, Logger, ModelRequest)
 	 */
 	@Override
-	public void createData (PersistentFactory persistentFactory, Connection connection, Logger logger,
+	public void createData(PersistentFactory persistentFactory, Connection connection, Logger logger,
 					ModelRequest request) throws ModelException, PersistenceException, SQLException
 	{
 	}

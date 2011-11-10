@@ -56,46 +56,46 @@ public class KeelStarter
 	 * Create a KeelDirectServer and return to server/ui bridge
 	 * @throws Exception
 	 */
-	protected void createKeelDirectServer () throws Exception
+	protected void createKeelDirectServer() throws Exception
 	{
-		String configPath = System.getProperty ("keel.config.dir");
+		String configPath = System.getProperty("keel.config.dir");
 
 		//String contextPath = configPath + System.getProperty("file.separator") + "..";
-		String libPath = configPath + System.getProperty ("file.separator") + ".."
-						+ System.getProperty ("file.separator") + "lib";
-		File libDir = new File (libPath);
+		String libPath = configPath + System.getProperty("file.separator") + ".."
+						+ System.getProperty("file.separator") + "lib";
+		File libDir = new File(libPath);
 
-		if (! libDir.isDirectory ())
+		if (! libDir.isDirectory())
 		{
-			throw new Exception ("Specified path '" + libDir.getCanonicalPath () + "' is not a directory");
+			throw new Exception("Specified path '" + libDir.getCanonicalPath() + "' is not a directory");
 		}
 
-		libPath = libDir.getCanonicalPath () + System.getProperty ("file.separator");
+		libPath = libDir.getCanonicalPath() + System.getProperty("file.separator");
 
-		StringBuffer path = new StringBuffer ();
-		String sep = System.getProperty ("path.separator");
+		StringBuffer path = new StringBuffer();
+		String sep = System.getProperty("path.separator");
 
-		System.out.println (PREFIX + "Configuration dir: '" + configPath + "'");
-		System.out.println (PREFIX + "Classpath dir: " + libPath);
+		System.out.println(PREFIX + "Configuration dir: '" + configPath + "'");
+		System.out.println(PREFIX + "Classpath dir: " + libPath);
 
-		String[] dirList = libDir.list ();
+		String[] dirList = libDir.list();
 
 		for (String oneFileName : dirList)
 		{
-			if (oneFileName.endsWith (".jar"))
+			if (oneFileName.endsWith(".jar"))
 			{
-				path.append (libPath + oneFileName);
-				path.append (sep);
+				path.append(libPath + oneFileName);
+				path.append(sep);
 			}
 		}
 
 		//First, get the class-loader that this thread should use, failing which
 		// get the loader used to load current class
-		ClassLoader origClassLoader = Thread.currentThread ().getContextClassLoader ();
+		ClassLoader origClassLoader = Thread.currentThread().getContextClassLoader();
 
 		if (origClassLoader == null)
 		{
-			origClassLoader = this.getClass ().getClassLoader ();
+			origClassLoader = this.getClass().getClassLoader();
 		}
 
 		//
@@ -162,14 +162,14 @@ public class KeelStarter
 		ClassLoader myClassLoader = origClassLoader;
 
 		// Use the class-loader we just instantiated ton start the actual Keel threads. 
-		Thread keelDirectSeverThread = createAndStartKeelDirectServerThread (myClassLoader);
-		Thread theThreadToWatch = ThreadUtil.findThread (Thread.currentThread (), "main", "StandardManager", "bdc",
-						false);
+		Thread keelDirectSeverThread = createAndStartKeelDirectServerThread(myClassLoader);
+		Thread theThreadToWatch = ThreadUtil
+						.findThread(Thread.currentThread(), "main", "StandardManager", "bdc", false);
 
 		if (theThreadToWatch != null)
 		{
 			//ShowThreadInfo(loader, theThreadToWatch);
-			createAndStartMonitorForKeelDirectServerThread (myClassLoader, theThreadToWatch, keelDirectSeverThread);
+			createAndStartMonitorForKeelDirectServerThread(myClassLoader, theThreadToWatch, keelDirectSeverThread);
 
 			//Added by Phil Brown to monitor a thread and tell the keelDirectServer to die when this thread dies
 		}
@@ -200,7 +200,7 @@ public class KeelStarter
 	 * @throws IllegalAccessException
 	 * @throws InvocationTargetException
 	 */
-	private void createAndStartMonitorForKeelDirectServerThread (ClassLoader loader, Thread threadToWatch,
+	private void createAndStartMonitorForKeelDirectServerThread(ClassLoader loader, Thread threadToWatch,
 					Thread KeelDirectServerThread)
 		throws ClassNotFoundException, InstantiationException, SecurityException, NoSuchMethodException,
 		IllegalArgumentException, IllegalAccessException, InvocationTargetException
@@ -208,24 +208,24 @@ public class KeelStarter
 		//new MonitorForKeelDirectServer(Thread.currentThread(), keelDirectServer);
 		//Begin code fore MonitorForKeelDirectServer
 		Class monitorForKeelDirectServerClazz = loader
-						.loadClass ("de.iritgo.aktera.clients.direct.MonitorForKeelDirectServer");
-		Thread monitorForKeelDirectServer = (Thread) monitorForKeelDirectServerClazz.newInstance ();
-		String currentThreadName = monitorForKeelDirectServer.getName ();
+						.loadClass("de.iritgo.aktera.clients.direct.MonitorForKeelDirectServer");
+		Thread monitorForKeelDirectServer = (Thread) monitorForKeelDirectServerClazz.newInstance();
+		String currentThreadName = monitorForKeelDirectServer.getName();
 
-		monitorForKeelDirectServer.setName ("MonitorForKeelDirectServer (" + currentThreadName + ")");
+		monitorForKeelDirectServer.setName("MonitorForKeelDirectServer (" + currentThreadName + ")");
 
 		//monitorForKeelDirectServer.setThreadToWatch(threadToWatch);
 		Class[] parmTypesForMon1 =
 		{
 			Thread.class
 		};
-		Method m = monitorForKeelDirectServerClazz.getMethod ("setThreadToWatch", parmTypesForMon1);
+		Method m = monitorForKeelDirectServerClazz.getMethod("setThreadToWatch", parmTypesForMon1);
 		Object[] parmForMon1 =
 		{
 			threadToWatch
 		};
 
-		m.invoke (monitorForKeelDirectServer, parmForMon1);
+		m.invoke(monitorForKeelDirectServer, parmForMon1);
 
 		//monitorForKeelDirectServer.setKeelDirectServer(myThread);
 		Class[] parmTypesForMon2 =
@@ -233,33 +233,33 @@ public class KeelStarter
 			Thread.class
 		};
 
-		m = monitorForKeelDirectServerClazz.getMethod ("setKeelDirectServer", parmTypesForMon2);
+		m = monitorForKeelDirectServerClazz.getMethod("setKeelDirectServer", parmTypesForMon2);
 
 		Object[] parmForMon2 =
 		{
 			KeelDirectServerThread
 		};
 
-		m.invoke (monitorForKeelDirectServer, parmForMon2);
+		m.invoke(monitorForKeelDirectServer, parmForMon2);
 
 		//monitorForKeelDirectServer.setKeelDirectServerClass(monitorForKeelDirectServerClazz);
-		Class keelDirectServerClazz = loader.loadClass ("de.iritgo.aktera.servers.direct.KeelDirectServer");
+		Class keelDirectServerClazz = loader.loadClass("de.iritgo.aktera.servers.direct.KeelDirectServer");
 		Class[] parmTypesForMon3 =
 		{
 			Class.class
 		};
 
-		m = monitorForKeelDirectServerClazz.getMethod ("setKeelDirectServerClass", parmTypesForMon3);
+		m = monitorForKeelDirectServerClazz.getMethod("setKeelDirectServerClass", parmTypesForMon3);
 
 		Object[] parmForMon3 =
 		{
 			keelDirectServerClazz
 		};
 
-		m.invoke (monitorForKeelDirectServer, parmForMon3);
+		m.invoke(monitorForKeelDirectServer, parmForMon3);
 
 		//Thread.yield();  //Explicitly give another thread a chance to run.
-		monitorForKeelDirectServer.start ();
+		monitorForKeelDirectServer.start();
 
 		//Start the thread that will shut down the keel direct server when this thread dies.
 	}
@@ -275,38 +275,38 @@ public class KeelStarter
 	 * @throws IllegalAccessException
 	 * @throws InvocationTargetException
 	 */
-	private Thread createAndStartKeelDirectServerThread (ClassLoader loader)
+	private Thread createAndStartKeelDirectServerThread(ClassLoader loader)
 		throws ClassNotFoundException, InstantiationException, SecurityException, NoSuchMethodException,
 		IllegalArgumentException, IllegalAccessException, InvocationTargetException
 	{
-		Class keelDirectServerClazz = loader.loadClass ("de.iritgo.aktera.servers.direct.KeelDirectServer");
+		Class keelDirectServerClazz = loader.loadClass("de.iritgo.aktera.servers.direct.KeelDirectServer");
 
-		myThread = (Thread) keelDirectServerClazz.newInstance ();
-		myThread.setName ("KeelDirectServer");
+		myThread = (Thread) keelDirectServerClazz.newInstance();
+		myThread.setName("KeelDirectServer");
 
-		keelDirectServerClazz.getMethod ("setContextClassLoader", new Class[]
+		keelDirectServerClazz.getMethod("setContextClassLoader", new Class[]
 		{
 			ClassLoader.class
-		}).invoke (myThread, new Object[]
+		}).invoke(myThread, new Object[]
 		{
 			loader
 		});
 
-		requestChannel = getRequestChannel ();
-		keelDirectServerClazz.getMethod ("setRequestChannel", new Class[]
+		requestChannel = getRequestChannel();
+		keelDirectServerClazz.getMethod("setRequestChannel", new Class[]
 		{
 			LinkedBlockingQueue.class
-		}).invoke (myThread, new Object[]
+		}).invoke(myThread, new Object[]
 		{
 			requestChannel
 		});
 
-		keelDirectServerClazz.getMethod ("start", (Class[]) null).invoke (myThread, (Object[]) null);
+		keelDirectServerClazz.getMethod("start", (Class[]) null).invoke(myThread, (Object[]) null);
 
 		return myThread;
 	}
 
-	public KeelResponse execute (KeelRequest message) throws Exception
+	public KeelResponse execute(KeelRequest message) throws Exception
 	{
 		assert message != null;
 
@@ -317,7 +317,7 @@ public class KeelStarter
 			{
 				if (myThread == null)
 				{
-					createKeelDirectServer ();
+					createKeelDirectServer();
 				}
 			}
 		}
@@ -346,25 +346,25 @@ public class KeelStarter
 		//		}
 		//
 		//		return res;
-		return ((KeelDirectServer) myThread).execute (message);
+		return ((KeelDirectServer) myThread).execute(message);
 	}
 
 	// 	protected Channel getRequestChannel() {
-	protected LinkedBlockingQueue getRequestChannel ()
+	protected LinkedBlockingQueue getRequestChannel()
 	{
 		// 		LinkedQueue toServer = new LinkedQueue();
-		LinkedBlockingQueue toServer = new LinkedBlockingQueue ();
+		LinkedBlockingQueue toServer = new LinkedBlockingQueue();
 
 		return toServer;
 	}
 
-	public void start () throws Exception
+	public void start() throws Exception
 	{
-		createKeelDirectServer ();
+		createKeelDirectServer();
 	}
 
-	public void stop ()
+	public void stop()
 	{
-		((KeelDirectServer) myThread).shutDown ();
+		((KeelDirectServer) myThread).shutDown();
 	}
 }

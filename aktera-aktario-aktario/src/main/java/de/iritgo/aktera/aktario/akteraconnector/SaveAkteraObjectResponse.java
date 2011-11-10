@@ -49,17 +49,16 @@ public class SaveAkteraObjectResponse extends FrameworkAction
 	/**
 	 *
 	 */
-	public SaveAkteraObjectResponse ()
+	public SaveAkteraObjectResponse()
 	{
 	}
 
 	/**
 	 *
 	 */
-	public SaveAkteraObjectResponse (String model, String keelObjectUniqueId, String onScreenUniqueId,
-					String queryPaneId)
+	public SaveAkteraObjectResponse(String model, String keelObjectUniqueId, String onScreenUniqueId, String queryPaneId)
 	{
-		this ();
+		this();
 		this.keelObjectUniqueId = keelObjectUniqueId;
 		this.model = model;
 		this.onScreenUniqueId = onScreenUniqueId;
@@ -71,12 +70,12 @@ public class SaveAkteraObjectResponse extends FrameworkAction
 	 *
 	 * @param stream The stream to read from.
 	 */
-	public void readObject (FrameworkInputStream stream) throws IOException
+	public void readObject(FrameworkInputStream stream) throws IOException
 	{
-		model = stream.readUTF ();
-		keelObjectUniqueId = stream.readUTF ();
-		onScreenUniqueId = stream.readUTF ();
-		queryPaneId = stream.readUTF ();
+		model = stream.readUTF();
+		keelObjectUniqueId = stream.readUTF();
+		onScreenUniqueId = stream.readUTF();
+		queryPaneId = stream.readUTF();
 	}
 
 	/**
@@ -84,40 +83,40 @@ public class SaveAkteraObjectResponse extends FrameworkAction
 	 *
 	 * @param stream The stream to write to.
 	 */
-	public void writeObject (FrameworkOutputStream stream) throws IOException
+	public void writeObject(FrameworkOutputStream stream) throws IOException
 	{
-		stream.writeUTF (model);
-		stream.writeUTF (keelObjectUniqueId);
-		stream.writeUTF (onScreenUniqueId);
-		stream.writeUTF (queryPaneId);
+		stream.writeUTF(model);
+		stream.writeUTF(keelObjectUniqueId);
+		stream.writeUTF(onScreenUniqueId);
+		stream.writeUTF(queryPaneId);
 	}
 
 	/**
 	 * Perform the action.
 	 */
-	public void perform ()
+	public void perform()
 	{
-		IDisplay display = (IDisplay) Client.instance ().getClientGUI ().getDesktopManager ().getDisplay (queryPaneId);
+		IDisplay display = (IDisplay) Client.instance().getClientGUI().getDesktopManager().getDisplay(queryPaneId);
 
 		if (display != null)
 		{
-			GUIPane guiPane = display.getGUIPane ();
+			GUIPane guiPane = display.getGUIPane();
 
-			((QueryPane) guiPane).refreshQuery ();
+			((QueryPane) guiPane).refreshQuery();
 		}
 
-		display = (IDisplay) Client.instance ().getClientGUI ().getDesktopManager ().getDisplay (onScreenUniqueId);
+		display = (IDisplay) Client.instance().getClientGUI().getDesktopManager().getDisplay(onScreenUniqueId);
 
 		if (display != null)
 		{
-			DataObjectGUIPane dataObjectGUIPane = (DataObjectGUIPane) display.getGUIPane ();
+			DataObjectGUIPane dataObjectGUIPane = (DataObjectGUIPane) display.getGUIPane();
 
-			if (dataObjectGUIPane.isToCloseAfterSave ())
+			if (dataObjectGUIPane.isToCloseAfterSave())
 			{
-				OtherJDesktopPane odp = (OtherJDesktopPane) ((SwingDesktopManager) Client.instance ().getClientGUI ()
-								.getDesktopManager ()).getDesktopPane (display.getDesktopId ());
+				OtherJDesktopPane odp = (OtherJDesktopPane) ((SwingDesktopManager) Client.instance().getClientGUI()
+								.getDesktopManager()).getDesktopPane(display.getDesktopId());
 
-				odp.closeAll ();
+				odp.closeAll();
 			}
 		}
 	}

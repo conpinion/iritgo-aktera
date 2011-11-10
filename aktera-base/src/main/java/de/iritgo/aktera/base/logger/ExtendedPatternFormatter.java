@@ -42,9 +42,9 @@ public class ExtendedPatternFormatter extends PatternFormatter
 	 *
 	 * @param format the format string
 	 */
-	public ExtendedPatternFormatter (final String format)
+	public ExtendedPatternFormatter(final String format)
 	{
-		super (format);
+		super(format);
 	}
 
 	/**
@@ -53,19 +53,19 @@ public class ExtendedPatternFormatter extends PatternFormatter
 	 * @param type the string
 	 * @return the type-id
 	 */
-	protected int getTypeIdFor (final String type)
+	protected int getTypeIdFor(final String type)
 	{
-		if (type.equalsIgnoreCase (TYPE_METHOD_STR))
+		if (type.equalsIgnoreCase(TYPE_METHOD_STR))
 		{
 			return TYPE_METHOD;
 		}
-		else if (type.equalsIgnoreCase (TYPE_THREAD_STR))
+		else if (type.equalsIgnoreCase(TYPE_THREAD_STR))
 		{
 			return TYPE_THREAD;
 		}
 		else
 		{
-			return super.getTypeIdFor (type);
+			return super.getTypeIdFor(type);
 		}
 	}
 
@@ -76,18 +76,18 @@ public class ExtendedPatternFormatter extends PatternFormatter
 	 * @param  run the pattern run to format.
 	 * @return the formatted result.
 	 */
-	protected String formatPatternRun (final LogEvent event, final PatternRun run)
+	protected String formatPatternRun(final LogEvent event, final PatternRun run)
 	{
 		switch (run.m_type)
 		{
 			case TYPE_METHOD:
-				return getMethod (event);
+				return getMethod(event);
 
 			case TYPE_THREAD:
-				return getThread (event);
+				return getThread(event);
 
 			default:
-				return super.formatPatternRun (event, run);
+				return super.formatPatternRun(event, run);
 		}
 	}
 
@@ -97,25 +97,25 @@ public class ExtendedPatternFormatter extends PatternFormatter
 	 * @param event the event
 	 * @return the formatted string
 	 */
-	private String getMethod (final LogEvent event)
+	private String getMethod(final LogEvent event)
 	{
-		final ContextMap map = event.getContextMap ();
+		final ContextMap map = event.getContextMap();
 
 		if (null != map)
 		{
-			final Object object = map.get ("method");
+			final Object object = map.get("method");
 
 			if (null != object)
 			{
-				return object.toString ();
+				return object.toString();
 			}
 		}
 
-		Class<?> clazz = StackIntrospector.getCallerClass (de.iritgo.aktera.logger.Logger.class, - 1);
+		Class<?> clazz = StackIntrospector.getCallerClass(de.iritgo.aktera.logger.Logger.class, - 1);
 
 		if (clazz == null)
 		{
-			clazz = StackIntrospector.getCallerClass (Logger.class, 0);
+			clazz = StackIntrospector.getCallerClass(Logger.class, 0);
 		}
 
 		if (null == clazz)
@@ -123,7 +123,7 @@ public class ExtendedPatternFormatter extends PatternFormatter
 			return "UnknownMethod";
 		}
 
-		final String result = StackIntrospector.getCallerMethod (clazz);
+		final String result = StackIntrospector.getCallerMethod(clazz);
 
 		if (null == result)
 		{
@@ -139,20 +139,20 @@ public class ExtendedPatternFormatter extends PatternFormatter
 	 * @param event the even
 	 * @return the formatted string
 	 */
-	private String getThread (final LogEvent event)
+	private String getThread(final LogEvent event)
 	{
-		final ContextMap map = event.getContextMap ();
+		final ContextMap map = event.getContextMap();
 
 		if (null != map)
 		{
-			final Object object = map.get ("thread");
+			final Object object = map.get("thread");
 
 			if (null != object)
 			{
-				return object.toString ();
+				return object.toString();
 			}
 		}
 
-		return Thread.currentThread ().getName ();
+		return Thread.currentThread().getName();
 	}
 }

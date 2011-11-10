@@ -67,17 +67,17 @@ public class Delete extends AbstractUIController
 	/** Persistent configuration. */
 	protected List<Configuration> persistentConfig;
 
-	public Delete ()
+	public Delete()
 	{
 		security = Security.INSTANCE;
 	}
 
-	public void setConfiguration (Configuration configuration)
+	public void setConfiguration(Configuration configuration)
 	{
 		this.configuration = configuration;
 	}
 
-	public Configuration getConfiguration ()
+	public Configuration getConfiguration()
 	{
 		return configuration;
 	}
@@ -85,115 +85,115 @@ public class Delete extends AbstractUIController
 	/**
 	 * @see de.iritgo.aktera.ui.UIController#execute(de.iritgo.aktera.ui.UIRequest, de.iritgo.aktera.ui.UIResponse)
 	 */
-	public void execute (UIRequest request, UIResponse response) throws UIControllerException
+	public void execute(UIRequest request, UIResponse response) throws UIControllerException
 	{
 		try
 		{
-			ModelRequestWrapper wrappedRequest = new ModelRequestWrapper (request);
-			ModelResponseWrapper wrappedResponse = new ModelResponseWrapper (response);
+			ModelRequestWrapper wrappedRequest = new ModelRequestWrapper(request);
+			ModelResponseWrapper wrappedResponse = new ModelResponseWrapper(response);
 
-			readConfig ();
+			readConfig();
 
 			String[] ids;
 
-			if (request.getParameter ("_lpdeleteKeyName") != null)
+			if (request.getParameter("_lpdeleteKeyName") != null)
 			{
-				keyName = StringTools.trim (request.getParameter ("_lpdeleteKeyName"));
+				keyName = StringTools.trim(request.getParameter("_lpdeleteKeyName"));
 			}
 
-			if (request.getParameter (keyName) == null)
+			if (request.getParameter(keyName) == null)
 			{
 				ids = new String[0];
 			}
-			else if (request.getParameter (keyName) instanceof String)
+			else if (request.getParameter(keyName) instanceof String)
 			{
 				ids = new String[]
 				{
-					(String) request.getParameter (keyName)
+					(String) request.getParameter(keyName)
 				};
 			}
-			else if (request.getParameter (keyName) instanceof String[])
+			else if (request.getParameter(keyName) instanceof String[])
 			{
-				ids = (String[]) request.getParameter (keyName);
+				ids = (String[]) request.getParameter(keyName);
 			}
 			else
 			{
 				ids = new String[]
 				{
-					request.getParameter (keyName).toString ()
+					request.getParameter(keyName).toString()
 				};
 			}
 
-			PersistentFactory persistentManager = (PersistentFactory) wrappedRequest.getService (
-							PersistentFactory.ROLE, wrappedRequest.getDomain ());
+			PersistentFactory persistentManager = (PersistentFactory) wrappedRequest.getService(PersistentFactory.ROLE,
+							wrappedRequest.getDomain());
 
 			for (int i = 0; i < ids.length; ++i)
 			{
 				Persistent persistent = null;
 				Object bean = null;
 
-				if (persistentConfig.size () != 0)
+				if (persistentConfig.size() != 0)
 				{
-					if (persistentConfig.get (0).getAttribute ("name", null) != null)
+					if (persistentConfig.get(0).getAttribute("name", null) != null)
 					{
-						persistent = persistentManager.create (persistentConfig.get (0).getAttribute ("name"));
-						persistent.setField (persistentConfig.get (0).getAttribute ("key"), NumberTools.toIntInstance (
+						persistent = persistentManager.create(persistentConfig.get(0).getAttribute("name"));
+						persistent.setField(persistentConfig.get(0).getAttribute("key"), NumberTools.toIntInstance(
 										ids[i], - 1));
-						persistent.find ();
+						persistent.find();
 					}
 					else
 					{
-						StandardDao standardDao = (StandardDao) SpringTools.getBean (StandardDao.ID);
+						StandardDao standardDao = (StandardDao) SpringTools.getBean(StandardDao.ID);
 
-						bean = standardDao.get (persistentConfig.get (0).getAttribute ("entity"), NumberTools.toInt (
+						bean = standardDao.get(persistentConfig.get(0).getAttribute("entity"), NumberTools.toInt(
 										ids[i], - 1));
 					}
 				}
 
-				ValidationResult result = new ValidationResult ();
+				ValidationResult result = new ValidationResult();
 
 				if (persistent != null)
 				{
-					if (handler.canDeletePersistent (wrappedRequest, ids[i], persistent, NumberTools.toBool (request
-									.getParameter (SYSTEM_DELETE), false), result))
+					if (handler.canDeletePersistent(wrappedRequest, ids[i], persistent, NumberTools.toBool(request
+									.getParameter(SYSTEM_DELETE), false), result))
 					{
-						handler.deletePersistent (wrappedRequest, wrappedResponse, ids[i], persistent, NumberTools
-										.toBool (request.getParameter (SYSTEM_DELETE), false));
+						handler.deletePersistent(wrappedRequest, wrappedResponse, ids[i], persistent, NumberTools
+										.toBool(request.getParameter(SYSTEM_DELETE), false));
 					}
 					else
 					{
-						result.createResponseElements (wrappedResponse, null);
+						result.createResponseElements(wrappedResponse, null);
 					}
 				}
 				else
 				{
-					if (handler.canDeletePersistent (wrappedRequest, ids[i], bean, NumberTools.toBool (request
-									.getParameter (SYSTEM_DELETE), false), result))
+					if (handler.canDeletePersistent(wrappedRequest, ids[i], bean, NumberTools.toBool(request
+									.getParameter(SYSTEM_DELETE), false), result))
 					{
-						handler.deletePersistent (wrappedRequest, wrappedResponse, ids[i], bean, NumberTools.toBool (
-										request.getParameter (SYSTEM_DELETE), false));
+						handler.deletePersistent(wrappedRequest, wrappedResponse, ids[i], bean, NumberTools.toBool(
+										request.getParameter(SYSTEM_DELETE), false));
 					}
 					else
 					{
-						result.createResponseElements (wrappedResponse, null);
+						result.createResponseElements(wrappedResponse, null);
 					}
 				}
 			}
 		}
 		catch (ConfigurationException x)
 		{
-			logger.error (x.toString ());
-			throw new UIControllerException (x);
+			logger.error(x.toString());
+			throw new UIControllerException(x);
 		}
 		catch (PersistenceException x)
 		{
-			logger.error (x.toString ());
-			throw new UIControllerException (x);
+			logger.error(x.toString());
+			throw new UIControllerException(x);
 		}
 		catch (ModelException x)
 		{
-			logger.error (x.toString ());
-			throw new UIControllerException (x);
+			logger.error(x.toString());
+			throw new UIControllerException(x);
 		}
 	}
 
@@ -202,69 +202,69 @@ public class Delete extends AbstractUIController
 	 *
 	 * @return The instance id.
 	 */
-	public String getInstanceIdentifier ()
+	public String getInstanceIdentifier()
 	{
-		return getConfiguration ().getAttribute ("id", "aktera.delete");
+		return getConfiguration().getAttribute("id", "aktera.delete");
 	}
 
 	/**
 	 * Retrieve the model configuration.
 	 */
-	public void readConfig () throws ModelException, ConfigurationException
+	public void readConfig() throws ModelException, ConfigurationException
 	{
 		if (configRead)
 		{
 			return;
 		}
 
-		Configuration config = getConfiguration ();
-		java.util.List configPath = getDerivationPath ();
+		Configuration config = getConfiguration();
+		java.util.List configPath = getDerivationPath();
 
-		keyName = ModelTools.getConfigString (configPath, "keyName", "id");
+		keyName = ModelTools.getConfigString(configPath, "keyName", "id");
 
-		persistentConfig = ModelTools.getConfigChildren (configPath, "persistent");
+		persistentConfig = ModelTools.getConfigChildren(configPath, "persistent");
 
-		String handlerClassName = ModelTools.getConfigString (configPath, "handler", "class", null);
+		String handlerClassName = ModelTools.getConfigString(configPath, "handler", "class", null);
 
 		if (handlerClassName != null)
 		{
 			try
 			{
-				handler = (FormularHandler) Class.forName (handlerClassName).newInstance ();
+				handler = (FormularHandler) Class.forName(handlerClassName).newInstance();
 			}
 			catch (ClassNotFoundException x)
 			{
-				throw new ModelException ("[aktera.delete] Unable to create handler " + handlerClassName + " (" + x
+				throw new ModelException("[aktera.delete] Unable to create handler " + handlerClassName + " (" + x
 								+ ")");
 			}
 			catch (InstantiationException x)
 			{
-				throw new ModelException ("[aktera.delete] Unable to create handler " + handlerClassName + " (" + x
+				throw new ModelException("[aktera.delete] Unable to create handler " + handlerClassName + " (" + x
 								+ ")");
 			}
 			catch (IllegalAccessException x)
 			{
-				throw new ModelException ("[aktera.delete] Unable to create handler " + handlerClassName + " (" + x
+				throw new ModelException("[aktera.delete] Unable to create handler " + handlerClassName + " (" + x
 								+ ")");
 			}
 		}
 		else
 		{
-			String handlerBeanName = ModelTools.getConfigString (configPath, "handler", "bean", null);
+			String handlerBeanName = ModelTools.getConfigString(configPath, "handler", "bean", null);
 
 			if (handlerBeanName != null)
 			{
-				handler = (FormularHandler) SpringTools.getBean (handlerBeanName);
+				handler = (FormularHandler) SpringTools.getBean(handlerBeanName);
 			}
 		}
 
 		if (handler != null)
 		{
-			handler.setDefaultHandler (new DefaultFormularHandler ());
+			handler.setDefaultHandler(new DefaultFormularHandler());
 		}
 		else
 		{
-			handler = new DefaultFormularHandler ();
+			handler = new DefaultFormularHandler();
 		}
 
 		configRead = true;
@@ -276,27 +276,27 @@ public class Delete extends AbstractUIController
 	 * @return
 	 * @throws ConfigurationException
 	 */
-	private List getDerivationPath () throws ConfigurationException
+	private List getDerivationPath() throws ConfigurationException
 	{
-		List path = new LinkedList ();
+		List path = new LinkedList();
 		Configuration config = configuration;
 
 		while (config != null)
 		{
-			path.add (config);
+			path.add(config);
 
-			String extendsBeanName = config.getChild ("extends").getAttribute ("bean", null);
+			String extendsBeanName = config.getChild("extends").getAttribute("bean", null);
 
 			if (extendsBeanName != null)
 			{
-				Delete extendsBean = (Delete) SpringTools.getBean (extendsBeanName);
+				Delete extendsBean = (Delete) SpringTools.getBean(extendsBeanName);
 
 				if (extendsBean == null)
 				{
-					throw new ConfigurationException ("Unable to find parent controller bean: " + extendsBeanName);
+					throw new ConfigurationException("Unable to find parent controller bean: " + extendsBeanName);
 				}
 
-				config = extendsBean.getConfiguration ();
+				config = extendsBean.getConfiguration();
 			}
 			else
 			{

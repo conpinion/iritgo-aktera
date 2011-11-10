@@ -34,7 +34,7 @@ public class LoggerImpl implements Logger
 	/** The Keel logger */
 	private org.apache.avalon.framework.logger.Logger keelLogger;
 
-	public LoggerImpl ()
+	public LoggerImpl()
 	{
 	}
 
@@ -43,7 +43,7 @@ public class LoggerImpl implements Logger
 	 *
 	 * @return The name of the logger category
 	 */
-	public String getCategory ()
+	public String getCategory()
 	{
 		return category;
 	}
@@ -53,7 +53,7 @@ public class LoggerImpl implements Logger
 	 *
 	 * @param category The name of the logger category
 	 */
-	public void setCategory (String category)
+	public void setCategory(String category)
 	{
 		this.category = category;
 	}
@@ -63,93 +63,93 @@ public class LoggerImpl implements Logger
 	 *
 	 * @return The keel configuration
 	 */
-	private org.apache.avalon.framework.logger.Logger getKeelLogger ()
+	private org.apache.avalon.framework.logger.Logger getKeelLogger()
 	{
 		if (keelLogger == null)
 		{
-			keelLogger = KeelContainer.defaultContainer ().getLogger (category);
+			keelLogger = KeelContainer.defaultContainer().getLogger(category);
 		}
 
 		return keelLogger;
 	}
 
-	public void debug (String message)
+	public void debug(String message)
 	{
-		getKeelLogger ().debug (message);
+		getKeelLogger().debug(message);
 	}
 
-	public void debug (String message, Throwable throwable)
+	public void debug(String message, Throwable throwable)
 	{
-		getKeelLogger ().debug (message, throwable);
+		getKeelLogger().debug(message, throwable);
 	}
 
-	public void error (String message)
+	public void error(String message)
 	{
-		getKeelLogger ().error (message);
+		getKeelLogger().error(message);
 	}
 
-	public void error (String message, Throwable throwable)
+	public void error(String message, Throwable throwable)
 	{
-		getKeelLogger ().error (message, throwable);
+		getKeelLogger().error(message, throwable);
 	}
 
-	public void fatalError (String message)
+	public void fatalError(String message)
 	{
-		getKeelLogger ().fatalError (message);
+		getKeelLogger().fatalError(message);
 	}
 
-	public void fatalError (String message, Throwable throwable)
+	public void fatalError(String message, Throwable throwable)
 	{
-		getKeelLogger ().fatalError (message, throwable);
+		getKeelLogger().fatalError(message, throwable);
 	}
 
-	public org.apache.avalon.framework.logger.Logger getChildLogger (String name)
+	public org.apache.avalon.framework.logger.Logger getChildLogger(String name)
 	{
-		return getKeelLogger ().getChildLogger (name);
+		return getKeelLogger().getChildLogger(name);
 	}
 
-	public void info (String message)
+	public void info(String message)
 	{
-		getKeelLogger ().info (message);
+		getKeelLogger().info(message);
 	}
 
-	public void info (String message, Throwable throwable)
+	public void info(String message, Throwable throwable)
 	{
-		getKeelLogger ().info (message, throwable);
+		getKeelLogger().info(message, throwable);
 	}
 
-	public boolean isDebugEnabled ()
+	public boolean isDebugEnabled()
 	{
-		return getKeelLogger ().isDebugEnabled ();
+		return getKeelLogger().isDebugEnabled();
 	}
 
-	public boolean isErrorEnabled ()
+	public boolean isErrorEnabled()
 	{
-		return getKeelLogger ().isErrorEnabled ();
+		return getKeelLogger().isErrorEnabled();
 	}
 
-	public boolean isFatalErrorEnabled ()
+	public boolean isFatalErrorEnabled()
 	{
-		return getKeelLogger ().isFatalErrorEnabled ();
+		return getKeelLogger().isFatalErrorEnabled();
 	}
 
-	public boolean isInfoEnabled ()
+	public boolean isInfoEnabled()
 	{
-		return getKeelLogger ().isInfoEnabled ();
+		return getKeelLogger().isInfoEnabled();
 	}
 
-	public boolean isWarnEnabled ()
+	public boolean isWarnEnabled()
 	{
-		return getKeelLogger ().isWarnEnabled ();
+		return getKeelLogger().isWarnEnabled();
 	}
 
-	public void warn (String message)
+	public void warn(String message)
 	{
-		getKeelLogger ().warn (message);
+		getKeelLogger().warn(message);
 	}
 
-	public void warn (String message, Throwable throwable)
+	public void warn(String message, Throwable throwable)
 	{
-		getKeelLogger ().warn (message, throwable);
+		getKeelLogger().warn(message, throwable);
 	}
 }

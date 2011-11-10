@@ -42,9 +42,9 @@ public class DefaultContext implements StateMachineContext, Serializable
 
 	/**
 	 */
-	public DefaultContext (Event event)
+	public DefaultContext(Event event)
 	{
-		context = new ContextImpl ();
+		context = new ContextImpl();
 		this.event = event;
 	}
 
@@ -53,7 +53,7 @@ public class DefaultContext implements StateMachineContext, Serializable
 	 *
 	 * @return The last event
 	 */
-	public Event getEvent ()
+	public Event getEvent()
 	{
 		return event;
 	}
@@ -61,7 +61,7 @@ public class DefaultContext implements StateMachineContext, Serializable
 	/**
 	 * @see com.evelopers.unimod.runtime.context.StateMachineContext#getApplicationContext()
 	 */
-	public Context getApplicationContext ()
+	public Context getApplicationContext()
 	{
 		return context;
 	}
@@ -69,7 +69,7 @@ public class DefaultContext implements StateMachineContext, Serializable
 	/**
 	 * @see com.evelopers.unimod.runtime.context.StateMachineContext#getEventContext()
 	 */
-	public Context getEventContext ()
+	public Context getEventContext()
 	{
 		return context;
 	}
@@ -77,7 +77,7 @@ public class DefaultContext implements StateMachineContext, Serializable
 	/**
 	 * @see com.evelopers.unimod.runtime.context.StateMachineContext#getUserContext()
 	 */
-	public Context getUserContext ()
+	public Context getUserContext()
 	{
 		return context;
 	}

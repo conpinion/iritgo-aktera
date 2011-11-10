@@ -36,7 +36,7 @@ public class GroupDescriptor
 	/** Group name */
 	protected String name;
 
-	public String getName ()
+	public String getName()
 	{
 		return name;
 	}
@@ -44,12 +44,12 @@ public class GroupDescriptor
 	/** The label key */
 	protected String label;
 
-	public String getLabel ()
+	public String getLabel()
 	{
 		return label;
 	}
 
-	public void setLabel (String label)
+	public void setLabel(String label)
 	{
 		this.label = label;
 	}
@@ -57,7 +57,7 @@ public class GroupDescriptor
 	/** The resource bundle to lookup for labels */
 	protected String bundle;
 
-	public String getBundle ()
+	public String getBundle()
 	{
 		return bundle;
 	}
@@ -65,12 +65,12 @@ public class GroupDescriptor
 	/** The label icon */
 	protected String icon;
 
-	public void setIcon (String icon)
+	public void setIcon(String icon)
 	{
 		this.icon = icon;
 	}
 
-	public String getIcon ()
+	public String getIcon()
 	{
 		return icon;
 	}
@@ -78,7 +78,7 @@ public class GroupDescriptor
 	/** The list of all fields in this group */
 	protected List<FieldDescriptor> fields;
 
-	public List<FieldDescriptor> getFields ()
+	public List<FieldDescriptor> getFields()
 	{
 		return fields;
 	}
@@ -89,12 +89,12 @@ public class GroupDescriptor
 	/** Group visibility state */
 	protected boolean visible = true;
 
-	public void setVisible (boolean visible)
+	public void setVisible(boolean visible)
 	{
 		this.visible = visible;
 	}
 
-	public boolean isVisible ()
+	public boolean isVisible()
 	{
 		return visible;
 	}
@@ -102,12 +102,12 @@ public class GroupDescriptor
 	/** Group title visibility state */
 	protected boolean titleVisible = true;
 
-	public void setTitleVisible (boolean titleVisible)
+	public void setTitleVisible(boolean titleVisible)
 	{
 		this.titleVisible = titleVisible;
 	}
 
-	public boolean isTitleVisible ()
+	public boolean isTitleVisible()
 	{
 		return titleVisible;
 	}
@@ -115,12 +115,12 @@ public class GroupDescriptor
 	/** Group position */
 	protected int position;
 
-	public void setPosition (int position)
+	public void setPosition(int position)
 	{
 		this.position = position;
 	}
 
-	public int getPosition ()
+	public int getPosition()
 	{
 		return position;
 	}
@@ -135,13 +135,13 @@ public class GroupDescriptor
 	 * @param label The resource key of the group label
 	 * @param bundle The resource bundle to lookup for the label
 	 */
-	public GroupDescriptor (String name, String label, String bundle)
+	public GroupDescriptor(String name, String label, String bundle)
 	{
 		this.name = name;
 		this.label = label;
 		this.bundle = bundle;
-		fields = new LinkedList<FieldDescriptor> ();
-		fieldsByKey = new HashMap<String, FieldDescriptor> ();
+		fields = new LinkedList<FieldDescriptor>();
+		fieldsByKey = new HashMap<String, FieldDescriptor>();
 		visible = true;
 	}
 
@@ -152,9 +152,9 @@ public class GroupDescriptor
 	 * @param label The resource key of the group label
 	 * @param bundle The resource bundle to lookup for the label
 	 */
-	public GroupDescriptor (String name, String bundle)
+	public GroupDescriptor(String name, String bundle)
 	{
-		this (name, name, bundle);
+		this(name, name, bundle);
 	}
 
 	/**
@@ -165,12 +165,12 @@ public class GroupDescriptor
 	 * @param editor The field type
 	 * @param size Display size of the editor
 	 */
-	public GroupDescriptor addField (String name, String bundle, String editor, int size)
+	public GroupDescriptor addField(String name, String bundle, String editor, int size)
 	{
-		FieldDescriptor field = new FieldDescriptor (name, bundle, editor, size);
+		FieldDescriptor field = new FieldDescriptor(name, bundle, editor, size);
 
-		fields.add (field);
-		fieldsByKey.put (name, field);
+		fields.add(field);
+		fieldsByKey.put(name, field);
 		lastField = field;
 
 		return this;
@@ -181,10 +181,10 @@ public class GroupDescriptor
 	 *
 	 * @param field The field descriptor
 	 */
-	public void addField (FieldDescriptor field)
+	public void addField(FieldDescriptor field)
 	{
-		fields.add (field);
-		fieldsByKey.put (field.getName (), field);
+		fields.add(field);
+		fieldsByKey.put(field.getName(), field);
 	}
 
 	/**
@@ -193,14 +193,14 @@ public class GroupDescriptor
 	 * @param field The field descriptor
 	 * @param otherField The field behind the new one should be placed
 	 */
-	public void addFieldBehind (FieldDescriptor field, FieldDescriptor otherField)
+	public void addFieldBehind(FieldDescriptor field, FieldDescriptor otherField)
 	{
-		int index = fields.indexOf (otherField);
+		int index = fields.indexOf(otherField);
 
 		if (index != - 1)
 		{
-			fields.add (index + 1, field);
-			fieldsByKey.put (field.getName (), field);
+			fields.add(index + 1, field);
+			fieldsByKey.put(field.getName(), field);
 		}
 	}
 
@@ -210,14 +210,14 @@ public class GroupDescriptor
 	 * @param field The field descriptor
 	 * @param otherField The field before the new one should be placed
 	 */
-	public void addFieldBefore (FieldDescriptor field, FieldDescriptor otherField)
+	public void addFieldBefore(FieldDescriptor field, FieldDescriptor otherField)
 	{
-		int index = fields.indexOf (otherField);
+		int index = fields.indexOf(otherField);
 
 		if (index != - 1)
 		{
-			fields.add (index, field);
-			fieldsByKey.put (field.getName (), field);
+			fields.add(index, field);
+			fieldsByKey.put(field.getName(), field);
 		}
 	}
 
@@ -226,9 +226,9 @@ public class GroupDescriptor
 	 *
 	 * @return A field iterator
 	 */
-	public Iterator<FieldDescriptor> fieldIterator ()
+	public Iterator<FieldDescriptor> fieldIterator()
 	{
-		return fields.iterator ();
+		return fields.iterator();
 	}
 
 	/**
@@ -237,9 +237,9 @@ public class GroupDescriptor
 	 * @param name The name of the field to check
 	 * @return True if the group contains the field
 	 */
-	public boolean containsField (String name)
+	public boolean containsField(String name)
 	{
-		return fieldsByKey.containsKey (name);
+		return fieldsByKey.containsKey(name);
 	}
 
 	/**
@@ -248,9 +248,9 @@ public class GroupDescriptor
 	 * @param name The name of the field to check
 	 * @return True if the group contains the field
 	 */
-	public boolean hasField (String name)
+	public boolean hasField(String name)
 	{
-		return containsField (name);
+		return containsField(name);
 	}
 
 	/**
@@ -260,13 +260,13 @@ public class GroupDescriptor
 	 * @return The field
 	 * @throws ModelException If the field wasn't found
 	 */
-	public FieldDescriptor getField (String key) throws ModelException
+	public FieldDescriptor getField(String key) throws ModelException
 	{
-		FieldDescriptor field = fieldsByKey.get (key);
+		FieldDescriptor field = fieldsByKey.get(key);
 
 		if (field == null)
 		{
-			throw new ModelException ("Unable to find field '" + key + "' in group '" + label + "'");
+			throw new ModelException("Unable to find field '" + key + "' in group '" + label + "'");
 		}
 
 		return field;
@@ -278,9 +278,9 @@ public class GroupDescriptor
 	 * @param key The field key
 	 * @throws ModelException If the field wasn't found
 	 */
-	public void removeField (String key) throws ModelException
+	public void removeField(String key) throws ModelException
 	{
-		removeField (getField (key));
+		removeField(getField(key));
 	}
 
 	/**
@@ -289,10 +289,10 @@ public class GroupDescriptor
 	 * @param field The field
 	 * @throws ModelException If the field wasn't found
 	 */
-	public void removeField (FieldDescriptor field) throws ModelException
+	public void removeField(FieldDescriptor field) throws ModelException
 	{
-		fieldsByKey.remove (field.getName ());
-		fields.remove (field);
+		fieldsByKey.remove(field.getName());
+		fields.remove(field);
 	}
 
 	/**
@@ -300,7 +300,7 @@ public class GroupDescriptor
 	 *
 	 * @return The field map
 	 */
-	public Map getFieldMap ()
+	public Map getFieldMap()
 	{
 		return fieldsByKey;
 	}
@@ -313,11 +313,11 @@ public class GroupDescriptor
 	 * @param label The command label
 	 * @param icon The command icon
 	 */
-	public GroupDescriptor withCommand (String model, String name, String label, String icon)
+	public GroupDescriptor withCommand(String model, String name, String label, String icon)
 	{
 		if (lastField != null)
 		{
-			lastField.getCommands ().add (model, name, label, icon);
+			lastField.getCommands().add(model, name, label, icon);
 		}
 
 		return this;
@@ -329,11 +329,11 @@ public class GroupDescriptor
 	 * @param name Parameter name
 	 * @param value Parameter value
 	 */
-	public GroupDescriptor withParameter (String name, Object value)
+	public GroupDescriptor withParameter(String name, Object value)
 	{
 		if (lastField != null)
 		{
-			lastField.getCommands ().withParameter (name, value);
+			lastField.getCommands().withParameter(name, value);
 		}
 
 		return this;
@@ -345,11 +345,11 @@ public class GroupDescriptor
 	 * @param name Attribute name
 	 * @param value Attribute value
 	 */
-	public GroupDescriptor withAttribute (String name, Object value)
+	public GroupDescriptor withAttribute(String name, Object value)
 	{
 		if (lastField != null)
 		{
-			lastField.getCommands ().withAttribute (name, value);
+			lastField.getCommands().withAttribute(name, value);
 		}
 
 		return this;

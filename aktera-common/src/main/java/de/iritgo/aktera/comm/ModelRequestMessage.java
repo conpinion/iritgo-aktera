@@ -68,30 +68,30 @@ public class ModelRequestMessage implements KeelRequest, Serializable
 
 	private String myBean = null;
 
-	public Object getParameter (String paramKey)
+	public Object getParameter(String paramKey)
 	{
 		Object returnValue = null;
 
 		if (params != null)
 		{
-			returnValue = params.get (paramKey);
+			returnValue = params.get(paramKey);
 		}
 
 		return returnValue;
 	}
 
-	public String getModel ()
+	public String getModel()
 	{
 		return myModel;
 	}
 
-	public Map getParameters ()
+	public Map getParameters()
 	{
 		Map returnValue = null;
 
 		if (params == null)
 		{
-			returnValue = new HashMap ();
+			returnValue = new HashMap();
 		}
 		else
 		{
@@ -103,21 +103,21 @@ public class ModelRequestMessage implements KeelRequest, Serializable
 
 	/* public void configure(Configuration myConfig) {
 	} */
-	public void setParameter (String paramKey, Object param)
+	public void setParameter(String paramKey, Object param)
 	{
 		if (paramKey != null)
 		{
 			if (params == null)
 			{
-				params = new HashMap ();
+				params = new HashMap();
 			}
 
 			if (! (param instanceof Serializable))
 			{
-				throw new IllegalArgumentException ("Parameter " + paramKey + " is not serializable");
+				throw new IllegalArgumentException("Parameter " + paramKey + " is not serializable");
 			}
 
-			params.put (paramKey, param);
+			params.put(paramKey, param);
 		}
 	}
 
@@ -126,12 +126,12 @@ public class ModelRequestMessage implements KeelRequest, Serializable
 	 * actual Java class that is going to be invoked, and how we're
 	 * going to communicate with it
 	 */
-	public void setModel (String modelName)
+	public void setModel(String modelName)
 	{
 		myModel = modelName;
 	}
 
-	public Object getAttribute (String key)
+	public Object getAttribute(String key)
 	{
 		Object returnValue = null;
 
@@ -139,20 +139,20 @@ public class ModelRequestMessage implements KeelRequest, Serializable
 		{
 			if (attributes != null)
 			{
-				returnValue = attributes.get (key);
+				returnValue = attributes.get(key);
 			}
 		}
 
 		return returnValue;
 	}
 
-	public Map getAttributes ()
+	public Map getAttributes()
 	{
 		Map returnValue = null;
 
 		if (attributes == null)
 		{
-			returnValue = new HashMap ();
+			returnValue = new HashMap();
 		}
 		else
 		{
@@ -162,51 +162,51 @@ public class ModelRequestMessage implements KeelRequest, Serializable
 		return returnValue;
 	}
 
-	public void setAttribute (String key, Object value)
+	public void setAttribute(String key, Object value)
 	{
 		if (attributes == null)
 		{
-			attributes = new HashMap ();
+			attributes = new HashMap();
 		}
 
 		if (key != null)
 		{
 			synchronized (attributes)
 			{
-				attributes.put (key, value);
+				attributes.put(key, value);
 			}
 		}
 	}
 
-	public byte[] serialize () throws IOException
+	public byte[] serialize() throws IOException
 	{
-		ByteArrayOutputStream baos = new ByteArrayOutputStream ();
-		ObjectOutputStream oos = new ObjectOutputStream (baos);
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ObjectOutputStream oos = new ObjectOutputStream(baos);
 
-		oos.writeObject (this);
+		oos.writeObject(this);
 
-		return baos.toByteArray ();
+		return baos.toByteArray();
 	}
 
-	public KeelRequest deserialize (byte[] bytes) throws IOException
+	public KeelRequest deserialize(byte[] bytes) throws IOException
 	{
-		ByteArrayInputStream bais = new ByteArrayInputStream (bytes);
-		ObjectInputStream ois = new ObjectInputStream (bais);
+		ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
+		ObjectInputStream ois = new ObjectInputStream(bais);
 		ModelRequestMessage myObject;
 
 		try
 		{
-			myObject = (ModelRequestMessage) ois.readObject ();
+			myObject = (ModelRequestMessage) ois.readObject();
 		}
 		catch (ClassNotFoundException e)
 		{
-			throw new IOException (e.getMessage ());
+			throw new IOException(e.getMessage());
 		}
 
 		return myObject;
 	}
 
-	public String getHeader (String key)
+	public String getHeader(String key)
 	{
 		String returnValue = null;
 
@@ -214,20 +214,20 @@ public class ModelRequestMessage implements KeelRequest, Serializable
 		{
 			if (headers != null)
 			{
-				returnValue = (String) headers.get (key);
+				returnValue = (String) headers.get(key);
 			}
 		}
 
 		return returnValue;
 	}
 
-	public Map getHeaders ()
+	public Map getHeaders()
 	{
 		Map returnValue = null;
 
 		if (headers == null)
 		{
-			returnValue = new HashMap ();
+			returnValue = new HashMap();
 		}
 		else
 		{
@@ -237,108 +237,108 @@ public class ModelRequestMessage implements KeelRequest, Serializable
 		return returnValue;
 	}
 
-	public void setHeader (String key, String value)
+	public void setHeader(String key, String value)
 	{
 		if (headers == null)
 		{
-			headers = new HashMap ();
+			headers = new HashMap();
 		}
 
 		if (key != null)
 		{
 			synchronized (headers)
 			{
-				headers.put (key, value);
+				headers.put(key, value);
 			}
 		}
 	}
 
-	public void setSource (String source)
+	public void setSource(String source)
 	{
 		this.source = source;
 	}
 
-	public String getSource ()
+	public String getSource()
 	{
 		return source;
 	}
 
-	public void setLocale (Locale locale)
+	public void setLocale(Locale locale)
 	{
 		this.locale = locale;
 	}
 
-	public Locale getLocale ()
+	public Locale getLocale()
 	{
 		return locale;
 	}
 
-	public String getScheme ()
+	public String getScheme()
 	{
 		return scheme;
 	}
 
-	public void setScheme (String scheme)
+	public void setScheme(String scheme)
 	{
 		this.scheme = scheme;
 	}
 
-	public String getServerName ()
+	public String getServerName()
 	{
 		return serverName;
 	}
 
-	public void setServerName (String serverName)
+	public void setServerName(String serverName)
 	{
 		this.serverName = serverName;
 	}
 
-	public int getServerPort ()
+	public int getServerPort()
 	{
 		return serverPort;
 	}
 
-	public void setServerPort (int serverPort)
+	public void setServerPort(int serverPort)
 	{
 		this.serverPort = serverPort;
 	}
 
-	public String getContextPath ()
+	public String getContextPath()
 	{
 		return contextPath;
 	}
 
-	public void setContextPath (String contextPath)
+	public void setContextPath(String contextPath)
 	{
 		this.contextPath = contextPath;
 	}
 
-	public String getRequestUrl ()
+	public String getRequestUrl()
 	{
 		return requestUrl;
 	}
 
-	public void setRequestUrl (String requestUrl)
+	public void setRequestUrl(String requestUrl)
 	{
 		this.requestUrl = requestUrl;
 	}
 
-	public String getQueryString ()
+	public String getQueryString()
 	{
 		return queryString;
 	}
 
-	public void setQueryString (String queryString)
+	public void setQueryString(String queryString)
 	{
 		this.queryString = queryString;
 	}
 
-	public String getBean ()
+	public String getBean()
 	{
 		return myBean;
 	}
 
-	public void setBean (String bean)
+	public void setBean(String bean)
 	{
 		this.myBean = bean;
 	}

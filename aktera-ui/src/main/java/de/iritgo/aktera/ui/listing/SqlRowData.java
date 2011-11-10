@@ -46,9 +46,9 @@ public class SqlRowData extends RowData
 	 * @param listing The listing descriptor.
 	 * @param resultSet The result set containing the row data.
 	 */
-	public SqlRowData (ListingDescriptor listing, ResultSet resultSet)
+	public SqlRowData(ListingDescriptor listing, ResultSet resultSet)
 	{
-		super (listing);
+		super(listing);
 		this.resultSet = resultSet;
 	}
 
@@ -56,15 +56,15 @@ public class SqlRowData extends RowData
 	 * @see de.iritgo.aktera.ui.listing.RowData#get(java.lang.String)
 	 */
 	@Override
-	public Object get (String columnName) throws PersistenceException
+	public Object get(String columnName) throws PersistenceException
 	{
 		try
 		{
-			return resultSet.getObject (convertToSqlColumnName (columnName));
+			return resultSet.getObject(convertToSqlColumnName(columnName));
 		}
 		catch (SQLException x)
 		{
-			throw new PersistenceException ("[SqlRowData] Error while fetching column '" + columnName + "': " + x);
+			throw new PersistenceException("[SqlRowData] Error while fetching column '" + columnName + "': " + x);
 		}
 	}
 
@@ -77,15 +77,15 @@ public class SqlRowData extends RowData
 	 *   an error occurred during data retrieval.
 	 */
 	@Override
-	public String getString (String columnName) throws PersistenceException
+	public String getString(String columnName) throws PersistenceException
 	{
 		try
 		{
-			return StringTools.trim (resultSet.getObject (convertToSqlColumnName (columnName)));
+			return StringTools.trim(resultSet.getObject(convertToSqlColumnName(columnName)));
 		}
 		catch (SQLException x)
 		{
-			throw new PersistenceException ("[SqlRowData] Error while fetching column '" + columnName + "': " + x);
+			throw new PersistenceException("[SqlRowData] Error while fetching column '" + columnName + "': " + x);
 		}
 	}
 
@@ -98,15 +98,15 @@ public class SqlRowData extends RowData
 	 *   an error occurred during data retrieval.
 	 */
 	@Override
-	public int getInt (String columnName) throws PersistenceException
+	public int getInt(String columnName) throws PersistenceException
 	{
 		try
 		{
-			return resultSet.getInt (convertToSqlColumnName (columnName));
+			return resultSet.getInt(convertToSqlColumnName(columnName));
 		}
 		catch (SQLException x)
 		{
-			throw new PersistenceException ("[SqlRowData] Error while fetching column '" + columnName + "': " + x);
+			throw new PersistenceException("[SqlRowData] Error while fetching column '" + columnName + "': " + x);
 		}
 	}
 
@@ -119,15 +119,15 @@ public class SqlRowData extends RowData
 	 *   an error occurred during data retrieval.
 	 */
 	@Override
-	public long getLong (String columnName) throws PersistenceException
+	public long getLong(String columnName) throws PersistenceException
 	{
 		try
 		{
-			return resultSet.getLong (convertToSqlColumnName (columnName));
+			return resultSet.getLong(convertToSqlColumnName(columnName));
 		}
 		catch (SQLException x)
 		{
-			throw new PersistenceException ("[SqlRowData] Error while fetching column '" + columnName + "': " + x);
+			throw new PersistenceException("[SqlRowData] Error while fetching column '" + columnName + "': " + x);
 		}
 	}
 
@@ -140,15 +140,15 @@ public class SqlRowData extends RowData
 	 *   an error occurred during data retrieval.
 	 */
 	@Override
-	public float getFloat (String columnName) throws PersistenceException
+	public float getFloat(String columnName) throws PersistenceException
 	{
 		try
 		{
-			return resultSet.getFloat (convertToSqlColumnName (columnName));
+			return resultSet.getFloat(convertToSqlColumnName(columnName));
 		}
 		catch (SQLException x)
 		{
-			throw new PersistenceException ("[SqlRowData] Error while fetching column '" + columnName + "': " + x);
+			throw new PersistenceException("[SqlRowData] Error while fetching column '" + columnName + "': " + x);
 		}
 	}
 
@@ -161,15 +161,15 @@ public class SqlRowData extends RowData
 	 *   an error occurred during data retrieval.
 	 */
 	@Override
-	public Time getTime (String columnName) throws PersistenceException
+	public Time getTime(String columnName) throws PersistenceException
 	{
 		try
 		{
-			return resultSet.getTime (convertToSqlColumnName (columnName));
+			return resultSet.getTime(convertToSqlColumnName(columnName));
 		}
 		catch (SQLException x)
 		{
-			throw new PersistenceException ("[SqlRowData] Error while fetching column '" + columnName + "': " + x);
+			throw new PersistenceException("[SqlRowData] Error while fetching column '" + columnName + "': " + x);
 		}
 	}
 
@@ -182,15 +182,15 @@ public class SqlRowData extends RowData
 	 *   an error occurred during data retrieval.
 	 */
 	@Override
-	public Date getDate (String columnName) throws PersistenceException
+	public Date getDate(String columnName) throws PersistenceException
 	{
 		try
 		{
-			return resultSet.getDate (convertToSqlColumnName (columnName));
+			return resultSet.getDate(convertToSqlColumnName(columnName));
 		}
 		catch (SQLException x)
 		{
-			throw new PersistenceException ("[SqlRowData] Error while fetching column '" + columnName + "': " + x);
+			throw new PersistenceException("[SqlRowData] Error while fetching column '" + columnName + "': " + x);
 		}
 	}
 
@@ -203,15 +203,15 @@ public class SqlRowData extends RowData
 	 *   an error occurred during data retrieval.
 	 */
 	@Override
-	public Timestamp getTimestamp (String columnName) throws PersistenceException
+	public Timestamp getTimestamp(String columnName) throws PersistenceException
 	{
 		try
 		{
-			return resultSet.getTimestamp (convertToSqlColumnName (columnName));
+			return resultSet.getTimestamp(convertToSqlColumnName(columnName));
 		}
 		catch (SQLException x)
 		{
-			throw new PersistenceException ("[SqlRowData] Error while fetching column '" + columnName + "': " + x);
+			throw new PersistenceException("[SqlRowData] Error while fetching column '" + columnName + "': " + x);
 		}
 	}
 
@@ -222,16 +222,16 @@ public class SqlRowData extends RowData
 	 * @return The sql column name.
 	 * @throws PersistenceException If the column wasn't found.
 	 */
-	protected String convertToSqlColumnName (String columnName) throws PersistenceException
+	protected String convertToSqlColumnName(String columnName) throws PersistenceException
 	{
-		ColumnDescriptor column = listing.getColumn (columnName);
+		ColumnDescriptor column = listing.getColumn(columnName);
 
 		if (column == null)
 		{
-			throw new PersistenceException ("[SqlRowData] Unable to find column '" + columnName + "' in listing '"
-							+ listing.getId () + " (" + listing.getTitle () + ")");
+			throw new PersistenceException("[SqlRowData] Unable to find column '" + columnName + "' in listing '"
+							+ listing.getId() + " (" + listing.getTitle() + ")");
 		}
 
-		return column.getAs ();
+		return column.getAs();
 	}
 }

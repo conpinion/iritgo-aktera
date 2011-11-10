@@ -34,7 +34,7 @@ public interface UserManager
 	 * @param newLastName The new user first name
 	 * @param newEmail The new user email
 	 */
-	public void renameUser (String oldName, String newName, String newFirstName, String newLastName, String newEmail);
+	public void renameUser(String oldName, String newName, String newFirstName, String newLastName, String newEmail);
 
 	/**
 	 * Check if a user belongs to a group.
@@ -43,5 +43,5 @@ public interface UserManager
 	 * @param groupId The group id
 	 * @return True if the group contains the user
 	 */
-	public boolean isUserInGroup (Integer userId, Integer groupId);
+	public boolean isUserInGroup(Integer userId, Integer groupId);
 }

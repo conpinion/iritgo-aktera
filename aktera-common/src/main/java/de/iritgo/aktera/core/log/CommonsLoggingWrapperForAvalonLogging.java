@@ -28,94 +28,94 @@ public class CommonsLoggingWrapperForAvalonLogging implements Log
 {
 	private Logger log;
 
-	public CommonsLoggingWrapperForAvalonLogging (Logger log)
+	public CommonsLoggingWrapperForAvalonLogging(Logger log)
 	{
 		this.log = log;
 	}
 
-	public void debug (Object message)
+	public void debug(Object message)
 	{
-		log.debug (String.valueOf (message));
+		log.debug(String.valueOf(message));
 	}
 
-	public void debug (Object message, Throwable t)
+	public void debug(Object message, Throwable t)
 	{
-		log.debug (String.valueOf (message), t);
+		log.debug(String.valueOf(message), t);
 	}
 
-	public void error (Object message)
+	public void error(Object message)
 	{
-		log.error (String.valueOf (message));
+		log.error(String.valueOf(message));
 	}
 
-	public void error (Object message, Throwable t)
+	public void error(Object message, Throwable t)
 	{
-		log.error (String.valueOf (message), t);
+		log.error(String.valueOf(message), t);
 	}
 
-	public void fatal (Object message)
+	public void fatal(Object message)
 	{
-		log.fatalError (String.valueOf (message));
+		log.fatalError(String.valueOf(message));
 	}
 
-	public void fatal (Object message, Throwable t)
+	public void fatal(Object message, Throwable t)
 	{
-		log.fatalError (String.valueOf (message), t);
+		log.fatalError(String.valueOf(message), t);
 	}
 
-	public void info (Object message)
+	public void info(Object message)
 	{
-		log.info (String.valueOf (message));
+		log.info(String.valueOf(message));
 	}
 
-	public void info (Object message, Throwable t)
+	public void info(Object message, Throwable t)
 	{
-		log.info (String.valueOf (message), t);
+		log.info(String.valueOf(message), t);
 	}
 
-	public boolean isDebugEnabled ()
+	public boolean isDebugEnabled()
 	{
-		return log.isDebugEnabled ();
+		return log.isDebugEnabled();
 	}
 
-	public boolean isErrorEnabled ()
-	{
-		return false;
-	}
-
-	public boolean isFatalEnabled ()
+	public boolean isErrorEnabled()
 	{
 		return false;
 	}
 
-	public boolean isInfoEnabled ()
+	public boolean isFatalEnabled()
 	{
 		return false;
 	}
 
-	public boolean isTraceEnabled ()
+	public boolean isInfoEnabled()
 	{
 		return false;
 	}
 
-	public boolean isWarnEnabled ()
+	public boolean isTraceEnabled()
 	{
 		return false;
 	}
 
-	public void trace (Object message)
+	public boolean isWarnEnabled()
+	{
+		return false;
+	}
+
+	public void trace(Object message)
 	{
 	}
 
-	public void trace (Object message, Throwable t)
+	public void trace(Object message, Throwable t)
 	{
 	}
 
-	public void warn (Object message)
+	public void warn(Object message)
 	{
 	}
 
-	public void warn (Object message, Throwable t)
+	public void warn(Object message, Throwable t)
 	{
 	}
 }

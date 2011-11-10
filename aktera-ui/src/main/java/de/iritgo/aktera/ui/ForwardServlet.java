@@ -35,32 +35,32 @@ public class ForwardServlet extends HttpServlet
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	protected void service (HttpServletRequest request, HttpServletResponse response)
+	protected void service(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException
 	{
-		String targetModel = getServletConfig ().getInitParameter ("targetModel");
+		String targetModel = getServletConfig().getInitParameter("targetModel");
 
 		if (targetModel != null)
 		{
-			StringBuilder targetUri = new StringBuilder ("/model.do?model=");
+			StringBuilder targetUri = new StringBuilder("/model.do?model=");
 
-			targetUri.append (targetModel);
+			targetUri.append(targetModel);
 
-			for (Enumeration params = request.getParameterNames (); params.hasMoreElements ();)
+			for (Enumeration params = request.getParameterNames(); params.hasMoreElements();)
 			{
-				String paramName = (String) params.nextElement ();
-				String paramValue = request.getParameter (paramName);
+				String paramName = (String) params.nextElement();
+				String paramValue = request.getParameter(paramName);
 
-				targetUri.append ("&" + paramName + "=" + paramValue);
+				targetUri.append("&" + paramName + "=" + paramValue);
 			}
 
-			RequestDispatcher rd = request.getRequestDispatcher (targetUri.toString ());
+			RequestDispatcher rd = request.getRequestDispatcher(targetUri.toString());
 
-			rd.forward (request, response);
+			rd.forward(request, response);
 
 			return;
 		}
 
-		throw new ServletException ("No target specified");
+		throw new ServletException("No target specified");
 	}
 }

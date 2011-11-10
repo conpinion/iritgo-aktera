@@ -38,29 +38,29 @@ public class AddressAktarioManager extends BaseObject implements Manager, Plugin
 	/**
 	 * Create a new client manager.
 	 */
-	public AddressAktarioManager (String instance)
+	public AddressAktarioManager(String instance)
 	{
-		super (instance);
+		super(instance);
 
-		address = new DynDataObject ("Address");
-		address.addAttribute ("lastName", "");
-		address.addAttribute ("firstName", "");
-		address.addAttribute ("street", "");
-		address.addAttribute ("company", "");
-		address.addAttribute ("phonenumber", "");
-		address.addAttribute ("email", "");
+		address = new DynDataObject("Address");
+		address.addAttribute("lastName", "");
+		address.addAttribute("firstName", "");
+		address.addAttribute("street", "");
+		address.addAttribute("company", "");
+		address.addAttribute("phonenumber", "");
+		address.addAttribute("email", "");
 	}
 
-	public void init ()
+	public void init()
 	{
-		Engine.instance ().getEventRegistry ().addListener ("Plugin", this);
+		Engine.instance().getEventRegistry().addListener("Plugin", this);
 	}
 
-	public void pluginEvent (PluginStateEvent event)
+	public void pluginEvent(PluginStateEvent event)
 	{
 	}
 
-	public void unload ()
+	public void unload()
 	{
 	}
 }

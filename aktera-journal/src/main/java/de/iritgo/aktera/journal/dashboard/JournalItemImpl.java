@@ -47,78 +47,78 @@ public class JournalItemImpl extends AbstractDashboardItem implements JournalIte
 
 	private Iterator<Map<String, Object>> iterator;
 
-	public void setJournalManager (JournalManager journalManager)
+	public void setJournalManager(JournalManager journalManager)
 	{
 		this.journalManager = journalManager;
 	}
 
-	public void init (String primaryType, Integer ownerId)
+	public void init(String primaryType, Integer ownerId)
 	{
 		this.primaryType = primaryType;
 		this.ownerId = ownerId;
 
-		HashMap<String, Object> conds = new HashMap ();
+		HashMap<String, Object> conds = new HashMap();
 
-		conds.put ("ownerId", ownerId);
-		conds.put ("primaryType", primaryType);
-		journalEntries = journalManager.listJournalEntriesByCondition ("occuredAt", SortOrder.DESCENDING, 0, 3,
+		conds.put("ownerId", ownerId);
+		conds.put("primaryType", primaryType);
+		journalEntries = journalManager.listJournalEntriesByCondition("occuredAt", SortOrder.DESCENDING, 0, 3,
 						"ownerId = :ownerId AND primaryType = :primaryType", conds);
-		iterator = journalEntries.iterator ();
+		iterator = journalEntries.iterator();
 	}
 
-	public boolean hasNext ()
+	public boolean hasNext()
 	{
-		return iterator.hasNext ();
+		return iterator.hasNext();
 	}
 
-	public void next ()
+	public void next()
 	{
-		currentEntry = iterator.next ();
+		currentEntry = iterator.next();
 	}
 
-	public String getJournalId ()
+	public String getJournalId()
 	{
-		return StringTools.trim (currentEntry.get ("id"));
+		return StringTools.trim(currentEntry.get("id"));
 	}
 
-	public String getRawData ()
+	public String getRawData()
 	{
-		return StringTools.trim (currentEntry.get ("rawData"));
+		return StringTools.trim(currentEntry.get("rawData"));
 	}
 
-	public String getSecondaryType ()
+	public String getSecondaryType()
 	{
-		return StringTools.trim (currentEntry.get ("secondaryType"));
+		return StringTools.trim(currentEntry.get("secondaryType"));
 	}
 
-	public String getShortMessage ()
+	public String getShortMessage()
 	{
-		return StringTools.trim (currentEntry.get ("shortMessage"));
+		return StringTools.trim(currentEntry.get("shortMessage"));
 	}
 
-	public String getMessage ()
+	public String getMessage()
 	{
-		return StringTools.trim (currentEntry.get ("message"));
+		return StringTools.trim(currentEntry.get("message"));
 	}
 
-	public String getOccurredAt ()
+	public String getOccurredAt()
 	{
-		return StringTools.trim (currentEntry.get ("occurredAt"));
+		return StringTools.trim(currentEntry.get("occurredAt"));
 	}
 
-	public String getMisc ()
+	public String getMisc()
 	{
-		return StringTools.trim (currentEntry.get ("misc"));
+		return StringTools.trim(currentEntry.get("misc"));
 	}
 
 	/**
 	 * @see de.iritgo.aktera.dashboard.DashboardItem#update()
 	 */
-	public void update ()
+	public void update()
 	{
 	}
 
-	public void setRenderFile (String file)
+	public void setRenderFile(String file)
 	{
 		this.renderFile = file;
 	}
@@ -126,13 +126,13 @@ public class JournalItemImpl extends AbstractDashboardItem implements JournalIte
 	/**
 	 * @see de.iritgo.aktera.dashboard.DashboardItem#getRenderFile()
 	 */
-	public String getRenderFile ()
+	public String getRenderFile()
 	{
 		return renderFile;
 	}
 
-	public void generate (GroupVisitor visitor)
+	public void generate(GroupVisitor visitor)
 	{
-		((JournalUIResponseVisitor) visitor).generate (this);
+		((JournalUIResponseVisitor) visitor).generate(this);
 	}
 }

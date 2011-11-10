@@ -31,24 +31,24 @@ import java.util.Map;
 
 public class BaseWebJournalListingEntryBuilder implements WebJournalListingEntryBuilder
 {
-	public Object getValue (Map<String, Object> entry, String column, String bundle, Locale locale)
+	public Object getValue(Map<String, Object> entry, String column, String bundle, Locale locale)
 	{
-		if ("primaryType".equals (column))
+		if ("primaryType".equals(column))
 		{
-			return (entry.get (column) + "-journal-16").toLowerCase ();
+			return (entry.get(column) + "-journal-16").toLowerCase();
 		}
-		else if ("secondaryType".equals (column))
+		else if ("secondaryType".equals(column))
 		{
-			return StringTools.toLowerCase (entry.get ("primaryType") + "-" + entry.get (column) + "-journal-16");
+			return StringTools.toLowerCase(entry.get("primaryType") + "-" + entry.get(column) + "-journal-16");
 		}
-		else if ("secondaryTypeText".equals (column))
+		else if ("secondaryTypeText".equals(column))
 		{
 			return bundle
 							+ ":"
-							+ StringTools.toLowerCase ("journal." + entry.get ("primaryType") + "."
-											+ entry.get ("secondaryType"));
+							+ StringTools.toLowerCase("journal." + entry.get("primaryType") + "."
+											+ entry.get("secondaryType"));
 		}
-		else if ("occurredAt".equals (column))
+		else if ("occurredAt".equals(column))
 		{
 			if (locale == null)
 			{
@@ -56,14 +56,14 @@ public class BaseWebJournalListingEntryBuilder implements WebJournalListingEntry
 			}
 
 			//TODO: Datedisplay format in the base settings
-			return new java.text.SimpleDateFormat ("dd.MM.yyyy (EE) HH:mm", locale).format (new Date (
-							((Timestamp) entry.get ("occurredAt")).getTime ()));
+			return new java.text.SimpleDateFormat("dd.MM.yyyy (EE) HH:mm", locale).format(new Date(((Timestamp) entry
+							.get("occurredAt")).getTime()));
 		}
 
-		return BeanTools.hasProperty (JournalEntry.class, column) ? entry.get (column) : null;
+		return BeanTools.hasProperty(JournalEntry.class, column) ? entry.get(column) : null;
 	}
 
-	public String getBundle ()
+	public String getBundle()
 	{
 		return "aktera-journal";
 	}

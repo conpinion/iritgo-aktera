@@ -47,7 +47,7 @@ public abstract class ThreadedLogEnabledModel extends ThreadedModel implements L
 	/**
 	 * @see org.apache.avalon.framework.logger.LogEnabled#enableLogging(org.apache.avalon.framework.logger.Logger)
 	 */
-	public void enableLogging (Logger logger)
+	public void enableLogging(Logger logger)
 	{
 		log = logger;
 	}
@@ -55,7 +55,7 @@ public abstract class ThreadedLogEnabledModel extends ThreadedModel implements L
 	/**
 	 * @see de.iritgo.aktera.model.Model#execute(de.iritgo.aktera.model.ModelRequest)
 	 */
-	public ModelResponse execute (ModelRequest request) throws ModelException
+	public ModelResponse execute(ModelRequest request) throws ModelException
 	{
 		return null;
 	}

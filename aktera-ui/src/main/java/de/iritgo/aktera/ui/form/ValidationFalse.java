@@ -28,17 +28,17 @@ import de.iritgo.aktera.model.ModelRequest;
  */
 public class ValidationFalse implements Validation
 {
-	public ValidationFalse ()
+	public ValidationFalse()
 	{
 	}
 
-	public boolean checkValidation (ModelRequest req, PersistentDescriptor persistentDescriptor,
+	public boolean checkValidation(ModelRequest req, PersistentDescriptor persistentDescriptor,
 					FieldDescriptor fieldDescriptor, String value)
 	{
 		return true;
 	}
 
-	public String getErrorTextId ()
+	public String getErrorTextId()
 	{
 		return "validationFalse";
 	}

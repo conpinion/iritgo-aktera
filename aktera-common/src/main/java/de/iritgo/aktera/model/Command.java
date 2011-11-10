@@ -32,25 +32,25 @@ import java.util.Map;
  */
 public interface Command extends ResponseElement
 {
-	public void setParameter (String paramName, Object paramValue);
+	public void setParameter(String paramName, Object paramValue);
 
-	public void setModel (String model);
+	public void setModel(String model);
 
 	/**
 	 * Return the name of the model specified for this command, in the form it would appear
 	 * in the configuration file
 	 */
-	public String getModel ();
+	public String getModel();
 
 	/**
 	 * Return a map of any parameter specified for this command
 	 */
-	public Map getParameters ();
+	public Map getParameters();
 
 	/**
 	 * Convenience method, equivilant to execute(req, res, false, false)
 	 */
-	public ModelResponse execute (ModelRequest req, ModelResponse res) throws ModelException;
+	public ModelResponse execute(ModelRequest req, ModelResponse res) throws ModelException;
 
 	/**
 	 * Execute the model specified by this command and return the model
@@ -67,18 +67,18 @@ public interface Command extends ResponseElement
 	 * generated response. If an element in the new response has the same name as an element in the current response,
 	 * use the new one only.
 	 */
-	public ModelResponse execute (ModelRequest req, ModelResponse res, boolean includeParams,
+	public ModelResponse execute(ModelRequest req, ModelResponse res, boolean includeParams,
 					boolean includeResponseElements) throws ModelException;
 
-	public void setLabel (String newLabel);
+	public void setLabel(String newLabel);
 
-	public String getLabel ();
+	public String getLabel();
 
-	public void setRelativeMovement (int numberOfSteps);
+	public void setRelativeMovement(int numberOfSteps);
 
-	public int getRelativeMovement ();
+	public int getRelativeMovement();
 
-	public void setBean (String bean);
+	public void setBean(String bean);
 
-	public String getBean ();
+	public String getBean();
 }

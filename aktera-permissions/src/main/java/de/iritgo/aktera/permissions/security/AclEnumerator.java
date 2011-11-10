@@ -37,45 +37,45 @@ final class AclEnumerator implements Enumeration
 
 	Enumeration g2;
 
-	AclEnumerator (Acl acl, Hashtable u1, Hashtable g1, Hashtable u2, Hashtable g2)
+	AclEnumerator(Acl acl, Hashtable u1, Hashtable g1, Hashtable u2, Hashtable g2)
 	{
 		this.acl = acl;
-		this.u1 = u1.elements ();
-		this.u2 = u2.elements ();
-		this.g1 = g1.elements ();
-		this.g2 = g2.elements ();
+		this.u1 = u1.elements();
+		this.u2 = u2.elements();
+		this.g1 = g1.elements();
+		this.g2 = g2.elements();
 	}
 
-	public boolean hasMoreElements ()
+	public boolean hasMoreElements()
 	{
-		return (u1.hasMoreElements () || u2.hasMoreElements () || g1.hasMoreElements () || g2.hasMoreElements ());
+		return (u1.hasMoreElements() || u2.hasMoreElements() || g1.hasMoreElements() || g2.hasMoreElements());
 	}
 
-	public Object nextElement ()
+	public Object nextElement()
 	{
 		synchronized (acl)
 		{
-			if (u1.hasMoreElements ())
+			if (u1.hasMoreElements())
 			{
-				return u1.nextElement ();
+				return u1.nextElement();
 			}
 
-			if (u2.hasMoreElements ())
+			if (u2.hasMoreElements())
 			{
-				return u2.nextElement ();
+				return u2.nextElement();
 			}
 
-			if (g1.hasMoreElements ())
+			if (g1.hasMoreElements())
 			{
-				return g1.nextElement ();
+				return g1.nextElement();
 			}
 
-			if (g2.hasMoreElements ())
+			if (g2.hasMoreElements())
 			{
-				return g2.nextElement ();
+				return g2.nextElement();
 			}
 		}
 
-		throw new NoSuchElementException ("Acl Enumerator");
+		throw new NoSuchElementException("Acl Enumerator");
 	}
 }

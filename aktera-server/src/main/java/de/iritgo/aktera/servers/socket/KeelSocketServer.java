@@ -53,12 +53,12 @@ public class KeelSocketServer extends KeelAbstractServer
 	{
 		private Socket socket;
 
-		public MultiThreadedProcessor (Socket socket)
+		public MultiThreadedProcessor(Socket socket)
 		{
 			this.socket = socket;
 		}
 
-		public void run ()
+		public void run()
 		{
 			ObjectOutputStream writer = null;
 			ObjectInputStream reader = null;
@@ -66,30 +66,30 @@ public class KeelSocketServer extends KeelAbstractServer
 
 			try
 			{
-				reader = new ObjectInputStream (new BufferedInputStream (socket.getInputStream ()));
+				reader = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
 
-				KeelRequest request = (KeelRequest) reader.readObject ();
+				KeelRequest request = (KeelRequest) reader.readObject();
 
 				try
 				{
-					response = execute (request);
+					response = execute(request);
 				}
 				catch (ModelException me)
 				{
-					System.err.println ("Exception running model:");
-					me.printStackTrace (System.err);
-					response = new ModelResponseMessage ();
-					response.addError ("Error Running Model", me);
+					System.err.println("Exception running model:");
+					me.printStackTrace(System.err);
+					response = new ModelResponseMessage();
+					response.addError("Error Running Model", me);
 				}
 
-				writer = new ObjectOutputStream (new BufferedOutputStream (socket.getOutputStream ()));
-				writer.writeObject (response);
-				writer.flush ();
+				writer = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+				writer.writeObject(response);
+				writer.flush();
 			}
 			catch (Exception e)
 			{
-				logger.error ("Exception while processing request:", e);
-				throw new RuntimeException (e);
+				logger.error("Exception while processing request:", e);
+				throw new RuntimeException(e);
 			}
 			finally
 			{
@@ -97,7 +97,7 @@ public class KeelSocketServer extends KeelAbstractServer
 				{
 					try
 					{
-						writer.close ();
+						writer.close();
 					}
 					catch (Exception ignore)
 					{
@@ -108,7 +108,7 @@ public class KeelSocketServer extends KeelAbstractServer
 				{
 					try
 					{
-						reader.close ();
+						reader.close();
 					}
 					catch (Exception ignore)
 					{
@@ -119,7 +119,7 @@ public class KeelSocketServer extends KeelAbstractServer
 				{
 					try
 					{
-						socket.close ();
+						socket.close();
 					}
 					catch (Exception ignore)
 					{
@@ -137,7 +137,7 @@ public class KeelSocketServer extends KeelAbstractServer
 	//TODO: refactor to use JDK 1.4 NIO based sockets
 	private ServerSocket serverSocket = null;
 
-	public void setLogger (Logger newLog)
+	public void setLogger(Logger newLog)
 	{
 		logger = newLog;
 	}
@@ -148,103 +148,103 @@ public class KeelSocketServer extends KeelAbstractServer
 	 * method initializes the container and configures & initializes this server instance.
 	 * @throws ModelException
 	 */
-	protected void bootstrap () throws ModelException
+	protected void bootstrap() throws ModelException
 	{
-		getContainer ();
+		getContainer();
 
 		try
 		{
-			myConfig = getContainer ().getSystemConfig ().getChild ("socket-server");
+			myConfig = getContainer().getSystemConfig().getChild("socket-server");
 		}
 		catch (ModelException e)
 		{
-			throw new RuntimeException ("Unable to configure " + this.getClass ().getName () + ": " + e.getMessage ());
+			throw new RuntimeException("Unable to configure " + this.getClass().getName() + ": " + e.getMessage());
 		}
 		catch (ConfigurationException e)
 		{
-			throw new RuntimeException ("Unable to configure " + this.getClass ().getName () + ": " + e.getMessage ());
+			throw new RuntimeException("Unable to configure " + this.getClass().getName() + ": " + e.getMessage());
 		}
 
 		try
 		{
-			serverSocket = new ServerSocket (myConfig.getAttributeAsInteger ("port"));
+			serverSocket = new ServerSocket(myConfig.getAttributeAsInteger("port"));
 		}
 		catch (Exception e)
 		{
-			throw new ModelException ("Unable to instantiate ServerSocket on configured port", e);
+			throw new ModelException("Unable to instantiate ServerSocket on configured port", e);
 		}
 	}
 
-	public void run ()
+	public void run()
 	{
-		if (! this.isInitialized ())
+		if (! this.isInitialized())
 		{
-			getLogger ().info ("Keel server starts.");
+			getLogger().info("Keel server starts.");
 
 			try
 			{
-				bootstrap ();
+				bootstrap();
 			}
 			catch (ModelException me)
 			{
-				System.err.println ("Exception initializing container:");
-				me.printStackTrace (System.err);
-				throw new RuntimeException (me.getMessage ());
+				System.err.println("Exception initializing container:");
+				me.printStackTrace(System.err);
+				throw new RuntimeException(me.getMessage());
 			}
 
-			this.setInitialized (true);
+			this.setInitialized(true);
 		}
 
 		try
 		{
-			socketServiceLoop ();
+			socketServiceLoop();
 		}
 		catch (Exception e)
 		{
-			throw new RuntimeException ("Error while running service loop", e);
+			throw new RuntimeException("Error while running service loop", e);
 		}
 		finally
 		{
 			try
 			{
-				serverSocket.close ();
+				serverSocket.close();
 			}
 			catch (IOException e)
 			{
-				throw new RuntimeException ("Error closing server socket", e);
+				throw new RuntimeException("Error closing server socket", e);
 			}
 		}
 	}
 
-	protected void socketServiceLoop ()
+	protected void socketServiceLoop()
 	{
 		ModelRequest req = null;
 		ObjectInputStream reader = null;
 
 		try
 		{
-			while (! serverSocket.isClosed ())
+			while (! serverSocket.isClosed())
 			{
 				try
 				{
-					if (logger.isDebugEnabled ())
+					if (logger.isDebugEnabled())
 					{
-						logger.debug ("Request " + getName () + " starts");
+						logger.debug("Request " + getName() + " starts");
 					}
 
-					MultiThreadedProcessor processor = new MultiThreadedProcessor (serverSocket.accept ());
+					MultiThreadedProcessor processor = new MultiThreadedProcessor(serverSocket.accept());
 
-					logger.debug ("Client connection established.");
-					processor.start ();
+					logger.debug("Client connection established.");
+					processor.start();
 
-					if (logger.isDebugEnabled ())
+					if (logger.isDebugEnabled())
 					{
-						logger.debug ("Request " + getName () + " serviced");
+						logger.debug("Request " + getName() + " serviced");
 					}
 				}
 				catch (Exception e)
 				{
-					logger.error ("Error while processing request: " + e);
+					logger.error("Error while processing request: " + e);
 				}
 				finally
 				{
@@ -252,7 +252,7 @@ public class KeelSocketServer extends KeelAbstractServer
 					{
 						try
 						{
-							reader.close ();
+							reader.close();
 						}
 						catch (Exception ignore)
 						{
@@ -263,19 +263,19 @@ public class KeelSocketServer extends KeelAbstractServer
 		}
 		catch (Exception e)
 		{
-			logger.error ("Exception while servicing request:", e);
-			throw new RuntimeException (e);
+			logger.error("Exception while servicing request:", e);
+			throw new RuntimeException(e);
 		}
 		finally
 		{
 			if (req != null)
 			{
-				if (logger.isDebugEnabled ())
+				if (logger.isDebugEnabled())
 				{
-					logger.debug ("Releasing request " + req.toString ());
+					logger.debug("Releasing request " + req.toString());
 				}
 
-				myContainer.release (req);
+				myContainer.release(req);
 			}
 		}
 	}
@@ -283,55 +283,55 @@ public class KeelSocketServer extends KeelAbstractServer
 	/* (non-Javadoc)
 	 * @see java.lang.Thread#destroy()
 	 */
-	public void destroy ()
+	public void destroy()
 	{
 		if (serverSocket != null)
 		{
 			try
 			{
-				serverSocket.close ();
+				serverSocket.close();
 			}
 			catch (IOException ignore)
 			{
 			}
 		}
 
-		super.destroy ();
+		super.destroy();
 	}
 
-	public KeelResponse execute (KeelRequest request) throws ModelException
+	public KeelResponse execute(KeelRequest request) throws ModelException
 	{
-		if (getContainer () == null)
+		if (getContainer() == null)
 		{
-			throw new ModelException ("Initialization failed - container is null");
+			throw new ModelException("Initialization failed - container is null");
 		}
 
 		ModelRequest req = null;
 
 		try
 		{
-			Object o = getContainer ().getService (ModelRequest.ROLE);
+			Object o = getContainer().getService(ModelRequest.ROLE);
 
 			if (o == null)
 			{
-				getLogger ().error ("Service returned was null");
+				getLogger().error("Service returned was null");
 			}
 
 			req = (ModelRequest) o;
 		}
 		catch (Exception se)
 		{
-			getLogger ().error ("Service Exception:", se);
-			throw new ModelException ("Service Exception getting request", se);
+			getLogger().error("Service Exception:", se);
+			throw new ModelException("Service Exception getting request", se);
 		}
 
 		try
 		{
-			req.copyFrom (request);
+			req.copyFrom(request);
 		}
 		catch (Exception ee)
 		{
-			getLogger ().error ("Error copying ModelRequestMessage to ModelRequest", ee);
+			getLogger().error("Error copying ModelRequestMessage to ModelRequest", ee);
 		}
 
 		//Set the context to that provided in the original request
@@ -339,15 +339,15 @@ public class KeelSocketServer extends KeelAbstractServer
 		{
 			try
 			{
-				((KeelContextualizable) req).setKeelContext (getContext (req));
+				((KeelContextualizable) req).setKeelContext(getContext(req));
 			}
 			catch (ContextException e)
 			{
-				throw new ModelException ("Unable to set keel context on ModelRequest", e);
+				throw new ModelException("Unable to set keel context on ModelRequest", e);
 			}
 		}
 
-		getLogger ().debug ("Executing model " + req.getModel ());
+		getLogger().debug("Executing model " + req.getModel());
 
 		/**
 		 * We don't fail on a ModelException, we just stuff it into the
@@ -355,19 +355,19 @@ public class KeelSocketServer extends KeelAbstractServer
 		 * exception
 		 */
 		ModelResponse res = null;
-		ModelResponseMessage resMessage = new ModelResponseMessage ();
+		ModelResponseMessage resMessage = new ModelResponseMessage();
 
 		try
 		{
-			res = req.execute ();
+			res = req.execute();
 		}
 		catch (ModelException me)
 		{
-			resMessage.addError ("model", me);
+			resMessage.addError("model", me);
 
-			if (getLogger ().isDebugEnabled ())
+			if (getLogger().isDebugEnabled())
 			{
-				getLogger ().debug ("Error from model execution:", me);
+				getLogger().debug("Error from model execution:", me);
 			}
 		}
 
@@ -375,25 +375,25 @@ public class KeelSocketServer extends KeelAbstractServer
 		{
 			if (res == null)
 			{
-				getLogger ().error ("Response from model was null");
+				getLogger().error("Response from model was null");
 			}
 			else
 			{
-				resMessage.copyFrom (res);
+				resMessage.copyFrom(res);
 			}
 		}
 		catch (Exception ce)
 		{
-			getLogger ().error ("Unable to copy response to message:", ce);
-			resMessage.addError ("badCopy", ce);
+			getLogger().error("Unable to copy response to message:", ce);
+			resMessage.addError("badCopy", ce);
 		}
 
 		/**
 		 * Stash any changes to the context
 		 */
-		saveContext (req);
+		saveContext(req);
 
-		getContainer ().release (req);
+		getContainer().release(req);
 
 		return resMessage;
 	}

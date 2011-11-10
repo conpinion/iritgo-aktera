@@ -41,42 +41,42 @@ public class SqlServerDatabaseType extends JDBCDatabaseType implements Poolable
 {
 	/* @see de.iritgo.aktera.persist.DatabaseType#getCreateIdentitySyntax()
 	 */
-	public String getCreateIdentitySyntax () throws PersistenceException
+	public String getCreateIdentitySyntax() throws PersistenceException
 	{
 		return "INT NOT NULL AUTO_INCREMENT PRIMARY KEY";
 	}
 
 	/* @see de.iritgo.aktera.persist.DatabaseType#getInsertIdentitySyntax()
 	 */
-	public String getInsertIdentitySyntax () throws PersistenceException
+	public String getInsertIdentitySyntax() throws PersistenceException
 	{
 		return "null";
 	}
 
 	/* @see de.iritgo.aktera.persist.DatabaseType#getRetrieveIdentitySyntax()
 	 */
-	public String getRetrieveIdentitySyntax (PersistentMetaData pmd, String idFieldName) throws PersistenceException
+	public String getRetrieveIdentitySyntax(PersistentMetaData pmd, String idFieldName) throws PersistenceException
 	{
 		return "SELECT LAST_INSERT_ID()";
 	}
 
 	/* @see de.iritgo.aktera.persist.DatabaseType#isIdentitySupported()
 	 */
-	public boolean isIdentitySupported ()
+	public boolean isIdentitySupported()
 	{
 		return true;
 	}
 
 	/* @see de.iritgo.aktera.persist.DatabaseType#isAlterKeySupported()
 	 */
-	public boolean isAlterKeySupported ()
+	public boolean isAlterKeySupported()
 	{
 		return true;
 	}
 
 	/* @see de.iritgo.aktera.persist.DatabaseType#skipIdentityInAlterKey()
 	 */
-	public boolean skipIdentityInAlterKey ()
+	public boolean skipIdentityInAlterKey()
 	{
 		return true;
 	}
@@ -85,7 +85,7 @@ public class SqlServerDatabaseType extends JDBCDatabaseType implements Poolable
 	 * Don't say "null" after fields that *do* allow null - just use "not null" on
 	 * fields that *don't* allow it...
 	 */
-	protected boolean useExplicitNull ()
+	protected boolean useExplicitNull()
 	{
 		return false;
 	}

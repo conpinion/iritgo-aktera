@@ -78,7 +78,7 @@ public class InvokationSecurity extends AbstractHelper implements Serializable
 
 	/** */
 	@EmbeddedId
-	private PrimaryKey primaryKey = new PrimaryKey ();
+	private PrimaryKey primaryKey = new PrimaryKey();
 
 	@Column(nullable = false, length = 30)
 	private String operationsAllowed;
@@ -93,7 +93,7 @@ public class InvokationSecurity extends AbstractHelper implements Serializable
 	 *   descrip="Component Name"
 	 *   length="132"
 	 */
-	public String getComponent ()
+	public String getComponent()
 	{
 		return primaryKey.component;
 	}
@@ -103,7 +103,7 @@ public class InvokationSecurity extends AbstractHelper implements Serializable
 	 *
 	 * @param string
 	 */
-	public void setComponent (String string)
+	public void setComponent(String string)
 	{
 		primaryKey.component = string;
 	}
@@ -118,7 +118,7 @@ public class InvokationSecurity extends AbstractHelper implements Serializable
 	 *   descrip="Instance Id"
 	 *   length="60"
 	 */
-	public String getInstance ()
+	public String getInstance()
 	{
 		return primaryKey.instance;
 	}
@@ -128,7 +128,7 @@ public class InvokationSecurity extends AbstractHelper implements Serializable
 	 *
 	 * @param string
 	 */
-	public void setInstance (String string)
+	public void setInstance(String string)
 	{
 		primaryKey.instance = string;
 	}
@@ -143,7 +143,7 @@ public class InvokationSecurity extends AbstractHelper implements Serializable
 	 *   descrip="Group Name"
 	 *   primary-key="true"
 	 */
-	public String getGroupName ()
+	public String getGroupName()
 	{
 		return primaryKey.groupName;
 	}
@@ -153,7 +153,7 @@ public class InvokationSecurity extends AbstractHelper implements Serializable
 	 *
 	 * @param newName
 	 */
-	public void setGroupName (String newName)
+	public void setGroupName(String newName)
 	{
 		primaryKey.groupName = newName;
 	}
@@ -168,7 +168,7 @@ public class InvokationSecurity extends AbstractHelper implements Serializable
 	 *   primary-key="true"
 	 *   descrip="Comparison Operation"
 	 */
-	public String getComparator ()
+	public String getComparator()
 	{
 		return primaryKey.comparator;
 	}
@@ -178,7 +178,7 @@ public class InvokationSecurity extends AbstractHelper implements Serializable
 	 *
 	 * @param string
 	 */
-	public void setComparator (String string)
+	public void setComparator(String string)
 	{
 		primaryKey.comparator = string;
 	}
@@ -194,7 +194,7 @@ public class InvokationSecurity extends AbstractHelper implements Serializable
 	 *   primary-key="true"
 	 * @return
 	 */
-	public String getProperty ()
+	public String getProperty()
 	{
 		return primaryKey.property;
 	}
@@ -204,7 +204,7 @@ public class InvokationSecurity extends AbstractHelper implements Serializable
 	 *
 	 * @param string
 	 */
-	public void setProperty (String string)
+	public void setProperty(String string)
 	{
 		primaryKey.property = string;
 	}
@@ -220,7 +220,7 @@ public class InvokationSecurity extends AbstractHelper implements Serializable
 	 *   descrip="Property Value"
 	 * @return
 	 */
-	public String getValue ()
+	public String getValue()
 	{
 		return primaryKey.value;
 	}
@@ -230,7 +230,7 @@ public class InvokationSecurity extends AbstractHelper implements Serializable
 	 *
 	 * @param string
 	 */
-	public void setValue (String string)
+	public void setValue(String string)
 	{
 		primaryKey.value = string;
 	}
@@ -244,7 +244,7 @@ public class InvokationSecurity extends AbstractHelper implements Serializable
 	 *   descrip="Operations Allowed"
 	 *   length="30"
 	 */
-	public String getOperationsAllowed ()
+	public String getOperationsAllowed()
 	{
 		return operationsAllowed;
 	}
@@ -254,7 +254,7 @@ public class InvokationSecurity extends AbstractHelper implements Serializable
 	 *
 	 * @param s
 	 */
-	public void setOperationsAllowed (String s)
+	public void setOperationsAllowed(String s)
 	{
 		operationsAllowed = s;
 	}
@@ -262,64 +262,64 @@ public class InvokationSecurity extends AbstractHelper implements Serializable
 	/**
 	 * Validate that the class being referenced is indeed an InstanceSecurable
 	 */
-	public void beforeAdd (Persistent current)
+	public void beforeAdd(Persistent current)
 	{
-		validate (current);
+		validate(current);
 	}
 
-	public void beforeUpdate (Persistent current)
+	public void beforeUpdate(Persistent current)
 	{
-		validate (current);
+		validate(current);
 	}
 
-	private void validate (Persistent current)
+	private void validate(Persistent current)
 	{
 		try
 		{
-			if (current.getField ("operationsallowed").equals (""))
+			if (current.getField("operationsallowed").equals(""))
 			{
-				current.setField ("operationsallowed", "*");
+				current.setField("operationsallowed", "*");
 			}
 
-			String comp = current.getFieldString ("component");
+			String comp = current.getFieldString("component");
 
 			try
 			{
-				Object o = Class.forName (comp).newInstance ();
+				Object o = Class.forName(comp).newInstance();
 
 				if (! (o instanceof InvokationSecurable))
 				{
-					throw new IllegalArgumentException (
+					throw new IllegalArgumentException(
 									"Component '"
 													+ comp
 													+ "' is not an InvokationSecurable, and cannot be secured as an InvokationSecurable."
-													+ current.toString ());
+													+ current.toString());
 				}
 			}
 			catch (ClassNotFoundException ce)
 			{
-				throw new IllegalArgumentException ("No such class as '" + comp + "'");
+				throw new IllegalArgumentException("No such class as '" + comp + "'");
 			}
 			catch (IllegalAccessException ie)
 			{
-				throw new IllegalArgumentException ("Unable to access class '" + comp + "':" + ie.getMessage ());
+				throw new IllegalArgumentException("Unable to access class '" + comp + "':" + ie.getMessage());
 			}
 			catch (InstantiationException iae)
 			{
-				throw new IllegalArgumentException ("Instantiation exception accessing class '" + comp + "':"
-								+ iae.getMessage ());
+				throw new IllegalArgumentException("Instantiation exception accessing class '" + comp + "':"
+								+ iae.getMessage());
 			}
 		}
 		catch (PersistenceException pe)
 		{
-			throw new IllegalArgumentException (pe.getMessage ());
+			throw new IllegalArgumentException(pe.getMessage());
 		}
 	}
 
 	/**
 	 * @see java.lang.Object#equals(Object)
 	 */
-	public boolean equals (Object object)
+	public boolean equals(Object object)
 	{
 		if (! (object instanceof InvokationSecurity))
 		{
@@ -328,10 +328,8 @@ public class InvokationSecurity extends AbstractHelper implements Serializable
 
 		InvokationSecurity rhs = (InvokationSecurity) object;
 
-		if ((rhs.getOperationsAllowed ().equals (getOperationsAllowed ()))
-						&& (rhs.getComponent ().equals (getComponent ()))
-						&& (rhs.getGroupName ().equals (getGroupName ()))
-						&& (rhs.getComparator ().equals (getComparator ())))
+		if ((rhs.getOperationsAllowed().equals(getOperationsAllowed())) && (rhs.getComponent().equals(getComponent()))
+						&& (rhs.getGroupName().equals(getGroupName())) && (rhs.getComparator().equals(getComparator())))
 		{
 			return true;
 		}
@@ -342,8 +340,8 @@ public class InvokationSecurity extends AbstractHelper implements Serializable
 	/**
 	 * @see java.lang.Object#hashCode()
 	 */
-	public int hashCode ()
+	public int hashCode()
 	{
-		return new String (getComponent () + getOperationsAllowed () + getGroupName () + getComparator ()).hashCode ();
+		return new String(getComponent() + getOperationsAllowed() + getGroupName() + getComparator()).hashCode();
 	}
 }

@@ -26,168 +26,168 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 
 public class NullConfiguration implements Configuration
 {
-	public String getAttribute (String name) throws ConfigurationException
+	public String getAttribute(String name) throws ConfigurationException
 	{
-		throw new ConfigurationException ("No attribute named \"" + name
+		throw new ConfigurationException("No attribute named \"" + name
 						+ "\" is associated with the null configuration");
 	}
 
-	public String getAttribute (String name, String defaultValue)
+	public String getAttribute(String name, String defaultValue)
 	{
 		return defaultValue;
 	}
 
-	public boolean getAttributeAsBoolean (String name) throws ConfigurationException
+	public boolean getAttributeAsBoolean(String name) throws ConfigurationException
 	{
-		throw new ConfigurationException ("No attribute named \"" + name
+		throw new ConfigurationException("No attribute named \"" + name
 						+ "\" is associated with the null configuration");
 	}
 
-	public boolean getAttributeAsBoolean (String name, boolean defaultValue)
+	public boolean getAttributeAsBoolean(String name, boolean defaultValue)
 	{
 		return defaultValue;
 	}
 
-	public double getAttributeAsDouble (String name) throws ConfigurationException
+	public double getAttributeAsDouble(String name) throws ConfigurationException
 	{
-		throw new ConfigurationException ("No attribute named \"" + name
+		throw new ConfigurationException("No attribute named \"" + name
 						+ "\" is associated with the null configuration");
 	}
 
-	public double getAttributeAsDouble (String name, double defaultValue)
+	public double getAttributeAsDouble(String name, double defaultValue)
 	{
 		return defaultValue;
 	}
 
-	public float getAttributeAsFloat (String name) throws ConfigurationException
+	public float getAttributeAsFloat(String name) throws ConfigurationException
 	{
-		throw new ConfigurationException ("No attribute named \"" + name
+		throw new ConfigurationException("No attribute named \"" + name
 						+ "\" is associated with the null configuration");
 	}
 
-	public float getAttributeAsFloat (String name, float defaultValue)
+	public float getAttributeAsFloat(String name, float defaultValue)
 	{
 		return defaultValue;
 	}
 
-	public int getAttributeAsInteger (String name) throws ConfigurationException
+	public int getAttributeAsInteger(String name) throws ConfigurationException
 	{
-		throw new ConfigurationException ("No attribute named \"" + name
+		throw new ConfigurationException("No attribute named \"" + name
 						+ "\" is associated with the null configuration");
 	}
 
-	public int getAttributeAsInteger (String name, int defaultValue)
+	public int getAttributeAsInteger(String name, int defaultValue)
 	{
 		return defaultValue;
 	}
 
-	public long getAttributeAsLong (String name) throws ConfigurationException
+	public long getAttributeAsLong(String name) throws ConfigurationException
 	{
-		throw new ConfigurationException ("No attribute named \"" + name
+		throw new ConfigurationException("No attribute named \"" + name
 						+ "\" is associated with the null configuration");
 	}
 
-	public long getAttributeAsLong (String name, long defaultValue)
+	public long getAttributeAsLong(String name, long defaultValue)
 	{
 		return defaultValue;
 	}
 
-	public String[] getAttributeNames ()
+	public String[] getAttributeNames()
 	{
 		return new String[0];
 	}
 
-	public Configuration getChild (String name)
+	public Configuration getChild(String name)
 	{
 		return this;
 	}
 
-	public Configuration getChild (String name, boolean createNew)
+	public Configuration getChild(String name, boolean createNew)
 	{
 		return createNew ? this : null;
 	}
 
-	public Configuration[] getChildren ()
+	public Configuration[] getChildren()
 	{
 		return new Configuration[0];
 	}
 
-	public Configuration[] getChildren (String name)
+	public Configuration[] getChildren(String name)
 	{
 		return new Configuration[0];
 	}
 
-	public String getLocation ()
+	public String getLocation()
 	{
 		return null;
 	}
 
-	public String getName ()
+	public String getName()
 	{
 		return "<null>";
 	}
 
-	public String getNamespace () throws ConfigurationException
+	public String getNamespace() throws ConfigurationException
 	{
 		return "";
 	}
 
-	public String getValue () throws ConfigurationException
+	public String getValue() throws ConfigurationException
 	{
-		throw new ConfigurationException ("No value is associated with the null configuration");
+		throw new ConfigurationException("No value is associated with the null configuration");
 	}
 
-	public String getValue (String defaultValue)
-	{
-		return defaultValue;
-	}
-
-	public boolean getValueAsBoolean () throws ConfigurationException
-	{
-		throw new ConfigurationException ("No value is associated with the null configuration");
-	}
-
-	public boolean getValueAsBoolean (boolean defaultValue)
+	public String getValue(String defaultValue)
 	{
 		return defaultValue;
 	}
 
-	public double getValueAsDouble () throws ConfigurationException
+	public boolean getValueAsBoolean() throws ConfigurationException
 	{
-		throw new ConfigurationException ("No value is associated with the null configuration");
+		throw new ConfigurationException("No value is associated with the null configuration");
 	}
 
-	public double getValueAsDouble (double defaultValue)
-	{
-		return defaultValue;
-	}
-
-	public float getValueAsFloat () throws ConfigurationException
-	{
-		throw new ConfigurationException ("No value is associated with the null configuration");
-	}
-
-	public float getValueAsFloat (float defaultValue)
+	public boolean getValueAsBoolean(boolean defaultValue)
 	{
 		return defaultValue;
 	}
 
-	public int getValueAsInteger () throws ConfigurationException
+	public double getValueAsDouble() throws ConfigurationException
 	{
-		throw new ConfigurationException ("No value is associated with the null configuration");
+		throw new ConfigurationException("No value is associated with the null configuration");
 	}
 
-	public int getValueAsInteger (int defaultValue)
+	public double getValueAsDouble(double defaultValue)
 	{
 		return defaultValue;
 	}
 
-	public long getValueAsLong () throws ConfigurationException
+	public float getValueAsFloat() throws ConfigurationException
 	{
-		throw new ConfigurationException ("No value is associated with the null configuration");
+		throw new ConfigurationException("No value is associated with the null configuration");
 	}
 
-	public long getValueAsLong (long defaultValue)
+	public float getValueAsFloat(float defaultValue)
+	{
+		return defaultValue;
+	}
+
+	public int getValueAsInteger() throws ConfigurationException
+	{
+		throw new ConfigurationException("No value is associated with the null configuration");
+	}
+
+	public int getValueAsInteger(int defaultValue)
+	{
+		return defaultValue;
+	}
+
+	public long getValueAsLong() throws ConfigurationException
+	{
+		throw new ConfigurationException("No value is associated with the null configuration");
+	}
+
+	public long getValueAsLong(long defaultValue)
 	{
 		return defaultValue;
 	}

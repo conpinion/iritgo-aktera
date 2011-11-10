@@ -47,75 +47,75 @@ import java.util.Iterator;
  */
 public class DefaultPersistentFactory extends AbstractPersistentFactory
 {
-	public DefaultPersistentFactory ()
+	public DefaultPersistentFactory()
 	{
-		super ();
+		super();
 	}
 
 	/**
 	 * Create a new persistent object with the specified name
 	 */
-	public Persistent create (String name) throws PersistenceException
+	public Persistent create(String name) throws PersistenceException
 	{
-		if (! isConfigured ())
+		if (! isConfigured())
 		{
-			throw new PersistenceException ("Factory not configured!");
+			throw new PersistenceException("Factory not configured!");
 		}
 
 		DefaultPersistent newPersistent = null;
 
-		if (name.indexOf (".") < 0)
+		if (name.indexOf(".") < 0)
 		{
-			throw new PersistenceException ("Name of Persistent must be of the form 'schema.name'" + ":'" + name + "'");
+			throw new PersistenceException("Name of Persistent must be of the form 'schema.name'" + ":'" + name + "'");
 		}
 
 		try
 		{
-			PersistentMetaData pmd = getMetaData (name);
+			PersistentMetaData pmd = getMetaData(name);
 
 			/**
 			 * If this persistent is not instantiated using a custom class...
 			 */
-			if (pmd.getClassName () == null)
+			if (pmd.getClassName() == null)
 			{
-				if (pmd.isRowSecurable ())
+				if (pmd.isRowSecurable())
 				{
-					newPersistent = new RowSecurablePersistent ();
+					newPersistent = new RowSecurablePersistent();
 				}
 				else
 				{
-					newPersistent = new DefaultPersistent ();
+					newPersistent = new DefaultPersistent();
 				}
 
 				/* We pass our persistent's the same log as the factory... */
-				newPersistent.setLogger (log);
+				newPersistent.setLogger(log);
 
 				/* And a reference back to their factory, so they can */
 				/* access getService, etc */
-				newPersistent.setFactory (this);
-				newPersistent.setMetaData (pmd);
-				newPersistent.setAuthorizationManager (pmd.getAuthManager ());
+				newPersistent.setFactory(this);
+				newPersistent.setMetaData(pmd);
+				newPersistent.setAuthorizationManager(pmd.getAuthManager());
 
 				/* If auth manager bypass is allowed at all for this persistent, */
 				/* hand it the default bypass manager */
-				if (pmd.isAuthManagerBypassAllowed ())
+				if (pmd.isAuthManagerBypassAllowed())
 				{
-					newPersistent.setBypassAuthorizationManager (getByPassAuthManager ());
+					newPersistent.setBypassAuthorizationManager(getByPassAuthManager());
 				}
 
 				return newPersistent;
 			}
 			else
 			{
-				Class c = Class.forName (pmd.getClassName ());
-				Object o = c.newInstance ();
+				Class c = Class.forName(pmd.getClassName());
+				Object o = c.newInstance();
 
 				/* If the class we instantiated extends Persistent... */
 				if (o instanceof Persistent)
 				{
-					Persistent p = (Persistent) c.newInstance ();
+					Persistent p = (Persistent) c.newInstance();
 
-					p.setMetaData (pmd);
+					p.setMetaData(pmd);
 
 					return p;
 				}
@@ -124,32 +124,32 @@ public class DefaultPersistentFactory extends AbstractPersistentFactory
 					/* If it does not, then "wrap" it in a persistent */
 					DefaultPersistent np = null;
 
-					if (pmd.isRowSecurable ())
+					if (pmd.isRowSecurable())
 					{
-						np = new RowSecurablePersistent ();
+						np = new RowSecurablePersistent();
 					}
 					else
 					{
-						np = new DefaultPersistent ();
+						np = new DefaultPersistent();
 					}
 
 					/* We pass our persistent's the same log as the factory... */
-					np.setLogger (log);
+					np.setLogger(log);
 
 					/* And a reference back to their factory, so they can */
 					/* access getService, etc */
-					np.setFactory (this);
-					np.setMetaData (pmd);
-					np.setAuthorizationManager (pmd.getAuthManager ());
+					np.setFactory(this);
+					np.setMetaData(pmd);
+					np.setAuthorizationManager(pmd.getAuthManager());
 
 					/* If auth manager bypass is allowed at all for this persistent, */
 					/* hand it the default bypass manager */
-					if (pmd.isAuthManagerBypassAllowed ())
+					if (pmd.isAuthManagerBypassAllowed())
 					{
-						np.setBypassAuthorizationManager (getByPassAuthManager ());
+						np.setBypassAuthorizationManager(getByPassAuthManager());
 					}
 
-					np.setBean (o);
+					np.setBean(o);
 
 					return np;
 				}
@@ -157,7 +157,7 @@ public class DefaultPersistentFactory extends AbstractPersistentFactory
 		}
 		catch (Exception ce)
 		{
-			throw new PersistenceException (ce);
+			throw new PersistenceException(ce);
 		}
 	}
 
@@ -165,18 +165,18 @@ public class DefaultPersistentFactory extends AbstractPersistentFactory
 	 * Begin a new transaction and pass the transaction back to the caller. Used when we want a number of database
 	 * operations to be processed in a single transaction.
 	 */
-	public Transaction begin () throws PersistenceException
+	public Transaction begin() throws PersistenceException
 	{
-		DefaultTransaction newTrx = new DefaultTransaction ();
+		DefaultTransaction newTrx = new DefaultTransaction();
 
-		newTrx.setDataSource (dataSource);
-		newTrx.setSupportsTransactions (databaseType.supportsTransactions ());
-		newTrx.begin ();
+		newTrx.setDataSource(dataSource);
+		newTrx.setSupportsTransactions(databaseType.supportsTransactions());
+		newTrx.begin();
 
 		return newTrx;
 	}
 
-	public void createTables (String schema) throws PersistenceException
+	public void createTables(String schema) throws PersistenceException
 	{
 		boolean securityBypass = false;
 
@@ -186,7 +186,7 @@ public class DefaultPersistentFactory extends AbstractPersistentFactory
 		{
 			try
 			{
-				ue = (UserEnvironment) keelContext.get (UserEnvironment.CONTEXT_KEY);
+				ue = (UserEnvironment) keelContext.get(UserEnvironment.CONTEXT_KEY);
 			}
 			catch (ContextException e)
 			{
@@ -201,62 +201,62 @@ public class DefaultPersistentFactory extends AbstractPersistentFactory
 			/* if we have no context, we will be unable */
 			/* to insert the default data when */
 			/* creating tables */
-			TempUserEnvironment te = new TempUserEnvironment ();
+			TempUserEnvironment te = new TempUserEnvironment();
 
-			te.setUid (0);
-			te.setLoginName ("root");
+			te.setUid(0);
+			te.setLoginName("root");
 
-			ArrayList gl = new ArrayList ();
+			ArrayList gl = new ArrayList();
 
-			gl.add ("root");
-			te.setGroups (gl);
+			gl.add("root");
+			te.setGroups(gl);
 
-			DefaultContext dc = new DefaultContext ();
+			DefaultContext dc = new DefaultContext();
 
-			dc.put (UserEnvironment.CONTEXT_KEY, te);
+			dc.put(UserEnvironment.CONTEXT_KEY, te);
 			keelContext = dc;
 		}
 
 		try
 		{
 			/* Get the appropriate schema object */
-			Configuration oneSchema = (Configuration) schemas.get (schema);
+			Configuration oneSchema = (Configuration) schemas.get(schema);
 
 			if (oneSchema == null)
 			{
-				throw new PersistenceException ("No such schema '" + schema + "' defined in Persistent Factory '"
-								+ getName () + "'");
+				throw new PersistenceException("No such schema '" + schema + "' defined in Persistent Factory '"
+								+ getName() + "'");
 			}
 
-			Configuration[] eachPersistent = oneSchema.getChildren ();
+			Configuration[] eachPersistent = oneSchema.getChildren();
 
 			for (int i = 0; i < eachPersistent.length; i++)
 			{
 				Configuration onePersistent = eachPersistent[i];
-				String persistentName = onePersistent.getAttribute ("name");
-				PersistentMetaData pmd = getMetaData (schema + "." + persistentName);
+				String persistentName = onePersistent.getAttribute("name");
+				PersistentMetaData pmd = getMetaData(schema + "." + persistentName);
 
-				databaseType.createTable (pmd, dataSource);
+				databaseType.createTable(pmd, dataSource);
 
 				/* Now look for default data */
-				Configuration[] children = eachPersistent[i].getChildren ();
+				Configuration[] children = eachPersistent[i].getChildren();
 				Configuration oneChild = null;
 
 				for (int j = 0; j < children.length; j++)
 				{
 					oneChild = children[j];
 
-					if (oneChild.getName ().equals ("default-data"))
+					if (oneChild.getName().equals("default-data"))
 					{
 						/* Create the default data for each record */
-						createRecords (oneChild, schema + "." + persistentName, pmd);
+						createRecords(oneChild, schema + "." + persistentName, pmd);
 					}
 				}
 			}
 		}
 		catch (Exception ce)
 		{
-			throw new PersistenceException (ce);
+			throw new PersistenceException(ce);
 		}
 		finally
 		{
@@ -267,93 +267,93 @@ public class DefaultPersistentFactory extends AbstractPersistentFactory
 		}
 	}
 
-	public void createTables () throws PersistenceException
+	public void createTables() throws PersistenceException
 	{
-		for (Iterator i = schemas.keySet ().iterator (); i.hasNext ();)
+		for (Iterator i = schemas.keySet().iterator(); i.hasNext();)
 		{
-			String oneSchema = (String) i.next ();
+			String oneSchema = (String) i.next();
 
-			createTables (oneSchema);
+			createTables(oneSchema);
 		}
 	}
 
-	public void createIndices () throws PersistenceException
+	public void createIndices() throws PersistenceException
 	{
-		for (Iterator i = schemas.keySet ().iterator (); i.hasNext ();)
+		for (Iterator i = schemas.keySet().iterator(); i.hasNext();)
 		{
-			String oneSchema = (String) i.next ();
+			String oneSchema = (String) i.next();
 
-			createIndices (oneSchema);
+			createIndices(oneSchema);
 		}
 	}
 
-	public void createIndices (String schema) throws PersistenceException
+	public void createIndices(String schema) throws PersistenceException
 	{
 		try
 		{
 			/* Get the appropriate schema object */
-			Configuration oneSchema = (Configuration) schemas.get (schema);
+			Configuration oneSchema = (Configuration) schemas.get(schema);
 
 			if (oneSchema == null)
 			{
-				throw new PersistenceException ("No such schema '" + schema + "' defined in Persistent Factory '"
-								+ getName () + "'");
+				throw new PersistenceException("No such schema '" + schema + "' defined in Persistent Factory '"
+								+ getName() + "'");
 			}
 
-			Configuration[] eachPersistent = oneSchema.getChildren ();
+			Configuration[] eachPersistent = oneSchema.getChildren();
 
 			for (int i = 0; i < eachPersistent.length; i++)
 			{
 				Configuration onePersistent = eachPersistent[i];
-				String persistentName = onePersistent.getAttribute ("name");
-				PersistentMetaData pmd = getMetaData (schema + "." + persistentName);
+				String persistentName = onePersistent.getAttribute("name");
+				PersistentMetaData pmd = getMetaData(schema + "." + persistentName);
 
-				databaseType.createIndices (pmd, dataSource);
+				databaseType.createIndices(pmd, dataSource);
 			}
 		}
 		catch (Exception ce)
 		{
-			throw new PersistenceException (ce);
+			throw new PersistenceException(ce);
 		}
 	}
 
-	public void dropIndices () throws PersistenceException
+	public void dropIndices() throws PersistenceException
 	{
-		for (Iterator i = schemas.keySet ().iterator (); i.hasNext ();)
+		for (Iterator i = schemas.keySet().iterator(); i.hasNext();)
 		{
-			String oneSchema = (String) i.next ();
+			String oneSchema = (String) i.next();
 
-			dropIndices (oneSchema);
+			dropIndices(oneSchema);
 		}
 	}
 
-	public void dropIndices (String schema) throws PersistenceException
+	public void dropIndices(String schema) throws PersistenceException
 	{
 		try
 		{
 			/* Get the appropriate schema object */
-			Configuration oneSchema = (Configuration) schemas.get (schema);
+			Configuration oneSchema = (Configuration) schemas.get(schema);
 
 			if (oneSchema == null)
 			{
-				throw new PersistenceException ("No such schema '" + schema + "' defined in Persistent Factory '"
-								+ getName () + "'");
+				throw new PersistenceException("No such schema '" + schema + "' defined in Persistent Factory '"
+								+ getName() + "'");
 			}
 
-			Configuration[] eachPersistent = oneSchema.getChildren ();
+			Configuration[] eachPersistent = oneSchema.getChildren();
 
 			for (int i = 0; i < eachPersistent.length; i++)
 			{
 				Configuration onePersistent = eachPersistent[i];
-				String persistentName = onePersistent.getAttribute ("name");
-				PersistentMetaData pmd = getMetaData (schema + "." + persistentName);
+				String persistentName = onePersistent.getAttribute("name");
+				PersistentMetaData pmd = getMetaData(schema + "." + persistentName);
 
-				databaseType.dropIndices (pmd, dataSource);
+				databaseType.dropIndices(pmd, dataSource);
 			}
 		}
 		catch (Exception ce)
 		{
-			throw new PersistenceException (ce);
+			throw new PersistenceException(ce);
 		}
 	}
 }

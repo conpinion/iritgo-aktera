@@ -32,16 +32,16 @@ public class GetToolPanel extends Command
 	/**
 	 * Create a new startup command.
 	 */
-	public GetToolPanel ()
+	public GetToolPanel()
 	{
-		super ("GetToolPanel");
+		super("GetToolPanel");
 	}
 
 	/**
 	 * perform command.
 	 */
-	public Object performWithResult ()
+	public Object performWithResult()
 	{
-		return ((AkteraAktarioGUI) Client.instance ().getClientGUI ()).getToolPanel ();
+		return ((AkteraAktarioGUI) Client.instance().getClientGUI()).getToolPanel();
 	}
 }

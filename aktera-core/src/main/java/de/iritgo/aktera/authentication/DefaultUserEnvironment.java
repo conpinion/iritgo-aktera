@@ -42,31 +42,31 @@ import java.util.Set;
 public class DefaultUserEnvironment implements UserEnvironment, Serializable
 {
 	/** The JAAS Subject of the currently logged-in user */
-	private static Subject anon = createAnonymousUser ();
+	private static Subject anon = createAnonymousUser();
 
 	private Subject subject = anon;
 
 	private transient LoginContext lc = null;
 
-	private Map attributes = new HashMap ();
+	private Map attributes = new HashMap();
 
 	/**
 	 *
 	 * @see de.iritgo.aktera.authentication.UserEnvironment#getUid()
 	 */
-	public int getUid () throws AuthorizationException
+	public int getUid() throws AuthorizationException
 	{
-		Principal p = getOnePrincipal (UidPrincipal.class);
+		Principal p = getOnePrincipal(UidPrincipal.class);
 
 		int uid;
 
 		try
 		{
-			uid = Integer.valueOf (p.getName ()).intValue ();
+			uid = Integer.valueOf(p.getName()).intValue();
 		}
 		catch (NumberFormatException e)
 		{
-			throw new AuthorizationException ("Uid=" + p.getName () + " cannot be converted to an int");
+			throw new AuthorizationException("Uid=" + p.getName() + " cannot be converted to an int");
 		}
 
 		return uid;
@@ -76,16 +76,16 @@ public class DefaultUserEnvironment implements UserEnvironment, Serializable
 	 *
 	 * @return
 	 */
-	private static Subject createAnonymousUser ()
+	private static Subject createAnonymousUser()
 	{
-		Subject tmp = new Subject ();
-		Set s = tmp.getPrincipals ();
+		Subject tmp = new Subject();
+		Set s = tmp.getPrincipals();
 
-		s.add (new LoginPrincipal (ANONYMOUS_LOGINNAME));
-		s.add (new GroupPrincipal (ANONYMOUS_GROUPNAME));
-		s.add (new DomainPrincipal (ANONYMOUS_DOMAIN));
-		s.add (new UidPrincipal (Integer.toString (ANONYMOUS_UID)));
-		s.add (new UserDescripPrincipal (ANONYMOUS_USERDESC));
+		s.add(new LoginPrincipal(ANONYMOUS_LOGINNAME));
+		s.add(new GroupPrincipal(ANONYMOUS_GROUPNAME));
+		s.add(new DomainPrincipal(ANONYMOUS_DOMAIN));
+		s.add(new UidPrincipal(Integer.toString(ANONYMOUS_UID)));
+		s.add(new UserDescripPrincipal(ANONYMOUS_USERDESC));
 
 		return tmp;
 	}
@@ -96,10 +96,10 @@ public class DefaultUserEnvironment implements UserEnvironment, Serializable
 	 * @return
 	 * @throws AuthorizationException
 	 */
-	private Principal getOnePrincipal (Class clazz) throws AuthorizationException
+	private Principal getOnePrincipal(Class clazz) throws AuthorizationException
 	{
-		Iterator principals = getPrincipals (clazz);
-		Principal one = (Principal) principals.next ();
+		Iterator principals = getPrincipals(clazz);
+		Principal one = (Principal) principals.next();
 
 		return one;
 	}
@@ -110,30 +110,30 @@ public class DefaultUserEnvironment implements UserEnvironment, Serializable
 	 * @return
 	 * @throws AuthorizationException
 	 */
-	private Iterator getPrincipals (Class clazz) throws AuthorizationException
+	private Iterator getPrincipals(Class clazz) throws AuthorizationException
 	{
 		if (subject == null)
 		{
-			throw new AuthorizationException ("Cannot get principals, subject is null");
+			throw new AuthorizationException("Cannot get principals, subject is null");
 		}
 
-		Set p = subject.getPrincipals (clazz);
+		Set p = subject.getPrincipals(clazz);
 
-		if (p.isEmpty ())
+		if (p.isEmpty())
 		{
-			throw new AuthorizationException ("No principals of type " + clazz.getName ());
+			throw new AuthorizationException("No principals of type " + clazz.getName());
 		}
 
-		return p.iterator ();
+		return p.iterator();
 	}
 
 	/**
 	 *
 	 * @see de.iritgo.aktera.authentication.UserEnvironment#getDomain()
 	 */
-	public String getDomain () throws AuthorizationException
+	public String getDomain() throws AuthorizationException
 	{
-		return getOnePrincipal (DomainPrincipal.class).getName ();
+		return getOnePrincipal(DomainPrincipal.class).getName();
 	}
 
 	/**
@@ -141,7 +141,7 @@ public class DefaultUserEnvironment implements UserEnvironment, Serializable
 	 *
 	 * @return DOCUMENT ME!
 	 */
-	public Subject getSubject () throws AuthorizationException
+	public Subject getSubject() throws AuthorizationException
 	{
 		return this.subject;
 	}
@@ -151,33 +151,33 @@ public class DefaultUserEnvironment implements UserEnvironment, Serializable
 	 *
 	 * @return String
 	 */
-	public String getLoginName () throws AuthorizationException
+	public String getLoginName() throws AuthorizationException
 	{
-		return getOnePrincipal (LoginPrincipal.class).getName ();
+		return getOnePrincipal(LoginPrincipal.class).getName();
 	}
 
 	/**
 	 *
 	 * @see de.iritgo.aktera.authentication.UserEnvironment#getUserDescrip()
 	 */
-	public String getUserDescrip () throws AuthorizationException
+	public String getUserDescrip() throws AuthorizationException
 	{
-		return getOnePrincipal (UserDescripPrincipal.class).getName ();
+		return getOnePrincipal(UserDescripPrincipal.class).getName();
 	}
 
 	/**
 	 *
 	 * @see de.iritgo.aktera.authentication.UserEnvironment#getGroups()
 	 */
-	public List<String> getGroups ()
+	public List<String> getGroups()
 	{
-		List<String> groups = new ArrayList ();
+		List<String> groups = new ArrayList();
 
 		if (subject != null)
 		{
-			for (Iterator principals = subject.getPrincipals (GroupPrincipal.class).iterator (); principals.hasNext ();)
+			for (Iterator principals = subject.getPrincipals(GroupPrincipal.class).iterator(); principals.hasNext();)
 			{
-				groups.add (((GroupPrincipal) principals.next ()).getName ());
+				groups.add(((GroupPrincipal) principals.next()).getName());
 			}
 		}
 
@@ -187,7 +187,7 @@ public class DefaultUserEnvironment implements UserEnvironment, Serializable
 	/**
 	 * @see de.iritgo.aktera.authentication.UserEnvironment#reset()
 	 */
-	public void reset () throws AuthorizationException
+	public void reset() throws AuthorizationException
 	{
 		subject = anon;
 	}
@@ -195,58 +195,58 @@ public class DefaultUserEnvironment implements UserEnvironment, Serializable
 	/**
 	 * @see de.iritgo.aktera.authentication.UserEnvironment#setLoginContext(javax.security.auth.login.LoginContext)
 	 */
-	public void setLoginContext (LoginContext lc) throws AuthorizationException
+	public void setLoginContext(LoginContext lc) throws AuthorizationException
 	{
 		this.lc = lc;
-		subject = lc.getSubject ();
+		subject = lc.getSubject();
 	}
 
 	/**
 	 * @see de.iritgo.aktera.authentication.UserEnvironment#getLoginContext()
 	 */
-	public LoginContext getLoginContext () throws AuthorizationException
+	public LoginContext getLoginContext() throws AuthorizationException
 	{
 		return lc;
 	}
 
-	public String toString ()
+	public String toString()
 	{
 		try
 		{
-			return "UserEnvironment [uid=" + getUid () + ", LoginName=" + getLoginName () + ", UserDescrip="
-							+ getUserDescrip () + "]";
+			return "UserEnvironment [uid=" + getUid() + ", LoginName=" + getLoginName() + ", UserDescrip="
+							+ getUserDescrip() + "]";
 		}
 		catch (Exception e)
 		{
-			return e.getMessage ();
+			return e.getMessage();
 		}
 	}
 
-	public void setAttribute (String attributeName, Object attributeContents)
+	public void setAttribute(String attributeName, Object attributeContents)
 	{
 		if (attributeName != null)
 		{
-			attributes.put (attributeName, attributeContents);
+			attributes.put(attributeName, attributeContents);
 		}
 	}
 
-	public Object getAttribute (String attributeName)
+	public Object getAttribute(String attributeName)
 	{
-		return attributes.get (attributeName);
+		return attributes.get(attributeName);
 	}
 
-	public Map<String, Object> getAttributes ()
+	public Map<String, Object> getAttributes()
 	{
 		return attributes;
 	}
 
-	public void removeAttribute (String attributeName)
+	public void removeAttribute(String attributeName)
 	{
-		attributes.remove (attributeName);
+		attributes.remove(attributeName);
 	}
 
-	public void clearAttributes ()
+	public void clearAttributes()
 	{
-		attributes.clear ();
+		attributes.clear();
 	}
 }

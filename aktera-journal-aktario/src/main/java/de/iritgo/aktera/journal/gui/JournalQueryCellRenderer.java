@@ -68,26 +68,26 @@ public class JournalQueryCellRenderer implements ExtensionTile
 	/**
 	 * @param tileId
 	 */
-	public JournalQueryCellRenderer (String tileId)
+	public JournalQueryCellRenderer(String tileId)
 	{
 		this.tileId = tileId;
-		this.manager = (JournalClientManager) Engine.instance ().getManagerRegistry ().getManager (
+		this.manager = (JournalClientManager) Engine.instance().getManagerRegistry().getManager(
 						"de.iritgo.aktera.journal.JournalClientManager");
-		resources = Engine.instance ().getResourceService ();
+		resources = Engine.instance().getResourceService();
 	}
 
 	/**
 	 * @see de.iritgo.aktario.framework.dataobject.gui.ExtensionTile#command(de.iritgo.aktario.core.gui.GUIPane,
 	 *      de.iritgo.aktario.core.iobject.IObject, java.util.Properties)
 	 */
-	public void command (GUIPane guiPane, IObject iObject, Properties properties)
+	public void command(GUIPane guiPane, IObject iObject, Properties properties)
 	{
 	}
 
 	/**
 	 * @see de.iritgo.aktario.framework.dataobject.gui.ExtensionTile#getConstraints()
 	 */
-	public Object getConstraints ()
+	public Object getConstraints()
 	{
 		return null;
 	}
@@ -95,7 +95,7 @@ public class JournalQueryCellRenderer implements ExtensionTile
 	/**
 	 * @see de.iritgo.aktario.framework.dataobject.gui.ExtensionTile#getLabel()
 	 */
-	public String getLabel ()
+	public String getLabel()
 	{
 		return null;
 	}
@@ -105,44 +105,44 @@ public class JournalQueryCellRenderer implements ExtensionTile
 	 *      de.iritgo.aktario.core.iobject.IObject, java.util.Properties)
 	 */
 	@SuppressWarnings("serial")
-	public JComponent getTile (GUIPane guiPane, final IObject iObject, Properties properties)
+	public JComponent getTile(GUIPane guiPane, final IObject iObject, Properties properties)
 	{
-		return new DefaultTableCellRenderer ()
+		return new DefaultTableCellRenderer()
 		{
-			public Component getTableCellRendererComponent (JTable table, Object value, boolean isSelected,
+			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
 							boolean hasFocus, int row, int column)
 			{
-				if (PRIMRARY_TYPE_ID.equals (tileId))
+				if (PRIMRARY_TYPE_ID.equals(tileId))
 				{
-					ImageIcon icon = manager.getJournalPrimaryTypeIcon (value.toString ());
+					ImageIcon icon = manager.getJournalPrimaryTypeIcon(value.toString());
 
-					setIcon (icon);
-					setVerticalAlignment (JLabel.TOP);
-					table.getColumnModel ().getColumn (column).setMinWidth (icon.getIconWidth ());
-					table.getColumnModel ().getColumn (column).setMaxWidth (icon.getIconWidth () + 4);
+					setIcon(icon);
+					setVerticalAlignment(JLabel.TOP);
+					table.getColumnModel().getColumn(column).setMinWidth(icon.getIconWidth());
+					table.getColumnModel().getColumn(column).setMaxWidth(icon.getIconWidth() + 4);
 
 					return this;
 				}
-				else if (SECONDARY_TYPE_ID.equals (tileId))
+				else if (SECONDARY_TYPE_ID.equals(tileId))
 				{
-					ImageIcon icon = manager.getJournalSecondaryTypeIcon (value.toString ());
+					ImageIcon icon = manager.getJournalSecondaryTypeIcon(value.toString());
 
-					setIcon (icon);
-					setVerticalAlignment (JLabel.TOP);
-					table.getColumnModel ().getColumn (column).setMinWidth (icon.getIconWidth ());
-					table.getColumnModel ().getColumn (column).setMaxWidth (icon.getIconWidth () + 4);
+					setIcon(icon);
+					setVerticalAlignment(JLabel.TOP);
+					table.getColumnModel().getColumn(column).setMinWidth(icon.getIconWidth());
+					table.getColumnModel().getColumn(column).setMaxWidth(icon.getIconWidth() + 4);
 
 					return this;
 				}
-				else if ("journal_id".equals (tileId))
+				else if ("journal_id".equals(tileId))
 				{
 					DynDataObject rowData = ((DynDataObject) value);
 
-					setText ("<html><b>" + rowData.getStringAttribute ("journal_rawData") + "</b><br/><font size=-2>"
-									+ resources.getStringWithParams (rowData.getStringAttribute (MESSAGE_ID))
-									+ "</font><br/><font size=-1>" + rowData.getStringAttribute (OCCURREDAT_ID)
+					setText("<html><b>" + rowData.getStringAttribute("journal_rawData") + "</b><br/><font size=-2>"
+									+ resources.getStringWithParams(rowData.getStringAttribute(MESSAGE_ID))
+									+ "</font><br/><font size=-1>" + rowData.getStringAttribute(OCCURREDAT_ID)
 									+ "</font>");
-					setVerticalAlignment (JLabel.TOP);
+					setVerticalAlignment(JLabel.TOP);
 
 					return this;
 				}
@@ -155,7 +155,7 @@ public class JournalQueryCellRenderer implements ExtensionTile
 	/**
 	 * @see de.iritgo.aktario.framework.dataobject.gui.ExtensionTile#getTileId()
 	 */
-	public String getTileId ()
+	public String getTileId()
 	{
 		return tileId;
 	}
@@ -163,7 +163,7 @@ public class JournalQueryCellRenderer implements ExtensionTile
 	/**
 	 * @see de.iritgo.aktario.framework.dataobject.gui.ExtensionTile#isDoubleClickCommand()
 	 */
-	public boolean isDoubleClickCommand ()
+	public boolean isDoubleClickCommand()
 	{
 		return false;
 	}

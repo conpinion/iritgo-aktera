@@ -33,19 +33,19 @@ public class AkteraAktarioKeelServerCommand extends Command
 	/**
 	 * Create a new startup command.
 	 */
-	public AkteraAktarioKeelServerCommand ()
+	public AkteraAktarioKeelServerCommand()
 	{
-		super ("AkteraAktarioKeelServerCommand");
+		super("AkteraAktarioKeelServerCommand");
 	}
 
 	/**
 	 * perform
 	 */
-	public void perform ()
+	public void perform()
 	{
-		ConnectorServerManager connectorServerManager = (ConnectorServerManager) Engine.instance ()
-						.getManagerRegistry ().getManager ("ConnectorServerManager");
+		ConnectorServerManager connectorServerManager = (ConnectorServerManager) Engine.instance().getManagerRegistry()
+						.getManager("ConnectorServerManager");
 
-		connectorServerManager.executeModel (properties, ((Long) properties.get ("userUniqueId")).longValue ());
+		connectorServerManager.executeModel(properties, ((Long) properties.get("userUniqueId")).longValue());
 	}
 }

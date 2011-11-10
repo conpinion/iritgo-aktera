@@ -51,17 +51,17 @@ public class EditAkteraObjectResponse extends FrameworkAction
 	/**
 	 *
 	 */
-	public EditAkteraObjectResponse ()
+	public EditAkteraObjectResponse()
 	{
-		setTypeId ("EditAkteraObjectResponse");
+		setTypeId("EditAkteraObjectResponse");
 	}
 
 	/**
 	 *
 	 */
-	public EditAkteraObjectResponse (String model, String keelObjectUniqueId, String jFrameId, String queryPaneId)
+	public EditAkteraObjectResponse(String model, String keelObjectUniqueId, String jFrameId, String queryPaneId)
 	{
-		this ();
+		this();
 		this.keelObjectUniqueId = keelObjectUniqueId;
 		this.model = model;
 		this.jFrameId = jFrameId;
@@ -73,12 +73,12 @@ public class EditAkteraObjectResponse extends FrameworkAction
 	 *
 	 * @param stream The stream to read from.
 	 */
-	public void readObject (FrameworkInputStream stream) throws IOException
+	public void readObject(FrameworkInputStream stream) throws IOException
 	{
-		model = stream.readUTF ();
-		keelObjectUniqueId = stream.readUTF ();
-		jFrameId = stream.readUTF ();
-		queryPaneId = stream.readUTF ();
+		model = stream.readUTF();
+		keelObjectUniqueId = stream.readUTF();
+		jFrameId = stream.readUTF();
+		queryPaneId = stream.readUTF();
 	}
 
 	/**
@@ -86,35 +86,34 @@ public class EditAkteraObjectResponse extends FrameworkAction
 	 *
 	 * @param stream The stream to write to.
 	 */
-	public void writeObject (FrameworkOutputStream stream) throws IOException
+	public void writeObject(FrameworkOutputStream stream) throws IOException
 	{
-		stream.writeUTF (model);
-		stream.writeUTF (keelObjectUniqueId);
-		stream.writeUTF (jFrameId);
-		stream.writeUTF (queryPaneId);
+		stream.writeUTF(model);
+		stream.writeUTF(keelObjectUniqueId);
+		stream.writeUTF(jFrameId);
+		stream.writeUTF(queryPaneId);
 	}
 
 	/**
 	 * Perform the action.
 	 */
-	public void perform ()
+	public void perform()
 	{
-		CommandTools.performAsync (new Command ()
+		CommandTools.performAsync(new Command()
 		{
-			public void perform ()
+			public void perform()
 			{
-				DynDataObject dataObject = (DynDataObject) DataObjectTools.createDynDataObject (model, new Long (
-								keelObjectUniqueId).longValue ());
+				DynDataObject dataObject = (DynDataObject) DataObjectTools.createDynDataObject(model, new Long(
+								keelObjectUniqueId).longValue());
 
-				IDisplay display = (IDisplay) Client.instance ().getClientGUI ().getDesktopManager ().getDisplay (
-								jFrameId);
+				IDisplay display = (IDisplay) Client.instance().getClientGUI().getDesktopManager().getDisplay(jFrameId);
 
-				((IWindow) display).registerIObject ((IObject) dataObject, display.getGUIPane ());
-				((IWindow) display).initGUIPane ();
-				AppContext.instance ().put ("LoadingAkteraObject", false);
+				((IWindow) display).registerIObject((IObject) dataObject, display.getGUIPane());
+				((IWindow) display).initGUIPane();
+				AppContext.instance().put("LoadingAkteraObject", false);
 			}
 
-			public boolean canPerform ()
+			public boolean canPerform()
 			{
 				return true;
 			}

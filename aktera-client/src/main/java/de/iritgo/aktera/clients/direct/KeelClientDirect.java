@@ -55,7 +55,7 @@ public class KeelClientDirect implements KeelClient
 	 * @return The Keel starter.
 	 * @throws ModelException
 	 */
-	public KeelStarter getStarter () throws ModelException
+	public KeelStarter getStarter() throws ModelException
 	{
 		try
 		{
@@ -65,8 +65,8 @@ public class KeelClientDirect implements KeelClient
 				{
 					if (starter == null)
 					{
-						starter = new KeelStarter ();
-						Thread.currentThread ().setName ("KeelClientDirect");
+						starter = new KeelStarter();
+						Thread.currentThread().setName("KeelClientDirect");
 					}
 				}
 			}
@@ -75,32 +75,32 @@ public class KeelClientDirect implements KeelClient
 		}
 		catch (Exception x)
 		{
-			throw new ModelException ("Exception loading starter (" + x + ")");
+			throw new ModelException("Exception loading starter (" + x + ")");
 		}
 	}
 
 	/**
 	 * @see de.iritgo.aktera.clients.KeelClient#execute(de.iritgo.aktera.model.KeelRequest)
 	 */
-	public KeelResponse execute (KeelRequest request) throws ModelException, IOException
+	public KeelResponse execute(KeelRequest request) throws ModelException, IOException
 	{
 		try
 		{
-			KeelStarter starter = getStarter ();
+			KeelStarter starter = getStarter();
 
-			return starter.execute (request);
+			return starter.execute(request);
 		}
 		catch (Exception x)
 		{
-			x.printStackTrace (System.err);
-			throw new ModelException (x);
+			x.printStackTrace(System.err);
+			throw new ModelException(x);
 		}
 	}
 
 	/**
 	 * @see de.iritgo.aktera.clients.KeelClient#setId(int)
 	 */
-	public void setId (int id)
+	public void setId(int id)
 	{
 		this.id = id;
 	}
@@ -108,7 +108,7 @@ public class KeelClientDirect implements KeelClient
 	/**
 	 * @see de.iritgo.aktera.clients.KeelClient#getId()
 	 */
-	public int getId ()
+	public int getId()
 	{
 		return id;
 	}
@@ -116,16 +116,16 @@ public class KeelClientDirect implements KeelClient
 	/**
 	 * @see de.iritgo.aktera.clients.KeelClient#start()
 	 */
-	public void start () throws ModelException, Exception
+	public void start() throws ModelException, Exception
 	{
-		getStarter ().start ();
+		getStarter().start();
 	}
 
 	/**
 	 * @see de.iritgo.aktera.clients.KeelClient#stop()
 	 */
-	public void stop () throws ModelException, Exception
+	public void stop() throws ModelException, Exception
 	{
-		getStarter ().stop ();
+		getStarter().stop();
 	}
 }

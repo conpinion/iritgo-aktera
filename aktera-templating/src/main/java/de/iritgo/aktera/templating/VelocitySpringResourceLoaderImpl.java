@@ -32,49 +32,49 @@ import org.apache.velocity.runtime.resource.loader.ResourceLoader;
 
 public class VelocitySpringResourceLoaderImpl extends ResourceLoader implements VelocitySpringResourceLoader
 {
-	private ConcurrentHashMap<String, String> templates = new ConcurrentHashMap<String, String> ();
+	private ConcurrentHashMap<String, String> templates = new ConcurrentHashMap<String, String>();
 
-	public void addTemplate (String name, String template)
+	public void addTemplate(String name, String template)
 	{
-		templates.put (name, template);
+		templates.put(name, template);
 	}
 
-	public void remoteTemplate (String name)
+	public void remoteTemplate(String name)
 	{
-		templates.remove (name);
+		templates.remove(name);
 	}
 
 	@Override
-	public long getLastModified (Resource resource)
+	public long getLastModified(Resource resource)
 	{
 		return 0;
 	}
 
 	@Override
-	public InputStream getResourceStream (String name) throws ResourceNotFoundException
+	public InputStream getResourceStream(String name) throws ResourceNotFoundException
 	{
 		try
 		{
-			String template = templates.get (name);
+			String template = templates.get(name);
 			if (template == null)
-				throw new ResourceNotFoundException ("Resource " + name + " not found.");
+				throw new ResourceNotFoundException("Resource " + name + " not found.");
 
-			return new ByteArrayInputStream (template.getBytes ("UTF-8"));
+			return new ByteArrayInputStream(template.getBytes("UTF-8"));
 		}
 		catch (UnsupportedEncodingException x)
 		{
-			throw new ResourceNotFoundException ("Resource " + name
+			throw new ResourceNotFoundException("Resource " + name
 							+ " has unsupported encoding. We support only utf-8.");
 		}
 	}
 
 	@Override
-	public void init (ExtendedProperties props)
+	public void init(ExtendedProperties props)
 	{
 	}
 
 	@Override
-	public boolean isSourceModified (Resource resource)
+	public boolean isSourceModified(Resource resource)
 	{
 		return false;
 	}

@@ -60,30 +60,30 @@ public class JournalManagerImpl implements JournalManager, StartupHandler
 	private EventManager eventManager;
 
 	/** Set the journal dao */
-	public void setJournalDAO (JournalDAO journalDAO)
+	public void setJournalDAO(JournalDAO journalDAO)
 	{
 		this.journalDAO = journalDAO;
 	}
 
 	/** Set the event manager */
-	public void setEventManager (EventManager eventManager)
+	public void setEventManager(EventManager eventManager)
 	{
 		this.eventManager = eventManager;
 	}
 
 	/** Set a list with journal extenders */
-	public void setJournalExtenders (Map<String, JournalExtender> journalExtenders)
+	public void setJournalExtenders(Map<String, JournalExtender> journalExtenders)
 	{
 		this.journalExtenders = journalExtenders;
 	}
 
 	/** Set journal executers */
-	public void setJournalExecuters (List<JournalExecute> journalExecuters)
+	public void setJournalExecuters(List<JournalExecute> journalExecuters)
 	{
 		this.journalExecuters = journalExecuters;
 	}
 
-	public void setLogger (Logger logger)
+	public void setLogger(Logger logger)
 	{
 		this.logger = logger;
 	}
@@ -91,99 +91,99 @@ public class JournalManagerImpl implements JournalManager, StartupHandler
 	/**
 	 * @see de.iritgo.aktera.startup.StartupHandler#startup()
 	 */
-	public void startup () throws StartupException
+	public void startup() throws StartupException
 	{
 	}
 
 	/**
 	 * @see de.iritgo.aktera.journal.JournalManager#addJournalEntry(de.iritgo.aktera.journal.entity.JournalEntry)
 	 */
-	public void addJournalEntry (JournalEntry journalEntry)
+	public void addJournalEntry(JournalEntry journalEntry)
 	{
-		if (journalEntry.getExtendedInfoType () != null)
+		if (journalEntry.getExtendedInfoType() != null)
 		{
-			JournalExtender je = journalExtenders.get (journalEntry.getExtendedInfoType ());
+			JournalExtender je = journalExtenders.get(journalEntry.getExtendedInfoType());
 
 			if (je != null)
 			{
-				je.newJournalEntry (journalEntry);
+				je.newJournalEntry(journalEntry);
 			}
 		}
 
-		journalDAO.create (journalEntry);
+		journalDAO.create(journalEntry);
 
-		Properties eventProps = new Properties ();
+		Properties eventProps = new Properties();
 
-		eventProps.put ("journalEntry", journalEntry);
-		eventManager.fire ("iritgo.aktera.journal.new-entry", eventProps);
+		eventProps.put("journalEntry", journalEntry);
+		eventManager.fire("iritgo.aktera.journal.new-entry", eventProps);
 
-		refreshAktarioJournalList (journalEntry);
+		refreshAktarioJournalList(journalEntry);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.journal.JournalManager#deleteJournalEntry(de.iritgo.aktera.journal.entity.JournalEntry)
 	 */
-	public void deleteJournalEntry (JournalEntry journalEntry)
+	public void deleteJournalEntry(JournalEntry journalEntry)
 	{
 		if (journalEntry == null)
 		{
-			logger.error ("Can't delete journal entry. The journal entry object is null.");
-			Thread.dumpStack ();
+			logger.error("Can't delete journal entry. The journal entry object is null.");
+			Thread.dumpStack();
 
 			return;
 		}
 
-		if (journalEntry.getExtendedInfoType () != null)
+		if (journalEntry.getExtendedInfoType() != null)
 		{
-			JournalExtender je = journalExtenders.get (journalEntry.getExtendedInfoType ());
+			JournalExtender je = journalExtenders.get(journalEntry.getExtendedInfoType());
 
 			if (je != null)
 			{
-				je.deletedJournalEntry (journalEntry);
+				je.deletedJournalEntry(journalEntry);
 			}
 		}
 
-		journalDAO.delete (journalEntry);
+		journalDAO.delete(journalEntry);
 
-		Properties eventProps = new Properties ();
+		Properties eventProps = new Properties();
 
-		eventProps.put ("journalEntry", journalEntry);
-		eventManager.fire ("iritgo.aktera.journal.removed-entry", eventProps);
+		eventProps.put("journalEntry", journalEntry);
+		eventManager.fire("iritgo.aktera.journal.removed-entry", eventProps);
 
-		refreshAktarioJournalList (journalEntry);
+		refreshAktarioJournalList(journalEntry);
 	}
 
-	private void refreshAktarioJournalList (JournalEntry journalEntry)
+	private void refreshAktarioJournalList(JournalEntry journalEntry)
 	{
 		//Aktera-Aktario
-		UserDAO userDAO = (UserDAO) SpringTools.getBean (UserDAO.ID);
-		de.iritgo.aktera.authentication.defaultauth.entity.AkteraUser userAktera = userDAO.findUserById (journalEntry
-						.getOwnerId ());
+		UserDAO userDAO = (UserDAO) SpringTools.getBean(UserDAO.ID);
+		de.iritgo.aktera.authentication.defaultauth.entity.AkteraUser userAktera = userDAO.findUserById(journalEntry
+						.getOwnerId());
 
-		Properties props = new Properties ();
+		Properties props = new Properties();
 
-		props.setProperty ("akteraUserName", userAktera.getName ());
-		CommandTools.performAsync ("de.iritgo.aktera.journal.RefreshJournal", props);
+		props.setProperty("akteraUserName", userAktera.getName());
+		CommandTools.performAsync("de.iritgo.aktera.journal.RefreshJournal", props);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.journal.JournalManager#getJournalEntryById(java.lang.Integer, de.iritgo.aktera.journal.JournalStrategy)
 	 */
-	public Map<String, Object> getJournalEntryById (Integer id)
+	public Map<String, Object> getJournalEntryById(Integer id)
 	{
-		Map<String, Object> entry = new HashMap<String, Object> ();
+		Map<String, Object> entry = new HashMap<String, Object>();
 
-		JournalEntry journalEntry = journalDAO.getById (id);
+		JournalEntry journalEntry = journalDAO.getById(id);
 
-		addJournalEntryAttributes (journalEntry, entry);
+		addJournalEntryAttributes(journalEntry, entry);
 
-		if (journalEntry.getExtendedInfoType () != null)
+		if (journalEntry.getExtendedInfoType() != null)
 		{
-			JournalExtender je = journalExtenders.get (journalEntry.getExtendedInfoType ());
+			JournalExtender je = journalExtenders.get(journalEntry.getExtendedInfoType());
 
 			if (je != null)
 			{
-				je.addJournalEntryAttributes (entry);
+				je.addJournalEntryAttributes(entry);
 			}
 		}
 
@@ -193,126 +193,125 @@ public class JournalManagerImpl implements JournalManager, StartupHandler
 	/**
 	 * @see de.iritgo.aktera.journal.JournalManager#listJournalEntries(java.lang.String, java.lang.Integer, java.lang.String, java.lang.String, de.iritgo.simplelife.constants.SortOrder, int, int)
 	 */
-	public List<Map<String, Object>> listJournalEntries (String search, Timestamp start, Timestamp end,
-					Integer ownerId, String ownerType, String sortColumnName, SortOrder sortOrder, int firstResult,
-					int resultsPerPage)
+	public List<Map<String, Object>> listJournalEntries(String search, Timestamp start, Timestamp end, Integer ownerId,
+					String ownerType, String sortColumnName, SortOrder sortOrder, int firstResult, int resultsPerPage)
 	{
-		List<Map<String, Object>> entries = new LinkedList<Map<String, Object>> ();
+		List<Map<String, Object>> entries = new LinkedList<Map<String, Object>>();
 
-		for (JournalEntry journalEntry : journalDAO.listJournalEntries (search, start, end, ownerId, ownerType,
+		for (JournalEntry journalEntry : journalDAO.listJournalEntries(search, start, end, ownerId, ownerType,
 						sortColumnName, sortOrder, firstResult, resultsPerPage))
 		{
-			Map<String, Object> entry = new HashMap<String, Object> ();
+			Map<String, Object> entry = new HashMap<String, Object>();
 
-			addJournalEntryAttributes (journalEntry, entry);
+			addJournalEntryAttributes(journalEntry, entry);
 
-			if (journalEntry.getExtendedInfoType () != null)
+			if (journalEntry.getExtendedInfoType() != null)
 			{
-				JournalExtender je = journalExtenders.get (journalEntry.getExtendedInfoType ());
+				JournalExtender je = journalExtenders.get(journalEntry.getExtendedInfoType());
 
 				if (je != null)
 				{
-					je.addJournalEntryAttributes (entry);
+					je.addJournalEntryAttributes(entry);
 				}
 			}
 
-			entries.add (entry);
+			entries.add(entry);
 		}
 
 		return entries;
 	}
 
-	public long countJournalEntries (String search, Timestamp start, Timestamp end, Integer ownerId, String ownerType)
+	public long countJournalEntries(String search, Timestamp start, Timestamp end, Integer ownerId, String ownerType)
 	{
-		return journalDAO.countJournalEntries (search, start, end, ownerId, ownerType);
+		return journalDAO.countJournalEntries(search, start, end, ownerId, ownerType);
 	}
 
-	public List<Map<String, Object>> listJournalEntriesByPrimaryAndSecondaryType (String search, Timestamp start,
+	public List<Map<String, Object>> listJournalEntriesByPrimaryAndSecondaryType(String search, Timestamp start,
 					Timestamp end, Integer ownerId, String ownerType, String sortColumnName, SortOrder sortOrder,
 					int firstResult, int resultsPerPage, String primaryType, String secondaryType)
 	{
-		List<Map<String, Object>> entries = new LinkedList<Map<String, Object>> ();
+		List<Map<String, Object>> entries = new LinkedList<Map<String, Object>>();
 
-		for (JournalEntry journalEntry : journalDAO.listJournalEntriesByPrimaryAndSecondaryType (search, start, end,
+		for (JournalEntry journalEntry : journalDAO.listJournalEntriesByPrimaryAndSecondaryType(search, start, end,
 						ownerId, ownerType, sortColumnName, sortOrder, firstResult, resultsPerPage, primaryType,
 						secondaryType))
 		{
-			Map<String, Object> entry = new HashMap<String, Object> ();
+			Map<String, Object> entry = new HashMap<String, Object>();
 
-			addJournalEntryAttributes (journalEntry, entry);
+			addJournalEntryAttributes(journalEntry, entry);
 
-			if (journalEntry.getExtendedInfoType () != null)
+			if (journalEntry.getExtendedInfoType() != null)
 			{
-				JournalExtender je = journalExtenders.get (journalEntry.getExtendedInfoType ());
+				JournalExtender je = journalExtenders.get(journalEntry.getExtendedInfoType());
 
 				if (je != null)
 				{
-					je.addJournalEntryAttributes (entry);
+					je.addJournalEntryAttributes(entry);
 				}
 			}
 
-			entries.add (entry);
+			entries.add(entry);
 		}
 
 		return entries;
 	}
 
-	public long countJournalEntriesByPrimaryAndSecondaryType (String search, Timestamp start, Timestamp end,
+	public long countJournalEntriesByPrimaryAndSecondaryType(String search, Timestamp start, Timestamp end,
 					Integer ownerId, String ownerType, String primaryType, String secondaryType)
 	{
-		return journalDAO.countJournalEntriesByPrimaryAndSecondaryType (search, start, end, ownerId, ownerType,
+		return journalDAO.countJournalEntriesByPrimaryAndSecondaryType(search, start, end, ownerId, ownerType,
 						primaryType, secondaryType);
 	}
 
-	private void addJournalEntryAttributes (JournalEntry journalEntry, Map<String, Object> entry)
+	private void addJournalEntryAttributes(JournalEntry journalEntry, Map<String, Object> entry)
 	{
-		BeanTools.copyBean2Map (journalEntry, entry, true);
+		BeanTools.copyBean2Map(journalEntry, entry, true);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.journal.JournalManager#deleteJournalEntry(int)
 	 */
-	public void deleteJournalEntry (int journalEntryId)
+	public void deleteJournalEntry(int journalEntryId)
 	{
-		JournalEntry journalEntry = journalDAO.getById (journalEntryId);
+		JournalEntry journalEntry = journalDAO.getById(journalEntryId);
 
-		deleteJournalEntry (journalEntry);
+		deleteJournalEntry(journalEntry);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.journal.JournalManager#countJournalEntriesByCondition(int, int, java.lang.String, java.util.Map)
 	 */
-	public long countJournalEntriesByCondition (String condition, Map<String, Object> conditionMap)
+	public long countJournalEntriesByCondition(String condition, Map<String, Object> conditionMap)
 	{
-		return journalDAO.countJournalEntriesByCondition (condition, conditionMap);
+		return journalDAO.countJournalEntriesByCondition(condition, conditionMap);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.journal.JournalManager#listJournalEntriesByCondition(java.lang.String, de.iritgo.simplelife.constants.SortOrder, int, int, java.lang.String, java.util.Map)
 	 */
-	public List<Map<String, Object>> listJournalEntriesByCondition (String sortColumnName, SortOrder sortOrder,
+	public List<Map<String, Object>> listJournalEntriesByCondition(String sortColumnName, SortOrder sortOrder,
 					int firstResult, int resultsPerPage, String condition, Map<String, Object> conditionMap)
 	{
-		List<Map<String, Object>> entries = new LinkedList<Map<String, Object>> ();
+		List<Map<String, Object>> entries = new LinkedList<Map<String, Object>>();
 
-		for (JournalEntry journalEntry : journalDAO.listJournalEntriesByCondition (sortColumnName, sortOrder,
+		for (JournalEntry journalEntry : journalDAO.listJournalEntriesByCondition(sortColumnName, sortOrder,
 						firstResult, resultsPerPage, condition, conditionMap))
 		{
-			Map<String, Object> entry = new HashMap<String, Object> ();
+			Map<String, Object> entry = new HashMap<String, Object>();
 
-			addJournalEntryAttributes (journalEntry, entry);
+			addJournalEntryAttributes(journalEntry, entry);
 
-			if (journalEntry.getExtendedInfoType () != null)
+			if (journalEntry.getExtendedInfoType() != null)
 			{
-				JournalExtender je = journalExtenders.get (journalEntry.getExtendedInfoType ());
+				JournalExtender je = journalExtenders.get(journalEntry.getExtendedInfoType());
 
 				if (je != null)
 				{
-					je.addJournalEntryAttributes (entry);
+					je.addJournalEntryAttributes(entry);
 				}
 			}
 
-			entries.add (entry);
+			entries.add(entry);
 		}
 
 		return entries;
@@ -321,33 +320,33 @@ public class JournalManagerImpl implements JournalManager, StartupHandler
 	/**
 	 * @see de.iritgo.aktera.journal.JournalManager#executeJournalEntry(int)
 	 */
-	public void executeJournalEntry (String commandId, int id, String prefix, ModelRequest req)
+	public void executeJournalEntry(String commandId, int id, String prefix, ModelRequest req)
 	{
-		Map<String, Object> entry = getJournalEntryById (id);
-		String primaryType = (String) entry.get ("primaryType");
-		String secondaryType = (String) entry.get ("secondaryType");
+		Map<String, Object> entry = getJournalEntryById(id);
+		String primaryType = (String) entry.get("primaryType");
+		String secondaryType = (String) entry.get("secondaryType");
 
 		for (JournalExecute execute : journalExecuters)
 		{
-			execute.execute (commandId, primaryType, secondaryType, prefix, entry, req);
+			execute.execute(commandId, primaryType, secondaryType, prefix, entry, req);
 		}
 	}
 
 	/**
 	 * @see de.iritgo.aktera.startup.StartupHandler#shutdown()
 	 */
-	public void shutdown () throws ShutdownException
+	public void shutdown() throws ShutdownException
 	{
 	}
 
 	/**
 	 * @see de.iritgo.aktera.journal.JournalManager#deleteJournalAllEntries(java.lang.Integer)
 	 */
-	public void deleteJournalAllEntries (Integer ownerId)
+	public void deleteJournalAllEntries(Integer ownerId)
 	{
-		for (JournalEntry entry : journalDAO.listJournalEntriesByOwnerId (ownerId))
+		for (JournalEntry entry : journalDAO.listJournalEntriesByOwnerId(ownerId))
 		{
-			deleteJournalEntry (entry.getId ());
+			deleteJournalEntry(entry.getId());
 		}
 	}
 }

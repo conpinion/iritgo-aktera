@@ -71,10 +71,10 @@ import java.util.Map;
 public class ServiceConfig
 {
 	// role/hint pairs
-	protected Map serviceHints = new HashMap ();
+	protected Map serviceHints = new HashMap();
 
 	// disallow use of default constructor, need configuration
-	private ServiceConfig ()
+	private ServiceConfig()
 	{
 	}
 
@@ -83,22 +83,22 @@ public class ServiceConfig
 	 * @param configuration Avalon/Fortress XML configuration for a component
 	 * @throws ConfigurationException If there is error processing the XML configuration
 	 */
-	public ServiceConfig (Configuration configuration) throws ConfigurationException
+	public ServiceConfig(Configuration configuration) throws ConfigurationException
 	{
 		if (configuration == null)
 		{
-			throw new ConfigurationException ("Cannot build list from null configuration");
+			throw new ConfigurationException("Cannot build list from null configuration");
 		}
 
-		Configuration[] serviceConf = configuration.getChild ("services", true).getChildren ("service");
+		Configuration[] serviceConf = configuration.getChild("services", true).getChildren("service");
 
 		for (int i = 0; i < serviceConf.length; i++)
 		{
 			Configuration oneServiceConf = serviceConf[i];
-			String name = oneServiceConf.getAttribute ("name");
-			String hint = oneServiceConf.getAttribute ("hint");
+			String name = oneServiceConf.getAttribute("name");
+			String hint = oneServiceConf.getAttribute("hint");
 
-			serviceHints.put (name, hint);
+			serviceHints.put(name, hint);
 		}
 	}
 
@@ -107,9 +107,9 @@ public class ServiceConfig
 	 * @param name The role whose hint is required
 	 * @return The configured hint or "*"
 	 */
-	public String getHint (String name)
+	public String getHint(String name)
 	{
-		String hint = (String) serviceHints.get (name);
+		String hint = (String) serviceHints.get(name);
 
 		if (hint == null)
 		{
@@ -124,8 +124,8 @@ public class ServiceConfig
 	 * @param name The role whose hint to set
 	 * @param hint The hint to set
 	 */
-	public void setHint (String name, String hint)
+	public void setHint(String name, String hint)
 	{
-		serviceHints.put (name, hint);
+		serviceHints.put(name, hint);
 	}
 }

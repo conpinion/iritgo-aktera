@@ -36,7 +36,7 @@ import java.sql.SQLException;
 public class KeelDataSource implements DataSource
 {
 	/** A log writer */
-	private PrintWriter logWriter = new PrintWriter (System.out);
+	private PrintWriter logWriter = new PrintWriter(System.out);
 
 	/** Login timeout */
 	private int loginTimeout;
@@ -47,18 +47,18 @@ public class KeelDataSource implements DataSource
 	/**
 	 * @see javax.sql.DataSource#getConnection()
 	 */
-	public Connection getConnection () throws SQLException
+	public Connection getConnection() throws SQLException
 	{
-		return getKeelConnection ();
+		return getKeelConnection();
 	}
 
 	/**
 	 * @see javax.sql.DataSource#getConnection(java.lang.String,
 	 *      java.lang.String)
 	 */
-	public Connection getConnection (String username, String password) throws SQLException
+	public Connection getConnection(String username, String password) throws SQLException
 	{
-		return getKeelConnection ();
+		return getKeelConnection();
 	}
 
 	/**
@@ -67,37 +67,37 @@ public class KeelDataSource implements DataSource
 	 * @return A SQL connection to the default data source.
 	 * @throws SQLException
 	 */
-	private Connection getKeelConnection () throws SQLException
+	private Connection getKeelConnection() throws SQLException
 	{
 		if (dataSourceComponent == null)
 		{
 			try
 			{
-				dataSourceComponent = (DataSourceComponent) KeelContainer.defaultContainer ().getService (
+				dataSourceComponent = (DataSourceComponent) KeelContainer.defaultContainer().getService(
 								DataSourceComponent.ROLE, "keel-dbpool");
 			}
 			catch (ServiceException x)
 			{
-				throw new SQLException ("Unable to retrieve the Keel data source component");
+				throw new SQLException("Unable to retrieve the Keel data source component");
 			}
 		}
 
-		return dataSourceComponent.getConnection ();
+		return dataSourceComponent.getConnection();
 	}
 
 	/**
 	 * Free all allocated resources.
 	 */
-	public void dispose ()
+	public void dispose()
 	{
-		KeelContainer.defaultContainer ().release (dataSourceComponent);
+		KeelContainer.defaultContainer().release(dataSourceComponent);
 		dataSourceComponent = null;
 	}
 
 	/**
 	 * @see javax.sql.DataSource#getLogWriter()
 	 */
-	public PrintWriter getLogWriter () throws SQLException
+	public PrintWriter getLogWriter() throws SQLException
 	{
 		return logWriter;
 	}
@@ -105,7 +105,7 @@ public class KeelDataSource implements DataSource
 	/**
 	 * @see javax.sql.DataSource#getLoginTimeout()
 	 */
-	public int getLoginTimeout () throws SQLException
+	public int getLoginTimeout() throws SQLException
 	{
 		return loginTimeout;
 	}
@@ -113,7 +113,7 @@ public class KeelDataSource implements DataSource
 	/**
 	 * @see javax.sql.DataSource#setLogWriter(java.io.PrintWriter)
 	 */
-	public void setLogWriter (PrintWriter out) throws SQLException
+	public void setLogWriter(PrintWriter out) throws SQLException
 	{
 		this.logWriter = out;
 	}
@@ -121,17 +121,17 @@ public class KeelDataSource implements DataSource
 	/**
 	 * @see javax.sql.DataSource#setLoginTimeout(int)
 	 */
-	public void setLoginTimeout (int seconds) throws SQLException
+	public void setLoginTimeout(int seconds) throws SQLException
 	{
 		this.loginTimeout = seconds;
 	}
 
-	public boolean isWrapperFor (Class<?> iface) throws SQLException
+	public boolean isWrapperFor(Class<?> iface) throws SQLException
 	{
 		return false;
 	}
 
-	public <T> T unwrap (Class<T> iface) throws SQLException
+	public <T> T unwrap(Class<T> iface) throws SQLException
 	{
 		return null;
 	}

@@ -38,48 +38,48 @@ public interface PersistentFactory
 	 * Create a new persistent object with the specified name. The name must be
 	 * of the form "schema.persistent".
 	 */
-	public Persistent create (String name) throws PersistenceException;
+	public Persistent create(String name) throws PersistenceException;
 
 	/**
 	 * Create a new Persistent which participates in a transaction.
 	 */
-	public Persistent create (String name, Transaction trx) throws PersistenceException;
+	public Persistent create(String name, Transaction trx) throws PersistenceException;
 
 	/**
 	 * Begin a new transaction and pass the transaction back to the caller. Used when we want a number of database
 	 * operations to be processed in a single transaction.
 	 */
-	public Transaction begin () throws PersistenceException;
+	public Transaction begin() throws PersistenceException;
 
 	/**
 	 * A different factory is used to talk to each different database that the application requires. Each factory has
 	 * a unique name.
 	 */
-	public String getName ();
+	public String getName();
 
 	/**
 	 * Initialize the specified schema, creating all tables as required. Logs any differences between existing
 	 * tables and specified tables.
 	 */
-	public void createTables (String schemaName) throws PersistenceException;
+	public void createTables(String schemaName) throws PersistenceException;
 
 	/**
 	 * Initialize all schemas defined in this persistent factory, creating all tables as required.
 	 * Logs any differences between existing tables and specified tables.
 	 */
-	public void createTables () throws PersistenceException;
+	public void createTables() throws PersistenceException;
 
 	/**
 	 * Return a set of Schema names this factory knows about.
 	 */
-	public Set getSchemas ();
+	public Set getSchemas();
 
 	/**
 	 * Get the human-readable description of the specified schema
 	 * @param schemaName The name of the schema
 	 * @return String The human-readable description of this schema
 	 */
-	public String getSchemaDescription (String schemaName);
+	public String getSchemaDescription(String schemaName);
 
 	/**
 	 * Get the Configuration object for the specified schema, if this
@@ -89,13 +89,13 @@ public interface PersistentFactory
 	 * @throws PersistenceException If a parameter error is made (e.g. null schema name), or an error
 	 * occurrs retrieving the specified schema's configuration
 	 */
-	public Configuration getSchemaConfiguration (String schemaName);
+	public Configuration getSchemaConfiguration(String schemaName);
 
 	/**
 	 * Return a list of the names of all persistent object in the specified
 	 * schema.
 	 */
-	public Set getPersistents (String schemaName) throws PersistenceException;
+	public Set getPersistents(String schemaName) throws PersistenceException;
 
 	/**
 	 * Convenience method to add an Input ResponseElement to the specified
@@ -109,7 +109,7 @@ public interface PersistentFactory
 	 * @throws PersistenceException If a problem occurs retrieving the fields
 	 * @throws ModelException If a problem occurs creating the Inputs
 	 */
-	public void addInputs (ModelResponse res, Persistent p) throws PersistenceException, ModelException;
+	public void addInputs(ModelResponse res, Persistent p) throws PersistenceException, ModelException;
 
 	/**
 	 * Convenience method to add an Output ResponseElement to the specified
@@ -122,7 +122,7 @@ public interface PersistentFactory
 	 * @throws PersistenceException If an exception occurs retrieving the fields
 	 * @throws ModelException If an exception occurs creating the outputs.
 	 */
-	public void addOutputs (ModelResponse res, Persistent p) throws PersistenceException, ModelException;
+	public void addOutputs(ModelResponse res, Persistent p) throws PersistenceException, ModelException;
 
 	/**
 	 * Convenience method to add a List of nested Output ResponseElements to the
@@ -137,7 +137,7 @@ public interface PersistentFactory
 	 * @throws ModelException If an exception occurs creating the outputs.
 	 * @see #addOutputs(ModelReponse, Persistent)
 	 */
-	public void addQuery (final ModelResponse res, final Persistent p, final String outputName)
+	public void addQuery(final ModelResponse res, final Persistent p, final String outputName)
 		throws PersistenceException, ModelException;
 
 	/**
@@ -154,15 +154,15 @@ public interface PersistentFactory
 	 * @throws ModelException If an exception occurs creating the outputs.
 	 * @see #addOutputs(ModelReponse, Persistent)
 	 */
-	public void addQuery (final ModelResponse res, final Persistent p, final String outputName,
-					final String[] fieldNames) throws PersistenceException, ModelException;
+	public void addQuery(final ModelResponse res, final Persistent p, final String outputName, final String[] fieldNames)
+		throws PersistenceException, ModelException;
 
 	/**
 	 * Return the name of an another persistent factory where we find
 	 * the definitions of the Keel security persistent objects. If we get null
 	 * we find them here.
 	 */
-	public String getSecurity ();
+	public String getSecurity();
 
 	/**
 	 * A convenience method which gets another factory (other than the current
@@ -172,5 +172,5 @@ public interface PersistentFactory
 	 * @throws PersistenceException If the factory cannot be initialized, or
 	 * there is no such factory configured
 	 */
-	public PersistentFactory getFactory (String factoryName) throws PersistenceException;
+	public PersistentFactory getFactory(String factoryName) throws PersistenceException;
 }

@@ -36,38 +36,38 @@ public class CacheStatEntry
 	private int cacheMisses = 0;
 
 	/** Creates new CacheStatEntry */
-	public CacheStatEntry (String newName, String newDBName)
+	public CacheStatEntry(String newName, String newDBName)
 	{
 		dbobjName = newName;
 		dbName = newDBName;
 	}
 
-	public int getReadCount ()
+	public int getReadCount()
 	{
 		return readCount;
 	}
 
-	public int getCacheHits ()
+	public int getCacheHits()
 	{
 		return cacheHits;
 	}
 
-	public int getCacheMisses ()
+	public int getCacheMisses()
 	{
 		return cacheMisses;
 	}
 
-	public String getDBName ()
+	public String getDBName()
 	{
 		return dbName;
 	}
 
-	public String getDBObjName ()
+	public String getDBObjName()
 	{
 		return dbobjName;
 	}
 
-	public void incCounts (boolean cached)
+	public void incCounts(boolean cached)
 	{
 		if (cached)
 		{

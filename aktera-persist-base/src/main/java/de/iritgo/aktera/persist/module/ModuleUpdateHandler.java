@@ -34,17 +34,17 @@ import java.sql.Connection;
 public class ModuleUpdateHandler extends UpdateHandler
 {
 	@Override
-	public void updateDatabase (ModelRequest req, Logger logger, Connection connection, PersistentFactory pf,
+	public void updateDatabase(ModelRequest req, Logger logger, Connection connection, PersistentFactory pf,
 					ModuleVersion currentVersion, ModuleVersion newVersion) throws Exception
 	{
-		if (currentVersion.lessThan ("2.2.1"))
+		if (currentVersion.lessThan("2.2.1"))
 		{
-			createPrimaryKeySequenceFromIdTable ("KeelListItem", "ItemId");
+			createPrimaryKeySequenceFromIdTable("KeelListItem", "ItemId");
 
-			update ("DELETE FROM ids where table_name = 'testseq'");
-			update ("DELETE FROM ids where table_name = 'queryjoin'");
+			update("DELETE FROM ids where table_name = 'testseq'");
+			update("DELETE FROM ids where table_name = 'queryjoin'");
 
-			currentVersion.setVersion ("2.2.1");
+			currentVersion.setVersion("2.2.1");
 		}
 	}
 }

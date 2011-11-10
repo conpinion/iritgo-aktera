@@ -44,7 +44,7 @@ public class ObjectKey implements Comparable
 	// ===========================
 	// Additional Attributes
 	// ===========================
-	private Map additionalAttributes = new HashMap ();
+	private Map additionalAttributes = new HashMap();
 
 	// ===========================
 	// Constructors
@@ -52,7 +52,7 @@ public class ObjectKey implements Comparable
 	/**
 	 * The default constructor
 	 */
-	public ObjectKey ()
+	public ObjectKey()
 	{
 	}
 
@@ -62,57 +62,57 @@ public class ObjectKey implements Comparable
 	 * @param aName
 	 * @param aAlias
 	 */
-	public ObjectKey (Object aUniqueId, String aName, String aAlias)
+	public ObjectKey(Object aUniqueId, String aName, String aAlias)
 	{
 		this.uniqueId = aUniqueId;
 		this.name = aName;
 		this.alias = aAlias;
 	}
 
-	public void setAttribute (String attribName, Object attribValue)
+	public void setAttribute(String attribName, Object attribValue)
 	{
-		additionalAttributes.put (attribName, attribValue);
+		additionalAttributes.put(attribName, attribValue);
 	}
 
-	public Object getAttribute (String attribName)
+	public Object getAttribute(String attribName)
 	{
-		return additionalAttributes.get (attribName);
+		return additionalAttributes.get(attribName);
 	}
 
-	public Set getAttributeNames ()
+	public Set getAttributeNames()
 	{
-		return additionalAttributes.keySet ();
+		return additionalAttributes.keySet();
 	}
 
 	// ===========================
 	// Getters and setters
 	// ===========================
-	public String getAlias ()
+	public String getAlias()
 	{
 		return alias;
 	}
 
-	public Object getUniqueId ()
+	public Object getUniqueId()
 	{
 		return uniqueId;
 	}
 
-	public String getName ()
+	public String getName()
 	{
 		return name;
 	}
 
-	public void setAlias (String alias)
+	public void setAlias(String alias)
 	{
 		this.alias = alias;
 	}
 
-	public void setName (String name)
+	public void setName(String name)
 	{
 		this.name = name;
 	}
 
-	public void setUniqueId (Object uniqueId)
+	public void setUniqueId(Object uniqueId)
 	{
 		this.uniqueId = uniqueId;
 	}
@@ -125,18 +125,18 @@ public class ObjectKey implements Comparable
 	 * This method implements the comparable interface.  Object ordering
 	 * is based exclusively on the struct id ordering.
 	 */
-	public int compareTo (Object o)
+	public int compareTo(Object o)
 	{
 		ObjectKey k = (ObjectKey) o;
 
-		return (this.name).compareTo (k.getName ());
+		return (this.name).compareTo(k.getName());
 	}
 
 	/**
 	 * This method overwrites the default equals method. Of course
 	 * to objects are equal iff they have the same unique id.
 	 */
-	public boolean equals (Object o)
+	public boolean equals(Object o)
 	{
 		boolean returnValue = false;
 
@@ -144,7 +144,7 @@ public class ObjectKey implements Comparable
 		{
 			ObjectKey oKey = (ObjectKey) o;
 
-			returnValue = oKey.getUniqueId ().equals (this.uniqueId);
+			returnValue = oKey.getUniqueId().equals(this.uniqueId);
 		}
 
 		return returnValue;

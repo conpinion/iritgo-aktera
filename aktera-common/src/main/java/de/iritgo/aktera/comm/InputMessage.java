@@ -34,51 +34,51 @@ public class InputMessage extends AbstractMessageResponseElement implements Inpu
 
 	private Object defaultValue = null;
 
-	public InputMessage ()
+	public InputMessage()
 	{
 	}
 
-	public InputMessage (Input i)
+	public InputMessage(Input i)
 	{
-		super.copyFrom (i);
-		setName (i.getName ());
-		setDefaultValue (i.getDefaultValue ());
-		setValidValues (i.getValidValues ());
-		setLabel (i.getLabel ());
+		super.copyFrom(i);
+		setName(i.getName());
+		setDefaultValue(i.getDefaultValue());
+		setValidValues(i.getValidValues());
+		setLabel(i.getLabel());
 	}
 
-	public String getLabel ()
+	public String getLabel()
 	{
 		return label;
 	}
 
-	public void setLabel (String newLabel)
+	public void setLabel(String newLabel)
 	{
 		label = newLabel;
 	}
 
-	public void setValidValues (Map newValues)
+	public void setValidValues(Map newValues)
 	{
 		myValidValues = newValues;
 	}
 
-	public void setDefaultValue (Object newDefault)
+	public void setDefaultValue(Object newDefault)
 	{
 		defaultValue = newDefault;
 	}
 
-	public Object getDefaultValue ()
+	public Object getDefaultValue()
 	{
 		return defaultValue;
 	}
 
-	public Map getValidValues ()
+	public Map getValidValues()
 	{
 		Map returnValue = null;
 
 		if (myValidValues == null)
 		{
-			returnValue = new TreeMap ();
+			returnValue = new TreeMap();
 		}
 		else
 		{

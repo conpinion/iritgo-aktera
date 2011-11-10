@@ -23,5 +23,5 @@ package de.iritgo.aktera.shell;
 public interface ShellManager
 {
 
-	public void startShell ();
+	public void startShell();
 }

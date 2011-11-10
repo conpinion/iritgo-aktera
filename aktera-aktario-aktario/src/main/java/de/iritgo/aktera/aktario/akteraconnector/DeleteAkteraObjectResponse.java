@@ -45,18 +45,18 @@ public class DeleteAkteraObjectResponse extends FrameworkAction
 	/**
 	 *
 	 */
-	public DeleteAkteraObjectResponse ()
+	public DeleteAkteraObjectResponse()
 	{
-		setTypeId ("DeleteAkteraObjectResponse");
+		setTypeId("DeleteAkteraObjectResponse");
 	}
 
 	/**
 	 *
 	 */
-	public DeleteAkteraObjectResponse (String model, String keelObjectUniqueId, long dataObjectUniqueId,
+	public DeleteAkteraObjectResponse(String model, String keelObjectUniqueId, long dataObjectUniqueId,
 					String onScreenUniqueId)
 	{
-		this ();
+		this();
 		this.keelObjectUniqueId = keelObjectUniqueId;
 		this.model = model;
 		this.dataObjectUniqueId = dataObjectUniqueId;
@@ -68,12 +68,12 @@ public class DeleteAkteraObjectResponse extends FrameworkAction
 	 *
 	 * @param stream The stream to read from.
 	 */
-	public void readObject (FrameworkInputStream stream) throws IOException
+	public void readObject(FrameworkInputStream stream) throws IOException
 	{
-		model = stream.readUTF ();
-		keelObjectUniqueId = stream.readUTF ();
-		dataObjectUniqueId = stream.readLong ();
-		onScreenUniqueId = stream.readUTF ();
+		model = stream.readUTF();
+		keelObjectUniqueId = stream.readUTF();
+		dataObjectUniqueId = stream.readLong();
+		onScreenUniqueId = stream.readUTF();
 	}
 
 	/**
@@ -81,23 +81,22 @@ public class DeleteAkteraObjectResponse extends FrameworkAction
 	 *
 	 * @param stream The stream to write to.
 	 */
-	public void writeObject (FrameworkOutputStream stream) throws IOException
+	public void writeObject(FrameworkOutputStream stream) throws IOException
 	{
-		stream.writeUTF (model);
-		stream.writeUTF (keelObjectUniqueId);
-		stream.writeLong (dataObjectUniqueId);
-		stream.writeUTF (onScreenUniqueId);
+		stream.writeUTF(model);
+		stream.writeUTF(keelObjectUniqueId);
+		stream.writeLong(dataObjectUniqueId);
+		stream.writeUTF(onScreenUniqueId);
 	}
 
 	/**
 	 * Perform the action.
 	 */
-	public void perform ()
+	public void perform()
 	{
-		IDisplay display = (IDisplay) Client.instance ().getClientGUI ().getDesktopManager ().getDisplay (
-						onScreenUniqueId);
-		QueryPane queryPane = (QueryPane) display.getGUIPane ();
+		IDisplay display = (IDisplay) Client.instance().getClientGUI().getDesktopManager().getDisplay(onScreenUniqueId);
+		QueryPane queryPane = (QueryPane) display.getGUIPane();
 
-		queryPane.deleteListEntry (dataObjectUniqueId, model);
+		queryPane.deleteListEntry(dataObjectUniqueId, model);
 	}
 }

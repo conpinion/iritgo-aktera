@@ -41,7 +41,7 @@ public class FormTag extends org.apache.struts.taglib.html.FormTag
 	 *
 	 * @param formName The new form name.
 	 */
-	public void setFormName (String formName)
+	public void setFormName(String formName)
 	{
 		this.formName = formName;
 	}
@@ -51,7 +51,7 @@ public class FormTag extends org.apache.struts.taglib.html.FormTag
 	 *
 	 * @return The form name.
 	 */
-	public String getFormName ()
+	public String getFormName()
 	{
 		return formName;
 	}
@@ -59,9 +59,9 @@ public class FormTag extends org.apache.struts.taglib.html.FormTag
 	/**
 	 * Reset all tag attributes to their default values.
 	 */
-	public void release ()
+	public void release()
 	{
-		super.release ();
+		super.release();
 
 		formName = null;
 	}
@@ -71,84 +71,83 @@ public class FormTag extends org.apache.struts.taglib.html.FormTag
 	 * attributes.
 	 * @since Struts 1.1
 	 */
-	protected String renderFormStartElement ()
+	protected String renderFormStartElement()
 	{
-		HttpServletResponse response = (HttpServletResponse) this.pageContext.getResponse ();
+		HttpServletResponse response = (HttpServletResponse) this.pageContext.getResponse();
 
-		StringBuffer results = new StringBuffer ("<form");
+		StringBuffer results = new StringBuffer("<form");
 
-		results.append (" name=\"");
+		results.append(" name=\"");
 
-		if (beanName != null && ! ("none".equals (beanName) && formName != null))
+		if (beanName != null && ! ("none".equals(beanName) && formName != null))
 		{
-			results.append (beanName);
+			results.append(beanName);
 		}
 		else if (formName != null)
 		{
-			results.append (formName);
+			results.append(formName);
 		}
 
-		results.append ("\"");
-		results.append (" method=\"");
-		results.append (method == null ? "post" : method);
-		results.append ("\" action=\"");
-		results.append (response
-						.encodeURL (TagUtils.getInstance ().getActionMappingURL (this.action, this.pageContext)));
+		results.append("\"");
+		results.append(" method=\"");
+		results.append(method == null ? "post" : method);
+		results.append("\" action=\"");
+		results.append(response.encodeURL(TagUtils.getInstance().getActionMappingURL(this.action, this.pageContext)));
 
-		results.append ("\"");
+		results.append("\"");
 
 		if (styleClass != null)
 		{
-			results.append (" class=\"");
-			results.append (styleClass);
-			results.append ("\"");
+			results.append(" class=\"");
+			results.append(styleClass);
+			results.append("\"");
 		}
 
 		if (enctype != null)
 		{
-			results.append (" enctype=\"");
-			results.append (enctype);
-			results.append ("\"");
+			results.append(" enctype=\"");
+			results.append(enctype);
+			results.append("\"");
 		}
 
 		if (onreset != null)
 		{
-			results.append (" onreset=\"");
-			results.append (onreset);
-			results.append ("\"");
+			results.append(" onreset=\"");
+			results.append(onreset);
+			results.append("\"");
 		}
 
 		if (onsubmit != null)
 		{
-			results.append (" onsubmit=\"");
-			results.append (onsubmit);
-			results.append ("\"");
+			results.append(" onsubmit=\"");
+			results.append(onsubmit);
+			results.append("\"");
 		}
 
 		if (style != null)
 		{
-			results.append (" style=\"");
-			results.append (style);
-			results.append ("\"");
+			results.append(" style=\"");
+			results.append(style);
+			results.append("\"");
 		}
 
 		if (styleId != null)
 		{
-			results.append (" id=\"");
-			results.append (styleId);
-			results.append ("\"");
+			results.append(" id=\"");
+			results.append(styleId);
+			results.append("\"");
 		}
 
 		if (target != null)
 		{
-			results.append (" target=\"");
-			results.append (target);
-			results.append ("\"");
+			results.append(" target=\"");
+			results.append(target);
+			results.append("\"");
 		}
 
-		results.append (">");
+		results.append(">");
 
-		return results.toString ();
+		return results.toString();
 	}
 
 	/**
@@ -156,84 +155,84 @@ public class FormTag extends org.apache.struts.taglib.html.FormTag
 	 * tag's "focus" attribute.
 	 * @since Struts 1.1
 	 */
-	protected String renderFocusJavascript ()
+	protected String renderFocusJavascript()
 	{
-		if (this.focus == null || "".equals (this.focus))
+		if (this.focus == null || "".equals(this.focus))
 		{
 			return "";
 		}
 
-		StringBuffer results = new StringBuffer ();
+		StringBuffer results = new StringBuffer();
 
-		results.append (lineEnd);
-		results.append ("<script type=\"text/javascript\"");
+		results.append(lineEnd);
+		results.append("<script type=\"text/javascript\"");
 
-		if (! TagUtils.getInstance ().isXhtml (this.pageContext))
+		if (! TagUtils.getInstance().isXhtml(this.pageContext))
 		{
-			results.append (" language=\"JavaScript\"");
+			results.append(" language=\"JavaScript\"");
 		}
 
-		results.append (">");
-		results.append (lineEnd);
+		results.append(">");
+		results.append(lineEnd);
 
-		if (! TagUtils.getInstance ().isXhtml (this.pageContext))
+		if (! TagUtils.getInstance().isXhtml(this.pageContext))
 		{
-			results.append ("  <!--");
-			results.append (lineEnd);
+			results.append("  <!--");
+			results.append(lineEnd);
 		}
 
-		StringBuffer focusControl = new StringBuffer ("document.forms[\"");
+		StringBuffer focusControl = new StringBuffer("document.forms[\"");
 
-		if (beanName != null && ! ("none".equals (beanName) && formName != null))
+		if (beanName != null && ! ("none".equals(beanName) && formName != null))
 		{
-			focusControl.append (beanName);
+			focusControl.append(beanName);
 		}
 		else if (formName != null)
 		{
-			focusControl.append (formName);
+			focusControl.append(formName);
 		}
 
-		focusControl.append ("\"].elements[\"");
-		focusControl.append (this.focus);
-		focusControl.append ("\"]");
+		focusControl.append("\"].elements[\"");
+		focusControl.append(this.focus);
+		focusControl.append("\"]");
 
-		results.append ("  var focusControl = ");
-		results.append (focusControl.toString ());
-		results.append (";");
-		results.append (lineEnd);
-		results.append (lineEnd);
+		results.append("  var focusControl = ");
+		results.append(focusControl.toString());
+		results.append(";");
+		results.append(lineEnd);
+		results.append(lineEnd);
 
-		results.append ("  if (focusControl && focusControl.type != \"hidden\") {");
-		results.append (lineEnd);
+		results.append("  if (focusControl && focusControl.type != \"hidden\") {");
+		results.append(lineEnd);
 
 		String index = "";
 
 		if (this.focusIndex != null)
 		{
-			StringBuffer sb = new StringBuffer ("[");
+			StringBuffer sb = new StringBuffer("[");
 
-			sb.append (this.focusIndex);
-			sb.append ("]");
-			index = sb.toString ();
+			sb.append(this.focusIndex);
+			sb.append("]");
+			index = sb.toString();
 		}
 
-		results.append ("     focusControl");
-		results.append (index);
-		results.append (".focus();");
-		results.append (lineEnd);
+		results.append("     focusControl");
+		results.append(index);
+		results.append(".focus();");
+		results.append(lineEnd);
 
-		results.append ("  }");
-		results.append (lineEnd);
+		results.append("  }");
+		results.append(lineEnd);
 
-		if (! TagUtils.getInstance ().isXhtml (this.pageContext))
+		if (! TagUtils.getInstance().isXhtml(this.pageContext))
 		{
-			results.append ("  // -->");
-			results.append (lineEnd);
+			results.append("  // -->");
+			results.append(lineEnd);
 		}
 
-		results.append ("</script>");
-		results.append (lineEnd);
+		results.append("</script>");
+		results.append(lineEnd);
 
-		return results.toString ();
+		return results.toString();
 	}
 }

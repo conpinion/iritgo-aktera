@@ -45,12 +45,12 @@ public class MyPersonal extends SecurableStandardLogEnabledModel
 	 * @param req The model request.
 	 * @return The model response.
 	 */
-	public ModelResponse execute (ModelRequest req) throws ModelException
+	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
-		ModelResponse res = req.createResponse ();
+		ModelResponse res = req.createResponse();
 
-		UserTools.setContextObject (req, "aktera.currentMenu", "aktera.menu.personal");
-		UserTools.removeContextObject (req, "aktera.currentMenuItem");
+		UserTools.setContextObject(req, "aktera.currentMenu", "aktera.menu.personal");
+		UserTools.removeContextObject(req, "aktera.currentMenuItem");
 
 		return res;
 	}

@@ -34,6 +34,6 @@ public interface JournalExecute
 	 * @param secondaryType
 	 * @param JournalEntry
 	 */
-	public void execute (String commandId, String primaryType, String secondaryType, String prefix,
+	public void execute(String commandId, String primaryType, String secondaryType, String prefix,
 					Map<String, Object> entry, ModelRequest req);
 }

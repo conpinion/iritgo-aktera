@@ -60,9 +60,9 @@ public class GroupMembers implements Serializable
 	/**
 	 *
 	 */
-	public GroupMembers ()
+	public GroupMembers()
 	{
-		super ();
+		super();
 	}
 
 	/**
@@ -79,7 +79,7 @@ public class GroupMembers implements Serializable
 	 *   field="GroupName"
 	 * @return
 	 */
-	public String getGroupName ()
+	public String getGroupName()
 	{
 		return groupName;
 	}
@@ -94,7 +94,7 @@ public class GroupMembers implements Serializable
 	 *   primary-key="true"
 	 * @return
 	 */
-	public Integer getUid ()
+	public Integer getUid()
 	{
 		return uid;
 	}
@@ -102,7 +102,7 @@ public class GroupMembers implements Serializable
 	/**
 	 * @param string
 	 */
-	public void setGroupName (String string)
+	public void setGroupName(String string)
 	{
 		groupName = string;
 	}
@@ -110,7 +110,7 @@ public class GroupMembers implements Serializable
 	/**
 	 * @param integer
 	 */
-	public void setUid (Integer integer)
+	public void setUid(Integer integer)
 	{
 		uid = integer;
 	}
@@ -118,7 +118,7 @@ public class GroupMembers implements Serializable
 	/**
 	 * @see java.lang.Object#equals(Object)
 	 */
-	public boolean equals (Object object)
+	public boolean equals(Object object)
 	{
 		if (! (object instanceof GroupMembers))
 		{
@@ -127,7 +127,7 @@ public class GroupMembers implements Serializable
 
 		GroupMembers rhs = (GroupMembers) object;
 
-		if ((rhs.getGroupName ().equals (getGroupName ())) && (rhs.getUid ().equals (getUid ())))
+		if ((rhs.getGroupName().equals(getGroupName())) && (rhs.getUid().equals(getUid())))
 		{
 			return true;
 		}
@@ -138,8 +138,8 @@ public class GroupMembers implements Serializable
 	/**
 	 * @see java.lang.Object#hashCode()
 	 */
-	public int hashCode ()
+	public int hashCode()
 	{
-		return new String (getGroupName () + getUid ().toString ()).hashCode ();
+		return new String(getGroupName() + getUid().toString()).hashCode();
 	}
 }

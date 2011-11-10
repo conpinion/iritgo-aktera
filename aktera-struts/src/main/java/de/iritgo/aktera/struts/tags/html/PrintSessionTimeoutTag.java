@@ -37,9 +37,9 @@ public class PrintSessionTimeoutTag extends BaseTagSupport
 	/**
 	 * Reset all tag attributes to their default values.
 	 */
-	public void release ()
+	public void release()
 	{
-		super.release ();
+		super.release();
 	}
 
 	/**
@@ -47,21 +47,23 @@ public class PrintSessionTimeoutTag extends BaseTagSupport
 	 *
 	 * @return EVAL_PAGE.
 	 */
-	public int doEndTag () throws JspException
+	public int doEndTag() throws JspException
 	{
 		try
 		{
-			pageContext.getOut ().print (
-							DateFormat.getTimeInstance (DateFormat.SHORT).format (
-											new Date (System.currentTimeMillis ()
-															+ pageContext.getSession ().getMaxInactiveInterval ()
-															* 1000)));
+			pageContext.getOut().print(
+							DateFormat.getTimeInstance(DateFormat.SHORT)
+											.format(
+															new Date(System.currentTimeMillis()
+																			+ pageContext.getSession()
+																							.getMaxInactiveInterval()
+																			* 1000)));
 
 			return EVAL_PAGE;
 		}
 		catch (Exception x)
 		{
-			throw new JspException (x);
+			throw new JspException(x);
 		}
 	}
 }

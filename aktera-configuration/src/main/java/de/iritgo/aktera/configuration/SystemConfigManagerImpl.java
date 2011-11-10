@@ -37,10 +37,10 @@ import java.util.Map;
 public class SystemConfigManagerImpl implements SystemConfigManager
 {
 	/** An empty file used to mark a reboot. */
-	private static File rebootMarker = FileTools.newAkteraFile ("/var/tmp/iritgo/reboot");
+	private static File rebootMarker = FileTools.newAkteraFile("/var/tmp/iritgo/reboot");
 
 	/** All loaded configuration values */
-	private Map<String, Object> configValues = new HashMap ();
+	private Map<String, Object> configValues = new HashMap();
 
 	/** System config DAO */
 	private SystemConfigDAO systemConfigDAO;
@@ -51,7 +51,7 @@ public class SystemConfigManagerImpl implements SystemConfigManager
 	/**
 	 * Set the system config DAO.
 	 */
-	public void setSystemConfigDAO (SystemConfigDAO systemConfigDAO)
+	public void setSystemConfigDAO(SystemConfigDAO systemConfigDAO)
 	{
 		this.systemConfigDAO = systemConfigDAO;
 	}
@@ -59,7 +59,7 @@ public class SystemConfigManagerImpl implements SystemConfigManager
 	/**
 	 * Set the XML config values.
 	 */
-	public void setXmlConfiguration (Configuration xmlConfiguration)
+	public void setXmlConfiguration(Configuration xmlConfiguration)
 	{
 		this.xmlConfiguration = xmlConfiguration;
 	}
@@ -72,13 +72,13 @@ public class SystemConfigManagerImpl implements SystemConfigManager
 	 * @param cache True if the retrieved value should be cached.
 	 * @return The configuration value.
 	 */
-	private Object get (String category, String name, boolean cache)
+	private Object get(String category, String name, boolean cache)
 	{
 		Object value = null;
 
 		if (cache)
 		{
-			value = configValues.get (category + ":" + name);
+			value = configValues.get(category + ":" + name);
 		}
 
 		if (value == null)
@@ -87,55 +87,55 @@ public class SystemConfigManagerImpl implements SystemConfigManager
 
 			try
 			{
-				config = systemConfigDAO.findByCategoryAndName (category, name);
+				config = systemConfigDAO.findByCategoryAndName(category, name);
 			}
 			catch (InvalidDataAccessResourceUsageException ignored)
 			{
 			}
 
-			if (config != null && (config.getValue () != null))
+			if (config != null && (config.getValue() != null))
 			{
-				if ("B".equals (config.getType ()))
+				if ("B".equals(config.getType()))
 				{
-					value = new Boolean (config.getValue ());
+					value = new Boolean(config.getValue());
 				}
-				else if ("I".equals (config.getType ()))
+				else if ("I".equals(config.getType()))
 				{
-					value = new Integer (config.getValue ());
+					value = new Integer(config.getValue());
 				}
-				else if ("T".equals (config.getType ()))
+				else if ("T".equals(config.getType()))
 				{
-					value = Time.valueOf (config.getValue ());
+					value = Time.valueOf(config.getValue());
 				}
 				else
 				{
-					value = config.getValue ();
+					value = config.getValue();
 				}
 			}
 
 			if (value == null)
 			{
-				Configuration[] configs = xmlConfiguration.getChildren ("config");
+				Configuration[] configs = xmlConfiguration.getChildren("config");
 
 				for (int i = 0; i < configs.length; ++i)
 				{
-					if (category.equals (configs[i].getAttribute ("category", null))
-									&& name.equals (configs[i].getAttribute ("name", null)))
+					if (category.equals(configs[i].getAttribute("category", null))
+									&& name.equals(configs[i].getAttribute("name", null)))
 					{
-						String type = configs[i].getAttribute ("type", "S");
-						String sValue = configs[i].getAttribute ("value", "");
+						String type = configs[i].getAttribute("type", "S");
+						String sValue = configs[i].getAttribute("value", "");
 
-						if ("B".equals (type))
+						if ("B".equals(type))
 						{
-							value = new Boolean (sValue);
+							value = new Boolean(sValue);
 						}
-						else if ("I".equals (type))
+						else if ("I".equals(type))
 						{
-							value = new Integer (sValue);
+							value = new Integer(sValue);
 						}
-						else if ("T".equals (type))
+						else if ("T".equals(type))
 						{
-							value = Time.valueOf (sValue);
+							value = Time.valueOf(sValue);
 						}
 						else
 						{
@@ -148,7 +148,7 @@ public class SystemConfigManagerImpl implements SystemConfigManager
 
 		if (cache && value != null)
 		{
-			configValues.put (category + ":" + name, value);
+			configValues.put(category + ":" + name, value);
 		}
 
 		return value;
@@ -161,53 +161,53 @@ public class SystemConfigManagerImpl implements SystemConfigManager
 	/**
 	 * @see de.iritgo.aktera.configuration.SystemConfigManager#get(java.lang.String, java.lang.String)
 	 */
-	public Object get (String category, String name)
+	public Object get(String category, String name)
 	{
-		return get (category, name, true);
+		return get(category, name, true);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.configuration.SystemConfigManager#getNoCache(java.lang.String, java.lang.String)
 	 */
-	public Object getNoCache (String category, String name)
+	public Object getNoCache(String category, String name)
 	{
-		return get (category, name, false);
+		return get(category, name, false);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.configuration.SystemConfigManager#getBool(java.lang.String, java.lang.String)
 	 */
-	public boolean getBool (String category, String name)
+	public boolean getBool(String category, String name)
 	{
-		return getBoolean (category, name).booleanValue ();
+		return getBoolean(category, name).booleanValue();
 	}
 
 	/**
 	 * @see de.iritgo.aktera.configuration.SystemConfigManager#getBoolean(java.lang.String, java.lang.String)
 	 */
-	public Boolean getBoolean (String category, String name)
+	public Boolean getBoolean(String category, String name)
 	{
-		Object value = get (category, name);
+		Object value = get(category, name);
 
-		return NumberTools.toBoolInstance (value, false);
+		return NumberTools.toBoolInstance(value, false);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.configuration.SystemConfigManager#getInt(java.lang.String, java.lang.String)
 	 */
-	public int getInt (String category, String name)
+	public int getInt(String category, String name)
 	{
-		return getInteger (category, name).intValue ();
+		return getInteger(category, name).intValue();
 	}
 
 	/**
 	 * @see de.iritgo.aktera.configuration.SystemConfigManager#getInt(java.lang.String, java.lang.String, int)
 	 */
-	public int getInt (String category, String name, int defaultValue)
+	public int getInt(String category, String name, int defaultValue)
 	{
 		try
 		{
-			return getInt (category, name);
+			return getInt(category, name);
 		}
 		catch (NumberFormatException x)
 		{
@@ -218,135 +218,135 @@ public class SystemConfigManagerImpl implements SystemConfigManager
 	/**
 	 * @see de.iritgo.aktera.configuration.SystemConfigManager#getInteger(java.lang.String, java.lang.String)
 	 */
-	public Integer getInteger (String category, String name)
+	public Integer getInteger(String category, String name)
 	{
-		Object value = get (category, name);
+		Object value = get(category, name);
 
-		return NumberTools.toIntInstance (value, 0);
+		return NumberTools.toIntInstance(value, 0);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.configuration.SystemConfigManager#getString(java.lang.String, java.lang.String)
 	 */
-	public String getString (String category, String name)
+	public String getString(String category, String name)
 	{
-		Object value = get (category, name);
+		Object value = get(category, name);
 
-		return StringTools.trim (value);
+		return StringTools.trim(value);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.configuration.SystemConfigManager#getTime(java.lang.String, java.lang.String)
 	 */
-	public Time getTime (String category, String name)
+	public Time getTime(String category, String name)
 	{
 		try
 		{
-			Object value = get (category, name);
+			Object value = get(category, name);
 
 			if (value instanceof Time)
 			{
 				return (Time) value;
 			}
 
-			return Time.valueOf (value.toString ());
+			return Time.valueOf(value.toString());
 		}
 		catch (Exception x)
 		{
-			return Time.valueOf ("00:00:00");
+			return Time.valueOf("00:00:00");
 		}
 	}
 
 	/**
 	 * @see de.iritgo.aktera.configuration.SystemConfigManager#invalidate(java.lang.String, java.lang.String)
 	 */
-	public void invalidate (String category, String name)
+	public void invalidate(String category, String name)
 	{
-		configValues.remove (category + ":" + name);
+		configValues.remove(category + ":" + name);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.configuration.SystemConfigManager#set(java.lang.String, java.lang.String, java.lang.String, java.lang.Object)
 	 */
-	public void set (String category, String name, String type, Object value)
+	public void set(String category, String name, String type, Object value)
 	{
-		systemConfigDAO.createOrUpdate (new SystemConfig (category, name, type, StringTools.trim (value)));
-		configValues.remove (category + ":" + name);
+		systemConfigDAO.createOrUpdate(new SystemConfig(category, name, type, StringTools.trim(value)));
+		configValues.remove(category + ":" + name);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.configuration.SystemConfigManager#getConfigState()
 	 */
-	public String getConfigState ()
+	public String getConfigState()
 	{
-		return getString ("system", "configChanged");
+		return getString("system", "configChanged");
 	}
 
 	/**
 	 * @see de.iritgo.aktera.configuration.SystemConfigManager#configChangedSoft()
 	 */
-	public void configChangedSoft ()
+	public void configChangedSoft()
 	{
-		if (isRebootFlagSet ())
+		if (isRebootFlagSet())
 		{
-			configChangedReboot ();
+			configChangedReboot();
 
 			return;
 		}
 
-		if (CHANGE_HARD.equals (getConfigState ()) || CHANGE_REBOOT.equals (getConfigState ()))
+		if (CHANGE_HARD.equals(getConfigState()) || CHANGE_REBOOT.equals(getConfigState()))
 		{
 			return;
 		}
 
-		set ("system", "configChanged", "S", SystemConfigManager.CHANGE_SOFT);
+		set("system", "configChanged", "S", SystemConfigManager.CHANGE_SOFT);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.configuration.SystemConfigManager#configChangedHard()
 	 */
-	public void configChangedHard ()
+	public void configChangedHard()
 	{
-		if (isRebootFlagSet ())
+		if (isRebootFlagSet())
 		{
-			configChangedReboot ();
+			configChangedReboot();
 
 			return;
 		}
 
-		if (CHANGE_REBOOT.equals (getConfigState ()))
+		if (CHANGE_REBOOT.equals(getConfigState()))
 		{
 			return;
 		}
 
-		set ("system", "configChanged", "S", SystemConfigManager.CHANGE_HARD);
+		set("system", "configChanged", "S", SystemConfigManager.CHANGE_HARD);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.configuration.SystemConfigManager#configChangedReboot()
 	 */
-	public void configChangedReboot ()
+	public void configChangedReboot()
 	{
-		clearRebootFlag ();
-		set ("system", "configChanged", "S", SystemConfigManager.CHANGE_REBOOT);
+		clearRebootFlag();
+		set("system", "configChanged", "S", SystemConfigManager.CHANGE_REBOOT);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.configuration.SystemConfigManager#configActivated()
 	 */
-	public void configActivated ()
+	public void configActivated()
 	{
-		set ("system", "configChanged", "S", SystemConfigManager.CHANGE_NO);
+		set("system", "configChanged", "S", SystemConfigManager.CHANGE_NO);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.configuration.SystemConfigManager#setRebootFlag()
 	 */
-	public void setRebootFlag ()
+	public void setRebootFlag()
 	{
 		try
 		{
-			rebootMarker.createNewFile ();
+			rebootMarker.createNewFile();
 		}
 		catch (Exception x)
 		{
@@ -356,11 +356,11 @@ public class SystemConfigManagerImpl implements SystemConfigManager
 	/**
 	 * @see de.iritgo.aktera.configuration.SystemConfigManager#clearRebootFlag()
 	 */
-	public void clearRebootFlag ()
+	public void clearRebootFlag()
 	{
 		try
 		{
-			rebootMarker.delete ();
+			rebootMarker.delete();
 		}
 		catch (Exception x)
 		{
@@ -370,25 +370,25 @@ public class SystemConfigManagerImpl implements SystemConfigManager
 	/**
 	 * @see de.iritgo.aktera.configuration.SystemConfigManager#isRebootFlagSet()
 	 */
-	public boolean isRebootFlagSet ()
+	public boolean isRebootFlagSet()
 	{
-		return rebootMarker.exists ();
+		return rebootMarker.exists();
 	}
 
 	/**
 	 * @see de.iritgo.aktera.configuration.SystemConfigManager#configIsUnchanged()
 	 */
-	public boolean configIsUnchanged ()
+	public boolean configIsUnchanged()
 	{
-		return CHANGE_NO.equals (getConfigState ());
+		return CHANGE_NO.equals(getConfigState());
 	}
 
 	/**
 	 * @see de.iritgo.aktera.configuration.SystemConfigManager#configNeedsReload()
 	 */
-	public boolean configNeedsReload ()
+	public boolean configNeedsReload()
 	{
-		return CHANGE_SOFT.equals (getConfigState ());
+		return CHANGE_SOFT.equals(getConfigState());
 	}
 
 	/**
@@ -396,16 +396,16 @@ public class SystemConfigManagerImpl implements SystemConfigManager
 	 *
 	 * @return True if the config needs a restart.
 	 */
-	public boolean configNeedsRestart ()
+	public boolean configNeedsRestart()
 	{
-		return CHANGE_HARD.equals (getConfigState ());
+		return CHANGE_HARD.equals(getConfigState());
 	}
 
 	/**
 	 * @see de.iritgo.aktera.configuration.SystemConfigManager#configNeedsReboot()
 	 */
-	public boolean configNeedsReboot ()
+	public boolean configNeedsReboot()
 	{
-		return CHANGE_REBOOT.equals (getConfigState ());
+		return CHANGE_REBOOT.equals(getConfigState());
 	}
 }

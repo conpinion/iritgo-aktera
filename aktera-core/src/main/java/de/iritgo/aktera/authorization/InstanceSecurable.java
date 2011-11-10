@@ -36,5 +36,5 @@ public interface InstanceSecurable extends Securable
 	 * which instance of the Securable class we're dealing with when
 	 * looking up authorizations.
 	 */
-	public String getInstanceIdentifier ();
+	public String getInstanceIdentifier();
 }

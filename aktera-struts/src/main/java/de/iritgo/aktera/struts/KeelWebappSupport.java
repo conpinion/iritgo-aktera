@@ -47,12 +47,12 @@ import java.util.logging.Logger;
 
 public class KeelWebappSupport
 {
-	private static List myClients = new ArrayList ();
+	private static List myClients = new ArrayList();
 
-	private static Logger log = Logger.getLogger (KeelWebappSupport.class.getName ());
+	private static Logger log = Logger.getLogger(KeelWebappSupport.class.getName());
 
 	//--- This is a Singleton so don't let anyone instantiate us.
-	private KeelWebappSupport ()
+	private KeelWebappSupport()
 	{
 	} // KeelWebappSupport
 
@@ -70,133 +70,133 @@ public class KeelWebappSupport
 	 * connection goes bad to one client, the next is used and so forth until there
 	 * are no more, at which point the first one is tried again.
 	 */
-	public static KeelClient getClient (HttpSession session) throws NestedException, ModelException, IOException
+	public static KeelClient getClient(HttpSession session) throws NestedException, ModelException, IOException
 	{
-		if (myClients.size () == 0)
+		if (myClients.size() == 0)
 		{
 			/* There were no available clients - initialize */
 
 			/* If the keel.config.dir is set in web.xml, override the */
 			/* existing system property by that name with the custom */
 			/* value. Only used if we're using a KeelDirect client! */
-			String configPath = session.getServletContext ().getInitParameter ("keel.config.dir");
+			String configPath = session.getServletContext().getInitParameter("keel.config.dir");
 
 			if (configPath != null)
 			{
-				if (! configPath.equals (""))
+				if (! configPath.equals(""))
 				{
-					System.setProperty ("keel.config.dir", getWebappPath (session, configPath));
+					System.setProperty("keel.config.dir", getWebappPath(session, configPath));
 				}
 			}
 
-			String configSet = System.getProperty ("keel.config.dir");
+			String configSet = System.getProperty("keel.config.dir");
 
 			if (configSet == null)
 			{
-				throw new NestedException ("System property keel.config.dir must be set - or specified in web.xml");
+				throw new NestedException("System property keel.config.dir must be set - or specified in web.xml");
 			}
 
-			String totalConfig = session.getServletContext ().getInitParameter ("jms-config");
+			String totalConfig = session.getServletContext().getInitParameter("jms-config");
 
 			if (totalConfig == null)
 			{
 				/* Use default configuration */
-				totalConfig = new String ("rmi://localhost:1099/JndiServer");
+				totalConfig = new String("rmi://localhost:1099/JndiServer");
 			}
 
-			StringTokenizer stk = new StringTokenizer (totalConfig, "|");
+			StringTokenizer stk = new StringTokenizer(totalConfig, "|");
 
-			while (stk.hasMoreTokens ())
+			while (stk.hasMoreTokens())
 			{
-				stk.nextToken ();
+				stk.nextToken();
 
-				int clientId = myClients.size () + 1;
+				int clientId = myClients.size() + 1;
 
 				/* Determine from configuration what client to use */
-				String clientClass = session.getServletContext ().getInitParameter ("jms-client");
+				String clientClass = session.getServletContext().getInitParameter("jms-client");
 
 				if (clientClass == null)
 				{
 					clientClass = "de.iritgo.aktera.comm.openjms.clients.KeelJmsClientOpenJMS";
-					log.info ("No jms-client parameter supplied - using default OpenJMS client");
+					log.info("No jms-client parameter supplied - using default OpenJMS client");
 				}
 
 				KeelClient oneClient = null;
 
 				try
 				{
-					oneClient = (KeelClient) Class.forName (clientClass).newInstance ();
+					oneClient = (KeelClient) Class.forName(clientClass).newInstance();
 				}
 				catch (Exception e)
 				{
-					throw new NestedException (e);
+					throw new NestedException(e);
 				}
 
-				oneClient.setId (clientId);
-				log.info ("Configuring Client " + clientId);
+				oneClient.setId(clientId);
+				log.info("Configuring Client " + clientId);
 
-				myClients.add (oneClient);
+				myClients.add(oneClient);
 			}
 		}
 
-		if (myClients.size () == 0)
+		if (myClients.size() == 0)
 		{
-			throw new NestedException ("No clients configured");
+			throw new NestedException("No clients configured");
 		}
 
 		/* Return the first available client */
-		return (KeelClient) myClients.get (0);
+		return (KeelClient) myClients.get(0);
 	}
 
-	private static String getWebappPath (HttpSession session, String configPath) throws IOException
+	private static String getWebappPath(HttpSession session, String configPath) throws IOException
 	{
-		String sep = System.getProperty ("file.separator");
+		String sep = System.getProperty("file.separator");
 		String newPath = configPath;
 
-		if (! configPath.startsWith ("/") && ! configPath.startsWith (sep))
+		if (! configPath.startsWith("/") && ! configPath.startsWith(sep))
 		{
-			String contextPath = session.getServletContext ().getRealPath (".");
+			String contextPath = session.getServletContext().getRealPath(".");
 
 			newPath = contextPath + sep + configPath;
 		}
 
-		File configDir = new File (newPath);
+		File configDir = new File(newPath);
 
-		return configDir.getCanonicalPath ();
+		return configDir.getCanonicalPath();
 	}
 
-	public static boolean allowed (HttpSession session, String resource, String operation)
+	public static boolean allowed(HttpSession session, String resource, String operation)
 	{
-		KeelRequest keelRequest = new ModelRequestMessage ();
+		KeelRequest keelRequest = new ModelRequestMessage();
 
-		keelRequest.setModel ("security.authorization");
-		keelRequest.setAttribute ("sessionid", session.getId ());
-		keelRequest.setParameter ("component", resource);
+		keelRequest.setModel("security.authorization");
+		keelRequest.setAttribute("sessionid", session.getId());
+		keelRequest.setParameter("component", resource);
 
 		if (operation != null)
 		{
-			keelRequest.setParameter ("operation", operation);
+			keelRequest.setParameter("operation", operation);
 		}
 
 		try
 		{
-			KeelResponse response = getClient (session).execute (keelRequest);
+			KeelResponse response = getClient(session).execute(keelRequest);
 
-			return ((Boolean) response.getAttribute ("allowed")).booleanValue ();
+			return ((Boolean) response.getAttribute("allowed")).booleanValue();
 		}
 		catch (ModelException e)
 		{
-			log.log (Level.SEVERE, e.getMessage (), e);
+			log.log(Level.SEVERE, e.getMessage(), e);
 		}
 		catch (IOException e)
 		{
-			log.log (Level.SEVERE, e.getMessage (), e);
+			log.log(Level.SEVERE, e.getMessage(), e);
 		}
 		catch (NestedException e)
 		{
-			log.log (Level.SEVERE, e.getMessage (), e);
+			log.log(Level.SEVERE, e.getMessage(), e);
 		}
 
-		throw new RuntimeException ("Unable to execute AuthorizationModel");
+		throw new RuntimeException("Unable to execute AuthorizationModel");
 	}
 }

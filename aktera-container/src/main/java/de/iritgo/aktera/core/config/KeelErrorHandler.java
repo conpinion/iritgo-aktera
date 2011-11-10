@@ -38,39 +38,39 @@ public class KeelErrorHandler implements ErrorHandler
 	/**
 	 * Constructor for KeelErrorHandler.
 	 */
-	public KeelErrorHandler ()
+	public KeelErrorHandler()
 	{
-		super ();
+		super();
 	}
 
-	private void showError (String msg, SAXParseException arg0) throws SAXException
+	private void showError(String msg, SAXParseException arg0) throws SAXException
 	{
-		System.err.println (msg + " at Line " + arg0.getLineNumber () + ", column " + arg0.getColumnNumber () + " in "
-						+ arg0.getSystemId ());
-		arg0.printStackTrace (System.err);
+		System.err.println(msg + " at Line " + arg0.getLineNumber() + ", column " + arg0.getColumnNumber() + " in "
+						+ arg0.getSystemId());
+		arg0.printStackTrace(System.err);
 	}
 
 	/**
 	 * @see org.xml.sax.ErrorHandler#error(SAXParseException)
 	 */
-	public void error (SAXParseException arg0) throws SAXException
+	public void error(SAXParseException arg0) throws SAXException
 	{
-		showError ("Error", arg0);
+		showError("Error", arg0);
 	}
 
 	/**
 	 * @see org.xml.sax.ErrorHandler#fatalError(SAXParseException)
 	 */
-	public void fatalError (SAXParseException arg0) throws SAXException
+	public void fatalError(SAXParseException arg0) throws SAXException
 	{
-		showError ("Fatal Error", arg0);
+		showError("Fatal Error", arg0);
 	}
 
 	/**
 	 * @see org.xml.sax.ErrorHandler#warning(SAXParseException)
 	 */
-	public void warning (SAXParseException arg0) throws SAXException
+	public void warning(SAXParseException arg0) throws SAXException
 	{
-		showError ("Warning", arg0);
+		showError("Warning", arg0);
 	}
 }

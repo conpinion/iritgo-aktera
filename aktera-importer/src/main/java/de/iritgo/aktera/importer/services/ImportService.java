@@ -42,7 +42,7 @@ public interface ImportService
 	 *            The XML import file to validate
 	 * @return True if the import file is valid
 	 */
-	public boolean validateXmlFile (File importFile);
+	public boolean validateXmlFile(File importFile);
 
 	/**
 	 * Perform an XML import.
@@ -50,7 +50,7 @@ public interface ImportService
 	 * @param importFile The XML file to import
 	 * @param reporter A report result writer
 	 */
-	public void importXmlFile (File importFile, PrintWriter reporter);
+	public void importXmlFile(File importFile, PrintWriter reporter);
 
 	/**
 	 * Perform an XML import.
@@ -59,7 +59,7 @@ public interface ImportService
 	 * @param reporter A report result writer
 	 * @param properties Additional import properties
 	 */
-	public void importXmlFile (File importFile, PrintWriter reporter, Properties properties);
+	public void importXmlFile(File importFile, PrintWriter reporter, Properties properties);
 
 	/**
 	 * Perform an XML import.
@@ -68,7 +68,7 @@ public interface ImportService
 	 * @param importHandler The import handler to use (can be null)
 	 * @param reporter A report result writer
 	 */
-	public void importXmlFile (File importFile, String importHandler, PrintWriter reporter);
+	public void importXmlFile(File importFile, String importHandler, PrintWriter reporter);
 
 	/**
 	 * Perform an XML import.
@@ -78,5 +78,5 @@ public interface ImportService
 	 * @param reporter A report result writer
 	 * @param properties Additional import properties
 	 */
-	public void importXmlFile (File importFile, String importHandler, PrintWriter reporter, Properties properties);
+	public void importXmlFile(File importFile, String importHandler, PrintWriter reporter, Properties properties);
 }

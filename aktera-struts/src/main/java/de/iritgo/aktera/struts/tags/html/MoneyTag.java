@@ -47,7 +47,7 @@ public class MoneyTag extends SelectTagBase
 	 *
 	 * @param readOnly Read only flag.
 	 */
-	public void setReadOnly (boolean readOnly)
+	public void setReadOnly(boolean readOnly)
 	{
 		this.readOnly = readOnly;
 	}
@@ -57,7 +57,7 @@ public class MoneyTag extends SelectTagBase
 	 *
 	 * @retrun The read only flag.
 	 */
-	public boolean getReadOnly ()
+	public boolean getReadOnly()
 	{
 		return readOnly;
 	}
@@ -67,17 +67,17 @@ public class MoneyTag extends SelectTagBase
 	 *
 	 * @exception JspException if a JSP exception has occurred.
 	 */
-	public int doEndTag () throws JspException
+	public int doEndTag() throws JspException
 	{
-		StringBuffer results = new StringBuffer ();
+		StringBuffer results = new StringBuffer();
 
-		createValueField (results);
+		createValueField(results);
 
-		results.append ("&nbsp;");
+		results.append("&nbsp;");
 
-		createCurrencyField (results);
+		createCurrencyField(results);
 
-		TagUtils.getInstance ().write (pageContext, results.toString ());
+		TagUtils.getInstance().write(pageContext, results.toString());
 
 		return EVAL_PAGE;
 	}
@@ -87,45 +87,45 @@ public class MoneyTag extends SelectTagBase
 	 *
 	 * @param result The receiving string buffer.
 	 */
-	protected void createValueField (StringBuffer results) throws JspException
+	protected void createValueField(StringBuffer results) throws JspException
 	{
-		String value = getBeanProperty ("Value").toString ();
+		String value = getBeanProperty("Value").toString();
 
-		results.append ("<input type=\"text\"");
-		results.append (" name=\"");
+		results.append("<input type=\"text\"");
+		results.append(" name=\"");
 
 		if (indexed)
 		{
-			prepareIndex (results, name);
+			prepareIndex(results, name);
 		}
 
-		results.append (property);
-		results.append ("\"");
+		results.append(property);
+		results.append("\"");
 
 		if (accesskey != null)
 		{
-			results.append (" accesskey=\"");
-			results.append (accesskey);
-			results.append ("\"");
+			results.append(" accesskey=\"");
+			results.append(accesskey);
+			results.append("\"");
 		}
 
 		if (tabindex != null)
 		{
-			results.append (" tabindex=\"");
-			results.append (tabindex);
-			results.append ("\"");
+			results.append(" tabindex=\"");
+			results.append(tabindex);
+			results.append("\"");
 		}
 
-		results.append (" value=\"");
-		results.append (value);
-		results.append ("\"");
+		results.append(" value=\"");
+		results.append(value);
+		results.append("\"");
 
-		results.append (prepareEventHandlers ());
+		results.append(prepareEventHandlers());
 
-		results.append (" style=\"text-align:right;}\"");
+		results.append(" style=\"text-align:right;}\"");
 
 		//         results.append (prepareStyles());
-		results.append ("</input>");
+		results.append("</input>");
 	}
 
 	/**
@@ -133,30 +133,30 @@ public class MoneyTag extends SelectTagBase
 	 *
 	 * @param result The receiving string buffer.
 	 */
-	protected void createCurrencyField (StringBuffer results) throws JspException
+	protected void createCurrencyField(StringBuffer results) throws JspException
 	{
-		String currency = getBeanProperty ("Currency").toString ();
+		String currency = getBeanProperty("Currency").toString();
 
-		createSelectTag (results, "Currency");
+		createSelectTag(results, "Currency");
 
 		// 		results.append ("<option value=\"\">---</option>\n");
 		for (int i = 0; i < currencies.length; ++i)
 		{
-			results.append ("<option value=\"");
-			results.append (currencies[i]);
-			results.append ("\"");
+			results.append("<option value=\"");
+			results.append(currencies[i]);
+			results.append("\"");
 			;
 
-			if (currencies[i].equals (currency))
+			if (currencies[i].equals(currency))
 			{
-				results.append (" selected=\"selected\"");
+				results.append(" selected=\"selected\"");
 			}
 
-			results.append (">");
-			results.append (currencies[i]);
-			results.append ("</option>\n");
+			results.append(">");
+			results.append(currencies[i]);
+			results.append("</option>\n");
 		}
 
-		results.append ("</select>\n");
+		results.append("</select>\n");
 	}
 }

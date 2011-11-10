@@ -34,54 +34,54 @@ import java.util.List;
 public class ThreadUtil
 {
 	//--- Do not allow this to be instantiated since it is a Singleton.
-	private ThreadUtil ()
+	private ThreadUtil()
 	{
 	} // ThreadUtil
 
-	public static final void showInfo ()
+	public static final void showInfo()
 	{
-		ThreadUtil.showInfo (Thread.currentThread ());
+		ThreadUtil.showInfo(Thread.currentThread());
 	}
 
-	public static final void showInfo (Thread thread)
+	public static final void showInfo(Thread thread)
 	{
-		ThreadGroup tGroup = thread.getThreadGroup ();
-		String tgName = tGroup.getName ();
-		String tName = thread.getName ();
+		ThreadGroup tGroup = thread.getThreadGroup();
+		String tgName = tGroup.getName();
+		String tName = thread.getName();
 
-		print ("<This thread is:> " + tName);
-		print ("<This thread is part of the following thread group:> " + tgName);
-		print ("");
-		print ("<***ThreadGroup Hierarchy is below (" + tgName + ") ***>");
-		showThreads (tGroup);
+		print("<This thread is:> " + tName);
+		print("<This thread is part of the following thread group:> " + tgName);
+		print("");
+		print("<***ThreadGroup Hierarchy is below (" + tgName + ") ***>");
+		showThreads(tGroup);
 	}
 
-	public static final void showThreads (ThreadGroup tGroup)
+	public static final void showThreads(ThreadGroup tGroup)
 	{
-		showThreads (tGroup, true);
+		showThreads(tGroup, true);
 	}
 
-	public static final void showThreads (ThreadGroup tGroup, boolean recurseThroughParents)
+	public static final void showThreads(ThreadGroup tGroup, boolean recurseThroughParents)
 	{
-		ThreadGroup parentGroup = tGroup.getParent ();
+		ThreadGroup parentGroup = tGroup.getParent();
 
 		if (recurseThroughParents)
 		{
 			if (parentGroup != null)
 			{
-				showThreads (parentGroup, recurseThroughParents);
+				showThreads(parentGroup, recurseThroughParents);
 			}
 			else
 			{
-				print ("<* Parent Group is null*>");
+				print("<* Parent Group is null*>");
 			}
 		}
 
-		print ("<***Threads in Group: " + tGroup.getName () + " ***>");
+		print("<***Threads in Group: " + tGroup.getName() + " ***>");
 
-		int size = tGroup.activeCount ();
+		int size = tGroup.activeCount();
 		Thread[] threadArray = new Thread[size + 4];
-		int len = tGroup.enumerate (threadArray); //Popluate array with all threads in this group
+		int len = tGroup.enumerate(threadArray); //Popluate array with all threads in this group
 
 		for (int i = 0; i < len; i++)
 		{
@@ -89,14 +89,14 @@ public class ThreadUtil
 
 			if (thread != null)
 			{
-				print ("  <Thread " + Integer.toString (i) + "> " + thread.getName ());
+				print("  <Thread " + Integer.toString(i) + "> " + thread.getName());
 			}
 		}
 	}
 
-	public static final void print (String string)
+	public static final void print(String string)
 	{
-		System.err.println (string);
+		System.err.println(string);
 	}
 
 	/**
@@ -105,30 +105,30 @@ public class ThreadUtil
 	 * It returns the first thread it finds that meets this criteria.  If no thread meets this criteria then it returns null;   If contains2 is an empty string
 	 * or contains2 is null, then it only checks for a match in contains1.
 	 */
-	public static final Thread findThread (Thread threadToSearch, String groupName, String contains1, String contains2,
+	public static final Thread findThread(Thread threadToSearch, String groupName, String contains1, String contains2,
 					boolean recurseThroughSubGroups)
 	{
 		Thread foundThread = null;
-		ThreadGroup tGroup = findThreadGroup (threadToSearch, groupName);
-		List threadList = listThreads (tGroup, recurseThroughSubGroups);
-		Iterator iter = threadList.iterator ();
+		ThreadGroup tGroup = findThreadGroup(threadToSearch, groupName);
+		List threadList = listThreads(tGroup, recurseThroughSubGroups);
+		Iterator iter = threadList.iterator();
 		boolean found = false;
 
-		while (iter.hasNext () && ! found)
+		while (iter.hasNext() && ! found)
 		{
-			Thread thread = (Thread) iter.next ();
-			String tName = thread.getName ().toUpperCase ();
+			Thread thread = (Thread) iter.next();
+			String tName = thread.getName().toUpperCase();
 
-			if (contains1 != null && contains1.length () > 0 && contains2 != null && contains2.length () > 0)
+			if (contains1 != null && contains1.length() > 0 && contains2 != null && contains2.length() > 0)
 			{
-				if (tName.indexOf (contains1.toUpperCase ()) >= 0 && tName.indexOf (contains2.toUpperCase ()) >= 0)
+				if (tName.indexOf(contains1.toUpperCase()) >= 0 && tName.indexOf(contains2.toUpperCase()) >= 0)
 				{
 					found = true;
 				}
 			}
-			else if (contains1 != null && contains1.length () > 0)
+			else if (contains1 != null && contains1.length() > 0)
 			{
-				if (tName.indexOf (contains1.toUpperCase ()) >= 0)
+				if (tName.indexOf(contains1.toUpperCase()) >= 0)
 				{
 					found = true;
 				}
@@ -149,9 +149,9 @@ public class ThreadUtil
 	 * @param tGroup
 	 * @return
 	 */
-	private static List listThreads (ThreadGroup tGroup, boolean recurse)
+	private static List listThreads(ThreadGroup tGroup, boolean recurse)
 	{
-		List threadList = new ArrayList ();
+		List threadList = new ArrayList();
 
 		if (tGroup != null)
 		{
@@ -163,15 +163,15 @@ public class ThreadUtil
 			}
 			else
 			{
-				size = tGroup.activeCount () + 16;
+				size = tGroup.activeCount() + 16;
 			}
 
 			Thread[] threadArray = new Thread[size];
-			int numThreads = tGroup.enumerate (threadArray, recurse);
+			int numThreads = tGroup.enumerate(threadArray, recurse);
 
 			for (int i = 0; i < numThreads; i++)
 			{
-				threadList.add (threadArray[i]);
+				threadList.add(threadArray[i]);
 			}
 		}
 
@@ -187,18 +187,18 @@ public class ThreadUtil
 	 * @param groupName
 	 * @return
 	 */
-	private static ThreadGroup findThreadGroup (Thread threadToSearch, String groupName)
+	private static ThreadGroup findThreadGroup(Thread threadToSearch, String groupName)
 	{
 		ThreadGroup foundThreadGroup = null;
 		boolean found = false;
 
-		if (groupName != null && groupName.length () > 0)
+		if (groupName != null && groupName.length() > 0)
 		{
-			ThreadGroup tGroup = threadToSearch.getThreadGroup ();
+			ThreadGroup tGroup = threadToSearch.getThreadGroup();
 
 			while (tGroup != null && ! found)
 			{
-				if (tGroup.getName ().toUpperCase ().indexOf (groupName.toUpperCase ()) >= 0)
+				if (tGroup.getName().toUpperCase().indexOf(groupName.toUpperCase()) >= 0)
 				{
 					found = true;
 				}
@@ -209,7 +209,7 @@ public class ThreadUtil
 				}
 				else
 				{
-					tGroup = tGroup.getParent ();
+					tGroup = tGroup.getParent();
 				}
 			} //end-while
 		}

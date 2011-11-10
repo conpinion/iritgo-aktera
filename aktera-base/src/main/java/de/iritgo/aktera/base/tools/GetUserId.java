@@ -49,80 +49,80 @@ public class GetUserId extends StandardLogEnabledModel
 	 * @param req The model request.
 	 * @throws ModelException In case of a business failure.
 	 */
-	public ModelResponse execute (ModelRequest req) throws ModelException
+	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
-		ModelResponse res = req.createResponse ();
+		ModelResponse res = req.createResponse();
 
 		int uid = 0;
 
 		try
 		{
-			Context ctx = req.getContext ();
+			Context ctx = req.getContext();
 			UserEnvironment ue = null;
 
 			if (ctx != null)
 			{
 				try
 				{
-					ue = (UserEnvironment) ctx.get (UserEnvironment.CONTEXT_KEY);
-					uid = ue.getUid ();
+					ue = (UserEnvironment) ctx.get(UserEnvironment.CONTEXT_KEY);
+					uid = ue.getUid();
 				}
 				catch (ContextException ce)
 				{
-					log.debug ("Unable to acces user environment from context!");
+					log.debug("Unable to acces user environment from context!");
 				}
 				catch (AuthorizationException x)
 				{
-					log.debug ("AuthorizationException!");
+					log.debug("AuthorizationException!");
 				}
 
 				if (ue != null)
 				{
 					try
 					{
-						if (ue.getUid () == UserEnvironment.ANONYMOUS_UID)
+						if (ue.getUid() == UserEnvironment.ANONYMOUS_UID)
 						{
-							log.debug ("BUG, this can't true");
+							log.debug("BUG, this can't true");
 						}
 					}
 					catch (AuthorizationException e)
 					{
-						log.debug ("Unable to acces user environment from context!");
-						throw new ModelException ("Unable to acces user environment from context!", e);
+						log.debug("Unable to acces user environment from context!");
+						throw new ModelException("Unable to acces user environment from context!", e);
 					}
 				}
 				else
 				{
-					log.debug ("Unable to acces user environment from context!");
-					throw new ModelException ("Unable to acces user environment from context!");
+					log.debug("Unable to acces user environment from context!");
+					throw new ModelException("Unable to acces user environment from context!");
 				}
 			}
 
-			PersistentFactory persistentManager = (PersistentFactory) req.getService (PersistentFactory.ROLE, req
-							.getDomain ());
+			PersistentFactory persistentManager = (PersistentFactory) req.getService(PersistentFactory.ROLE, req
+							.getDomain());
 
-			Persistent keelUser = persistentManager.create ("keel.user");
+			Persistent keelUser = persistentManager.create("keel.user");
 
-			keelUser.setField ("uid", new Integer (uid));
+			keelUser.setField("uid", new Integer(uid));
 
-			if (! keelUser.find ())
+			if (! keelUser.find())
 			{
-				ThreadedModel.sleep (3000);
-				res.addError ("notLoggedIn", "You are not logged in.");
+				ThreadedModel.sleep(3000);
+				res.addError("notLoggedIn", "You are not logged in.");
 
 				return res;
 			}
 		}
 		catch (PersistenceException x)
 		{
-			log.error ("Database Error", x);
-			throw new ModelException ("$databaseError", x);
+			log.error("Database Error", x);
+			throw new ModelException("$databaseError", x);
 		}
 		catch (InterruptedException ie)
 		{
 		}
 
-		res.setAttribute ("userId", new Integer (uid));
+		res.setAttribute("userId", new Integer(uid));
 
 		return res;
 	}

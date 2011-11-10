@@ -35,8 +35,8 @@ import de.iritgo.aktera.model.StandardLogEnabledModel;
  */
 public class SystemConfiguration extends StandardLogEnabledModel
 {
-	public ModelResponse execute (ModelRequest req) throws ModelException
+	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
-		return req.createResponse ();
+		return req.createResponse();
 	}
 }

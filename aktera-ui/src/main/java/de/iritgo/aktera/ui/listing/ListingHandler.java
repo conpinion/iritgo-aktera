@@ -46,7 +46,7 @@ public class ListingHandler
 	 *
 	 * @param defaultHandler The new default handler
 	 */
-	public void setDefaultHandler (ListingHandler defaultHandler)
+	public void setDefaultHandler(ListingHandler defaultHandler)
 	{
 		this.defaultHandler = defaultHandler;
 	}
@@ -59,7 +59,7 @@ public class ListingHandler
 	 * @param context The list context
 	 * @throws ModelException In case of an error
 	 */
-	public void adjustListing (ModelRequest req, ListingDescriptor listing, ListContext context) throws ModelException
+	public void adjustListing(ModelRequest req, ListingDescriptor listing, ListContext context) throws ModelException
 	{
 	}
 
@@ -71,7 +71,7 @@ public class ListingHandler
 	 * @return A map of (value, label) entries
 	 * @throws ModelException In case of an error
 	 */
-	public Map<String, String> createSearchCategories (ModelRequest request, ListingDescriptor listing)
+	public Map<String, String> createSearchCategories(ModelRequest request, ListingDescriptor listing)
 		throws ModelException
 	{
 		return null;
@@ -85,11 +85,11 @@ public class ListingHandler
 	 * @return The currently selected search category
 	 * @throws ModelException In case of an error
 	 */
-	public String getCurrentSearchCategory (ModelRequest request, ListingDescriptor listing) throws ModelException
+	public String getCurrentSearchCategory(ModelRequest request, ListingDescriptor listing) throws ModelException
 	{
-		Object category = request.getParameter (listing.getId () + "SearchCategory");
+		Object category = request.getParameter(listing.getId() + "SearchCategory");
 
-		return category != null ? category.toString () : null;
+		return category != null ? category.toString() : null;
 	}
 
 	/**
@@ -103,10 +103,10 @@ public class ListingHandler
 	 * @throws ModelException In case of an error
 	 * @throws PersistenceException In case of a database error
 	 */
-	public ListFiller createListing (ModelRequest request, ListingDescriptor listing, ListingHandler handler,
+	public ListFiller createListing(ModelRequest request, ListingDescriptor listing, ListingHandler handler,
 					ListContext context) throws ModelException, PersistenceException
 	{
-		return defaultHandler.createListing (request, listing, handler, context);
+		return defaultHandler.createListing(request, listing, handler, context);
 	}
 
 	/**
@@ -121,11 +121,11 @@ public class ListingHandler
 	 * @throws PersistenceException In case of a database error
 	 * @throws SQLException In case of a database error
 	 */
-	public CellData handleResult (ModelRequest req, ModelResponse res, ListingDescriptor listing,
+	public CellData handleResult(ModelRequest req, ModelResponse res, ListingDescriptor listing,
 					@SuppressWarnings("unused") RowData data, @SuppressWarnings("unused") ColumnDescriptor column)
 		throws PersistenceException, ModelException, SQLException
 	{
-		return new CellData ();
+		return new CellData();
 	}
 
 	/**
@@ -138,22 +138,22 @@ public class ListingHandler
 	 * @throws PermissionException If the current user has no permission to upload files
 	 * for another user
 	 */
-	protected Integer getActualUserId (ModelRequest request)
+	protected Integer getActualUserId(ModelRequest request)
 		throws PersistenceException, PermissionException, ModelException
 	{
-		if (! StringTools.isTrimEmpty (request.getParameter ("userId")))
+		if (! StringTools.isTrimEmpty(request.getParameter("userId")))
 		{
-			int userId = request.getParameterAsInt ("userId", - 1);
+			int userId = request.getParameterAsInt("userId", - 1);
 
-			if (! UserTools.currentUserIsInGroup (request, "manager") && UserTools.getCurrentUserId (request) != userId)
+			if (! UserTools.currentUserIsInGroup(request, "manager") && UserTools.getCurrentUserId(request) != userId)
 			{
-				throw new PermissionException ("Permission denied to edit com device function keys of user " + userId);
+				throw new PermissionException("Permission denied to edit com device function keys of user " + userId);
 			}
 
 			return userId;
 		}
 
-		return UserTools.getCurrentUserId (request);
+		return UserTools.getCurrentUserId(request);
 	}
 
 	/**
@@ -166,19 +166,19 @@ public class ListingHandler
 	 * @throws PermissionException If the current user has no permission to upload files
 	 * for another user
 	 */
-	protected String getActualUserName (ModelRequest request)
+	protected String getActualUserName(ModelRequest request)
 		throws PersistenceException, PermissionException, ModelException
 	{
-		if (! StringTools.isTrimEmpty (request.getParameter ("userId")))
+		if (! StringTools.isTrimEmpty(request.getParameter("userId")))
 		{
-			int userId = request.getParameterAsInt ("userId", - 1);
-			if (! UserTools.currentUserIsInGroup (request, "manager") && UserTools.getCurrentUserId (request) != userId)
+			int userId = request.getParameterAsInt("userId", - 1);
+			if (! UserTools.currentUserIsInGroup(request, "manager") && UserTools.getCurrentUserId(request) != userId)
 			{
-				throw new PermissionException ("Permission denied to edit com device function keys of user " + userId);
+				throw new PermissionException("Permission denied to edit com device function keys of user " + userId);
 			}
-			UserDAO userDAO = (UserDAO) SpringTools.getBean (UserDAO.ID);
-			return userDAO.findUserById (userId).getName ();
+			UserDAO userDAO = (UserDAO) SpringTools.getBean(UserDAO.ID);
+			return userDAO.findUserById(userId).getName();
 		}
-		return UserTools.getCurrentUserName (request);
+		return UserTools.getCurrentUserName(request);
 	}
 }

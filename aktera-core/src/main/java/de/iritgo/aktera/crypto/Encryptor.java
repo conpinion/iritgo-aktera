@@ -39,7 +39,7 @@ public interface Encryptor
 	 * @return The byte array containing the decrypted version of the input
 	 * data.
 	 */
-	public byte[] decrypt (byte[] inputData) throws NestedException;
+	public byte[] decrypt(byte[] inputData) throws NestedException;
 
 	/**
 	 *  Encrypt the specified data according to the appropriate algorithm.
@@ -48,7 +48,7 @@ public interface Encryptor
 	 * @throws  ChainedException If there was an error during encryption.
 	 * @return The encrypted data as a byte array.
 	 */
-	public byte[] encrypt (byte[] inputData) throws NestedException;
+	public byte[] encrypt(byte[] inputData) throws NestedException;
 
 	/**
 	 * Apply a one-way "hash" to the input data, rendering it unreadable. The
@@ -59,12 +59,12 @@ public interface Encryptor
 	 * @return byte[]
 	 * @throws NestedException
 	 */
-	public byte[] hash (byte[] inputData) throws NestedException;
+	public byte[] hash(byte[] inputData) throws NestedException;
 
 	/**
 	 * Set the encryption key - if this algorithm uses such a key
 	 * @param newKey The encryption key to be used in subsequent
 	 * encryption/decryption calls.
 	 */
-	public void setKey (String newKey);
+	public void setKey(String newKey);
 }

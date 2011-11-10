@@ -31,25 +31,25 @@ import java.util.List;
  */
 public class AuthorizationDAOImpl extends HibernateDaoSupport implements AuthorizationDAO
 {
-	public ComponentSecurity findComponentSecurityById (String component, String group)
+	public ComponentSecurity findComponentSecurityById(String component, String group)
 	{
-		List<ComponentSecurity> res = getHibernateTemplate ().find (
+		List<ComponentSecurity> res = getHibernateTemplate().find(
 						"from ComponentSecurity where component = ? and groupName = ?", new Object[]
 						{
 										component, group
 						});
 
-		return res.size () > 0 ? res.get (0) : null;
+		return res.size() > 0 ? res.get(0) : null;
 	}
 
-	public InstanceSecurity findInstanceSecurityById (String component, String instance, String group)
+	public InstanceSecurity findInstanceSecurityById(String component, String instance, String group)
 	{
-		List<InstanceSecurity> res = getHibernateTemplate ().find (
+		List<InstanceSecurity> res = getHibernateTemplate().find(
 						"from InstanceSecurity where component = ? and instance = ? and groupName = ?", new Object[]
 						{
 										component, instance, group
 						});
 
-		return res.size () > 0 ? res.get (0) : null;
+		return res.size() > 0 ? res.get(0) : null;
 	}
 }

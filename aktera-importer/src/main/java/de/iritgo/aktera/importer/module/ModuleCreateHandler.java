@@ -36,11 +36,11 @@ import java.sql.SQLException;
  */
 public class ModuleCreateHandler extends CreateHandler
 {
-	public void createData (PersistentFactory persistentFactory, Connection connection, Logger logger,
+	public void createData(PersistentFactory persistentFactory, Connection connection, Logger logger,
 					ModelRequest request) throws ModelException, PersistenceException, SQLException
 	{
-		createComponentSecurity ("de.iritgo.aktera.importer.ui.Import", "user", "*");
-		createComponentSecurity ("de.iritgo.aktera.importer.ui.ImportReport", "user", "*");
-		createComponentSecurity ("de.iritgo.aktera.importer.ui.ImportAnalyseReport", "user", "*");
+		createComponentSecurity("de.iritgo.aktera.importer.ui.Import", "user", "*");
+		createComponentSecurity("de.iritgo.aktera.importer.ui.ImportReport", "user", "*");
+		createComponentSecurity("de.iritgo.aktera.importer.ui.ImportAnalyseReport", "user", "*");
 	}
 }

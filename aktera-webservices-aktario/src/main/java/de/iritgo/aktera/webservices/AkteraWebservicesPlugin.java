@@ -26,8 +26,8 @@ import de.iritgo.aktario.framework.base.FrameworkPlugin;
 public class AkteraWebservicesPlugin extends FrameworkPlugin
 {
 	@Override
-	protected void registerClientManagers ()
+	protected void registerClientManagers()
 	{
-		registerManager (new WebservicesClientManager ());
+		registerManager(new WebservicesClientManager());
 	}
 }

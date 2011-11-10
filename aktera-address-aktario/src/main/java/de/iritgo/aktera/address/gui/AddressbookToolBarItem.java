@@ -37,39 +37,39 @@ public class AddressbookToolBarItem extends IAction
 {
 	private boolean firstActivation = true;
 
-	public AddressbookToolBarItem ()
+	public AddressbookToolBarItem()
 	{
-		setSmallIcon (new ImageIcon (getClass ().getResource ("/resources/address.png")));
-		setToolTipText ("addressButton");
+		setSmallIcon(new ImageIcon(getClass().getResource("/resources/address.png")));
+		setToolTipText("addressButton");
 	}
 
-	public void actionPerformed (ActionEvent e)
+	public void actionPerformed(ActionEvent e)
 	{
 		if (firstActivation)
 		{
-			Properties props = new Properties ();
+			Properties props = new Properties();
 
-			props.put ("closable", false);
-			props.put ("iconifiable", false);
-			props.put ("maximizable", false);
-			props.put ("maximized", false);
-			props.put ("titlebar", false);
-			props.put ("visible", true);
-			CommandTools.performAsync (new ShowWindow ("AddressQueryGuiPane"), props);
+			props.put("closable", false);
+			props.put("iconifiable", false);
+			props.put("maximizable", false);
+			props.put("maximized", false);
+			props.put("titlebar", false);
+			props.put("visible", true);
+			CommandTools.performAsync(new ShowWindow("AddressQueryGuiPane"), props);
 			firstActivation = false;
 		}
 		else
 		{
-			if (Client.instance ().getClientGUI ().getDesktopManager ().getDisplay ("AddressQueryGuiPane") == null)
+			if (Client.instance().getClientGUI().getDesktopManager().getDisplay("AddressQueryGuiPane") == null)
 			{
 				firstActivation = true;
-				actionPerformed (null);
+				actionPerformed(null);
 
 				return;
 			}
 
-			Client.instance ().getClientGUI ().getDesktopManager ().getDisplay ("AddressQueryGuiPane").bringToFront ();
-			Client.instance ().getClientGUI ().getDesktopManager ().getDisplay ("AddressQueryGuiPane").show ();
+			Client.instance().getClientGUI().getDesktopManager().getDisplay("AddressQueryGuiPane").bringToFront();
+			Client.instance().getClientGUI().getDesktopManager().getDisplay("AddressQueryGuiPane").show();
 		}
 	}
 }

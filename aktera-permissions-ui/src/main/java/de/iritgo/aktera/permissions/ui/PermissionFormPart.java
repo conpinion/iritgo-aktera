@@ -28,12 +28,12 @@ import de.iritgo.aktera.ui.listing.RowData;
 
 public abstract class PermissionFormPart
 {
-	public String getBundle ()
+	public String getBundle()
 	{
 		return "Aktera";
 	}
 
-	public abstract String[] getPermissionKeys ();
+	public abstract String[] getPermissionKeys();
 
 	/**
 	 * Create an detail info string for the permission list.
@@ -43,7 +43,7 @@ public abstract class PermissionFormPart
 	 * @return An detail info string
 	 * @throws ModelException In case of an error
 	 */
-	public String createListInfo (ModelRequest request, RowData data) throws PersistenceException, ModelException
+	public String createListInfo(ModelRequest request, RowData data) throws PersistenceException, ModelException
 	{
 		return null;
 	}
@@ -57,7 +57,7 @@ public abstract class PermissionFormPart
 	 * @param formular The formular.
 	 * @param persistents The persistent objects.
 	 */
-	public void adjustFormular (ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents)
+	public void adjustFormular(ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents)
 		throws ModelException, PersistenceException
 	{
 	}
@@ -73,7 +73,7 @@ public abstract class PermissionFormPart
 	 * @param create True if the persistents are about to be created.
 	 * @param result The validation result.
 	 */
-	public void validatePersistents (ModelRequest request, ModelResponse response, FormularDescriptor formular,
+	public void validatePersistents(ModelRequest request, ModelResponse response, FormularDescriptor formular,
 					PersistentDescriptor persistents, boolean create, ValidationResult result)
 		throws ModelException, PersistenceException
 	{

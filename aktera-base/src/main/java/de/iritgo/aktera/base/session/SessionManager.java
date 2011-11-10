@@ -47,26 +47,26 @@ public class SessionManager extends StandardLogEnabledModel implements Initializ
 	 * @param req The model request.
 	 * @return The model response.
 	 */
-	public ModelResponse execute (ModelRequest req) throws ModelException
+	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
-		ModelResponse res = req.createResponse ();
+		ModelResponse res = req.createResponse();
 
-		String command = req.getParameterAsString ("command");
+		String command = req.getParameterAsString("command");
 
-		if ("update".equals (command))
+		if ("update".equals(command))
 		{
 		}
-		else if ("login".equals (command))
+		else if ("login".equals(command))
 		{
 		}
-		else if ("logout".equals (command))
+		else if ("logout".equals(command))
 		{
 		}
 		else
 		{
-			if ("destroyed".equals (req.getParameterAsString ("sessionEvent")))
+			if ("destroyed".equals(req.getParameterAsString("sessionEvent")))
 			{
-				ModelTools.callModel (req, "aktera.session.logout");
+				ModelTools.callModel(req, "aktera.session.logout");
 			}
 		}
 
@@ -76,7 +76,7 @@ public class SessionManager extends StandardLogEnabledModel implements Initializ
 	/**
 	 * Initialize the component.
 	 */
-	public void initialize ()
+	public void initialize()
 	{
 		ModelRequest req = null;
 

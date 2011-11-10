@@ -51,35 +51,35 @@ public class ModuleInfo extends StandardLogEnabledModel
 	 * @param req The model request.
 	 * @return The model response.
 	 */
-	public ModelResponse execute (ModelRequest req) throws ModelException
+	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
-		ModelResponse res = req.createResponse ();
+		ModelResponse res = req.createResponse();
 
-		Output outModuleList = res.createOutput ("modules");
+		Output outModuleList = res.createOutput("modules");
 
-		res.add (outModuleList);
+		res.add(outModuleList);
 
 		try
 		{
-			Configuration config = getConfiguration ();
+			Configuration config = getConfiguration();
 
-			Configuration[] modules = config.getChildren ("module");
+			Configuration[] modules = config.getChildren("module");
 
 			for (int i = 0; i < modules.length; ++i)
 			{
 				Configuration module = modules[i];
 
-				if (LicenseTools.getLicenseInfo ().moduleAllowed (module.getAttribute ("id")))
+				if (LicenseTools.getLicenseInfo().moduleAllowed(module.getAttribute("id")))
 				{
-					Output outModule = res.createOutput ("module_" + module.getAttribute ("id"));
+					Output outModule = res.createOutput("module_" + module.getAttribute("id"));
 
-					outModuleList.add (outModule);
-					outModule.setAttribute ("name", module.getChild ("name").getValue ());
-					outModule.setAttribute ("version", module.getChild ("version").getValue ());
-					outModule.setAttribute ("type", module.getAttribute ("type", "application"));
-					outModule.setAttribute ("description", module.getChild ("description").getValue ());
-					outModule.setAttribute ("copyright", module.getChild ("copyright").getValue ("").replaceAll (
-									"\\\\n", "<br />"));
+					outModuleList.add(outModule);
+					outModule.setAttribute("name", module.getChild("name").getValue());
+					outModule.setAttribute("version", module.getChild("version").getValue());
+					outModule.setAttribute("type", module.getAttribute("type", "application"));
+					outModule.setAttribute("description", module.getChild("description").getValue());
+					outModule.setAttribute("copyright", module.getChild("copyright").getValue("").replaceAll("\\\\n",
+									"<br />"));
 				}
 			}
 		}
@@ -95,40 +95,40 @@ public class ModuleInfo extends StandardLogEnabledModel
 	 *
 	 * @return The configuration list.
 	 */
-	public static List<Configuration> moduleConfigsSortedByDependency (ModelRequest req)
+	public static List<Configuration> moduleConfigsSortedByDependency(ModelRequest req)
 	{
-		List<Configuration> sortedConfigs = new LinkedList<Configuration> ();
+		List<Configuration> sortedConfigs = new LinkedList<Configuration>();
 
-		List<String> resolvedModuleIds = new LinkedList<String> ();
+		List<String> resolvedModuleIds = new LinkedList<String>();
 
 		try
 		{
-			LinkedList<Configuration> configs = new LinkedList<Configuration> ();
+			LinkedList<Configuration> configs = new LinkedList<Configuration>();
 
-			Model moduleInfo = (Model) req.getService (Model.ROLE, "aktera.module-info");
+			Model moduleInfo = (Model) req.getService(Model.ROLE, "aktera.module-info");
 
-			Configuration[] moduleConfigs = moduleInfo.getConfiguration ().getChildren ("module");
+			Configuration[] moduleConfigs = moduleInfo.getConfiguration().getChildren("module");
 
 			for (Configuration config : moduleConfigs)
 			{
-				configs.add (config);
+				configs.add(config);
 			}
 
-			while (! configs.isEmpty ())
+			while (! configs.isEmpty())
 			{
-				Configuration config = configs.poll ();
+				Configuration config = configs.poll();
 
-				String moduleId = config.getAttribute ("id", "unkown");
+				String moduleId = config.getAttribute("id", "unkown");
 
-				String[] deps = config.getChild ("dependencies").getAttribute ("modules", "").split (",");
+				String[] deps = config.getChild("dependencies").getAttribute("modules", "").split(",");
 
 				boolean resolved = true;
 
 				for (String dep : deps)
 				{
-					if (! StringTools.isTrimEmpty (dep) && ! resolvedModuleIds.contains (dep))
+					if (! StringTools.isTrimEmpty(dep) && ! resolvedModuleIds.contains(dep))
 					{
-						configs.addLast (config);
+						configs.addLast(config);
 						resolved = false;
 
 						break;
@@ -137,14 +137,14 @@ public class ModuleInfo extends StandardLogEnabledModel
 
 				if (resolved)
 				{
-					sortedConfigs.add (config);
-					resolvedModuleIds.add (moduleId);
+					sortedConfigs.add(config);
+					resolvedModuleIds.add(moduleId);
 				}
 			}
 		}
 		catch (ModelException x)
 		{
-			System.out.println ("[ModuleInfo] " + x);
+			System.out.println("[ModuleInfo] " + x);
 		}
 
 		return sortedConfigs;

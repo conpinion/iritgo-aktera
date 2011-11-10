@@ -34,46 +34,46 @@ public class SaveAkteraObjectCommand extends DataObjectCommand
 	/**
 	 * Create a new startup command.
 	 */
-	public SaveAkteraObjectCommand ()
+	public SaveAkteraObjectCommand()
 	{
-		super ("SaveAkteraObjectCommand");
-		properties = new Properties ();
+		super("SaveAkteraObjectCommand");
+		properties = new Properties();
 	}
 
 	/**
 	 *
 	 */
-	public void perform ()
+	public void perform()
 	{
-		swingGUIPane.storeToObject ();
+		swingGUIPane.storeToObject();
 
-		Properties props = swingGUIPane.getProperties ();
+		Properties props = swingGUIPane.getProperties();
 
-		if (((DataObjectGUIPane) swingGUIPane).checkClientErrors ())
+		if (((DataObjectGUIPane) swingGUIPane).checkClientErrors())
 		{
 			return;
 		}
 
-		button.setEnabled (false);
-		new Thread (new Runnable ()
+		button.setEnabled(false);
+		new Thread(new Runnable()
 		{
-			public void run ()
+			public void run()
 			{
 				try
 				{
-					Thread.sleep (2000);
+					Thread.sleep(2000);
 				}
 				catch (Exception x)
 				{
 				}
 
-				button.setEnabled (true);
+				button.setEnabled(true);
 			}
-		}).start ();
+		}).start();
 
-		SaveAkteraObjectRequest saveAkteraObjectRequest = new SaveAkteraObjectRequest (value, dataObject, swingGUIPane
-						.getOnScreenUniqueId (), (String) props.get ("queryPaneId"));
+		SaveAkteraObjectRequest saveAkteraObjectRequest = new SaveAkteraObjectRequest(value, dataObject, swingGUIPane
+						.getOnScreenUniqueId(), (String) props.get("queryPaneId"));
 
-		ActionTools.sendToServer (saveAkteraObjectRequest);
+		ActionTools.sendToServer(saveAkteraObjectRequest);
 	}
 }

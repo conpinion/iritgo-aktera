@@ -45,43 +45,43 @@ import de.iritgo.simplelife.math.NumberTools;
  */
 public class DeleteAktarioUser extends StandardLogEnabledModel
 {
-	public ModelResponse execute (ModelRequest req) throws ModelException
+	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
 		try
 		{
-			UserRegistry iritgoUsers = Server.instance ().getUserRegistry ();
-			AktarioUserRegistry aktarioUsers = ((AktarioUserManager) Engine.instance ().getManager (
-							"AktarioUserManager")).getUserRegistry ();
-			AktarioUserManager aktarioUserManager = (AktarioUserManager) Engine.instance ().getManager (
+			UserRegistry iritgoUsers = Server.instance().getUserRegistry();
+			AktarioUserRegistry aktarioUsers = ((AktarioUserManager) Engine.instance().getManager("AktarioUserManager"))
+							.getUserRegistry();
+			AktarioUserManager aktarioUserManager = (AktarioUserManager) Engine.instance().getManager(
 							"AktarioUserManager");
 
-			int userId = NumberTools.toInt (req.getParameter ("id"), - 1);
+			int userId = NumberTools.toInt(req.getParameter("id"), - 1);
 
 			if (userId != - 1)
 			{
-				PersistentFactory persistentManager = (PersistentFactory) req.getService (PersistentFactory.ROLE, req
-								.getDomain ());
+				PersistentFactory persistentManager = (PersistentFactory) req.getService(PersistentFactory.ROLE, req
+								.getDomain());
 
-				Persistent user = persistentManager.create ("keel.user");
+				Persistent user = persistentManager.create("keel.user");
 
-				user.setField ("uid", new Integer (userId));
+				user.setField("uid", new Integer(userId));
 
-				if (user.find ())
+				if (user.find())
 				{
-					AktarioUser aktarioUser = aktarioUsers.getUserByName (user.getFieldString ("name"));
+					AktarioUser aktarioUser = aktarioUsers.getUserByName(user.getFieldString("name"));
 
 					if (aktarioUser != null)
 					{
-						aktarioUserManager.delUser (aktarioUser);
+						aktarioUserManager.delUser(aktarioUser);
 					}
 				}
 			}
 		}
 		catch (PersistenceException x)
 		{
-			System.out.println ("DeleteAktarioUser: " + x);
+			System.out.println("DeleteAktarioUser: " + x);
 		}
 
-		return req.createResponse ();
+		return req.createResponse();
 	}
 }

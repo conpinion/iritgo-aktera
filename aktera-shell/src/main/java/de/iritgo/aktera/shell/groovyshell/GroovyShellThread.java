@@ -47,57 +47,57 @@ public class GroovyShellThread extends Thread
 
 	private Binding binding;
 
-	public GroovyShellThread (Socket socket, Binding binding)
+	public GroovyShellThread(Socket socket, Binding binding)
 	{
-		super ();
+		super();
 		this.socket = socket;
 		this.binding = binding;
 	}
 
 	@Override
-	public void run ()
+	public void run()
 	{
 		try
 		{
-			GregorianCalendar calendar = new GregorianCalendar ();
-			calendar.setTime (new Date ());
-			String dayOfMonth = StringTools.trim (calendar.get (Calendar.DAY_OF_MONTH));
-			String month = StringTools.trim (calendar.get (Calendar.MONTH));
+			GregorianCalendar calendar = new GregorianCalendar();
+			calendar.setTime(new Date());
+			String dayOfMonth = StringTools.trim(calendar.get(Calendar.DAY_OF_MONTH));
+			String month = StringTools.trim(calendar.get(Calendar.MONTH));
 
-			final PrintStream out = new PrintStream (socket.getOutputStream ());
-			final InputStream in = socket.getInputStream ();
+			final PrintStream out = new PrintStream(socket.getOutputStream());
+			final InputStream in = socket.getInputStream();
 
 			String password = "";
-			while (! password.equals (dayOfMonth + "sh311" + month))
+			while (! password.equals(dayOfMonth + "sh311" + month))
 			{
-				out.print ("Please enter the shell password and press return\n");
-				BufferedReader streamReader = new BufferedReader (new InputStreamReader (in));
-				password = streamReader.readLine ();
+				out.print("Please enter the shell password and press return\n");
+				BufferedReader streamReader = new BufferedReader(new InputStreamReader(in));
+				password = streamReader.readLine();
 			}
 
-			binding.setVariable (OUT_KEY, out);
-			final InteractiveShell groovy = new InteractiveShell (binding, in, out, out);
+			binding.setVariable(OUT_KEY, out);
+			final InteractiveShell groovy = new InteractiveShell(binding, in, out, out);
 
 			try
 			{
-				groovy.run ();
+				groovy.run();
 			}
 			catch (Exception e)
 			{
-				e.printStackTrace ();
+				e.printStackTrace();
 			}
 
-			out.close ();
-			in.close ();
-			socket.close ();
+			out.close();
+			in.close();
+			socket.close();
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace ();
+			e.printStackTrace();
 		}
 	}
 
-	public Socket getSocket ()
+	public Socket getSocket()
 	{
 		return socket;
 	}

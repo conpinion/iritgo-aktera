@@ -48,89 +48,89 @@ public class Logout extends LoginBase
 	 * @param req The model request.
 	 * @return The model response.
 	 */
-	public ModelResponse execute (ModelRequest req) throws ModelException
+	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
-		ModelResponse res = req.createResponse ();
+		ModelResponse res = req.createResponse();
 
-		Context c = req.getContext ();
+		Context c = req.getContext();
 
 		if (c == null)
 		{
-			throw new ModelException ("No context established - request should have established context");
+			throw new ModelException("No context established - request should have established context");
 		}
 
 		UserEnvironment userEnv = null;
 
 		try
 		{
-			userEnv = (UserEnvironment) c.get (UserEnvironment.CONTEXT_KEY);
+			userEnv = (UserEnvironment) c.get(UserEnvironment.CONTEXT_KEY);
 
 			if (userEnv != null)
 			{
-				int uid = userEnv.getUid ();
+				int uid = userEnv.getUid();
 
 				if (uid != UserEnvironment.ANONYMOUS_UID)
 				{
-					AuthenticationManager authMgr = (AuthenticationManager) req.getService (AuthenticationManager.ROLE,
+					AuthenticationManager authMgr = (AuthenticationManager) req.getService(AuthenticationManager.ROLE,
 									"*");
 
-					authMgr.setUsername (userEnv.getLoginName ());
-					authMgr.setPassword ("");
-					authMgr.setDomain (userEnv.getDomain ());
+					authMgr.setUsername(userEnv.getLoginName());
+					authMgr.setPassword("");
+					authMgr.setDomain(userEnv.getDomain());
 
-					HashMap map = new HashMap ();
+					HashMap map = new HashMap();
 
-					map.put ("request", req);
-					map.put ("response", res);
-					map.put ("remember", new Boolean ("off"));
-					map.put ("configuration", getConfiguration ());
-					authMgr.setOtherConfig (map);
+					map.put("request", req);
+					map.put("response", res);
+					map.put("remember", new Boolean("off"));
+					map.put("configuration", getConfiguration());
+					authMgr.setOtherConfig(map);
 
 					//Clear cookies if the clear-cookies config. attribute is true
-					boolean clearCookies = configuration.getAttributeAsBoolean ("clear-cookies", true);
+					boolean clearCookies = configuration.getAttributeAsBoolean("clear-cookies", true);
 
 					if (clearCookies)
 					{
-						HashMap cookies = new HashMap ();
+						HashMap cookies = new HashMap();
 
-						cookies.put (getLoginCookieName (configuration), "");
-						cookies.put (getPasswordCookieName (configuration), "");
-						cookies.put (getDomainCookieName (configuration), "");
-						res.setAttribute ("cookies", cookies);
+						cookies.put(getLoginCookieName(configuration), "");
+						cookies.put(getPasswordCookieName(configuration), "");
+						cookies.put(getDomainCookieName(configuration), "");
+						res.setAttribute("cookies", cookies);
 					}
 
 					try
 					{
-						authMgr.logout (userEnv);
+						authMgr.logout(userEnv);
 					}
 					catch (Exception ee)
 					{
-						log.error ("Logout Error", ee);
-						throw new ModelException (ee);
+						log.error("Logout Error", ee);
+						throw new ModelException(ee);
 					}
 
-					userEnv.clearAttributes ();
-					userEnv.reset ();
+					userEnv.clearAttributes();
+					userEnv.reset();
 
 					//					DefaultContext dc = (DefaultContext) req.getContext ();
 					//					dc.put (UserEnvironment.CONTEXT_KEY, null);
 					PreferencesManager preferencesManager = (PreferencesManager) SpringTools
-									.getBean (PreferencesManager.ID);
+									.getBean(PreferencesManager.ID);
 
-					preferencesManager.clearCache (uid);
+					preferencesManager.clearCache(uid);
 				}
 			}
 		}
 		catch (ContextException e)
 		{
-			throw new ModelException ("Unable to retrieve user env. to context", e);
+			throw new ModelException("Unable to retrieve user env. to context", e);
 		}
 		catch (AuthorizationException e)
 		{
-			throw new ModelException ("Authroization error", e);
+			throw new ModelException("Authroization error", e);
 		}
 
-		res.addOutput ("loggedOff", "Logged Off");
+		res.addOutput("loggedOff", "Logged Off");
 
 		return res;
 	}

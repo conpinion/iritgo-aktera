@@ -30,59 +30,59 @@ public interface DashboardItem
 	 *
 	 * @return The id
 	 */
-	public String getId ();
+	public String getId();
 
 	/**
 	 * Return the label for the board.
 	 *
 	 * @return The label
 	 */
-	public String getLabel ();
+	public String getLabel();
 
 	/**
 	 * Return the bundle for the item
 	 *
 	 * @return The bundle
 	 */
-	public String getBundle ();
+	public String getBundle();
 
 	/**
 	 * Set the bundle
 	 *
 	 * @param bundle The bundle
 	 */
-	public void setBundle (String bundle);
+	public void setBundle(String bundle);
 
 	/**
 	 * Return the description of the board
 	 *
 	 * @return Desc
 	 */
-	public String getDescription ();
+	public String getDescription();
 
 	/**
 	 * generate site attributes visitor
 	 *
 	 * @param siteAttributeVisitor The site attribute visitor
 	 */
-	public void generate (GroupVisitor visitor);
+	public void generate(GroupVisitor visitor);
 
 	/**
 	 * Return the render template/include file
 	 *
 	 * @return The render file
 	 */
-	public String getRenderFile ();
+	public String getRenderFile();
 
 	/**
 	 * Update the item internal state
 	 */
-	public void update ();
+	public void update();
 
 	/**
 	 * Set the locale
 	 *
 	 * @param locale The locale
 	 */
-	public void setLocale (Locale locale);
+	public void setLocale(Locale locale);
 }

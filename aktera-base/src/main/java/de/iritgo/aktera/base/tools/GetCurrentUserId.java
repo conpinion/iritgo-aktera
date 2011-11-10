@@ -44,14 +44,14 @@ public class GetCurrentUserId extends StandardLogEnabledModel
 	 * @param req The model request.
 	 * @throws ModelException In case of a business failure.
 	 */
-	public ModelResponse execute (ModelRequest req) throws ModelException
+	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
-		ModelResponse res = req.createResponse ();
+		ModelResponse res = req.createResponse();
 
-		Output outUserId = res.createOutput ("userId");
+		Output outUserId = res.createOutput("userId");
 
-		outUserId.setContent (new Integer (1));
-		res.add (outUserId);
+		outUserId.setContent(new Integer(1));
+		res.add(outUserId);
 
 		return res;
 	}

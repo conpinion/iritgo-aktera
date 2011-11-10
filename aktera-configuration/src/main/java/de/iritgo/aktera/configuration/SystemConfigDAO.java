@@ -32,21 +32,21 @@ public interface SystemConfigDAO
 	 * @param name The config name
 	 * @return The config value or null if none was found
 	 */
-	public SystemConfig findByCategoryAndName (String category, String name);
+	public SystemConfig findByCategoryAndName(String category, String name);
 
 	/**
 	 * Create or update a config value.
 	 *
 	 * @param configValue The config value
 	 */
-	public void createOrUpdate (SystemConfig configValue);
+	public void createOrUpdate(SystemConfig configValue);
 
 	/**
 	 * Delete a config value.
 	 *
 	 * @param configValue The config value to delete
 	 */
-	public void delete (SystemConfig configValue);
+	public void delete(SystemConfig configValue);
 
 	/**
 	 * Delete a config value.
@@ -54,5 +54,5 @@ public interface SystemConfigDAO
 	 * @param category The config category
 	 * @param name The config name
 	 */
-	public void delete (String category, String name);
+	public void delete(String category, String name);
 }

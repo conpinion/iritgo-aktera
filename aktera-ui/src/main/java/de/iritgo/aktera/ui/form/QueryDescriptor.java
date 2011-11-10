@@ -41,7 +41,7 @@ public class QueryDescriptor
 	private String countQuery;
 
 	/** Query parameters */
-	private Properties params = new Properties ();
+	private Properties params = new Properties();
 
 	/** A query can also call a DAO method */
 	private String daoName;
@@ -54,7 +54,7 @@ public class QueryDescriptor
 	 *
 	 * @return The query name
 	 */
-	public String getName ()
+	public String getName()
 	{
 		return name;
 	}
@@ -64,7 +64,7 @@ public class QueryDescriptor
 	 *
 	 * @param name The query name
 	 */
-	public void setName (String name)
+	public void setName(String name)
 	{
 		this.name = name;
 	}
@@ -74,7 +74,7 @@ public class QueryDescriptor
 	 *
 	 * @return The count query name
 	 */
-	public String getCountName ()
+	public String getCountName()
 	{
 		return countName;
 	}
@@ -84,7 +84,7 @@ public class QueryDescriptor
 	 *
 	 * @param countName The count query name
 	 */
-	public void setCountName (String countName)
+	public void setCountName(String countName)
 	{
 		this.countName = countName;
 	}
@@ -94,7 +94,7 @@ public class QueryDescriptor
 	 *
 	 * @return The query string
 	 */
-	public String getQuery ()
+	public String getQuery()
 	{
 		return query;
 	}
@@ -104,7 +104,7 @@ public class QueryDescriptor
 	 *
 	 * @param query The query string
 	 */
-	public void setQuery (String query)
+	public void setQuery(String query)
 	{
 		this.query = query;
 	}
@@ -114,7 +114,7 @@ public class QueryDescriptor
 	 *
 	 * @return The count query string
 	 */
-	public String getCountQuery ()
+	public String getCountQuery()
 	{
 		return countQuery;
 	}
@@ -124,7 +124,7 @@ public class QueryDescriptor
 	 *
 	 * @param countQuery The count query string
 	 */
-	public void setCountQuery (String countQuery)
+	public void setCountQuery(String countQuery)
 	{
 		this.countQuery = countQuery;
 	}
@@ -135,9 +135,9 @@ public class QueryDescriptor
 	 * @param key The parameter key
 	 * @param value The parameter value
 	 */
-	public void setParam (String key, String value)
+	public void setParam(String key, String value)
 	{
-		params.put (key, value);
+		params.put(key, value);
 	}
 
 	/**
@@ -146,9 +146,9 @@ public class QueryDescriptor
 	 * @param key The parameter key
 	 * @return The parameter value or null if none was found
 	 */
-	public String getParam (String key)
+	public String getParam(String key)
 	{
-		return params.getProperty (key);
+		return params.getProperty(key);
 	}
 
 	/**
@@ -156,7 +156,7 @@ public class QueryDescriptor
 	 *
 	 * @return The query parameters
 	 */
-	public Properties getParams ()
+	public Properties getParams()
 	{
 		return params;
 	}
@@ -166,7 +166,7 @@ public class QueryDescriptor
 	 *
 	 * @return The DAO name
 	 */
-	public String getDaoName ()
+	public String getDaoName()
 	{
 		return daoName;
 	}
@@ -176,7 +176,7 @@ public class QueryDescriptor
 	 *
 	 * @param daoName The DAO name
 	 */
-	public void setDaoName (String daoName)
+	public void setDaoName(String daoName)
 	{
 		this.daoName = daoName;
 	}
@@ -186,7 +186,7 @@ public class QueryDescriptor
 	 *
 	 * @return The DAO method name
 	 */
-	public String getDaoMethodName ()
+	public String getDaoMethodName()
 	{
 		return daoMethodName;
 	}
@@ -196,7 +196,7 @@ public class QueryDescriptor
 	 *
 	 * @param daoMethodName The DAO method name
 	 */
-	public void setDaoMethodName (String daoMethodName)
+	public void setDaoMethodName(String daoMethodName)
 	{
 		this.daoMethodName = daoMethodName;
 	}

@@ -46,50 +46,50 @@ public class Formular extends StandardLogEnabledModel
 	 *            The model request.
 	 * @return The model response.
 	 */
-	public ModelResponse execute (ModelRequest req) throws ModelException
+	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
-		ModelResponse res = req.createResponse ();
+		ModelResponse res = req.createResponse();
 
 		try
 		{
-			Configuration config = getConfiguration ();
+			Configuration config = getConfiguration();
 
-			FormularDescriptor formular = new FormularDescriptor ();
+			FormularDescriptor formular = new FormularDescriptor();
 
-			formular.setBundle (config.getChild ("bundle").getValue ("Aktera"));
+			formular.setBundle(config.getChild("bundle").getValue("Aktera"));
 
-			formular.setIdField (config.getChild ("key").getValue (null));
-			formular.setLabelWidth (NumberTools.toInt (config.getChild ("labelWidth").getValue ("0"), 0));
+			formular.setIdField(config.getChild("key").getValue(null));
+			formular.setLabelWidth(NumberTools.toInt(config.getChild("labelWidth").getValue("0"), 0));
 
-			createGroups (config, formular);
+			createGroups(config, formular);
 
-			Configuration[] pagesConfig = config.getChildren ("page");
+			Configuration[] pagesConfig = config.getChildren("page");
 
 			for (Configuration pageConfig : pagesConfig)
 			{
-				String pageBundle = pageConfig.getAttribute ("bundle", formular.getBundle ());
+				String pageBundle = pageConfig.getAttribute("bundle", formular.getBundle());
 
-				PageDescriptor page = formular.addPage (pageConfig.getAttribute ("name"), pageBundle);
+				PageDescriptor page = formular.addPage(pageConfig.getAttribute("name"), pageBundle);
 
-				page.setPosition (positionStringToValue (pageConfig.getAttribute ("pos", "C")));
-				page.setIcon (pageConfig.getAttribute ("icon", null));
-				page.setInactiveIcon (pageConfig.getAttribute ("inactiveIcon", null));
+				page.setPosition(positionStringToValue(pageConfig.getAttribute("pos", "C")));
+				page.setIcon(pageConfig.getAttribute("icon", null));
+				page.setInactiveIcon(pageConfig.getAttribute("inactiveIcon", null));
 
-				createGroups (pageConfig, formular);
+				createGroups(pageConfig, formular);
 			}
 
-			modifyGroups (config, formular);
+			modifyGroups(config, formular);
 
-			formular.sort ();
+			formular.sort();
 
-			Output output = res.createOutput ("formular");
+			Output output = res.createOutput("formular");
 
-			output.setContent (formular);
-			res.add (output);
+			output.setContent(formular);
+			res.add(output);
 		}
 		catch (ConfigurationException x)
 		{
-			throw new ModelException (x);
+			throw new ModelException(x);
 		}
 
 		return res;
@@ -104,34 +104,34 @@ public class Formular extends StandardLogEnabledModel
 	 * @param formular
 	 *            The formular descriptor.
 	 */
-	private void createGroups (Configuration config, FormularDescriptor formular)
+	private void createGroups(Configuration config, FormularDescriptor formular)
 		throws ConfigurationException, ModelException
 	{
-		Configuration[] groupsConfig = config.getChildren ("group");
+		Configuration[] groupsConfig = config.getChildren("group");
 
 		for (Configuration groupConfig : groupsConfig)
 		{
-			String id = groupConfig.getAttribute ("id", null);
-			String name = groupConfig.getAttribute ("name", null);
+			String id = groupConfig.getAttribute("id", null);
+			String name = groupConfig.getAttribute("name", null);
 
 			if (name != null)
 			{
 				if (id != null)
 				{
-					throw new ModelException ("Both id and name specified for group '" + id + "'");
+					throw new ModelException("Both id and name specified for group '" + id + "'");
 				}
 
-				String groupBundle = groupConfig.getAttribute ("bundle", formular.getBundle ());
+				String groupBundle = groupConfig.getAttribute("bundle", formular.getBundle());
 
-				GroupDescriptor group = formular.addGroup (name, groupBundle);
+				GroupDescriptor group = formular.addGroup(name, groupBundle);
 
-				group.setPosition (positionStringToValue (groupConfig.getAttribute ("pos", "C")));
-				group.setVisible (NumberTools.toBool (groupConfig.getAttribute ("visible", "true"), true));
-				group.setTitleVisible (NumberTools.toBool (groupConfig.getAttribute ("titleVisible", "true"), true));
-				group.setIcon (groupConfig.getAttribute ("icon", null));
-				group.setLabel (groupConfig.getAttribute ("label", group.getLabel ()));
+				group.setPosition(positionStringToValue(groupConfig.getAttribute("pos", "C")));
+				group.setVisible(NumberTools.toBool(groupConfig.getAttribute("visible", "true"), true));
+				group.setTitleVisible(NumberTools.toBool(groupConfig.getAttribute("titleVisible", "true"), true));
+				group.setIcon(groupConfig.getAttribute("icon", null));
+				group.setLabel(groupConfig.getAttribute("label", group.getLabel()));
 
-				createFields (groupConfig, formular, group, null);
+				createFields(groupConfig, formular, group, null);
 			}
 		}
 	}
@@ -140,108 +140,108 @@ public class Formular extends StandardLogEnabledModel
 	 * Create the fields of a group or multi field.
 	 *
 	 */
-	private void createFields (Configuration parent, FormularDescriptor formular, GroupDescriptor parentGroup,
+	private void createFields(Configuration parent, FormularDescriptor formular, GroupDescriptor parentGroup,
 					FieldDescriptor parentField) throws ConfigurationException
 	{
-		Configuration[] children = parent.getChildren ();
+		Configuration[] children = parent.getChildren();
 
 		for (Configuration childConfig : children)
 		{
-			String bundle = childConfig.getAttribute ("bundle", parentGroup != null ? parentGroup.getBundle ()
-							: parentField.getBundle ());
+			String bundle = childConfig.getAttribute("bundle", parentGroup != null ? parentGroup.getBundle()
+							: parentField.getBundle());
 
-			if ("field".equals (childConfig.getName ()))
+			if ("field".equals(childConfig.getName()))
 			{
-				FieldDescriptor field = new FieldDescriptor (childConfig.getAttribute ("name"), bundle, childConfig
-								.getAttribute ("editor", ""), NumberTools.toInt (
-								childConfig.getAttribute ("size", "0"), 0));
+				FieldDescriptor field = new FieldDescriptor(childConfig.getAttribute("name"), bundle, childConfig
+								.getAttribute("editor", ""), NumberTools
+								.toInt(childConfig.getAttribute("size", "0"), 0));
 
-				field.setLabel (childConfig.getAttribute ("label", null));
-				field.setToolTip (childConfig.getAttribute ("tip", null));
-				field.setRows (NumberTools.toInt (childConfig.getAttribute ("rows", "6"), 6));
-				field.setNoLabel (NumberTools.toBool (childConfig.getAttribute ("nolabel", childConfig.getAttribute (
+				field.setLabel(childConfig.getAttribute("label", null));
+				field.setToolTip(childConfig.getAttribute("tip", null));
+				field.setRows(NumberTools.toInt(childConfig.getAttribute("rows", "6"), 6));
+				field.setNoLabel(NumberTools.toBool(childConfig.getAttribute("nolabel", childConfig.getAttribute(
 								"noLabel", "false")), false));
-				field.setTrim (NumberTools.toBool (childConfig.getAttribute ("trim", "false"), false));
+				field.setTrim(NumberTools.toBool(childConfig.getAttribute("trim", "false"), false));
 
-				if (childConfig.getAttribute ("unbound", null) != null)
+				if (childConfig.getAttribute("unbound", null) != null)
 				{
-					field.setUnbound (childConfig.getAttributeAsBoolean ("unbound", false));
+					field.setUnbound(childConfig.getAttributeAsBoolean("unbound", false));
 				}
 
-				field.setSelectable (childConfig.getAttributeAsBoolean ("selectable", false));
+				field.setSelectable(childConfig.getAttributeAsBoolean("selectable", false));
 
-				field.setValidationClassName (childConfig.getAttribute ("validator", null));
+				field.setValidationClassName(childConfig.getAttribute("validator", null));
 
-				if (childConfig.getAttribute ("readonly", null) != null)
+				if (childConfig.getAttribute("readonly", null) != null)
 				{
-					field.setReadOnly (childConfig.getAttributeAsBoolean ("readonly", false));
+					field.setReadOnly(childConfig.getAttributeAsBoolean("readonly", false));
 				}
 
-				if (childConfig.getAttribute ("duty", null) != null)
+				if (childConfig.getAttribute("duty", null) != null)
 				{
-					field.setDuty (childConfig.getAttributeAsBoolean ("duty", false));
+					field.setDuty(childConfig.getAttributeAsBoolean("duty", false));
 				}
 
-				if (childConfig.getAttribute ("submit", null) != null)
+				if (childConfig.getAttribute("submit", null) != null)
 				{
-					field.setSubmit (childConfig.getAttributeAsBoolean ("submit", false));
+					field.setSubmit(childConfig.getAttributeAsBoolean("submit", false));
 				}
 
 				if (parentGroup != null)
 				{
-					parentGroup.addField (field);
+					parentGroup.addField(field);
 				}
 				else if (parentField != null)
 				{
-					parentField.addField (field);
+					parentField.addField(field);
 				}
 
-				createCommandsForField (childConfig, formular, field);
+				createCommandsForField(childConfig, formular, field);
 			}
-			else if ("comment".equals (childConfig.getName ()))
+			else if ("comment".equals(childConfig.getName()))
 			{
-				FieldDescriptor field = new FieldDescriptor (childConfig.getAttribute ("label"), bundle, "", 0);
+				FieldDescriptor field = new FieldDescriptor(childConfig.getAttribute("label"), bundle, "", 0);
 
-				field.setComment (true);
+				field.setComment(true);
 
 				if (parentGroup != null)
 				{
-					parentGroup.addField (field);
+					parentGroup.addField(field);
 				}
 				else if (parentField != null)
 				{
-					parentField.addField (field);
+					parentField.addField(field);
 				}
 			}
-			else if ("buttons".equals (childConfig.getName ()))
+			else if ("buttons".equals(childConfig.getName()))
 			{
-				FieldDescriptor field = new FieldDescriptor ("dummy", "Aktera", "", 0);
+				FieldDescriptor field = new FieldDescriptor("dummy", "Aktera", "", 0);
 
-				field.setUnbound (true);
+				field.setUnbound(true);
 
-				field.setLabel ("0.empty");
+				field.setLabel("0.empty");
 
 				if (parentGroup != null)
 				{
-					parentGroup.addField (field);
+					parentGroup.addField(field);
 				}
 				else if (parentField != null)
 				{
-					parentField.addField (field);
+					parentField.addField(field);
 				}
 
-				createCommandsForField (childConfig, formular, field);
+				createCommandsForField(childConfig, formular, field);
 			}
-			else if ("multi".equals (childConfig.getName ()) && parentField == null)
+			else if ("multi".equals(childConfig.getName()) && parentField == null)
 			{
-				FieldDescriptor field = new FieldDescriptor (childConfig.getAttribute ("label"), bundle, "", 0);
+				FieldDescriptor field = new FieldDescriptor(childConfig.getAttribute("label"), bundle, "", 0);
 
-				field.setMulti (true);
+				field.setMulti(true);
 
 				if (parentGroup != null)
 				{
-					parentGroup.addField (field);
-					createFields (childConfig, formular, null, field);
+					parentGroup.addField(field);
+					createFields(childConfig, formular, null, field);
 				}
 			}
 		}
@@ -256,55 +256,54 @@ public class Formular extends StandardLogEnabledModel
 	 * @param formular
 	 *            The formular descriptor.
 	 */
-	private void modifyGroups (Configuration config, FormularDescriptor formular)
+	private void modifyGroups(Configuration config, FormularDescriptor formular)
 		throws ConfigurationException, ModelException
 	{
-		Configuration[] groupsConfig = config.getChildren ("group");
+		Configuration[] groupsConfig = config.getChildren("group");
 
 		for (Configuration groupConfig : groupsConfig)
 		{
-			String id = groupConfig.getAttribute ("id", null);
-			String name = groupConfig.getAttribute ("name", null);
+			String id = groupConfig.getAttribute("id", null);
+			String name = groupConfig.getAttribute("name", null);
 
 			if (id != null)
 			{
 				if (name != null)
 				{
-					throw new ModelException ("Both id and name specified for group '" + id + "'");
+					throw new ModelException("Both id and name specified for group '" + id + "'");
 				}
 
-				GroupDescriptor group = formular.getGroup (id);
+				GroupDescriptor group = formular.getGroup(id);
 
 				if (group == null)
 				{
-					throw new ModelException ("Unable to find group '" + id + "'");
+					throw new ModelException("Unable to find group '" + id + "'");
 				}
 
-				Configuration[] groupChildren = groupConfig.getChildren ();
+				Configuration[] groupChildren = groupConfig.getChildren();
 
 				for (Configuration childConfig : groupChildren)
 				{
-					if ("field".equals (childConfig.getName ()))
+					if ("field".equals(childConfig.getName()))
 					{
-						String fieldId = childConfig.getAttribute ("id", null);
-						String fieldName = childConfig.getAttribute ("id", null);
+						String fieldId = childConfig.getAttribute("id", null);
+						String fieldName = childConfig.getAttribute("id", null);
 
 						if (id != null && name != null)
 						{
-							throw new ModelException ("Both id and name specified for field '" + id + "'");
+							throw new ModelException("Both id and name specified for field '" + id + "'");
 						}
 
 						if (id != null)
 						{
-							FieldDescriptor field = group.getField (fieldId);
+							FieldDescriptor field = group.getField(fieldId);
 
 							if (field == null)
 							{
-								throw new ModelException ("Unable to find field '" + fieldId + "' in group '" + id
-												+ "'");
+								throw new ModelException("Unable to find field '" + fieldId + "' in group '" + id + "'");
 							}
 
-							createCommandsForField (childConfig, formular, field);
+							createCommandsForField(childConfig, formular, field);
 						}
 					}
 				}
@@ -322,45 +321,45 @@ public class Formular extends StandardLogEnabledModel
 	 * @param field
 	 *            The field descriptor.
 	 */
-	private void createCommandsForField (Configuration config, FormularDescriptor formular, FieldDescriptor field)
+	private void createCommandsForField(Configuration config, FormularDescriptor formular, FieldDescriptor field)
 		throws ConfigurationException
 	{
-		Configuration[] commandChildren = config.getChildren ("command");
+		Configuration[] commandChildren = config.getChildren("command");
 
 		for (Configuration commandConfig : commandChildren)
 		{
-			CommandInfo cmd = new CommandInfo (commandConfig.getAttribute ("model", commandConfig.getAttribute ("bean",
-							null)), commandConfig.getAttribute ("name"), commandConfig.getAttribute ("label"),
-							commandConfig.getAttribute ("icon", null));
+			CommandInfo cmd = new CommandInfo(commandConfig.getAttribute("model", commandConfig.getAttribute("bean",
+							null)), commandConfig.getAttribute("name"), commandConfig.getAttribute("label"),
+							commandConfig.getAttribute("icon", null));
 
-			if (commandConfig.getAttribute ("bean", null) != null)
+			if (commandConfig.getAttribute("bean", null) != null)
 			{
-				cmd.setBean (true);
+				cmd.setBean(true);
 			}
 
-			CommandDescriptor command = field.getCommands ().add (cmd);
+			CommandDescriptor command = field.getCommands().add(cmd);
 
-			command.setBundle (commandConfig.getAttribute ("bundle", field.getBundle ()));
+			command.setBundle(commandConfig.getAttribute("bundle", field.getBundle()));
 
-			Configuration[] parameterChildren = commandConfig.getChildren ("parameter");
+			Configuration[] parameterChildren = commandConfig.getChildren("parameter");
 
 			for (Configuration parameterConfig : parameterChildren)
 			{
-				command.withParameter (parameterConfig.getAttribute ("name"), parameterConfig.getAttribute ("value"));
+				command.withParameter(parameterConfig.getAttribute("name"), parameterConfig.getAttribute("value"));
 			}
 
-			parameterChildren = commandConfig.getChildren ("param");
+			parameterChildren = commandConfig.getChildren("param");
 
 			for (Configuration parameterConfig : parameterChildren)
 			{
-				command.withParameter (parameterConfig.getAttribute ("name"), parameterConfig.getAttribute ("value"));
+				command.withParameter(parameterConfig.getAttribute("name"), parameterConfig.getAttribute("value"));
 			}
 
-			Configuration[] attributeChildren = commandConfig.getChildren ("attribute");
+			Configuration[] attributeChildren = commandConfig.getChildren("attribute");
 
 			for (Configuration attributeConfig : attributeChildren)
 			{
-				command.withParameter (attributeConfig.getAttribute ("name"), attributeConfig.getAttribute ("value"));
+				command.withParameter(attributeConfig.getAttribute("name"), attributeConfig.getAttribute("value"));
 			}
 		}
 	}
@@ -372,41 +371,41 @@ public class Formular extends StandardLogEnabledModel
 	 *            The position string.
 	 * @return The position value.
 	 */
-	protected int positionStringToValue (String pos)
+	protected int positionStringToValue(String pos)
 	{
 		int position = 0;
 
-		if ("SS".equals (pos))
+		if ("SS".equals(pos))
 		{
 			position = - 20;
 		}
-		else if ("S".equals (pos))
+		else if ("S".equals(pos))
 		{
 			position = - 10;
 		}
-		else if ("T".equals (pos) || "L".equals (pos))
+		else if ("T".equals(pos) || "L".equals(pos))
 		{
 			position = - 5;
 		}
-		else if ("M".equals (pos) || "C".equals (pos))
+		else if ("M".equals(pos) || "C".equals(pos))
 		{
 			position = 0;
 		}
-		else if ("B".equals (pos) || "R".equals (pos))
+		else if ("B".equals(pos) || "R".equals(pos))
 		{
 			position = 5;
 		}
-		else if ("E".equals (pos))
+		else if ("E".equals(pos))
 		{
 			position = 10;
 		}
-		else if ("EE".equals (pos))
+		else if ("EE".equals(pos))
 		{
 			position = 20;
 		}
 		else
 		{
-			position = NumberTools.toInt (pos, 0);
+			position = NumberTools.toInt(pos, 0);
 		}
 
 		return position;

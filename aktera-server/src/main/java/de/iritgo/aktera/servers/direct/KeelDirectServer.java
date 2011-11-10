@@ -122,16 +122,16 @@ public class KeelDirectServer extends KeelAbstractServer
 	/**
 	 * @see java.lang.Runnable#run()
 	 */
-	public void run ()
+	public void run()
 	{
-		KeelRequest dsreq = new ModelRequestMessage ();
+		KeelRequest dsreq = new ModelRequestMessage();
 
-		if (! isInitialized ())
+		if (! isInitialized())
 		{
 			try
 			{
-				keelContainer = getContainer ();
-				getLogger ().info ("Started");
+				keelContainer = getContainer();
+				getLogger().info("Started");
 
 				//				String mto = System.getProperty ("model.timeout");
 				//
@@ -186,9 +186,9 @@ public class KeelDirectServer extends KeelAbstractServer
 			}
 			catch (Exception ee)
 			{
-				getLogger ().error ("Startup error:", ee);
+				getLogger().error("Startup error:", ee);
 				heldError = ee;
-				throw new RuntimeException (LOG_PREFIX + "Startup Error", ee);
+				throw new RuntimeException(LOG_PREFIX + "Startup Error", ee);
 			}
 		}
 
@@ -199,16 +199,16 @@ public class KeelDirectServer extends KeelAbstractServer
 			try
 			{
 				//There's only one thread taking objects off the requestQueue, so this doesn't need to be synced
-				byte[] requestBytes = (byte[]) requestChannel.take ();
+				byte[] requestBytes = (byte[]) requestChannel.take();
 
-				LinkedBlockingQueue replyChannel = (LinkedBlockingQueue) requestChannel.take ();
+				LinkedBlockingQueue replyChannel = (LinkedBlockingQueue) requestChannel.take();
 
 				if (keepRunningKeelDirectServer == false)
 				{
 					continue;
 				}
 
-				request = dsreq.deserialize (requestBytes);
+				request = dsreq.deserialize(requestBytes);
 
 				//				MultiThreadedProcessor processor =
 				//					new MultiThreadedProcessor(request, replyChannel);
@@ -217,36 +217,36 @@ public class KeelDirectServer extends KeelAbstractServer
 			}
 			catch (InterruptedException e)
 			{
-				throw new RuntimeException ("Error receiving message from client thread", e);
+				throw new RuntimeException("Error receiving message from client thread", e);
 			}
 			catch (IOException e)
 			{
-				throw new RuntimeException ("Error deserializing received message", e);
+				throw new RuntimeException("Error deserializing received message", e);
 			}
 
 			if (heldError != null)
 			{
-				System.err.println ("Container startup error - KeelDirectServer shuts down");
+				System.err.println("Container startup error - KeelDirectServer shuts down");
 
 				return;
 			}
 		}
 
-		System.err.println ("[KeelDirectServer] Exiting");
+		System.err.println("[KeelDirectServer] Exiting");
 
-		this.clearRequestChannel ();
+		this.clearRequestChannel();
 
 		try
 		{
-			this.getContainer ().dispose ();
+			this.getContainer().dispose();
 		}
 		catch (ModelException e)
 		{
-			e.printStackTrace ();
+			e.printStackTrace();
 		}
 
 		//		pool.shutdownNow ();
-		this.setInitialized (false);
+		this.setInitialized(false);
 		this.heldError = null;
 	}
 
@@ -254,60 +254,60 @@ public class KeelDirectServer extends KeelAbstractServer
 	 * Clears all data in the channels (up to 1000 messages).
 	 * Has safegaurds for time outs and to prevent infinite loops
 	 */
-	private void clearRequestChannel ()
+	private void clearRequestChannel()
 	{
 		int count = 0;
 
-		while (requestChannel.peek () != null && count < 1000)
+		while (requestChannel.peek() != null && count < 1000)
 		{
 			count++;
 
 			try
 			{
-				requestChannel.poll (1000, TimeUnit.MILLISECONDS);
+				requestChannel.poll(1000, TimeUnit.MILLISECONDS);
 			}
 			catch (InterruptedException e1)
 			{
-				e1.printStackTrace ();
+				e1.printStackTrace();
 			}
 		}
 
 		this.requestChannel = null;
 	}
 
-	public void dispose ()
+	public void dispose()
 	{
 		try
 		{
 			this.keepRunningKeelDirectServer = false;
 
-			KeelRequest message = new ModelRequestMessage ();
+			KeelRequest message = new ModelRequestMessage();
 
 			/**
 			 * Put an empty message on the queue to causes the "infinite" loop to stop.
 			 */
-			byte[] requestBytes = message.serialize ();
+			byte[] requestBytes = message.serialize();
 
-			requestChannel.put (requestBytes);
+			requestChannel.put(requestBytes);
 
-			LinkedBlockingQueue replyChannel = new LinkedBlockingQueue ();
+			LinkedBlockingQueue replyChannel = new LinkedBlockingQueue();
 
-			requestChannel.put (replyChannel);
+			requestChannel.put(replyChannel);
 		}
 		catch (InterruptedException e)
 		{
-			e.printStackTrace ();
+			e.printStackTrace();
 		}
 		catch (IOException e)
 		{
-			e.printStackTrace ();
+			e.printStackTrace();
 		}
 	}
 
 	/**
 	 * @return
 	 */
-	public LinkedBlockingQueue getRequestChannel ()
+	public LinkedBlockingQueue getRequestChannel()
 	{
 		return requestChannel;
 	}
@@ -315,44 +315,44 @@ public class KeelDirectServer extends KeelAbstractServer
 	/**
 	 * @param channel
 	 */
-	public void setRequestChannel (LinkedBlockingQueue channel)
+	public void setRequestChannel(LinkedBlockingQueue channel)
 	{
 		requestChannel = channel;
 	}
 
-	public KeelResponse execute (KeelRequest request) throws ModelException
+	public KeelResponse execute(KeelRequest request) throws ModelException
 	{
-		if (getContainer () == null)
+		if (getContainer() == null)
 		{
-			throw new ModelException ("Initialization failed - container is null");
+			throw new ModelException("Initialization failed - container is null");
 		}
 
 		ModelRequest req = null;
 
 		try
 		{
-			Object o = getContainer ().getService (ModelRequest.ROLE);
+			Object o = getContainer().getService(ModelRequest.ROLE);
 
 			if (o == null)
 			{
-				getLogger ().error ("Service returned was null");
+				getLogger().error("Service returned was null");
 			}
 
 			req = (ModelRequest) o;
 		}
 		catch (Exception se)
 		{
-			getLogger ().error ("Service Exception:", se);
-			throw new ModelException ("Service Exception getting request", se);
+			getLogger().error("Service Exception:", se);
+			throw new ModelException("Service Exception getting request", se);
 		}
 
 		try
 		{
-			req.copyFrom (request);
+			req.copyFrom(request);
 		}
 		catch (Exception ee)
 		{
-			getLogger ().error ("Error copying ModelRequestMessage to ModelRequest", ee);
+			getLogger().error("Error copying ModelRequestMessage to ModelRequest", ee);
 		}
 
 		// Set the context to that provided in the original request
@@ -360,15 +360,15 @@ public class KeelDirectServer extends KeelAbstractServer
 		{
 			try
 			{
-				((KeelContextualizable) req).setKeelContext (getContext (req));
+				((KeelContextualizable) req).setKeelContext(getContext(req));
 			}
 			catch (ContextException e)
 			{
-				throw new ModelException ("Unable to set keel context on ModelRequest", e);
+				throw new ModelException("Unable to set keel context on ModelRequest", e);
 			}
 		}
 
-		getLogger ().debug ("Executing model " + req.getModel ());
+		getLogger().debug("Executing model " + req.getModel());
 
 		/**
 		 * We don't fail on a ModelException, we just stuff it into the
@@ -376,19 +376,19 @@ public class KeelDirectServer extends KeelAbstractServer
 		 * exception
 		 */
 		ModelResponse res = null;
-		ModelResponseMessage resMessage = new ModelResponseMessage ();
+		ModelResponseMessage resMessage = new ModelResponseMessage();
 
 		try
 		{
-			res = req.execute ();
+			res = req.execute();
 		}
 		catch (ModelException me)
 		{
-			resMessage.addError ("model", me);
+			resMessage.addError("model", me);
 
-			if (getLogger ().isDebugEnabled ())
+			if (getLogger().isDebugEnabled())
 			{
-				getLogger ().debug ("Error from model execution:", me);
+				getLogger().debug("Error from model execution:", me);
 			}
 		}
 
@@ -396,44 +396,44 @@ public class KeelDirectServer extends KeelAbstractServer
 		{
 			if (res == null)
 			{
-				getLogger ().error ("Response from model was null");
+				getLogger().error("Response from model was null");
 			}
 			else
 			{
-				resMessage.copyFrom (res);
+				resMessage.copyFrom(res);
 			}
 		}
 		catch (Exception ce)
 		{
-			getLogger ().error ("Unable to copy response to message:", ce);
-			resMessage.addError ("badCopy", ce);
+			getLogger().error("Unable to copy response to message:", ce);
+			resMessage.addError("badCopy", ce);
 		}
 
 		/**
 		 * Stash any changes to the context
 		 */
-		saveContext (req);
+		saveContext(req);
 
-		getContainer ().release (req);
+		getContainer().release(req);
 
 		return resMessage;
 	}
 
 	@Override
-	public void shutDown ()
+	public void shutDown()
 	{
 		try
 		{
-			StartupManager startupManager = (StartupManager) getContainer ().getService (StartupManager.ROLE);
+			StartupManager startupManager = (StartupManager) getContainer().getService(StartupManager.ROLE);
 
-			startupManager.shutdown ();
+			startupManager.shutdown();
 		}
 		catch (Exception x)
 		{
-			getLogger ().error ("Unable to call the startup manager to shutdown all components", x);
+			getLogger().error("Unable to call the startup manager to shutdown all components", x);
 		}
 
-		super.shutDown ();
-		dispose ();
+		super.shutDown();
+		dispose();
 	}
 }

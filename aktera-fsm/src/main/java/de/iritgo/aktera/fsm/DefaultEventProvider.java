@@ -85,7 +85,7 @@ public class DefaultEventProvider implements EventProvider, Runnable
 	 *
 	 * @param model The state machine model
 	 */
-	public void setModel (Model model)
+	public void setModel(Model model)
 	{
 		this.model = model;
 	}
@@ -93,49 +93,49 @@ public class DefaultEventProvider implements EventProvider, Runnable
 	/**
 	 * @see com.evelopers.unimod.runtime.EventProvider#dispose()
 	 */
-	public void dispose ()
+	public void dispose()
 	{
 	}
 
 	/**
 	 * @see com.evelopers.unimod.runtime.EventProvider#init(com.evelopers.unimod.runtime.ModelEngine)
 	 */
-	public void init (ModelEngine engine) throws CommonException
+	public void init(ModelEngine engine) throws CommonException
 	{
 		this.engine = engine;
-		engine.getEventProcessor ().addEventProcessorListener (new AbstractEventProcessorListener ()
+		engine.getEventProcessor().addEventProcessorListener(new AbstractEventProcessorListener()
 		{
 			@Override
-			public void comeToState (StateMachineContext context, StateMachinePath path, String stateName)
+			public void comeToState(StateMachineContext context, StateMachinePath path, String stateName)
 			{
-				State state = model.getStateMachine (path.getStateMachine ()).findState (stateName);
+				State state = model.getStateMachine(path.getStateMachine()).findState(stateName);
 
-				if (! state.getName ().equals ("RETURN"))
+				if (! state.getName().equals("RETURN"))
 				{
-					prepareForNextEvent (state);
+					prepareForNextEvent(state);
 				}
 				else
 				{
-					returnFromSubMachineName = path.getStateMachine ();
+					returnFromSubMachineName = path.getStateMachine();
 				}
 			}
 
 			@Override
-			public void stateMachineCameToFinalState (StateMachineContext context, StateMachinePath path,
+			public void stateMachineCameToFinalState(StateMachineContext context, StateMachinePath path,
 							StateMachineConfig config)
 			{
 				notInFinalState = false;
 			}
 
 			@Override
-			public void eventSkipped (StateMachineContext context, StateMachinePath path, String stateName, Event event)
+			public void eventSkipped(StateMachineContext context, StateMachinePath path, String stateName, Event event)
 			{
 				if (! startStateVisited)
 				{
-					if (model.getStateMachine (path.getStateMachine ()).findState (stateName) == startState)
+					if (model.getStateMachine(path.getStateMachine()).findState(stateName) == startState)
 					{
 						startStateVisited = true;
-						enableAnyEventTransition (startState);
+						enableAnyEventTransition(startState);
 					}
 				}
 			}
@@ -145,11 +145,11 @@ public class DefaultEventProvider implements EventProvider, Runnable
 	/**
 	 * @see java.lang.Runnable#run()
 	 */
-	public void run ()
+	public void run()
 	{
-		startState = findStartState (model);
-		disableAnyEventTransition (startState);
-		engine.getEventManager ().handleAndWait (new Event ("_INIT_"), new DefaultContext (null));
+		startState = findStartState(model);
+		disableAnyEventTransition(startState);
+		engine.getEventManager().handleAndWait(new Event("_INIT_"), new DefaultContext(null));
 
 		while (notInFinalState)
 		{
@@ -157,15 +157,15 @@ public class DefaultEventProvider implements EventProvider, Runnable
 
 			if (returnFromSubMachineName != null)
 			{
-				event = new Event (RETURN_EVENT_NAME + returnFromSubMachineName);
+				event = new Event(RETURN_EVENT_NAME + returnFromSubMachineName);
 				returnFromSubMachineName = null;
 			}
 			else
 			{
-				event = produceEvent ();
+				event = produceEvent();
 			}
 
-			engine.getEventManager ().handleAndWait (event, new DefaultContext (event));
+			engine.getEventManager().handleAndWait(event, new DefaultContext(event));
 		}
 	}
 
@@ -178,7 +178,7 @@ public class DefaultEventProvider implements EventProvider, Runnable
 	 *
 	 * @param state The state to prepare for
 	 */
-	protected void prepareForNextEvent (State state)
+	protected void prepareForNextEvent(State state)
 	{
 	}
 
@@ -187,7 +187,7 @@ public class DefaultEventProvider implements EventProvider, Runnable
 	 *
 	 * @return The next event
 	 */
-	protected Event produceEvent ()
+	protected Event produceEvent()
 	{
 		return Event.ANY;
 	}
@@ -198,10 +198,10 @@ public class DefaultEventProvider implements EventProvider, Runnable
 	 * @param model The state engine model
 	 * @return The start state
 	 */
-	protected State findStartState (Model model)
+	protected State findStartState(Model model)
 	{
-		return ((Transition) model.getRootStateMachine ().getTop ().getInitialSubstate ().getOutgoingTransitions ()
-						.get (0)).getTargetState ();
+		return ((Transition) model.getRootStateMachine().getTop().getInitialSubstate().getOutgoingTransitions().get(0))
+						.getTargetState();
 	}
 
 	/**
@@ -209,13 +209,13 @@ public class DefaultEventProvider implements EventProvider, Runnable
 	 *
 	 *  @param state The state
 	 */
-	private void disableAnyEventTransition (State state)
+	private void disableAnyEventTransition(State state)
 	{
-		for (Transition transition : (List<Transition>) state.getOutgoingTransitions ())
+		for (Transition transition : (List<Transition>) state.getOutgoingTransitions())
 		{
-			if (transition.getEvent ().equals (Event.ANY))
+			if (transition.getEvent().equals(Event.ANY))
 			{
-				transition.setEvent (Event.NO_EVENT);
+				transition.setEvent(Event.NO_EVENT);
 			}
 		}
 	}
@@ -225,13 +225,13 @@ public class DefaultEventProvider implements EventProvider, Runnable
 	 *
 	 *  @param state The state
 	 */
-	private void enableAnyEventTransition (State state)
+	private void enableAnyEventTransition(State state)
 	{
-		for (Transition transition : (List<Transition>) state.getOutgoingTransitions ())
+		for (Transition transition : (List<Transition>) state.getOutgoingTransitions())
 		{
-			if (transition.getEvent ().equals (Event.NO_EVENT))
+			if (transition.getEvent().equals(Event.NO_EVENT))
 			{
-				transition.setEvent (Event.ANY);
+				transition.setEvent(Event.ANY);
 			}
 		}
 	}

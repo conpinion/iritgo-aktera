@@ -69,14 +69,14 @@ public abstract class AbstractAuthenticationManager extends AbstractKeelServicea
 
 	protected Configuration configuration = null;
 
-	protected abstract Subject addKeelCredentials (Subject s);
+	protected abstract Subject addKeelCredentials(Subject s);
 
-	protected abstract String getDefaultLoginModuleName ();
+	protected abstract String getDefaultLoginModuleName();
 
 	/**
 	 * @see de.iritgo.aktera.authentication.AuthenticationManager#setUsername(java.lang.String)
 	 */
-	public void setUsername (String name)
+	public void setUsername(String name)
 	{
 		this.username = name;
 	}
@@ -84,7 +84,7 @@ public abstract class AbstractAuthenticationManager extends AbstractKeelServicea
 	/**
 	 * @see de.iritgo.aktera.authentication.AuthenticationManager#setPassword(java.lang.String)
 	 */
-	public void setPassword (String password)
+	public void setPassword(String password)
 	{
 		this.password = password;
 	}
@@ -92,7 +92,7 @@ public abstract class AbstractAuthenticationManager extends AbstractKeelServicea
 	/**
 	 * @see de.iritgo.aktera.authentication.AuthenticationManager#setDomain(java.lang.String)
 	 */
-	public void setDomain (String domain)
+	public void setDomain(String domain)
 	{
 		this.domain = domain;
 	}
@@ -100,53 +100,53 @@ public abstract class AbstractAuthenticationManager extends AbstractKeelServicea
 	/**
 	 * @see de.iritgo.aktera.authentication.AuthenticationManager#setOtherConfig(java.util.Map)
 	 */
-	public void setOtherConfig (Map otherConfig)
+	public void setOtherConfig(Map otherConfig)
 	{
 		this.otherConfig = otherConfig;
 	}
 
-	protected String getUsername ()
+	protected String getUsername()
 	{
 		return username;
 	}
 
-	protected String getPassword ()
+	protected String getPassword()
 	{
 		return password;
 	}
 
-	protected String getDomain ()
+	protected String getDomain()
 	{
 		return domain;
 	}
 
-	protected Map getOtherConfig ()
+	protected Map getOtherConfig()
 	{
 		return otherConfig;
 	}
 
-	protected Object getConfigItem (Object key)
+	protected Object getConfigItem(Object key)
 	{
 		if (otherConfig == null)
 		{
 			return null;
 		}
 
-		return otherConfig.get (key);
+		return otherConfig.get(key);
 	}
 
-	protected LoginContext getLoginContext (String name) throws LoginException
+	protected LoginContext getLoginContext(String name) throws LoginException
 	{
-		Boolean rem = (Boolean) getConfigItem ("remember");
+		Boolean rem = (Boolean) getConfigItem("remember");
 
 		if (rem == null)
 		{
-			rem = new Boolean (false);
+			rem = new Boolean(false);
 		}
 
-		LoginCallbackHandler cbh = new LoginCallbackHandler (getUsername (), getPassword ().trim (), getDomain (), rem
-						.booleanValue (), configuration, log, getServiceManager ());
-		LoginContext lc = new LoginContext (name, cbh);
+		LoginCallbackHandler cbh = new LoginCallbackHandler(getUsername(), getPassword().trim(), getDomain(), rem
+						.booleanValue(), configuration, log, getServiceManager());
+		LoginContext lc = new LoginContext(name, cbh);
 
 		return lc;
 	}
@@ -154,54 +154,54 @@ public abstract class AbstractAuthenticationManager extends AbstractKeelServicea
 	/**
 	 * @see org.apache.avalon.framework.configuration.Configurable#configure(org.apache.avalon.framework.configuration.Configuration)
 	 */
-	public void configure (Configuration configuration) throws ConfigurationException
+	public void configure(Configuration configuration) throws ConfigurationException
 	{
 		this.configuration = configuration;
-		svcConfig = new ServiceConfig (configuration);
+		svcConfig = new ServiceConfig(configuration);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.authentication.AuthenticationManager#login(de.iritgo.aktera.authentication.UserEnvironment)
 	 */
-	public void login (UserEnvironment ue) throws LoginException
+	public void login(UserEnvironment ue) throws LoginException
 	{
-		log.debug ("Logging in");
+		log.debug("Logging in");
 
-		LoginContext lc = getLoginContext (getLoginModuleName ());
+		LoginContext lc = getLoginContext(getLoginModuleName());
 
-		lc.login ();
+		lc.login();
 
-		addKeelCredentials (lc.getSubject ());
+		addKeelCredentials(lc.getSubject());
 
-		if (log.isDebugEnabled ())
+		if (log.isDebugEnabled())
 		{
-			Iterator i = lc.getSubject ().getPrincipals ().iterator ();
+			Iterator i = lc.getSubject().getPrincipals().iterator();
 
-			while (i.hasNext ())
+			while (i.hasNext())
 			{
-				Principal p = (Principal) i.next ();
+				Principal p = (Principal) i.next();
 
-				log.debug ("Principal - " + p.toString ());
+				log.debug("Principal - " + p.toString());
 			}
 		}
 
 		try
 		{
-			ue.setLoginContext (lc);
+			ue.setLoginContext(lc);
 		}
 		catch (AuthorizationException e)
 		{
-			log.debug ("Error setting subject", e);
-			throw new LoginException ("Error setting subject in user env. - " + e.toString ());
+			log.debug("Error setting subject", e);
+			throw new LoginException("Error setting subject in user env. - " + e.toString());
 		}
 	}
 
 	/**
 	 * @return
 	 */
-	private String getLoginModuleName ()
+	private String getLoginModuleName()
 	{
-		String moduleName = configuration.getChild ("login-module").getValue (getDefaultLoginModuleName ());
+		String moduleName = configuration.getChild("login-module").getValue(getDefaultLoginModuleName());
 
 		return moduleName;
 	}
@@ -209,78 +209,78 @@ public abstract class AbstractAuthenticationManager extends AbstractKeelServicea
 	/**
 	 * @see de.iritgo.aktera.authentication.AuthenticationManager#logout(de.iritgo.aktera.authentication.UserEnvironment)
 	 */
-	public void logout (UserEnvironment ue) throws LoginException
+	public void logout(UserEnvironment ue) throws LoginException
 	{
 		try
 		{
-			LoginContext lc = ue.getLoginContext ();
+			LoginContext lc = ue.getLoginContext();
 
-			lc.logout ();
-			ue.reset ();
+			lc.logout();
+			ue.reset();
 		}
 		catch (AuthorizationException e)
 		{
-			throw new LoginException ("Error setting subject in user env. - " + e.toString ());
+			throw new LoginException("Error setting subject in user env. - " + e.toString());
 		}
 	}
 
 	/**
 	 * @see org.apache.avalon.framework.logger.LogEnabled#enableLogging(org.apache.avalon.framework.logger.Logger)
 	 */
-	public void enableLogging (Logger logger)
+	public void enableLogging(Logger logger)
 	{
 		this.log = logger;
 	}
 
-	public String getDomainDescrip (String domainName)
+	public String getDomainDescrip(String domainName)
 	{
-		Configuration[] domains = configuration.getChildren ("domain");
+		Configuration[] domains = configuration.getChildren("domain");
 
 		for (int i = 0; i < domains.length; i++)
 		{
 			Configuration oneDomain = domains[i];
 
-			if (oneDomain.getAttribute ("name", "").equals (domainName))
+			if (oneDomain.getAttribute("name", "").equals(domainName))
 			{
-				return oneDomain.getAttribute ("descrip", "");
+				return oneDomain.getAttribute("descrip", "");
 			}
 		}
 
 		return "";
 	}
 
-	public List getAllowedDomains (String loginName)
+	public List getAllowedDomains(String loginName)
 	{
 		UserManager um = null;
 		GroupManager gm = null;
 
-		ArrayList returnList = new ArrayList ();
+		ArrayList returnList = new ArrayList();
 
 		try
 		{
-			um = (UserManager) getService (UserManager.ROLE, svcConfig.getHint (UserManager.ROLE));
-			gm = (GroupManager) getService (GroupManager.ROLE, svcConfig.getHint (GroupManager.ROLE));
+			um = (UserManager) getService(UserManager.ROLE, svcConfig.getHint(UserManager.ROLE));
+			gm = (GroupManager) getService(GroupManager.ROLE, svcConfig.getHint(GroupManager.ROLE));
 
-			User u = um.find (User.Property.NAME, loginName);
-			Configuration[] domains = configuration.getChildren ("domain");
+			User u = um.find(User.Property.NAME, loginName);
+			Configuration[] domains = configuration.getChildren("domain");
 
 			for (int i = 0; i < domains.length; i++)
 			{
 				Configuration oneDomain = domains[i];
-				Configuration[] groups = oneDomain.getChildren ("group");
+				Configuration[] groups = oneDomain.getChildren("group");
 				String oneGroupName = null;
 
 				for (int j = 0; j < groups.length; j++)
 				{
-					oneGroupName = groups[j].getValue ();
+					oneGroupName = groups[j].getValue();
 
-					Group[] usersGroups = gm.listGroups (u);
+					Group[] usersGroups = gm.listGroups(u);
 
 					for (int k = 0; k < usersGroups.length; k++)
 					{
-						if (usersGroups[k].get (Group.Property.NAME).equals (oneGroupName))
+						if (usersGroups[k].get(Group.Property.NAME).equals(oneGroupName))
 						{
-							returnList.add (oneDomain.getAttribute ("name"));
+							returnList.add(oneDomain.getAttribute("name"));
 						}
 					}
 				}
@@ -288,22 +288,22 @@ public abstract class AbstractAuthenticationManager extends AbstractKeelServicea
 				if (groups.length == 0)
 				{
 					/* No groups at all means that anyone can get to this domain */
-					returnList.add (oneDomain.getAttribute ("name"));
+					returnList.add(oneDomain.getAttribute("name"));
 				}
 			}
 		}
 		catch (ConfigurationException ce)
 		{
-			log.error ("Unable to determine allowed domains", ce);
-			throw new IllegalArgumentException (ce.getMessage ());
+			log.error("Unable to determine allowed domains", ce);
+			throw new IllegalArgumentException(ce.getMessage());
 		}
 		catch (ServiceException e)
 		{
-			throw new RuntimeException (e);
+			throw new RuntimeException(e);
 		}
 		catch (UserMgrException e)
 		{
-			throw new RuntimeException (e);
+			throw new RuntimeException(e);
 		}
 
 		return returnList;

@@ -109,7 +109,7 @@ public class KeelContainerFactory implements ContainerFactory
 
 	private DefaultContainerManager containerManager;
 
-	protected Logger primordialLogger = getPrimordialLogger ();
+	protected Logger primordialLogger = getPrimordialLogger();
 
 	protected LoggerManager primordialLoggerManager = null;
 
@@ -121,78 +121,78 @@ public class KeelContainerFactory implements ContainerFactory
 
 	protected DefaultContext context = null;
 
-	public KeelContainerFactory ()
+	public KeelContainerFactory()
 	{
-		super ();
+		super();
 	}
 
-	public KeelContainerFactory (Logger primordialLogger)
+	public KeelContainerFactory(Logger primordialLogger)
 	{
-		super ();
+		super();
 		this.primordialLogger = primordialLogger;
 	}
 
-	private DefaultContainerManager createContainerManager () throws NestedException
+	private DefaultContainerManager createContainerManager() throws NestedException
 	{
-		System.err.println (PREFIX + "Initializing Keel Container...");
+		System.err.println(PREFIX + "Initializing Keel Container...");
 
-		buildConfigs ();
+		buildConfigs();
 
 		if (roleConfig == null)
 		{
-			throw new NestedException ("Role configuration is null");
+			throw new NestedException("Role configuration is null");
 		}
 
 		if (logConfig == null)
 		{
-			throw new NestedException ("Log configuration is null");
+			throw new NestedException("Log configuration is null");
 		}
 
 		if (systemConfig == null)
 		{
-			throw new NestedException ("System configuration is null");
+			throw new NestedException("System configuration is null");
 		}
 
 		if (instrConfig == null)
 		{
-			throw new NestedException ("Instrumentation configuration is null");
+			throw new NestedException("Instrumentation configuration is null");
 		}
 
-		DefaultContext c = new DefaultContext ();
-		String contextPath = System.getProperty (CONFIG_PROPERTY) + System.getProperty ("file.separator") + "..";
+		DefaultContext c = new DefaultContext();
+		String contextPath = System.getProperty(CONFIG_PROPERTY) + System.getProperty("file.separator") + "..";
 
-		c.put ("current-dir", contextPath);
-		c.put (ContextManagerConstants.THREAD_TIMEOUT, new Long (1000));
-		c.put (ContextManagerConstants.THREADS_CPU, new Integer (2));
-		c.put (ContextManagerConstants.CONTEXT_DIRECTORY, new File (contextPath));
-		c.put (ContextManagerConstants.WORK_DIRECTORY, new File (contextPath + "/tmp"));
+		c.put("current-dir", contextPath);
+		c.put(ContextManagerConstants.THREAD_TIMEOUT, new Long(1000));
+		c.put(ContextManagerConstants.THREADS_CPU, new Integer(2));
+		c.put(ContextManagerConstants.CONTEXT_DIRECTORY, new File(contextPath));
+		c.put(ContextManagerConstants.WORK_DIRECTORY, new File(contextPath + "/tmp"));
 
-		ClassLoader loader = Thread.currentThread ().getContextClassLoader ();
+		ClassLoader loader = Thread.currentThread().getContextClassLoader();
 
-		c.put (ClassLoader.class.getName (), loader);
-		c.put (ContextManagerConstants.PARAMETERS, new Parameters ());
-		c.put (ContextManagerConstants.CONTAINER_CLASS, KeelContainer.class);
-		c.put (ContextManagerConstants.LOGGER_MANAGER_CONFIGURATION, logConfig);
-		c.put (ContextManagerConstants.CONFIGURATION, systemConfig);
-		c.put (ContextManagerConstants.INSTRUMENT_MANAGER_CONFIGURATION, instrConfig);
-		c.put (ContextManagerConstants.LOG_CATEGORY, "keel");
+		c.put(ClassLoader.class.getName(), loader);
+		c.put(ContextManagerConstants.PARAMETERS, new Parameters());
+		c.put(ContextManagerConstants.CONTAINER_CLASS, KeelContainer.class);
+		c.put(ContextManagerConstants.LOGGER_MANAGER_CONFIGURATION, logConfig);
+		c.put(ContextManagerConstants.CONFIGURATION, systemConfig);
+		c.put(ContextManagerConstants.INSTRUMENT_MANAGER_CONFIGURATION, instrConfig);
+		c.put(ContextManagerConstants.LOG_CATEGORY, "keel");
 
-		c.put ("keel.config.roles", roleConfig);
-		c.put ("keel.config.system", systemConfig);
-		c.put ("keel.config.log", logConfig);
-		c.put ("keel.config.instr", instrConfig);
-		c.put ("keel.config.spring.file", springFileConfig.toArray (new String[]
+		c.put("keel.config.roles", roleConfig);
+		c.put("keel.config.system", systemConfig);
+		c.put("keel.config.log", logConfig);
+		c.put("keel.config.instr", instrConfig);
+		c.put("keel.config.spring.file", springFileConfig.toArray(new String[]
 		{}));
-		c.put ("keel.config.spring.classpath", springClasspathConfig.toArray (new String[]
+		c.put("keel.config.spring.classpath", springClasspathConfig.toArray(new String[]
 		{}));
-		c.put ("keel.config.hibernate", hibernateConfig.toArray (new String[]
+		c.put("keel.config.hibernate", hibernateConfig.toArray(new String[]
 		{}));
 
 		/*
 		 * Set the context for the getLoggerManager() calls below to work
 		 * we'll set the context again later
 		 */
-		setContext (c);
+		setContext(c);
 
 		/*
 		 * Create a custom meta-info manager. This gets around the fact
@@ -202,16 +202,16 @@ public class KeelContainerFactory implements ContainerFactory
 		 * resources gotten via the load.getResources() is always looked up
 		 * from the parent loader in addition to the current loader.
 		 */
-		final MetaInfoManager metaManager = createMetaManager (loader);
+		final MetaInfoManager metaManager = createMetaManager(loader);
 
-		c.put (MetaInfoManager.ROLE, metaManager);
+		c.put(MetaInfoManager.ROLE, metaManager);
 		/*
 		 * Put a logger manager in the Context. NOTE: getLoggerManager()
 		 * needs a context set in the first place
 		 */
-		c.put (LoggerManager.ROLE, getLoggerManager ());
-		c.put ("keel.loggerManager", getLoggerManager ());
-		setContext (c);
+		c.put(LoggerManager.ROLE, getLoggerManager());
+		c.put("keel.loggerManager", getLoggerManager());
+		setContext(c);
 
 		/*
 		 * So far we have been using the primordial logger since the logger
@@ -220,15 +220,15 @@ public class KeelContainerFactory implements ContainerFactory
 		 */
 		try
 		{
-			logger = getLoggerManager ().getLoggerForCategory ("keel.container");
+			logger = getLoggerManager().getLoggerForCategory("keel.container");
 		}
 		catch (Exception e)
 		{
-			getLogger ().debug ("Cannot create Keel logger, using defult logger", e);
+			getLogger().debug("Cannot create Keel logger, using defult logger", e);
 		}
 
-		c.put (LifecycleExtensionManager.ROLE, createLifeCycleExtensionManager (c));
-		setContext (c);
+		c.put(LifecycleExtensionManager.ROLE, createLifeCycleExtensionManager(c));
+		setContext(c);
 
 		/*
 		 * Create the container
@@ -237,73 +237,73 @@ public class KeelContainerFactory implements ContainerFactory
 
 		try
 		{
-			containerManager = new DefaultContainerManager (context);
+			containerManager = new DefaultContainerManager(context);
 
 			if (containerManager instanceof Initializable)
 			{
-				((Initializable) containerManager).initialize ();
+				((Initializable) containerManager).initialize();
 			}
 		}
 		catch (ClassNotFoundException e)
 		{
-			getLogger ().error ("Error loading KeelContainer class", e);
-			throw new NestedException (e);
+			getLogger().error("Error loading KeelContainer class", e);
+			throw new NestedException(e);
 		}
 		catch (Exception e)
 		{
-			getLogger ().error ("Error initializing Container Manager", e);
-			throw new NestedException (e);
+			getLogger().error("Error initializing Container Manager", e);
+			throw new NestedException(e);
 		}
 
 		try
 		{
-			setProperties (System.getProperty (CONFIG_PROPERTY));
+			setProperties(System.getProperty(CONFIG_PROPERTY));
 		}
 		catch (Exception e)
 		{
-			throw new NestedException (e);
+			throw new NestedException(e);
 		}
 
 		return containerManager;
 	}
 
-	private MetaInfoManager createMetaManager (ClassLoader loader) throws NestedException
+	private MetaInfoManager createMetaManager(ClassLoader loader) throws NestedException
 	{
 		// Create a logger for the role manager
-		final Logger rmLogger = getLoggerManager ().getLoggerForCategory (
-						roleConfig.getAttribute ("logger", "system.roles"));
+		final Logger rmLogger = getLoggerManager().getLoggerForCategory(
+						roleConfig.getAttribute("logger", "system.roles"));
 
 		// Create a parent role manager with all the default roles
-		final FortressRoleManager frm = new FortressRoleManager (null, loader);
+		final FortressRoleManager frm = new FortressRoleManager(null, loader);
 
-		frm.enableLogging (rmLogger.getChildLogger ("defaults"));
-		frm.initialize ();
+		frm.enableLogging(rmLogger.getChildLogger("defaults"));
+		frm.initialize();
 
 		// Create a role manager with the configured roles
-		final ConfigurableRoleManager rm = new ConfigurableRoleManager (frm);
+		final ConfigurableRoleManager rm = new ConfigurableRoleManager(frm);
 
-		rm.enableLogging (rmLogger);
+		rm.enableLogging(rmLogger);
 
 		try
 		{
-			rm.configure (roleConfig);
+			rm.configure(roleConfig);
 		}
 		catch (ConfigurationException e)
 		{
-			throw new NestedException ("Error configuring role manager", e);
+			throw new NestedException("Error configuring role manager", e);
 		}
 
-		final KeelMetaInfoManager metaManager = new KeelMetaInfoManager (new Role2MetaInfoManager (rm), loader);
+		final KeelMetaInfoManager metaManager = new KeelMetaInfoManager(new Role2MetaInfoManager(rm), loader);
 
-		metaManager.enableLogging (getLoggerManager ().getLoggerForCategory ("system.meta"));
+		metaManager.enableLogging(getLoggerManager().getLoggerForCategory("system.meta"));
 
 		try
 		{
-			metaManager.initialize ();
+			metaManager.initialize();
 		}
 		catch (Exception e)
 		{
-			throw new NestedException ("Error initializing meta manager", e);
+			throw new NestedException("Error initializing meta manager", e);
 		}
 
 		utilRoleManager = rm;
@@ -312,26 +312,26 @@ public class KeelContainerFactory implements ContainerFactory
 		return metaManager;
 	}
 
-	protected LifecycleExtensionManager createLifeCycleExtensionManager (DefaultContext c)
+	protected LifecycleExtensionManager createLifeCycleExtensionManager(DefaultContext c)
 	{
-		LifecycleExtensionManager extensions = new LifecycleExtensionManager ();
-		Accessor accessor = new AuthorizationLifecycleAccessExtension ();
+		LifecycleExtensionManager extensions = new LifecycleExtensionManager();
+		Accessor accessor = new AuthorizationLifecycleAccessExtension();
 
 		if (accessor instanceof LogEnabled)
 		{
-			((LogEnabled) accessor).enableLogging (getLogger ());
+			((LogEnabled) accessor).enableLogging(getLogger());
 		}
 
-		extensions.addAccessorExtension (accessor);
+		extensions.addAccessorExtension(accessor);
 
-		Creator creator = new AuthorizationLifecycleCreateExtension ();
+		Creator creator = new AuthorizationLifecycleCreateExtension();
 
 		if (creator instanceof LogEnabled)
 		{
-			((LogEnabled) creator).enableLogging (getLogger ());
+			((LogEnabled) creator).enableLogging(getLogger());
 		}
 
-		extensions.addCreatorExtension (creator);
+		extensions.addCreatorExtension(creator);
 
 		return extensions;
 	}
@@ -352,67 +352,67 @@ public class KeelContainerFactory implements ContainerFactory
 	 * /home/keel/keel-build/deploy/server/conf, then "%conf%" will expand to
 	 * that directory.
 	 */
-	private void setProperties (String configPath) throws ConfigurationException, IOException
+	private void setProperties(String configPath) throws ConfigurationException, IOException
 	{
 		try
 		{
-			Configuration props = systemConfig.getChild ("system-properties");
+			Configuration props = systemConfig.getChild("system-properties");
 
 			if (props == null)
 			{
 				return;
 			}
 
-			Configuration[] children = props.getChildren ();
+			Configuration[] children = props.getChildren();
 			Configuration oneChild = null;
 
 			for (int i = 0; i < children.length; i++)
 			{
 				oneChild = children[i];
 
-				if (oneChild.getName ().equals ("property"))
+				if (oneChild.getName().equals("property"))
 				{
-					String oneValue = oneChild.getAttribute ("value");
+					String oneValue = oneChild.getAttribute("value");
 
-					if (oneValue.indexOf ("%conf%") >= 0)
+					if (oneValue.indexOf("%conf%") >= 0)
 					{
-						oneValue = SuperString.replace (oneValue, "%conf%", configPath);
+						oneValue = SuperString.replace(oneValue, "%conf%", configPath);
 					}
 
-					System.setProperty (oneChild.getAttribute ("name"), oneValue);
-					System.err.println (PREFIX + "Setting system property '" + oneChild.getAttribute ("name")
-									+ "' to '" + oneValue + "'");
-					getLogger ().debug (
-									"Setting system property '" + oneChild.getAttribute ("name") + "' to '" + oneValue
+					System.setProperty(oneChild.getAttribute("name"), oneValue);
+					System.err.println(PREFIX + "Setting system property '" + oneChild.getAttribute("name") + "' to '"
+									+ oneValue + "'");
+					getLogger().debug(
+									"Setting system property '" + oneChild.getAttribute("name") + "' to '" + oneValue
 													+ "'");
 				}
 			}
 		}
 		catch (Exception e)
 		{
-			throw new ConfigurationException ("Error setting system properties", e);
+			throw new ConfigurationException("Error setting system properties", e);
 		}
 	}
 
-	private void verifyConfiguration (String configFile)
+	private void verifyConfiguration(String configFile)
 	{
-		getLogger ().debug ("Verifying " + configFile);
+		getLogger().debug("Verifying " + configFile);
 
-		DOMParser parser = new DOMParser ();
+		DOMParser parser = new DOMParser();
 
 		try
 		{
-			KeelErrorHandler kh = new KeelErrorHandler ();
+			KeelErrorHandler kh = new KeelErrorHandler();
 
-			parser.setErrorHandler (kh);
-			parser.parse (configFile);
+			parser.setErrorHandler(kh);
+			parser.parse(configFile);
 		}
 		catch (Exception ie)
 		{
-			getLogger ().error ("Unable to parse '" + configFile + "'", ie);
+			getLogger().error("Unable to parse '" + configFile + "'", ie);
 		}
 
-		getLogger ().debug (configFile + " verified");
+		getLogger().debug(configFile + " verified");
 	}
 
 	/**
@@ -420,54 +420,55 @@ public class KeelContainerFactory implements ContainerFactory
 	 *
 	 * @throws NestedException
 	 */
-	public void buildConfigs () throws NestedException
+	public void buildConfigs() throws NestedException
 	{
 		roleConfig = null;
 		systemConfig = null;
 		logConfig = null;
-		springFileConfig = new LinkedList<String> ();
-		springClasspathConfig = new LinkedList<String> ();
-		hibernateConfig = new LinkedList<String> ();
+		springFileConfig = new LinkedList<String>();
+		springClasspathConfig = new LinkedList<String>();
+		hibernateConfig = new LinkedList<String>();
 
-		System.err.println (PREFIX + "Building configurations...");
-		getLogger ().debug ("Building Configurations...");
+		System.err.println(PREFIX + "Building configurations...");
+		getLogger().debug("Building Configurations...");
 
 		try
 		{
-			scanDir (System.getProperty (CONFIG_PROPERTY));
+			scanDir(System.getProperty(CONFIG_PROPERTY));
 		}
 		catch (Exception ee)
 		{
-			throw new NestedException ("Exception scanning configuration directory '"
-							+ System.getProperty ("keel.config.dir") + "'", ee);
+			throw new NestedException("Exception scanning configuration directory '"
+							+ System.getProperty("keel.config.dir") + "'", ee);
 		}
 
-		writeMergedConfig ();
+		writeMergedConfig();
 	}
 
 	/**
 	 * Write the complete configuration to the config file 'merged.config'.
 	 */
-	private void writeMergedConfig ()
+	private void writeMergedConfig()
 	{
 		try
 		{
-			BufferedWriter out = new BufferedWriter (new FileWriter (System.getProperty (CONFIG_PROPERTY)
+			BufferedWriter out = new BufferedWriter(new FileWriter(System.getProperty(CONFIG_PROPERTY)
 							+ "/merged.config"));
 
-			out.write (KeelConfigurationUtil.list (systemConfig, "Merged System Configuration"));
-			out.write (KeelConfigurationUtil.list (roleConfig, "Merged Role Configuration"));
-			out.write (KeelConfigurationUtil.list (logConfig, "Merged Log Configuration"));
-			out.write (KeelConfigurationUtil.list (instrConfig, "Merged Instrumentation Configuration"));
-			out.flush ();
-			out.close ();
-			getLogger ().info (
-							"Merged configuration written to " + System.getProperty (CONFIG_PROPERTY)
-											+ "/merged.config");
+			out.write(KeelConfigurationUtil.list(systemConfig, "Merged System Configuration"));
+			out.write(KeelConfigurationUtil.list(roleConfig, "Merged Role Configuration"));
+			out.write(KeelConfigurationUtil.list(logConfig, "Merged Log Configuration"));
+			out.write(KeelConfigurationUtil.list(instrConfig, "Merged Instrumentation Configuration"));
+			out.flush();
+			out.close();
+			getLogger()
+							.info(
+											"Merged configuration written to " + System.getProperty(CONFIG_PROPERTY)
+															+ "/merged.config");
 		}
 		catch (IOException ie)
 		{
-			System.err.println ("Unable to write merged.config");
+			System.err.println("Unable to write merged.config");
 		}
 	}
 
@@ -481,133 +482,133 @@ public class KeelContainerFactory implements ContainerFactory
 	 * @throws ConfigurationException
 	 * @throws SAXException
 	 */
-	private void scanDir (String configDir) throws NestedException, IOException, ConfigurationException, SAXException
+	private void scanDir(String configDir) throws NestedException, IOException, ConfigurationException, SAXException
 	{
 		String dirToUse = configDir;
 
-		System.err.println (PREFIX + "Reading " + dirToUse);
+		System.err.println(PREFIX + "Reading " + dirToUse);
 
-		if (! dirToUse.endsWith ("/"))
+		if (! dirToUse.endsWith("/"))
 		{
 			dirToUse = dirToUse + "/";
 		}
 
-		File dirFile = new File (dirToUse);
+		File dirFile = new File(dirToUse);
 
-		if (! dirFile.isDirectory ())
+		if (! dirFile.isDirectory())
 		{
-			throw new NestedException (dirToUse + "' is not a directory.");
+			throw new NestedException(dirToUse + "' is not a directory.");
 		}
 
-		String[] dir = dirFile.list ();
+		String[] dir = dirFile.list();
 
 		if (dir == null)
 		{
-			throw new NestedException ("Null array reading directory " + " of " + dirToUse);
+			throw new NestedException("Null array reading directory " + " of " + dirToUse);
 		}
 
 		String oneFileName = null;
-		DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder ();
+		DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
 
 		boolean containsHibernateMapping = false;
 
 		// Process only files in the current directory first
 		for (int i = 0; i < dir.length; i++)
 		{
-			oneFileName = dir[i].trim ();
+			oneFileName = dir[i].trim();
 
-			File oneFile = new File (configDir, oneFileName);
+			File oneFile = new File(configDir, oneFileName);
 
-			if (! oneFile.isDirectory ())
+			if (! oneFile.isDirectory())
 			{
-				if (oneFileName.endsWith ("roles.xconf"))
+				if (oneFileName.endsWith("roles.xconf"))
 				{
-					roleConfig = readConfigFile (dirToUse, oneFileName, builder, roleConfig);
+					roleConfig = readConfigFile(dirToUse, oneFileName, builder, roleConfig);
 				}
-				else if (oneFileName.endsWith ("system.xconf"))
+				else if (oneFileName.endsWith("system.xconf"))
 				{
-					systemConfig = readConfigFile (dirToUse, oneFileName, builder, systemConfig);
+					systemConfig = readConfigFile(dirToUse, oneFileName, builder, systemConfig);
 				}
-				else if (oneFileName.endsWith (logConfigFilename))
+				else if (oneFileName.endsWith(logConfigFilename))
 				{
-					logConfig = readConfigFile (dirToUse, oneFileName, builder, logConfig);
+					logConfig = readConfigFile(dirToUse, oneFileName, builder, logConfig);
 				}
-				else if (oneFileName.endsWith ("system.instruments"))
+				else if (oneFileName.endsWith("system.instruments"))
 				{
-					instrConfig = readConfigFile (dirToUse, oneFileName, builder, instrConfig);
+					instrConfig = readConfigFile(dirToUse, oneFileName, builder, instrConfig);
 				}
-				else if (oneFileName.endsWith (".spring.xml"))
+				else if (oneFileName.endsWith(".spring.xml"))
 				{
-					if (! oneFileName.endsWith (".classpath.spring.xml"))
+					if (! oneFileName.endsWith(".classpath.spring.xml"))
 					{
-						springFileConfig.add ("file:" + oneFile.getAbsolutePath ());
+						springFileConfig.add("file:" + oneFile.getAbsolutePath());
 					}
 					else
 					{
 						try
 						{
-							for (String line : (List<String>) IOUtils.readLines (new FileReader (oneFile)))
+							for (String line : (List<String>) IOUtils.readLines(new FileReader(oneFile)))
 							{
-								if (StringTools.isNotTrimEmpty (line))
+								if (StringTools.isNotTrimEmpty(line))
 								{
-									springClasspathConfig.add (line);
+									springClasspathConfig.add(line);
 								}
 							}
 						}
 						catch (Exception x)
 						{
-							System.out.println (x);
+							System.out.println(x);
 						}
 					}
 				}
-				else if (oneFileName.endsWith (".hbm.xml"))
+				else if (oneFileName.endsWith(".hbm.xml"))
 				{
 					containsHibernateMapping = true;
 				}
 				else
 				{
-					getLogger ().debug ("Ignoring file '" + dirToUse + oneFileName + "'");
+					getLogger().debug("Ignoring file '" + dirToUse + oneFileName + "'");
 				}
 			}
 		}
 
 		if (containsHibernateMapping)
 		{
-			hibernateConfig.add ("file:" + dirFile.getAbsolutePath ());
+			hibernateConfig.add("file:" + dirFile.getAbsolutePath());
 		}
 
 		// Process sub-directories of current directory next
 		for (int i = 0; i < dir.length; i++)
 		{
-			oneFileName = dir[i].trim ();
+			oneFileName = dir[i].trim();
 
-			File oneFile = new File (dirToUse + oneFileName);
+			File oneFile = new File(dirToUse + oneFileName);
 
-			if (oneFile.isDirectory ())
+			if (oneFile.isDirectory())
 			{
-				scanDir (dirToUse + oneFileName);
+				scanDir(dirToUse + oneFileName);
 			}
 		}
 	}
 
-	private Configuration readConfigFile (String configDir, String oneFileName, DefaultConfigurationBuilder builder,
+	private Configuration readConfigFile(String configDir, String oneFileName, DefaultConfigurationBuilder builder,
 					Configuration config) throws SAXException, IOException, ConfigurationException
 	{
 		Configuration mergeWith = config;
 
-		getLogger ().info ("Reading configuration from: '" + configDir + oneFileName + "'");
-		verifyConfiguration (configDir + oneFileName);
+		getLogger().info("Reading configuration from: '" + configDir + oneFileName + "'");
+		verifyConfiguration(configDir + oneFileName);
 
 		Configuration newConfig = null;
 
 		try
 		{
-			newConfig = builder.buildFromFile (configDir + oneFileName);
+			newConfig = builder.buildFromFile(configDir + oneFileName);
 		}
 		catch (Exception ee)
 		{
-			System.err.println ("Configuration exception in file '" + configDir + oneFileName + "'");
-			throw new ConfigurationException ("Configuration problem in file '" + configDir + oneFileName + "'", ee);
+			System.err.println("Configuration exception in file '" + configDir + oneFileName + "'");
+			throw new ConfigurationException("Configuration problem in file '" + configDir + oneFileName + "'", ee);
 		}
 
 		if (mergeWith == null)
@@ -618,17 +619,17 @@ public class KeelContainerFactory implements ContainerFactory
 		{
 			try
 			{
-				mergeWith = KeelConfigurationMerger.merge (newConfig, mergeWith);
+				mergeWith = KeelConfigurationMerger.merge(newConfig, mergeWith);
 			}
 			catch (ConfigurationException ce)
 			{
-				BufferedWriter out = new BufferedWriter (new FileWriter (System.getProperty (CONFIG_PROPERTY)
+				BufferedWriter out = new BufferedWriter(new FileWriter(System.getProperty(CONFIG_PROPERTY)
 								+ "/error.config"));
 
-				out.write (KeelConfigurationUtil.list (mergeWith, "Error Merging into the following Configuration"));
-				out.flush ();
-				out.close ();
-				throw new ConfigurationException ("Exception when merging file '" + configDir + oneFileName
+				out.write(KeelConfigurationUtil.list(mergeWith, "Error Merging into the following Configuration"));
+				out.flush();
+				out.close();
+				throw new ConfigurationException("Exception when merging file '" + configDir + oneFileName
 								+ "'. Configuration merged so far written to error.config", ce);
 			}
 		}
@@ -641,7 +642,7 @@ public class KeelContainerFactory implements ContainerFactory
 	 *
 	 * @return Configuration
 	 */
-	public static Configuration getLogConfig ()
+	public static Configuration getLogConfig()
 	{
 		return logConfig;
 	}
@@ -651,7 +652,7 @@ public class KeelContainerFactory implements ContainerFactory
 	 *
 	 * @return Configuration
 	 */
-	public static Configuration getRoleConfig ()
+	public static Configuration getRoleConfig()
 	{
 		return roleConfig;
 	}
@@ -661,23 +662,23 @@ public class KeelContainerFactory implements ContainerFactory
 	 *
 	 * @return Configuration
 	 */
-	public static Configuration getSystemConfig ()
+	public static Configuration getSystemConfig()
 	{
 		return systemConfig;
 	}
 
-	public static Configuration getInstrConfig ()
+	public static Configuration getInstrConfig()
 	{
 		return instrConfig;
 	}
 
-	public Context getContext ()
+	public Context getContext()
 	{
 		Context returnValue = null;
 
 		if (context == null)
 		{
-			returnValue = new DefaultContext ();
+			returnValue = new DefaultContext();
 		}
 		else
 		{
@@ -687,23 +688,23 @@ public class KeelContainerFactory implements ContainerFactory
 		return returnValue;
 	}
 
-	private Logger getPrimordialLogger ()
+	private Logger getPrimordialLogger()
 	{
 		if (primordialLogger == null)
 		{
-			primordialLogger = getPrimordialLoggerManager ().getLoggerForCategory ("keel.container-factory");
+			primordialLogger = getPrimordialLoggerManager().getLoggerForCategory("keel.container-factory");
 		}
 
 		return primordialLogger;
 	}
 
-	public Logger getLogger ()
+	public Logger getLogger()
 	{
 		Logger returnValue = null;
 
 		if (logger == null)
 		{
-			returnValue = getPrimordialLogger ();
+			returnValue = getPrimordialLogger();
 		}
 		else
 		{
@@ -713,29 +714,29 @@ public class KeelContainerFactory implements ContainerFactory
 		return returnValue;
 	}
 
-	public LoggerManager getPrimordialLoggerManager ()
+	public LoggerManager getPrimordialLoggerManager()
 	{
 		if (primordialLoggerManager == null)
 		{
-			DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder ();
-			String logConfigDir = System.getProperty (CONFIG_PROPERTY);
+			DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
+			String logConfigDir = System.getProperty(CONFIG_PROPERTY);
 
-			if (! logConfigDir.endsWith ("/"))
+			if (! logConfigDir.endsWith("/"))
 			{
 				logConfigDir = logConfigDir + "/";
 			}
 
-			File primordialLogConfigFile = new File (logConfigDir + logConfigFilename);
+			File primordialLogConfigFile = new File(logConfigDir + logConfigFilename);
 
-			if (primordialLogConfigFile.exists ())
+			if (primordialLogConfigFile.exists())
 			{
 				//Continue with logkit configuration
-				primordialLoggerManager = new LogKitLoggerManager (null, new Hierarchy (), new ConsoleLogger (
+				primordialLoggerManager = new LogKitLoggerManager(null, new Hierarchy(), new ConsoleLogger(
 								ConsoleLogger.LEVEL_INFO));
 			}
 			else
 			{
-				System.err.println ("Logkit config file " + logConfigDir + logConfigFilename
+				System.err.println("Logkit config file " + logConfigDir + logConfigFilename
 								+ " does not exist - trying log4j");
 				//If a logkit configuration file does not exist, attempt to
 				// use log4j to implement our logging facade
@@ -745,24 +746,24 @@ public class KeelContainerFactory implements ContainerFactory
 				// a configuration file only in logConfigDir.
 				//If the log4j standard initialization system property is set,
 				// use it
-				logConfigFilename = System.getProperty ("log4j.configuration");
+				logConfigFilename = System.getProperty("log4j.configuration");
 
-				if (logConfigFilename == null || logConfigFilename.length () < 1)
+				if (logConfigFilename == null || logConfigFilename.length() < 1)
 				{
 					logConfigFilename = "log4j.xconf";
 
 					//else default the log4j configuration file name.
 				}
 
-				primordialLogConfigFile = new File (logConfigDir + logConfigFilename);
+				primordialLogConfigFile = new File(logConfigDir + logConfigFilename);
 
-				if (primordialLogConfigFile.exists ())
+				if (primordialLogConfigFile.exists())
 				{
-					primordialLoggerManager = new Log4JConfLoggerManager ();
+					primordialLoggerManager = new Log4JConfLoggerManager();
 				}
 				else
 				{
-					throw new RuntimeException ("No configuration file found for logkit or log4j");
+					throw new RuntimeException("No configuration file found for logkit or log4j");
 				}
 			}
 
@@ -770,84 +771,84 @@ public class KeelContainerFactory implements ContainerFactory
 
 			try
 			{
-				primordialLogConfig = builder.buildFromFile (primordialLogConfigFile);
+				primordialLogConfig = builder.buildFromFile(primordialLogConfigFile);
 			}
 			catch (ConfigurationException e)
 			{
-				throw new RuntimeException ("Error building primordial logger-manager configuration", e);
+				throw new RuntimeException("Error building primordial logger-manager configuration", e);
 			}
 			catch (SAXException e)
 			{
-				throw new RuntimeException ("Error parsing primordial logger-manager configuration", e);
+				throw new RuntimeException("Error parsing primordial logger-manager configuration", e);
 			}
 			catch (IOException e)
 			{
-				throw new RuntimeException ("Error reading primordial logger-manager configuration", e);
+				throw new RuntimeException("Error reading primordial logger-manager configuration", e);
 			}
 
-			DefaultContext c = new DefaultContext ();
+			DefaultContext c = new DefaultContext();
 
-			c.put ("current-dir", logConfigDir + "..");
+			c.put("current-dir", logConfigDir + "..");
 
 			try
 			{
 				if (primordialLoggerManager instanceof Contextualizable)
 				{
-					((Contextualizable) primordialLoggerManager).contextualize (c);
+					((Contextualizable) primordialLoggerManager).contextualize(c);
 				}
 
 				if (primordialLoggerManager instanceof Configurable)
 				{
-					((Configurable) primordialLoggerManager).configure (primordialLogConfig);
+					((Configurable) primordialLoggerManager).configure(primordialLogConfig);
 				}
 			}
 			catch (ConfigurationException e)
 			{
-				throw new RuntimeException ("Error configuring primordial logger-manager", e);
+				throw new RuntimeException("Error configuring primordial logger-manager", e);
 			}
 			catch (ContextException e)
 			{
-				throw new RuntimeException ("Error contextualizing primordial logger-manager", e);
+				throw new RuntimeException("Error contextualizing primordial logger-manager", e);
 			}
 		}
 
 		return primordialLoggerManager;
 	}
 
-	public LoggerManager getLoggerManager ()
+	public LoggerManager getLoggerManager()
 	{
 		if (loggerManager == null)
 		{
-			Logger logger = getLogger ();
+			Logger logger = getLogger();
 
 			if (logger instanceof LogKitLogger)
 			{
-				loggerManager = new LogKitLoggerManager (null, new Hierarchy (), getLogger ());
+				loggerManager = new LogKitLoggerManager(null, new Hierarchy(), getLogger());
 			}
 			else if (logger instanceof Log4JLogger)
 			{
-				loggerManager = new Log4JConfLoggerManager ();
+				loggerManager = new Log4JConfLoggerManager();
 			}
 
 			try
 			{
 				if (loggerManager instanceof Contextualizable)
 				{
-					((Contextualizable) loggerManager).contextualize (getContext ());
+					((Contextualizable) loggerManager).contextualize(getContext());
 				}
 
 				if (loggerManager instanceof Configurable && logConfig != null)
 				{
-					((Configurable) loggerManager).configure (logConfig);
+					((Configurable) loggerManager).configure(logConfig);
 				}
 			}
 			catch (ConfigurationException e)
 			{
-				throw new RuntimeException ("Error configuring logger-manager", e);
+				throw new RuntimeException("Error configuring logger-manager", e);
 			}
 			catch (ContextException e)
 			{
-				throw new RuntimeException ("Error contextualizing logger-manager", e);
+				throw new RuntimeException("Error contextualizing logger-manager", e);
 			}
 		}
 
@@ -857,26 +858,26 @@ public class KeelContainerFactory implements ContainerFactory
 	/**
 	 * @param context
 	 */
-	public void setContext (DefaultContext context)
+	public void setContext(DefaultContext context)
 	{
 		this.context = context;
 	}
 
 	@SuppressWarnings("unchecked")
-	public static Class getClassForShortName (String shortName)
+	public static Class getClassForShortName(String shortName)
 	{
-		RoleEntry re = utilRoleManager.getRoleForShortName (shortName);
+		RoleEntry re = utilRoleManager.getRoleForShortName(shortName);
 
 		if (re != null)
 		{
-			return re.getComponentClass ();
+			return re.getComponentClass();
 		}
 
-		MetaInfoEntry me = utilMetaInfoManager.getMetaInfoForShortName (shortName);
+		MetaInfoEntry me = utilMetaInfoManager.getMetaInfoForShortName(shortName);
 
 		if (me != null)
 		{
-			return me.getComponentClass ();
+			return me.getComponentClass();
 		}
 
 		return null;
@@ -885,31 +886,31 @@ public class KeelContainerFactory implements ContainerFactory
 	/**
 	 * @see de.iritgo.aktera.core.container.ContainerFactory#getContainer()
 	 */
-	public Container createContainer () throws ContainerException
+	public Container createContainer() throws ContainerException
 	{
 		if (containerManager == null)
 		{
 			try
 			{
-				containerManager = createContainerManager ();
+				containerManager = createContainerManager();
 			}
 			catch (NestedException e)
 			{
-				throw new ContainerException ("Error creating container", e);
+				throw new ContainerException("Error creating container", e);
 			}
 		}
 
-		return (Container) containerManager.getContainer ();
+		return (Container) containerManager.getContainer();
 	}
 
 	/**
 	 * @see de.iritgo.aktera.core.container.ContainerFactory#disposeContainer()
 	 */
-	public void disposeContainer () throws ContainerException
+	public void disposeContainer() throws ContainerException
 	{
 		if (containerManager != null)
 		{
-			containerManager.dispose ();
+			containerManager.dispose();
 			containerManager = null;
 		}
 	}

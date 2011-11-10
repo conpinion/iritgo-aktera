@@ -40,7 +40,7 @@ import de.iritgo.simplelife.tools.*;
 public class AddressManagerImpl implements AddressManager, StartupHandler
 {
 	@Setter
-	private List<AddressStore> addressStores = new LinkedList ();
+	private List<AddressStore> addressStores = new LinkedList();
 
 	@Setter
 	private AddressDAO addressDAO;
@@ -58,13 +58,13 @@ public class AddressManagerImpl implements AddressManager, StartupHandler
 	@Getter
 	private List<AddressStoreType> addressStoreTypes;
 
-	public AddressStore getAddressStoreByName (final String storeName) throws AddressStoreNotFoundException
+	public AddressStore getAddressStoreByName(final String storeName) throws AddressStoreNotFoundException
 	{
-		AddressStore store = (AddressStore) CollectionUtils.find (addressStores, new Predicate ()
+		AddressStore store = (AddressStore) CollectionUtils.find(addressStores, new Predicate()
 		{
-			public boolean evaluate (Object o)
+			public boolean evaluate(Object o)
 			{
-				return ((AddressStore) o).getName ().equals (storeName);
+				return ((AddressStore) o).getName().equals(storeName);
 			}
 		});
 
@@ -73,252 +73,252 @@ public class AddressManagerImpl implements AddressManager, StartupHandler
 			return store;
 		}
 
-		throw new AddressStoreNotFoundException ("Address store with id '" + storeName + "' not found");
+		throw new AddressStoreNotFoundException("Address store with id '" + storeName + "' not found");
 	}
 
-	public AddressStore getAddressStoreById (final Integer id) throws AddressStoreNotFoundException
+	public AddressStore getAddressStoreById(final Integer id) throws AddressStoreNotFoundException
 	{
-		AddressStore store = (AddressStore) CollectionUtils.find (addressStores, new Predicate ()
+		AddressStore store = (AddressStore) CollectionUtils.find(addressStores, new Predicate()
 		{
-			public boolean evaluate (Object o)
+			public boolean evaluate(Object o)
 			{
-				return ((AddressStore) o).getId ().equals (id);
+				return ((AddressStore) o).getId().equals(id);
 			}
 		});
 		if (store == null)
 		{
-			throw new AddressStoreNotFoundException ("Unable to find address store with id " + id);
+			throw new AddressStoreNotFoundException("Unable to find address store with id " + id);
 		}
 		return store;
 	}
 
-	public AddressStore getDefaultAddressStore ()
+	public AddressStore getDefaultAddressStore()
 	{
-		AddressStore store = (AddressStore) CollectionUtils.find (addressStores, new Predicate ()
+		AddressStore store = (AddressStore) CollectionUtils.find(addressStores, new Predicate()
 		{
-			public boolean evaluate (Object o)
+			public boolean evaluate(Object o)
 			{
-				return ((AddressStore) o).getDefaultStore ();
+				return ((AddressStore) o).getDefaultStore();
 			}
 		});
 		if (store == null)
 		{
-			throw new DefaultAddressStoreNotFoundException ("Unable to find the default address store");
+			throw new DefaultAddressStoreNotFoundException("Unable to find the default address store");
 		}
 		return store;
 	}
 
-	public Option<Address> findAddressByStoreAndDn (String storeName, Object addressDn)
+	public Option<Address> findAddressByStoreAndDn(String storeName, Object addressDn)
 		throws AddressStoreNotFoundException
 	{
-		AddressStore store = getAddressStoreByName (storeName);
-		Option<Address> address = store.findAddressByDn (addressDn);
-		if (address.full ())
+		AddressStore store = getAddressStoreByName(storeName);
+		Option<Address> address = store.findAddressByDn(addressDn);
+		if (address.full())
 		{
-			address.get ().setAddressStore (store);
+			address.get().setAddressStore(store);
 		}
 		return address;
 	}
 
-	public Option<Address> findAddressByLastNameOrCompany (String name)
+	public Option<Address> findAddressByLastNameOrCompany(String name)
 	{
 		for (AddressStore store : addressStores)
 		{
-			Option<Address> result = store.findAddressByLastNameOrCompany (name);
-			if (result.full ())
+			Option<Address> result = store.findAddressByLastNameOrCompany(name);
+			if (result.full())
 			{
-				result.get ().setAddressStore (store);
+				result.get().setAddressStore(store);
 				return result;
 			}
 		}
-		return new Empty ();
+		return new Empty();
 	}
 
-	public Option<Address> findAddressByPhoneNumber (String phoneNumber)
+	public Option<Address> findAddressByPhoneNumber(String phoneNumber)
 	{
 		for (AddressStore store : addressStores)
 		{
-			if (! store.getNumberLookup ())
+			if (! store.getNumberLookup())
 			{
 				continue;
 			}
 
-			Option<Address> result = store.findAddressByPhoneNumber (phoneNumber);
-			if (result.full ())
+			Option<Address> result = store.findAddressByPhoneNumber(phoneNumber);
+			if (result.full())
 			{
-				result.get ().setAddressStore (store);
+				result.get().setAddressStore(store);
 				return result;
 			}
 		}
-		return new Empty ();
+		return new Empty();
 	}
 
-	public Option<Address> findAddressByPhoneNumber (String number, String countryPrefix, String localPrefix,
+	public Option<Address> findAddressByPhoneNumber(String number, String countryPrefix, String localPrefix,
 					String internationalPrefix, String nationalPrefix)
 	{
-		number = removePrefixesFromPhoneNumber (number, countryPrefix, localPrefix, nationalPrefix);
+		number = removePrefixesFromPhoneNumber(number, countryPrefix, localPrefix, nationalPrefix);
 
 		for (AddressStore store : addressStores)
 		{
-			if (! store.getNumberLookup ())
+			if (! store.getNumberLookup())
 			{
 				continue;
 			}
 
-			List<PhoneNumber> phoneNumbers = store.findPhoneNumbersEndingWith (number);
+			List<PhoneNumber> phoneNumbers = store.findPhoneNumbersEndingWith(number);
 
 			for (PhoneNumber phoneNumber : phoneNumbers)
 			{
-				String internalNumber = phoneNumber.getInternalNumber ();
+				String internalNumber = phoneNumber.getInternalNumber();
 
-				Option<Address> address = new Empty ();
+				Option<Address> address = new Empty();
 
 				// Add like 0049
-				if (internalNumber.equals (countryPrefix + number))
+				if (internalNumber.equals(countryPrefix + number))
 				{
-					address = store.findAddressByPhoneNumber (phoneNumber);
+					address = store.findAddressByPhoneNumber(phoneNumber);
 				}
 
 				// Add like 0231
-				if (internalNumber.equals (nationalPrefix + localPrefix + number))
+				if (internalNumber.equals(nationalPrefix + localPrefix + number))
 				{
-					address = store.findAddressByPhoneNumber (phoneNumber);
+					address = store.findAddressByPhoneNumber(phoneNumber);
 				}
 
 				// Add like 00 (Fallback for dummy prefix user)
-				if (internalNumber.equals ("00" + number))
+				if (internalNumber.equals("00" + number))
 				{
-					address = store.findAddressByPhoneNumber (phoneNumber);
+					address = store.findAddressByPhoneNumber(phoneNumber);
 				}
 
 				// Add like 0
-				if (internalNumber.equals ("0" + number))
+				if (internalNumber.equals("0" + number))
 				{
-					address = store.findAddressByPhoneNumber (phoneNumber);
+					address = store.findAddressByPhoneNumber(phoneNumber);
 				}
 
-				if (internalNumber.equals (number))
+				if (internalNumber.equals(number))
 				{
-					address = store.findAddressByPhoneNumber (phoneNumber);
+					address = store.findAddressByPhoneNumber(phoneNumber);
 				}
 
-				if (address.full ())
+				if (address.full())
 				{
-					address.get ().setAddressStore (store);
+					address.get().setAddressStore(store);
 
 					return address;
 				}
 			}
 		}
 
-		return new Empty ();
+		return new Empty();
 	}
 
-	public Option<Address> findAddressOfOwnerByPhoneNumber (Integer ownerId, String number, String countryPrefix,
+	public Option<Address> findAddressOfOwnerByPhoneNumber(Integer ownerId, String number, String countryPrefix,
 					String localPrefix, String internationalPrefix, String nationalPrefix)
 	{
-		number = removePrefixesFromPhoneNumber (number, countryPrefix, localPrefix, nationalPrefix);
+		number = removePrefixesFromPhoneNumber(number, countryPrefix, localPrefix, nationalPrefix);
 
 		for (AddressStore store : addressStores)
 		{
-			if (! store.getNumberLookup ())
+			if (! store.getNumberLookup())
 			{
 				continue;
 			}
 
-			List<PhoneNumber> phoneNumbers = store.findPhoneNumbersOfOwnerEndingWith (number, ownerId);
+			List<PhoneNumber> phoneNumbers = store.findPhoneNumbersOfOwnerEndingWith(number, ownerId);
 
 			for (PhoneNumber phoneNumber : phoneNumbers)
 			{
-				String internalNumber = phoneNumber.getInternalNumber ();
+				String internalNumber = phoneNumber.getInternalNumber();
 
 				Option<Address> address = null;
 
 				// Add like 0049
-				if (internalNumber.equals (countryPrefix + number))
+				if (internalNumber.equals(countryPrefix + number))
 				{
-					address = store.findAddressOfOwnerByPhoneNumber (phoneNumber, ownerId);
+					address = store.findAddressOfOwnerByPhoneNumber(phoneNumber, ownerId);
 				}
 
 				// Add like 0231
-				if (internalNumber.equals (nationalPrefix + localPrefix + number))
+				if (internalNumber.equals(nationalPrefix + localPrefix + number))
 				{
-					address = store.findAddressOfOwnerByPhoneNumber (phoneNumber, ownerId);
+					address = store.findAddressOfOwnerByPhoneNumber(phoneNumber, ownerId);
 				}
 
 				// Add like 00 (Fallback for dummy prefix user)
-				if (internalNumber.equals ("00" + number))
+				if (internalNumber.equals("00" + number))
 				{
-					address = store.findAddressOfOwnerByPhoneNumber (phoneNumber, ownerId);
+					address = store.findAddressOfOwnerByPhoneNumber(phoneNumber, ownerId);
 				}
 
 				// Add like 0
-				if (internalNumber.equals ("0" + number))
+				if (internalNumber.equals("0" + number))
 				{
-					address = store.findAddressOfOwnerByPhoneNumber (phoneNumber, ownerId);
+					address = store.findAddressOfOwnerByPhoneNumber(phoneNumber, ownerId);
 				}
 
-				if (internalNumber.equals (number))
+				if (internalNumber.equals(number))
 				{
-					address = store.findAddressOfOwnerByPhoneNumber (phoneNumber, ownerId);
+					address = store.findAddressOfOwnerByPhoneNumber(phoneNumber, ownerId);
 				}
 
 				if (address != null)
 				{
-					address.get ().setAddressStore (store);
+					address.get().setAddressStore(store);
 
 					return address;
 				}
 			}
 		}
 
-		return new Empty ();
+		return new Empty();
 	}
 
-	public String formatAddressTemplate (Address address, String template, Locale locale)
+	public String formatAddressTemplate(Address address, String template, Locale locale)
 	{
-		return StringTools.replaceTemplate (template, convertAddressToProperties (address, locale), true);
+		return StringTools.replaceTemplate(template, convertAddressToProperties(address, locale), true);
 	}
 
-	public Properties convertAddressToProperties (Address address, Locale locale)
+	public Properties convertAddressToProperties(Address address, Locale locale)
 	{
-		Properties displayProperties = new Properties ();
+		Properties displayProperties = new Properties();
 
-		displayProperties.setProperty ("city", address.getCity () != null ? address.getCity () : "");
-		displayProperties.setProperty ("company", address.getCompany () != null ? address.getCompany () : "");
-		displayProperties.setProperty ("companyWithComma", ! StringTools.isTrimEmpty (address.getCompany ()) ? ", "
-						+ address.getCompany () : "");
-		displayProperties.setProperty ("companyNumber",
-						address.getCompanyNumber () != null ? address.getCompanyNumber () : "");
-		displayProperties.setProperty ("contactNumber",
-						address.getContactNumber () != null ? address.getContactNumber () : "");
-		displayProperties.setProperty ("country", address.getCountry () != null ? address.getCountry () : "");
-		displayProperties.setProperty ("division", address.getDivision () != null ? address.getDivision () : "");
-		displayProperties.setProperty ("email", address.getEmail () != null ? address.getEmail () : "");
-		displayProperties.setProperty ("firstName", address.getFirstName () != null ? address.getFirstName () : "");
-		displayProperties.setProperty ("firstNameFirstChar",
-						! StringTools.isTrimEmpty (address.getFirstName ()) ? address.getFirstName ().substring (0, 1)
-										: "");
-		displayProperties.setProperty ("firstNameAbbr", ! StringTools.isTrimEmpty (address.getFirstName ()) ? address
-						.getFirstName ().substring (0, 1) + ". " : "");
-		displayProperties.setProperty ("lastName", address.getLastName () != null ? address.getLastName () : "");
-		displayProperties.setProperty ("position", address.getPosition () != null ? address.getPosition () : "");
-		displayProperties.setProperty ("postalCode", address.getPostalCode () != null ? address.getPostalCode () : "");
-		displayProperties.setProperty ("remark", address.getRemark () != null ? address.getRemark () : "");
+		displayProperties.setProperty("city", address.getCity() != null ? address.getCity() : "");
+		displayProperties.setProperty("company", address.getCompany() != null ? address.getCompany() : "");
+		displayProperties.setProperty("companyWithComma", ! StringTools.isTrimEmpty(address.getCompany()) ? ", "
+						+ address.getCompany() : "");
+		displayProperties.setProperty("companyNumber", address.getCompanyNumber() != null ? address.getCompanyNumber()
+						: "");
+		displayProperties.setProperty("contactNumber", address.getContactNumber() != null ? address.getContactNumber()
+						: "");
+		displayProperties.setProperty("country", address.getCountry() != null ? address.getCountry() : "");
+		displayProperties.setProperty("division", address.getDivision() != null ? address.getDivision() : "");
+		displayProperties.setProperty("email", address.getEmail() != null ? address.getEmail() : "");
+		displayProperties.setProperty("firstName", address.getFirstName() != null ? address.getFirstName() : "");
+		displayProperties.setProperty("firstNameFirstChar", ! StringTools.isTrimEmpty(address.getFirstName()) ? address
+						.getFirstName().substring(0, 1) : "");
+		displayProperties.setProperty("firstNameAbbr", ! StringTools.isTrimEmpty(address.getFirstName()) ? address
+						.getFirstName().substring(0, 1)
+						+ ". " : "");
+		displayProperties.setProperty("lastName", address.getLastName() != null ? address.getLastName() : "");
+		displayProperties.setProperty("position", address.getPosition() != null ? address.getPosition() : "");
+		displayProperties.setProperty("postalCode", address.getPostalCode() != null ? address.getPostalCode() : "");
+		displayProperties.setProperty("remark", address.getRemark() != null ? address.getRemark() : "");
 
-		if (! StringTools.isTrimEmpty (address.getSalutation ()) && locale != null)
+		if (! StringTools.isTrimEmpty(address.getSalutation()) && locale != null)
 		{
-			String salutation = i18n.msg (locale, "Aktera", address.getSalutation ());
+			String salutation = i18n.msg(locale, "Aktera", address.getSalutation());
 
-			displayProperties.setProperty ("salutation", salutation);
+			displayProperties.setProperty("salutation", salutation);
 		}
 		else
 		{
-			displayProperties.setProperty ("salutation", "");
+			displayProperties.setProperty("salutation", "");
 		}
 
-		displayProperties.setProperty ("street", address.getStreet () != null ? address.getStreet () : "");
-		displayProperties.setProperty ("web", address.getWeb () != null ? address.getWeb () : "");
+		displayProperties.setProperty("street", address.getStreet() != null ? address.getStreet() : "");
+		displayProperties.setProperty("web", address.getWeb() != null ? address.getWeb() : "");
 
 		return displayProperties;
 	}
@@ -326,130 +326,130 @@ public class AddressManagerImpl implements AddressManager, StartupHandler
 	/**
 	 * @see de.iritgo.aktera.startup.StartupHandler#startup()
 	 */
-	public void startup () throws StartupException
+	public void startup() throws StartupException
 	{
-		initializeAddressStores ();
+		initializeAddressStores();
 	}
 
-	public void initializeAddressStores ()
+	public void initializeAddressStores()
 	{
 		for (AddressStore store : addressStores)
 		{
-			store.shutdown ();
+			store.shutdown();
 		}
-		addressStores.clear ();
-		for (AddressStore addressStore : addressDAO.findAllAddressStores ())
+		addressStores.clear();
+		for (AddressStore addressStore : addressDAO.findAllAddressStores())
 		{
 			try
 			{
-				addressStore.init ();
-				addressStores.add (addressStore);
+				addressStore.init();
+				addressStores.add(addressStore);
 			}
 			catch (Exception x)
 			{
-				logger.error ("Unable to create address store", x);
+				logger.error("Unable to create address store", x);
 			}
 		}
 	}
 
-	public List<Tuple2<String, String>> listAddressStoresNameAndTitle ()
+	public List<Tuple2<String, String>> listAddressStoresNameAndTitle()
 	{
-		List<Tuple2<String, String>> res = new LinkedList ();
+		List<Tuple2<String, String>> res = new LinkedList();
 		for (AddressStore store : addressStores)
 		{
-			res.add (new Tuple2<String, String> (store.getName (), store.getDisplayedTitle ()));
+			res.add(new Tuple2<String, String>(store.getName(), store.getDisplayedTitle()));
 		}
 		return res;
 	}
 
-	public List<Tuple2<Integer, String>> listAddressStoresIdAndTitle ()
+	public List<Tuple2<Integer, String>> listAddressStoresIdAndTitle()
 	{
-		List<Tuple2<Integer, String>> res = new LinkedList ();
+		List<Tuple2<Integer, String>> res = new LinkedList();
 		for (AddressStore store : addressStores)
 		{
-			res.add (new Tuple2<Integer, String> (store.getId (), store.getDisplayedTitle ()));
+			res.add(new Tuple2<Integer, String>(store.getId(), store.getDisplayedTitle()));
 		}
 		return res;
 	}
 
-	public List<Tuple2<Integer, String>> listSystemAddressStoresIdAndTitle ()
+	public List<Tuple2<Integer, String>> listSystemAddressStoresIdAndTitle()
 	{
-		List<Tuple2<Integer, String>> res = new LinkedList ();
+		List<Tuple2<Integer, String>> res = new LinkedList();
 		for (AddressStore store : addressStores)
 		{
-			if (store.getSystemStore ())
+			if (store.getSystemStore())
 			{
-				res.add (new Tuple2<Integer, String> (store.getId (), store.getDisplayedTitle ()));
+				res.add(new Tuple2<Integer, String>(store.getId(), store.getDisplayedTitle()));
 			}
 		}
 		return res;
 	}
 
-	public List<Tuple3<Integer, String, String>> listAddressStoresIdAndNameAndTitle ()
+	public List<Tuple3<Integer, String, String>> listAddressStoresIdAndNameAndTitle()
 	{
-		List<Tuple3<Integer, String, String>> res = new LinkedList ();
+		List<Tuple3<Integer, String, String>> res = new LinkedList();
 		for (AddressStore store : addressStores)
 		{
-			res.add (new Tuple3<Integer, String, String> (store.getId (), store.getName (), store.getDisplayedTitle ()));
+			res.add(new Tuple3<Integer, String, String>(store.getId(), store.getName(), store.getDisplayedTitle()));
 		}
 		return res;
 	}
 
-	public boolean isAddressStoreEditable (String storeName) throws AddressStoreNotFoundException
+	public boolean isAddressStoreEditable(String storeName) throws AddressStoreNotFoundException
 	{
-		return getAddressStoreByName (storeName).getEditable ();
+		return getAddressStoreByName(storeName).getEditable();
 	}
 
-	public boolean isAddressStoreGlobal (String storeName) throws AddressStoreNotFoundException
+	public boolean isAddressStoreGlobal(String storeName) throws AddressStoreNotFoundException
 	{
-		return getAddressStoreByName (storeName).isGlobalStore ();
+		return getAddressStoreByName(storeName).isGlobalStore();
 	}
 
-	public void shutdown () throws ShutdownException
+	public void shutdown() throws ShutdownException
 	{
 	}
 
-	private String removePrefixesFromPhoneNumber (String number, String countryPrefix, String localPrefix,
+	private String removePrefixesFromPhoneNumber(String number, String countryPrefix, String localPrefix,
 					String nationalPrefix)
 	{
 		// Remove like 0049
-		if (number.startsWith (countryPrefix))
+		if (number.startsWith(countryPrefix))
 		{
-			number = number.substring (countryPrefix.length ());
+			number = number.substring(countryPrefix.length());
 		} // Remove like 0231
-		else if (number.startsWith (nationalPrefix + localPrefix))
+		else if (number.startsWith(nationalPrefix + localPrefix))
 		{
-			number = number.substring (nationalPrefix.length () + localPrefix.length ());
+			number = number.substring(nationalPrefix.length() + localPrefix.length());
 		} // Remove like 231
-		else if (number.startsWith (localPrefix) && (localPrefix.length () != number.length ()))
+		else if (number.startsWith(localPrefix) && (localPrefix.length() != number.length()))
 		{
-			number = number.substring (localPrefix.length ());
+			number = number.substring(localPrefix.length());
 		} // Remove like 0
-		else if (number.startsWith (nationalPrefix))
+		else if (number.startsWith(nationalPrefix))
 		{
-			number = number.substring (nationalPrefix.length ());
+			number = number.substring(nationalPrefix.length());
 		}
 
 		return number;
 	}
 
-	public String formatNameWithSalutation (Address address, Locale locale, SalutationFormatMode mode)
+	public String formatNameWithSalutation(Address address, Locale locale, SalutationFormatMode mode)
 	{
 		String salutation = null;
 		String firstName = null;
 		String lastName = null;
 
-		if (! StringTools.isTrimEmpty (address.getSalutation ()) && locale != null)
+		if (! StringTools.isTrimEmpty(address.getSalutation()) && locale != null)
 		{
-			salutation = i18n.msg (locale, "Aktera", address.getSalutation ());
+			salutation = i18n.msg(locale, "Aktera", address.getSalutation());
 		}
-		if (! StringTools.isTrimEmpty (address.getFirstName ()))
+		if (! StringTools.isTrimEmpty(address.getFirstName()))
 		{
-			firstName = address.getFirstName ();
+			firstName = address.getFirstName();
 		}
-		if (! StringTools.isTrimEmpty (address.getLastName ()))
+		if (! StringTools.isTrimEmpty(address.getLastName()))
 		{
-			lastName = address.getLastName ();
+			lastName = address.getLastName();
 		}
 
 		switch (mode)
@@ -480,88 +480,88 @@ public class AddressManagerImpl implements AddressManager, StartupHandler
 		return null;
 	}
 
-	public AddressStoreType getAddressStoreType (String key) throws NoSuchAddressStoreTypeException
+	public AddressStoreType getAddressStoreType(String key) throws NoSuchAddressStoreTypeException
 	{
 		for (AddressStoreType type : addressStoreTypes)
 		{
-			if (type.getKey ().equals (key))
+			if (type.getKey().equals(key))
 			{
 				return type;
 			}
 		}
-		throw new NoSuchAddressStoreTypeException ();
+		throw new NoSuchAddressStoreTypeException();
 	}
 
-	public void deleteAllAddressesOfOwner (Integer userId)
+	public void deleteAllAddressesOfOwner(Integer userId)
 	{
 		for (AddressStore store : addressStores)
 		{
-			store.deleteAllAddressesOfOwner (userId);
+			store.deleteAllAddressesOfOwner(userId);
 		}
 	}
 
-	public void onUserCreated (Event event)
+	public void onUserCreated(Event event)
 	{
-		Procedure2 createPhoneNumberForAddress = new Procedure2 ()
+		Procedure2 createPhoneNumberForAddress = new Procedure2()
 		{
-			public void execute (Object address, Object category)
+			public void execute(Object address, Object category)
 			{
-				Address theAddress = ((Option<Address>) address).get ();
+				Address theAddress = ((Option<Address>) address).get();
 				String theCategory = (String) category;
-				PhoneNumber number = new PhoneNumber ();
-				number.setCategory (theCategory);
-				theAddress.addPhoneNumber (number);
+				PhoneNumber number = new PhoneNumber();
+				number.setCategory(theCategory);
+				theAddress.addPhoneNumber(number);
 			}
 		};
-		AkteraUser user = userDAO.findUserById ((Integer) event.getProperties ().get ("id"));
-		Party party = addressDAO.getPartyByUserId (user.getId ());
-		Option<Address> address = addressDAO.findAddressByPartyId (party.getId ());
-		if (address.full ())
+		AkteraUser user = userDAO.findUserById((Integer) event.getProperties().get("id"));
+		Party party = addressDAO.getPartyByUserId(user.getId());
+		Option<Address> address = addressDAO.findAddressByPartyId(party.getId());
+		if (address.full())
 		{
-			createPhoneNumberForAddress.execute (address, "B");
-			createPhoneNumberForAddress.execute (address, "BM");
-			createPhoneNumberForAddress.execute (address, "BDD");
-			createPhoneNumberForAddress.execute (address, "BF");
-			createPhoneNumberForAddress.execute (address, "P");
-			createPhoneNumberForAddress.execute (address, "PM");
-			createPhoneNumberForAddress.execute (address, "PF");
-			createPhoneNumberForAddress.execute (address, "VOIP");
-			addressDAO.updateAddress (address.get ());
+			createPhoneNumberForAddress.execute(address, "B");
+			createPhoneNumberForAddress.execute(address, "BM");
+			createPhoneNumberForAddress.execute(address, "BDD");
+			createPhoneNumberForAddress.execute(address, "BF");
+			createPhoneNumberForAddress.execute(address, "P");
+			createPhoneNumberForAddress.execute(address, "PM");
+			createPhoneNumberForAddress.execute(address, "PF");
+			createPhoneNumberForAddress.execute(address, "VOIP");
+			addressDAO.updateAddress(address.get());
 		}
 	}
 
-	public void onUserRenamed (Event event)
+	public void onUserRenamed(Event event)
 	{
-		Integer userId = (Integer) event.getProperties ().get ("id");
-		String newFirstName = event.getProperties ().getProperty ("newFirstName");
-		String newLastName = event.getProperties ().getProperty ("newLastName");
-		String newEmail = event.getProperties ().getProperty ("newEmail");
+		Integer userId = (Integer) event.getProperties().get("id");
+		String newFirstName = event.getProperties().getProperty("newFirstName");
+		String newLastName = event.getProperties().getProperty("newLastName");
+		String newEmail = event.getProperties().getProperty("newEmail");
 
-		Option<Address> address = addressDAO.findAddressByUserId (userId);
+		Option<Address> address = addressDAO.findAddressByUserId(userId);
 
-		if (address.full ())
+		if (address.full())
 		{
-			if (StringTools.isNotTrimEmpty (newFirstName))
+			if (StringTools.isNotTrimEmpty(newFirstName))
 			{
-				address.get ().setFirstName (newFirstName);
+				address.get().setFirstName(newFirstName);
 			}
 
-			if (StringTools.isNotTrimEmpty (newLastName))
+			if (StringTools.isNotTrimEmpty(newLastName))
 			{
-				address.get ().setLastName (newLastName);
+				address.get().setLastName(newLastName);
 			}
 
-			if (StringTools.isNotTrimEmpty (newEmail))
+			if (StringTools.isNotTrimEmpty(newEmail))
 			{
-				address.get ().setEmail (newEmail);
+				address.get().setEmail(newEmail);
 			}
 
-			addressDAO.updateAddress (address.get ());
+			addressDAO.updateAddress(address.get());
 		}
 	}
 
-	public void onUserDeleted (Event event)
+	public void onUserDeleted(Event event)
 	{
-		deleteAllAddressesOfOwner ((Integer) event.getProperties ().get ("id"));
+		deleteAllAddressesOfOwner((Integer) event.getProperties().get("id"));
 	}
 }

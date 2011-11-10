@@ -41,12 +41,12 @@ public class FakeAdminUserEnvironment extends DefaultUserEnvironment
 	 * @see de.iritgo.aktera.authentication.DefaultUserEnvironment#getGroups()
 	 */
 	@Override
-	public List<String> getGroups ()
+	public List<String> getGroups()
 	{
 		if (groupList == null)
 		{
-			groupList = new LinkedList<String> ();
-			groupList.add (new String ("root"));
+			groupList = new LinkedList<String>();
+			groupList.add(new String("root"));
 		}
 
 		return groupList;
@@ -56,7 +56,7 @@ public class FakeAdminUserEnvironment extends DefaultUserEnvironment
 	 * @see de.iritgo.aktera.authentication.DefaultUserEnvironment#getUid()
 	 */
 	@Override
-	public int getUid () throws AuthorizationException
+	public int getUid() throws AuthorizationException
 	{
 		return 1;
 	}
@@ -65,7 +65,7 @@ public class FakeAdminUserEnvironment extends DefaultUserEnvironment
 	 * @see de.iritgo.aktera.authentication.DefaultUserEnvironment#getLoginName()
 	 */
 	@Override
-	public String getLoginName () throws AuthorizationException
+	public String getLoginName() throws AuthorizationException
 	{
 		return "admin";
 	}
@@ -74,7 +74,7 @@ public class FakeAdminUserEnvironment extends DefaultUserEnvironment
 	 * @see de.iritgo.aktera.authentication.DefaultUserEnvironment#getUserDescrip()
 	 */
 	@Override
-	public String getUserDescrip () throws AuthorizationException
+	public String getUserDescrip() throws AuthorizationException
 	{
 		return "Administrator";
 	}

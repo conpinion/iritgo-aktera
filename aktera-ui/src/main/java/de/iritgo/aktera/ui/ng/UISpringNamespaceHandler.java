@@ -31,14 +31,14 @@ import de.iritgo.aktera.ui.ng.listing.ListingBeanDefinitionParser;
 
 public class UISpringNamespaceHandler extends NamespaceHandlerSupport
 {
-	public void init ()
+	public void init()
 	{
-		registerBeanDefinitionParser ("listing", new ListingBeanDefinitionParser ());
-		registerBeanDefinitionParser ("formular", new FormularBeanDefinitionParser ());
-		registerBeanDefinitionParser ("formularGroup", new FormularGroupBeanDefinitionParser ());
-		registerBeanDefinitionParser ("edit", new EditBeanDefinitionParser ());
-		registerBeanDefinitionParser ("save", new SaveBeanDefinitionParser ());
-		registerBeanDefinitionParser ("delete", new DeleteBeanDefinitionParser ());
-		registerBeanDefinitionParser ("sequence", new SequenceBeanDefinitionParser ());
+		registerBeanDefinitionParser("listing", new ListingBeanDefinitionParser());
+		registerBeanDefinitionParser("formular", new FormularBeanDefinitionParser());
+		registerBeanDefinitionParser("formularGroup", new FormularGroupBeanDefinitionParser());
+		registerBeanDefinitionParser("edit", new EditBeanDefinitionParser());
+		registerBeanDefinitionParser("save", new SaveBeanDefinitionParser());
+		registerBeanDefinitionParser("delete", new DeleteBeanDefinitionParser());
+		registerBeanDefinitionParser("sequence", new SequenceBeanDefinitionParser());
 	}
 }

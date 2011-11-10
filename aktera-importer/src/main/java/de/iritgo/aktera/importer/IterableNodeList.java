@@ -34,26 +34,26 @@ public class IterableNodeList implements Iterator<Node>, Iterable<Node>
 
 	private int i = 0;
 
-	public IterableNodeList (NodeList list)
+	public IterableNodeList(NodeList list)
 	{
 		this.list = list;
 	}
 
-	public boolean hasNext ()
+	public boolean hasNext()
 	{
-		return i < list.getLength ();
+		return i < list.getLength();
 	}
 
-	public Node next ()
+	public Node next()
 	{
-		return list.item (i++);
+		return list.item(i++);
 	}
 
-	public void remove ()
+	public void remove()
 	{
 	}
 
-	public Iterator<Node> iterator ()
+	public Iterator<Node> iterator()
 	{
 		return this;
 	}

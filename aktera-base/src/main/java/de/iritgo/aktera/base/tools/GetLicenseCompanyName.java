@@ -47,24 +47,24 @@ public class GetLicenseCompanyName extends StandardLogEnabledModel
 	 * @param req The model request.
 	 * @throws ModelException In case of a business failure.
 	 */
-	public ModelResponse execute (ModelRequest req) throws ModelException
+	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
-		ModelResponse res = req.createResponse ();
+		ModelResponse res = req.createResponse();
 
-		LicenseInfo license = LicenseTools.getLicenseInfo ();
+		LicenseInfo license = LicenseTools.getLicenseInfo();
 
-		Output licenseComplanyName = res.createOutput ("licenseCompanyName");
+		Output licenseComplanyName = res.createOutput("licenseCompanyName");
 
 		if (license != null)
 		{
-			licenseComplanyName.setContent (license.getCompany ());
+			licenseComplanyName.setContent(license.getCompany());
 		}
 		else
 		{
-			licenseComplanyName.setContent ("");
+			licenseComplanyName.setContent("");
 		}
 
-		res.add (licenseComplanyName);
+		res.add(licenseComplanyName);
 
 		return res;
 	}

@@ -35,11 +35,11 @@ public class DefaultWebappResponse implements WebappResponse
 {
 	private HttpServletResponse hres = null;
 
-	private DefaultWebappResponse ()
+	private DefaultWebappResponse()
 	{
 	}
 
-	public DefaultWebappResponse (HttpServletResponse hres)
+	public DefaultWebappResponse(HttpServletResponse hres)
 	{
 		this.hres = hres;
 	}
@@ -47,8 +47,8 @@ public class DefaultWebappResponse implements WebappResponse
 	/**
 	 * @see de.iritgo.aktera.clients.webapp.WebappResponse#addCookie(javax.servlet.http.Cookie)
 	 */
-	public void addCookie (Cookie c)
+	public void addCookie(Cookie c)
 	{
-		hres.addCookie (c);
+		hres.addCookie(c);
 	}
 }

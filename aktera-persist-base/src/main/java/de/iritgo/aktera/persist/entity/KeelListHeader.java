@@ -51,9 +51,9 @@ public class KeelListHeader implements Serializable
 	/**
 	 *
 	 */
-	public KeelListHeader ()
+	public KeelListHeader()
 	{
-		super ();
+		super();
 	}
 
 	/**
@@ -66,7 +66,7 @@ public class KeelListHeader implements Serializable
 	 *   type="varchar"
 	 * @return The "friendly" name of this list
 	 */
-	public String getFriendlyListName ()
+	public String getFriendlyListName()
 	{
 		return friendlyListName;
 	}
@@ -82,7 +82,7 @@ public class KeelListHeader implements Serializable
 	 *   type="varchar"
 	 * @return
 	 */
-	public String getListName ()
+	public String getListName()
 	{
 		return listName;
 	}
@@ -103,7 +103,7 @@ public class KeelListHeader implements Serializable
 	 *   descrip="Yes"
 	 * @return
 	 */
-	public Boolean getUseSortOrder ()
+	public Boolean getUseSortOrder()
 	{
 		return useSortOrder;
 	}
@@ -111,7 +111,7 @@ public class KeelListHeader implements Serializable
 	/**
 	 * @param string
 	 */
-	public void setFriendlyListName (String string)
+	public void setFriendlyListName(String string)
 	{
 		friendlyListName = string;
 	}
@@ -119,7 +119,7 @@ public class KeelListHeader implements Serializable
 	/**
 	 * @param string
 	 */
-	public void setListName (String string)
+	public void setListName(String string)
 	{
 		listName = string;
 	}
@@ -127,7 +127,7 @@ public class KeelListHeader implements Serializable
 	/**
 	 * @param boolean1
 	 */
-	public void setUseSortOrder (Boolean boolean1)
+	public void setUseSortOrder(Boolean boolean1)
 	{
 		useSortOrder = boolean1;
 	}

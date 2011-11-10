@@ -52,9 +52,9 @@ public class GetSessionInfo extends StandardLogEnabledModel
 
 	static
 	{
-		languages = new HashMap ();
-		languages.put ("de", Locale.GERMAN);
-		languages.put ("en", Locale.ENGLISH);
+		languages = new HashMap();
+		languages.put("de", Locale.GERMAN);
+		languages.put("en", Locale.ENGLISH);
 	}
 
 	/**
@@ -63,11 +63,11 @@ public class GetSessionInfo extends StandardLogEnabledModel
 	 * @param req The model request.
 	 * @return The model response.
 	 */
-	public ModelResponse execute (ModelRequest req) throws ModelException
+	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
-		ModelResponse res = req.createResponse ();
+		ModelResponse res = req.createResponse();
 
-		Context ctx = req.getContext ();
+		Context ctx = req.getContext();
 
 		if (ctx != null)
 		{
@@ -75,7 +75,7 @@ public class GetSessionInfo extends StandardLogEnabledModel
 
 			try
 			{
-				userEnv = (UserEnvironment) ctx.get (UserEnvironment.CONTEXT_KEY);
+				userEnv = (UserEnvironment) ctx.get(UserEnvironment.CONTEXT_KEY);
 			}
 			catch (ContextException x)
 			{
@@ -83,78 +83,78 @@ public class GetSessionInfo extends StandardLogEnabledModel
 
 			try
 			{
-				if (userEnv != null && userEnv.getUid () != UserEnvironment.ANONYMOUS_UID)
+				if (userEnv != null && userEnv.getUid() != UserEnvironment.ANONYMOUS_UID)
 				{
-					if (userEnv.getAttribute ("sessionInfoLoaded") == null
-									|| "N".equals (userEnv.getAttribute ("sessionInfoLoaded")))
+					if (userEnv.getAttribute("sessionInfoLoaded") == null
+									|| "N".equals(userEnv.getAttribute("sessionInfoLoaded")))
 					{
 						try
 						{
-							PersistentFactory persistentManager = (PersistentFactory) req.getService (
-											PersistentFactory.ROLE, req.getDomain ());
+							PersistentFactory persistentManager = (PersistentFactory) req.getService(
+											PersistentFactory.ROLE, req.getDomain());
 
-							Persistent preferences = persistentManager.create ("aktera.Preferences");
+							Persistent preferences = persistentManager.create("aktera.Preferences");
 
-							preferences.setField ("userId", new Integer (userEnv.getUid ()));
-							preferences.find ();
-							userEnv.setAttribute ("sessionPreferences", preferences.getBean ());
+							preferences.setField("userId", new Integer(userEnv.getUid()));
+							preferences.find();
+							userEnv.setAttribute("sessionPreferences", preferences.getBean());
 
-							Persistent party = persistentManager.create ("aktera.Party");
+							Persistent party = persistentManager.create("aktera.Party");
 
-							party.setField ("userId", new Integer (userEnv.getUid ()));
+							party.setField("userId", new Integer(userEnv.getUid()));
 
-							if (party.find ())
+							if (party.find())
 							{
-								Persistent address = persistentManager.create ("aktera.Address");
+								Persistent address = persistentManager.create("aktera.Address");
 
-								address.setField ("partyId", party.getField ("partyId"));
+								address.setField("partyId", party.getField("partyId"));
 
-								if (address.find ())
+								if (address.find())
 								{
-									String firstName = address.getFieldString ("firstName");
-									String lastName = address.getFieldString ("lastName");
+									String firstName = address.getFieldString("firstName");
+									String lastName = address.getFieldString("lastName");
 									String displayName = (firstName != null ? firstName + " " : "") + lastName;
 
-									userEnv.setAttribute ("sessionDisplayName", displayName);
-									userEnv.setAttribute ("sessionFirstName", firstName != null ? firstName : "");
-									userEnv.setAttribute ("sessionLastName", lastName != null ? lastName : "");
+									userEnv.setAttribute("sessionDisplayName", displayName);
+									userEnv.setAttribute("sessionFirstName", firstName != null ? firstName : "");
+									userEnv.setAttribute("sessionLastName", lastName != null ? lastName : "");
 
-									Locale locale = (Locale) languages.get (preferences.getFieldString ("language"));
+									Locale locale = (Locale) languages.get(preferences.getFieldString("language"));
 
-									userEnv.setAttribute ("sessionLanguage", locale != null ? locale : Locale.GERMAN);
-									userEnv.setAttribute (I18N.USER_CONTEXT_LOCALE_KEY, locale != null ? locale
+									userEnv.setAttribute("sessionLanguage", locale != null ? locale : Locale.GERMAN);
+									userEnv.setAttribute(I18N.USER_CONTEXT_LOCALE_KEY, locale != null ? locale
 													: Locale.GERMAN);
-									userEnv.setAttribute ("sessionInfoLoaded", "Y");
+									userEnv.setAttribute("sessionInfoLoaded", "Y");
 								}
 							}
 						}
 						catch (PersistenceException x)
 						{
-							throw new ModelException (x);
+							throw new ModelException(x);
 						}
 					}
 
-					res.addOutput ("sessionDisplayName", (String) userEnv.getAttribute ("sessionDisplayName"));
-					res.addOutput ("sessionFirstName", (String) userEnv.getAttribute ("sessionFirstName"));
-					res.addOutput ("sessionLastName", (String) userEnv.getAttribute ("sessionLastName"));
-					res.addOutput ("sessionLoginName", (String) userEnv.getLoginName ());
+					res.addOutput("sessionDisplayName", (String) userEnv.getAttribute("sessionDisplayName"));
+					res.addOutput("sessionFirstName", (String) userEnv.getAttribute("sessionFirstName"));
+					res.addOutput("sessionLastName", (String) userEnv.getAttribute("sessionLastName"));
+					res.addOutput("sessionLoginName", (String) userEnv.getLoginName());
 
-					Output lang = res.createOutput ("sessionLanguage");
+					Output lang = res.createOutput("sessionLanguage");
 
-					lang.setContent (userEnv.getAttribute ("sessionLanguage"));
-					res.add (lang);
+					lang.setContent(userEnv.getAttribute("sessionLanguage"));
+					res.add(lang);
 				}
 				else
 				{
-					Output lang = res.createOutput ("sessionLanguage");
+					Output lang = res.createOutput("sessionLanguage");
 
-					lang.setContent (Locale.GERMAN);
-					res.add (lang);
+					lang.setContent(Locale.GERMAN);
+					res.add(lang);
 				}
 			}
 			catch (AuthorizationException x)
 			{
-				throw new ModelException (x);
+				throw new ModelException(x);
 			}
 		}
 

@@ -23,7 +23,7 @@ package de.iritgo.aktera.model;
 /* Send output to the user */
 public interface Output extends ResponseElement
 {
-	public void setContent (Object newContent);
+	public void setContent(Object newContent);
 
-	public Object getContent ();
+	public Object getContent();
 }

@@ -35,26 +35,26 @@ public class DefaultTag extends TagSupport
 	/**
 	 * Reset all tag attributes to their default values.
 	 */
-	public void release ()
+	public void release()
 	{
-		super.release ();
+		super.release();
 	}
 
 	/**
 	 * Execute the tag.
 	 */
-	public int doStartTag () throws JspException
+	public int doStartTag() throws JspException
 	{
 		try
 		{
-			SwitchTag switchTag = (SwitchTag) findAncestorWithClass (this, SwitchTag.class);
+			SwitchTag switchTag = (SwitchTag) findAncestorWithClass(this, SwitchTag.class);
 
 			if (switchTag == null)
 			{
-				throw new JspException ("[CaseTag] Can only be used inside a SwitchTag tag");
+				throw new JspException("[CaseTag] Can only be used inside a SwitchTag tag");
 			}
 
-			if (! switchTag.isCaseApplied ())
+			if (! switchTag.isCaseApplied())
 			{
 				return EVAL_BODY_INCLUDE;
 			}
@@ -65,7 +65,7 @@ public class DefaultTag extends TagSupport
 		}
 		catch (Exception x)
 		{
-			throw new JspException (x);
+			throw new JspException(x);
 		}
 	}
 }

@@ -30,5 +30,5 @@ public interface DashboardManager
 	 *
 	 * @return The dashboard box list
 	 */
-	List<DashboardGroup> getDashboardGroups ();
+	List<DashboardGroup> getDashboardGroups();
 }

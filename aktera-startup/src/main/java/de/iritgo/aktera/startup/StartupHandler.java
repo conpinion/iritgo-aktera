@@ -28,10 +28,10 @@ public interface StartupHandler
 	/**
 	 * This method is called when the component should start up.
 	 */
-	public abstract void startup () throws StartupException;
+	public abstract void startup() throws StartupException;
 
 	/**
 	 * This method is called when the component should shut down.
 	 */
-	public abstract void shutdown () throws ShutdownException;
+	public abstract void shutdown() throws ShutdownException;
 }

@@ -28,20 +28,20 @@ public class AclEntry
 {
 	private Principal user = null;
 
-	private Vector permissionSet = new Vector (10, 10);
+	private Vector permissionSet = new Vector(10, 10);
 
 	private boolean negative = false;
 
-	public AclEntry (Principal user)
+	public AclEntry(Principal user)
 	{
 		this.user = user;
 	}
 
-	public AclEntry ()
+	public AclEntry()
 	{
 	}
 
-	public boolean setPrincipal (Principal user)
+	public boolean setPrincipal(Principal user)
 	{
 		if (this.user != null)
 		{
@@ -53,98 +53,98 @@ public class AclEntry
 		return true;
 	}
 
-	public void setNegativePermissions ()
+	public void setNegativePermissions()
 	{
 		negative = true;
 	}
 
-	public boolean isNegative ()
+	public boolean isNegative()
 	{
 		return negative;
 	}
 
-	public boolean addPermission (AbstractPermission permission)
+	public boolean addPermission(AbstractPermission permission)
 	{
-		if (permissionSet.contains (permission))
+		if (permissionSet.contains(permission))
 		{
 			return false;
 		}
 
-		permissionSet.addElement (permission);
+		permissionSet.addElement(permission);
 
 		return true;
 	}
 
-	public boolean removePermission (AbstractPermission permission)
+	public boolean removePermission(AbstractPermission permission)
 	{
-		return permissionSet.removeElement (permission);
+		return permissionSet.removeElement(permission);
 	}
 
-	public boolean checkPermission (AbstractPermission permission)
+	public boolean checkPermission(AbstractPermission permission)
 	{
-		return permissionSet.contains (permission);
+		return permissionSet.contains(permission);
 	}
 
-	public Enumeration permissions ()
+	public Enumeration permissions()
 	{
-		return permissionSet.elements ();
+		return permissionSet.elements();
 	}
 
 	@Override
-	public String toString ()
+	public String toString()
 	{
-		StringBuffer s = new StringBuffer ();
+		StringBuffer s = new StringBuffer();
 
 		if (negative)
 		{
-			s.append ("-");
+			s.append("-");
 		}
 		else
 		{
-			s.append ("+");
+			s.append("+");
 		}
 
 		if (user instanceof Group)
 		{
-			s.append ("Group.");
+			s.append("Group.");
 		}
 		else
 		{
-			s.append ("User.");
+			s.append("User.");
 		}
 
-		s.append (user + "=");
+		s.append(user + "=");
 
-		Enumeration e = permissions ();
+		Enumeration e = permissions();
 
-		while (e.hasMoreElements ())
+		while (e.hasMoreElements())
 		{
-			AbstractPermission p = (AbstractPermission) e.nextElement ();
+			AbstractPermission p = (AbstractPermission) e.nextElement();
 
-			s.append (p);
+			s.append(p);
 
-			if (e.hasMoreElements ())
+			if (e.hasMoreElements())
 			{
-				s.append (",");
+				s.append(",");
 			}
 		}
 
-		return new String (s);
+		return new String(s);
 	}
 
 	@Override
-	public synchronized Object clone ()
+	public synchronized Object clone()
 	{
 		AclEntry cloned;
 
-		cloned = new AclEntry (user);
-		cloned.permissionSet = (Vector) permissionSet.clone ();
+		cloned = new AclEntry(user);
+		cloned.permissionSet = (Vector) permissionSet.clone();
 		cloned.negative = negative;
 
 		return cloned;
 	}
 
-	public Principal getPrincipal ()
+	public Principal getPrincipal()
 	{
 		return user;
 	}

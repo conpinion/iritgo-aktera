@@ -39,7 +39,7 @@ import java.util.List;
  */
 public class EatMemory extends SecurableStandardLogEnabledModel
 {
-	private static List consumedMemory = new LinkedList ();
+	private static List consumedMemory = new LinkedList();
 
 	/**
 	 * Execute the model.
@@ -47,13 +47,13 @@ public class EatMemory extends SecurableStandardLogEnabledModel
 	 * @param req The model request.
 	 * @return The model response.
 	 */
-	public ModelResponse execute (ModelRequest req) throws ModelException
+	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
-		ModelResponse res = req.createResponse ();
+		ModelResponse res = req.createResponse();
 
-		int size = NumberTools.toInt (req.getParameter ("size"), 10 * 1024 * 1024);
+		int size = NumberTools.toInt(req.getParameter("size"), 10 * 1024 * 1024);
 
-		consumedMemory.add (new byte[size]);
+		consumedMemory.add(new byte[size]);
 
 		return res;
 	}

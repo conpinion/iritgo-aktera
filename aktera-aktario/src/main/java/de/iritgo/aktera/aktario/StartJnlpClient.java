@@ -48,108 +48,108 @@ public class StartJnlpClient extends StandardLogEnabledModel
 	/**
 	 * @see de.iritgo.aktera.model.Model#execute(de.iritgo.aktera.model.ModelRequest)
 	 */
-	public ModelResponse execute (ModelRequest req) throws ModelException
+	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
-		ModelResponse res = req.createResponse ();
+		ModelResponse res = req.createResponse();
 
-		File iritgoDir = locateIritgoDir ();
+		File iritgoDir = locateIritgoDir();
 
 		if (iritgoDir == null)
 		{
-			log.error ("Unable to find Iritgo system directory");
+			log.error("Unable to find Iritgo system directory");
 
 			return res;
 		}
 
-		String url = SystemConfigTools.getWebStartUrl (req);
+		String url = SystemConfigTools.getWebStartUrl(req);
 
-		if (StringTools.isEmpty (url))
+		if (StringTools.isEmpty(url))
 		{
-			url = SystemConfigTools.getWebAppUrl (req);
+			url = SystemConfigTools.getWebAppUrl(req);
 		}
 
-		res.addOutput ("codebase", url + "aktario/");
-		res.addOutput ("href", url + "model.do?model=aktera.aktario.start-jnlp-client");
+		res.addOutput("codebase", url + "aktario/");
+		res.addOutput("href", url + "model.do?model=aktera.aktario.start-jnlp-client");
 
-		AppInfo.Info appInfo = AppInfo.getAppInfo (AppInfo.SYSTEM);
+		AppInfo.Info appInfo = AppInfo.getAppInfo(AppInfo.SYSTEM);
 
-		res.addOutput ("title", appInfo.getName () + " Client");
-		res.addOutput ("version", appInfo.getVersion ());
-		res.addOutput ("versionLong", appInfo.getVersionLong ());
-		res.addOutput ("vendor", appInfo.getVendor ());
-		res.addOutput ("copyright", appInfo.getCopyright ());
-		res.addOutput ("description", appInfo.getName () + " Client");
-		res.addOutput ("iconUrl", url + "aktera/images/std/app-icon-64.gif");
-		res.addOutput ("fileName", appInfo.getFileName () + ".jnlp");
+		res.addOutput("title", appInfo.getName() + " Client");
+		res.addOutput("version", appInfo.getVersion());
+		res.addOutput("versionLong", appInfo.getVersionLong());
+		res.addOutput("vendor", appInfo.getVendor());
+		res.addOutput("copyright", appInfo.getCopyright());
+		res.addOutput("description", appInfo.getName() + " Client");
+		res.addOutput("iconUrl", url + "aktera/images/std/app-icon-64.gif");
+		res.addOutput("fileName", appInfo.getFileName() + ".jnlp");
 
-		res.addOutput ("userName", UserTools.getCurrentUserName (req));
-		res.addOutput ("server", req.getServerName ());
+		res.addOutput("userName", UserTools.getCurrentUserName(req));
+		res.addOutput("server", req.getServerName());
 
-		FilenameFilter iritgoJarFileFilter = new FilenameFilter ()
+		FilenameFilter iritgoJarFileFilter = new FilenameFilter()
 		{
-			public boolean accept (File dir, String name)
+			public boolean accept(File dir, String name)
 			{
-				return name.startsWith ("iritgo-aktario-framework") && name.endsWith (".jar");
+				return name.startsWith("iritgo-aktario-framework") && name.endsWith(".jar");
 			}
 		};
 
-		FilenameFilter jarFileFilter = new FilenameFilter ()
+		FilenameFilter jarFileFilter = new FilenameFilter()
 		{
-			public boolean accept (File dir, String name)
+			public boolean accept(File dir, String name)
 			{
-				return name.endsWith (".jar");
+				return name.endsWith(".jar");
 			}
 		};
 
-		Output libraries = res.createOutput ("libraries");
+		Output libraries = res.createOutput("libraries");
 
-		res.add (libraries);
+		res.add(libraries);
 
-		Output librariesLinux = res.createOutput ("librariesLinux");
+		Output librariesLinux = res.createOutput("librariesLinux");
 
-		res.add (librariesLinux);
+		res.add(librariesLinux);
 
-		Output librariesWin32 = res.createOutput ("librariesWin32");
+		Output librariesWin32 = res.createOutput("librariesWin32");
 
-		res.add (librariesWin32);
+		res.add(librariesWin32);
 
-		StringBuffer plugins = new StringBuffer ();
+		StringBuffer plugins = new StringBuffer();
 
 		int i = 0;
 
-		for (String fileName : new File (iritgoDir, "lib").list (jarFileFilter))
+		for (String fileName : new File(iritgoDir, "lib").list(jarFileFilter))
 		{
-			if (fileName.contains ("-linux-"))
+			if (fileName.contains("-linux-"))
 			{
-				librariesLinux.add (res.createOutput ("" + ++i, "lib/" + fileName));
+				librariesLinux.add(res.createOutput("" + ++i, "lib/" + fileName));
 			}
-			else if (fileName.contains ("-win32-"))
+			else if (fileName.contains("-win32-"))
 			{
-				librariesWin32.add (res.createOutput ("" + ++i, "lib/" + fileName));
+				librariesWin32.add(res.createOutput("" + ++i, "lib/" + fileName));
 			}
-			else if (fileName.startsWith ("iritgo-aktario-framework-"))
+			else if (fileName.startsWith("iritgo-aktario-framework-"))
 			{
-				Output aktarioFrameworkJar = res.createOutput ("aktarioFramework");
+				Output aktarioFrameworkJar = res.createOutput("aktarioFramework");
 
-				aktarioFrameworkJar.setContent ("lib/" + fileName);
-				res.add (aktarioFrameworkJar);
+				aktarioFrameworkJar.setContent("lib/" + fileName);
+				res.add(aktarioFrameworkJar);
 			}
 			else
 			{
-				libraries.add (res.createOutput ("" + ++i, "lib/" + fileName));
+				libraries.add(res.createOutput("" + ++i, "lib/" + fileName));
 			}
 		}
 
-		for (String fileName : new File (iritgoDir, "plugins").list (jarFileFilter))
+		for (String fileName : new File(iritgoDir, "plugins").list(jarFileFilter))
 		{
-			libraries.add (res.createOutput ("" + ++i, "plugins/" + fileName));
+			libraries.add(res.createOutput("" + ++i, "plugins/" + fileName));
 
-			String pluginName = fileName.substring (0, fileName.lastIndexOf ('-'));
+			String pluginName = fileName.substring(0, fileName.lastIndexOf('-'));
 
-			StringTools.appendWithDelimiter (plugins, pluginName, ",");
+			StringTools.appendWithDelimiter(plugins, pluginName, ",");
 		}
 
-		res.addOutput ("plugins", plugins.toString ());
+		res.addOutput("plugins", plugins.toString());
 
 		return res;
 	}
@@ -159,34 +159,34 @@ public class StartJnlpClient extends StandardLogEnabledModel
 	 *
 	 * @return The Iritgo directory or null if none was found
 	 */
-	public File locateIritgoDir ()
+	public File locateIritgoDir()
 	{
-		FileFilter dirFilter = new FileFilter ()
+		FileFilter dirFilter = new FileFilter()
 		{
-			public boolean accept (File file)
+			public boolean accept(File file)
 			{
-				return file.isDirectory ();
+				return file.isDirectory();
 			}
 		};
 
-		LinkedList<File> searchQueue = new LinkedList<File> ();
+		LinkedList<File> searchQueue = new LinkedList<File>();
 
-		searchQueue.add (new File (System.getProperty ("keel.config.dir"), "../.."));
+		searchQueue.add(new File(System.getProperty("keel.config.dir"), "../.."));
 
-		while (searchQueue.size () > 0)
+		while (searchQueue.size() > 0)
 		{
-			File parent = (File) searchQueue.getFirst ();
+			File parent = (File) searchQueue.getFirst();
 
-			searchQueue.removeFirst ();
+			searchQueue.removeFirst();
 
-			for (File dir : parent.listFiles (dirFilter))
+			for (File dir : parent.listFiles(dirFilter))
 			{
-				if ("aktario".equals (dir.getName ()))
+				if ("aktario".equals(dir.getName()))
 				{
 					return dir;
 				}
 
-				searchQueue.add (dir);
+				searchQueue.add(dir);
 			}
 		}
 

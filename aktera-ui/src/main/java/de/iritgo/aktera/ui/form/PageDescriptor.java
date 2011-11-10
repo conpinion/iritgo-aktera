@@ -59,9 +59,9 @@ public class PageDescriptor
 	 * @param label The resource key of the page label.
 	 * @param bundle The resource bundle to lookup for the label.
 	 */
-	public PageDescriptor (String label, String bundle)
+	public PageDescriptor(String label, String bundle)
 	{
-		this (label, bundle, null);
+		this(label, bundle, null);
 	}
 
 	/**
@@ -71,12 +71,12 @@ public class PageDescriptor
 	 * @param bundle The resource bundle to lookup for the label.
 	 * @param icon The page icon.
 	 */
-	public PageDescriptor (String label, String bundle, String icon)
+	public PageDescriptor(String label, String bundle, String icon)
 	{
 		this.label = label;
 		this.bundle = bundle;
 		this.icon = icon;
-		groups = new LinkedList ();
+		groups = new LinkedList();
 	}
 
 	/**
@@ -84,9 +84,9 @@ public class PageDescriptor
 	 *
 	 * @param group The group to add.
 	 */
-	public void addGroup (GroupDescriptor group)
+	public void addGroup(GroupDescriptor group)
 	{
-		groups.add (group);
+		groups.add(group);
 	}
 
 	/**
@@ -94,9 +94,9 @@ public class PageDescriptor
 	 *
 	 * @return A group iterator.
 	 */
-	public Iterator groupIterator ()
+	public Iterator groupIterator()
 	{
-		return groups.iterator ();
+		return groups.iterator();
 	}
 
 	/**
@@ -104,7 +104,7 @@ public class PageDescriptor
 	 *
 	 * @return The group label.
 	 */
-	public String getLabel ()
+	public String getLabel()
 	{
 		return label;
 	}
@@ -114,7 +114,7 @@ public class PageDescriptor
 	 *
 	 * @return The resource bundle name.
 	 */
-	public String getBundle ()
+	public String getBundle()
 	{
 		return bundle;
 	}
@@ -124,7 +124,7 @@ public class PageDescriptor
 	 *
 	 * @param visible If true, the group will be visible.
 	 */
-	public void setVisible (boolean visible)
+	public void setVisible(boolean visible)
 	{
 		this.visible = visible;
 	}
@@ -134,7 +134,7 @@ public class PageDescriptor
 	 *
 	 * @return True if the group is visible.
 	 */
-	public boolean isVisible ()
+	public boolean isVisible()
 	{
 		return visible;
 	}
@@ -142,13 +142,13 @@ public class PageDescriptor
 	/**
 	 * Sort all groups and fields by comparing their relative position.
 	 */
-	public void sort ()
+	public void sort()
 	{
-		Collections.sort (groups, new Comparator ()
+		Collections.sort(groups, new Comparator()
 		{
-			public int compare (Object o1, Object o2)
+			public int compare(Object o1, Object o2)
 			{
-				return ((GroupDescriptor) o1).getPosition () - ((GroupDescriptor) o2).getPosition ();
+				return ((GroupDescriptor) o1).getPosition() - ((GroupDescriptor) o2).getPosition();
 			}
 		});
 	}
@@ -158,7 +158,7 @@ public class PageDescriptor
 	 *
 	 * @param position The new page position.
 	 */
-	public void setPosition (int position)
+	public void setPosition(int position)
 	{
 		this.position = position;
 	}
@@ -168,7 +168,7 @@ public class PageDescriptor
 	 *
 	 * @return The new page position.
 	 */
-	public int getPosition ()
+	public int getPosition()
 	{
 		return position;
 	}
@@ -178,7 +178,7 @@ public class PageDescriptor
 	 *
 	 * @param icon The new page icon.
 	 */
-	public void setIcon (String icon)
+	public void setIcon(String icon)
 	{
 		this.icon = icon;
 	}
@@ -188,7 +188,7 @@ public class PageDescriptor
 	 *
 	 * @return The page icon.
 	 */
-	public String getIcon ()
+	public String getIcon()
 	{
 		return icon;
 	}
@@ -198,7 +198,7 @@ public class PageDescriptor
 	 *
 	 * @return True if the page has an icon.
 	 */
-	public boolean hasIcon ()
+	public boolean hasIcon()
 	{
 		return icon != null;
 	}
@@ -208,7 +208,7 @@ public class PageDescriptor
 	 *
 	 * @param inactiveIcon The new inactive page icon.
 	 */
-	public void setInactiveIcon (String inactiveIcon)
+	public void setInactiveIcon(String inactiveIcon)
 	{
 		this.inactiveIcon = inactiveIcon;
 	}
@@ -218,7 +218,7 @@ public class PageDescriptor
 	 *
 	 * @return The inactive page icon.
 	 */
-	public String getInactiveIcon ()
+	public String getInactiveIcon()
 	{
 		return inactiveIcon;
 	}
@@ -228,7 +228,7 @@ public class PageDescriptor
 	 *
 	 * @return True if the page has an inactive icon.
 	 */
-	public boolean hasInactiveIcon ()
+	public boolean hasInactiveIcon()
 	{
 		return inactiveIcon != null;
 	}
@@ -238,7 +238,7 @@ public class PageDescriptor
 	 *
 	 * @return The group list.
 	 */
-	public List<GroupDescriptor> getGroups ()
+	public List<GroupDescriptor> getGroups()
 	{
 		return groups;
 	}

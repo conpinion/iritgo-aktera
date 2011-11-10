@@ -52,7 +52,7 @@ public class DipSwitchTag extends org.apache.struts.taglib.html.BaseInputTag
 	/**
 	 * Get the bean name.
 	 */
-	public String getName ()
+	public String getName()
 	{
 		return this.name;
 	}
@@ -60,7 +60,7 @@ public class DipSwitchTag extends org.apache.struts.taglib.html.BaseInputTag
 	/**
 	 * Set the bean name.
 	 */
-	public void setName (String name)
+	public void setName(String name)
 	{
 		this.name = name;
 	}
@@ -70,7 +70,7 @@ public class DipSwitchTag extends org.apache.struts.taglib.html.BaseInputTag
 	 *
 	 * @param readOnly Read only flag.
 	 */
-	public void setReadOnly (boolean readOnly)
+	public void setReadOnly(boolean readOnly)
 	{
 		this.readOnly = readOnly;
 	}
@@ -80,7 +80,7 @@ public class DipSwitchTag extends org.apache.struts.taglib.html.BaseInputTag
 	 *
 	 * @retrun The read only flag.
 	 */
-	public boolean getReadOnly ()
+	public boolean getReadOnly()
 	{
 		return readOnly;
 	}
@@ -88,7 +88,7 @@ public class DipSwitchTag extends org.apache.struts.taglib.html.BaseInputTag
 	/**
 	 * Get the numbering offset.
 	 */
-	public int getNumberingOffset ()
+	public int getNumberingOffset()
 	{
 		return this.numberingOffset;
 	}
@@ -96,7 +96,7 @@ public class DipSwitchTag extends org.apache.struts.taglib.html.BaseInputTag
 	/**
 	 * Set the numbering offset.
 	 */
-	public void setNumberingOffset (int numberingOffset)
+	public void setNumberingOffset(int numberingOffset)
 	{
 		this.numberingOffset = numberingOffset;
 	}
@@ -106,13 +106,13 @@ public class DipSwitchTag extends org.apache.struts.taglib.html.BaseInputTag
 	 *
 	 * @param cols The number of switches per row.
 	 */
-	public void setCols (String cols)
+	public void setCols(String cols)
 	{
-		super.setCols (cols);
+		super.setCols(cols);
 
 		try
 		{
-			switchesPerRow = Integer.parseInt (cols);
+			switchesPerRow = Integer.parseInt(cols);
 		}
 		catch (NumberFormatException x)
 		{
@@ -122,9 +122,9 @@ public class DipSwitchTag extends org.apache.struts.taglib.html.BaseInputTag
 	/**
 	 * Reset all tag attributes to their default values.
 	 */
-	public void release ()
+	public void release()
 	{
-		super.release ();
+		super.release();
 
 		name = null;
 		readOnly = false;
@@ -137,17 +137,17 @@ public class DipSwitchTag extends org.apache.struts.taglib.html.BaseInputTag
 	 *
 	 * @exception JspException if a JSP exception has occurred
 	 */
-	public int doStartTag () throws JspException
+	public int doStartTag() throws JspException
 	{
 		String states = "";
 
 		if (value != null)
 		{
-			states = value.toString ();
+			states = value.toString();
 		}
 		else
 		{
-			Object val = TagUtils.getInstance ().lookup (pageContext, name, property, null);
+			Object val = TagUtils.getInstance().lookup(pageContext, name, property, null);
 
 			if (val == null)
 			{
@@ -155,11 +155,11 @@ public class DipSwitchTag extends org.apache.struts.taglib.html.BaseInputTag
 			}
 			else
 			{
-				states = val.toString ();
+				states = val.toString();
 			}
 		}
 
-		String[] tmp = states.split ("\\|");
+		String[] tmp = states.split("\\|");
 
 		states = tmp[0];
 
@@ -172,77 +172,77 @@ public class DipSwitchTag extends org.apache.struts.taglib.html.BaseInputTag
 
 		int row = 0;
 
-		StringBuffer results = new StringBuffer ();
+		StringBuffer results = new StringBuffer();
 
-		results.append ("<table class=\"dipswitch\"><tr>");
+		results.append("<table class=\"dipswitch\"><tr>");
 
-		for (int i = 0; i < states.length () && (switchesPerRow == 0 || i < switchesPerRow); ++i)
+		for (int i = 0; i < states.length() && (switchesPerRow == 0 || i < switchesPerRow); ++i)
 		{
-			results.append ("<th>" + (numberingOffset + i) + "</th>");
+			results.append("<th>" + (numberingOffset + i) + "</th>");
 		}
 
-		if (states.length () == 0)
+		if (states.length() == 0)
 		{
-			results.append ("<th>&nbsp;</th>");
+			results.append("<th>&nbsp;</th>");
 		}
 
-		results.append ("</tr><tr>");
+		results.append("</tr><tr>");
 
-		for (int i = 0; i < states.length (); ++i)
+		for (int i = 0; i < states.length(); ++i)
 		{
-			results.append ("<td><input type=\"checkbox\"");
-			results.append (" name=\"");
+			results.append("<td><input type=\"checkbox\"");
+			results.append(" name=\"");
 
 			if (indexed)
 			{
-				prepareIndex (results, name);
+				prepareIndex(results, name);
 			}
 
-			results.append (property + i);
-			results.append ("\"");
+			results.append(property + i);
+			results.append("\"");
 
-			if (states.charAt (i) == '1')
+			if (states.charAt(i) == '1')
 			{
-				results.append (" checked=\"checked\"");
+				results.append(" checked=\"checked\"");
 			}
 
-			if (i < disables.length () && disables.charAt (i) == '1')
+			if (i < disables.length() && disables.charAt(i) == '1')
 			{
-				results.append (" disabled=\"disabled\"");
+				results.append(" disabled=\"disabled\"");
 			}
 
-			results.append ("/></td>");
+			results.append("/></td>");
 
-			if (switchesPerRow > 0 && (i + 1) < states.length () && (i + 1) % switchesPerRow == 0)
+			if (switchesPerRow > 0 && (i + 1) < states.length() && (i + 1) % switchesPerRow == 0)
 			{
 				++row;
 
-				results.append ("</tr><tr>");
+				results.append("</tr><tr>");
 
 				for (int j = 0; j < switchesPerRow; ++j)
 				{
-					results.append ("<th>");
+					results.append("<th>");
 
-					if (numberingOffset + row * switchesPerRow + j <= states.length ())
+					if (numberingOffset + row * switchesPerRow + j <= states.length())
 					{
-						results.append (String.valueOf (numberingOffset + row * switchesPerRow + j));
+						results.append(String.valueOf(numberingOffset + row * switchesPerRow + j));
 					}
 
-					results.append ("</th>");
+					results.append("</th>");
 				}
 
-				results.append ("</tr><tr>");
+				results.append("</tr><tr>");
 			}
 		}
 
-		if (states.length () == 0)
+		if (states.length() == 0)
 		{
-			results.append ("<td>&nbsp;</td>");
+			results.append("<td>&nbsp;</td>");
 		}
 
-		results.append ("</tr></table>\n");
+		results.append("</tr></table>\n");
 
-		TagUtils.getInstance ().write (pageContext, results.toString ());
+		TagUtils.getInstance().write(pageContext, results.toString());
 
 		return EVAL_BODY_AGAIN;
 	}

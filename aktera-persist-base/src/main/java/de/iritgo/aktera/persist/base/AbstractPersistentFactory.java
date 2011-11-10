@@ -114,11 +114,11 @@ public abstract class AbstractPersistentFactory extends AbstractKeelServiceable 
 	 * A HashMap of the schema configurations we have available, for rapid
 	 * access to the correct schema
 	 */
-	protected Map schemas = new HashMap ();
+	protected Map schemas = new HashMap();
 
-	protected Map schemaDescrips = new HashMap ();
+	protected Map schemaDescrips = new HashMap();
 
-	protected Map metas = new HashMap ();
+	protected Map metas = new HashMap();
 
 	private boolean configured = false;
 
@@ -135,12 +135,12 @@ public abstract class AbstractPersistentFactory extends AbstractKeelServiceable 
 	 */
 	private String security = null;
 
-	protected AuthorizationManager getByPassAuthManager ()
+	protected AuthorizationManager getByPassAuthManager()
 	{
 		return byPassAuthManager;
 	}
 
-	protected Configuration getConfiguration ()
+	protected Configuration getConfiguration()
 	{
 		return myConfig;
 	}
@@ -151,64 +151,64 @@ public abstract class AbstractPersistentFactory extends AbstractKeelServiceable 
 	 * using this instance of the factory. Leave everything else alone to
 	 * re-use next time (until we're "disposed");
 	 */
-	public void recycle ()
+	public void recycle()
 	{
 		keelContext = null;
 	}
 
-	public void dispose ()
+	public void dispose()
 	{
-		releaseServices ();
+		releaseServices();
 	}
 
-	public final Set getSchemas ()
+	public final Set getSchemas()
 	{
-		return schemas.keySet ();
+		return schemas.keySet();
 	}
 
-	public final String getSchemaDescription (String schemaName)
+	public final String getSchemaDescription(String schemaName)
 	{
-		return (String) schemaDescrips.get (schemaName);
+		return (String) schemaDescrips.get(schemaName);
 	}
 
 	/**
 	 * Create a new persistent object with the specified name
 	 */
-	public abstract Persistent create (String name) throws PersistenceException;
+	public abstract Persistent create(String name) throws PersistenceException;
 
-	public Configuration getSchemaConfiguration (String schemaName)
+	public Configuration getSchemaConfiguration(String schemaName)
 	{
 		assert schemaName != null;
 
-		return (Configuration) schemas.get (schemaName);
+		return (Configuration) schemas.get(schemaName);
 	}
 
 	/**
 	 * Return a set of names, one for each persistent in the given schema
 	 */
-	public final Set getPersistents (String schemaName) throws PersistenceException
+	public final Set getPersistents(String schemaName) throws PersistenceException
 	{
-		HashSet returnSet = new HashSet ();
+		HashSet returnSet = new HashSet();
 
 		try
 		{
-			Configuration mySchema = (Configuration) schemas.get (schemaName);
+			Configuration mySchema = (Configuration) schemas.get(schemaName);
 
 			if (mySchema == null)
 			{
-				throw new PersistenceException ("No such schema '" + schemaName + "' defined for PersistentFactory '"
-								+ getName () + "'");
+				throw new PersistenceException("No such schema '" + schemaName + "' defined for PersistentFactory '"
+								+ getName() + "'");
 			}
 
-			Configuration[] eachTable = mySchema.getChildren ();
+			Configuration[] eachTable = mySchema.getChildren();
 
 			for (int i = 0; i < eachTable.length; i++)
 			{
 				Configuration oneTable = eachTable[i];
 
-				if (oneTable.getName ().equals ("persistent"))
+				if (oneTable.getName().equals("persistent"))
 				{
-					returnSet.add (oneTable.getAttribute ("name"));
+					returnSet.add(oneTable.getAttribute("name"));
 				}
 			}
 
@@ -216,20 +216,20 @@ public abstract class AbstractPersistentFactory extends AbstractKeelServiceable 
 		}
 		catch (ConfigurationException ce)
 		{
-			throw new PersistenceException (ce);
+			throw new PersistenceException(ce);
 		}
 	}
 
-	protected final PersistentMetaData getMetaData (String persistentName)
+	protected final PersistentMetaData getMetaData(String persistentName)
 		throws PersistenceException, ConfigurationException, ServiceException
 	{
 		if (metas == null)
 		{
-			metas = new HashMap ();
+			metas = new HashMap();
 		}
 
 		/* See if we have already configured the meta-data for this Persistent */
-		PersistentMetaData pd = (PersistentMetaData) metas.get (persistentName);
+		PersistentMetaData pd = (PersistentMetaData) metas.get(persistentName);
 
 		if (pd != null)
 		{
@@ -242,91 +242,92 @@ public abstract class AbstractPersistentFactory extends AbstractKeelServiceable 
 		 */
 
 		/* to the PersistentMetaData to allow it to configure itself */
-		StringTokenizer stk = new StringTokenizer (persistentName, ".");
+		StringTokenizer stk = new StringTokenizer(persistentName, ".");
 
-		String firstPart = stk.nextToken ();
+		String firstPart = stk.nextToken();
 
-		SuperString.assertNotBlank (firstPart, "Schema name must be specified");
+		SuperString.assertNotBlank(firstPart, "Schema name must be specified");
 
 		String secondPart = null;
 
-		if (stk.hasMoreTokens ())
+		if (stk.hasMoreTokens())
 		{
-			secondPart = stk.nextToken ();
+			secondPart = stk.nextToken();
 		}
 
-		SuperString.assertNotBlank (secondPart, "Persistent name must be specified, only '" + persistentName
-						+ "' found");
+		SuperString
+						.assertNotBlank(secondPart, "Persistent name must be specified, only '" + persistentName
+										+ "' found");
 
-		Configuration mySchema = (Configuration) schemas.get (firstPart);
+		Configuration mySchema = (Configuration) schemas.get(firstPart);
 
 		if (mySchema == null)
 		{
-			throw new PersistenceException ("No such schema '" + firstPart + "' defined for PersistentFactory '"
-							+ getName () + "'");
+			throw new PersistenceException("No such schema '" + firstPart + "' defined for PersistentFactory '"
+							+ getName() + "'");
 		}
 
-		Configuration[] eachTable = mySchema.getChildren ();
+		Configuration[] eachTable = mySchema.getChildren();
 
 		if (eachTable.length == 0)
 		{
-			throw new PersistenceException ("No persistent obejcts defined in schema '" + firstPart + "' for factory '"
-							+ getName () + "'");
+			throw new PersistenceException("No persistent obejcts defined in schema '" + firstPart + "' for factory '"
+							+ getName() + "'");
 		}
 
 		for (int i = 0; i < eachTable.length; i++)
 		{
 			Configuration oneTable = eachTable[i];
 
-			if (oneTable.getName ().equals ("persistent"))
+			if (oneTable.getName().equals("persistent"))
 			{
-				if (oneTable.getAttribute ("name").equals (secondPart))
+				if (oneTable.getAttribute("name").equals(secondPart))
 				{
 					try
 					{
-						pd = (PersistentMetaData) getService (PersistentMetaData.ROLE);
+						pd = (PersistentMetaData) getService(PersistentMetaData.ROLE);
 
-						pd.setFactory (this);
-						pd.setSchemaName (firstPart);
-						pd.setDataSource (dataSource);
-						pd.setDatabaseType (databaseType);
+						pd.setFactory(this);
+						pd.setSchemaName(firstPart);
+						pd.setDataSource(dataSource);
+						pd.setDatabaseType(databaseType);
 
 						if (pd instanceof Serviceable)
 						{
-							((Serviceable) pd).service (getServiceManager ());
+							((Serviceable) pd).service(getServiceManager());
 						}
 
-						pd.configurePersistent (oneTable);
-						metas.put (persistentName, pd);
+						pd.configurePersistent(oneTable);
+						metas.put(persistentName, pd);
 
 						return pd;
 					}
 					catch (Exception e)
 					{
-						throw new PersistenceException (PersistentMetaData.ROLE
+						throw new PersistenceException(PersistentMetaData.ROLE
 										+ "Error creating metadata for persistent " + persistentName, e);
 					}
 				}
 			}
 		}
 
-		throw new PersistenceException ("No meta-data definition for persistent '" + secondPart + "' in factory '"
-						+ getName () + "' in schema '" + firstPart + "'");
+		throw new PersistenceException("No meta-data definition for persistent '" + secondPart + "' in factory '"
+						+ getName() + "' in schema '" + firstPart + "'");
 	}
 
 	/**
 	 * Create a new Persistent which participates in a transaction
 	 */
-	public final Persistent create (String name, Transaction trx) throws PersistenceException
+	public final Persistent create(String name, Transaction trx) throws PersistenceException
 	{
-		Persistent newPersistent = create (name);
+		Persistent newPersistent = create(name);
 
-		newPersistent.setTransaction (trx);
+		newPersistent.setTransaction(trx);
 
 		return newPersistent;
 	}
 
-	public final void configure (Configuration configuration) throws ConfigurationException
+	public final void configure(Configuration configuration) throws ConfigurationException
 	{
 		if (configured)
 		{
@@ -337,15 +338,15 @@ public abstract class AbstractPersistentFactory extends AbstractKeelServiceable 
 
 		try
 		{
-			ConvertUtils.register (new SqlDateConverter (), Date.class);
+			ConvertUtils.register(new SqlDateConverter(), Date.class);
 		}
 		catch (NoClassDefFoundError ne)
 		{
-			log.error ("No class def:", ne);
+			log.error("No class def:", ne);
 		}
 		catch (Exception e)
 		{
-			log.error ("Exception registering date converter", e);
+			log.error("Exception registering date converter", e);
 		}
 
 		configured = true;
@@ -356,40 +357,40 @@ public abstract class AbstractPersistentFactory extends AbstractKeelServiceable 
 		 * objects that allow bypass, if they are not given a specific bypass
 		 * authorization manager of their own by the calling application.
 		 */
-		String byPassAmName = configuration.getChild ("bypass-am").getValue (null);
+		String byPassAmName = configuration.getChild("bypass-am").getValue(null);
 
 		if (byPassAmName != null)
 		{
 			try
 			{
-				byPassAuthManager = (AuthorizationManager) getService (AuthorizationManager.ROLE, byPassAmName);
+				byPassAuthManager = (AuthorizationManager) getService(AuthorizationManager.ROLE, byPassAmName);
 			}
 			catch (Exception e)
 			{
-				log.error ("Could not get service " + AuthorizationManager.ROLE + "/" + byPassAmName);
-				throw new ConfigurationException (e.getMessage ());
+				log.error("Could not get service " + AuthorizationManager.ROLE + "/" + byPassAmName);
+				throw new ConfigurationException(e.getMessage());
 			}
 		}
 		else
 		{
-			log.warn ("No default bypass authorization manager specified");
+			log.warn("No default bypass authorization manager specified");
 		}
 
-		setName (configuration.getAttribute ("name"));
+		setName(configuration.getAttribute("name"));
 
-		setSecurity (configuration.getAttribute ("security", null));
+		setSecurity(configuration.getAttribute("security", null));
 
-		log.debug ("Configuring persistent factory '" + getName () + "' - security '" + getSecurity () + "'");
+		log.debug("Configuring persistent factory '" + getName() + "' - security '" + getSecurity() + "'");
 
 		// Obtain a reference to the configured DataSource
-		dataSourceName = configuration.getChild ("dbpool").getValue ();
-		dbTypeName = configuration.getChild ("dbtype").getValue ();
+		dataSourceName = configuration.getChild("dbpool").getValue();
+		dbTypeName = configuration.getChild("dbtype").getValue();
 
-		Configuration[] check = configuration.getChildren ("schemas");
+		Configuration[] check = configuration.getChildren("schemas");
 
 		if (check.length > 1)
 		{
-			throw new ConfigurationException ("Only one <schemas> element may appear within "
+			throw new ConfigurationException("Only one <schemas> element may appear within "
 							+ "a persistent factory configuration element - possible configuration merge problem.");
 		}
 
@@ -403,18 +404,18 @@ public abstract class AbstractPersistentFactory extends AbstractKeelServiceable 
 		 * should read the schema details from another default-persistent
 		 * configuration and configure itself identically.
 		 */
-		Configuration allSchemas = configuration.getChild ("schemas");
+		Configuration allSchemas = configuration.getChild("schemas");
 
 		if (allSchemas == null)
 		{
-			throw new ConfigurationException ("No schemas defined for PersistentFactory '" + getName () + "'");
+			throw new ConfigurationException("No schemas defined for PersistentFactory '" + getName() + "'");
 		}
 
-		Configuration[] eachSchema = allSchemas.getChildren ();
+		Configuration[] eachSchema = allSchemas.getChildren();
 
 		if (eachSchema.length == 0)
 		{
-			throw new ConfigurationException ("No schemas defined for PersistentFactory '" + getName () + "'");
+			throw new ConfigurationException("No schemas defined for PersistentFactory '" + getName() + "'");
 		}
 
 		Configuration oneSchema = null;
@@ -423,73 +424,73 @@ public abstract class AbstractPersistentFactory extends AbstractKeelServiceable 
 		{
 			oneSchema = eachSchema[i];
 
-			String schemaName = oneSchema.getAttribute ("name");
+			String schemaName = oneSchema.getAttribute("name");
 
-			if (oneSchema.getChild ("clone", false) != null)
+			if (oneSchema.getChild("clone", false) != null)
 			{
-				Configuration cloneConfig = oneSchema.getChild ("clone");
+				Configuration cloneConfig = oneSchema.getChild("clone");
 
 				/* This is a cloned schema, get the schema config element */
 				/* from where we're told to clone from, not from here */
-				if (oneSchema.getChildren ().length > 1)
+				if (oneSchema.getChildren().length > 1)
 				{
-					throw new ConfigurationException (
+					throw new ConfigurationException(
 									"A cloned schema should not have other entries, just the clone element. Found "
-													+ KeelConfigurationUtil.list (oneSchema, "schema"));
+													+ KeelConfigurationUtil.list(oneSchema, "schema"));
 				}
 
-				String sourceFactory = cloneConfig.getAttribute ("factory");
-				String sourceSchema = cloneConfig.getAttribute ("schema");
+				String sourceFactory = cloneConfig.getAttribute("factory");
+				String sourceSchema = cloneConfig.getAttribute("schema");
 
 				Configuration origSchema;
 
 				try
 				{
-					PersistentFactory source = (PersistentFactory) getService (PersistentFactory.ROLE, sourceFactory);
+					PersistentFactory source = (PersistentFactory) getService(PersistentFactory.ROLE, sourceFactory);
 
-					origSchema = source.getSchemaConfiguration (sourceSchema);
+					origSchema = source.getSchemaConfiguration(sourceSchema);
 				}
 				catch (ServiceException e1)
 				{
-					throw new ConfigurationException ("Error getting top-level configuration from context", e1);
+					throw new ConfigurationException("Error getting top-level configuration from context", e1);
 				}
 
 				if (origSchema == null)
 				{
-					throw new ConfigurationException ("Schema " + schemaName + " in factory " + getName ()
+					throw new ConfigurationException("Schema " + schemaName + " in factory " + getName()
 									+ " specified it was a clone of schema " + sourceSchema + " in factory "
 									+ sourceFactory + ", but that source was not found");
 				}
 			}
 
-			schemas.put (schemaName, oneSchema);
-			schemaDescrips.put (schemaName, oneSchema.getAttribute ("descrip", schemaName));
+			schemas.put(schemaName, oneSchema);
+			schemaDescrips.put(schemaName, oneSchema.getAttribute("descrip", schemaName));
 		}
 
-		if (schemas.size () == 0)
+		if (schemas.size() == 0)
 		{
-			throw new ConfigurationException ("No schemas specified for PersistentFactory '" + getName () + "'");
+			throw new ConfigurationException("No schemas specified for PersistentFactory '" + getName() + "'");
 		}
 	}
 
-	public final PersistentFactory getFactory (String newName) throws PersistenceException
+	public final PersistentFactory getFactory(String newName) throws PersistenceException
 	{
 		if (newName == null)
 		{
-			throw new PersistenceException ("No factory name specified");
+			throw new PersistenceException("No factory name specified");
 		}
 
 		try
 		{
-			return (PersistentFactory) getService (PersistentFactory.ROLE, newName, getKeelContext ());
+			return (PersistentFactory) getService(PersistentFactory.ROLE, newName, getKeelContext());
 		}
 		catch (ServiceException e)
 		{
-			throw new PersistenceException (e);
+			throw new PersistenceException(e);
 		}
 	}
 
-	public void initialize () throws PersistenceException
+	public void initialize() throws PersistenceException
 	{
 		if (initialized)
 		{
@@ -499,24 +500,24 @@ public abstract class AbstractPersistentFactory extends AbstractKeelServiceable 
 		// Get a reference to a data source
 		try
 		{
-			dataSource = (DataSourceComponent) getService (DataSourceComponent.ROLE, dataSourceName);
+			dataSource = (DataSourceComponent) getService(DataSourceComponent.ROLE, dataSourceName);
 		}
 		catch (ServiceException e)
 		{
-			throw new PersistenceException (e);
+			throw new PersistenceException(e);
 		}
 
 		try
 		{
-			databaseType = (DatabaseType) getService (DatabaseType.ROLE, dbTypeName);
+			databaseType = (DatabaseType) getService(DatabaseType.ROLE, dbTypeName);
 		}
 		catch (ServiceException e)
 		{
-			throw new PersistenceException (e);
+			throw new PersistenceException(e);
 		}
 
 		// Get a reference to a database type
-		databaseType.setDataSource (dataSource);
+		databaseType.setDataSource(dataSource);
 		initialized = true;
 	}
 
@@ -525,48 +526,48 @@ public abstract class AbstractPersistentFactory extends AbstractKeelServiceable 
 	 * Used when we want a number of database operations to be processed in a
 	 * single transaction.
 	 */
-	public abstract Transaction begin () throws PersistenceException;
+	public abstract Transaction begin() throws PersistenceException;
 
-	protected final void setName (String newName)
+	protected final void setName(String newName)
 	{
 		myName = newName;
 	}
 
-	public final String getName ()
+	public final String getName()
 	{
 		return myName;
 	}
 
-	public final void enableLogging (Logger newLog)
+	public final void enableLogging(Logger newLog)
 	{
 		log = newLog;
 	}
 
-	public abstract void createTables (String schema) throws PersistenceException;
+	public abstract void createTables(String schema) throws PersistenceException;
 
-	protected final void createRecords (Configuration config, String persistentName, PersistentMetaData pmd)
+	protected final void createRecords(Configuration config, String persistentName, PersistentMetaData pmd)
 		throws ConfigurationException
 	{
-		if (log.isDebugEnabled ())
+		if (log.isDebugEnabled())
 		{
-			log.debug ("Populating default data for '" + persistentName + "'");
+			log.debug("Populating default data for '" + persistentName + "'");
 		}
 
 		Persistent p = null;
 
 		try
 		{
-			p = create (persistentName);
+			p = create(persistentName);
 
-			Persistent checkExisting = create (persistentName);
+			Persistent checkExisting = create(persistentName);
 			boolean nokeys = true;
 
-			Configuration[] children = config.getChildren ();
+			Configuration[] children = config.getChildren();
 
 			// BUEROBYTE: Sort records by attribute 'id' (if present)
-			Arrays.sort (children, new Comparator ()
+			Arrays.sort(children, new Comparator()
 			{
-				public int compare (Object o1, Object o2)
+				public int compare(Object o1, Object o2)
 				{
 					Configuration c1 = (Configuration) o1;
 					Configuration c2 = (Configuration) o2;
@@ -576,7 +577,7 @@ public abstract class AbstractPersistentFactory extends AbstractKeelServiceable 
 
 					try
 					{
-						id1 = c1.getAttributeAsInteger ("id");
+						id1 = c1.getAttributeAsInteger("id");
 					}
 					catch (ConfigurationException x)
 					{
@@ -584,7 +585,7 @@ public abstract class AbstractPersistentFactory extends AbstractKeelServiceable 
 
 					try
 					{
-						id2 = c2.getAttributeAsInteger ("id");
+						id2 = c2.getAttributeAsInteger("id");
 					}
 					catch (ConfigurationException x)
 					{
@@ -601,22 +602,22 @@ public abstract class AbstractPersistentFactory extends AbstractKeelServiceable 
 			{
 				oneChild = children[j];
 
-				if (! oneChild.getName ().equals ("record"))
+				if (! oneChild.getName().equals("record"))
 				{
-					throw new ConfigurationException ("default-data element must contain only record elements");
+					throw new ConfigurationException("default-data element must contain only record elements");
 				}
 
-				p.clear ();
-				checkExisting.clear ();
+				p.clear();
+				checkExisting.clear();
 
 				String oneFieldName = null;
 
-				for (Iterator names = pmd.getFieldNames ().iterator (); names.hasNext ();)
+				for (Iterator names = pmd.getFieldNames().iterator(); names.hasNext();)
 				{
-					oneFieldName = (String) names.next ();
+					oneFieldName = (String) names.next();
 
 					// BUEROBYTE: Sort records by attribute 'id' (if present)
-					if (! pmd.getKeyFieldNames ().contains (oneFieldName) && "id".equals (oneFieldName))
+					if (! pmd.getKeyFieldNames().contains(oneFieldName) && "id".equals(oneFieldName))
 					{
 						continue;
 					}
@@ -624,64 +625,64 @@ public abstract class AbstractPersistentFactory extends AbstractKeelServiceable 
 					// BUEROBYTE
 					String attribValue = null;
 
-					if (pmd.getKeyFieldNames ().contains (oneFieldName))
+					if (pmd.getKeyFieldNames().contains(oneFieldName))
 					{
-						if (pmd.isAutoIncremented (oneFieldName))
+						if (pmd.isAutoIncremented(oneFieldName))
 						{
-							attribValue = oneChild.getAttribute (oneFieldName, null);
+							attribValue = oneChild.getAttribute(oneFieldName, null);
 						}
 						else
 						{
-							attribValue = oneChild.getAttribute (oneFieldName);
+							attribValue = oneChild.getAttribute(oneFieldName);
 						}
 
 						if (attribValue != null)
 						{
-							checkExisting.setField (oneFieldName, processedAttribValue (attribValue));
+							checkExisting.setField(oneFieldName, processedAttribValue(attribValue));
 							nokeys = false;
 						}
 					}
 					else
 					{
-						attribValue = oneChild.getAttribute (oneFieldName, null);
+						attribValue = oneChild.getAttribute(oneFieldName, null);
 					}
 
-					p.setField (oneFieldName, processedAttribValue (attribValue));
+					p.setField(oneFieldName, processedAttribValue(attribValue));
 				}
 
 				if (nokeys)
 				{
-					if (! p.find ())
+					if (! p.find())
 					{
-						if (log.isDebugEnabled ())
+						if (log.isDebugEnabled())
 						{
-							log.debug ("No existing record for " + p.toString () + ", adding");
+							log.debug("No existing record for " + p.toString() + ", adding");
 						}
 
-						p.add ();
+						p.add();
 					}
 					else
 					{
-						if (log.isDebugEnabled ())
+						if (log.isDebugEnabled())
 						{
-							log.debug ("Existing record for " + p.toString ());
+							log.debug("Existing record for " + p.toString());
 						}
 					}
 				}
-				else if (! checkExisting.find ())
+				else if (! checkExisting.find())
 				{
-					if (log.isDebugEnabled ())
+					if (log.isDebugEnabled())
 					{
-						log.debug ("No existing record with key " + checkExisting.toString () + "', adding");
+						log.debug("No existing record with key " + checkExisting.toString() + "', adding");
 					}
 
-					p.add ();
+					p.add();
 				}
 				else
 				{
-					if (log.isDebugEnabled ())
+					if (log.isDebugEnabled())
 					{
-						log.debug ("Existing record with key " + checkExisting.toString ());
+						log.debug("Existing record with key " + checkExisting.toString());
 					}
 				}
 			}
@@ -692,10 +693,10 @@ public abstract class AbstractPersistentFactory extends AbstractKeelServiceable 
 
 			if (p != null)
 			{
-				msg = msg + ", adding " + p.toString ();
+				msg = msg + ", adding " + p.toString();
 			}
 
-			throw new ConfigurationException (msg, pe);
+			throw new ConfigurationException(msg, pe);
 		}
 	}
 
@@ -703,110 +704,110 @@ public abstract class AbstractPersistentFactory extends AbstractKeelServiceable 
 	 * @param attribValue
 	 * @return
 	 */
-	private String processedAttribValue (String attribValue) throws PersistenceException
+	private String processedAttribValue(String attribValue) throws PersistenceException
 	{
 		String retValue = attribValue;
 		String attrib = null;
 
-		if (attribValue != null && attribValue.length () > 1 && attribValue.startsWith ("$")
-						&& Character.isLetter (attribValue.charAt (1)))
+		if (attribValue != null && attribValue.length() > 1 && attribValue.startsWith("$")
+						&& Character.isLetter(attribValue.charAt(1)))
 		{
 			//Get rid of the initial "$"
-			attrib = attribValue.substring (1);
+			attrib = attribValue.substring(1);
 
 			//Separate the field and lookup portions
-			StringTokenizer tok = new StringTokenizer (attrib, ":");
+			StringTokenizer tok = new StringTokenizer(attrib, ":");
 
-			if (tok.countTokens () != 2)
+			if (tok.countTokens() != 2)
 			{
-				throw new PersistenceException ("Format error (need field:lookup) in indirect default-data value: "
+				throw new PersistenceException("Format error (need field:lookup) in indirect default-data value: "
 								+ attrib);
 			}
 
-			String fieldStr = tok.nextToken ();
-			String lookupStr = tok.nextToken ();
+			String fieldStr = tok.nextToken();
+			String lookupStr = tok.nextToken();
 
 			//Extract the schema, table, field names
-			tok = new StringTokenizer (fieldStr, ".");
+			tok = new StringTokenizer(fieldStr, ".");
 
-			if (tok.countTokens () != 3)
+			if (tok.countTokens() != 3)
 			{
-				throw new PersistenceException (
+				throw new PersistenceException(
 								"Format error (need $schema.table.field) in indirect default-data value: " + attrib);
 			}
 
-			String schema = tok.nextToken ();
-			String table = tok.nextToken ();
-			String field = tok.nextToken ();
+			String schema = tok.nextToken();
+			String table = tok.nextToken();
+			String field = tok.nextToken();
 
 			//Extract the value from the table
-			Persistent p = create (schema + "." + table);
+			Persistent p = create(schema + "." + table);
 
-			tok = new StringTokenizer (lookupStr, "|");
+			tok = new StringTokenizer(lookupStr, "|");
 
 			String f = null;
 			String v = null;
 			StringTokenizer t = null;
 
-			for (int i = 0; i < tok.countTokens (); i++)
+			for (int i = 0; i < tok.countTokens(); i++)
 			{
-				t = new StringTokenizer (tok.nextToken (), "=");
-				f = t.nextToken ();
-				v = t.nextToken ();
-				p.setField (f, v);
+				t = new StringTokenizer(tok.nextToken(), "=");
+				f = t.nextToken();
+				v = t.nextToken();
+				p.setField(f, v);
 			}
 
-			if (p.find ())
+			if (p.find())
 			{
-				retValue = p.getFieldString (field);
+				retValue = p.getFieldString(field);
 			}
 			else
 			{
-				throw new PersistenceException ("Could not lookup indirect default-data value: " + retValue);
+				throw new PersistenceException("Could not lookup indirect default-data value: " + retValue);
 			}
 		}
 
 		return retValue;
 	}
 
-	public abstract void createTables () throws PersistenceException;
+	public abstract void createTables() throws PersistenceException;
 
-	public final void addInputs (ModelResponse res, Persistent p) throws PersistenceException, ModelException
+	public final void addInputs(ModelResponse res, Persistent p) throws PersistenceException, ModelException
 	{
-		PersistentMetaData pmd = p.getMetaData ();
+		PersistentMetaData pmd = p.getMetaData();
 		String oneFieldName = null;
 
-		for (Iterator i = pmd.getFieldNames ().iterator (); i.hasNext ();)
+		for (Iterator i = pmd.getFieldNames().iterator(); i.hasNext();)
 		{
-			oneFieldName = (String) i.next ();
+			oneFieldName = (String) i.next();
 
-			Input oneInput = res.createInput (oneFieldName);
+			Input oneInput = res.createInput(oneFieldName);
 
-			oneInput.setLabel (pmd.getDescription (oneFieldName));
+			oneInput.setLabel(pmd.getDescription(oneFieldName));
 
-			if (pmd.isMultiValued (oneFieldName))
+			if (pmd.isMultiValued(oneFieldName))
 			{
-				oneInput.setValidValues (p.getValidValues (oneFieldName));
+				oneInput.setValidValues(p.getValidValues(oneFieldName));
 			}
 
-			oneInput.setDefaultValue (p.getFieldString (oneFieldName));
-			res.add (oneInput);
+			oneInput.setDefaultValue(p.getFieldString(oneFieldName));
+			res.add(oneInput);
 		}
 	}
 
-	public final void addOutputs (ModelResponse res, Persistent p) throws PersistenceException, ModelException
+	public final void addOutputs(ModelResponse res, Persistent p) throws PersistenceException, ModelException
 	{
-		PersistentMetaData pmd = p.getMetaData ();
+		PersistentMetaData pmd = p.getMetaData();
 		String oneFieldName = null;
 
-		for (Iterator i = pmd.getFieldNames ().iterator (); i.hasNext ();)
+		for (Iterator i = pmd.getFieldNames().iterator(); i.hasNext();)
 		{
-			oneFieldName = (String) i.next ();
+			oneFieldName = (String) i.next();
 
-			Output oneOutput = res.createOutput (oneFieldName);
+			Output oneOutput = res.createOutput(oneFieldName);
 
-			oneOutput.setContent (p.getFieldString (oneFieldName));
-			res.add (oneOutput);
+			oneOutput.setContent(p.getFieldString(oneFieldName));
+			res.add(oneOutput);
 		}
 	}
 
@@ -828,16 +829,16 @@ public abstract class AbstractPersistentFactory extends AbstractKeelServiceable 
 	 *             @note THIS IS DUPLICATED IN
 	 *             SVC-PERSIST-HIBERNATE/HibernatePersistentFactory
 	 */
-	public final void addQuery (final ModelResponse res, final Persistent p, final String outputName)
+	public final void addQuery(final ModelResponse res, final Persistent p, final String outputName)
 		throws PersistenceException, ModelException
 	{
-		final PersistentMetaData pmd = p.getMetaData ();
-		final Set fieldNames = pmd.getFieldNames ();
+		final PersistentMetaData pmd = p.getMetaData();
+		final Set fieldNames = pmd.getFieldNames();
 
 		//TODO: Set this up in such a manner that the key fields are first.
-		final String[] fields = (String[]) fieldNames.toArray (new String[fieldNames.size ()]);
+		final String[] fields = (String[]) fieldNames.toArray(new String[fieldNames.size()]);
 
-		addQuery (res, p, outputName, fields);
+		addQuery(res, p, outputName, fields);
 	}
 
 	/**
@@ -863,43 +864,43 @@ public abstract class AbstractPersistentFactory extends AbstractKeelServiceable 
 	 *             If an exception occurs creating the outputs.
 	 * @see #addOutputs(ModelReponse, Persistent)
 	 */
-	public final void addQuery (final ModelResponse res, final Persistent p, final String outputName,
+	public final void addQuery(final ModelResponse res, final Persistent p, final String outputName,
 					final String[] fieldNames) throws PersistenceException, ModelException
 	{
-		final StringBuffer fieldList = new StringBuffer (fieldNames.length * 32);
+		final StringBuffer fieldList = new StringBuffer(fieldNames.length * 32);
 
 		//Best guess at an average length.
 		for (int idx = 0; idx < fieldNames.length; idx++)
 		{
 			if (idx > 0)
 			{
-				fieldList.append (',');
+				fieldList.append(',');
 			} //end if
 
-			fieldList.append (fieldNames[idx]);
+			fieldList.append(fieldNames[idx]);
 		} //end for
 
-		final List pValues = p.query (fieldList.toString ());
-		final Output oValues = res.createOutput (outputName);
+		final List pValues = p.query(fieldList.toString());
+		final Output oValues = res.createOutput(outputName);
 		int idx = 0;
 
-		for (final Iterator it = pValues.iterator (); it.hasNext (); idx++)
+		for (final Iterator it = pValues.iterator(); it.hasNext(); idx++)
 		{
-			final Persistent pCurrent = (Persistent) it.next ();
+			final Persistent pCurrent = (Persistent) it.next();
 
-			log.debug ("Processing Row: " + idx);
+			log.debug("Processing Row: " + idx);
 
-			final Output output = res.createOutput (Integer.toString (idx));
+			final Output output = res.createOutput(Integer.toString(idx));
 
 			//NOTE: Keel Clients don't know what a PersistentDynaBean is, so
 			// can't
 			//deserialize this Output
 			//            output.setContent(pCurrent.getBean());
-			addPersistentToOutput (fieldNames, pCurrent, output, res);
-			oValues.add (output);
+			addPersistentToOutput(fieldNames, pCurrent, output, res);
+			oValues.add(output);
 		}
 
-		res.add (oValues);
+		res.add(oValues);
 	}
 
 	/**
@@ -918,55 +919,55 @@ public abstract class AbstractPersistentFactory extends AbstractKeelServiceable 
 	 *             @note THIS IS DUPLICATED IN
 	 *             SVC-PERSIST-HIBERNATE/HibernatePersistentFactory
 	 */
-	protected final void addPersistentToOutput (final String[] fields, final Persistent p, final Output o,
+	protected final void addPersistentToOutput(final String[] fields, final Persistent p, final Output o,
 					final ModelResponse response) throws ModelException, PersistenceException
 	{
 		for (int idx = 0; idx < fields.length; idx++)
 		{
-			final Object obj = p.getField (fields[idx]);
-			final String value = obj == null ? "" : obj.toString ();
+			final Object obj = p.getField(fields[idx]);
+			final String value = obj == null ? "" : obj.toString();
 
-			if (log.isDebugEnabled ())
+			if (log.isDebugEnabled())
 			{
-				log.debug ("Field/'Value':" + fields[idx] + "/'" + value + '\'');
+				log.debug("Field/'Value':" + fields[idx] + "/'" + value + '\'');
 			}
 
-			o.add (response.createOutput (fields[idx], value));
+			o.add(response.createOutput(fields[idx], value));
 		}
 	} //end addOutputList
 
-	private void setSecurity (String newSec)
+	private void setSecurity(String newSec)
 	{
 		security = newSec;
 	}
 
-	public final String getSecurity ()
+	public final String getSecurity()
 	{
 		if (security == null)
 		{
-			return getName ();
+			return getName();
 		}
 
 		return security;
 	}
 
-	public final String getInstanceIdentifier ()
+	public final String getInstanceIdentifier()
 	{
 		return myName;
 	}
 
-	public abstract void createIndices () throws PersistenceException;
+	public abstract void createIndices() throws PersistenceException;
 
-	public abstract void createIndices (String schema) throws PersistenceException;
+	public abstract void createIndices(String schema) throws PersistenceException;
 
-	public abstract void dropIndices () throws PersistenceException;
+	public abstract void dropIndices() throws PersistenceException;
 
-	public abstract void dropIndices (String schema) throws PersistenceException;
+	public abstract void dropIndices(String schema) throws PersistenceException;
 
 	/**
 	 * @see de.iritgo.aktera.context.KeelContextualizable#setKeelContext(org.apache.avalon.framework.context.Context)
 	 */
-	public final void setKeelContext (Context keelContext) throws ContextException
+	public final void setKeelContext(Context keelContext) throws ContextException
 	{
 		this.keelContext = keelContext;
 	}
@@ -974,12 +975,12 @@ public abstract class AbstractPersistentFactory extends AbstractKeelServiceable 
 	/**
 	 * @see de.iritgo.aktera.context.KeelContextualizable#getKeelContext()
 	 */
-	public final Context getKeelContext ()
+	public final Context getKeelContext()
 	{
 		return keelContext;
 	}
 
-	protected boolean isConfigured ()
+	protected boolean isConfigured()
 	{
 		return configured;
 	}

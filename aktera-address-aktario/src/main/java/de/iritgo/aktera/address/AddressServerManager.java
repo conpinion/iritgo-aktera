@@ -38,20 +38,20 @@ public class AddressServerManager extends AddressAktarioManager implements IObje
 	/**
 	 * Create a new client manager.
 	 */
-	public AddressServerManager ()
+	public AddressServerManager()
 	{
-		super ("AddressServerManager");
+		super("AddressServerManager");
 	}
 
 	/**
 	 * Initialize the client manager.
 	 */
-	public void init ()
+	public void init()
 	{
-		Engine.instance ().getEventRegistry ().addListener ("Plugin", this);
-		Engine.instance ().getEventRegistry ().addListener ("objectcreated", this);
-		Engine.instance ().getEventRegistry ().addListener ("objectmodified", this);
-		Engine.instance ().getEventRegistry ().addListener ("objectremoved", this);
+		Engine.instance().getEventRegistry().addListener("Plugin", this);
+		Engine.instance().getEventRegistry().addListener("objectcreated", this);
+		Engine.instance().getEventRegistry().addListener("objectmodified", this);
+		Engine.instance().getEventRegistry().addListener("objectremoved", this);
 	}
 
 	/**
@@ -59,7 +59,7 @@ public class AddressServerManager extends AddressAktarioManager implements IObje
 	 *
 	 * @param event The creation event.
 	 */
-	public void iObjectCreatedEvent (IObjectCreatedEvent event)
+	public void iObjectCreatedEvent(IObjectCreatedEvent event)
 	{
 	}
 
@@ -68,7 +68,7 @@ public class AddressServerManager extends AddressAktarioManager implements IObje
 	 *
 	 * @param event The modification event.
 	 */
-	public void iObjectModifiedEvent (IObjectModifiedEvent event)
+	public void iObjectModifiedEvent(IObjectModifiedEvent event)
 	{
 	}
 
@@ -77,14 +77,14 @@ public class AddressServerManager extends AddressAktarioManager implements IObje
 	 *
 	 * @param event The delete event.
 	 */
-	public void iObjectDeletedEvent (IObjectDeletedEvent event)
+	public void iObjectDeletedEvent(IObjectDeletedEvent event)
 	{
 	}
 
 	/**
 	 * Free all client manager resources.
 	 */
-	public void unload ()
+	public void unload()
 	{
 	}
 }

@@ -39,82 +39,82 @@ public class GroupFormularHandler extends FormularHandler
 	private PermissionManager permissionManager;
 
 	@Override
-	public void validatePersistents (List<Configuration> persistentConfig, ModelRequest request,
-					ModelResponse response, FormularDescriptor formular, PersistentDescriptor persistents,
-					boolean create, ValidationResult result) throws ModelException, PersistenceException
+	public void validatePersistents(List<Configuration> persistentConfig, ModelRequest request, ModelResponse response,
+					FormularDescriptor formular, PersistentDescriptor persistents, boolean create,
+					ValidationResult result) throws ModelException, PersistenceException
 	{
-		PersistentFactory persistentManager = (PersistentFactory) request.getService (PersistentFactory.ROLE, request
-						.getDomain ());
+		PersistentFactory persistentManager = (PersistentFactory) request.getService(PersistentFactory.ROLE, request
+						.getDomain());
 
-		Persistent group = persistents.getPersistent ("akteraGroup");
+		Persistent group = persistents.getPersistent("akteraGroup");
 
-		if (! StringTools.isTrimEmpty (group.getField ("name")))
+		if (! StringTools.isTrimEmpty(group.getField("name")))
 		{
-			Persistent otherGroup = persistentManager.create ("aktera.AkteraGroup");
+			Persistent otherGroup = persistentManager.create("aktera.AkteraGroup");
 
-			otherGroup.setField ("name", group.getField ("name"));
+			otherGroup.setField("name", group.getField("name"));
 
-			if (otherGroup.find () && ! otherGroup.getField ("id").equals (group.getField ("id")))
+			if (otherGroup.find() && ! otherGroup.getField("id").equals(group.getField("id")))
 			{
-				FormTools.addError (response, result, "akteraGroup_name", "Aktera:duplicateGroupName");
+				FormTools.addError(response, result, "akteraGroup_name", "Aktera:duplicateGroupName");
 			}
 		}
 	}
 
 	@Override
-	public int createPersistents (ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents,
+	public int createPersistents(ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents,
 					List<Configuration> persistentConfig) throws ModelException, PersistenceException
 	{
-		int id = super.createPersistents (request, formular, persistents, persistentConfig);
+		int id = super.createPersistents(request, formular, persistents, persistentConfig);
 
-		permissionManager.clear ();
+		permissionManager.clear();
 
 		return id;
 	}
 
 	@Override
-	public void updatePersistents (ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents,
+	public void updatePersistents(ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents,
 					List<Configuration> persistentConfig, boolean modified) throws ModelException, PersistenceException
 	{
-		PersistentFactory persistentManager = (PersistentFactory) request.getService (PersistentFactory.ROLE, request
-						.getDomain ());
+		PersistentFactory persistentManager = (PersistentFactory) request.getService(PersistentFactory.ROLE, request
+						.getDomain());
 
-		Persistent group = persistents.getPersistent ("akteraGroup");
+		Persistent group = persistents.getPersistent("akteraGroup");
 
-		Persistent oldGroup = persistentManager.create ("aktera.AkteraGroup");
+		Persistent oldGroup = persistentManager.create("aktera.AkteraGroup");
 
-		oldGroup.setField ("id", group.getField ("id"));
-		oldGroup.retrieve ();
+		oldGroup.setField("id", group.getField("id"));
+		oldGroup.retrieve();
 
-		super.updatePersistents (request, formular, persistents, persistentConfig, modified);
+		super.updatePersistents(request, formular, persistents, persistentConfig, modified);
 
 		if (modified)
 		{
-			permissionManager.clear ();
+			permissionManager.clear();
 		}
 	}
 
 	@Override
-	public void deletePersistent (ModelRequest request, ModelResponse response, Object id, Persistent persistent,
+	public void deletePersistent(ModelRequest request, ModelResponse response, Object id, Persistent persistent,
 					boolean systemDelete) throws ModelException, PersistenceException
 	{
-		boolean protect = NumberTools.toBool (persistent.getField ("protect"), false);
+		boolean protect = NumberTools.toBool(persistent.getField("protect"), false);
 
 		if (! systemDelete && protect)
 		{
 			return;
 		}
 
-		PersistentFactory persistentManager = (PersistentFactory) request.getService (PersistentFactory.ROLE, request
-						.getDomain ());
+		PersistentFactory persistentManager = (PersistentFactory) request.getService(PersistentFactory.ROLE, request
+						.getDomain());
 
-		Persistent groupEntry = persistentManager.create ("aktera.AkteraGroupEntry");
+		Persistent groupEntry = persistentManager.create("aktera.AkteraGroupEntry");
 
-		groupEntry.setField ("groupId", persistent.getField ("id"));
-		groupEntry.deleteAll ();
+		groupEntry.setField("groupId", persistent.getField("id"));
+		groupEntry.deleteAll();
 
-		super.deletePersistent (request, response, id, persistent, systemDelete);
+		super.deletePersistent(request, response, id, persistent, systemDelete);
 
-		permissionManager.deleteAllPermissionsOfPrincipal (persistent.getFieldInt ("id"), "G");
+		permissionManager.deleteAllPermissionsOfPrincipal(persistent.getFieldInt("id"), "G");
 	}
 }

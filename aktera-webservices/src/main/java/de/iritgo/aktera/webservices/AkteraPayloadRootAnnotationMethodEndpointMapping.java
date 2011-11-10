@@ -28,8 +28,8 @@ import org.springframework.ws.server.endpoint.mapping.PayloadRootAnnotationMetho
 public class AkteraPayloadRootAnnotationMethodEndpointMapping extends PayloadRootAnnotationMethodEndpointMapping
 {
 	@Override
-	public MethodEndpoint lookupEndpoint (QName key)
+	public MethodEndpoint lookupEndpoint(QName key)
 	{
-		return super.lookupEndpoint (key);
+		return super.lookupEndpoint(key);
 	}
 }

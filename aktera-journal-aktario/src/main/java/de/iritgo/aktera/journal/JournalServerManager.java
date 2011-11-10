@@ -48,21 +48,21 @@ public class JournalServerManager extends BaseObject implements Manager, UserLis
 	/**
 	 * Create a new client manager.
 	 */
-	public JournalServerManager ()
+	public JournalServerManager()
 	{
-		super ("de.iritgo.aktera.journal.JournalServerManager");
+		super("de.iritgo.aktera.journal.JournalServerManager");
 	}
 
-	public void init ()
+	public void init()
 	{
-		Engine.instance ().getEventRegistry ().addListener ("User", this);
-		cleanupJournalEntries ();
+		Engine.instance().getEventRegistry().addListener("User", this);
+		cleanupJournalEntries();
 	}
 
 	/**
 	 * Free all client manager resources.
 	 */
-	public void unload ()
+	public void unload()
 	{
 	}
 
@@ -73,76 +73,76 @@ public class JournalServerManager extends BaseObject implements Manager, UserLis
 	 *
 	 * @param event The user event.
 	 */
-	public void userEvent (UserEvent event)
+	public void userEvent(UserEvent event)
 	{
-		if ((event != null) && (event.isLoggedIn ()))
+		if ((event != null) && (event.isLoggedIn()))
 		{
 		}
 
-		if ((event != null) && (event.isLoggedOut ()))
+		if ((event != null) && (event.isLoggedOut()))
 		{
-			User user = event.getUser ();
+			User user = event.getUser();
 
 			// Remove unused journal entry caches
-			LinkedList<DynDataObject> removeList = new LinkedList<DynDataObject> ();
-			for (Iterator i = Engine.instance ().getBaseRegistry ().iterator ("aktera.journal.list.notvisible"); i
-							.hasNext ();)
+			LinkedList<DynDataObject> removeList = new LinkedList<DynDataObject>();
+			for (Iterator i = Engine.instance().getBaseRegistry().iterator("aktera.journal.list.notvisible"); i
+							.hasNext();)
 			{
-				DynDataObject akteraQuery = (DynDataObject) i.next ();
-				if (Long.valueOf (akteraQuery.getStringAttribute ("userUniqueId")) == user.getUniqueId ())
+				DynDataObject akteraQuery = (DynDataObject) i.next();
+				if (Long.valueOf(akteraQuery.getStringAttribute("userUniqueId")) == user.getUniqueId())
 				{
-					removeList.add (akteraQuery);
+					removeList.add(akteraQuery);
 				}
 			}
 			for (DynDataObject akteraQuery : removeList)
 			{
-				Engine.instance ().getBaseRegistry ().remove (akteraQuery);
+				Engine.instance().getBaseRegistry().remove(akteraQuery);
 			}
-			System.out.println ("DynDataObjects removed: " + removeList.size ());
+			System.out.println("DynDataObjects removed: " + removeList.size());
 		}
 	}
 
-	public void cleanupJournalEntries ()
+	public void cleanupJournalEntries()
 	{
-		Calendar date = Calendar.getInstance ();
-		date.roll (Calendar.DAY_OF_MONTH, true);
-		date.set (Calendar.HOUR_OF_DAY, 1);
-		date.set (Calendar.MINUTE, 0);
-		date.set (Calendar.SECOND, 0);
-		date.set (Calendar.MILLISECOND, 0);
-		System.out.println ("Journal cache refresh at: " + date.getTime ());
-		Timer timer = new Timer ("CleanupJournalEntriesThread");
-		timer.schedule (new TimerTask ()
+		Calendar date = Calendar.getInstance();
+		date.roll(Calendar.DAY_OF_MONTH, true);
+		date.set(Calendar.HOUR_OF_DAY, 1);
+		date.set(Calendar.MINUTE, 0);
+		date.set(Calendar.SECOND, 0);
+		date.set(Calendar.MILLISECOND, 0);
+		System.out.println("Journal cache refresh at: " + date.getTime());
+		Timer timer = new Timer("CleanupJournalEntriesThread");
+		timer.schedule(new TimerTask()
 		{
 			@Override
-			public void run ()
+			public void run()
 			{
 				int count = 0;
-				LinkedList<DynDataObject> removeList = new LinkedList<DynDataObject> ();
-				for (Iterator j = Server.instance ().getUserRegistry ().userIterator (); j.hasNext ();)
+				LinkedList<DynDataObject> removeList = new LinkedList<DynDataObject>();
+				for (Iterator j = Server.instance().getUserRegistry().userIterator(); j.hasNext();)
 				{
-					User user = (User) j.next ();
-					long userId = user.getUniqueId ();
-					for (Iterator i = Engine.instance ().getBaseRegistry ().iterator ("aktera.journal.list.notvisible"); i
-									.hasNext ();)
+					User user = (User) j.next();
+					long userId = user.getUniqueId();
+					for (Iterator i = Engine.instance().getBaseRegistry().iterator("aktera.journal.list.notvisible"); i
+									.hasNext();)
 					{
-						DynDataObject akteraQuery = (DynDataObject) i.next ();
-						if (Long.valueOf (akteraQuery.getStringAttribute ("userUniqueId")) == userId)
+						DynDataObject akteraQuery = (DynDataObject) i.next();
+						if (Long.valueOf(akteraQuery.getStringAttribute("userUniqueId")) == userId)
 						{
 							++count;
 							if (count > 120)
-								removeList.add (akteraQuery);
+								removeList.add(akteraQuery);
 						}
 					}
 					for (DynDataObject akteraQuery : removeList)
 					{
-						Engine.instance ().getBaseRegistry ().remove (akteraQuery);
+						Engine.instance().getBaseRegistry().remove(akteraQuery);
 					}
 					// Remove after succefull test
-					System.out.println ("Cleanup journal entry cache: " + removeList.size () + " removed.");
+					System.out.println("Cleanup journal entry cache: " + removeList.size() + " removed.");
 				}
 			}
 
-		}, date.getTime (), 1000 * 60 * 60 * 24);
+		}, date.getTime(), 1000 * 60 * 60 * 24);
 	}
 }

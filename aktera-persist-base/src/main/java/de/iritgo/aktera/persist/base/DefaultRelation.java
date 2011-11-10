@@ -44,18 +44,18 @@ public class DefaultRelation implements Relation
 
 	private String toPersistent = null;
 
-	private Set fromFields = new TreeSet ();
+	private Set fromFields = new TreeSet();
 
-	private Set toFields = new TreeSet ();
+	private Set toFields = new TreeSet();
 
-	private Set lookedUpFields = new TreeSet ();
+	private Set lookedUpFields = new TreeSet();
 
 	/**
 	 * Constructor for Relation.
 	 */
-	public DefaultRelation (int newType, String newName, String newFrom, String newTo)
+	public DefaultRelation(int newType, String newName, String newFrom, String newTo)
 	{
-		super ();
+		super();
 
 		relationType = newType;
 		name = newName;
@@ -63,47 +63,47 @@ public class DefaultRelation implements Relation
 		fromPersistent = newFrom;
 	}
 
-	public String getFromPersistent ()
+	public String getFromPersistent()
 	{
 		return fromPersistent;
 	}
 
-	public String getToPersistent ()
+	public String getToPersistent()
 	{
 		return toPersistent;
 	}
 
-	public int getType ()
+	public int getType()
 	{
 		return relationType;
 	}
 
-	public void addFromField (String newField)
+	public void addFromField(String newField)
 	{
-		fromFields.add (newField);
+		fromFields.add(newField);
 	}
 
-	public void addToField (String newField)
+	public void addToField(String newField)
 	{
-		toFields.add (newField);
+		toFields.add(newField);
 	}
 
-	public void addLookedUpField (String newField)
+	public void addLookedUpField(String newField)
 	{
-		lookedUpFields.add (newField);
+		lookedUpFields.add(newField);
 	}
 
-	public Set getFromFields ()
+	public Set getFromFields()
 	{
 		return fromFields;
 	}
 
-	public Set getToFields ()
+	public Set getToFields()
 	{
 		return toFields;
 	}
 
-	public Set getLookedUpFields ()
+	public Set getLookedUpFields()
 	{
 		return lookedUpFields;
 	}

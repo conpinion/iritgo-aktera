@@ -37,10 +37,10 @@ public class HolidayFormularHandler extends FormularHandler
 	 * @see de.iritgo.aktera.ui.form.FormularHandler#adjustFormular(de.iritgo.aktera.model.ModelRequest, de.iritgo.aktera.ui.form.FormularDescriptor, de.iritgo.aktera.ui.form.PersistentDescriptor)
 	 */
 	@Override
-	public void adjustFormular (ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents)
+	public void adjustFormular(ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents)
 		throws ModelException, PersistenceException
 	{
-		persistents.putAttribute ("holiday.provinceCountry", persistents.getPersistent ("holiday").getFieldString (
+		persistents.putAttribute("holiday.provinceCountry", persistents.getPersistent("holiday").getFieldString(
 						"country"));
 	}
 }

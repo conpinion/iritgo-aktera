@@ -41,42 +41,42 @@ public class MySqlDatabaseType extends JDBCDatabaseType implements Poolable
 {
 	/* @see de.iritgo.aktera.persist.DatabaseType#getCreateIdentitySyntax()
 	 */
-	public String getCreateIdentitySyntax () throws PersistenceException
+	public String getCreateIdentitySyntax() throws PersistenceException
 	{
 		return "INT NOT NULL AUTO_INCREMENT PRIMARY KEY";
 	}
 
 	/* @see de.iritgo.aktera.persist.DatabaseType#getInsertIdentitySyntax()
 	 */
-	public String getInsertIdentitySyntax () throws PersistenceException
+	public String getInsertIdentitySyntax() throws PersistenceException
 	{
 		return "null";
 	}
 
 	/* @see de.iritgo.aktera.persist.DatabaseType#getRetrieveIdentitySyntax()
 	 */
-	public String getRetrieveIdentitySyntax (PersistentMetaData pmd, String idFieldName) throws PersistenceException
+	public String getRetrieveIdentitySyntax(PersistentMetaData pmd, String idFieldName) throws PersistenceException
 	{
 		return "SELECT LAST_INSERT_ID()";
 	}
 
 	/* @see de.iritgo.aktera.persist.DatabaseType#isIdentitySupported()
 	 */
-	public boolean isIdentitySupported ()
+	public boolean isIdentitySupported()
 	{
 		return true;
 	}
 
 	/* @see de.iritgo.aktera.persist.DatabaseType#isAlterKeySupported()
 	 */
-	public boolean isAlterKeySupported ()
+	public boolean isAlterKeySupported()
 	{
 		return true;
 	}
 
 	/* @see de.iritgo.aktera.persist.DatabaseType#skipIdentityInAlterKey()
 	 */
-	public boolean skipIdentityInAlterKey ()
+	public boolean skipIdentityInAlterKey()
 	{
 		return true;
 	}
@@ -85,12 +85,12 @@ public class MySqlDatabaseType extends JDBCDatabaseType implements Poolable
 	 * Don't say "null" after fields that *do* allow null - just use "not null" on
 	 * fields that *don't* allow it...
 	 */
-	protected boolean useExplicitNull ()
+	protected boolean useExplicitNull()
 	{
 		return false;
 	}
 
-	public boolean supportsTransactions ()
+	public boolean supportsTransactions()
 	{
 		return false;
 	}
@@ -103,21 +103,21 @@ public class MySqlDatabaseType extends JDBCDatabaseType implements Poolable
 	 * @param newFieldName New field name.
 	 * @return The rename statement.
 	 */
-	public String getRenameFieldStatement (PersistentMetaData pmd, String oldFieldName, String newFieldName)
+	public String getRenameFieldStatement(PersistentMetaData pmd, String oldFieldName, String newFieldName)
 		throws PersistenceException
 	{
-		StringBuffer sb = new StringBuffer ();
+		StringBuffer sb = new StringBuffer();
 
-		sb.append ("ALTER TABLE ");
-		sb.append (pmd.getTableName ());
-		sb.append (" CHANGE ");
-		sb.append (oldFieldName);
-		sb.append (" ");
-		sb.append (newFieldName);
-		sb.append (" ");
-		sb.append (getCompleteDBType (pmd, newFieldName));
+		sb.append("ALTER TABLE ");
+		sb.append(pmd.getTableName());
+		sb.append(" CHANGE ");
+		sb.append(oldFieldName);
+		sb.append(" ");
+		sb.append(newFieldName);
+		sb.append(" ");
+		sb.append(getCompleteDBType(pmd, newFieldName));
 
-		return sb.toString ();
+		return sb.toString();
 	}
 
 	/**
@@ -127,19 +127,19 @@ public class MySqlDatabaseType extends JDBCDatabaseType implements Poolable
 	 * @param fieldName Field name.
 	 * @return The update statement.
 	 */
-	public String getUpdateTypeFieldStatement (PersistentMetaData pmd, String fieldName) throws PersistenceException
+	public String getUpdateTypeFieldStatement(PersistentMetaData pmd, String fieldName) throws PersistenceException
 	{
-		StringBuffer sb = new StringBuffer ();
+		StringBuffer sb = new StringBuffer();
 
-		sb.append ("ALTER TABLE ");
-		sb.append (pmd.getTableName ());
-		sb.append (" CHANGE ");
-		sb.append (fieldName);
-		sb.append (" ");
-		sb.append (fieldName);
-		sb.append (" ");
-		sb.append (getCompleteDBType (pmd, fieldName));
+		sb.append("ALTER TABLE ");
+		sb.append(pmd.getTableName());
+		sb.append(" CHANGE ");
+		sb.append(fieldName);
+		sb.append(" ");
+		sb.append(fieldName);
+		sb.append(" ");
+		sb.append(getCompleteDBType(pmd, fieldName));
 
-		return sb.toString ();
+		return sb.toString();
 	}
 }

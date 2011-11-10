@@ -33,19 +33,19 @@ public class AkteraAktarioKeelCommand extends Command
 	/**
 	 * Create a new startup command.
 	 */
-	public AkteraAktarioKeelCommand ()
+	public AkteraAktarioKeelCommand()
 	{
-		super ("AkteraAktarioKeelCommand");
-		properties = new Properties ();
+		super("AkteraAktarioKeelCommand");
+		properties = new Properties();
 	}
 
 	/**
 	 *
 	 */
-	public void perform ()
+	public void perform()
 	{
-		AkteraAktarioKeelCommandRequest aakcr = new AkteraAktarioKeelCommandRequest (properties);
+		AkteraAktarioKeelCommandRequest aakcr = new AkteraAktarioKeelCommandRequest(properties);
 
-		ActionTools.sendToServer (aakcr);
+		ActionTools.sendToServer(aakcr);
 	}
 }

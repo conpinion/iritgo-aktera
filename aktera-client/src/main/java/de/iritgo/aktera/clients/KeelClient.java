@@ -58,19 +58,19 @@ public interface KeelClient
 	 * @throws ModelException
 	 * @throws IOException
 	 */
-	public KeelResponse execute (KeelRequest req) throws ModelException, IOException;
+	public KeelResponse execute(KeelRequest req) throws ModelException, IOException;
 
 	/**
 	 * Set the client id
 	 * @param newId The ID to set
 	 */
-	public void setId (int newId);
+	public void setId(int newId);
 
 	/**
 	 * Retrieve the client id
 	 * @return The client ID
 	 */
-	public int getId ();
+	public int getId();
 
 	/**
 	 * Start the client.
@@ -78,7 +78,7 @@ public interface KeelClient
 	 * @throws ModelException
 	 * @throws Exception
 	 */
-	public void start () throws ModelException, Exception;
+	public void start() throws ModelException, Exception;
 
 	/**
 	 * Stop the client.
@@ -86,5 +86,5 @@ public interface KeelClient
 	 * @throws ModelException
 	 * @throws Exception
 	 */
-	public void stop () throws ModelException, Exception;
+	public void stop() throws ModelException, Exception;
 }

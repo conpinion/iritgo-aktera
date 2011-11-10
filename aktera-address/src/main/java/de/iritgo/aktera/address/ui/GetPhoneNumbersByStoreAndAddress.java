@@ -30,31 +30,31 @@ import de.iritgo.simplelife.tools.*;
 
 public class GetPhoneNumbersByStoreAndAddress extends AbstractUIController
 {
-	public void execute (UIRequest request, UIResponse response) throws UIControllerException
+	public void execute(UIRequest request, UIResponse response) throws UIControllerException
 	{
-		AddressManager addressManager = (AddressManager) SpringTools.getBean (AddressManager.ID);
-		String addressId = request.getParameterAsString ("addressId");
-		Integer addressStoreId = request.getParameterAsInt ("storeId");
+		AddressManager addressManager = (AddressManager) SpringTools.getBean(AddressManager.ID);
+		String addressId = request.getParameterAsString("addressId");
+		Integer addressStoreId = request.getParameterAsInt("storeId");
 		try
 		{
-			AddressStore store = addressManager.getAddressStoreById (addressStoreId);
-			Option<Address> address = store.findAddressByDn (addressId);
-			if (address.full ())
+			AddressStore store = addressManager.getAddressStoreById(addressStoreId);
+			Option<Address> address = store.findAddressByDn(addressId);
+			if (address.full())
 			{
-				for (PhoneNumber number : address.get ().getPhoneNumbers ())
+				for (PhoneNumber number : address.get().getPhoneNumbers())
 				{
-					Command cmd = new DefaultCommand ();
-					cmd.setModel ("connect.pbx.base.my.call-number-seq");
-					cmd.setName ("phoneNumber" + number.getCategory ());
-					cmd.setLabel (number.getNumber ());
-					cmd.setParameter ("number", number.getInternalNumber ());
-					response.add (cmd);
+					Command cmd = new DefaultCommand();
+					cmd.setModel("connect.pbx.base.my.call-number-seq");
+					cmd.setName("phoneNumber" + number.getCategory());
+					cmd.setLabel(number.getNumber());
+					cmd.setParameter("number", number.getInternalNumber());
+					response.add(cmd);
 				}
 			}
 		}
 		catch (AddressStoreNotFoundException x)
 		{
-			throw new UIControllerException (x);
+			throw new UIControllerException(x);
 		}
 	}
 }

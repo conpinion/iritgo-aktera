@@ -47,14 +47,14 @@ public class AktarioUserProfile implements Serializable
 	 *   primary-key="true"
 	 *   null-allowed="false"
 	 */
-	public Long getId ()
+	public Long getId()
 	{
 		return id;
 	}
 
 	/**
 	 */
-	public void setId (Long id)
+	public void setId(Long id)
 	{
 		this.id = id;
 	}

@@ -35,21 +35,21 @@ public interface UIController
 	 * @param response The ui response
 	 * @throws UIControllerException In case of an error
 	 */
-	public void execute (UIRequest request, UIResponse response) throws UIControllerException;
+	public void execute(UIRequest request, UIResponse response) throws UIControllerException;
 
 	/**
 	 * Get the ressource bundle name.
 	 *
 	 * @return The ressource bundle name
 	 */
-	public String getBundle ();
+	public String getBundle();
 
 	/**
 	 * Get the name of the controller forward.
 	 *
 	 * @return The forward name
 	 */
-	public String getForward ();
+	public String getForward();
 
 	/**
 	 * Redirect to another controller.
@@ -59,12 +59,12 @@ public interface UIController
 	 * @param response The controller response
 	 * @throws UIControllerException In case of an error
 	 */
-	public void redirect (String bean, UIRequest request, UIResponse response) throws UIControllerException;
+	public void redirect(String bean, UIRequest request, UIResponse response) throws UIControllerException;
 
 	/**
 	 * Retrieve the controller's security mode.
 	 *
 	 * @return The security mode
 	 */
-	public Security getSecurity ();
+	public Security getSecurity();
 }

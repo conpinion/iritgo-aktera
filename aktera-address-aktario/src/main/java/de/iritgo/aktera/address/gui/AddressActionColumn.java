@@ -34,27 +34,27 @@ import java.awt.event.MouseEvent;
 
 public class AddressActionColumn extends ITableColumn
 {
-	public AddressActionColumn ()
+	public AddressActionColumn()
 	{
-		setCellIcon (new ImageIcon (AddressClientManager.class.getResource ("/resources/execute2-16.png")));
+		setCellIcon(new ImageIcon(AddressClientManager.class.getResource("/resources/execute2-16.png")));
 	}
 
 	@Override
-	public void onCellClicked (Object item, JTable addressTable, MouseEvent e)
+	public void onCellClicked(Object item, JTable addressTable, MouseEvent e)
 	{
-		AddressClientManager acm = (AddressClientManager) Engine.instance ().getManager (AddressClientManager.ID);
-		AddressClientService acs = (AddressClientService) Engine.instance ().getManager (AddressClientService.ID);
+		AddressClientManager acm = (AddressClientManager) Engine.instance().getManager(AddressClientManager.ID);
+		AddressClientService acs = (AddressClientService) Engine.instance().getManager(AddressClientService.ID);
 		Address address = (Address) item;
 
-		address.setPhoneNumbers (acs.listPhoneNumbers (address.getStoreId (), address.getId ()));
+		address.setPhoneNumbers(acs.listPhoneNumbers(address.getStoreId(), address.getId()));
 
-		JPopupMenu menu = new JPopupMenu ();
+		JPopupMenu menu = new JPopupMenu();
 
-		for (IMenuItemProvider itemProvider : acm.getAddressTableActionMenuItemProviders ())
+		for (IMenuItemProvider itemProvider : acm.getAddressTableActionMenuItemProviders())
 		{
-			menu.add (itemProvider.create (address));
+			menu.add(itemProvider.create(address));
 		}
 
-		menu.show (addressTable, (int) e.getPoint ().getX (), (int) e.getPoint ().getY ());
+		menu.show(addressTable, (int) e.getPoint().getX(), (int) e.getPoint().getY());
 	}
 }

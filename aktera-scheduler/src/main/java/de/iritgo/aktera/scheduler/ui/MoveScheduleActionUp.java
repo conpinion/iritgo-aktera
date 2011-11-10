@@ -46,18 +46,18 @@ public class MoveScheduleActionUp extends AbstractListCommandModel
 	/**
 	 *
 	 */
-	public MoveScheduleActionUp ()
+	public MoveScheduleActionUp()
 	{
-		super ("actionId");
+		super("actionId");
 	}
 
 	/**
 	 * @see de.iritgo.aktera.ui.listing.AbstractListCommandModel#execute(de.iritgo.aktera.model.ModelRequest, de.iritgo.aktera.model.ModelResponse, java.lang.String)
 	 */
 	@Override
-	protected void execute (ModelRequest request, ModelResponse response, String id) throws ModelException
+	protected void execute(ModelRequest request, ModelResponse response, String id) throws ModelException
 	{
-		moveScheduleActionUp (request, id);
+		moveScheduleActionUp(request, id);
 	}
 
 	/**
@@ -68,14 +68,14 @@ public class MoveScheduleActionUp extends AbstractListCommandModel
 	 * @return True if the schedule action has moved
 	 * @throws ModelException
 	 */
-	protected boolean moveScheduleActionUp (ModelRequest request, String id) throws ModelException
+	protected boolean moveScheduleActionUp(ModelRequest request, String id) throws ModelException
 	{
-		ScheduleDAO scheduleDAO = (ScheduleDAO) request.getSpringBean (ScheduleDAO.ID);
-		ScheduleAction action = scheduleDAO.findScheduleActionById (NumberTools.toIntInstance (id));
+		ScheduleDAO scheduleDAO = (ScheduleDAO) request.getSpringBean(ScheduleDAO.ID);
+		ScheduleAction action = scheduleDAO.findScheduleActionById(NumberTools.toIntInstance(id));
 
 		if (action != null)
 		{
-			return scheduleDAO.moveScheduleActionUp (action);
+			return scheduleDAO.moveScheduleActionUp(action);
 		}
 
 		return false;

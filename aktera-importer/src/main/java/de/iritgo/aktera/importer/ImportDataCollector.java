@@ -40,8 +40,8 @@ public class ImportDataCollector extends HashMap<String, Object>
 	 * @param key The data key
 	 * @return The data value as a trimmed string
 	 */
-	public String getStringTrim (String key)
+	public String getStringTrim(String key)
 	{
-		return StringTools.trim (get (key));
+		return StringTools.trim(get(key));
 	}
 }

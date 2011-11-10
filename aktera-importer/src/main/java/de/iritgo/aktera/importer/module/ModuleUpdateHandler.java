@@ -38,31 +38,31 @@ import java.util.Map;
 public class ModuleUpdateHandler extends UpdateHandler
 {
 	@Override
-	public void updateDatabase (ModelRequest req, Logger logger, Connection connection, PersistentFactory pf,
+	public void updateDatabase(ModelRequest req, Logger logger, Connection connection, PersistentFactory pf,
 					ModuleVersion currentVersion, ModuleVersion newVersion) throws Exception
 	{
-		if (currentVersion.between ("0.0.0", "2.1.2"))
+		if (currentVersion.between("0.0.0", "2.1.2"))
 		{
-			currentVersion.setVersion ("2.1.2");
+			currentVersion.setVersion("2.1.2");
 		}
 
-		if (currentVersion.between ("2.1.2", "2.1.3"))
+		if (currentVersion.between("2.1.2", "2.1.3"))
 		{
 			// Fix component securities for renamed packages
-			deleteComponentSecurity ("de.buerobyte.aktera.importer.Import", "user");
-			deleteComponentSecurity ("de.buerobyte.aktera.importer.ImportReport", "user");
-			deleteComponentSecurity ("de.buerobyte.aktera.importer.ImportAnalyseReport", "user");
+			deleteComponentSecurity("de.buerobyte.aktera.importer.Import", "user");
+			deleteComponentSecurity("de.buerobyte.aktera.importer.ImportReport", "user");
+			deleteComponentSecurity("de.buerobyte.aktera.importer.ImportAnalyseReport", "user");
 
-			createComponentSecurity ("de.iritgo.aktera.importer.ui.Import", "user", "*");
-			createComponentSecurity ("de.iritgo.aktera.importer.ui.ImportReport", "user", "*");
-			createComponentSecurity ("de.iritgo.aktera.importer.ui.ImportAnalyseReport", "user", "*");
+			createComponentSecurity("de.iritgo.aktera.importer.ui.Import", "user", "*");
+			createComponentSecurity("de.iritgo.aktera.importer.ui.ImportReport", "user", "*");
+			createComponentSecurity("de.iritgo.aktera.importer.ui.ImportAnalyseReport", "user", "*");
 
-			currentVersion.setVersion ("2.1.3");
+			currentVersion.setVersion("2.1.3");
 		}
 
-		if (currentVersion.lessThan ("2.2.1"))
+		if (currentVersion.lessThan("2.2.1"))
 		{
-			currentVersion.setVersion ("2.2.1");
+			currentVersion.setVersion("2.2.1");
 		}
 	}
 }

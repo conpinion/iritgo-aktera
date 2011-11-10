@@ -57,31 +57,31 @@ public class AllowingAllSSLSocketFactory extends SSLSocketFactory
 
 	private X509HostnameVerifier hostnameVerifier;
 
-	public AllowingAllSSLSocketFactory (javax.net.ssl.SSLSocketFactory delegate)
+	public AllowingAllSSLSocketFactory(javax.net.ssl.SSLSocketFactory delegate)
 		throws KeyManagementException, NoSuchAlgorithmException, KeyStoreException, UnrecoverableKeyException
 	{
-		super ((KeyStore) null);
+		super((KeyStore) null);
 
 		this.delegate = delegate;
 
-		hostnameVerifier = new AllowAllHostnameVerifier ();
+		hostnameVerifier = new AllowAllHostnameVerifier();
 	}
 
 	@Override
-	public Socket connectSocket (Socket sock, String host, int port, InetAddress localAddress, int localPort,
+	public Socket connectSocket(Socket sock, String host, int port, InetAddress localAddress, int localPort,
 					HttpParams params) throws IOException
 	{
 		if (host == null)
 		{
-			throw new IllegalArgumentException ("Target host may not be null.");
+			throw new IllegalArgumentException("Target host may not be null.");
 		}
 
 		if (params == null)
 		{
-			throw new IllegalArgumentException ("Parameters may not be null.");
+			throw new IllegalArgumentException("Parameters may not be null.");
 		}
 
-		SSLSocket sslsock = (SSLSocket) (sock != null ? sock : createSocket ());
+		SSLSocket sslsock = (SSLSocket) (sock != null ? sock : createSocket());
 
 		if (localAddress != null || localPort > 0)
 		{
@@ -91,35 +91,35 @@ public class AllowingAllSSLSocketFactory extends SSLSocketFactory
 				localPort = 0; // indicates "any"
 			}
 
-			InetSocketAddress isa = new InetSocketAddress (localAddress, localPort);
+			InetSocketAddress isa = new InetSocketAddress(localAddress, localPort);
 
-			sslsock.bind (isa);
+			sslsock.bind(isa);
 		}
 
-		int connTimeout = HttpConnectionParams.getConnectionTimeout (params);
-		int soTimeout = HttpConnectionParams.getSoTimeout (params);
+		int connTimeout = HttpConnectionParams.getConnectionTimeout(params);
+		int soTimeout = HttpConnectionParams.getSoTimeout(params);
 
 		InetSocketAddress remoteAddress;
-		InetAddress dummyResolver = InetAddress.getByName (host);
+		InetAddress dummyResolver = InetAddress.getByName(host);
 
 		if (nameResolver != null)
 		{
 			//			remoteAddress = new InetSocketAddress (nameResolver.resolve (host), port);
-			remoteAddress = new InetSocketAddress (InetAddress.getByAddress (host, dummyResolver.getAddress ()), port);
+			remoteAddress = new InetSocketAddress(InetAddress.getByAddress(host, dummyResolver.getAddress()), port);
 		}
 		else
 		{
 			//			remoteAddress = new InetSocketAddress (host, port);
-			remoteAddress = new InetSocketAddress (InetAddress.getByAddress (host, dummyResolver.getAddress ()), port);
+			remoteAddress = new InetSocketAddress(InetAddress.getByAddress(host, dummyResolver.getAddress()), port);
 		}
 
-		sslsock.connect (remoteAddress, connTimeout);
+		sslsock.connect(remoteAddress, connTimeout);
 
-		sslsock.setSoTimeout (soTimeout);
+		sslsock.setSoTimeout(soTimeout);
 
 		try
 		{
-			hostnameVerifier.verify (host, sslsock);
+			hostnameVerifier.verify(host, sslsock);
 
 			// verifyHostName() didn't blowup - good!
 		}
@@ -128,7 +128,7 @@ public class AllowingAllSSLSocketFactory extends SSLSocketFactory
 			// close the socket before re-throwing the exception
 			try
 			{
-				sslsock.close ();
+				sslsock.close();
 			}
 			catch (Exception x)
 			{
@@ -142,54 +142,54 @@ public class AllowingAllSSLSocketFactory extends SSLSocketFactory
 	}
 
 	@Override
-	public Socket createSocket () throws IOException
+	public Socket createSocket() throws IOException
 	{
-		return delegate.createSocket ();
+		return delegate.createSocket();
 	}
 
 	@Override
-	public Socket createSocket (Socket socket, String host, int port, boolean autoClose)
+	public Socket createSocket(Socket socket, String host, int port, boolean autoClose)
 		throws IOException, UnknownHostException
 	{
-		SSLSocket sslSocket = (SSLSocket) delegate.createSocket (socket, host, port, autoClose);
+		SSLSocket sslSocket = (SSLSocket) delegate.createSocket(socket, host, port, autoClose);
 
-		hostnameVerifier.verify (host, sslSocket);
+		hostnameVerifier.verify(host, sslSocket);
 
 		// verifyHostName() didn't blowup - good!
 		return sslSocket;
 	}
 
 	@Override
-	public X509HostnameVerifier getHostnameVerifier ()
+	public X509HostnameVerifier getHostnameVerifier()
 	{
 		return hostnameVerifier;
 	}
 
 	@Override
-	public boolean isSecure (Socket sock) throws IllegalArgumentException
+	public boolean isSecure(Socket sock) throws IllegalArgumentException
 	{
 		if (sock == null)
 		{
-			throw new IllegalArgumentException ("Socket may not be null.");
+			throw new IllegalArgumentException("Socket may not be null.");
 		}
 
 		// This instanceof check is in line with createSocket() above.
 		if (! (sock instanceof SSLSocket))
 		{
-			throw new IllegalArgumentException ("Socket not created by this factory.");
+			throw new IllegalArgumentException("Socket not created by this factory.");
 		}
 
 		// This check is performed last since it calls the argument object.
-		if (sock.isClosed ())
+		if (sock.isClosed())
 		{
-			throw new IllegalArgumentException ("Socket is closed.");
+			throw new IllegalArgumentException("Socket is closed.");
 		}
 
 		return true;
 	}
 
 	@Override
-	public void setHostnameVerifier (X509HostnameVerifier hostnameVerifier)
+	public void setHostnameVerifier(X509HostnameVerifier hostnameVerifier)
 	{
 		this.hostnameVerifier = hostnameVerifier;
 	}

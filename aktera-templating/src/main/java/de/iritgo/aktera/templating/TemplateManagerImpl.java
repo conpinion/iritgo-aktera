@@ -42,12 +42,12 @@ public class TemplateManagerImpl implements TemplateManager
 	/**
 	 * @see de.iritgo.aktera.templating.TemplateManager#renderTemplate(java.lang.String, java.lang.String, org.apache.velocity.context.Context)
 	 */
-	public String renderTemplate (String templateName, String template, Context context)
+	public String renderTemplate(String templateName, String template, Context context)
 	{
-		velocitySpringResourceLoader.addTemplate (templateName, template);
-		Template velocityTemplate = velocityEngine.getTemplate (templateName);
-		StringWriter writer = new StringWriter ();
-		velocityTemplate.merge (context, writer);
-		return writer.toString ();
+		velocitySpringResourceLoader.addTemplate(templateName, template);
+		Template velocityTemplate = velocityEngine.getTemplate(templateName);
+		StringWriter writer = new StringWriter();
+		velocityTemplate.merge(context, writer);
+		return writer.toString();
 	}
 }

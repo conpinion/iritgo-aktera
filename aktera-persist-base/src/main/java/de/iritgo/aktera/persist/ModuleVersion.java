@@ -40,7 +40,7 @@ public class ModuleVersion implements Cloneable
 	/**
 	 * Create a new module version.
 	 */
-	public ModuleVersion ()
+	public ModuleVersion()
 	{
 		major = 0;
 		minor = 0;
@@ -52,9 +52,9 @@ public class ModuleVersion implements Cloneable
 	 *
 	 * @param version The version string.
 	 */
-	public ModuleVersion (String version)
+	public ModuleVersion(String version)
 	{
-		setVersion (version, true);
+		setVersion(version, true);
 	}
 
 	/**
@@ -62,9 +62,9 @@ public class ModuleVersion implements Cloneable
 	 *
 	 * @return The clone.
 	 */
-	public Object clone () throws CloneNotSupportedException
+	public Object clone() throws CloneNotSupportedException
 	{
-		return super.clone ();
+		return super.clone();
 	}
 
 	/**
@@ -72,9 +72,9 @@ public class ModuleVersion implements Cloneable
 	 *
 	 * @param version The new version.
 	 */
-	public void setVersion (String version, boolean internal)
+	public void setVersion(String version, boolean internal)
 	{
-		setVersion (version);
+		setVersion(version);
 	}
 
 	/**
@@ -82,23 +82,23 @@ public class ModuleVersion implements Cloneable
 	 *
 	 * @param version The new version.
 	 */
-	public void setVersion (String version)
+	public void setVersion(String version)
 	{
-		String[] parts = version.split ("\\.");
+		String[] parts = version.split("\\.");
 
 		if (parts.length >= 1)
 		{
-			major = NumberTools.toInt (parts[0], 0);
+			major = NumberTools.toInt(parts[0], 0);
 		}
 
 		if (parts.length >= 2)
 		{
-			minor = NumberTools.toInt (parts[1], 0);
+			minor = NumberTools.toInt(parts[1], 0);
 		}
 
 		if (parts.length >= 3)
 		{
-			level = NumberTools.toInt (parts[2], 0);
+			level = NumberTools.toInt(parts[2], 0);
 		}
 	}
 
@@ -107,7 +107,7 @@ public class ModuleVersion implements Cloneable
 	 *
 	 * @return The major version number.
 	 */
-	public int getMajor ()
+	public int getMajor()
 	{
 		return major;
 	}
@@ -117,7 +117,7 @@ public class ModuleVersion implements Cloneable
 	 *
 	 * @return The minor version number.
 	 */
-	public int getMinor ()
+	public int getMinor()
 	{
 		return minor;
 	}
@@ -127,7 +127,7 @@ public class ModuleVersion implements Cloneable
 	 *
 	 * @return The patch level.
 	 */
-	public int getLevel ()
+	public int getLevel()
 	{
 		return level;
 	}
@@ -137,7 +137,7 @@ public class ModuleVersion implements Cloneable
 	 *
 	 * @return A version string.
 	 */
-	public String toString ()
+	public String toString()
 	{
 		return major + "." + minor + "." + level;
 	}
@@ -150,9 +150,9 @@ public class ModuleVersion implements Cloneable
 	 * @param version2 Higher version to check.
 	 * @return True if this version lies between version1 and version2.
 	 */
-	public boolean between (ModuleVersion version1, ModuleVersion version2)
+	public boolean between(ModuleVersion version1, ModuleVersion version2)
 	{
-		return greaterOrEqual (version1) && lessThan (version2);
+		return greaterOrEqual(version1) && lessThan(version2);
 	}
 
 	/**
@@ -163,9 +163,9 @@ public class ModuleVersion implements Cloneable
 	 * @param version2 Higher version to check.
 	 * @return True if this version lies between version1 and version2.
 	 */
-	public boolean between (String version1, String version2)
+	public boolean between(String version1, String version2)
 	{
-		return between (new ModuleVersion (version1), new ModuleVersion (version2));
+		return between(new ModuleVersion(version1), new ModuleVersion(version2));
 	}
 
 	/**
@@ -174,7 +174,7 @@ public class ModuleVersion implements Cloneable
 	 * @param version Lower version to check.
 	 * @return True if this version is greater or equal to another version.
 	 */
-	public boolean greaterOrEqual (ModuleVersion version)
+	public boolean greaterOrEqual(ModuleVersion version)
 	{
 		return this.major > version.major || (this.major == version.major && this.minor > version.minor)
 						|| (this.major == version.major && this.minor == version.minor && this.level >= version.level);
@@ -186,9 +186,9 @@ public class ModuleVersion implements Cloneable
 	 * @param version Lower version to check.
 	 * @return True if this version is greater or equal to another version.
 	 */
-	public boolean greaterOrEqual (String version)
+	public boolean greaterOrEqual(String version)
 	{
-		return greaterOrEqual (new ModuleVersion (version));
+		return greaterOrEqual(new ModuleVersion(version));
 	}
 
 	/**
@@ -197,7 +197,7 @@ public class ModuleVersion implements Cloneable
 	 * @param version Lower version to check.
 	 * @return True if this version is greater or equal to another version.
 	 */
-	public boolean greater (ModuleVersion version)
+	public boolean greater(ModuleVersion version)
 	{
 		return this.major > version.major || (this.major == version.major && this.minor > version.minor)
 						|| (this.major == version.major && this.minor == version.minor && this.level > version.level);
@@ -209,9 +209,9 @@ public class ModuleVersion implements Cloneable
 	 * @param version Lower version to check.
 	 * @return True if this version is greater or equal to another version.
 	 */
-	public boolean greater (String version)
+	public boolean greater(String version)
 	{
-		return greater (new ModuleVersion (version));
+		return greater(new ModuleVersion(version));
 	}
 
 	/**
@@ -220,7 +220,7 @@ public class ModuleVersion implements Cloneable
 	 * @param version Higher version to check.
 	 * @return True if this version is less than another version.
 	 */
-	public boolean lessThan (ModuleVersion version)
+	public boolean lessThan(ModuleVersion version)
 	{
 		return this.major < version.major || (this.major == version.major && this.minor < version.minor)
 						|| (this.major == version.major && this.minor == version.minor && this.level < version.level);
@@ -232,8 +232,8 @@ public class ModuleVersion implements Cloneable
 	 * @param version Higher version to check.
 	 * @return True if this version is less than another version.
 	 */
-	public boolean lessThan (String version)
+	public boolean lessThan(String version)
 	{
-		return lessThan (new ModuleVersion (version));
+		return lessThan(new ModuleVersion(version));
 	}
 }

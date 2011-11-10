@@ -31,28 +31,29 @@ import org.junit.Test;
 public class GroovyScriptCompilerTest
 {
 	@Test
-	public void compileGroovyScript ()
+	public void compileGroovyScript()
 		throws ScriptMethodNotFoundException, ScriptExecutionException, ScriptCompilerException
 	{
 		String script = "public class Script { public String scriptMethod () { return \"ExpectedResult\"; }}";
-		ScriptCompiler groovyCompiler = new GroovyScriptCompiler ();
-		CompiledScript compiledScript = groovyCompiler.compile ("test", script);
+		ScriptCompiler groovyCompiler = new GroovyScriptCompiler();
+		CompiledScript compiledScript = groovyCompiler.compile("test", script);
 
-		assertEquals ("Wrong script result", "ExpectedResult", compiledScript.execute ("scriptMethod", new Object[] {}));
+		assertEquals("Wrong script result", "ExpectedResult", compiledScript.execute("scriptMethod", new Object[]
+		{}));
 	}
 
 	@Test
-	public void compileBadGroovyScript ()
+	public void compileBadGroovyScript()
 	{
 		String script = "badGroovyScript !!$$$%%%&&";
-		ScriptCompiler groovyCompiler = new GroovyScriptCompiler ();
+		ScriptCompiler groovyCompiler = new GroovyScriptCompiler();
 
 		try
 		{
 			@SuppressWarnings("unused")
-			CompiledScript ignored = groovyCompiler.compile ("test", script);
+			CompiledScript ignored = groovyCompiler.compile("test", script);
 
-			fail ("No exception triggered");
+			fail("No exception triggered");
 		}
 		catch (ScriptCompilerException x)
 		{
@@ -61,16 +62,16 @@ public class GroovyScriptCompilerTest
 	}
 
 	@Test
-	public void checkBadGroovyScript ()
+	public void checkBadGroovyScript()
 		throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException
 	{
 		String script = "badGroovyScript !!$$$%%%&&";
-		ScriptCompiler groovyCompiler = new GroovyScriptCompiler ();
+		ScriptCompiler groovyCompiler = new GroovyScriptCompiler();
 
 		try
 		{
-			groovyCompiler.check (script);
-			fail ("No exception triggered");
+			groovyCompiler.check(script);
+			fail("No exception triggered");
 		}
 		catch (ScriptCompilerException x)
 		{

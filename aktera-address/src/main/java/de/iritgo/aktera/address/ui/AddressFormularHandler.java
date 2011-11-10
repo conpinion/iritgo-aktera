@@ -56,161 +56,162 @@ public class AddressFormularHandler extends FormularHandler
 	private PermissionManager permissionManager;
 
 	@Override
-	public void loadPersistents (ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents,
+	public void loadPersistents(ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents,
 					List<Configuration> persistentConfig, Integer id) throws ModelException, PersistenceException
 	{
 		try
 		{
-			AddressStore store = addressManager.getAddressStoreById (getAddressStoreId (request));
-			persistents.putAttribute ("addressStoreId", store.getId ());
+			AddressStore store = addressManager.getAddressStoreById(getAddressStoreId(request));
+			persistents.putAttribute("addressStoreId", store.getId());
 
-			String addressDn = request.getParameterAsString ("id");
-			Option<Address> address = store.findAddressByDn (addressDn);
-			if (address.empty ())
+			String addressDn = request.getParameterAsString("id");
+			Option<Address> address = store.findAddressByDn(addressDn);
+			if (address.empty())
 			{
-				address = new Full (new Address ());
+				address = new Full(new Address());
 			}
-			persistents.put ("address", address.get ());
+			persistents.put("address", address.get());
 
-			if (address.get ().getId () == null
-							&& ! permissionManager.hasPermission (UserTools.getCurrentUserName (request),
-											"de.iritgo.aktera.address.create", AddressStore.class.getName (), store
-															.getId ()))
+			if (address.get().getId() == null
+							&& ! permissionManager.hasPermission(UserTools.getCurrentUserName(request),
+											"de.iritgo.aktera.address.create", AddressStore.class.getName(), store
+															.getId()))
 			{
-				throw new PermissionException ();
+				throw new PermissionException();
 			}
 
 			boolean editable = true;
-			if (! store.getEditable ())
+			if (! store.getEditable())
 			{
 				editable = false;
 			}
-			if (! permissionManager.hasPermission (UserTools.getCurrentUserName (request),
-							"de.iritgo.aktera.address.edit", AddressStore.class.getName (), store.getId ()))
+			if (! permissionManager.hasPermission(UserTools.getCurrentUserName(request),
+							"de.iritgo.aktera.address.edit", AddressStore.class.getName(), store.getId()))
 			{
 				editable = false;
 			}
-			formular.setReadOnly (! editable);
+			formular.setReadOnly(! editable);
 		}
 		catch (AddressStoreNotFoundException x)
 		{
-			throw new ModelException (x);
+			throw new ModelException(x);
 		}
 	}
 
 	@Override
-	public void validatePersistents (List<Configuration> persistentConfig, ModelRequest request,
-					ModelResponse response, FormularDescriptor formular, PersistentDescriptor persistents,
-					boolean create, ValidationResult result) throws ModelException, PersistenceException
+	public void validatePersistents(List<Configuration> persistentConfig, ModelRequest request, ModelResponse response,
+					FormularDescriptor formular, PersistentDescriptor persistents, boolean create,
+					ValidationResult result) throws ModelException, PersistenceException
 	{
-		Address address = (Address) persistents.get ("address");
-		if (StringTools.isTrimEmpty (address.getLastName ()) && StringTools.isTrimEmpty (address.getCompany ()))
+		Address address = (Address) persistents.get("address");
+		if (StringTools.isTrimEmpty(address.getLastName()) && StringTools.isTrimEmpty(address.getCompany()))
 		{
-			FormTools.addError (response, result, "address.lastName",
-							"AkteraAddress:oneOfLastNameOrCompanyMustBeFilled");
+			FormTools
+							.addError(response, result, "address.lastName",
+											"AkteraAddress:oneOfLastNameOrCompanyMustBeFilled");
 		}
 	}
 
 	@Override
-	public int createPersistents (ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents,
+	public int createPersistents(ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents,
 					List<Configuration> persistentConfig) throws ModelException, PersistenceException
 	{
 		try
 		{
-			AddressStore store = addressManager.getAddressStoreById ((Integer) persistents
-							.getAttribute ("addressStoreId"));
-			if (! store.getEditable ())
+			AddressStore store = addressManager.getAddressStoreById((Integer) persistents
+							.getAttribute("addressStoreId"));
+			if (! store.getEditable())
 			{
-				throw new PermissionException ();
+				throw new PermissionException();
 			}
-			if (! permissionManager.hasPermission (UserTools.getCurrentUserName (request),
-							"de.iritgo.aktera.address.create", AddressStore.class.getName (), store.getId ()))
+			if (! permissionManager.hasPermission(UserTools.getCurrentUserName(request),
+							"de.iritgo.aktera.address.create", AddressStore.class.getName(), store.getId()))
 			{
-				throw new PermissionException ();
+				throw new PermissionException();
 			}
 
-			return (Integer) store.createAddress ((Address) persistents.get ("address"), UserTools
-							.getCurrentUserId (request));
+			return (Integer) store.createAddress((Address) persistents.get("address"), UserTools
+							.getCurrentUserId(request));
 		}
 		catch (AddressStoreNotFoundException x)
 		{
-			throw new ModelException (x);
+			throw new ModelException(x);
 		}
 	}
 
 	@Override
-	public void updatePersistents (ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents,
+	public void updatePersistents(ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents,
 					List<Configuration> persistentConfig, boolean modified) throws ModelException, PersistenceException
 	{
 		try
 		{
-			AddressStore store = addressManager.getAddressStoreById ((Integer) persistents
-							.getAttribute ("addressStoreId"));
-			if (! store.getEditable ())
+			AddressStore store = addressManager.getAddressStoreById((Integer) persistents
+							.getAttribute("addressStoreId"));
+			if (! store.getEditable())
 			{
-				throw new PermissionException ();
+				throw new PermissionException();
 			}
-			if (! permissionManager.hasPermission (UserTools.getCurrentUserName (request),
-							"de.iritgo.aktera.address.edit", AddressStore.class.getName (), store.getId ()))
+			if (! permissionManager.hasPermission(UserTools.getCurrentUserName(request),
+							"de.iritgo.aktera.address.edit", AddressStore.class.getName(), store.getId()))
 			{
-				throw new PermissionException ();
+				throw new PermissionException();
 			}
-			store.updateAddress ((Address) persistents.get ("address"));
+			store.updateAddress((Address) persistents.get("address"));
 		}
 		catch (AddressStoreNotFoundException x)
 		{
-			throw new ModelException (x);
+			throw new ModelException(x);
 		}
 	}
 
 	@Override
-	public void deletePersistent (ModelRequest request, ModelResponse response, Object id, Persistent persistent,
+	public void deletePersistent(ModelRequest request, ModelResponse response, Object id, Persistent persistent,
 					boolean systemDelete) throws ModelException, PersistenceException
 	{
 		try
 		{
-			AddressStore store = addressManager.getAddressStoreById (getAddressStoreId (request));
-			if (! store.getEditable ())
+			AddressStore store = addressManager.getAddressStoreById(getAddressStoreId(request));
+			if (! store.getEditable())
 			{
-				throw new PermissionException ();
+				throw new PermissionException();
 			}
-			if (! permissionManager.hasPermission (UserTools.getCurrentUserName (request),
-							"de.iritgo.aktera.address.delete", AddressStore.class.getName (), store.getId ()))
+			if (! permissionManager.hasPermission(UserTools.getCurrentUserName(request),
+							"de.iritgo.aktera.address.delete", AddressStore.class.getName(), store.getId()))
 			{
-				throw new PermissionException ();
+				throw new PermissionException();
 			}
 
-			if (store.getName ().equals (AddressManager.DEFAULT_GLOBAL_ADDRESS_STORE_NAME) && ! systemDelete)
+			if (store.getName().equals(AddressManager.DEFAULT_GLOBAL_ADDRESS_STORE_NAME) && ! systemDelete)
 			{
-				Address address = addressDAO.getAddressById (NumberTools.toInt (id, - 1));
-				if (address.getPartyId () != null)
+				Address address = addressDAO.getAddressById(NumberTools.toInt(id, - 1));
+				if (address.getPartyId() != null)
 				{
-					Party party = addressDAO.getPartyById (address.getPartyId ());
-					if (party != null && party.getUserId () != null)
+					Party party = addressDAO.getPartyById(address.getPartyId());
+					if (party != null && party.getUserId() != null)
 					{
-						AkteraUser user = userDAO.findUserById (party.getUserId ());
+						AkteraUser user = userDAO.findUserById(party.getUserId());
 						if (user != null)
 						{
-							response.addError ("GLOBAL_addressAssignedToUserCannotBeDeleted",
+							response.addError("GLOBAL_addressAssignedToUserCannotBeDeleted",
 											"$AkteraAddress:addressAssignedToUserCannotBeDeleted|"
-															+ address.getLastName ());
+															+ address.getLastName());
 							return;
 						}
 					}
 				}
 			}
 
-			store.deleteAddressWithDn (id);
+			store.deleteAddressWithDn(id);
 		}
 		catch (AddressStoreNotFoundException x)
 		{
-			throw new ModelException (x);
+			throw new ModelException(x);
 		}
 	}
 
-	protected Integer getAddressStoreId (ModelRequest request) throws AddressStoreNotFoundException
+	protected Integer getAddressStoreId(ModelRequest request) throws AddressStoreNotFoundException
 	{
-		int addressStoreId = NumberTools.toInt (request.getParameterAsInt ("addressStoreId"), - 1);
-		return addressStoreId != - 1 ? addressStoreId : addressManager.getDefaultAddressStore ().getId ();
+		int addressStoreId = NumberTools.toInt(request.getParameterAsInt("addressStoreId"), - 1);
+		return addressStoreId != - 1 ? addressStoreId : addressManager.getDefaultAddressStore().getId();
 	}
 }

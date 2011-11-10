@@ -36,5 +36,5 @@ public interface Authenticator
 	 * @param loginPassword
 	 * @return
 	 */
-	public boolean authenticate (String userName, String loginPassword);
+	public boolean authenticate(String userName, String loginPassword);
 }

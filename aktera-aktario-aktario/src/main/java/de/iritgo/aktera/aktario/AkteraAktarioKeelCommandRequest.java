@@ -41,14 +41,14 @@ public class AkteraAktarioKeelCommandRequest extends FrameworkServerAction
 	/**
 	 * Standard constructor
 	 */
-	public AkteraAktarioKeelCommandRequest ()
+	public AkteraAktarioKeelCommandRequest()
 	{
 	}
 
 	/**
 	 * Standard constructor
 	 */
-	public AkteraAktarioKeelCommandRequest (Properties properties)
+	public AkteraAktarioKeelCommandRequest(Properties properties)
 	{
 		this.properties = properties;
 	}
@@ -56,31 +56,31 @@ public class AkteraAktarioKeelCommandRequest extends FrameworkServerAction
 	/**
 	 * Read the attributes from the given stream.
 	 */
-	public void readObject (FrameworkInputStream stream) throws IOException, ClassNotFoundException
+	public void readObject(FrameworkInputStream stream) throws IOException, ClassNotFoundException
 	{
-		ObjectInputStream s = new ObjectInputStream (stream);
+		ObjectInputStream s = new ObjectInputStream(stream);
 
-		properties = (Properties) s.readObject ();
+		properties = (Properties) s.readObject();
 	}
 
 	/**
 	 * Write the attributes to the given stream.
 	 */
-	public void writeObject (FrameworkOutputStream stream) throws IOException
+	public void writeObject(FrameworkOutputStream stream) throws IOException
 	{
-		ObjectOutputStream s = new ObjectOutputStream (stream);
+		ObjectOutputStream s = new ObjectOutputStream(stream);
 
-		s.writeObject (properties);
+		s.writeObject(properties);
 	}
 
 	/**
 	 * Perform the action.
 	 */
-	public void perform ()
+	public void perform()
 	{
-		ConnectorServerManager connectorServerManager = (ConnectorServerManager) Engine.instance ()
-						.getManagerRegistry ().getManager ("ConnectorServerManager");
+		ConnectorServerManager connectorServerManager = (ConnectorServerManager) Engine.instance().getManagerRegistry()
+						.getManager("ConnectorServerManager");
 
-		connectorServerManager.executeModel (properties, userUniqueId);
+		connectorServerManager.executeModel(properties, userUniqueId);
 	}
 }

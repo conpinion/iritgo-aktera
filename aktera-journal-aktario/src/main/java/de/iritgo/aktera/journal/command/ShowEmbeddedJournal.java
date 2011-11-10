@@ -40,54 +40,54 @@ public class ShowEmbeddedJournal extends Command
 	/**
 	 * Initialize the command.
 	 */
-	public ShowEmbeddedJournal ()
+	public ShowEmbeddedJournal()
 	{
-		super ("de.iritgo.aktera.journal.ShowEmbeddedJournal");
+		super("de.iritgo.aktera.journal.ShowEmbeddedJournal");
 	}
 
 	/**
 	 * Display the embedded journal pane.
 	 */
 	@Override
-	public void perform ()
+	public void perform()
 	{
 		if (firstActivation)
 		{
-			Properties props = new Properties ();
+			Properties props = new Properties();
 
-			props.put ("closable", false);
-			props.put ("iconifiable", false);
-			props.put ("maximizable", false);
-			props.put ("maximized", false);
-			props.put ("titlebar", false);
-			props.put ("searchbutton", "no");
-			props.put ("toolbar", "no");
-			props.put ("rowHeight", 60);
-			props.put ("headerOff", "true");
+			props.put("closable", false);
+			props.put("iconifiable", false);
+			props.put("maximizable", false);
+			props.put("maximized", false);
+			props.put("titlebar", false);
+			props.put("searchbutton", "no");
+			props.put("toolbar", "no");
+			props.put("rowHeight", 60);
+			props.put("headerOff", "true");
 
-			AkteraQuery journalQuery = new AkteraQuery ("aktera.journal.list.notvisible",
+			AkteraQuery journalQuery = new AkteraQuery("aktera.journal.list.notvisible",
 							"de.iritgo.aktera.journal.EmbeddedJournal");
 
-			DataObjectTools.executeQuery (journalQuery);
-			CommandTools.performAsync (new ShowWindow ("QueryPane", "de.iritgo.aktera.journal.EmbeddedJournal",
+			DataObjectTools.executeQuery(journalQuery);
+			CommandTools.performAsync(new ShowWindow("QueryPane", "de.iritgo.aktera.journal.EmbeddedJournal",
 							"default", journalQuery), props);
 			firstActivation = false;
 		}
 		else
 		{
-			if (Client.instance ().getClientGUI ().getDesktopManager ().getDisplay (
+			if (Client.instance().getClientGUI().getDesktopManager().getDisplay(
 							"de.iritgo.aktera.journal.EmbeddedJournal") == null)
 			{
 				firstActivation = true;
-				perform ();
+				perform();
 
 				return;
 			}
 
-			Client.instance ().getClientGUI ().getDesktopManager ().getDisplay (
-							"de.iritgo.aktera.journal.EmbeddedJournal").bringToFront ();
-			Client.instance ().getClientGUI ().getDesktopManager ().getDisplay (
-							"de.iritgo.aktera.journal.EmbeddedJournal").show ();
+			Client.instance().getClientGUI().getDesktopManager().getDisplay("de.iritgo.aktera.journal.EmbeddedJournal")
+							.bringToFront();
+			Client.instance().getClientGUI().getDesktopManager().getDisplay("de.iritgo.aktera.journal.EmbeddedJournal")
+							.show();
 		}
 	}
 }

@@ -45,7 +45,7 @@ public class UpdateStep
 	 * @param fromVersion The start version.
 	 * @param toVersion The target version.
 	 */
-	public UpdateStep (String fromVersion, String toVersion, ModuleVersion currentVersion)
+	public UpdateStep(String fromVersion, String toVersion, ModuleVersion currentVersion)
 	{
 		this.fromVersion = fromVersion;
 		this.toVersion = toVersion;
@@ -56,19 +56,19 @@ public class UpdateStep
 	 * Perform the update step. Subclasses should override this method and perform
 	 * the needed update actions.
 	 */
-	public void perform ()
+	public void perform()
 	{
 	}
 
 	/**
 	 * This method is called by the update handler to perform the update step.
 	 */
-	public void performUpdate ()
+	public void performUpdate()
 	{
-		if (currentVersion.between (fromVersion, toVersion))
+		if (currentVersion.between(fromVersion, toVersion))
 		{
-			perform ();
-			currentVersion.setVersion (toVersion);
+			perform();
+			currentVersion.setVersion(toVersion);
 		}
 	}
 }

@@ -59,7 +59,7 @@ public class URLUTF8Encoder
 	};
 
 	//--- Do not allow this to be instantiated since it is a Singleton.
-	private URLUTF8Encoder ()
+	private URLUTF8Encoder()
 	{
 	} // URLUTF8Encoder
 
@@ -86,49 +86,49 @@ public class URLUTF8Encoder
 	 * @param     s The string to be encoded
 	 * @return    The encoded string
 	 */
-	public static String encode (String s)
+	public static String encode(String s)
 	{
-		StringBuffer sbuf = new StringBuffer ();
-		int len = s.length ();
+		StringBuffer sbuf = new StringBuffer();
+		int len = s.length();
 
 		for (int i = 0; i < len; i++)
 		{
-			int ch = s.charAt (i);
+			int ch = s.charAt(i);
 
 			if ('A' <= ch && ch <= 'Z')
 			{ // 'A'..'Z'
-				sbuf.append ((char) ch);
+				sbuf.append((char) ch);
 			}
 			else if ('a' <= ch && ch <= 'z')
 			{ // 'a'..'z'
-				sbuf.append ((char) ch);
+				sbuf.append((char) ch);
 			}
 			else if ('0' <= ch && ch <= '9')
 			{ // '0'..'9'
-				sbuf.append ((char) ch);
+				sbuf.append((char) ch);
 			}
 			else if (ch == ' ')
 			{ // space
-				sbuf.append ('+');
+				sbuf.append('+');
 			}
 			else if (ch <= 0x007f)
 			{ // other ASCII
-				sbuf.append (hex[ch]);
+				sbuf.append(hex[ch]);
 			}
 			else if (ch <= 0x07FF)
 			{ // non-ASCII <= 0x7FF
-				sbuf.append (hex[0xc0 | (ch >> 6)]);
-				sbuf.append (hex[0x80 | (ch & 0x3F)]);
+				sbuf.append(hex[0xc0 | (ch >> 6)]);
+				sbuf.append(hex[0x80 | (ch & 0x3F)]);
 			}
 			else
 			{ // 0x7FF < ch <= 0xFFFF
-				sbuf.append (hex[0xe0 | (ch >> 12)]);
-				sbuf.append (hex[0x80 | ((ch >> 6) & 0x3F)]);
-				sbuf.append (hex[0x80 | (ch & 0x3F)]);
+				sbuf.append(hex[0xe0 | (ch >> 12)]);
+				sbuf.append(hex[0x80 | ((ch >> 6) & 0x3F)]);
+				sbuf.append(hex[0x80 | (ch & 0x3F)]);
 			}
 		}
 
-		return sbuf.toString ();
+		return sbuf.toString();
 	} /* encode(String) */
 
 	/**
@@ -138,19 +138,19 @@ public class URLUTF8Encoder
 	 * @param   s The encoded string
 	 * @return  The decoded string
 	 */
-	public static String decode (String s)
+	public static String decode(String s)
 	{
 		if (s == null)
 		{
 			return null;
 		}
 
-		s = s.trim ();
+		s = s.trim();
 
 		try
 		{
-			StringBuffer sbuf = new StringBuffer ();
-			int l = s.length ();
+			StringBuffer sbuf = new StringBuffer();
+			int l = s.length();
 			int ch = - 1;
 			int b;
 			int sumb = 0;
@@ -158,20 +158,19 @@ public class URLUTF8Encoder
 			for (int i = 0; i < l; i++)
 			{
 				/* Get next byte b from URL segment s */
-				switch (ch = s.charAt (i))
+				switch (ch = s.charAt(i))
 				{
 					case '%':
-						ch = s.charAt (++i);
+						ch = s.charAt(++i);
 
-						int hb = (Character.isDigit ((char) ch) ? ch - '0'
-										: 10 + Character.toLowerCase ((char) ch) - 'a') & 0xF;
+						int hb = (Character.isDigit((char) ch) ? ch - '0' : 10 + Character.toLowerCase((char) ch) - 'a') & 0xF;
 
 						if (i <= (l - 2))
 						{
-							ch = s.charAt (++i);
+							ch = s.charAt(++i);
 
-							int lb = (Character.isDigit ((char) ch) ? ch - '0'
-											: 10 + Character.toLowerCase ((char) ch) - 'a') & 0xF;
+							int lb = (Character.isDigit((char) ch) ? ch - '0'
+											: 10 + Character.toLowerCase((char) ch) - 'a') & 0xF;
 
 							b = (hb << 4) | lb;
 						}
@@ -201,7 +200,7 @@ public class URLUTF8Encoder
 
 					if (i != 0) // Not on 1st cycle
 					{
-						sbuf.append ((char) sumb); // Add previous char to sbuf
+						sbuf.append((char) sumb); // Add previous char to sbuf
 					}
 
 					if ((b & 0x80) == 0x00)
@@ -219,54 +218,54 @@ public class URLUTF8Encoder
 
 			if (sumb != 0)
 			{
-				sbuf.append ((char) sumb);
+				sbuf.append((char) sumb);
 			}
 
-			return sbuf.toString ().trim ();
+			return sbuf.toString().trim();
 		}
 		catch (StringIndexOutOfBoundsException se)
 		{
-			se.printStackTrace (System.err);
-			throw new IllegalArgumentException ("Index out of bounds while " + "decoding string '" + s + "' (length "
-							+ s.length () + ")");
+			se.printStackTrace(System.err);
+			throw new IllegalArgumentException("Index out of bounds while " + "decoding string '" + s + "' (length "
+							+ s.length() + ")");
 		}
 	} /* decode(String) */
 
-	public static void main (String[] args)
+	public static void main(String[] args)
 	{
-		ArrayList testStrings = new ArrayList ();
+		ArrayList testStrings = new ArrayList();
 
-		testStrings.add ("this is a test");
-		testStrings.add ("Now\nWe\nGet\tMore%04Complicated");
-		testStrings.add ("%Leading percent");
-		testStrings.add ("Trailing%");
-		testStrings.add ("%Leading and trailing%");
-		testStrings.add ("Even@$%%More!&Comlicated^@%");
-		testStrings.add ("Even@$%%More!&C|omlic|ated^@%");
-		testStrings.add ("|Even@$%%More!&C|omlic|ated^@%|");
-		testStrings.add ("LoginName|Admin%|");
-		testStrings.add ("|Even@$%%More!&C|omld^@%||Even@$%%More!&C|oml"
+		testStrings.add("this is a test");
+		testStrings.add("Now\nWe\nGet\tMore%04Complicated");
+		testStrings.add("%Leading percent");
+		testStrings.add("Trailing%");
+		testStrings.add("%Leading and trailing%");
+		testStrings.add("Even@$%%More!&Comlicated^@%");
+		testStrings.add("Even@$%%More!&C|omlic|ated^@%");
+		testStrings.add("|Even@$%%More!&C|omlic|ated^@%|");
+		testStrings.add("LoginName|Admin%|");
+		testStrings.add("|Even@$%%More!&C|omld^@%||Even@$%%More!&C|oml"
 						+ "icic|ated^@%||Even@$%%More!&C|omlic|ated^@%||Even@$%%M" + "ore!&C|omlic|ated^@%|");
-		testStrings.add ("");
+		testStrings.add("");
 
 		String encoded = null;
 		String decoded = null;
 		String testString = null;
 
-		for (Iterator i = testStrings.iterator (); i.hasNext ();)
+		for (Iterator i = testStrings.iterator(); i.hasNext();)
 		{
-			testString = (String) i.next ();
-			encoded = encode (testString);
-			decoded = decode (encoded);
+			testString = (String) i.next();
+			encoded = encode(testString);
+			decoded = decode(encoded);
 
-			if (! decoded.equals (testString))
+			if (! decoded.equals(testString))
 			{
-				System.out.println ("Error encoding/decoding string '" + testString + "' (length "
-								+ testString.length () + "). Encoded as '" + encoded + "' (length " + encoded.length ()
-								+ ") and decoded to '" + decoded + "' (length " + decoded.length () + ")");
+				System.out.println("Error encoding/decoding string '" + testString + "' (length " + testString.length()
+								+ "). Encoded as '" + encoded + "' (length " + encoded.length() + ") and decoded to '"
+								+ decoded + "' (length " + decoded.length() + ")");
 			}
 		}
 
-		System.out.println ("Tests Complete");
+		System.out.println("Tests Complete");
 	}
 } /* URLUTF8Encoder */

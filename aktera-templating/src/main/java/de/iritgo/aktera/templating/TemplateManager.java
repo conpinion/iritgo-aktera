@@ -34,5 +34,5 @@ public interface TemplateManager
 	 * @param params The params
 	 * @return The rendered template string
 	 */
-	public String renderTemplate (String templatename, String tempate, Context context);
+	public String renderTemplate(String templatename, String tempate, Context context);
 }

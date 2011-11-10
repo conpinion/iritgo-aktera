@@ -28,20 +28,20 @@ import java.util.Map;
  */
 public interface Input extends ResponseElement
 {
-	public void setLabel (String newLabel);
+	public void setLabel(String newLabel);
 
-	public String getLabel ();
+	public String getLabel();
 
 	/**
 	 * Specify a list of valid values to be used for this input.
 	 * Each key in the specified map is a valid value, each corresponding
 	 * entry is a description of the value
 	 */
-	public void setValidValues (Map map);
+	public void setValidValues(Map map);
 
-	public Map getValidValues ();
+	public Map getValidValues();
 
-	public void setDefaultValue (Object value);
+	public void setDefaultValue(Object value);
 
-	public Object getDefaultValue ();
+	public Object getDefaultValue();
 }

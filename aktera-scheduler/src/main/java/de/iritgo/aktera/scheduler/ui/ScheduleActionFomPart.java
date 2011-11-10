@@ -39,7 +39,7 @@ public class ScheduleActionFomPart
 	 * @param formular The formular.
 	 * @param persistents The persistent objects.
 	 */
-	public void adjustFormular (ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents)
+	public void adjustFormular(ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents)
 		throws ModelException, PersistenceException
 	{
 	}
@@ -51,7 +51,7 @@ public class ScheduleActionFomPart
 	 * @return An info string
 	 * @throws ModelException TODO
 	 */
-	public String createListInfo (ModelRequest request, RowData row) throws PersistenceException, ModelException
+	public String createListInfo(ModelRequest request, RowData row) throws PersistenceException, ModelException
 	{
 		return null;
 	}

@@ -31,51 +31,51 @@ public interface Helper
 	/**
 	 * Called when the helper is first instantiated
 	 */
-	public void setPersistent (Persistent current);
+	public void setPersistent(Persistent current);
 
 	/**
 	 * Called before the Add operation is performed
 	 * @param current The Persistent object before the add operation. Fields such
 	 * as auto-incremented keys will not yet have their values assigned.
 	 */
-	public void beforeAdd (Persistent current);
+	public void beforeAdd(Persistent current);
 
 	/**
 	 * Called after the Add operation is completed successfully
 	 * @param current The Persistent object after the add operation. Fields
 	 * such as auto-incremented keys will have their values assigned properly
 	 */
-	public void afterAdd (Persistent current);
+	public void afterAdd(Persistent current);
 
 	/**
 	 * Called before the Delete operation is performed
 	 * @param current The Persistent object about to be deleted
 	 */
-	public void beforeDelete (Persistent current);
+	public void beforeDelete(Persistent current);
 
 	/**
 	 * Called before the Update operation is performed
 	 * @param current The Persistent object before the update
 	 */
-	public void beforeUpdate (Persistent current);
+	public void beforeUpdate(Persistent current);
 
 	/**
 	 * Called after the Update operation is performed
 	 * @param current The Persistent object that has just been updated
 	 */
-	public void afterUpdate (Persistent current);
+	public void afterUpdate(Persistent current);
 
 	/**
 	 * Called after the Delete operation is performed
 	 * @param current The Persistent object which has just been deleted
 	 */
-	public void afterDelete (Persistent current);
+	public void afterDelete(Persistent current);
 
 	/**
 	 * Called before the Clear operation is performed
 	 * @param current The Persistent object before it is cleared
 	 */
-	public void beforeClear (Persistent current);
+	public void beforeClear(Persistent current);
 
 	/**
 	 * Called before each access to set the field value of a Persistent
@@ -83,7 +83,7 @@ public interface Helper
 	 * @param oldValue The field value before the changed is applied
 	 * @param oldValue The field value requested
 	 */
-	public void beforeSetField (String fieldName, Object oldValue, Object newValue);
+	public void beforeSetField(String fieldName, Object oldValue, Object newValue);
 
 	/**
 	 * Called after a field is changed, assuming the change was allowed (e.g. by validations, type, etc)
@@ -91,18 +91,18 @@ public interface Helper
 	 * @param oldValue The field value before the change
 	 * @param newValue The updated field value
 	 */
-	public void afterSetField (String fieldName, Object oldValue, Object newValue);
+	public void afterSetField(String fieldName, Object oldValue, Object newValue);
 
 	/**
 	 * Called before the query operation is performed
 	 * @param current The Persistent object before the query - contains the constraint
 	 * values that will be used to perform the query itself
 	 */
-	public void beforeQuery (Persistent current);
+	public void beforeQuery(Persistent current);
 
 	/**
 	 * Called after a query operation
 	 * @param current The Persistent object after the query - essentially identical to before
 	 */
-	public void afterQuery (Persistent current);
+	public void afterQuery(Persistent current);
 }

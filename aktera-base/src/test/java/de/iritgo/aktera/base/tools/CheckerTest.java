@@ -32,15 +32,15 @@ public class CheckerTest
 {
 	public static class AChecker implements Checker
 	{
-		public boolean check (ModelRequest req, Properties params)
+		public boolean check(ModelRequest req, Properties params)
 		{
 			return true;
 		}
 	}
 
 	@Test
-	public void testCheckerToolsCheck ()
+	public void testCheckerToolsCheck()
 	{
-		assertTrue (CheckerTools.check ("de.iritgo.aktera.base.tools.CheckerTest$AChecker", null, null));
+		assertTrue(CheckerTools.check("de.iritgo.aktera.base.tools.CheckerTest$AChecker", null, null));
 	}
 }

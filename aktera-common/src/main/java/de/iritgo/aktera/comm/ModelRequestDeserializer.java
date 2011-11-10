@@ -36,84 +36,84 @@ import org.w3c.dom.NodeList;
 public class ModelRequestDeserializer
 {
 	//--- Do not allow this to be instantiated since it is a Singleton.
-	private ModelRequestDeserializer ()
+	private ModelRequestDeserializer()
 	{
 	} // ModelRequestDeserializer
 
-	public static KeelRequest deserialize (Element root)
+	public static KeelRequest deserialize(Element root)
 	{
-		KeelRequest req = new ModelRequestMessage ();
+		KeelRequest req = new ModelRequestMessage();
 
-		req.setModel (root.getAttribute ("model"));
+		req.setModel(root.getAttribute("model"));
 
 		/* Handle the request attributes */
-		NamedNodeMap attrs = root.getAttributes ();
+		NamedNodeMap attrs = root.getAttributes();
 		Node oneAttrNode = null;
 
-		for (int i = 0; i < attrs.getLength (); i++)
+		for (int i = 0; i < attrs.getLength(); i++)
 		{
-			oneAttrNode = attrs.item (i);
-			req.setAttribute (oneAttrNode.getLocalName (), oneAttrNode.getNodeValue ());
+			oneAttrNode = attrs.item(i);
+			req.setAttribute(oneAttrNode.getLocalName(), oneAttrNode.getNodeValue());
 		}
 
-		NodeList children = root.getChildNodes ();
+		NodeList children = root.getChildNodes();
 		Node oneChild = null;
 
-		for (int i = 0; i < children.getLength (); i++)
+		for (int i = 0; i < children.getLength(); i++)
 		{
-			oneChild = children.item (i);
+			oneChild = children.item(i);
 
 			if (oneChild != null)
 			{
-				String name = oneChild.getLocalName ();
+				String name = oneChild.getLocalName();
 
 				if (name == null)
 				{
 					name = "";
 				}
 
-				if (name.equals ("parameters"))
+				if (name.equals("parameters"))
 				{
 					/* Now for each "parameter" sub-node */
 					Node oneParamNode = null;
-					NodeList parameterNodes = oneChild.getChildNodes ();
+					NodeList parameterNodes = oneChild.getChildNodes();
 
-					for (int j = 0; j < parameterNodes.getLength (); j++)
+					for (int j = 0; j < parameterNodes.getLength(); j++)
 					{
-						oneParamNode = parameterNodes.item (j);
+						oneParamNode = parameterNodes.item(j);
 
 						if (oneParamNode != null)
 						{
-							String pnodeName = oneParamNode.getLocalName ();
+							String pnodeName = oneParamNode.getLocalName();
 
 							if (pnodeName == null)
 							{
 								pnodeName = "";
 							}
 
-							if (pnodeName.equals ("parameter"))
+							if (pnodeName.equals("parameter"))
 							{
 								String paramName = null;
 								String paramValue = null;
-								NamedNodeMap paramAttrs = oneParamNode.getAttributes ();
+								NamedNodeMap paramAttrs = oneParamNode.getAttributes();
 								Node oneParamAttr = null;
 
-								for (int k = 0; k < paramAttrs.getLength (); k++)
+								for (int k = 0; k < paramAttrs.getLength(); k++)
 								{
-									oneParamAttr = paramAttrs.item (k);
+									oneParamAttr = paramAttrs.item(k);
 
-									if (oneParamAttr.getLocalName ().equals ("name"))
+									if (oneParamAttr.getLocalName().equals("name"))
 									{
-										paramName = oneParamAttr.getNodeValue ();
+										paramName = oneParamAttr.getNodeValue();
 									}
 
-									if (oneParamAttr.getLocalName ().equals ("value"))
+									if (oneParamAttr.getLocalName().equals("value"))
 									{
-										paramValue = oneParamAttr.getNodeValue ();
+										paramValue = oneParamAttr.getNodeValue();
 									}
 								}
 
-								req.setParameter (paramName, paramValue);
+								req.setParameter(paramName, paramValue);
 							}
 						}
 					} /* if the child is "parameter" */

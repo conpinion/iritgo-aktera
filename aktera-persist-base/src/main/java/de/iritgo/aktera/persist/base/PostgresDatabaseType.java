@@ -49,38 +49,38 @@ public class PostgresDatabaseType extends JDBCDatabaseType
 	 * This method checks on the features of the existing table and tries to match with the current schema.
 	 * Logs all differences found as warnings.
 	 */
-	public void checkTable (PersistentMetaData pmd, DataSourceComponent dataSource) throws PersistenceException
+	public void checkTable(PersistentMetaData pmd, DataSourceComponent dataSource) throws PersistenceException
 	{
 		Connection myConnection = null;
 
 		try
 		{
-			myConnection = dataSource.getConnection ();
+			myConnection = dataSource.getConnection();
 
-			Statement stmt = myConnection.createStatement ();
+			Statement stmt = myConnection.createStatement();
 
-			ResultSet rs = stmt.executeQuery ("SELECT * FROM " + pmd.getTableName ());
-			ResultSetMetaData rsmd = rs.getMetaData ();
-			DatabaseMetaData dbmd = myConnection.getMetaData ();
-			int numberOfCols = rsmd.getColumnCount ();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM " + pmd.getTableName());
+			ResultSetMetaData rsmd = rs.getMetaData();
+			DatabaseMetaData dbmd = myConnection.getMetaData();
+			int numberOfCols = rsmd.getColumnCount();
 
-			for (Iterator lf = pmd.getFieldNames ().iterator (); lf.hasNext ();)
+			for (Iterator lf = pmd.getFieldNames().iterator(); lf.hasNext();)
 			{
-				String fieldName = (String) lf.next ();
+				String fieldName = (String) lf.next();
 				boolean fieldFound = false;
 
 				for (int i = 0; i < numberOfCols; i++)
 				{
-					if (fieldName.equalsIgnoreCase (rsmd.getColumnName (i + 1)))
+					if (fieldName.equalsIgnoreCase(rsmd.getColumnName(i + 1)))
 					{
 						fieldFound = true;
 
 						boolean columnIsOk = true;
 
 						//Check for column SQL type
-						if (! pmd.getDBType (fieldName).equals (rsmd.getColumnTypeName (i + 1)))
+						if (! pmd.getDBType(fieldName).equals(rsmd.getColumnTypeName(i + 1)))
 						{
-							log.warn ("Existing table " + pmd.getTableName () + " has different SQL type for column "
+							log.warn("Existing table " + pmd.getTableName() + " has different SQL type for column "
 											+ fieldName);
 							columnIsOk = false;
 
@@ -90,19 +90,19 @@ public class PostgresDatabaseType extends JDBCDatabaseType
 						//Check for NULL
 						if (columnIsOk)
 						{
-							if (pmd.allowsNull (fieldName))
+							if (pmd.allowsNull(fieldName))
 							{
-								if (rsmd.isNullable (i + 1) == ResultSetMetaData.columnNoNulls)
+								if (rsmd.isNullable(i + 1) == ResultSetMetaData.columnNoNulls)
 								{
-									log.warn ("Column " + fieldName + " in existing table " + pmd.getTableName ()
+									log.warn("Column " + fieldName + " in existing table " + pmd.getTableName()
 													+ " is not nullable as specified in schema");
 								}
 							}
 							else
 							{
-								if (rsmd.isNullable (i + 1) == ResultSetMetaData.columnNullable)
+								if (rsmd.isNullable(i + 1) == ResultSetMetaData.columnNullable)
 								{
-									log.warn ("Column " + fieldName + " in existing table " + pmd.getTableName ()
+									log.warn("Column " + fieldName + " in existing table " + pmd.getTableName()
 													+ " is nullable contrary to as in schema");
 								}
 							}
@@ -113,32 +113,32 @@ public class PostgresDatabaseType extends JDBCDatabaseType
 				//Check for non-existence of column in database table
 				if (! fieldFound)
 				{
-					log.warn ("Column " + fieldName + " is not found in the existing table " + pmd.getTableName ()
+					log.warn("Column " + fieldName + " is not found in the existing table " + pmd.getTableName()
 									+ " in the database");
 				}
 			}
 
 			//Using DatabaseMetaData to check on Primary keys
-			Set keyFields = pmd.getKeyFieldNames ();
+			Set keyFields = pmd.getKeyFieldNames();
 
-			ResultSet keysOnTable = dbmd.getPrimaryKeys (null, pmd.getSchemaName (), pmd.getTableName ());
+			ResultSet keysOnTable = dbmd.getPrimaryKeys(null, pmd.getSchemaName(), pmd.getTableName());
 
-			HashSet keysOnTableSet = new HashSet ();
+			HashSet keysOnTableSet = new HashSet();
 
-			while (keysOnTable.next ())
+			while (keysOnTable.next())
 			{
-				String keyName = keysOnTable.getString ("COLUMN_NAME").toLowerCase ();
+				String keyName = keysOnTable.getString("COLUMN_NAME").toLowerCase();
 
-				keysOnTableSet.add (keyName);
+				keysOnTableSet.add(keyName);
 
 				boolean foundMatch = false;
 
-				for (Iterator lf = keyFields.iterator (); lf.hasNext ();)
+				for (Iterator lf = keyFields.iterator(); lf.hasNext();)
 				{
-					String oneKeyOnSchema = (String) lf.next ();
+					String oneKeyOnSchema = (String) lf.next();
 
 					//if(!keyFields.contains(keyName)){
-					if (keyName.equals (oneKeyOnSchema.toLowerCase ()))
+					if (keyName.equals(oneKeyOnSchema.toLowerCase()))
 					{
 						foundMatch = true;
 					}
@@ -146,18 +146,18 @@ public class PostgresDatabaseType extends JDBCDatabaseType
 
 				if (! foundMatch)
 				{
-					log.warn ("Column " + keyName + " in table " + pmd.getTableName ()
+					log.warn("Column " + keyName + " in table " + pmd.getTableName()
 									+ " is defined as key contrary to table schema");
 				}
 			}
 
-			for (Iterator lf = keyFields.iterator (); lf.hasNext ();)
+			for (Iterator lf = keyFields.iterator(); lf.hasNext();)
 			{
-				String oneKeyOnSchema = (String) lf.next ();
+				String oneKeyOnSchema = (String) lf.next();
 
-				if (! keysOnTableSet.contains (oneKeyOnSchema.toLowerCase ()))
+				if (! keysOnTableSet.contains(oneKeyOnSchema.toLowerCase()))
 				{
-					log.warn ("Column " + oneKeyOnSchema + " in table " + pmd.getTableName ()
+					log.warn("Column " + oneKeyOnSchema + " in table " + pmd.getTableName()
 									+ " is not defined as primary key contrary to table schema");
 				}
 			}
@@ -165,32 +165,32 @@ public class PostgresDatabaseType extends JDBCDatabaseType
 			//Primary keys check ends
 
 			//Check for extra columns in database table
-			if (numberOfCols > pmd.getFieldNames ().size ())
+			if (numberOfCols > pmd.getFieldNames().size())
 			{
 				//log.warn("Existing " +pmd.getTableName()+ " table in database has more columns defined");
 				for (int i = 0; i < numberOfCols; i++)
 				{
-					if (! pmd.getFieldNames ().contains (rsmd.getColumnName (i + 1)))
+					if (! pmd.getFieldNames().contains(rsmd.getColumnName(i + 1)))
 					{
-						log.warn ("Column " + rsmd.getColumnName (i + 1) + " exists in the table "
-										+ pmd.getTableName () + " but is missing from schema");
+						log.warn("Column " + rsmd.getColumnName(i + 1) + " exists in the table " + pmd.getTableName()
+										+ " but is missing from schema");
 					}
 				}
 			}
 		}
 		catch (Exception e)
 		{
-			throw new PersistenceException (e);
+			throw new PersistenceException(e);
 		}
 		finally
 		{
 			try
 			{
-				myConnection.close ();
+				myConnection.close();
 			}
 			catch (SQLException se)
 			{
-				throw new PersistenceException ("Unable to close/release connection", se);
+				throw new PersistenceException("Unable to close/release connection", se);
 			}
 		}
 	}
@@ -200,7 +200,7 @@ public class PostgresDatabaseType extends JDBCDatabaseType
 	 *
 	 * @return The 'like' condition statement.
 	 */
-	public String getLikeStatement () throws PersistenceException
+	public String getLikeStatement() throws PersistenceException
 	{
 		return "ILIKE";
 	}
@@ -213,19 +213,19 @@ public class PostgresDatabaseType extends JDBCDatabaseType
 	 * @param newFieldName New field name.
 	 * @return The rename statement.
 	 */
-	public String getRenameFieldStatement (PersistentMetaData pmd, String oldFieldName, String newFieldName)
+	public String getRenameFieldStatement(PersistentMetaData pmd, String oldFieldName, String newFieldName)
 		throws PersistenceException
 	{
-		StringBuffer sb = new StringBuffer ();
+		StringBuffer sb = new StringBuffer();
 
-		sb.append ("ALTER TABLE ");
-		sb.append (pmd.getTableName ());
-		sb.append (" RENAME COLUMN ");
-		sb.append (oldFieldName);
-		sb.append (" TO ");
-		sb.append (newFieldName);
+		sb.append("ALTER TABLE ");
+		sb.append(pmd.getTableName());
+		sb.append(" RENAME COLUMN ");
+		sb.append(oldFieldName);
+		sb.append(" TO ");
+		sb.append(newFieldName);
 
-		return sb.toString ();
+		return sb.toString();
 	}
 
 	/**
@@ -235,18 +235,18 @@ public class PostgresDatabaseType extends JDBCDatabaseType
 	 * @param fieldName Field name.
 	 * @return The update statement.
 	 */
-	public String getUpdateTypeFieldStatement (PersistentMetaData pmd, String fieldName) throws PersistenceException
+	public String getUpdateTypeFieldStatement(PersistentMetaData pmd, String fieldName) throws PersistenceException
 	{
-		StringBuffer sb = new StringBuffer ();
+		StringBuffer sb = new StringBuffer();
 
-		sb.append ("ALTER TABLE ");
-		sb.append (pmd.getTableName ());
-		sb.append (" ALTER COLUMN ");
-		sb.append (fieldName);
-		sb.append (" TYPE ");
-		sb.append (getDBTypeWithPrecision (pmd, fieldName));
+		sb.append("ALTER TABLE ");
+		sb.append(pmd.getTableName());
+		sb.append(" ALTER COLUMN ");
+		sb.append(fieldName);
+		sb.append(" TYPE ");
+		sb.append(getDBTypeWithPrecision(pmd, fieldName));
 
-		return sb.toString ();
+		return sb.toString();
 	}
 
 	/**
@@ -257,19 +257,19 @@ public class PostgresDatabaseType extends JDBCDatabaseType
 	 * @param fieldName Field name.
 	 * @return The update statement.
 	 */
-	public String getUpdateNotNullFieldStatement (PersistentMetaData pmd, String fieldName) throws PersistenceException
+	public String getUpdateNotNullFieldStatement(PersistentMetaData pmd, String fieldName) throws PersistenceException
 	{
-		if (! pmd.allowsNull (fieldName))
+		if (! pmd.allowsNull(fieldName))
 		{
-			StringBuffer sb = new StringBuffer ();
+			StringBuffer sb = new StringBuffer();
 
-			sb.append ("ALTER TABLE ");
-			sb.append (pmd.getTableName ());
-			sb.append (" ALTER COLUMN ");
-			sb.append (fieldName);
-			sb.append (" SET NOT NULL");
+			sb.append("ALTER TABLE ");
+			sb.append(pmd.getTableName());
+			sb.append(" ALTER COLUMN ");
+			sb.append(fieldName);
+			sb.append(" SET NOT NULL");
 
-			return sb.toString ();
+			return sb.toString();
 		}
 		else
 		{
@@ -280,7 +280,7 @@ public class PostgresDatabaseType extends JDBCDatabaseType
 	/**
 	 * @see de.iritgo.aktera.persist.base.JDBCDatabaseType#getRetrieveIdentitySyntax(PersistentMetaData, String)
 	 */
-	public String getRetrieveIdentitySyntax (PersistentMetaData pmd, String idFieldName) throws PersistenceException
+	public String getRetrieveIdentitySyntax(PersistentMetaData pmd, String idFieldName) throws PersistenceException
 	{
 		return "SELECT lastval()";
 	}

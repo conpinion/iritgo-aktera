@@ -40,7 +40,7 @@ public class CaseTag extends TagSupport
 	 *
 	 * @param value The new value.
 	 */
-	public void setValue (String value)
+	public void setValue(String value)
 	{
 		this.value = value;
 	}
@@ -50,7 +50,7 @@ public class CaseTag extends TagSupport
 	 *
 	 * @return The value.
 	 */
-	public String getValue ()
+	public String getValue()
 	{
 		return value;
 	}
@@ -58,9 +58,9 @@ public class CaseTag extends TagSupport
 	/**
 	 * Reset all tag attributes to their default values.
 	 */
-	public void release ()
+	public void release()
 	{
-		super.release ();
+		super.release();
 
 		value = null;
 	}
@@ -68,20 +68,20 @@ public class CaseTag extends TagSupport
 	/**
 	 * Execute the tag.
 	 */
-	public int doStartTag () throws JspException
+	public int doStartTag() throws JspException
 	{
 		try
 		{
-			SwitchTag switchTag = (SwitchTag) findAncestorWithClass (this, SwitchTag.class);
+			SwitchTag switchTag = (SwitchTag) findAncestorWithClass(this, SwitchTag.class);
 
 			if (switchTag == null)
 			{
-				throw new JspException ("[CaseTag] Can only be used inside a SwitchTag tag");
+				throw new JspException("[CaseTag] Can only be used inside a SwitchTag tag");
 			}
 
-			switchTag.setValue (value);
+			switchTag.setValue(value);
 
-			if (switchTag.checkCondition ())
+			if (switchTag.checkCondition())
 			{
 				return EVAL_BODY_INCLUDE;
 			}
@@ -92,7 +92,7 @@ public class CaseTag extends TagSupport
 		}
 		catch (Exception x)
 		{
-			throw new JspException (x);
+			throw new JspException(x);
 		}
 	}
 }

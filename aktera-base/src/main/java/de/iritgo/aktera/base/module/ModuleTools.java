@@ -39,21 +39,21 @@ public class ModuleTools
 	 * @param name Name of the module to check.
 	 * @return True if the module exists.
 	 */
-	public static boolean moduleExists (ModelRequest req, String name)
+	public static boolean moduleExists(ModelRequest req, String name)
 	{
 		try
 		{
-			Model moduleInfoModel = (Model) req.getService (Model.ROLE, "aktera.module-info");
+			Model moduleInfoModel = (Model) req.getService(Model.ROLE, "aktera.module-info");
 
-			Configuration[] modules = moduleInfoModel.getConfiguration ().getChildren ("module");
+			Configuration[] modules = moduleInfoModel.getConfiguration().getChildren("module");
 
 			for (int i = 0; i < modules.length; ++i)
 			{
 				Configuration module = modules[i];
 
-				if (name.equals (module.getAttribute ("id", null)))
+				if (name.equals(module.getAttribute("id", null)))
 				{
-					return LicenseTools.getLicenseInfo ().moduleAllowed (name);
+					return LicenseTools.getLicenseInfo().moduleAllowed(name);
 				}
 			}
 		}

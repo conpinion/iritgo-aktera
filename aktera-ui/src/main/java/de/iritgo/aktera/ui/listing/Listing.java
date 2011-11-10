@@ -50,25 +50,25 @@ public class Listing extends StandardLogEnabledModel
 	 * The model request
 	 * @return The model response
 	 */
-	public ModelResponse execute (ModelRequest req) throws ModelException
+	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
 		try
 		{
-			Configuration config = getConfiguration ();
-			java.util.List configPath = ModelTools.getDerivationPath (req, this);
+			Configuration config = getConfiguration();
+			java.util.List configPath = ModelTools.getDerivationPath(req, this);
 
-			ModelResponse res = req.createResponse ();
-			ListingDescriptor listing = createListingFromConfig (config, configPath);
-			Output output = res.createOutput ("listing");
+			ModelResponse res = req.createResponse();
+			ListingDescriptor listing = createListingFromConfig(config, configPath);
+			Output output = res.createOutput("listing");
 
-			output.setContent (listing);
-			res.add (output);
+			output.setContent(listing);
+			res.add(output);
 
 			return res;
 		}
 		catch (ConfigurationException x)
 		{
-			throw new ModelException (x);
+			throw new ModelException(x);
 		}
 	}
 
@@ -83,23 +83,23 @@ public class Listing extends StandardLogEnabledModel
 	 * @throws ModelException
 	 * in case of a failure
 	 */
-	public static ListingDescriptor createListingFromModel (ModelRequest req, String modelName) throws ModelException
+	public static ListingDescriptor createListingFromModel(ModelRequest req, String modelName) throws ModelException
 	{
 		try
 		{
-			Model listingModel = (Model) req.getService (Model.ROLE, modelName);
-			Output listingOutput = (Output) listingModel.execute (req).get ("listing");
+			Model listingModel = (Model) req.getService(Model.ROLE, modelName);
+			Output listingOutput = (Output) listingModel.execute(req).get("listing");
 
 			if (listingOutput != null)
 			{
-				return (ListingDescriptor) listingOutput.getContent ();
+				return (ListingDescriptor) listingOutput.getContent();
 			}
 
-			throw new ModelException ("[Listing] Unable to find listing model '" + modelName + "'");
+			throw new ModelException("[Listing] Unable to find listing model '" + modelName + "'");
 		}
 		catch (Exception x)
 		{
-			throw new ModelException ("Listing: Unable to create listing from model " + modelName + " (" + x + ")");
+			throw new ModelException("Listing: Unable to create listing from model " + modelName + " (" + x + ")");
 		}
 	}
 
@@ -116,62 +116,62 @@ public class Listing extends StandardLogEnabledModel
 	 * in case of a failure.
 	 * @throws ConfigurationException
 	 */
-	public static ListingDescriptor createListingFromConfig (Configuration config, java.util.List configPath)
+	public static ListingDescriptor createListingFromConfig(Configuration config, java.util.List configPath)
 		throws ModelException, ConfigurationException
 	{
-		ListingDescriptor listing = new ListingDescriptor ();
+		ListingDescriptor listing = new ListingDescriptor();
 
-		listing.setBundle (ModelTools.getConfigString (configPath, "bundle", "Aktera"));
-		listing.setHeader (ModelTools.getConfigString (configPath, "header", null));
+		listing.setBundle(ModelTools.getConfigString(configPath, "bundle", "Aktera"));
+		listing.setHeader(ModelTools.getConfigString(configPath, "header", null));
 
-		java.util.List<Configuration> keyConfigs = ModelTools.getConfigChildren (configPath, "key");
+		java.util.List<Configuration> keyConfigs = ModelTools.getConfigChildren(configPath, "key");
 
 		for (Configuration keyConfig : keyConfigs)
 		{
-			listing.addIdColumn (keyConfig.getValue (keyConfig.getAttribute ("value", keyConfig.getAttribute ("name",
-							keyConfig.getAttribute ("column", null)))));
+			listing.addIdColumn(keyConfig.getValue(keyConfig.getAttribute("value", keyConfig.getAttribute("name",
+							keyConfig.getAttribute("column", null)))));
 		}
 
-		java.util.List<Configuration> columnsConfigs = ModelTools.getConfigChildren (configPath, "column");
+		java.util.List<Configuration> columnsConfigs = ModelTools.getConfigChildren(configPath, "column");
 
 		for (Configuration columnConfig : columnsConfigs)
 		{
-			String columnBundle = columnConfig.getAttribute ("bundle", listing.getBundle ());
-			ColumnDescriptor column = listing.addColumn (columnConfig.getAttribute ("name"), columnConfig.getAttribute (
-							"label", null), columnBundle, columnConfig.getAttribute ("viewer", "none"), columnConfig
-							.getAttributeAsInteger ("width", 0));
+			String columnBundle = columnConfig.getAttribute("bundle", listing.getBundle());
+			ColumnDescriptor column = listing.addColumn(columnConfig.getAttribute("name"), columnConfig.getAttribute(
+							"label", null), columnBundle, columnConfig.getAttribute("viewer", "none"), columnConfig
+							.getAttributeAsInteger("width", 0));
 
-			column.setRename (columnConfig.getAttribute ("rename", null));
-			column.setVisible (NumberTools.toBool (columnConfig.getAttribute ("visible", "true"), true));
-			column.setSortable (NumberTools.toBool (columnConfig.getAttribute ("sortable", "true"), true));
-			column.setValue (columnConfig.getAttribute ("value", null));
+			column.setRename(columnConfig.getAttribute("rename", null));
+			column.setVisible(NumberTools.toBool(columnConfig.getAttribute("visible", "true"), true));
+			column.setSortable(NumberTools.toBool(columnConfig.getAttribute("sortable", "true"), true));
+			column.setValue(columnConfig.getAttribute("value", null));
 		}
 
-		java.util.List<Configuration> sortConfigs = ModelTools.getConfigChildren (configPath, "sort");
+		java.util.List<Configuration> sortConfigs = ModelTools.getConfigChildren(configPath, "sort");
 
 		for (Configuration sortConfig : sortConfigs)
 		{
 			SortOrder sortOrder = SortOrder.ASCENDING;
 
-			if ("desc".equals (sortConfig.getAttribute ("order", null)))
+			if ("desc".equals(sortConfig.getAttribute("order", null)))
 			{
 				sortOrder = SortOrder.DESCENDING;
 			}
 
-			String sortColumn = sortConfig.getAttribute ("column", sortConfig.getAttribute ("name", null));
+			String sortColumn = sortConfig.getAttribute("column", sortConfig.getAttribute("name", null));
 
 			if (sortColumn == null)
 			{
-				sortColumn = sortConfig.getValue (sortConfig.getAttribute ("name", null));
+				sortColumn = sortConfig.getValue(sortConfig.getAttribute("name", null));
 			}
 
-			if (listing.getColumn (sortColumn) == null)
+			if (listing.getColumn(sortColumn) == null)
 			{
-				throw new ModelException ("Unknown column '" + sortColumn + "' in sort tag for listing '"
-								+ config.getAttribute ("id") + "'");
+				throw new ModelException("Unknown column '" + sortColumn + "' in sort tag for listing '"
+								+ config.getAttribute("id") + "'");
 			}
 
-			listing.setSortColumn (sortColumn, sortOrder);
+			listing.setSortColumn(sortColumn, sortOrder);
 		}
 
 		return listing;

@@ -118,136 +118,136 @@ public class Edit extends AbstractUIController
 	/** The name of the id attribute. */
 	protected String keyName;
 
-	public Edit ()
+	public Edit()
 	{
 		security = Security.INSTANCE;
 	}
 
-	public void setConfiguration (Configuration configuration)
+	public void setConfiguration(Configuration configuration)
 	{
 		this.configuration = configuration;
 	}
 
-	public Configuration getConfiguration ()
+	public Configuration getConfiguration()
 	{
 		return configuration;
 	}
 
-	public void execute (UIRequest request, UIResponse response) throws UIControllerException
+	public void execute(UIRequest request, UIResponse response) throws UIControllerException
 	{
 		try
 		{
-			ModelRequestWrapper wrappedRequest = new ModelRequestWrapper (request);
-			ModelResponseWrapper wrappedResponse = new ModelResponseWrapper (response);
+			ModelRequestWrapper wrappedRequest = new ModelRequestWrapper(request);
+			ModelResponseWrapper wrappedResponse = new ModelResponseWrapper(response);
 
-			EditFormContext context = new EditFormContext ();
+			EditFormContext context = new EditFormContext();
 
-			context.setRequest (wrappedRequest);
+			context.setRequest(wrappedRequest);
 
-			readConfig ();
+			readConfig();
 
-			Object id = handler.getPersistentId (wrappedRequest, contextId, keyName);
+			Object id = handler.getPersistentId(wrappedRequest, contextId, keyName);
 
-			if (StringTools.isTrimEmpty (id))
+			if (StringTools.isTrimEmpty(id))
 			{
-				id = new Integer (- 1);
+				id = new Integer(- 1);
 			}
 
-			context.setId (id);
+			context.setId(id);
 
-			String persistentsId = FormTools.createContextKey (contextId, id);
+			String persistentsId = FormTools.createContextKey(contextId, id);
 
-			FormularDescriptor formular = createFormular (wrappedRequest);
+			FormularDescriptor formular = createFormular(wrappedRequest);
 
-			if (request.getParameter ("page") != null)
+			if (request.getParameter("page") != null)
 			{
-				formular.setPage (NumberTools.toInt (request.getParameter ("page"), formular.getPage ()));
+				formular.setPage(NumberTools.toInt(request.getParameter("page"), formular.getPage()));
 			}
 
-			if (NumberTools.toBool (request.getParameter ("AKTERA_auto"), false)
-							&& request.getParameter ("AKTERA_page") != null)
+			if (NumberTools.toBool(request.getParameter("AKTERA_auto"), false)
+							&& request.getParameter("AKTERA_page") != null)
 			{
-				formular.setPage (NumberTools.toInt (request.getParameter ("AKTERA_page"), formular.getPage ()));
+				formular.setPage(NumberTools.toInt(request.getParameter("AKTERA_page"), formular.getPage()));
 			}
 
-			handler.prepareFormular (wrappedRequest, wrappedResponse, formular);
+			handler.prepareFormular(wrappedRequest, wrappedResponse, formular);
 
-			PersistentDescriptor persistents = formular.getPersistents ();
-			context.setPersistents (persistents);
+			PersistentDescriptor persistents = formular.getPersistents();
+			context.setPersistents(persistents);
 
 			if (persistents == null
-							|| (request.getParameter ("error") == null && request.getParameter ("reedit") == null && ! reeditAlways))
+							|| (request.getParameter("error") == null && request.getParameter("reedit") == null && ! reeditAlways))
 			{
-				persistents = new PersistentDescriptor (persistentsId);
-				context.setPersistents (persistents);
+				persistents = new PersistentDescriptor(persistentsId);
+				context.setPersistents(persistents);
 
 				for (Configuration configuration : attributeConfig)
 				{
-					String name = configuration.getAttribute ("name");
+					String name = configuration.getAttribute("name");
 					Object value = null;
 					try
 					{
-						value = context.evalExpressionLanguageValue (configuration.getAttribute ("value"));
+						value = context.evalExpressionLanguageValue(configuration.getAttribute("value"));
 						if (value != null)
 						{
-							persistents.putAttribute (name, value);
+							persistents.putAttribute(name, value);
 						}
 					}
 					catch (IllegalArgumentException x)
 					{
-						logger.error ("Unable to retrieve value for attribute " + name);
+						logger.error("Unable to retrieve value for attribute " + name);
 					}
 				}
 
-				formular.setPersistents (persistents);
+				formular.setPersistents(persistents);
 
-				handler.loadPersistents (wrappedRequest, formular, persistents, persistentConfig, NumberTools
-								.toIntInstance (id, - 1));
-				handler.afterLoad (wrappedRequest, formular, persistents);
-				FormTools.loadPersistents (formular, persistents);
+				handler.loadPersistents(wrappedRequest, formular, persistents, persistentConfig, NumberTools
+								.toIntInstance(id, - 1));
+				handler.afterLoad(wrappedRequest, formular, persistents);
+				FormTools.loadPersistents(formular, persistents);
 			}
 			else
 			{
-				handler.afterLoad (wrappedRequest, formular, persistents);
+				handler.afterLoad(wrappedRequest, formular, persistents);
 			}
 
-			handler.adjustFormular (wrappedRequest, formular, persistents);
+			handler.adjustFormular(wrappedRequest, formular, persistents);
 
-			if (NumberTools.toBool (request.getParameter (SYSTEM_EDIT), false))
+			if (NumberTools.toBool(request.getParameter(SYSTEM_EDIT), false))
 			{
-				Output out = response.createOutput (FORM_KEY);
+				Output out = response.createOutput(FORM_KEY);
 
-				out.setContent (formular);
-				response.add (out);
+				out.setContent(formular);
+				response.add(out);
 			}
 			else
 			{
-				if (request.getParameter ("ajax") != null)
+				if (request.getParameter("ajax") != null)
 				{
-					response.setForward ("aktera.formular.ajax");
+					response.setForward("aktera.formular.ajax");
 				}
 				else
 				{
-					response.setForward (forward);
+					response.setForward(forward);
 				}
 
-				FormTools.createResponseElements (wrappedRequest, wrappedResponse, formular, persistents, formular
-								.getCommands (), readOnly || formular.getReadOnly (), context);
+				FormTools.createResponseElements(wrappedRequest, wrappedResponse, formular, persistents, formular
+								.getCommands(), readOnly || formular.getReadOnly(), context);
 			}
 
-			response.addOutput ("formAction", "bean");
+			response.addOutput("formAction", "bean");
 		}
 		catch (ModelException x)
 		{
-			throw new UIControllerException (x);
+			throw new UIControllerException(x);
 		}
 		catch (PersistenceException x)
 		{
-			throw new UIControllerException (x);
+			throw new UIControllerException(x);
 		}
 		catch (ConfigurationException x)
 		{
-			throw new UIControllerException (x);
+			throw new UIControllerException(x);
 		}
 	}
 
@@ -256,137 +256,137 @@ public class Edit extends AbstractUIController
 	 *
 	 * @return The instance id.
 	 */
-	public String getInstanceIdentifier ()
+	public String getInstanceIdentifier()
 	{
-		return configuration.getAttribute ("id", "aktera.edit");
+		return configuration.getAttribute("id", "aktera.edit");
 	}
 
 	/**
 	 * Retrieve the model configuration.
 	 */
-	public void readConfig () throws ModelException, ConfigurationException
+	public void readConfig() throws ModelException, ConfigurationException
 	{
 		if (configRead)
 		{
 			return;
 		}
 
-		java.util.List configPath = getDerivationPath ();
+		java.util.List configPath = getDerivationPath();
 
-		readOnly = ModelTools.getConfigBool (configPath, "readOnly", false);
-		reeditAlways = ModelTools.getConfigBool (configPath, "reeditAlways", false);
+		readOnly = ModelTools.getConfigBool(configPath, "readOnly", false);
+		reeditAlways = ModelTools.getConfigBool(configPath, "reeditAlways", false);
 
 		if (! readOnly)
 		{
-			cmdSave = readCommandConfig (configPath, "command-save", "save", null, "save", "S");
+			cmdSave = readCommandConfig(configPath, "command-save", "save", null, "save", "S");
 
 			if (cmdSave != null)
 			{
-				cmdSave.setVisible (ModelTools.getConfigBool (configPath, "command-save", "visible", true));
+				cmdSave.setVisible(ModelTools.getConfigBool(configPath, "command-save", "visible", true));
 
-				if (cmdSave.getIcon () == null)
+				if (cmdSave.getIcon() == null)
 				{
-					cmdSave.setIcon ("tool-ok-16");
+					cmdSave.setIcon("tool-ok-16");
 				}
 			}
 		}
 		else
 		{
-			cmdEdit = readCommandConfig (configPath, "command-edit", "save", null, "edit", "S");
+			cmdEdit = readCommandConfig(configPath, "command-edit", "save", null, "edit", "S");
 
 			if (cmdEdit != null)
 			{
-				if (cmdEdit.getIcon () == null)
+				if (cmdEdit.getIcon() == null)
 				{
-					cmdEdit.setIcon ("tool-edit-16");
+					cmdEdit.setIcon("tool-edit-16");
 				}
 			}
 		}
 
-		cmdCancel = readCommandConfig (configPath, "command-cancel", "cancel", null, "cancel", "E");
+		cmdCancel = readCommandConfig(configPath, "command-cancel", "cancel", null, "cancel", "E");
 
 		if (cmdCancel != null)
 		{
-			cmdCancel.addAttribute ("cancel", "Y");
-			cmdCancel.addParameter ("cancel", "Y");
+			cmdCancel.addAttribute("cancel", "Y");
+			cmdCancel.addParameter("cancel", "Y");
 
-			if (cmdCancel.getIcon () == null)
+			if (cmdCancel.getIcon() == null)
 			{
-				cmdCancel.setIcon ("tool-cancel-16");
+				cmdCancel.setIcon("tool-cancel-16");
 			}
 		}
 
-		formularClassName = ModelTools.getConfigString (configPath, "formular", "class", null);
+		formularClassName = ModelTools.getConfigString(configPath, "formular", "class", null);
 
-		formularBeanName = ModelTools.getConfigString (configPath, "formular", "bean", null);
+		formularBeanName = ModelTools.getConfigString(configPath, "formular", "bean", null);
 
-		persistentConfig = ModelTools.getConfigChildren (configPath, "persistent");
+		persistentConfig = ModelTools.getConfigChildren(configPath, "persistent");
 
-		attributeConfig = ModelTools.getConfigChildren (configPath, "attribute");
+		attributeConfig = ModelTools.getConfigChildren(configPath, "attribute");
 
-		contextId = ModelTools.getConfigString (configPath, "context", "id", null);
+		contextId = ModelTools.getConfigString(configPath, "context", "id", null);
 
-		keyName = ModelTools.getConfigString (configPath, "keyName", null);
+		keyName = ModelTools.getConfigString(configPath, "keyName", null);
 
-		commandConfig = ModelTools.getConfigChildrenReverse (configPath, "command");
+		commandConfig = ModelTools.getConfigChildrenReverse(configPath, "command");
 
-		Configuration forwardConfig = ModelTools.findConfig (configPath, "attribute", "name", "forward");
+		Configuration forwardConfig = ModelTools.findConfig(configPath, "attribute", "name", "forward");
 
-		forward = forwardConfig != null ? forwardConfig.getAttribute ("value", "aktera.formular") : "aktera.formular";
+		forward = forwardConfig != null ? forwardConfig.getAttribute("value", "aktera.formular") : "aktera.formular";
 
-		title = ModelTools.getConfigString (configPath, "title", null);
-		titleBundle = ModelTools.getConfigString (configPath, "title", "bundle", null);
+		title = ModelTools.getConfigString(configPath, "title", null);
+		titleBundle = ModelTools.getConfigString(configPath, "title", "bundle", null);
 
 		if (titleBundle == null)
 		{
-			titleBundle = ModelTools.getConfigString (configPath, "titleBundle", null);
+			titleBundle = ModelTools.getConfigString(configPath, "titleBundle", null);
 		}
 
-		icon = ModelTools.getConfigString (configPath, "icon", null);
+		icon = ModelTools.getConfigString(configPath, "icon", null);
 
-		String handlerClassName = ModelTools.getConfigString (configPath, "handler", "class", null);
+		String handlerClassName = ModelTools.getConfigString(configPath, "handler", "class", null);
 
 		if (handlerClassName != null)
 		{
 			try
 			{
-				handler = (FormularHandler) Class.forName (handlerClassName).newInstance ();
+				handler = (FormularHandler) Class.forName(handlerClassName).newInstance();
 			}
 			catch (ClassNotFoundException x)
 			{
-				throw new ModelException ("[aktera.edit] Unable to create handler " + handlerClassName + " (" + x + ")");
+				throw new ModelException("[aktera.edit] Unable to create handler " + handlerClassName + " (" + x + ")");
 			}
 			catch (InstantiationException x)
 			{
-				throw new ModelException ("[aktera.edit] Unable to create handler " + handlerClassName + " (" + x + ")");
+				throw new ModelException("[aktera.edit] Unable to create handler " + handlerClassName + " (" + x + ")");
 			}
 			catch (IllegalAccessException x)
 			{
-				throw new ModelException ("[aktera.edit] Unable to create handler " + handlerClassName + " (" + x + ")");
+				throw new ModelException("[aktera.edit] Unable to create handler " + handlerClassName + " (" + x + ")");
 			}
 		}
 		else
 		{
-			String handlerBeanName = ModelTools.getConfigString (configPath, "handler", "bean", null);
+			String handlerBeanName = ModelTools.getConfigString(configPath, "handler", "bean", null);
 
 			if (handlerBeanName != null)
 			{
-				handler = (FormularHandler) SpringTools.getBean (handlerBeanName);
+				handler = (FormularHandler) SpringTools.getBean(handlerBeanName);
 			}
 		}
 
 		if (handler != null)
 		{
-			handler.setDefaultHandler (new DefaultFormularHandler ());
+			handler.setDefaultHandler(new DefaultFormularHandler());
 		}
 		else
 		{
-			handler = new DefaultFormularHandler ();
+			handler = new DefaultFormularHandler();
 		}
 
 		if (handler != null)
 		{
-			handler.setLogger (logger);
+			handler.setLogger(logger);
 		}
 
 		configRead = true;
@@ -401,41 +401,41 @@ public class Edit extends AbstractUIController
 	 * @param defaultLabel The default command label.
 	 * @return The command info.
 	 */
-	public CommandInfo readCommandConfig (java.util.List configPath, String configName, String name,
+	public CommandInfo readCommandConfig(java.util.List configPath, String configName, String name,
 					String defaultModel, String defaultLabel, String defaultPos)
 		throws ModelException, ConfigurationException
 	{
-		Configuration config = ModelTools.getConfig (configPath, configName);
+		Configuration config = ModelTools.getConfig(configPath, configName);
 
-		String model = config != null ? config.getAttribute ("model", config.getAttribute ("bean", defaultModel))
+		String model = config != null ? config.getAttribute("model", config.getAttribute("bean", defaultModel))
 						: defaultModel;
-		String label = config != null ? config.getAttribute ("label", defaultLabel) : defaultLabel;
-		String bundle = config != null ? config.getAttribute ("bundle", "Aktera") : "Aktera";
-		String pos = config != null ? config.getAttribute ("pos", defaultPos) : defaultPos;
+		String label = config != null ? config.getAttribute("label", defaultLabel) : defaultLabel;
+		String bundle = config != null ? config.getAttribute("bundle", "Aktera") : "Aktera";
+		String pos = config != null ? config.getAttribute("pos", defaultPos) : defaultPos;
 
 		if (config != null)
 		{
-			CommandInfo cmd = new CommandInfo (model, name, label);
+			CommandInfo cmd = new CommandInfo(model, name, label);
 
-			if (config.getAttribute ("bean", null) != null)
+			if (config.getAttribute("bean", null) != null)
 			{
-				cmd.setBean (true);
+				cmd.setBean(true);
 			}
 
-			cmd.setBundle (bundle);
-			cmd.setPosition (pos);
+			cmd.setBundle(bundle);
+			cmd.setPosition(pos);
 
 			if (config != null)
 			{
-				Configuration[] params = config.getChildren ("param");
+				Configuration[] params = config.getChildren("param");
 
 				for (int i = 0; i < params.length; ++i)
 				{
-					cmd.addParameter (params[i].getAttribute ("name"), params[i].getAttribute ("value"));
+					cmd.addParameter(params[i].getAttribute("name"), params[i].getAttribute("value"));
 				}
 			}
 
-			cmd.setIcon (config.getAttribute ("icon", null));
+			cmd.setIcon(config.getAttribute("icon", null));
 
 			return cmd;
 		}
@@ -453,22 +453,22 @@ public class Edit extends AbstractUIController
 	 * @throws ConfigurationException If a configuration value cannot be found.
 	 * @throws PersistenceException If a persistent cannot be found.
 	 */
-	public FormularDescriptor createFormular (ModelRequest request)
+	public FormularDescriptor createFormular(ModelRequest request)
 		throws ModelException, ConfigurationException, PersistenceException
 	{
-		Object id = handler.getPersistentId (request, contextId, keyName);
+		Object id = handler.getPersistentId(request, contextId, keyName);
 
-		if (StringTools.isTrimEmpty (id))
+		if (StringTools.isTrimEmpty(id))
 		{
-			id = new Integer (- 1);
+			id = new Integer(- 1);
 		}
 
-		String persistentsId = FormTools.createContextKey (contextId, id);
+		String persistentsId = FormTools.createContextKey(contextId, id);
 
-		FormularDescriptor formular = FormTools.getFormularFromContext (request, contextId, keyName);
+		FormularDescriptor formular = FormTools.getFormularFromContext(request, contextId, keyName);
 
 		if (formular != null
-						&& (formular.getId ().equals (formularBeanName) || formular.getId ().equals (formularClassName)))
+						&& (formular.getId().equals(formularBeanName) || formular.getId().equals(formularClassName)))
 		{
 			return formular;
 		}
@@ -479,101 +479,101 @@ public class Edit extends AbstractUIController
 		{
 			try
 			{
-				formular = ((Formular) SpringTools.getBean (formularBeanName)).createFormularDescriptor ();
+				formular = ((Formular) SpringTools.getBean(formularBeanName)).createFormularDescriptor();
 			}
 			catch (Exception x)
 			{
-				throw new ModelException ("[aktera.edit] Unable to create formular from bean " + formularBeanName
-								+ " (" + x + ")");
+				throw new ModelException("[aktera.edit] Unable to create formular from bean " + formularBeanName + " ("
+								+ x + ")");
 			}
 		}
 		else if (formularClassName != null)
 		{
 			try
 			{
-				formular = (FormularDescriptor) Class.forName (formularClassName).newInstance ();
+				formular = (FormularDescriptor) Class.forName(formularClassName).newInstance();
 			}
 			catch (ClassNotFoundException x)
 			{
-				throw new ModelException ("[aktera.edit] Unable to create formular from class " + formularClassName
+				throw new ModelException("[aktera.edit] Unable to create formular from class " + formularClassName
 								+ " (" + x + ")");
 			}
 			catch (InstantiationException x)
 			{
-				throw new ModelException ("[aktera.edit] Unable to create formular from class " + formularClassName
+				throw new ModelException("[aktera.edit] Unable to create formular from class " + formularClassName
 								+ " (" + x + ")");
 			}
 			catch (IllegalAccessException x)
 			{
-				throw new ModelException ("[aktera.edit] Unable to create formular from class " + formularClassName
+				throw new ModelException("[aktera.edit] Unable to create formular from class " + formularClassName
 								+ " (" + x + ")");
 			}
 		}
 
 		if (formular == null)
 		{
-			throw new ModelException ("[aktera.edit] No formular defined");
+			throw new ModelException("[aktera.edit] No formular defined");
 		}
 
 		if (formularBeanName != null)
 		{
-			formular.setId (formularBeanName);
+			formular.setId(formularBeanName);
 		}
 		else if (formularClassName != null)
 		{
-			formular.setId (formularClassName);
+			formular.setId(formularClassName);
 		}
 
-		formular.setTitle (title);
-		formular.setTitleBundle (titleBundle);
-		formular.setIcon (icon);
+		formular.setTitle(title);
+		formular.setTitleBundle(titleBundle);
+		formular.setIcon(icon);
 
 		if (oldFormular != null)
 		{
-			formular.setPersistents (oldFormular.getPersistents ());
+			formular.setPersistents(oldFormular.getPersistents());
 		}
 
-		CommandDescriptor commands = formular.getCommands ();
+		CommandDescriptor commands = formular.getCommands();
 
-		if (! readOnly && cmdSave != null && cmdSave.getModel () != null)
+		if (! readOnly && cmdSave != null && cmdSave.getModel() != null)
 		{
-			commands.add ((CommandInfo) cmdSave.clone ());
+			commands.add((CommandInfo) cmdSave.clone());
 		}
 		else
 		{
-			if (cmdEdit != null && cmdEdit.getModel () != null)
+			if (cmdEdit != null && cmdEdit.getModel() != null)
 			{
-				CommandInfo cmd = (CommandInfo) cmdEdit.clone ();
+				CommandInfo cmd = (CommandInfo) cmdEdit.clone();
 
-				cmd.addParameter ("id", id);
-				commands.add (cmd);
+				cmd.addParameter("id", id);
+				commands.add(cmd);
 			}
 		}
 
-		if (commandConfig.size () > 0)
+		if (commandConfig.size() > 0)
 		{
-			for (Iterator i = commandConfig.iterator (); i.hasNext ();)
+			for (Iterator i = commandConfig.iterator(); i.hasNext();)
 			{
-				Configuration aCommandConfig = (Configuration) i.next ();
+				Configuration aCommandConfig = (Configuration) i.next();
 
-				CommandInfo cmdInfo = new CommandInfo (aCommandConfig.getAttribute ("model"), aCommandConfig
-								.getAttribute ("id"), aCommandConfig.getAttribute ("label"), aCommandConfig
-								.getAttribute ("icon", null));
+				CommandInfo cmdInfo = new CommandInfo(aCommandConfig.getAttribute("model"), aCommandConfig
+								.getAttribute("id"), aCommandConfig.getAttribute("label"), aCommandConfig.getAttribute(
+								"icon", null));
 
-				cmdInfo.setBundle (aCommandConfig.getAttribute ("bundle", "Aktera"));
+				cmdInfo.setBundle(aCommandConfig.getAttribute("bundle", "Aktera"));
 
-				commands.add (cmdInfo);
+				commands.add(cmdInfo);
 			}
 		}
 
-		if (cmdCancel != null && cmdCancel.getModel () != null)
+		if (cmdCancel != null && cmdCancel.getModel() != null)
 		{
-			commands.add ((CommandInfo) cmdCancel.clone ());
+			commands.add((CommandInfo) cmdCancel.clone());
 		}
 
-		commands.sortCommands ();
+		commands.sortCommands();
 
-		UserTools.setContextObject (request, persistentsId, formular);
+		UserTools.setContextObject(request, persistentsId, formular);
 
 		return formular;
 	}
@@ -589,22 +589,23 @@ public class Edit extends AbstractUIController
 	 * @throws ModelException
 	 * @throws ContextException
 	 */
-	public static FormularDescriptor start (ModelRequest req, String controller, Object id) throws AuthorizationException, UIControllerException, ContextException, ModelException
+	public static FormularDescriptor start(ModelRequest req, String controller, Object id)
+		throws AuthorizationException, UIControllerException, ContextException, ModelException
 	{
-		Map<String, Object> params = new HashMap ();
-		params.put (SYSTEM_EDIT, Boolean.TRUE);
+		Map<String, Object> params = new HashMap();
+		params.put(SYSTEM_EDIT, Boolean.TRUE);
 		if (id != null)
 		{
-			params.put ("id", id);
+			params.put("id", id);
 		}
-		BeanRequest uiRequest = new BeanRequest ();
-		uiRequest.setLocale (req.getLocale ());
-		uiRequest.setBean (controller);
-		uiRequest.setParameters (params);
-		uiRequest.setUserEnvironment ((UserEnvironment) req.getContext ().get (UserEnvironment.CONTEXT_KEY));
-		BeanResponse uiResponse = new BeanResponse ();
-		BeanAction.execute (uiRequest, uiResponse);
-		return (FormularDescriptor) ((Output) uiResponse.get (FORM_KEY)).getContent ();
+		BeanRequest uiRequest = new BeanRequest();
+		uiRequest.setLocale(req.getLocale());
+		uiRequest.setBean(controller);
+		uiRequest.setParameters(params);
+		uiRequest.setUserEnvironment((UserEnvironment) req.getContext().get(UserEnvironment.CONTEXT_KEY));
+		BeanResponse uiResponse = new BeanResponse();
+		BeanAction.execute(uiRequest, uiResponse);
+		return (FormularDescriptor) ((Output) uiResponse.get(FORM_KEY)).getContent();
 	}
 
 	/**
@@ -617,9 +618,10 @@ public class Edit extends AbstractUIController
 	 * @throws UIControllerException
 	 * @throws AuthorizationException
 	 */
-	public static FormularDescriptor start (ModelRequest req, String controller) throws ModelException, AuthorizationException, UIControllerException, ContextException
+	public static FormularDescriptor start(ModelRequest req, String controller)
+		throws ModelException, AuthorizationException, UIControllerException, ContextException
 	{
-		return start (req, controller, null);
+		return start(req, controller, null);
 	}
 
 	/**
@@ -633,23 +635,24 @@ public class Edit extends AbstractUIController
 	 * @throws AuthorizationException
 	 * @throws ContextException
 	 */
-	public static FormularDescriptor restart (ModelRequest req, String controller, Object id) throws ModelException, AuthorizationException, UIControllerException, ContextException
+	public static FormularDescriptor restart(ModelRequest req, String controller, Object id)
+		throws ModelException, AuthorizationException, UIControllerException, ContextException
 	{
-		Map<String, Object> params = new HashMap ();
-		params.put (SYSTEM_EDIT, Boolean.TRUE);
-		params.put ("reedit", Boolean.TRUE);
+		Map<String, Object> params = new HashMap();
+		params.put(SYSTEM_EDIT, Boolean.TRUE);
+		params.put("reedit", Boolean.TRUE);
 		if (id != null)
 		{
-			params.put ("id", id);
+			params.put("id", id);
 		}
-		BeanRequest uiRequest = new BeanRequest ();
-		uiRequest.setLocale (req.getLocale ());
-		uiRequest.setBean (controller);
-		uiRequest.setParameters (params);
-		uiRequest.setUserEnvironment ((UserEnvironment) req.getContext ().get (UserEnvironment.CONTEXT_KEY));
-		BeanResponse uiResponse = new BeanResponse ();
-		BeanAction.execute (uiRequest, uiResponse);
-		return (FormularDescriptor) uiResponse.get (FORM_KEY);
+		BeanRequest uiRequest = new BeanRequest();
+		uiRequest.setLocale(req.getLocale());
+		uiRequest.setBean(controller);
+		uiRequest.setParameters(params);
+		uiRequest.setUserEnvironment((UserEnvironment) req.getContext().get(UserEnvironment.CONTEXT_KEY));
+		BeanResponse uiResponse = new BeanResponse();
+		BeanAction.execute(uiRequest, uiResponse);
+		return (FormularDescriptor) uiResponse.get(FORM_KEY);
 	}
 
 	/**
@@ -662,9 +665,10 @@ public class Edit extends AbstractUIController
 	 * @throws AuthorizationException
 	 * @throws ContextException
 	 */
-	public static FormularDescriptor restart (ModelRequest req, String model) throws ModelException, AuthorizationException, UIControllerException, ContextException
+	public static FormularDescriptor restart(ModelRequest req, String model)
+		throws ModelException, AuthorizationException, UIControllerException, ContextException
 	{
-		return restart (req, model, null);
+		return restart(req, model, null);
 	}
 
 	/**
@@ -677,21 +681,22 @@ public class Edit extends AbstractUIController
 	 * @throws UIControllerException
 	 * @throws AuthorizationException
 	 */
-	public static void finish (ModelRequest req, String controller, Object id) throws ModelException, ContextException, AuthorizationException, UIControllerException
+	public static void finish(ModelRequest req, String controller, Object id)
+		throws ModelException, ContextException, AuthorizationException, UIControllerException
 	{
-		Map<String, Object> params = new HashMap ();
-		params.put (SYSTEM_EDIT, Boolean.TRUE);
+		Map<String, Object> params = new HashMap();
+		params.put(SYSTEM_EDIT, Boolean.TRUE);
 		if (id != null)
 		{
-			params.put ("id", id);
+			params.put("id", id);
 		}
-		BeanRequest uiRequest = new BeanRequest ();
-		uiRequest.setLocale (req.getLocale ());
-		uiRequest.setBean (controller);
-		uiRequest.setParameters (params);
-		uiRequest.setUserEnvironment ((UserEnvironment) req.getContext ().get (UserEnvironment.CONTEXT_KEY));
-		BeanResponse uiResponse = new BeanResponse ();
-		BeanAction.execute (uiRequest, uiResponse);
+		BeanRequest uiRequest = new BeanRequest();
+		uiRequest.setLocale(req.getLocale());
+		uiRequest.setBean(controller);
+		uiRequest.setParameters(params);
+		uiRequest.setUserEnvironment((UserEnvironment) req.getContext().get(UserEnvironment.CONTEXT_KEY));
+		BeanResponse uiResponse = new BeanResponse();
+		BeanAction.execute(uiRequest, uiResponse);
 	}
 
 	/**
@@ -703,9 +708,10 @@ public class Edit extends AbstractUIController
 	 * @throws AuthorizationException
 	 * @throws ContextException
 	 */
-	public static void finish (ModelRequest req, String model) throws ModelException, ContextException, AuthorizationException, UIControllerException
+	public static void finish(ModelRequest req, String model)
+		throws ModelException, ContextException, AuthorizationException, UIControllerException
 	{
-		finish (req, model, null);
+		finish(req, model, null);
 	}
 
 	/**
@@ -718,18 +724,19 @@ public class Edit extends AbstractUIController
 	 * @throws AuthorizationException
 	 * @throws ContextException
 	 */
-	public static void delete (ModelRequest req, String controller, Object id) throws ModelException, AuthorizationException, UIControllerException, ContextException
+	public static void delete(ModelRequest req, String controller, Object id)
+		throws ModelException, AuthorizationException, UIControllerException, ContextException
 	{
-		Map<String, Object> params = new HashMap ();
-		params.put (Delete.SYSTEM_DELETE, Boolean.TRUE);
-		params.put ("id", id);
-		BeanRequest uiRequest = new BeanRequest ();
-		uiRequest.setLocale (req.getLocale ());
-		uiRequest.setBean (controller);
-		uiRequest.setParameters (params);
-		uiRequest.setUserEnvironment ((UserEnvironment) req.getContext ().get (UserEnvironment.CONTEXT_KEY));
-		BeanResponse uiResponse = new BeanResponse ();
-		BeanAction.execute (uiRequest, uiResponse);
+		Map<String, Object> params = new HashMap();
+		params.put(Delete.SYSTEM_DELETE, Boolean.TRUE);
+		params.put("id", id);
+		BeanRequest uiRequest = new BeanRequest();
+		uiRequest.setLocale(req.getLocale());
+		uiRequest.setBean(controller);
+		uiRequest.setParameters(params);
+		uiRequest.setUserEnvironment((UserEnvironment) req.getContext().get(UserEnvironment.CONTEXT_KEY));
+		BeanResponse uiResponse = new BeanResponse();
+		BeanAction.execute(uiRequest, uiResponse);
 	}
 
 	/**
@@ -738,27 +745,27 @@ public class Edit extends AbstractUIController
 	 * @return
 	 * @throws ConfigurationException
 	 */
-	private List getDerivationPath () throws ConfigurationException
+	private List getDerivationPath() throws ConfigurationException
 	{
-		List path = new LinkedList ();
+		List path = new LinkedList();
 		Configuration config = configuration;
 
 		while (config != null)
 		{
-			path.add (config);
+			path.add(config);
 
-			String extendsBeanName = config.getChild ("extends").getAttribute ("bean", null);
+			String extendsBeanName = config.getChild("extends").getAttribute("bean", null);
 
 			if (extendsBeanName != null)
 			{
-				Edit extendsBean = (Edit) SpringTools.getBean (extendsBeanName);
+				Edit extendsBean = (Edit) SpringTools.getBean(extendsBeanName);
 
 				if (extendsBean == null)
 				{
-					throw new ConfigurationException ("Unable to find parent controller bean: " + extendsBeanName);
+					throw new ConfigurationException("Unable to find parent controller bean: " + extendsBeanName);
 				}
 
-				config = extendsBean.getConfiguration ();
+				config = extendsBean.getConfiguration();
 			}
 			else
 			{

@@ -51,19 +51,19 @@ public class DefaultModelResponse implements ModelResponse
 	/**
 	 * Map of the ResponseElement entries this response contains
 	 */
-	private Map elements = new LinkedHashMap ();
+	private Map elements = new LinkedHashMap();
 
 	private transient int nextName = 0;
 
-	private Map errors = new LinkedHashMap ();
+	private Map errors = new LinkedHashMap();
 
-	private Map errorTypes = new LinkedHashMap ();
+	private Map errorTypes = new LinkedHashMap();
 
-	private Map throwables = new LinkedHashMap ();
+	private Map throwables = new LinkedHashMap();
 
 	private transient short errorDupCount = 1;
 
-	public void removeAttribute (String key)
+	public void removeAttribute(String key)
 	{
 		assert key != null;
 
@@ -71,33 +71,33 @@ public class DefaultModelResponse implements ModelResponse
 		{
 			synchronized (attributes)
 			{
-				attributes.remove (key);
+				attributes.remove(key);
 			}
 		}
 	}
 
-	public String getErrorType (String errorName)
+	public String getErrorType(String errorName)
 	{
-		return (String) errorTypes.get (errorName);
+		return (String) errorTypes.get(errorName);
 	}
 
-	public void addOutput (String name, String content) throws ModelException
+	public void addOutput(String name, String content) throws ModelException
 	{
-		Output newOutput = createOutput (name);
+		Output newOutput = createOutput(name);
 
-		newOutput.setContent (content);
-		add (newOutput);
+		newOutput.setContent(content);
+		add(newOutput);
 	}
 
-	public void addOutput (String content) throws ModelException
+	public void addOutput(String content) throws ModelException
 	{
 		String assignedName = "output_" + nextName;
 
 		nextName++;
-		addOutput (assignedName, content);
+		addOutput(assignedName, content);
 	}
 
-	public Output createOutput (String name) throws ModelException
+	public Output createOutput(String name) throws ModelException
 	{
 		String oName = name;
 
@@ -111,27 +111,27 @@ public class DefaultModelResponse implements ModelResponse
 
 		try
 		{
-			newOutput = new DefaultOutput ();
-			newOutput.setName (oName);
+			newOutput = new DefaultOutput();
+			newOutput.setName(oName);
 
 			return newOutput;
 		}
 		catch (Exception ce)
 		{
-			throw new ModelException (ce);
+			throw new ModelException(ce);
 		}
 	}
 
-	public Output createOutput (String name, String content) throws ModelException
+	public Output createOutput(String name, String content) throws ModelException
 	{
-		Output newOutput = createOutput (name);
+		Output newOutput = createOutput(name);
 
-		newOutput.setContent (content);
+		newOutput.setContent(content);
 
 		return newOutput;
 	}
 
-	public Input createInput (String name) throws ModelException
+	public Input createInput(String name) throws ModelException
 	{
 		assert name != null;
 
@@ -139,23 +139,23 @@ public class DefaultModelResponse implements ModelResponse
 
 		try
 		{
-			newInput = new DefaultInput ();
-			newInput.setName (name);
+			newInput = new DefaultInput();
+			newInput.setName(name);
 
 			return newInput;
 		}
 		catch (Exception ce)
 		{
-			throw new ModelException (ce);
+			throw new ModelException(ce);
 		}
 	}
 
-	public void addInput (String name, String label) throws ModelException
+	public void addInput(String name, String label) throws ModelException
 	{
-		Input newInput = createInput (name);
+		Input newInput = createInput(name);
 		assert label != null;
-		newInput.setLabel (label);
-		add (newInput);
+		newInput.setLabel(label);
+		add(newInput);
 	}
 
 	/**
@@ -167,23 +167,23 @@ public class DefaultModelResponse implements ModelResponse
 	 *
 	 *
 	 */
-	public Command createCommandRelativeSequence (int numberOfSteps) throws ModelException
+	public Command createCommandRelativeSequence(int numberOfSteps) throws ModelException
 	{
 		Command newCommand = null;
 		String seqName = null;
 		String seqNumber = null;
 		int nextSeqNumber = 0;
 
-		seqName = (String) myRequest.getParameter (Sequence.SEQUENCE_NAME);
-		seqNumber = (String) myRequest.getParameter (Sequence.SEQUENCE_NUMBER);
+		seqName = (String) myRequest.getParameter(Sequence.SEQUENCE_NAME);
+		seqNumber = (String) myRequest.getParameter(Sequence.SEQUENCE_NUMBER);
 
 		if ((seqName == null) || (seqNumber == null))
 		{
-			throw new ModelException (
+			throw new ModelException(
 							"This model was instructed to go to the next in sequence, but the current sequence could not be determined.");
 		}
 
-		nextSeqNumber = Integer.parseInt (seqNumber);
+		nextSeqNumber = Integer.parseInt(seqNumber);
 		nextSeqNumber = nextSeqNumber + numberOfSteps;
 
 		if (nextSeqNumber < 1)
@@ -193,17 +193,17 @@ public class DefaultModelResponse implements ModelResponse
 
 		try
 		{
-			newCommand = new DefaultCommand ();
-			newCommand.setName ("command_" + nextName);
+			newCommand = new DefaultCommand();
+			newCommand.setName("command_" + nextName);
 			nextName++;
-			newCommand.setModel (seqName);
-			newCommand.setParameter ("seq", "" + nextSeqNumber);
+			newCommand.setModel(seqName);
+			newCommand.setParameter("seq", "" + nextSeqNumber);
 
 			return newCommand;
 		}
 		catch (Exception ce)
 		{
-			throw new ModelException (ce);
+			throw new ModelException(ce);
 		}
 	}
 
@@ -211,128 +211,128 @@ public class DefaultModelResponse implements ModelResponse
 	 * This will create a new Command object for the specified model.
 	 *
 	 */
-	public Command createCommand (String model) throws ModelException
+	public Command createCommand(String model) throws ModelException
 	{
 		Command newCommand = null;
 
 		try
 		{
-			newCommand = new DefaultCommand ();
-			newCommand.setName ("command_" + nextName);
+			newCommand = new DefaultCommand();
+			newCommand.setName("command_" + nextName);
 			nextName++;
-			newCommand.setModel (model);
+			newCommand.setModel(model);
 
 			return newCommand;
 		}
 		catch (Exception ce)
 		{
-			throw new ModelException (ce);
+			throw new ModelException(ce);
 		}
 	}
 
-	public void addCommand (String model, String label) throws ModelException
+	public void addCommand(String model, String label) throws ModelException
 	{
-		Command newCommand = createCommand (model);
+		Command newCommand = createCommand(model);
 
-		newCommand.setLabel (label);
-		add (newCommand);
+		newCommand.setLabel(label);
+		add(newCommand);
 	}
 
 	/**
 	 * Return a specific element
 	 */
-	public ResponseElement get (String elementLocator)
+	public ResponseElement get(String elementLocator)
 	{
-		return (ResponseElement) elements.get (elementLocator);
+		return (ResponseElement) elements.get(elementLocator);
 	}
 
 	/**
 	 * Remove a specific element
 	 */
-	public void remove (String elementLocator)
+	public void remove(String elementLocator)
 	{
 		synchronized (elements)
 		{
-			elements.remove (elementLocator);
+			elements.remove(elementLocator);
 		}
 	}
 
 	/**
 	 * Return an iterator over all of the ResponseElements in this response
 	 */
-	public Iterator getAll ()
+	public Iterator getAll()
 	{
-		return elements.values ().iterator ();
+		return elements.values().iterator();
 	}
 
 	/**
 	 * The Model (only) uses the method below to add new response elements to
 	 * this response.
 	 */
-	public void add (ResponseElement re) throws ModelException
+	public void add(ResponseElement re) throws ModelException
 	{
 		if (re != null)
 		{
 			if (elements == null)
 			{
-				elements = new LinkedHashMap ();
+				elements = new LinkedHashMap();
 			}
 
-			String name = re.getName ();
+			String name = re.getName();
 
 			if (name == null)
 			{
-				int count = elements.size () + 1;
+				int count = elements.size() + 1;
 
 				name = "" + count;
 			}
 
 			synchronized (elements)
 			{
-				elements.put (name, re);
+				elements.put(name, re);
 			}
 		}
 	}
 
-	public void remove (ResponseElement re)
+	public void remove(ResponseElement re)
 	{
 		if (elements != null)
 		{
 			synchronized (elements)
 			{
-				elements.remove (re.getName ());
+				elements.remove(re.getName());
 			}
 		}
 	}
 
-	public void addError (String errorName, String errorMessage)
+	public void addError(String errorName, String errorMessage)
 	{
 		assert errorName != null;
 
-		ModelException ne = new ModelException ("Application Error");
+		ModelException ne = new ModelException("Application Error");
 
-		ne.fillInStackTrace ();
+		ne.fillInStackTrace();
 
 		/* Check to make sure there isn't already an identical throwable */
 		/* registered for this error */
-		Throwable existing = (Throwable) throwables.get (errorName);
+		Throwable existing = (Throwable) throwables.get(errorName);
 
-		if ((existing != null) && (! existing.equals (ne)))
+		if ((existing != null) && (! existing.equals(ne)))
 		{
 			synchronized (throwables)
 			{
-				throwables.put (errorName, ne);
+				throwables.put(errorName, ne);
 			}
 		}
 
-		addError (errorName, errorMessage, ne);
+		addError(errorName, errorMessage, ne);
 	}
 
-	private String uniqueErrorName (String errorName)
+	private String uniqueErrorName(String errorName)
 	{
 		String errorNameToUse = errorName;
 
-		if (errors.containsKey (errorName))
+		if (errors.containsKey(errorName))
 		{
 			errorNameToUse = errorNameToUse + errorDupCount;
 			errorDupCount++;
@@ -341,61 +341,61 @@ public class DefaultModelResponse implements ModelResponse
 		return errorNameToUse;
 	}
 
-	public void addError (String errorName, String errorMessage, Throwable t)
+	public void addError(String errorName, String errorMessage, Throwable t)
 	{
-		String errorNameToUse = uniqueErrorName (errorName);
+		String errorNameToUse = uniqueErrorName(errorName);
 
-		if ((errorMessage == null) || errorMessage.equals (""))
+		if ((errorMessage == null) || errorMessage.equals(""))
 		{
 			errorMessage = "No Message Supplied";
 		}
 
-		String existing = (String) errors.get (errorNameToUse);
+		String existing = (String) errors.get(errorNameToUse);
 
 		/* If there was no entry under this key, or there was but */
 		/* it's not the same as this one, add it */
-		if ((existing == null) || (existing.equals (errorMessage)))
+		if ((existing == null) || (existing.equals(errorMessage)))
 		{
 			synchronized (errors)
 			{
-				errors.put (errorNameToUse, errorMessage);
+				errors.put(errorNameToUse, errorMessage);
 			}
 		}
 
 		if (t != null)
 		{
-			Throwable existingThrowable = (Throwable) throwables.get (errorNameToUse);
+			Throwable existingThrowable = (Throwable) throwables.get(errorNameToUse);
 
 			/* If there either was no existing throwable under this key */
 			/* or there was, but it was not the same, go ahead and add */
-			if ((existingThrowable == null) || (! existingThrowable.equals (t)))
+			if ((existingThrowable == null) || (! existingThrowable.equals(t)))
 			{
 				synchronized (throwables)
 				{
-					throwables.put (errorNameToUse, t);
+					throwables.put(errorNameToUse, t);
 				}
 			}
 
-			String errorType = t.getClass ().getName ();
+			String errorType = t.getClass().getName();
 
 			if (t instanceof NestedException)
 			{
-				errorType = ((NestedException) t).getNestedExceptionType ();
+				errorType = ((NestedException) t).getNestedExceptionType();
 			}
 
 			synchronized (errorTypes)
 			{
-				errorTypes.put (errorNameToUse, errorType);
+				errorTypes.put(errorNameToUse, errorType);
 			}
 		}
 	}
 
-	public void addError (String errorName, Throwable t)
+	public void addError(String errorName, Throwable t)
 	{
-		addError (errorName, t.getMessage (), t);
+		addError(errorName, t.getMessage(), t);
 	}
 
-	public void addErrors (Map newErrors)
+	public void addErrors(Map newErrors)
 	{
 		if (newErrors == null)
 		{
@@ -405,73 +405,73 @@ public class DefaultModelResponse implements ModelResponse
 		String oneKey = null;
 		Object o = null;
 
-		for (Iterator i = newErrors.keySet ().iterator (); i.hasNext ();)
+		for (Iterator i = newErrors.keySet().iterator(); i.hasNext();)
 		{
-			oneKey = (String) i.next ();
-			o = newErrors.get (oneKey);
+			oneKey = (String) i.next();
+			o = newErrors.get(oneKey);
 
 			if (o instanceof Throwable)
 			{
 				Throwable t = (Throwable) o;
 
-				addError (oneKey, t.getMessage (), t);
+				addError(oneKey, t.getMessage(), t);
 			}
 			else if (o instanceof String)
 			{
-				addError (oneKey, (String) o);
+				addError(oneKey, (String) o);
 			}
 		}
 	}
 
 	//Added by Santanu Dutt to clear the current errors
-	public void clearErrors ()
+	public void clearErrors()
 	{
 		synchronized (errors)
 		{
-			errors.clear ();
+			errors.clear();
 		}
 	}
 
-	public Map getErrors ()
+	public Map getErrors()
 	{
 		return errors;
 	}
 
-	public Throwable getThrowable (String oneKey)
+	public Throwable getThrowable(String oneKey)
 	{
 		assert oneKey != null;
 
-		return (Throwable) throwables.get (oneKey);
+		return (Throwable) throwables.get(oneKey);
 	}
 
-	public String getStackTrace (String errorName)
+	public String getStackTrace(String errorName)
 	{
 		assert errorName != null;
 
-		Throwable throwable = getThrowable (errorName);
+		Throwable throwable = getThrowable(errorName);
 
 		if (throwable != null)
 		{
-			StringWriter sw = new StringWriter ();
-			PrintWriter pw = new PrintWriter (sw);
+			StringWriter sw = new StringWriter();
+			PrintWriter pw = new PrintWriter(sw);
 
-			throwable.printStackTrace (pw);
+			throwable.printStackTrace(pw);
 
-			return sw.toString ();
+			return sw.toString();
 		}
 
 		return null;
 	}
 
-	public void setRequest (ModelRequest req)
+	public void setRequest(ModelRequest req)
 	{
 		assert req != null;
 		myRequest = req;
 	}
 
-	public void setDefaultsFromPrevious ()
+	public void setDefaultsFromPrevious()
 	{
-		Map params = myRequest.getPreviousRequest ();
+		Map params = myRequest.getPreviousRequest();
 
 		if (params == null)
 		{
@@ -481,11 +481,11 @@ public class DefaultModelResponse implements ModelResponse
 		String oneParamName = null;
 		ResponseElement oneElement = null;
 
-		for (Iterator i = params.keySet ().iterator (); i.hasNext ();)
+		for (Iterator i = params.keySet().iterator(); i.hasNext();)
 		{
-			oneParamName = (String) i.next ();
+			oneParamName = (String) i.next();
 
-			oneElement = (ResponseElement) elements.get (oneParamName);
+			oneElement = (ResponseElement) elements.get(oneParamName);
 
 			if (oneElement != null)
 			{
@@ -493,13 +493,13 @@ public class DefaultModelResponse implements ModelResponse
 				{
 					Input oneInput = (Input) oneElement;
 
-					oneInput.setDefaultValue (params.get (oneParamName));
+					oneInput.setDefaultValue(params.get(oneParamName));
 				}
 			}
 		}
 	}
 
-	public void addThrowables (Map m)
+	public void addThrowables(Map m)
 	{
 		if (m == null)
 		{
@@ -508,152 +508,151 @@ public class DefaultModelResponse implements ModelResponse
 
 		String oneKey = null;
 
-		for (Iterator i = m.keySet ().iterator (); i.hasNext ();)
+		for (Iterator i = m.keySet().iterator(); i.hasNext();)
 		{
-			oneKey = (String) i.next ();
+			oneKey = (String) i.next();
 
-			Throwable t = (Throwable) m.get (oneKey);
+			Throwable t = (Throwable) m.get(oneKey);
 
-			addError (oneKey, t.getMessage (), t);
+			addError(oneKey, t.getMessage(), t);
 		}
 	}
 
-	public Object getAttribute (String key)
+	public Object getAttribute(String key)
 	{
 		if (key != null)
 		{
 			if (attributes != null)
 			{
-				return attributes.get (key);
+				return attributes.get(key);
 			}
 		}
 
 		return null;
 	}
 
-	public Map getAttributes ()
+	public Map getAttributes()
 	{
 		if (attributes == null)
 		{
-			return new HashMap ();
+			return new HashMap();
 		}
 
 		return attributes;
 	}
 
-	public void setAttribute (String key, Object value)
+	public void setAttribute(String key, Object value)
 	{
 		assert key != null;
 		assert value != null;
 
 		if (attributes == null)
 		{
-			attributes = new LinkedHashMap ();
+			attributes = new LinkedHashMap();
 		}
 
 		if (key != null)
 		{
 			synchronized (attributes)
 			{
-				attributes.put (key, value);
+				attributes.put(key, value);
 			}
 		}
 	}
 
-	public String toString ()
+	public String toString()
 	{
-		StringBuffer out = new StringBuffer ();
+		StringBuffer out = new StringBuffer();
 
-		out.append ("<DefaultModelResponse type='" + this.getClass ().getName () + "' model='" + myRequest.getModel ()
+		out.append("<DefaultModelResponse type='" + this.getClass().getName() + "' model='" + myRequest.getModel()
 						+ "'>\n");
 
 		ResponseElement oneElement = null;
 
-		for (Iterator i = getAll (); i.hasNext ();)
+		for (Iterator i = getAll(); i.hasNext();)
 		{
-			oneElement = (ResponseElement) i.next ();
-			out.append ("\t" + oneElement.toString ());
+			oneElement = (ResponseElement) i.next();
+			out.append("\t" + oneElement.toString());
 		}
 
-		out.append ("\t<attributes>\n");
+		out.append("\t<attributes>\n");
 
 		String oneAttribName = null;
 
-		for (Iterator j = getAttributes ().keySet ().iterator (); j.hasNext ();)
+		for (Iterator j = getAttributes().keySet().iterator(); j.hasNext();)
 		{
-			oneAttribName = (String) j.next ();
-			out.append ("\t\t<attribute name='" + oneAttribName + "' ");
+			oneAttribName = (String) j.next();
+			out.append("\t\t<attribute name='" + oneAttribName + "' ");
 
-			Object o = getAttribute (oneAttribName);
+			Object o = getAttribute(oneAttribName);
 
-			out.append (" type='" + o.getClass ().getName () + "' value='");
-			out.append (o.toString () + "/>/n");
+			out.append(" type='" + o.getClass().getName() + "' value='");
+			out.append(o.toString() + "/>/n");
 		}
 
-		out.append ("\t</attributes>\n");
+		out.append("\t</attributes>\n");
 
-		out.append ("\n\t<errors>");
+		out.append("\n\t<errors>");
 
-		for (Iterator ji = errors.keySet ().iterator (); ji.hasNext ();)
+		for (Iterator ji = errors.keySet().iterator(); ji.hasNext();)
 		{
-			String oneKey = (String) ji.next ();
+			String oneKey = (String) ji.next();
 
-			out.append ("\t\t<error name='" + oneKey + "' message='" + (String) errors.get (ji) + "'/>\n");
+			out.append("\t\t<error name='" + oneKey + "' message='" + (String) errors.get(ji) + "'/>\n");
 		}
 
-		out.append ("\t</errors>");
+		out.append("\t</errors>");
 
-		out.append ("\n\t<error-types>");
+		out.append("\n\t<error-types>");
 
-		for (Iterator jit = errorTypes.keySet ().iterator (); jit.hasNext ();)
+		for (Iterator jit = errorTypes.keySet().iterator(); jit.hasNext();)
 		{
-			String oneKey = (String) jit.next ();
+			String oneKey = (String) jit.next();
 
-			out.append ("\t\t<error key='" + oneKey + "' type='" + (String) errorTypes.get (oneKey) + "'/>");
+			out.append("\t\t<error key='" + oneKey + "' type='" + (String) errorTypes.get(oneKey) + "'/>");
 		}
 
-		out.append ("\n\t</error-types>");
+		out.append("\n\t</error-types>");
 
-		out.append ("\n\t<throwables>");
+		out.append("\n\t<throwables>");
 
-		for (Iterator ti = throwables.keySet ().iterator (); ti.hasNext ();)
+		for (Iterator ti = throwables.keySet().iterator(); ti.hasNext();)
 		{
-			String oneKey = (String) ti.next ();
+			String oneKey = (String) ti.next();
 
-			out.append ("\t\t<throwable key='" + oneKey + "' throwable='" + throwables.get (oneKey).toString ()
-							+ "'/>\n");
+			out.append("\t\t<throwable key='" + oneKey + "' throwable='" + throwables.get(oneKey).toString() + "'/>\n");
 		}
 
-		out.append ("\t</error-types>\n");
+		out.append("\t</error-types>\n");
 
-		out.append ("</DefaultModelResponse>\n");
+		out.append("</DefaultModelResponse>\n");
 
-		return out.toString ();
+		return out.toString();
 	}
 
-	public byte[] serialize () throws IOException
+	public byte[] serialize() throws IOException
 	{
-		ByteArrayOutputStream baos = new ByteArrayOutputStream ();
-		ObjectOutputStream oos = new ObjectOutputStream (baos);
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ObjectOutputStream oos = new ObjectOutputStream(baos);
 
-		oos.writeObject (this);
+		oos.writeObject(this);
 
-		return baos.toByteArray ();
+		return baos.toByteArray();
 	}
 
-	public KeelResponse deserialize (byte[] bytes) throws IOException
+	public KeelResponse deserialize(byte[] bytes) throws IOException
 	{
-		ByteArrayInputStream bais = new ByteArrayInputStream (bytes);
-		ObjectInputStream ois = new ObjectInputStream (bais);
+		ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
+		ObjectInputStream ois = new ObjectInputStream(bais);
 		KeelResponse myObject;
 
 		try
 		{
-			myObject = (ModelResponse) ois.readObject ();
+			myObject = (ModelResponse) ois.readObject();
 		}
 		catch (ClassNotFoundException e)
 		{
-			throw new IOException (e.getMessage ());
+			throw new IOException(e.getMessage());
 		}
 
 		return myObject;

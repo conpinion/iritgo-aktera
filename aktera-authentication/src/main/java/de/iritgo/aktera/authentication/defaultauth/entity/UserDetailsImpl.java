@@ -45,24 +45,24 @@ public class UserDetailsImpl implements UserDetails
 	 * @param userName
 	 * @param password
 	 */
-	public UserDetailsImpl (String userName, String password)
+	public UserDetailsImpl(String userName, String password)
 	{
 		this.userName = userName;
-		this.password = StringTools.trim (password).toLowerCase ();
+		this.password = StringTools.trim(password).toLowerCase();
 	}
 
 	/**
 	 * @see org.springframework.security.userdetails.UserDetails#getAuthorities()
 	 */
-	public Collection<GrantedAuthority> getAuthorities ()
+	public Collection<GrantedAuthority> getAuthorities()
 	{
-		return new LinkedList ();
+		return new LinkedList();
 	}
 
 	/**
 	 * @see org.springframework.security.userdetails.UserDetails#getPassword()
 	 */
-	public String getPassword ()
+	public String getPassword()
 	{
 		return password;
 	}
@@ -70,7 +70,7 @@ public class UserDetailsImpl implements UserDetails
 	/**
 	 * @see org.springframework.security.userdetails.UserDetails#getUsername()
 	 */
-	public String getUsername ()
+	public String getUsername()
 	{
 		return userName;
 	}
@@ -78,7 +78,7 @@ public class UserDetailsImpl implements UserDetails
 	/**
 	 * @see org.springframework.security.userdetails.UserDetails#isAccountNonExpired()
 	 */
-	public boolean isAccountNonExpired ()
+	public boolean isAccountNonExpired()
 	{
 		return true;
 	}
@@ -86,7 +86,7 @@ public class UserDetailsImpl implements UserDetails
 	/**
 	 * @see org.springframework.security.userdetails.UserDetails#isAccountNonLocked()
 	 */
-	public boolean isAccountNonLocked ()
+	public boolean isAccountNonLocked()
 	{
 		return true;
 	}
@@ -94,7 +94,7 @@ public class UserDetailsImpl implements UserDetails
 	/**
 	 * @see org.springframework.security.userdetails.UserDetails#isCredentialsNonExpired()
 	 */
-	public boolean isCredentialsNonExpired ()
+	public boolean isCredentialsNonExpired()
 	{
 		return true;
 	}
@@ -102,7 +102,7 @@ public class UserDetailsImpl implements UserDetails
 	/**
 	 * @see org.springframework.security.userdetails.UserDetails#isEnabled()
 	 */
-	public boolean isEnabled ()
+	public boolean isEnabled()
 	{
 		return true;
 	}

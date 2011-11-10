@@ -36,14 +36,14 @@ public class PreferencesManagerImpl implements PreferencesManager
 	private int lruSize = 97;
 
 	/** A LRU map per user (keyed by user id) for preference value caching */
-	private Map<Integer, Map<String, Object>> preferencesByUser = new HashMap ();
+	private Map<Integer, Map<String, Object>> preferencesByUser = new HashMap();
 
-	public void setPreferencesDAO (PreferencesDAO preferencesDAO)
+	public void setPreferencesDAO(PreferencesDAO preferencesDAO)
 	{
 		this.preferencesDAO = preferencesDAO;
 	}
 
-	public void setLruSize (int lruSize)
+	public void setLruSize(int lruSize)
 	{
 		this.lruSize = lruSize;
 	}
@@ -51,69 +51,69 @@ public class PreferencesManagerImpl implements PreferencesManager
 	/**
 	 * @see de.iritgo.aktera.configuration.preferences.PreferencesManager#clearCache(java.lang.Integer)
 	 */
-	public void clearCache (Integer userId)
+	public void clearCache(Integer userId)
 	{
 		synchronized (preferencesByUser)
 		{
-			preferencesByUser.remove (userId);
+			preferencesByUser.remove(userId);
 		}
 	}
 
 	/**
 	 * @see de.iritgo.aktera.configuration.preferences.PreferencesManager#createDefaultPrefrenceConfigsForUserId(java.lang.Integer)
 	 */
-	public void createDefaultPrefrenceConfigsForUserId (Integer userId)
+	public void createDefaultPrefrenceConfigsForUserId(Integer userId)
 	{
-		KeelPreferencesManager.createDefaultValues (userId);
+		KeelPreferencesManager.createDefaultValues(userId);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.configuration.preferences.PreferencesManager#get(java.lang.Integer, java.lang.String, java.lang.String)
 	 */
-	public Object get (Integer userId, String category, String name)
+	public Object get(Integer userId, String category, String name)
 	{
 		Map<String, Object> prefs = null;
 
 		synchronized (preferencesByUser)
 		{
-			prefs = preferencesByUser.get (userId);
+			prefs = preferencesByUser.get(userId);
 
 			if (prefs == null)
 			{
-				prefs = new LRUMap (lruSize);
-				preferencesByUser.put (userId, prefs);
+				prefs = new LRUMap(lruSize);
+				preferencesByUser.put(userId, prefs);
 			}
 		}
 
 		synchronized (prefs)
 		{
 			String key = category + "." + name;
-			Object value = prefs.get (key);
+			Object value = prefs.get(key);
 
 			if (value == null)
 			{
-				PreferencesConfig pc = preferencesDAO.findPreferencesConfig (userId, category, name);
+				PreferencesConfig pc = preferencesDAO.findPreferencesConfig(userId, category, name);
 
 				if (pc != null)
 				{
-					if ("B".equals (pc.getType ()))
+					if ("B".equals(pc.getType()))
 					{
-						value = NumberTools.toBoolInstance (pc.getValue ());
+						value = NumberTools.toBoolInstance(pc.getValue());
 					}
-					else if ("I".equals (pc.getType ()))
+					else if ("I".equals(pc.getType()))
 					{
-						value = NumberTools.toIntInstance (pc.getValue ());
+						value = NumberTools.toIntInstance(pc.getValue());
 					}
-					else if ("T".equals (pc.getType ()))
+					else if ("T".equals(pc.getType()))
 					{
-						value = Time.valueOf (pc.getValue ());
+						value = Time.valueOf(pc.getValue());
 					}
 					else
 					{
-						value = StringTools.trim (pc.getValue ());
+						value = StringTools.trim(pc.getValue());
 					}
 
-					prefs.put (key, value);
+					prefs.put(key, value);
 				}
 			}
 
@@ -124,24 +124,24 @@ public class PreferencesManagerImpl implements PreferencesManager
 	/**
 	 * @see de.iritgo.aktera.configuration.preferences.PreferencesManager#getInt(java.lang.Integer, java.lang.String, java.lang.String, java.lang.Integer)
 	 */
-	public Integer getInt (Integer userId, String category, String name, Integer defaultValue)
+	public Integer getInt(Integer userId, String category, String name, Integer defaultValue)
 	{
-		Object value = get (userId, category, name);
+		Object value = get(userId, category, name);
 
 		if (value != null && value instanceof Integer)
 		{
 			return (Integer) value;
 		}
 
-		return NumberTools.toIntInstance (value, defaultValue);
+		return NumberTools.toIntInstance(value, defaultValue);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.configuration.preferences.PreferencesManager#getString(java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
 	 */
-	public String getString (Integer userId, String category, String name, String defaultValue)
+	public String getString(Integer userId, String category, String name, String defaultValue)
 	{
-		Object value = get (userId, category, name);
+		Object value = get(userId, category, name);
 
 		if (value != null && value instanceof String)
 		{
@@ -150,7 +150,7 @@ public class PreferencesManagerImpl implements PreferencesManager
 
 		if (value != null)
 		{
-			return value.toString ();
+			return value.toString();
 		}
 
 		return defaultValue;
@@ -159,19 +159,19 @@ public class PreferencesManagerImpl implements PreferencesManager
 	/**
 	 * @see de.iritgo.aktera.configuration.preferences.PreferencesManager#set(java.lang.Integer, java.lang.String, java.lang.String, java.lang.Object)
 	 */
-	public void set (Integer userId, String category, String name, Object value)
+	public void set(Integer userId, String category, String name, Object value)
 	{
 		String key = category + "." + name;
-		Map<String, Object> prefs = preferencesByUser.get (userId);
+		Map<String, Object> prefs = preferencesByUser.get(userId);
 
 		if (prefs != null)
 		{
 			synchronized (prefs)
 			{
-				prefs.remove (key);
+				prefs.remove(key);
 			}
 		}
 
-		preferencesDAO.updatePreferencesConfig (userId, category, name, value);
+		preferencesDAO.updatePreferencesConfig(userId, category, name, value);
 	}
 }

@@ -36,22 +36,22 @@ public interface Operation
 	/**
 	 * What service does this operation refer to?
 	 */
-	public void setService (Object o);
+	public void setService(Object o);
 
 	/**
 	 * What operation are we referring to?
 	 */
-	public void setOperationCode (String opCode);
+	public void setOperationCode(String opCode);
 
 	/**
 	 * What parameters (name/value) are involved in this
 	 * operation?
 	 */
-	public void setParameter (Map params);
+	public void setParameter(Map params);
 
-	public Object getService ();
+	public Object getService();
 
-	public String getOperationCode ();
+	public String getOperationCode();
 
-	public Map getParams ();
+	public Map getParams();
 }

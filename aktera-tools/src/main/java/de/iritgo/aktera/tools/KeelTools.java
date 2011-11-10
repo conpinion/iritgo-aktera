@@ -43,9 +43,9 @@ public final class KeelTools
 	 * @return
 	 * @throws ServiceException
 	 */
-	public static Object getService (String role) throws ServiceException
+	public static Object getService(String role) throws ServiceException
 	{
-		return getService (role, "default");
+		return getService(role, "default");
 	}
 
 	/**
@@ -56,9 +56,9 @@ public final class KeelTools
 	 * @return
 	 * @throws ServiceException
 	 */
-	public static Object getService (String role, String hint) throws ServiceException
+	public static Object getService(String role, String hint) throws ServiceException
 	{
-		return KeelContainer.defaultContainer ().getService (role, hint);
+		return KeelContainer.defaultContainer().getService(role, hint);
 	}
 
 	/**
@@ -69,9 +69,9 @@ public final class KeelTools
 	 * @return
 	 * @throws ServiceException
 	 */
-	public static Object getService (String role, String hint, Context context) throws ServiceException
+	public static Object getService(String role, String hint, Context context) throws ServiceException
 	{
-		return KeelContainer.defaultContainer ().getService (role, hint, context);
+		return KeelContainer.defaultContainer().getService(role, hint, context);
 	}
 
 	/**
@@ -79,26 +79,26 @@ public final class KeelTools
 	 *
 	 * @param service
 	 */
-	public static void releaseService (Object service)
+	public static void releaseService(Object service)
 	{
 		if (service == null)
 		{
 			return;
 		}
 
-		KeelContainer.defaultContainer ().release (service);
+		KeelContainer.defaultContainer().release(service);
 
 		try
 		{
 			Proxy proxy = (Proxy) service;
 
-			Proxy.getInvocationHandler (proxy).invoke (proxy, KeelServiceable.class.getMethod ("releaseServices"),
+			Proxy.getInvocationHandler(proxy).invoke(proxy, KeelServiceable.class.getMethod("releaseServices"),
 							new Object[]
 							{});
 		}
 		catch (Throwable x)
 		{
-			System.out.println ("[KeelTools] Error while releasing service '" + service + "': " + x);
+			System.out.println("[KeelTools] Error while releasing service '" + service + "': " + x);
 		}
 	}
 
@@ -108,7 +108,7 @@ public final class KeelTools
 	 * @param to The destination response
 	 * @param from The source response
 	 */
-	public static void copyResponseElements (KeelResponse to, KeelResponse from)
+	public static void copyResponseElements(KeelResponse to, KeelResponse from)
 	{
 		if (from == null || to == null)
 		{
@@ -117,9 +117,9 @@ public final class KeelTools
 
 		try
 		{
-			for (Iterator<ResponseElement> i = from.getAll (); i.hasNext ();)
+			for (Iterator<ResponseElement> i = from.getAll(); i.hasNext();)
 			{
-				to.add (i.next ());
+				to.add(i.next());
 			}
 		}
 		catch (ModelException x)

@@ -77,7 +77,7 @@ public class EchoRequest
 	 *     {@link String }
 	 *     
 	 */
-	public String getName ()
+	public String getName()
 	{
 		return name;
 	}
@@ -90,7 +90,7 @@ public class EchoRequest
 	 *     {@link String }
 	 *     
 	 */
-	public void setName (String value)
+	public void setName(String value)
 	{
 		this.name = value;
 	}
@@ -103,7 +103,7 @@ public class EchoRequest
 	 *     {@link String }
 	 *     
 	 */
-	public String getMessage ()
+	public String getMessage()
 	{
 		return message;
 	}
@@ -116,7 +116,7 @@ public class EchoRequest
 	 *     {@link String }
 	 *     
 	 */
-	public void setMessage (String value)
+	public void setMessage(String value)
 	{
 		this.message = value;
 	}

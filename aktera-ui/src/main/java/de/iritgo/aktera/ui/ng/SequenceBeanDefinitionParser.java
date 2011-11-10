@@ -38,59 +38,59 @@ import org.w3c.dom.NodeList;
 public class SequenceBeanDefinitionParser extends AbstractSimpleBeanDefinitionParser
 {
 	@Override
-	protected void doParse (Element element, ParserContext parserContext, BeanDefinitionBuilder builder)
+	protected void doParse(Element element, ParserContext parserContext, BeanDefinitionBuilder builder)
 	{
-		if (element.hasAttribute ("security"))
+		if (element.hasAttribute("security"))
 		{
-			builder.addPropertyValue ("security", element.getAttribute ("security"));
+			builder.addPropertyValue("security", element.getAttribute("security"));
 		}
 
-		builder.addPropertyReference ("logger", "de.iritgo.aktera.logger.Logger");
+		builder.addPropertyReference("logger", "de.iritgo.aktera.logger.Logger");
 
-		NodeList controllerNodes = element.getElementsByTagNameNS ("http://aktera.iritgo.de/spring/ui", "controller");
-		List<String> controllerIds = new LinkedList ();
-		Map<String, Properties> controllerParams = new HashMap ();
+		NodeList controllerNodes = element.getElementsByTagNameNS("http://aktera.iritgo.de/spring/ui", "controller");
+		List<String> controllerIds = new LinkedList();
+		Map<String, Properties> controllerParams = new HashMap();
 
-		for (int i = 0; i < controllerNodes.getLength (); ++i)
+		for (int i = 0; i < controllerNodes.getLength(); ++i)
 		{
-			Node childNode = controllerNodes.item (i);
-			NamedNodeMap attributeNodes = childNode.getAttributes ();
-			String controllerId = attributeNodes.getNamedItem ("bean").getNodeValue ();
-			controllerIds.add (controllerId);
+			Node childNode = controllerNodes.item(i);
+			NamedNodeMap attributeNodes = childNode.getAttributes();
+			String controllerId = attributeNodes.getNamedItem("bean").getNodeValue();
+			controllerIds.add(controllerId);
 
 			Properties props = null;
-			NodeList controllerChilds = childNode.getChildNodes ();
+			NodeList controllerChilds = childNode.getChildNodes();
 			if (controllerChilds != null)
 			{
-				for (int j = 0; j < controllerChilds.getLength (); ++j)
+				for (int j = 0; j < controllerChilds.getLength(); ++j)
 				{
-					Node controllerChild = controllerChilds.item (j);
-					if (controllerChild.getNodeType () == Node.ELEMENT_NODE
-									&& controllerChild.getLocalName ().equals ("param"))
+					Node controllerChild = controllerChilds.item(j);
+					if (controllerChild.getNodeType() == Node.ELEMENT_NODE
+									&& controllerChild.getLocalName().equals("param"))
 					{
 						if (props == null)
 						{
-							props = new Properties ();
+							props = new Properties();
 						}
-						NamedNodeMap controllerChildAttrs = controllerChild.getAttributes ();
-						props.put (controllerChildAttrs.getNamedItem ("name").getNodeValue (), controllerChildAttrs
-										.getNamedItem ("value").getNodeValue ());
+						NamedNodeMap controllerChildAttrs = controllerChild.getAttributes();
+						props.put(controllerChildAttrs.getNamedItem("name").getNodeValue(), controllerChildAttrs
+										.getNamedItem("value").getNodeValue());
 					}
 				}
 			}
 			if (props != null)
 			{
-				controllerParams.put (controllerId, props);
+				controllerParams.put(controllerId, props);
 			}
 		}
 
-		builder.addPropertyValue ("controllerIds", controllerIds);
-		builder.addPropertyValue ("controllerParams", controllerParams);
-		builder.addPropertyReference ("authorizationManager", AuthorizationManager.ID);
+		builder.addPropertyValue("controllerIds", controllerIds);
+		builder.addPropertyValue("controllerParams", controllerParams);
+		builder.addPropertyReference("authorizationManager", AuthorizationManager.ID);
 	}
 
 	@Override
-	protected Class getBeanClass (Element element)
+	protected Class getBeanClass(Element element)
 	{
 		return Sequence.class;
 	}

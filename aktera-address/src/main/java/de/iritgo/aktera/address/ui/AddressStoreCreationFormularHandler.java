@@ -38,36 +38,36 @@ public class AddressStoreCreationFormularHandler extends FormularHandler
 	private AddressManager addressManager;
 
 	@Override
-	public void adjustFormular (ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents)
+	public void adjustFormular(ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents)
 		throws ModelException, PersistenceException
 	{
-		Map types = new LinkedHashMap<String, String> ();
-		for (AddressStoreType type : addressManager.getAddressStoreTypes ())
+		Map types = new LinkedHashMap<String, String>();
+		for (AddressStoreType type : addressManager.getAddressStoreTypes())
 		{
-			types.put (type.getKey (), type.getLabel ());
+			types.put(type.getKey(), type.getLabel());
 		}
-		persistents.putValidValues ("type", types);
+		persistents.putValidValues("type", types);
 	}
 
 	@Override
-	public int createPersistents (ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents,
+	public int createPersistents(ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents,
 					List<Configuration> persistentConfig) throws ModelException, PersistenceException
 	{
-		String typeString = (String) persistents.getAttribute ("type");
+		String typeString = (String) persistents.getAttribute("type");
 		try
 		{
-			AddressStoreType type = addressManager.getAddressStoreType (typeString);
-			AddressStore store = type.newAddressStore ();
-			store.setType (typeString);
-			persistents.put ("store", store);
+			AddressStoreType type = addressManager.getAddressStoreType(typeString);
+			AddressStore store = type.newAddressStore();
+			store.setType(typeString);
+			persistents.put("store", store);
 		}
 		catch (NoSuchAddressStoreTypeException x)
 		{
-			throw new ModelException ("Invalid address store type '" + typeString + "'");
+			throw new ModelException("Invalid address store type '" + typeString + "'");
 		}
 		catch (Exception x)
 		{
-			throw new ModelException ("Unable to create address of type '" + typeString + "': " + x.toString ());
+			throw new ModelException("Unable to create address of type '" + typeString + "': " + x.toString());
 		}
 		return - 1;
 	}

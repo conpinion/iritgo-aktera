@@ -28,23 +28,23 @@ public class PermissionException extends RuntimeException
 	/** */
 	private static final long serialVersionUID = 1L;
 
-	public PermissionException ()
+	public PermissionException()
 	{
-		super ();
+		super();
 	}
 
-	public PermissionException (String msg)
+	public PermissionException(String msg)
 	{
-		super (msg);
+		super(msg);
 	}
 
-	public PermissionException (String msg, Throwable cause)
+	public PermissionException(String msg, Throwable cause)
 	{
-		super (msg, cause);
+		super(msg, cause);
 	}
 
-	public PermissionException (Throwable cause)
+	public PermissionException(Throwable cause)
 	{
-		super (cause);
+		super(cause);
 	}
 }

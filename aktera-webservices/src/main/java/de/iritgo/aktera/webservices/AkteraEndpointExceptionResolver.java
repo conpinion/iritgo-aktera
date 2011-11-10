@@ -29,14 +29,14 @@ public class AkteraEndpointExceptionResolver implements EndpointExceptionResolve
 {
 	private Logger logger;
 
-	public void setLogger (Logger logger)
+	public void setLogger(Logger logger)
 	{
 		this.logger = logger;
 	}
 
-	public boolean resolveException (MessageContext messageContext, Object endpoint, Exception ex)
+	public boolean resolveException(MessageContext messageContext, Object endpoint, Exception ex)
 	{
-		logger.error (ex.toString ());
+		logger.error(ex.toString());
 		return false;
 	}
 }

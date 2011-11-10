@@ -33,12 +33,12 @@ public class ConfigurationCallback implements Callback, Serializable
 {
 	private Configuration conf;
 
-	public void setConfiguration (Configuration newConf)
+	public void setConfiguration(Configuration newConf)
 	{
 		this.conf = newConf;
 	}
 
-	public Configuration getConfiguration ()
+	public Configuration getConfiguration()
 	{
 		return this.conf;
 	}

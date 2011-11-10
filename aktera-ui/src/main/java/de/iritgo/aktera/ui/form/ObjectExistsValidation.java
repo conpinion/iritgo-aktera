@@ -32,34 +32,34 @@ import de.iritgo.aktera.persist.PersistentFactory;
  */
 public class ObjectExistsValidation implements Validation
 {
-	public ObjectExistsValidation ()
+	public ObjectExistsValidation()
 	{
 	}
 
-	public boolean checkValidation (ModelRequest req, PersistentDescriptor persistentDescriptor,
+	public boolean checkValidation(ModelRequest req, PersistentDescriptor persistentDescriptor,
 					FieldDescriptor fieldDescriptor, String value)
 	{
 		try
 		{
-			if (value.equals (""))
+			if (value.equals(""))
 			{
 				return false;
 			}
 
-			PersistentFactory persistentManager = (PersistentFactory) req.getService (PersistentFactory.ROLE, req
-							.getDomain ());
+			PersistentFactory persistentManager = (PersistentFactory) req.getService(PersistentFactory.ROLE, req
+							.getDomain());
 
-			String name = fieldDescriptor.getName ();
-			String fieldName = name.substring (name.lastIndexOf ('.') + 1);
-			String persistentName = name.substring (0, Math.max (name.indexOf ('.'), 0));
-			String inputName = name.replace ('.', '_');
+			String name = fieldDescriptor.getName();
+			String fieldName = name.substring(name.lastIndexOf('.') + 1);
+			String persistentName = name.substring(0, Math.max(name.indexOf('.'), 0));
+			String inputName = name.replace('.', '_');
 
-			Persistent persistent = persistentDescriptor.getPersistent (persistentName);
-			Persistent search = persistentManager.create (persistent.getName ());
+			Persistent persistent = persistentDescriptor.getPersistent(persistentName);
+			Persistent search = persistentManager.create(persistent.getName());
 
-			search.setField (fieldName, value);
+			search.setField(fieldName, value);
 
-			if (search.find ())
+			if (search.find())
 			{
 				return true;
 			}
@@ -78,7 +78,7 @@ public class ObjectExistsValidation implements Validation
 		}
 	}
 
-	public String getErrorTextId ()
+	public String getErrorTextId()
 	{
 		return "objectExistsValidation";
 	}

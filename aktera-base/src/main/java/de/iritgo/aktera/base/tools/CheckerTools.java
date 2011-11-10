@@ -29,13 +29,13 @@ import java.util.Properties;
  */
 public class CheckerTools
 {
-	public static boolean check (String checkerName, ModelRequest req, Properties params)
+	public static boolean check(String checkerName, ModelRequest req, Properties params)
 	{
 		try
 		{
-			Checker checker = (Checker) Class.forName (checkerName).newInstance ();
+			Checker checker = (Checker) Class.forName(checkerName).newInstance();
 
-			return checker.check (req, params);
+			return checker.check(req, params);
 		}
 		catch (Exception ignored)
 		{

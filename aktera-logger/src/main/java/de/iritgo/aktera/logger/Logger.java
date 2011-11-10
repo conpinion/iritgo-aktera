@@ -38,7 +38,7 @@ public interface Logger extends org.apache.avalon.framework.logger.Logger
 	 *
 	 * @param message the message
 	 */
-	public void debug (String message);
+	public void debug(String message);
 
 	/**
 	 * Log a debug message.
@@ -46,21 +46,21 @@ public interface Logger extends org.apache.avalon.framework.logger.Logger
 	 * @param message the message
 	 * @param throwable the throwable
 	 */
-	public void debug (String message, Throwable throwable);
+	public void debug(String message, Throwable throwable);
 
 	/**
 	 * Determine if messages of priority "debug" will be logged.
 	 *
 	 * @return true if "debug" messages will be logged
 	 */
-	public boolean isDebugEnabled ();
+	public boolean isDebugEnabled();
 
 	/**
 	 * Log a info message.
 	 *
 	 * @param message the message
 	 */
-	public void info (String message);
+	public void info(String message);
 
 	/**
 	 * Log a info message.
@@ -68,21 +68,21 @@ public interface Logger extends org.apache.avalon.framework.logger.Logger
 	 * @param message the message
 	 * @param throwable the throwable
 	 */
-	public void info (String message, Throwable throwable);
+	public void info(String message, Throwable throwable);
 
 	/**
 	 * Determine if messages of priority "info" will be logged.
 	 *
 	 * @return true if "info" messages will be logged
 	 */
-	public boolean isInfoEnabled ();
+	public boolean isInfoEnabled();
 
 	/**
 	 * Log a warn message.
 	 *
 	 * @param message the message
 	 */
-	public void warn (String message);
+	public void warn(String message);
 
 	/**
 	 * Log a warn message.
@@ -90,21 +90,21 @@ public interface Logger extends org.apache.avalon.framework.logger.Logger
 	 * @param message the message
 	 * @param throwable the throwable
 	 */
-	public void warn (String message, Throwable throwable);
+	public void warn(String message, Throwable throwable);
 
 	/**
 	 * Determine if messages of priority "warn" will be logged.
 	 *
 	 * @return true if "warn" messages will be logged
 	 */
-	public boolean isWarnEnabled ();
+	public boolean isWarnEnabled();
 
 	/**
 	 * Log a error message.
 	 *
 	 * @param message the message
 	 */
-	public void error (String message);
+	public void error(String message);
 
 	/**
 	 * Log a error message.
@@ -112,21 +112,21 @@ public interface Logger extends org.apache.avalon.framework.logger.Logger
 	 * @param message the message
 	 * @param throwable the throwable
 	 */
-	public void error (String message, Throwable throwable);
+	public void error(String message, Throwable throwable);
 
 	/**
 	 * Determine if messages of priority "error" will be logged.
 	 *
 	 * @return true if "error" messages will be logged
 	 */
-	public boolean isErrorEnabled ();
+	public boolean isErrorEnabled();
 
 	/**
 	 * Log a fatalError message.
 	 *
 	 * @param message the message
 	 */
-	public void fatalError (String message);
+	public void fatalError(String message);
 
 	/**
 	 * Log a fatalError message.
@@ -134,12 +134,12 @@ public interface Logger extends org.apache.avalon.framework.logger.Logger
 	 * @param message the message
 	 * @param throwable the throwable
 	 */
-	public void fatalError (String message, Throwable throwable);
+	public void fatalError(String message, Throwable throwable);
 
 	/**
 	 * Determine if messages of priority "fatalError" will be logged.
 	 *
 	 * @return true if "fatalError" messages will be logged
 	 */
-	public boolean isFatalErrorEnabled ();
+	public boolean isFatalErrorEnabled();
 }

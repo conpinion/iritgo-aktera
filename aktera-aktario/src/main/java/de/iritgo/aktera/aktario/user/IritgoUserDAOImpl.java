@@ -35,19 +35,19 @@ public class IritgoUserDAOImpl extends HibernateDaoSupport implements IritgoUser
 	/**
 	 * @see de.iritgo.aktera.aktario.user.IritgoUserDAO#findIritgoUserByName(java.lang.String)
 	 */
-	public IritgoUser findIritgoUserByName (String name)
+	public IritgoUser findIritgoUserByName(String name)
 	{
-		List<IritgoUser> res = getHibernateTemplate ().find ("from IritgoUser where name = ?", name);
+		List<IritgoUser> res = getHibernateTemplate().find("from IritgoUser where name = ?", name);
 
-		return res.size () > 0 ? res.get (0) : null;
+		return res.size() > 0 ? res.get(0) : null;
 	}
 
 	/**
 	 * @see de.iritgo.aktera.aktario.user.IritgoUserDAO#updateIritgoUser(de.iritgo.aktera.aktario.db.IritgoUser)
 	 */
 	@Transactional(readOnly = false)
-	public void updateIritgoUser (IritgoUser iritgoUser)
+	public void updateIritgoUser(IritgoUser iritgoUser)
 	{
-		getHibernateTemplate ().update (iritgoUser);
+		getHibernateTemplate().update(iritgoUser);
 	}
 }

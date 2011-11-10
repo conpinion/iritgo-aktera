@@ -28,13 +28,13 @@ public class StreamTargetFactory extends org.apache.avalon.excalibur.logger.fact
 {
 	private static final String FORMAT = "%7.7{priority} %5.5{time}   [%8.8{category}] (%{context}): %{message}\\n%{throwable}";
 
-	protected Formatter getFormatter (final Configuration conf)
+	protected Formatter getFormatter(final Configuration conf)
 	{
 		Formatter formatter = null;
 
 		if (null != conf)
 		{
-			formatter = new ExtendedPatternFormatter (conf.getValue (FORMAT));
+			formatter = new ExtendedPatternFormatter(conf.getValue(FORMAT));
 		}
 
 		return formatter;

@@ -26,32 +26,32 @@ public abstract class AbstractPermission implements java.io.Serializable
 
 	private String name;
 
-	public AbstractPermission (String name)
+	public AbstractPermission(String name)
 	{
 		this.name = name;
 	}
 
-	public abstract boolean implies (AbstractPermission permission);
+	public abstract boolean implies(AbstractPermission permission);
 
 	@Override
-	public abstract boolean equals (Object obj);
+	public abstract boolean equals(Object obj);
 
 	@Override
-	public abstract int hashCode ();
+	public abstract int hashCode();
 
-	public final String getName ()
+	public final String getName()
 	{
 		return name;
 	}
 
-	public PermissionCollection newPermissionCollection ()
+	public PermissionCollection newPermissionCollection()
 	{
 		return null;
 	}
 
 	@Override
-	public String toString ()
+	public String toString()
 	{
-		return "(" + getClass ().getName () + " " + name + ")";
+		return "(" + getClass().getName() + " " + name + ")";
 	}
 }

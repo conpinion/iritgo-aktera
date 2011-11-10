@@ -86,23 +86,23 @@ public class ConnectorServerManager extends BaseObject implements Manager, IObje
 	/**
 	 * Create a new client manager.
 	 */
-	public ConnectorServerManager ()
+	public ConnectorServerManager()
 	{
-		super ("ConnectorServerManager");
-		keelIritgoAuthMap = new HashMap ();
+		super("ConnectorServerManager");
+		keelIritgoAuthMap = new HashMap();
 	}
 
 	/**
 	 * Initialize the client manager.
 	 */
-	public void init ()
+	public void init()
 	{
-		Engine.instance ().getEventRegistry ().addListener ("Plugin", this);
-		Engine.instance ().getEventRegistry ().addListener ("akteraobjectcreated", this);
-		Engine.instance ().getEventRegistry ().addListener ("akteraobjectmodified", this);
-		Engine.instance ().getEventRegistry ().addListener ("akteraobjectremoved", this);
-		Engine.instance ().getEventRegistry ().addListener ("guimanager", this);
-		Engine.instance ().getEventRegistry ().addListener ("User", this);
+		Engine.instance().getEventRegistry().addListener("Plugin", this);
+		Engine.instance().getEventRegistry().addListener("akteraobjectcreated", this);
+		Engine.instance().getEventRegistry().addListener("akteraobjectmodified", this);
+		Engine.instance().getEventRegistry().addListener("akteraobjectremoved", this);
+		Engine.instance().getEventRegistry().addListener("guimanager", this);
+		Engine.instance().getEventRegistry().addListener("User", this);
 	}
 
 	/**
@@ -110,7 +110,7 @@ public class ConnectorServerManager extends BaseObject implements Manager, IObje
 	 *
 	 * @param event The creation event.
 	 */
-	public void iObjectCreatedEvent (IObjectCreatedEvent event)
+	public void iObjectCreatedEvent(IObjectCreatedEvent event)
 	{
 	}
 
@@ -119,7 +119,7 @@ public class ConnectorServerManager extends BaseObject implements Manager, IObje
 	 *
 	 * @param event The modification event.
 	 */
-	public void iObjectModifiedEvent (IObjectModifiedEvent event)
+	public void iObjectModifiedEvent(IObjectModifiedEvent event)
 	{
 	}
 
@@ -128,11 +128,11 @@ public class ConnectorServerManager extends BaseObject implements Manager, IObje
 	 *
 	 * @param event The delete event.
 	 */
-	public void iObjectDeletedEvent (IObjectDeletedEvent event)
+	public void iObjectDeletedEvent(IObjectDeletedEvent event)
 	{
 	}
 
-	public void pluginEvent (PluginStateEvent event)
+	public void pluginEvent(PluginStateEvent event)
 	{
 	}
 
@@ -143,71 +143,70 @@ public class ConnectorServerManager extends BaseObject implements Manager, IObje
 	 *
 	 * @param event The user event.
 	 */
-	public void userEvent (UserEvent event)
+	public void userEvent(UserEvent event)
 	{
-		if ((event != null) && (event.isLoggedIn ()))
+		if ((event != null) && (event.isLoggedIn()))
 		{
-			User user = event.getUser ();
+			User user = event.getUser();
 
 			ModelRequest req = null;
 
 			try
 			{
-				req = ModelTools.createModelRequest ();
+				req = ModelTools.createModelRequest();
 
-				AuthenticationManager authMgr = (AuthenticationManager) req.getService (AuthenticationManager.ROLE,
+				AuthenticationManager authMgr = (AuthenticationManager) req.getService(AuthenticationManager.ROLE,
 								"default");
 
-				authMgr.setUsername (user.getName ());
-				authMgr.setPassword (event.getPlainPassword ());
-				authMgr.setDomain ("default");
+				authMgr.setUsername(user.getName());
+				authMgr.setPassword(event.getPlainPassword());
+				authMgr.setDomain("default");
 
-				UserEnvironment userEnvironment = new DefaultUserEnvironment ();
-				Context context = new DefaultContext ();
+				UserEnvironment userEnvironment = new DefaultUserEnvironment();
+				Context context = new DefaultContext();
 
-				((DefaultContext) context).put (UserEnvironment.CONTEXT_KEY, userEnvironment);
-				authMgr.login (userEnvironment);
-				keelIritgoAuthMap.put (new Long (user.getUniqueId ()), context);
+				((DefaultContext) context).put(UserEnvironment.CONTEXT_KEY, userEnvironment);
+				authMgr.login(userEnvironment);
+				keelIritgoAuthMap.put(new Long(user.getUniqueId()), context);
 			}
 			catch (Exception x)
 			{
-				x.printStackTrace ();
+				x.printStackTrace();
 			}
 			finally
 			{
-				ModelTools.releaseModelRequest (req);
+				ModelTools.releaseModelRequest(req);
 			}
 		}
 
-		if ((event != null) && (event.isLoggedOut ()))
+		if ((event != null) && (event.isLoggedOut()))
 		{
-			User user = event.getUser ();
+			User user = event.getUser();
 
 			ModelRequest req = null;
 
 			try
 			{
-				req = ModelTools.createModelRequest ();
+				req = ModelTools.createModelRequest();
 
-				AuthenticationManager authMgr = (AuthenticationManager) req
-								.getService (AuthenticationManager.ROLE, "*");
+				AuthenticationManager authMgr = (AuthenticationManager) req.getService(AuthenticationManager.ROLE, "*");
 
-				authMgr.setUsername (user.getName ());
-				authMgr.setPassword ("");
-				authMgr.setDomain ("default");
+				authMgr.setUsername(user.getName());
+				authMgr.setPassword("");
+				authMgr.setDomain("default");
 
-				Context c = (Context) keelIritgoAuthMap.get (new Long (user.getUniqueId ()));
-				UserEnvironment userEnv = (UserEnvironment) c.get (UserEnvironment.CONTEXT_KEY);
+				Context c = (Context) keelIritgoAuthMap.get(new Long(user.getUniqueId()));
+				UserEnvironment userEnv = (UserEnvironment) c.get(UserEnvironment.CONTEXT_KEY);
 
-				authMgr.logout (userEnv);
-				keelIritgoAuthMap.remove (user.getUniqueId ());
+				authMgr.logout(userEnv);
+				keelIritgoAuthMap.remove(user.getUniqueId());
 			}
 			catch (Exception x)
 			{
 			}
 			finally
 			{
-				ModelTools.releaseModelRequest (req);
+				ModelTools.releaseModelRequest(req);
 			}
 		}
 	}
@@ -217,28 +216,28 @@ public class ConnectorServerManager extends BaseObject implements Manager, IObje
 	 *
 	 * @param model The keel model query
 	 */
-	public long newKeelObject (String model, long userUniqueId)
+	public long newKeelObject(String model, long userUniqueId)
 	{
-		KeelResponse keelForm = getKeelObject (model, "-1", userUniqueId);
+		KeelResponse keelForm = getKeelObject(model, "-1", userUniqueId);
 
 		DynDataObject dataObject = null;
 
-		dataObject = createDataObjectAndRegister (keelForm, model, "-1", true);
+		dataObject = createDataObjectAndRegister(keelForm, model, "-1", true);
 
 		try
 		{
-			AnnounceDynDataObjectResponse announceDynDataObjectResponse = new AnnounceDynDataObjectResponse (
-							(DynDataObject) Engine.instance ().getIObjectFactory ().newInstance (model));
+			AnnounceDynDataObjectResponse announceDynDataObjectResponse = new AnnounceDynDataObjectResponse(
+							(DynDataObject) Engine.instance().getIObjectFactory().newInstance(model));
 
-			ActionTools.sendToClient (userUniqueId, announceDynDataObjectResponse);
+			ActionTools.sendToClient(userUniqueId, announceDynDataObjectResponse);
 		}
 		catch (Exception x)
 		{
-			Log.log ("system", "ConnectorServerManager.doQuery", "DynDataObject can not created: " + model + " Error: "
+			Log.log("system", "ConnectorServerManager.doQuery", "DynDataObject can not created: " + model + " Error: "
 							+ x, Log.FATAL);
 		}
 
-		return dataObject.getUniqueId ();
+		return dataObject.getUniqueId();
 	}
 
 	/**
@@ -248,22 +247,22 @@ public class ConnectorServerManager extends BaseObject implements Manager, IObje
 	 * @param keelUniqueId The id from the keel object.
 	 * @param userUniqueId The user unique id.
 	 */
-	public void editKeelObject (String model, String keelObjectId, long userUniqueId)
+	public void editKeelObject(String model, String keelObjectId, long userUniqueId)
 	{
-		KeelResponse keelForm = getKeelObject (model, keelObjectId, userUniqueId);
+		KeelResponse keelForm = getKeelObject(model, keelObjectId, userUniqueId);
 
-		createDataObjectAndRegister (keelForm, model, keelObjectId, false);
+		createDataObjectAndRegister(keelForm, model, keelObjectId, false);
 
 		try
 		{
-			AnnounceDynDataObjectResponse announceDynDataObjectResponse = new AnnounceDynDataObjectResponse (
-							(DynDataObject) Engine.instance ().getIObjectFactory ().newInstance (model));
+			AnnounceDynDataObjectResponse announceDynDataObjectResponse = new AnnounceDynDataObjectResponse(
+							(DynDataObject) Engine.instance().getIObjectFactory().newInstance(model));
 
-			ActionTools.sendToClient (userUniqueId, announceDynDataObjectResponse);
+			ActionTools.sendToClient(userUniqueId, announceDynDataObjectResponse);
 		}
 		catch (Exception x)
 		{
-			Log.log ("system", "ConnectorServerManager.doQuery", "DynDataObject can not created: " + model + " Error: "
+			Log.log("system", "ConnectorServerManager.doQuery", "DynDataObject can not created: " + model + " Error: "
 							+ x, Log.FATAL);
 		}
 	}
@@ -276,45 +275,45 @@ public class ConnectorServerManager extends BaseObject implements Manager, IObje
 	 * @param DataObject The data object to save.
 	 * @param userUniqueId The user unique id.
 	 */
-	public void saveKeelObject (String model, String keelObjectId, DataObject dataObject, long userUniqueId)
+	public void saveKeelObject(String model, String keelObjectId, DataObject dataObject, long userUniqueId)
 	{
 		ModelRequest req = null;
 
 		try
 		{
-			req = ModelTools.createModelRequest ();
+			req = ModelTools.createModelRequest();
 
-			Model saveModel = (Model) req.getService (Model.ROLE, model, (Context) keelIritgoAuthMap.get (new Long (
+			Model saveModel = (Model) req.getService(Model.ROLE, model, (Context) keelIritgoAuthMap.get(new Long(
 							userUniqueId)));
 
-			((KeelContextualizable) req).setKeelContext ((Context) keelIritgoAuthMap.get (new Long (userUniqueId)));
+			((KeelContextualizable) req).setKeelContext((Context) keelIritgoAuthMap.get(new Long(userUniqueId)));
 
-			req.setParameter ("id", keelObjectId);
+			req.setParameter("id", keelObjectId);
 
-			DataObject systemObject = (DataObject) Engine.instance ().getBaseRegistry ().get (
-							dataObject.getUniqueId (), dataObject.getTypeId ());
+			DataObject systemObject = (DataObject) Engine.instance().getBaseRegistry().get(dataObject.getUniqueId(),
+							dataObject.getTypeId());
 
-			for (Iterator i = dataObject.getAttributes ().keySet ().iterator (); i.hasNext ();)
+			for (Iterator i = dataObject.getAttributes().keySet().iterator(); i.hasNext();)
 			{
-				String attributeName = (String) i.next ();
+				String attributeName = (String) i.next();
 
-				systemObject.setAttribute (attributeName, dataObject.getAttribute (attributeName));
-				req.setParameter (attributeName, dataObject.getAttribute (attributeName));
+				systemObject.setAttribute(attributeName, dataObject.getAttribute(attributeName));
+				req.setParameter(attributeName, dataObject.getAttribute(attributeName));
 			}
 
-			req.setParameter ("id", dataObject.getStringAttribute ("keelObjectId"));
+			req.setParameter("id", dataObject.getStringAttribute("keelObjectId"));
 
-			saveModel.execute (req);
-			ActionTools.sendServerBroadcast (new EditIObjectAction (EditIObjectAction.OK, systemObject));
+			saveModel.execute(req);
+			ActionTools.sendServerBroadcast(new EditIObjectAction(EditIObjectAction.OK, systemObject));
 		}
 		catch (Exception x)
 		{
-			Log.log ("system", "ConnectorServerManager.saveKeelObject", "Keel error, unknown model (" + model
+			Log.log("system", "ConnectorServerManager.saveKeelObject", "Keel error, unknown model (" + model
 							+ ")? Error: " + x, Log.FATAL);
 		}
 		finally
 		{
-			ModelTools.releaseModelRequest (req);
+			ModelTools.releaseModelRequest(req);
 		}
 	}
 
@@ -325,32 +324,32 @@ public class ConnectorServerManager extends BaseObject implements Manager, IObje
 	 * @param keelUniqueId The id from the keel object.
 	 * @param userUniqueId The user unique id.
 	 */
-	public void deleteKeelObject (String model, String keelObjectId, long userUniqueId)
+	public void deleteKeelObject(String model, String keelObjectId, long userUniqueId)
 	{
 		ModelRequest req = null;
 
 		try
 		{
-			req = ModelTools.createModelRequest ();
+			req = ModelTools.createModelRequest();
 
-			Model deleteModel = (Model) req.getService (Model.ROLE, model, (Context) keelIritgoAuthMap.get (new Long (
+			Model deleteModel = (Model) req.getService(Model.ROLE, model, (Context) keelIritgoAuthMap.get(new Long(
 							userUniqueId)));
 
-			((KeelContextualizable) req).setKeelContext ((Context) keelIritgoAuthMap.get (new Long (userUniqueId)));
+			((KeelContextualizable) req).setKeelContext((Context) keelIritgoAuthMap.get(new Long(userUniqueId)));
 
-			req.setParameter ("id", keelObjectId);
+			req.setParameter("id", keelObjectId);
 
-			deleteModel.execute (req);
+			deleteModel.execute(req);
 		}
 		catch (Exception x)
 		{
-			Log.log ("system", "ConnectorServerManager.deleteKeelObject", "Keel error, unknown model? Error: " + x,
+			Log.log("system", "ConnectorServerManager.deleteKeelObject", "Keel error, unknown model? Error: " + x,
 							Log.FATAL);
-			x.printStackTrace ();
+			x.printStackTrace();
 		}
 		finally
 		{
-			ModelTools.releaseModelRequest (req);
+			ModelTools.releaseModelRequest(req);
 		}
 	}
 
@@ -362,10 +361,10 @@ public class ConnectorServerManager extends BaseObject implements Manager, IObje
 	 * @param userUniqueId The user uniqueid from the owner of the aktera query
 	 * @param results The iobjectlist result object
 	 */
-	public void doQuery (String model, String listName, long userUniqueId, AkteraQuery akteraQuery,
+	public void doQuery(String model, String listName, long userUniqueId, AkteraQuery akteraQuery,
 					String searchCondition, String listSearchCategory)
 	{
-		KeelResponse result = getKeelResultList (model, listName, userUniqueId, searchCondition, listSearchCategory);
+		KeelResponse result = getKeelResultList(model, listName, userUniqueId, searchCondition, listSearchCategory);
 
 		// Listing aufrufen.
 		if (result == null)
@@ -373,89 +372,88 @@ public class ConnectorServerManager extends BaseObject implements Manager, IObje
 			return;
 		}
 
-		ResponseElement resultList = result.get ("list");
-		IObjectList results = (IObjectList) akteraQuery.getIObjectListResults ();
+		ResponseElement resultList = result.get("list");
+		IObjectList results = (IObjectList) akteraQuery.getIObjectListResults();
 
 		if (resultList == null)
 		{
-			Log.logError ("ConnectorServerManager", "No result list for model: " + model);
+			Log.logError("ConnectorServerManager", "No result list for model: " + model);
 		}
 
-		registerListElement (resultList, model);
+		registerListElement(resultList, model);
 
-		List rows = resultList.getAll ();
+		List rows = resultList.getAll();
 		DynDataObject listObject = null;
 
-		for (Iterator i = rows.iterator (); i.hasNext ();)
+		for (Iterator i = rows.iterator(); i.hasNext();)
 		{
-			ResponseElement row = (ResponseElement) i.next ();
+			ResponseElement row = (ResponseElement) i.next();
 
-			listObject = createQueryDataObjectAndRegister (row, row.getAll ().iterator (), resultList, model,
-							akteraQuery);
+			listObject = createQueryDataObjectAndRegister(row, row.getAll().iterator(), resultList, model, akteraQuery);
 
 			if (listObject != null)
 			{
 				// System.out.println (listObject.dump ());
-				results.add (listObject);
+				results.add(listObject);
 			}
 		}
 
-		Input attribute = (Input) result.get ("listSearchCategory");
+		Input attribute = (Input) result.get("listSearchCategory");
 
 		if (attribute != null)
 		{
-			StringBuffer validValues = new StringBuffer (StringTools.trim (attribute.getDefaultValue ()) + "|");
+			StringBuffer validValues = new StringBuffer(StringTools.trim(attribute.getDefaultValue()) + "|");
 
-			for (Iterator k = attribute.getValidValues ().entrySet ().iterator (); k.hasNext ();)
+			for (Iterator k = attribute.getValidValues().entrySet().iterator(); k.hasNext();)
 			{
-				Map.Entry value = (Map.Entry) k.next ();
+				Map.Entry value = (Map.Entry) k.next();
 
-				validValues.append (value.getKey () + "|" + value.getValue ());
+				validValues.append(value.getKey() + "|" + value.getValue());
 
-				if (k.hasNext ())
+				if (k.hasNext())
 				{
-					validValues.append ("|");
+					validValues.append("|");
 				}
 			}
 
-			akteraQuery.setListSearchValues (validValues.toString ());
+			akteraQuery.setListSearchValues(validValues.toString());
 		}
 
 		try
 		{
-			AnnounceDynDataObjectResponse announceDynDataObjectResponse = new AnnounceDynDataObjectResponse (
-							(DynDataObject) Engine.instance ().getIObjectFactory ().newInstance (model));
+			AnnounceDynDataObjectResponse announceDynDataObjectResponse = new AnnounceDynDataObjectResponse(
+							(DynDataObject) Engine.instance().getIObjectFactory().newInstance(model));
 
-			ActionTools.sendToClient (userUniqueId, announceDynDataObjectResponse);
+			ActionTools.sendToClient(userUniqueId, announceDynDataObjectResponse);
 		}
 		catch (Exception x)
 		{
-			Log.log ("system", "ConnectorServerManager.doQuery", "DynDataObject can not created: " + listName
+			Log.log("system", "ConnectorServerManager.doQuery", "DynDataObject can not created: " + listName
 							+ " Error: " + x, Log.FATAL);
 		}
 	}
 
-	public void registerListElement (ResponseElement resultList, String model)
+	public void registerListElement(ResponseElement resultList, String model)
 	{
-		if (Engine.instance ().getIObjectFactory ().contains (model))
+		if (Engine.instance().getIObjectFactory().contains(model))
 		{
 			return;
 		}
 
-		DynDataObject listObject = new DynDataObject (model);
+		DynDataObject listObject = new DynDataObject(model);
 
-		for (Iterator i = ((ResponseElement) resultList.getAttribute ("header")).getAll ().iterator (); i.hasNext ();)
+		for (Iterator i = ((ResponseElement) resultList.getAttribute("header")).getAll().iterator(); i.hasNext();)
 		{
-			ResponseElement field = (ResponseElement) i.next ();
-			String attributeName = (String) ((Output) field).getContent ();
+			ResponseElement field = (ResponseElement) i.next();
+			String attributeName = (String) ((Output) field).getContent();
 
-			listObject.setAttribute (attributeName, "");
+			listObject.setAttribute(attributeName, "");
 		}
 
-		listObject.setAttribute ("keelObjectId", "");
-		listObject.setAttribute ("userUniqueId", "");
+		listObject.setAttribute("keelObjectId", "");
+		listObject.setAttribute("userUniqueId", "");
 
-		Engine.instance ().getIObjectFactory ().register (listObject);
+		Engine.instance().getIObjectFactory().register(listObject);
 	}
 
 	/**
@@ -466,7 +464,7 @@ public class ConnectorServerManager extends BaseObject implements Manager, IObje
 	 * @return
 	 */
 	@SuppressWarnings("serial")
-	public KeelResponse executeModel (Properties properties, long userUniqueId)
+	public KeelResponse executeModel(Properties properties, long userUniqueId)
 	{
 		ModelRequest req = null;
 
@@ -474,62 +472,62 @@ public class ConnectorServerManager extends BaseObject implements Manager, IObje
 		{
 			Model model = null;
 
-			req = ModelTools.createModelRequest ();
+			req = ModelTools.createModelRequest();
 
-			Context context = (Context) keelIritgoAuthMap.get (new Long (userUniqueId));
+			Context context = (Context) keelIritgoAuthMap.get(new Long(userUniqueId));
 
 			if (context != null)
 			{
-				model = (Model) req.getService (Model.ROLE, properties.getProperty ("model"), context);
+				model = (Model) req.getService(Model.ROLE, properties.getProperty("model"), context);
 			}
 			else
 			{
-				UserEnvironment userEnvironment = new DefaultUserEnvironment ()
+				UserEnvironment userEnvironment = new DefaultUserEnvironment()
 				{
 					private LinkedList<String> fakeList;
 
-					public List<String> getGroups ()
+					public List<String> getGroups()
 					{
 						if (fakeList == null)
 						{
-							fakeList = new LinkedList<String> ();
-							fakeList.add (new String ("root"));
+							fakeList = new LinkedList<String>();
+							fakeList.add(new String("root"));
 						}
 
 						return fakeList;
 					}
 				};
 
-				context = new DefaultContext ();
-				((DefaultContext) context).put (UserEnvironment.CONTEXT_KEY, userEnvironment);
+				context = new DefaultContext();
+				((DefaultContext) context).put(UserEnvironment.CONTEXT_KEY, userEnvironment);
 
-				model = (Model) req.getService (Model.ROLE, properties.getProperty ("model"), context);
+				model = (Model) req.getService(Model.ROLE, properties.getProperty("model"), context);
 			}
 
-			((KeelContextualizable) req).setKeelContext (context);
+			((KeelContextualizable) req).setKeelContext(context);
 
 			String attributeName = null;
 
-			for (Iterator i = properties.keySet ().iterator (); i.hasNext ();)
+			for (Iterator i = properties.keySet().iterator(); i.hasNext();)
 			{
-				attributeName = (String) i.next ();
+				attributeName = (String) i.next();
 
-				req.setParameter (attributeName, properties.get (attributeName));
+				req.setParameter(attributeName, properties.get(attributeName));
 			}
 
-			KeelResponse res = model.execute (req);
+			KeelResponse res = model.execute(req);
 
 			return res;
 		}
 		catch (Exception x)
 		{
-			x.printStackTrace ();
+			x.printStackTrace();
 
-			Log.logError ("server", "ConnectorServerManager.executeModel", "Unable to execute model: " + x.toString ());
+			Log.logError("server", "ConnectorServerManager.executeModel", "Unable to execute model: " + x.toString());
 		}
 		finally
 		{
-			ModelTools.releaseModelRequest (req);
+			ModelTools.releaseModelRequest(req);
 		}
 
 		return null;
@@ -543,7 +541,7 @@ public class ConnectorServerManager extends BaseObject implements Manager, IObje
 	 * @param long User unique id.
 	 * @return KeelResponse object
 	 */
-	private KeelResponse getKeelObject (String model, String keelObjectId, long userUniqueId)
+	private KeelResponse getKeelObject(String model, String keelObjectId, long userUniqueId)
 	{
 		KeelResponse res = null;
 
@@ -551,27 +549,27 @@ public class ConnectorServerManager extends BaseObject implements Manager, IObje
 
 		try
 		{
-			req = ModelTools.createModelRequest ();
+			req = ModelTools.createModelRequest();
 
-			Model editModel = (Model) req.getService (Model.ROLE, model, (Context) keelIritgoAuthMap.get (new Long (
+			Model editModel = (Model) req.getService(Model.ROLE, model, (Context) keelIritgoAuthMap.get(new Long(
 							userUniqueId)));
 
-			((KeelContextualizable) req).setKeelContext ((Context) keelIritgoAuthMap.get (new Long (userUniqueId)));
+			((KeelContextualizable) req).setKeelContext((Context) keelIritgoAuthMap.get(new Long(userUniqueId)));
 
-			req.setParameter ("id", keelObjectId);
+			req.setParameter("id", keelObjectId);
 
-			res = editModel.execute (req);
+			res = editModel.execute(req);
 		}
 		catch (Exception x)
 		{
-			Log.log ("system", "ConnectorServerManager.getKeelObject", "Keel error, unknown model? Error: " + x,
+			Log.log("system", "ConnectorServerManager.getKeelObject", "Keel error, unknown model? Error: " + x,
 							Log.FATAL);
 
 			return null;
 		}
 		finally
 		{
-			ModelTools.releaseModelRequest (req);
+			ModelTools.releaseModelRequest(req);
 		}
 
 		return res;
@@ -585,7 +583,7 @@ public class ConnectorServerManager extends BaseObject implements Manager, IObje
 	 * @param long User unique id.
 	 * @return KeelResponse object
 	 */
-	private KeelResponse getKeelResultList (String model, String listName, long userUniqueId, String searchCondition,
+	private KeelResponse getKeelResultList(String model, String listName, long userUniqueId, String searchCondition,
 					String listSearchCategory)
 	{
 		KeelResponse res = null;
@@ -593,36 +591,36 @@ public class ConnectorServerManager extends BaseObject implements Manager, IObje
 
 		try
 		{
-			req = ModelTools.createModelRequest ();
+			req = ModelTools.createModelRequest();
 
-			Model listingModel = (Model) req.getService (Model.ROLE, model, (Context) keelIritgoAuthMap.get (new Long (
+			Model listingModel = (Model) req.getService(Model.ROLE, model, (Context) keelIritgoAuthMap.get(new Long(
 							userUniqueId)));
 
-			((KeelContextualizable) req).setKeelContext ((Context) keelIritgoAuthMap.get (new Long (userUniqueId)));
+			((KeelContextualizable) req).setKeelContext((Context) keelIritgoAuthMap.get(new Long(userUniqueId)));
 
-			req.setParameter ("listId", "list");
-			req.setParameter ("recordsPerPage", new Integer (100));
-			req.setParameter ("listSearch", searchCondition);
-			req.setParameter ("aktario", "true");
+			req.setParameter("listId", "list");
+			req.setParameter("recordsPerPage", new Integer(100));
+			req.setParameter("listSearch", searchCondition);
+			req.setParameter("aktario", "true");
 
-			if (! listSearchCategory.equals (""))
+			if (! listSearchCategory.equals(""))
 			{
-				req.setParameter ("listSearchCategory", listSearchCategory);
-				req.setParameter (listName + "SearchCategory", listSearchCategory);
+				req.setParameter("listSearchCategory", listSearchCategory);
+				req.setParameter(listName + "SearchCategory", listSearchCategory);
 			}
 
-			res = listingModel.execute (req);
+			res = listingModel.execute(req);
 		}
 		catch (Exception x)
 		{
-			Log.log ("system", "ConnectorServerManager.doQuery", "Keel error, unknown model (" + model + ")? Error: "
+			Log.log("system", "ConnectorServerManager.doQuery", "Keel error, unknown model (" + model + ")? Error: "
 							+ x, Log.FATAL);
 
 			return null;
 		}
 		finally
 		{
-			ModelTools.releaseModelRequest (req);
+			ModelTools.releaseModelRequest(req);
 		}
 
 		return res;
@@ -638,96 +636,96 @@ public class ConnectorServerManager extends BaseObject implements Manager, IObje
 	 *        to the iritgo object.
 	 * @return DynDataObject The generated object.
 	 */
-	private DynDataObject createDataObjectAndRegister (KeelResponse keelForm, String model, String keelObjectId,
+	private DynDataObject createDataObjectAndRegister(KeelResponse keelForm, String model, String keelObjectId,
 					boolean createNewObject)
 	{
 		DynDataObject dataObject = null;
 
 		boolean isObjectNotRegistered = false;
 
-		if (Engine.instance ().getIObjectFactory ().contains (model))
+		if (Engine.instance().getIObjectFactory().contains(model))
 		{
 			try
 			{
-				dataObject = (DynDataObject) Engine.instance ().getIObjectFactory ().newInstance (model);
+				dataObject = (DynDataObject) Engine.instance().getIObjectFactory().newInstance(model);
 			}
 			catch (Exception x)
 			{
-				Log.log ("system", "ConnectorServerManager.createDataObjectAndRegister",
+				Log.log("system", "ConnectorServerManager.createDataObjectAndRegister",
 								"DynDataObject can not created: " + model + " Error: " + x, Log.FATAL);
 			}
 		}
 		else
 		{
-			dataObject = new DynDataObject (model);
+			dataObject = new DynDataObject(model);
 			isObjectNotRegistered = true;
 		}
 
 		if (createNewObject)
 		{
-			dataObject.setUniqueId (Engine.instance ().getPersistentIDGenerator ().createId ());
+			dataObject.setUniqueId(Engine.instance().getPersistentIDGenerator().createId());
 		}
 		else
 		{
-			dataObject.setUniqueId (new Long (keelObjectId));
+			dataObject.setUniqueId(new Long(keelObjectId));
 		}
 
-		ResponseElement groups = keelForm.get ("groups");
+		ResponseElement groups = keelForm.get("groups");
 
-		for (Iterator i = groups.getAll ().iterator (); i.hasNext ();)
+		for (Iterator i = groups.getAll().iterator(); i.hasNext();)
 		{
-			ResponseElement group = (ResponseElement) i.next ();
+			ResponseElement group = (ResponseElement) i.next();
 
-			for (Iterator j = group.getAll ().iterator (); j.hasNext ();)
+			for (Iterator j = group.getAll().iterator(); j.hasNext();)
 			{
-				Input attribute = (Input) j.next ();
+				Input attribute = (Input) j.next();
 
-				String attributeName = attribute.getName ();
-				String attributeContent = (String) attribute.getDefaultValue ().toString ();
+				String attributeName = attribute.getName();
+				String attributeContent = (String) attribute.getDefaultValue().toString();
 
-				dataObject.setAttribute (attributeName, attributeContent);
+				dataObject.setAttribute(attributeName, attributeContent);
 
-				if ("combo".equals (attribute.getAttribute ("editor")))
+				if ("combo".equals(attribute.getAttribute("editor")))
 				{
-					StringBuffer validValues = new StringBuffer ();
+					StringBuffer validValues = new StringBuffer();
 
-					for (Iterator k = attribute.getValidValues ().entrySet ().iterator (); k.hasNext ();)
+					for (Iterator k = attribute.getValidValues().entrySet().iterator(); k.hasNext();)
 					{
-						Map.Entry value = (Map.Entry) k.next ();
+						Map.Entry value = (Map.Entry) k.next();
 
-						validValues.append (value.getKey () + "|" + value.getValue ());
+						validValues.append(value.getKey() + "|" + value.getValue());
 
-						if (k.hasNext ())
+						if (k.hasNext())
 						{
-							validValues.append ("|");
+							validValues.append("|");
 						}
 					}
 
-					dataObject.setAttribute (attributeName + "ValidValues", validValues.toString ());
+					dataObject.setAttribute(attributeName + "ValidValues", validValues.toString());
 				}
 			}
 		}
 
 		if (createNewObject)
 		{
-			dataObject.setAttribute ("keelObjectId", "-1");
+			dataObject.setAttribute("keelObjectId", "-1");
 		}
 		else
 		{
-			dataObject.setAttribute ("keelObjectId", keelObjectId);
+			dataObject.setAttribute("keelObjectId", keelObjectId);
 		}
 
 		if (isObjectNotRegistered)
 		{
-			Engine.instance ().getIObjectFactory ().register ((IObject) dataObject);
+			Engine.instance().getIObjectFactory().register((IObject) dataObject);
 		}
 
-		IObjectProxy proxy = (IObjectProxy) new FrameworkProxy ();
+		IObjectProxy proxy = (IObjectProxy) new FrameworkProxy();
 
-		proxy.setSampleRealObject ((IObject) dataObject);
+		proxy.setSampleRealObject((IObject) dataObject);
 
-		Engine.instance ().getBaseRegistry ().add ((BaseObject) dataObject);
-		Engine.instance ().getProxyRegistry ().addProxy (proxy, dataObject.getTypeId ());
+		Engine.instance().getBaseRegistry().add((BaseObject) dataObject);
+		Engine.instance().getProxyRegistry().addProxy(proxy, dataObject.getTypeId());
 
 		return dataObject;
 	}
@@ -741,60 +739,60 @@ public class ConnectorServerManager extends BaseObject implements Manager, IObje
 	 * @param String The list name.
 	 * @return DynDataObject The generated object.
 	 */
-	private DynDataObject createQueryDataObjectAndRegister (ResponseElement row, Iterator col,
+	private DynDataObject createQueryDataObjectAndRegister(ResponseElement row, Iterator col,
 					ResponseElement resultList, String listName, AkteraQuery akteraQuery)
 	{
 		DynDataObject listObject = null;
 
 		try
 		{
-			listObject = (DynDataObject) Engine.instance ().getIObjectFactory ().newInstance (listName);
+			listObject = (DynDataObject) Engine.instance().getIObjectFactory().newInstance(listName);
 		}
 		catch (Exception x)
 		{
 			return null;
 		}
 
-		if (! col.hasNext ())
+		if (! col.hasNext())
 		{
 			return null;
 		}
 
-		if (row.getAttribute ("empty") != null)
+		if (row.getAttribute("empty") != null)
 		{
 			return null;
 		}
 
-		String stringId = (String) row.getAttribute ("id");
+		String stringId = (String) row.getAttribute("id");
 
-		listObject.setUniqueId (new Long (stringId));
+		listObject.setUniqueId(new Long(stringId));
 
 		int colCounter = 0;
 
-		while (col.hasNext ())
+		while (col.hasNext())
 		{
-			ResponseElement colResp = (ResponseElement) col.next ();
+			ResponseElement colResp = (ResponseElement) col.next();
 
-			String attributeName = (String) ((Output) ((ResponseElement) resultList.getAttribute ("header")).getAll ()
-							.get (colCounter)).getContent ();
+			String attributeName = (String) ((Output) ((ResponseElement) resultList.getAttribute("header")).getAll()
+							.get(colCounter)).getContent();
 
-			String content = (String) (((Output) colResp).getContent ()).toString ();
+			String content = (String) (((Output) colResp).getContent()).toString();
 
-			listObject.setAttribute (attributeName, content);
+			listObject.setAttribute(attributeName, content);
 			++colCounter;
 		}
 
-		listObject.setAttribute ("keelObjectId", stringId);
-		listObject.setAttribute ("userUniqueId", "" + akteraQuery.getUserUniqueId ());
+		listObject.setAttribute("keelObjectId", stringId);
+		listObject.setAttribute("userUniqueId", "" + akteraQuery.getUserUniqueId());
 
-		IObjectProxy proxy = (IObjectProxy) new FrameworkProxy ();
+		IObjectProxy proxy = (IObjectProxy) new FrameworkProxy();
 
-		proxy.setSampleRealObject ((IObject) listObject);
+		proxy.setSampleRealObject((IObject) listObject);
 
-		Engine.instance ().getBaseRegistry ().add ((BaseObject) listObject);
-		Engine.instance ().getProxyRegistry ().addProxy (proxy, listObject.getTypeId ());
+		Engine.instance().getBaseRegistry().add((BaseObject) listObject);
+		Engine.instance().getProxyRegistry().addProxy(proxy, listObject.getTypeId());
 
-		ActionTools.sendServerBroadcast (new EditIObjectAction (EditIObjectAction.OK, listObject));
+		ActionTools.sendServerBroadcast(new EditIObjectAction(EditIObjectAction.OK, listObject));
 
 		return listObject;
 	}
@@ -804,131 +802,130 @@ public class ConnectorServerManager extends BaseObject implements Manager, IObje
 	 *
 	 * @param GUIControllerMissingEvent The event.
 	 */
-	public void guiControllerMissingEvent (GUIControllerMissingEvent event)
+	public void guiControllerMissingEvent(GUIControllerMissingEvent event)
 	{
-		String controllerTypeId = event.getControllerTypeId ();
-		GUIManager guiManager = event.getGUIManager ();
-		int displayType = event.getDisplayType ();
-		long userUniqueId = event.getUserUniqueId ();
+		String controllerTypeId = event.getControllerTypeId();
+		GUIManager guiManager = event.getGUIManager();
+		int displayType = event.getDisplayType();
+		long userUniqueId = event.getUserUniqueId();
 
 		if (displayType == GUIControllerRequest.QUERY)
 		{
-			KeelResponse result = getKeelResultList (controllerTypeId, "list", userUniqueId, "", "");
+			KeelResponse result = getKeelResultList(controllerTypeId, "list", userUniqueId, "", "");
 
 			if (result == null)
 			{
 				return;
 			}
 
-			ResponseElement resultList = result.get ("list");
+			ResponseElement resultList = result.get("list");
 
-			Controller controller = createController (controllerTypeId);
+			Controller controller = createController(controllerTypeId);
 
-			WidgetDescription wdGroup = createWidget (controller.getUniqueId (), controllerTypeId, "group", "group",
+			WidgetDescription wdGroup = createWidget(controller.getUniqueId(), controllerTypeId, "group", "group",
 							false, true);
 
-			controller.addWidgetDescription (wdGroup);
+			controller.addWidgetDescription(wdGroup);
 
-			for (Iterator i = ((ResponseElement) resultList.getAttribute ("header")).getAll ().iterator (); i
-							.hasNext ();)
+			for (Iterator i = ((ResponseElement) resultList.getAttribute("header")).getAll().iterator(); i.hasNext();)
 			{
-				ResponseElement field = (ResponseElement) i.next ();
-				String attributeName = (String) ((Output) field).getContent ();
-				String fieldLabel = (String) ((Output) field).getAttribute ("label");
-				boolean hide = ((Output) field).getAttribute ("hide") != null ? true : false;
+				ResponseElement field = (ResponseElement) i.next();
+				String attributeName = (String) ((Output) field).getContent();
+				String fieldLabel = (String) ((Output) field).getAttribute("label");
+				boolean hide = ((Output) field).getAttribute("hide") != null ? true : false;
 
-				wdGroup.addWidgetDescription (createWidget (controller.getUniqueId (), fieldLabel, attributeName,
+				wdGroup.addWidgetDescription(createWidget(controller.getUniqueId(), fieldLabel, attributeName,
 								attributeName, false, hide));
 			}
 
-			Input attribute = (Input) result.get ("listSearchCategory");
+			Input attribute = (Input) result.get("listSearchCategory");
 
 			if (attribute != null)
 			{
-				controller.addWidgetDescription (createWidget (controller.getUniqueId (), "listSearchCategory",
+				controller.addWidgetDescription(createWidget(controller.getUniqueId(), "listSearchCategory",
 								"listSearchCategory", "listSearchCategory", false, false));
 			}
 
 			// Wird noch ben�tigt um zu �perpr�fen ob �berhaupt die Neuanlage
 			// erlaubt ist.
 			// Command cmdNew = (Command) resultList.getAttribute ("cmdNew");
-			Command cmdEdit = (Command) resultList.getAttribute ("cmdEdit");
+			Command cmdEdit = (Command) resultList.getAttribute("cmdEdit");
 
 			if (cmdEdit != null)
 			{
-				controller.addCommandDescription (createCommand (controller.getUniqueId (), "NewAkteraObjectCommand",
-								cmdEdit.getModel (), "new", "new", "des", true, true));
+				controller.addCommandDescription(createCommand(controller.getUniqueId(), "NewAkteraObjectCommand",
+								cmdEdit.getModel(), "new", "new", "des", true, true));
 
-				controller.addCommandDescription (createCommand (controller.getUniqueId (), "EditAkteraObjectCommand",
-								cmdEdit.getModel (), "edit", "edit", "des", true, true));
+				controller.addCommandDescription(createCommand(controller.getUniqueId(), "EditAkteraObjectCommand",
+								cmdEdit.getModel(), "edit", "edit", "des", true, true));
 			}
 
-			ResponseElement itemCommands = (ResponseElement) resultList.getAttribute ("itemCommands");
+			ResponseElement itemCommands = (ResponseElement) resultList.getAttribute("itemCommands");
 
 			if (itemCommands != null)
 			{
-				for (Iterator i = itemCommands.getAll ().iterator (); i.hasNext ();)
+				for (Iterator i = itemCommands.getAll().iterator(); i.hasNext();)
 				{
-					Command command = (Command) i.next ();
+					Command command = (Command) i.next();
 
-					if (command.getName ().equals ("delete"))
+					if (command.getName().equals("delete"))
 					{
-						controller.addCommandDescription (createCommand (controller.getUniqueId (),
-										"DeleteAkteraObjectCommand", command.getModel (), "delete", "delete", "des",
+						controller.addCommandDescription(createCommand(controller.getUniqueId(),
+										"DeleteAkteraObjectCommand", command.getModel(), "delete", "delete", "des",
 										true, true));
 					}
 				}
 			}
 
-			controller.addCommandDescription (createCommand (controller.getUniqueId (), "CancelAkteraObjectCommand",
+			controller.addCommandDescription(createCommand(controller.getUniqueId(), "CancelAkteraObjectCommand",
 							"cancel", "cancel", "cancel", "des", true, true));
 
-			guiManager.addController (controllerTypeId, controller);
+			guiManager.addController(controllerTypeId, controller);
 		}
 
 		if (displayType == GUIControllerRequest.DATAOBJECT)
 		{
-			KeelResponse keelForm = getKeelObject (controllerTypeId, "0", userUniqueId);
+			KeelResponse keelForm = getKeelObject(controllerTypeId, "0", userUniqueId);
 
-			Controller controller = createController (controllerTypeId);
+			Controller controller = createController(controllerTypeId);
 
-			ResponseElement groups = keelForm.get ("groups");
+			ResponseElement groups = keelForm.get("groups");
 
-			for (Iterator i = groups.getAll ().iterator (); i.hasNext ();)
+			for (Iterator i = groups.getAll().iterator(); i.hasNext();)
 			{
-				ResponseElement group = (ResponseElement) i.next ();
+				ResponseElement group = (ResponseElement) i.next();
 
-				WidgetDescription wdGroup = createWidget (controller.getUniqueId (), (String) ((Output) group)
-								.getContent (), "group", "group", false, true);
+				WidgetDescription wdGroup = createWidget(controller.getUniqueId(), (String) ((Output) group)
+								.getContent(), "group", "group", false, true);
 
-				controller.addWidgetDescription (wdGroup);
+				controller.addWidgetDescription(wdGroup);
 
-				for (Iterator j = group.getAll ().iterator (); j.hasNext ();)
+				for (Iterator j = group.getAll().iterator(); j.hasNext();)
 				{
-					Input field = (Input) j.next ();
-					String fieldName = field.getName ();
-					String fieldLabel = field.getLabel ();
-					boolean duty = field.getAttribute ("duty") == null ? false : true;
+					Input field = (Input) j.next();
+					String fieldName = field.getName();
+					String fieldLabel = field.getLabel();
+					boolean duty = field.getAttribute("duty") == null ? false : true;
 
-					WidgetDescription fieldWidget = createWidget (controller.getUniqueId (), fieldLabel, fieldName,
-									(String) ((Input) field).getAttribute ("editor"), duty, true);
+					WidgetDescription fieldWidget = createWidget(controller.getUniqueId(), fieldLabel, fieldName,
+									(String) ((Input) field).getAttribute("editor"), duty, true);
 
-					wdGroup.addWidgetDescription (fieldWidget);
+					wdGroup.addWidgetDescription(fieldWidget);
 				}
 			}
 
-			Command cmdSave = (Command) keelForm.get ("save");
+			Command cmdSave = (Command) keelForm.get("save");
 
 			if (cmdSave != null)
 			{
-				controller.addCommandDescription (createCommand (controller.getUniqueId (), "SaveAkteraObjectCommand",
-								cmdSave.getModel (), "save", "save", "des", true, true));
+				controller.addCommandDescription(createCommand(controller.getUniqueId(), "SaveAkteraObjectCommand",
+								cmdSave.getModel(), "save", "save", "des", true, true));
 			}
 
-			controller.addCommandDescription (createCommand (controller.getUniqueId (), "CancelAkteraObjectCommand",
+			controller.addCommandDescription(createCommand(controller.getUniqueId(), "CancelAkteraObjectCommand",
 							"cancel", "cancel", "cancel", "des", true, true));
 
-			guiManager.addController (controllerTypeId, controller);
+			guiManager.addController(controllerTypeId, controller);
 		}
 	}
 
@@ -938,7 +935,7 @@ public class ConnectorServerManager extends BaseObject implements Manager, IObje
 	 * @param Properties properties
 	 * @param long userUniqueId
 	 */
-	public void getPersistentAttributes (Properties properties, long userUniqueId)
+	public void getPersistentAttributes(Properties properties, long userUniqueId)
 	{
 		ModelRequest req = null;
 
@@ -946,77 +943,77 @@ public class ConnectorServerManager extends BaseObject implements Manager, IObje
 		{
 			Model model = null;
 
-			req = ModelTools.createModelRequest ();
+			req = ModelTools.createModelRequest();
 
-			Context context = (Context) keelIritgoAuthMap.get (new Long (userUniqueId));
+			Context context = (Context) keelIritgoAuthMap.get(new Long(userUniqueId));
 
 			PersistentFactory persistentManager = null;
 
 			if (context != null)
 			{
-				persistentManager = (PersistentFactory) req.getService (PersistentFactory.ROLE, "", context);
+				persistentManager = (PersistentFactory) req.getService(PersistentFactory.ROLE, "", context);
 			}
 			else
 			{
-				UserEnvironment userEnvironment = new DefaultUserEnvironment ()
+				UserEnvironment userEnvironment = new DefaultUserEnvironment()
 				{
 					private LinkedList<String> fakeList;
 
-					public List<String> getGroups ()
+					public List<String> getGroups()
 					{
 						if (fakeList == null)
 						{
-							fakeList = new LinkedList<String> ();
-							fakeList.add (new String ("root"));
+							fakeList = new LinkedList<String>();
+							fakeList.add(new String("root"));
 						}
 
 						return fakeList;
 					}
 				};
 
-				context = new DefaultContext ();
-				((DefaultContext) context).put (UserEnvironment.CONTEXT_KEY, userEnvironment);
+				context = new DefaultContext();
+				((DefaultContext) context).put(UserEnvironment.CONTEXT_KEY, userEnvironment);
 
-				persistentManager = (PersistentFactory) req.getService (PersistentFactory.ROLE, "", context);
+				persistentManager = (PersistentFactory) req.getService(PersistentFactory.ROLE, "", context);
 			}
 
-			((KeelContextualizable) req).setKeelContext (context);
+			((KeelContextualizable) req).setKeelContext(context);
 
-			Persistent persistent = persistentManager.create (properties.getProperty ("persistent"));
+			Persistent persistent = persistentManager.create(properties.getProperty("persistent"));
 
-			if (properties.getProperty ("persistentFilter").equals ("true"))
+			if (properties.getProperty("persistentFilter").equals("true"))
 			{
-				persistent.setField (properties.getProperty ("persistentFilterAttributeName"), properties
-								.get ("persistentFilterAttribute"));
+				persistent.setField(properties.getProperty("persistentFilterAttributeName"), properties
+								.get("persistentFilterAttribute"));
 			}
 
-			if (! persistent.find ())
+			if (! persistent.find())
 			{
-				System.out.println ("No Object found:" + persistent);
+				System.out.println("No Object found:" + persistent);
 
 				return;
 			}
 
-			for (Iterator i = persistent.getMetaData ().getFieldNames ().iterator (); i.hasNext ();)
+			for (Iterator i = persistent.getMetaData().getFieldNames().iterator(); i.hasNext();)
 			{
-				String attribute = (String) i.next ();
-				Object object = persistent.getField (attribute);
+				String attribute = (String) i.next();
+				Object object = persistent.getField(attribute);
 
 				if (object != null)
 				{
-					properties.put (attribute, object);
+					properties.put(attribute, object);
 				}
 			}
 		}
 		catch (Exception x)
 		{
-			x.printStackTrace ();
+			x.printStackTrace();
 
-			Log.logError ("server", "ConnectorServerManager.executeModel", "Unable to execute model: " + x.toString ());
+			Log.logError("server", "ConnectorServerManager.executeModel", "Unable to execute model: " + x.toString());
 		}
 		finally
 		{
-			ModelTools.releaseModelRequest (req);
+			ModelTools.releaseModelRequest(req);
 		}
 	}
 
@@ -1025,15 +1022,15 @@ public class ConnectorServerManager extends BaseObject implements Manager, IObje
 	 *
 	 * @param DataObject dataobject.
 	 */
-	private void registerObject (DataObject dataObject)
+	private void registerObject(DataObject dataObject)
 	{
-		dataObject.setUniqueId (Engine.instance ().getPersistentIDGenerator ().createId ());
+		dataObject.setUniqueId(Engine.instance().getPersistentIDGenerator().createId());
 
-		IObjectProxy proxy = (IObjectProxy) new FrameworkProxy ();
+		IObjectProxy proxy = (IObjectProxy) new FrameworkProxy();
 
-		proxy.setSampleRealObject ((IObject) dataObject);
-		Engine.instance ().getProxyRegistry ().addProxy (proxy, dataObject.getTypeId ());
-		Engine.instance ().getBaseRegistry ().add ((BaseObject) dataObject);
+		proxy.setSampleRealObject((IObject) dataObject);
+		Engine.instance().getProxyRegistry().addProxy(proxy, dataObject.getTypeId());
+		Engine.instance().getBaseRegistry().add((BaseObject) dataObject);
 	}
 
 	/**
@@ -1042,13 +1039,13 @@ public class ConnectorServerManager extends BaseObject implements Manager, IObje
 	 * @param String controllerTypeId
 	 * @return Controller
 	 */
-	private Controller createController (String controllerTypeId)
+	private Controller createController(String controllerTypeId)
 	{
-		Controller controller = new Controller ();
-		long controllerUniqueId = Engine.instance ().getPersistentIDGenerator ().createId ();
+		Controller controller = new Controller();
+		long controllerUniqueId = Engine.instance().getPersistentIDGenerator().createId();
 
-		controller.setControllerTypeId (controllerTypeId);
-		registerObject (controller);
+		controller.setControllerTypeId(controllerTypeId);
+		registerObject(controller);
 
 		return controller;
 	}
@@ -1062,35 +1059,35 @@ public class ConnectorServerManager extends BaseObject implements Manager, IObje
 	 * @param rendere rendererId
 	 * @return widget description
 	 */
-	private WidgetDescription createWidget (long controllerUniqueId, String labelId, String widgetId,
-					String rendererId, boolean duty, boolean hide)
+	private WidgetDescription createWidget(long controllerUniqueId, String labelId, String widgetId, String rendererId,
+					boolean duty, boolean hide)
 	{
-		WidgetDescription wd = new WidgetDescription ();
+		WidgetDescription wd = new WidgetDescription();
 
-		wd.setControllerUniqueId (controllerUniqueId);
-		wd.setLabelId (labelId);
-		wd.setWidgetId (widgetId);
-		wd.setRendererId (rendererId);
-		wd.setMandatoryField (duty);
-		wd.setVisible (! hide);
-		registerObject (wd);
+		wd.setControllerUniqueId(controllerUniqueId);
+		wd.setLabelId(labelId);
+		wd.setWidgetId(widgetId);
+		wd.setRendererId(rendererId);
+		wd.setMandatoryField(duty);
+		wd.setVisible(! hide);
+		registerObject(wd);
 
 		return wd;
 	}
 
-	private CommandDescription createCommand (long controllerUniqueId, String commandId, String value, String iconId,
+	private CommandDescription createCommand(long controllerUniqueId, String commandId, String value, String iconId,
 					String labelId, String description, boolean visible, boolean enabled)
 	{
-		CommandDescription cd = new CommandDescription ();
+		CommandDescription cd = new CommandDescription();
 
-		cd.setControllerUniqueId (controllerUniqueId);
-		cd.setCommandId (commandId);
-		cd.setValue (value);
-		cd.setTextId (labelId);
-		cd.setIconId (iconId);
-		cd.setVisible (visible);
-		cd.setEnabled (enabled);
-		registerObject (cd);
+		cd.setControllerUniqueId(controllerUniqueId);
+		cd.setCommandId(commandId);
+		cd.setValue(value);
+		cd.setTextId(labelId);
+		cd.setIconId(iconId);
+		cd.setVisible(visible);
+		cd.setEnabled(enabled);
+		registerObject(cd);
 
 		return cd;
 	}
@@ -1098,7 +1095,7 @@ public class ConnectorServerManager extends BaseObject implements Manager, IObje
 	/**
 	 * Free all manager resources.
 	 */
-	public void unload ()
+	public void unload()
 	{
 	}
 }

@@ -39,15 +39,15 @@ public class ModuleCreateHandler extends CreateHandler
 	 * @see de.iritgo.aktera.persist.CreateHandler#createTables(ModelRequest, de.iritgo.aktera.persist.PersistentFactory, java.sql.Connection, Logger)
 	 */
 	@Override
-	public void createTables (ModelRequest request, PersistentFactory persistentFactory, Connection connection,
+	public void createTables(ModelRequest request, PersistentFactory persistentFactory, Connection connection,
 					Logger logger) throws ModelException, PersistenceException, SQLException
 	{
-		createTable ("ids", "next_id int4 not null", "table_name varchar(32) not null");
+		createTable("ids", "next_id int4 not null", "table_name varchar(32) not null");
 
-		createTable ("KeelListItem", "ItemCode varchar(25)", "ItemId serial primary key",
+		createTable("KeelListItem", "ItemCode varchar(25)", "ItemId serial primary key",
 						"ItemName varchar(250) not null", "ListName varchar(40) not null", "SortOrder int4");
 
-		createTable ("KeelListHeader", "FriendlyListName varchar(150)", "ListName varchar(40) not null",
+		createTable("KeelListHeader", "FriendlyListName varchar(150)", "ListName varchar(40) not null",
 						"UseSortOrder varchar(1) not null");
 	}
 
@@ -55,10 +55,10 @@ public class ModuleCreateHandler extends CreateHandler
 	 * @see de.iritgo.aktera.persist.CreateHandler#createData(de.iritgo.aktera.persist.PersistentFactory, java.sql.Connection, Logger, ModelRequest)
 	 */
 	@Override
-	public void createData (PersistentFactory persistentFactory, Connection connection, Logger logger,
+	public void createData(PersistentFactory persistentFactory, Connection connection, Logger logger,
 					ModelRequest request) throws ModelException, PersistenceException, SQLException
 	{
-		createComponentSecurity ("de.iritgo.aktera.models.util.CreateDB", "root", "*");
-		createComponentSecurity ("de.iritgo.aktera.models.util.DisplayConfig", "root", "*");
+		createComponentSecurity("de.iritgo.aktera.models.util.CreateDB", "root", "*");
+		createComponentSecurity("de.iritgo.aktera.models.util.DisplayConfig", "root", "*");
 	}
 }

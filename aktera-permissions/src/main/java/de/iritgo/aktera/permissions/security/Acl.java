@@ -27,115 +27,115 @@ import java.util.Vector;
 
 public class Acl extends Owner
 {
-	private Hashtable allowedUsersTable = new Hashtable (23);
+	private Hashtable allowedUsersTable = new Hashtable(23);
 
-	private Hashtable allowedGroupsTable = new Hashtable (23);
+	private Hashtable allowedGroupsTable = new Hashtable(23);
 
-	private Hashtable deniedUsersTable = new Hashtable (23);
+	private Hashtable deniedUsersTable = new Hashtable(23);
 
-	private Hashtable deniedGroupsTable = new Hashtable (23);
+	private Hashtable deniedGroupsTable = new Hashtable(23);
 
 	private String aclName = null;
 
-	private Vector zeroSet = new Vector (1, 1);
+	private Vector zeroSet = new Vector(1, 1);
 
-	public Acl (Principal owner, String name)
+	public Acl(Principal owner, String name)
 	{
-		super (owner);
+		super(owner);
 
 		try
 		{
-			setName (owner, name);
+			setName(owner, name);
 		}
 		catch (Exception e)
 		{
 		}
 	}
 
-	public void setName (Principal caller, String name) throws NotOwnerException
+	public void setName(Principal caller, String name) throws NotOwnerException
 	{
-		if (! isOwner (caller))
+		if (! isOwner(caller))
 		{
-			throw new NotOwnerException ();
+			throw new NotOwnerException();
 		}
 
 		aclName = name;
 	}
 
-	public String getName ()
+	public String getName()
 	{
 		return aclName;
 	}
 
-	public synchronized boolean addEntry (Principal caller, AclEntry entry) throws NotOwnerException
+	public synchronized boolean addEntry(Principal caller, AclEntry entry) throws NotOwnerException
 	{
-		if (! isOwner (caller))
+		if (! isOwner(caller))
 		{
-			throw new NotOwnerException ();
+			throw new NotOwnerException();
 		}
 
-		Hashtable aclTable = findTable (entry);
-		Principal key = entry.getPrincipal ();
+		Hashtable aclTable = findTable(entry);
+		Principal key = entry.getPrincipal();
 
-		if (aclTable.get (key) != null)
+		if (aclTable.get(key) != null)
 		{
 			return false;
 		}
 
-		aclTable.put (key, entry);
+		aclTable.put(key, entry);
 
 		return true;
 	}
 
-	public synchronized boolean removeEntry (Principal caller, AclEntry entry) throws NotOwnerException
+	public synchronized boolean removeEntry(Principal caller, AclEntry entry) throws NotOwnerException
 	{
-		if (! isOwner (caller))
+		if (! isOwner(caller))
 		{
-			throw new NotOwnerException ();
+			throw new NotOwnerException();
 		}
 
-		Hashtable aclTable = findTable (entry);
-		Object key = entry.getPrincipal ();
+		Hashtable aclTable = findTable(entry);
+		Object key = entry.getPrincipal();
 
-		Object o = aclTable.remove (key);
+		Object o = aclTable.remove(key);
 
 		return (o != null);
 	}
 
-	public synchronized Enumeration getPermissions (Principal user)
+	public synchronized Enumeration getPermissions(Principal user)
 	{
 		Enumeration individualPositive;
 		Enumeration individualNegative;
 		Enumeration groupPositive;
 		Enumeration groupNegative;
 
-		groupPositive = subtract (getGroupPositive (user), getGroupNegative (user));
-		groupNegative = subtract (getGroupNegative (user), getGroupPositive (user));
-		individualPositive = subtract (getIndividualPositive (user), getIndividualNegative (user));
-		individualNegative = subtract (getIndividualNegative (user), getIndividualPositive (user));
+		groupPositive = subtract(getGroupPositive(user), getGroupNegative(user));
+		groupNegative = subtract(getGroupNegative(user), getGroupPositive(user));
+		individualPositive = subtract(getIndividualPositive(user), getIndividualNegative(user));
+		individualNegative = subtract(getIndividualNegative(user), getIndividualPositive(user));
 
-		Enumeration temp1 = subtract (groupPositive, individualNegative);
-		Enumeration netPositive = union (individualPositive, temp1);
+		Enumeration temp1 = subtract(groupPositive, individualNegative);
+		Enumeration netPositive = union(individualPositive, temp1);
 
-		individualPositive = subtract (getIndividualPositive (user), getIndividualNegative (user));
-		individualNegative = subtract (getIndividualNegative (user), getIndividualPositive (user));
+		individualPositive = subtract(getIndividualPositive(user), getIndividualNegative(user));
+		individualNegative = subtract(getIndividualNegative(user), getIndividualPositive(user));
 
-		temp1 = subtract (groupNegative, individualPositive);
+		temp1 = subtract(groupNegative, individualPositive);
 
-		Enumeration netNegative = union (individualNegative, temp1);
+		Enumeration netNegative = union(individualNegative, temp1);
 
-		return subtract (netPositive, netNegative);
+		return subtract(netPositive, netNegative);
 	}
 
-	public boolean checkPermission (Principal principal, AbstractPermission permission)
+	public boolean checkPermission(Principal principal, AbstractPermission permission)
 	{
-		Enumeration permSet = getPermissions (principal);
+		Enumeration permSet = getPermissions(principal);
 
-		while (permSet.hasMoreElements ())
+		while (permSet.hasMoreElements())
 		{
-			AbstractPermission p = (AbstractPermission) permSet.nextElement ();
+			AbstractPermission p = (AbstractPermission) permSet.nextElement();
 
-			if (p.equals (permission))
+			if (p.equals(permission))
 			{
 				return true;
 			}
@@ -144,34 +144,34 @@ public class Acl extends Owner
 		return false;
 	}
 
-	public synchronized Enumeration entries ()
+	public synchronized Enumeration entries()
 	{
-		return new AclEnumerator (this, allowedUsersTable, allowedGroupsTable, deniedUsersTable, deniedGroupsTable);
+		return new AclEnumerator(this, allowedUsersTable, allowedGroupsTable, deniedUsersTable, deniedGroupsTable);
 	}
 
 	@Override
-	public String toString ()
+	public String toString()
 	{
-		StringBuffer sb = new StringBuffer ();
-		Enumeration entries = entries ();
+		StringBuffer sb = new StringBuffer();
+		Enumeration entries = entries();
 
-		while (entries.hasMoreElements ())
+		while (entries.hasMoreElements())
 		{
-			AclEntry entry = (AclEntry) entries.nextElement ();
+			AclEntry entry = (AclEntry) entries.nextElement();
 
-			sb.append (entry.toString ().trim ());
-			sb.append ("\n");
+			sb.append(entry.toString().trim());
+			sb.append("\n");
 		}
 
-		return sb.toString ();
+		return sb.toString();
 	}
 
-	private Hashtable findTable (AclEntry entry)
+	private Hashtable findTable(AclEntry entry)
 	{
-		return findTable (entry.getPrincipal (), entry.isNegative ());
+		return findTable(entry.getPrincipal(), entry.isNegative());
 	}
 
-	private Hashtable findTable (Principal principal, boolean negative)
+	private Hashtable findTable(Principal principal, boolean negative)
 	{
 		Hashtable aclTable = null;
 
@@ -201,122 +201,122 @@ public class Acl extends Owner
 		return aclTable;
 	}
 
-	private static Enumeration union (Enumeration e1, Enumeration e2)
+	private static Enumeration union(Enumeration e1, Enumeration e2)
 	{
-		Vector v = new Vector (20, 20);
+		Vector v = new Vector(20, 20);
 
-		while (e1.hasMoreElements ())
+		while (e1.hasMoreElements())
 		{
-			v.addElement (e1.nextElement ());
+			v.addElement(e1.nextElement());
 		}
 
-		while (e2.hasMoreElements ())
+		while (e2.hasMoreElements())
 		{
-			Object o = e2.nextElement ();
+			Object o = e2.nextElement();
 
-			if (! v.contains (o))
+			if (! v.contains(o))
 			{
-				v.addElement (o);
+				v.addElement(o);
 			}
 		}
 
-		return v.elements ();
+		return v.elements();
 	}
 
-	private Enumeration subtract (Enumeration e1, Enumeration e2)
+	private Enumeration subtract(Enumeration e1, Enumeration e2)
 	{
-		Vector v = new Vector (20, 20);
+		Vector v = new Vector(20, 20);
 
-		while (e1.hasMoreElements ())
+		while (e1.hasMoreElements())
 		{
-			v.addElement (e1.nextElement ());
+			v.addElement(e1.nextElement());
 		}
 
-		while (e2.hasMoreElements ())
+		while (e2.hasMoreElements())
 		{
-			Object o = e2.nextElement ();
+			Object o = e2.nextElement();
 
-			if (v.contains (o))
+			if (v.contains(o))
 			{
-				v.removeElement (o);
+				v.removeElement(o);
 			}
 		}
 
-		return v.elements ();
+		return v.elements();
 	}
 
-	private Enumeration getGroupPositive (Principal user)
+	private Enumeration getGroupPositive(Principal user)
 	{
-		Enumeration groupPositive = zeroSet.elements ();
-		Enumeration e = allowedGroupsTable.keys ();
+		Enumeration groupPositive = zeroSet.elements();
+		Enumeration e = allowedGroupsTable.keys();
 
-		while (e.hasMoreElements ())
+		while (e.hasMoreElements())
 		{
-			Group g = (Group) e.nextElement ();
+			Group g = (Group) e.nextElement();
 
-			if (g.isMember (user))
+			if (g.isMember(user))
 			{
-				AclEntry ae = (AclEntry) allowedGroupsTable.get (g);
+				AclEntry ae = (AclEntry) allowedGroupsTable.get(g);
 
-				groupPositive = union (ae.permissions (), groupPositive);
+				groupPositive = union(ae.permissions(), groupPositive);
 			}
 		}
 
 		return groupPositive;
 	}
 
-	private Enumeration getGroupNegative (Principal user)
+	private Enumeration getGroupNegative(Principal user)
 	{
-		Enumeration groupNegative = zeroSet.elements ();
-		Enumeration e = deniedGroupsTable.keys ();
+		Enumeration groupNegative = zeroSet.elements();
+		Enumeration e = deniedGroupsTable.keys();
 
-		while (e.hasMoreElements ())
+		while (e.hasMoreElements())
 		{
-			Group g = (Group) e.nextElement ();
+			Group g = (Group) e.nextElement();
 
-			if (g.isMember (user))
+			if (g.isMember(user))
 			{
-				AclEntry ae = (AclEntry) deniedGroupsTable.get (g);
+				AclEntry ae = (AclEntry) deniedGroupsTable.get(g);
 
-				groupNegative = union (ae.permissions (), groupNegative);
+				groupNegative = union(ae.permissions(), groupNegative);
 			}
 		}
 
 		return groupNegative;
 	}
 
-	private Enumeration getIndividualPositive (Principal user)
+	private Enumeration getIndividualPositive(Principal user)
 	{
-		Enumeration individualPositive = zeroSet.elements ();
-		AclEntry ae = (AclEntry) allowedUsersTable.get (user);
+		Enumeration individualPositive = zeroSet.elements();
+		AclEntry ae = (AclEntry) allowedUsersTable.get(user);
 
 		if (ae != null)
 		{
-			individualPositive = ae.permissions ();
+			individualPositive = ae.permissions();
 		}
 
 		return individualPositive;
 	}
 
-	private Enumeration getIndividualNegative (Principal user)
+	private Enumeration getIndividualNegative(Principal user)
 	{
-		Enumeration individualNegative = zeroSet.elements ();
-		AclEntry ae = (AclEntry) deniedUsersTable.get (user);
+		Enumeration individualNegative = zeroSet.elements();
+		AclEntry ae = (AclEntry) deniedUsersTable.get(user);
 
 		if (ae != null)
 		{
-			individualNegative = ae.permissions ();
+			individualNegative = ae.permissions();
 		}
 
 		return individualNegative;
 	}
 
-	public AclEntry findAclEntry (Principal principal, boolean negative)
+	public AclEntry findAclEntry(Principal principal, boolean negative)
 	{
-		Hashtable aclTable = findTable (principal, negative);
+		Hashtable aclTable = findTable(principal, negative);
 		if (aclTable != null)
 		{
-			return (AclEntry) aclTable.get (principal);
+			return (AclEntry) aclTable.get(principal);
 		}
 		return null;
 	}

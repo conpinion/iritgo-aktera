@@ -41,24 +41,24 @@ public class AbstractMessageResponseElement implements ResponseElement, Serializ
 {
 	private String name = null;
 
-	private List nestedElements = new ArrayList ();
+	private List nestedElements = new ArrayList();
 
 	private Map attributes = null;
 
-	public void removeAttribute (String key)
+	public void removeAttribute(String key)
 	{
 		if (attributes != null)
 		{
 			synchronized (attributes)
 			{
-				attributes.remove (key);
+				attributes.remove(key);
 			}
 		}
 	}
 
 	/* Add a nested response element
 	 */
-	public void add (ResponseElement re)
+	public void add(ResponseElement re)
 	{
 		if (re == null)
 		{
@@ -67,22 +67,22 @@ public class AbstractMessageResponseElement implements ResponseElement, Serializ
 
 		if (nestedElements == null)
 		{
-			nestedElements = new ArrayList ();
+			nestedElements = new ArrayList();
 		}
 
 		if (! (re instanceof AbstractMessageResponseElement))
 		{
-			throw new IllegalArgumentException ("Nested element '" + re.getName () + "' was of type '"
-							+ re.getClass ().getName () + "'");
+			throw new IllegalArgumentException("Nested element '" + re.getName() + "' was of type '"
+							+ re.getClass().getName() + "'");
 		}
 
 		synchronized (nestedElements)
 		{
-			nestedElements.add (re);
+			nestedElements.add(re);
 		}
 	}
 
-	public void remove (ResponseElement re)
+	public void remove(ResponseElement re)
 	{
 		if (re == null)
 		{
@@ -93,12 +93,12 @@ public class AbstractMessageResponseElement implements ResponseElement, Serializ
 		{
 			synchronized (nestedElements)
 			{
-				nestedElements.remove (re);
+				nestedElements.remove(re);
 			}
 		}
 	}
 
-	public void setAttribute (String key, Object value)
+	public void setAttribute(String key, Object value)
 	{
 		if (key == null)
 		{
@@ -107,7 +107,7 @@ public class AbstractMessageResponseElement implements ResponseElement, Serializ
 
 		if (attributes == null)
 		{
-			attributes = new HashMap ();
+			attributes = new HashMap();
 		}
 
 		if (value == null)
@@ -117,26 +117,25 @@ public class AbstractMessageResponseElement implements ResponseElement, Serializ
 
 		if (! (value instanceof Serializable))
 		{
-			throw new IllegalArgumentException ("Attribute '" + key + "' was not serializable. It was of type '"
-							+ value.getClass ().getName () + "'");
+			throw new IllegalArgumentException("Attribute '" + key + "' was not serializable. It was of type '"
+							+ value.getClass().getName() + "'");
 		}
 
 		if (value instanceof ResponseElement)
 		{
 			if (! (value instanceof AbstractMessageResponseElement))
 			{
-				throw new IllegalArgumentException ("Attribute '" + key + "' was a '" + value.getClass ().getName ()
-								+ "'");
+				throw new IllegalArgumentException("Attribute '" + key + "' was a '" + value.getClass().getName() + "'");
 			}
 		}
 
 		synchronized (attributes)
 		{
-			attributes.put (key, value);
+			attributes.put(key, value);
 		}
 	}
 
-	public Object getAttribute (String key)
+	public Object getAttribute(String key)
 	{
 		Object returnValue = null;
 
@@ -144,20 +143,20 @@ public class AbstractMessageResponseElement implements ResponseElement, Serializ
 		{
 			if (attributes != null)
 			{
-				returnValue = attributes.get (key);
+				returnValue = attributes.get(key);
 			}
 		}
 
 		return returnValue;
 	}
 
-	public Map getAttributes ()
+	public Map getAttributes()
 	{
 		Map returnValue = null;
 
 		if (attributes == null)
 		{
-			returnValue = new HashMap ();
+			returnValue = new HashMap();
 		}
 		else
 		{
@@ -167,72 +166,72 @@ public class AbstractMessageResponseElement implements ResponseElement, Serializ
 		return returnValue;
 	}
 
-	public void setName (String newName)
+	public void setName(String newName)
 	{
 		name = newName;
 	}
 
-	public String getName ()
+	public String getName()
 	{
 		return name;
 	}
 
-	public List getAll ()
+	public List getAll()
 	{
 		return nestedElements;
 	}
 
-	protected void copyFrom (ResponseElement re)
+	protected void copyFrom(ResponseElement re)
 	{
 		if (re == null)
 		{
 			return;
 		}
 
-		List nested = re.getAll ();
+		List nested = re.getAll();
 
 		if (nested != null)
 		{
 			ResponseElement oneNested = null;
 
-			for (Iterator in = nested.iterator (); in.hasNext ();)
+			for (Iterator in = nested.iterator(); in.hasNext();)
 			{
-				oneNested = (ResponseElement) in.next ();
+				oneNested = (ResponseElement) in.next();
 
 				if (oneNested instanceof Command)
 				{
-					add (new CommandMessage ((Command) oneNested));
+					add(new CommandMessage((Command) oneNested));
 				}
 				else if (oneNested instanceof Input)
 				{
-					add (new InputMessage ((Input) oneNested));
+					add(new InputMessage((Input) oneNested));
 				}
 				else if (oneNested instanceof Output)
 				{
-					add (new OutputMessage ((Output) oneNested));
+					add(new OutputMessage((Output) oneNested));
 				}
 				else
 				{
-					throw new IllegalArgumentException ("Nested element " + oneNested.getName () + " of element "
-									+ getName () + " is not a valid type. It is " + oneNested.getClass ().getName ());
+					throw new IllegalArgumentException("Nested element " + oneNested.getName() + " of element "
+									+ getName() + " is not a valid type. It is " + oneNested.getClass().getName());
 				}
 			}
 		}
 
-		Map attribs = re.getAttributes ();
+		Map attribs = re.getAttributes();
 		String oneAttribKey = null;
 		Object oneAttribValue = null;
 
-		for (Iterator ia = attribs.keySet ().iterator (); ia.hasNext ();)
+		for (Iterator ia = attribs.keySet().iterator(); ia.hasNext();)
 		{
-			oneAttribKey = (String) ia.next ();
-			oneAttribValue = attribs.get (oneAttribKey);
+			oneAttribKey = (String) ia.next();
+			oneAttribValue = attribs.get(oneAttribKey);
 
 			if (oneAttribValue == null)
 			{
 				//Check for null, other wise into error case,
 				//which throws a NullPointerExcepton on getClass()
-				setAttribute (oneAttribKey, null);
+				setAttribute(oneAttribKey, null);
 			}
 
 			//BUG: WAY too many expensive instanceof checks here!!! 
@@ -240,24 +239,24 @@ public class AbstractMessageResponseElement implements ResponseElement, Serializ
 			//class oneAttribValue is?
 			else if (oneAttribValue instanceof Command)
 			{
-				setAttribute (oneAttribKey, new CommandMessage ((Command) oneAttribValue));
+				setAttribute(oneAttribKey, new CommandMessage((Command) oneAttribValue));
 			}
 			else if (oneAttribValue instanceof Input)
 			{
-				setAttribute (oneAttribKey, new InputMessage ((Input) oneAttribValue));
+				setAttribute(oneAttribKey, new InputMessage((Input) oneAttribValue));
 			}
 			else if (oneAttribValue instanceof Output)
 			{
-				setAttribute (oneAttribKey, new OutputMessage ((Output) oneAttribValue));
+				setAttribute(oneAttribKey, new OutputMessage((Output) oneAttribValue));
 			}
 			else if (oneAttribValue instanceof Serializable)
 			{
-				setAttribute (oneAttribKey, oneAttribValue);
+				setAttribute(oneAttribKey, oneAttribValue);
 			}
 			else
 			{
-				throw new IllegalArgumentException ("Attribute '" + oneAttribKey + "' of element '" + getName ()
-								+ "' is not serializable. It is a '" + oneAttribValue.getClass ().getName () + "'");
+				throw new IllegalArgumentException("Attribute '" + oneAttribKey + "' of element '" + getName()
+								+ "' is not serializable. It is a '" + oneAttribValue.getClass().getName() + "'");
 			}
 		}
 	}

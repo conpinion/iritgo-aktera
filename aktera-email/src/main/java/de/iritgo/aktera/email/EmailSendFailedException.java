@@ -25,23 +25,23 @@ public class EmailSendFailedException extends Exception
 	/** */
 	private static final long serialVersionUID = 1L;
 
-	public EmailSendFailedException ()
+	public EmailSendFailedException()
 	{
-		super ();
+		super();
 	}
 
-	public EmailSendFailedException (String message, Throwable cause)
+	public EmailSendFailedException(String message, Throwable cause)
 	{
-		super (message, cause);
+		super(message, cause);
 	}
 
-	public EmailSendFailedException (String message)
+	public EmailSendFailedException(String message)
 	{
-		super (message);
+		super(message);
 	}
 
-	public EmailSendFailedException (Throwable cause)
+	public EmailSendFailedException(Throwable cause)
 	{
-		super (cause);
+		super(cause);
 	}
 }

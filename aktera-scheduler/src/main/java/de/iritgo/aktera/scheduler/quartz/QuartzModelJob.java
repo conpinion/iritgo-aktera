@@ -47,13 +47,13 @@ public class QuartzModelJob implements Job
 	{
 		private List<String> groups;
 
-		public RootUserEnvironment ()
+		public RootUserEnvironment()
 		{
-			groups = new LinkedList<String> ();
-			groups.add (new String ("root"));
+			groups = new LinkedList<String>();
+			groups.add(new String("root"));
 		}
 
-		public List<String> getGroups ()
+		public List<String> getGroups()
 		{
 			return groups;
 		}
@@ -63,22 +63,22 @@ public class QuartzModelJob implements Job
 	 * @see org.quartz.Job#execute(org.quartz.JobExecutionContext)
 	 */
 	@SuppressWarnings("unchecked")
-	public void execute (JobExecutionContext jobContext) throws JobExecutionException
+	public void execute(JobExecutionContext jobContext) throws JobExecutionException
 	{
-		JobDetail jobDetail = jobContext.getJobDetail ();
+		JobDetail jobDetail = jobContext.getJobDetail();
 
 		try
 		{
-			ModelRequest request = (ModelRequest) jobDetail.getJobDataMap ().get ("request");
-			DefaultContext requestContext = ((DefaultContext) request.getContext ());
+			ModelRequest request = (ModelRequest) jobDetail.getJobDataMap().get("request");
+			DefaultContext requestContext = ((DefaultContext) request.getContext());
 
-			requestContext.put (UserEnvironment.CONTEXT_KEY, new RootUserEnvironment ());
-			request.execute ();
-			KeelContainer.defaultContainer ().release (request);
+			requestContext.put(UserEnvironment.CONTEXT_KEY, new RootUserEnvironment());
+			request.execute();
+			KeelContainer.defaultContainer().release(request);
 		}
 		catch (Exception x)
 		{
-			System.err.println ("[QuartzModelJob] Error executing job '" + jobDetail.getName () + "': " + x);
+			System.err.println("[QuartzModelJob] Error executing job '" + jobDetail.getName() + "': " + x);
 		}
 	}
 }

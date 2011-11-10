@@ -42,15 +42,15 @@ public class PromptUpdateDatabase extends StandardLogEnabledModel
 	 * @param req The model request.
 	 * @throws ModelException In case of a business failure.
 	 */
-	public ModelResponse execute (ModelRequest req) throws ModelException
+	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
-		ModelResponse res = req.createResponse ();
+		ModelResponse res = req.createResponse();
 
-		Command cmd = res.createCommand ("aktera.database.update");
+		Command cmd = res.createCommand("aktera.database.update");
 
-		cmd.setName ("update");
-		cmd.setLabel ("$updateDatabase");
-		res.add (cmd);
+		cmd.setName("update");
+		cmd.setLabel("$updateDatabase");
+		res.add(cmd);
 
 		return res;
 	}

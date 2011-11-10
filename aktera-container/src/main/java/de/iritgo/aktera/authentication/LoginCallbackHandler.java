@@ -29,8 +29,7 @@ import javax.security.auth.callback.ConfirmationCallback;
 import javax.security.auth.callback.NameCallback;
 import javax.security.auth.callback.PasswordCallback;
 import javax.security.auth.callback.TextInputCallback;
-import javax.security.auth.callback.UnsupportedCallbackException;
-/* Java imports */
+import javax.security.auth.callback.UnsupportedCallbackException; /* Java imports */
 import java.io.IOException;
 
 
@@ -64,7 +63,7 @@ public class LoginCallbackHandler implements CallbackHandler
 	/**
 	 * <p>Default constructor
 	 */
-	public LoginCallbackHandler ()
+	public LoginCallbackHandler()
 	{
 	}
 
@@ -72,13 +71,13 @@ public class LoginCallbackHandler implements CallbackHandler
 	 * <p>Creates a callback handler with the give username
 	 * and password.
 	 */
-	public LoginCallbackHandler (String user, String pass, String domain, boolean remember, Configuration newConf,
+	public LoginCallbackHandler(String user, String pass, String domain, boolean remember, Configuration newConf,
 					Logger newLog, ServiceManager newManager)
 	{
 		log = newLog;
-		log.debug ("LoginCallbackHandler initialized");
+		log.debug("LoginCallbackHandler initialized");
 		this.username = user;
-		this.password = pass.toCharArray ();
+		this.password = pass.toCharArray();
 		this.domain = domain;
 		this.remember = remember;
 		this.serviceManager = newManager;
@@ -99,49 +98,49 @@ public class LoginCallbackHandler implements CallbackHandler
 	 * instance of NameCallback, PasswordCallback, ConfirmationCallback
 	 * or TextInputCallback.
 	 */
-	public void handle (Callback[] callbacks) throws java.io.IOException, UnsupportedCallbackException
+	public void handle(Callback[] callbacks) throws java.io.IOException, UnsupportedCallbackException
 	{
 		for (int i = 0; i < callbacks.length; i++)
 		{
 			if (callbacks[i] instanceof NameCallback)
 			{
-				((NameCallback) callbacks[i]).setName (username);
+				((NameCallback) callbacks[i]).setName(username);
 			}
 			else if (callbacks[i] instanceof PasswordCallback)
 			{
-				((PasswordCallback) callbacks[i]).setPassword (password);
+				((PasswordCallback) callbacks[i]).setPassword(password);
 			}
 			else if (callbacks[i] instanceof ConfirmationCallback)
 			{
 				if (this.remember)
 				{
-					((ConfirmationCallback) callbacks[i]).setSelectedIndex (ConfirmationCallback.YES);
+					((ConfirmationCallback) callbacks[i]).setSelectedIndex(ConfirmationCallback.YES);
 				}
 				else
 				{
-					((ConfirmationCallback) callbacks[i]).setSelectedIndex (ConfirmationCallback.YES);
+					((ConfirmationCallback) callbacks[i]).setSelectedIndex(ConfirmationCallback.YES);
 				}
 			}
 			else if (callbacks[i] instanceof TextInputCallback)
 			{
-				((TextInputCallback) callbacks[i]).setText (domain);
+				((TextInputCallback) callbacks[i]).setText(domain);
 			}
 			else if (callbacks[i] instanceof ConfigurationCallback)
 			{
-				((ConfigurationCallback) callbacks[i]).setConfiguration (conf);
+				((ConfigurationCallback) callbacks[i]).setConfiguration(conf);
 			}
 			else if (callbacks[i] instanceof LoggerCallback)
 			{
-				((LoggerCallback) callbacks[i]).setLog (log);
+				((LoggerCallback) callbacks[i]).setLog(log);
 			}
 			else if (callbacks[i] instanceof ServiceManagerCallback)
 			{
-				((ServiceManagerCallback) callbacks[i]).setServiceManager (serviceManager);
+				((ServiceManagerCallback) callbacks[i]).setServiceManager(serviceManager);
 			}
 			else
 			{
-				throw new UnsupportedCallbackException (callbacks[i], "Callback class '"
-								+ callbacks[i].getClass ().getName () + "' not supported");
+				throw new UnsupportedCallbackException(callbacks[i], "Callback class '"
+								+ callbacks[i].getClass().getName() + "' not supported");
 			}
 		}
 	}
@@ -149,7 +148,7 @@ public class LoginCallbackHandler implements CallbackHandler
 	/**
 	 * Clears out password state.
 	 */
-	public void clearPassword ()
+	public void clearPassword()
 	{
 		if (password != null)
 		{

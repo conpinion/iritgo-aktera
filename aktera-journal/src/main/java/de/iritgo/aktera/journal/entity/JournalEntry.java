@@ -124,14 +124,14 @@ public class JournalEntry implements Serializable
 	/**
 	 * Create a default journal.
 	 */
-	public JournalEntry ()
+	public JournalEntry()
 	{
 	}
 
 	/**
 	 * Get the primary key.
 	 */
-	public Integer getId ()
+	public Integer getId()
 	{
 		return id;
 	}
@@ -139,7 +139,7 @@ public class JournalEntry implements Serializable
 	/**
 	 * Set the primary key.
 	 */
-	public void setId (Integer id)
+	public void setId(Integer id)
 	{
 		this.id = id;
 	}
@@ -149,7 +149,7 @@ public class JournalEntry implements Serializable
 	 *
 	 * @return The timestamp
 	 */
-	public Timestamp getOccurredAt ()
+	public Timestamp getOccurredAt()
 	{
 		return occurredAt;
 	}
@@ -160,7 +160,7 @@ public class JournalEntry implements Serializable
 	 * @param Timestamp
 	 *            The timestamp
 	 */
-	public void setOccurredAt (Timestamp occurredAt)
+	public void setOccurredAt(Timestamp occurredAt)
 	{
 		this.occurredAt = occurredAt;
 	}
@@ -170,7 +170,7 @@ public class JournalEntry implements Serializable
 	 *
 	 * @return The producerId
 	 */
-	public Integer getProducerId ()
+	public Integer getProducerId()
 	{
 		return producerId;
 	}
@@ -181,7 +181,7 @@ public class JournalEntry implements Serializable
 	 * @param producerId
 	 *            The producerId
 	 */
-	public void setProducerId (Integer producerId)
+	public void setProducerId(Integer producerId)
 	{
 		this.producerId = producerId;
 	}
@@ -191,7 +191,7 @@ public class JournalEntry implements Serializable
 	 *
 	 * @return The ownerId
 	 */
-	public Integer getOwnerId ()
+	public Integer getOwnerId()
 	{
 		return ownerId;
 	}
@@ -202,7 +202,7 @@ public class JournalEntry implements Serializable
 	 * @param owner
 	 *            id The owner id
 	 */
-	public void setOwnerId (Integer ownerId)
+	public void setOwnerId(Integer ownerId)
 	{
 		this.ownerId = ownerId;
 	}
@@ -212,7 +212,7 @@ public class JournalEntry implements Serializable
 	 *
 	 * @return The ownerGroupId
 	 */
-	public Integer getOwnerGroupId ()
+	public Integer getOwnerGroupId()
 	{
 		return ownerGroupId;
 	}
@@ -223,7 +223,7 @@ public class JournalEntry implements Serializable
 	 * @param ownerGroupId
 	 *            The owner group id
 	 */
-	public void setOwnerGroupId (Integer ownerGroupId)
+	public void setOwnerGroupId(Integer ownerGroupId)
 	{
 		this.ownerGroupId = ownerGroupId;
 	}
@@ -233,7 +233,7 @@ public class JournalEntry implements Serializable
 	 *
 	 * @return Th primary type
 	 */
-	public String getPrimaryType ()
+	public String getPrimaryType()
 	{
 		return primaryType;
 	}
@@ -244,7 +244,7 @@ public class JournalEntry implements Serializable
 	 * @param The
 	 *            primary type
 	 */
-	public void setPrimaryType (String primaryType)
+	public void setPrimaryType(String primaryType)
 	{
 		this.primaryType = primaryType;
 	}
@@ -254,7 +254,7 @@ public class JournalEntry implements Serializable
 	 *
 	 * @return The secondary type
 	 */
-	public String getSecondaryType ()
+	public String getSecondaryType()
 	{
 		return secondaryType;
 	}
@@ -265,7 +265,7 @@ public class JournalEntry implements Serializable
 	 * @param The
 	 *            secondary type
 	 */
-	public void setSecondaryType (String secondaryType)
+	public void setSecondaryType(String secondaryType)
 	{
 		this.secondaryType = secondaryType;
 	}
@@ -275,7 +275,7 @@ public class JournalEntry implements Serializable
 	 *
 	 * @return The extendend info id
 	 */
-	public Integer getExtendedInfoId ()
+	public Integer getExtendedInfoId()
 	{
 		return extendedInfoId;
 	}
@@ -286,7 +286,7 @@ public class JournalEntry implements Serializable
 	 * @param extendedInfoId
 	 *            The extended info id
 	 */
-	public void setExtendedInfoId (Integer extendedInfoId)
+	public void setExtendedInfoId(Integer extendedInfoId)
 	{
 		this.extendedInfoId = extendedInfoId;
 	}
@@ -296,7 +296,7 @@ public class JournalEntry implements Serializable
 	 *
 	 * @return The info type
 	 */
-	public String getExtendedInfoType ()
+	public String getExtendedInfoType()
 	{
 		return extendedInfoType;
 	}
@@ -307,7 +307,7 @@ public class JournalEntry implements Serializable
 	 * @param extendedInfoType
 	 *            The extended info type
 	 */
-	public void setExtendedInfoType (String extendedInfoType)
+	public void setExtendedInfoType(String extendedInfoType)
 	{
 		this.extendedInfoType = extendedInfoType;
 	}
@@ -317,7 +317,7 @@ public class JournalEntry implements Serializable
 	 *
 	 * @return The message
 	 */
-	public String getMessage ()
+	public String getMessage()
 	{
 		return message;
 	}
@@ -328,7 +328,7 @@ public class JournalEntry implements Serializable
 	 * @param message
 	 *            The message
 	 */
-	public void setMessage (String message)
+	public void setMessage(String message)
 	{
 		this.message = message;
 	}
@@ -338,7 +338,7 @@ public class JournalEntry implements Serializable
 	 *
 	 * @return The short message
 	 */
-	public String getShortMessage ()
+	public String getShortMessage()
 	{
 		return shortMessage;
 	}
@@ -349,7 +349,7 @@ public class JournalEntry implements Serializable
 	 * @param shortMessage
 	 *            The shot message
 	 */
-	public void setShortMessage (String shortMessage)
+	public void setShortMessage(String shortMessage)
 	{
 		this.shortMessage = shortMessage;
 	}
@@ -359,7 +359,7 @@ public class JournalEntry implements Serializable
 	 *
 	 * @return The tags
 	 */
-	public String getTags ()
+	public String getTags()
 	{
 		return tags;
 	}
@@ -370,7 +370,7 @@ public class JournalEntry implements Serializable
 	 * @param tags
 	 *            The tags
 	 */
-	public void setTags (String tags)
+	public void setTags(String tags)
 	{
 		this.tags = tags;
 	}
@@ -380,7 +380,7 @@ public class JournalEntry implements Serializable
 	 *
 	 * @return The producer type
 	 */
-	public String getProducerType ()
+	public String getProducerType()
 	{
 		return producerType;
 	}
@@ -391,7 +391,7 @@ public class JournalEntry implements Serializable
 	 * @param producerType
 	 *            The producer type
 	 */
-	public void setProducerType (String producerType)
+	public void setProducerType(String producerType)
 	{
 		this.producerType = producerType;
 	}
@@ -401,7 +401,7 @@ public class JournalEntry implements Serializable
 	 *
 	 * @return The producer type
 	 */
-	public String getOwnerType ()
+	public String getOwnerType()
 	{
 		return ownerType;
 	}
@@ -412,7 +412,7 @@ public class JournalEntry implements Serializable
 	 * @param ownerType
 	 *            The owner type
 	 */
-	public void setOwnerType (String ownerType)
+	public void setOwnerType(String ownerType)
 	{
 		this.ownerType = ownerType;
 	}
@@ -422,7 +422,7 @@ public class JournalEntry implements Serializable
 	 *
 	 * @return The owner group type
 	 */
-	public String getOwnerGroupType ()
+	public String getOwnerGroupType()
 	{
 		return ownerGroupType;
 	}
@@ -433,7 +433,7 @@ public class JournalEntry implements Serializable
 	 * @param ownerGroupType
 	 *            The owner group type
 	 */
-	public void setOwnerGroupType (String ownerGroupType)
+	public void setOwnerGroupType(String ownerGroupType)
 	{
 		this.ownerGroupType = ownerGroupType;
 	}
@@ -443,7 +443,7 @@ public class JournalEntry implements Serializable
 	 *
 	 * @return The searchable text
 	 */
-	public String getSearchableText ()
+	public String getSearchableText()
 	{
 		return searchableText;
 	}
@@ -454,7 +454,7 @@ public class JournalEntry implements Serializable
 	 * @param searchableText
 	 *            The searchable text
 	 */
-	public void setSearchableText (String searchableText)
+	public void setSearchableText(String searchableText)
 	{
 		this.searchableText = searchableText;
 	}
@@ -464,7 +464,7 @@ public class JournalEntry implements Serializable
 	 *
 	 * @return The misc text
 	 */
-	public String getMisc ()
+	public String getMisc()
 	{
 		return misc;
 	}
@@ -475,7 +475,7 @@ public class JournalEntry implements Serializable
 	 * @param misc
 	 *            The misc text
 	 */
-	public void setMisc (String misc)
+	public void setMisc(String misc)
 	{
 		this.misc = misc;
 	}
@@ -485,7 +485,7 @@ public class JournalEntry implements Serializable
 	 *
 	 * @return The raw data
 	 */
-	public String getRawData ()
+	public String getRawData()
 	{
 		return rawData;
 	}
@@ -496,7 +496,7 @@ public class JournalEntry implements Serializable
 	 * @param rawData
 	 *            The raw data
 	 */
-	public void setRawData (String rawData)
+	public void setRawData(String rawData)
 	{
 		this.rawData = rawData;
 	}
@@ -506,7 +506,7 @@ public class JournalEntry implements Serializable
 	 *
 	 * @return The flag
 	 */
-	public Boolean getNewFlag ()
+	public Boolean getNewFlag()
 	{
 		return newFlag;
 	}
@@ -517,7 +517,7 @@ public class JournalEntry implements Serializable
 	 * @param newFlag
 	 *            The new flag
 	 */
-	public void setNewFlag (Boolean newFlag)
+	public void setNewFlag(Boolean newFlag)
 	{
 		this.newFlag = newFlag;
 	}

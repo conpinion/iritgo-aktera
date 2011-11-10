@@ -36,5 +36,5 @@ public interface WebappResponse
 	 * Add cookie in rsponse
 	 * @param c cookie
 	 */
-	void addCookie (Cookie c);
+	void addCookie(Cookie c);
 }

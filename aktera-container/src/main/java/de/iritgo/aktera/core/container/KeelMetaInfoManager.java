@@ -52,9 +52,9 @@ public final class KeelMetaInfoManager extends AbstractMetaInfoManager implement
 	/**
 	 * Create a ServiceMetaManager.
 	 */
-	public KeelMetaInfoManager ()
+	public KeelMetaInfoManager()
 	{
-		super ((MetaInfoManager) null);
+		super((MetaInfoManager) null);
 	}
 
 	/**
@@ -62,9 +62,9 @@ public final class KeelMetaInfoManager extends AbstractMetaInfoManager implement
 	 *
 	 * @param parent
 	 */
-	public KeelMetaInfoManager (final RoleManager parent)
+	public KeelMetaInfoManager(final RoleManager parent)
 	{
-		super (parent);
+		super(parent);
 	}
 
 	/**
@@ -72,9 +72,9 @@ public final class KeelMetaInfoManager extends AbstractMetaInfoManager implement
 	 *
 	 * @param parent
 	 */
-	public KeelMetaInfoManager (final MetaInfoManager parent)
+	public KeelMetaInfoManager(final MetaInfoManager parent)
 	{
-		super (parent);
+		super(parent);
 	}
 
 	/**
@@ -84,9 +84,9 @@ public final class KeelMetaInfoManager extends AbstractMetaInfoManager implement
 	 * @param parent
 	 * @param loader
 	 */
-	public KeelMetaInfoManager (final MetaInfoManager parent, final ClassLoader loader)
+	public KeelMetaInfoManager(final MetaInfoManager parent, final ClassLoader loader)
 	{
-		super (parent, loader);
+		super(parent, loader);
 	}
 
 	/**
@@ -95,85 +95,85 @@ public final class KeelMetaInfoManager extends AbstractMetaInfoManager implement
 	 *
 	 * @throws Exception if there is a problem
 	 */
-	public void initialize () throws Exception
+	public void initialize() throws Exception
 	{
-		final Set services = new HashSet ();
+		final Set services = new HashSet();
 
 		Enumeration enumeration = null;
 
-		if (getLoader () instanceof URLClassLoader)
+		if (getLoader() instanceof URLClassLoader)
 		{
-			URLClassLoader ul = (URLClassLoader) getLoader ();
+			URLClassLoader ul = (URLClassLoader) getLoader();
 
-			enumeration = cleanUrlList (ul.findResources ("services.list"));
+			enumeration = cleanUrlList(ul.findResources("services.list"));
 		}
 		else
 		{
-			enumeration = cleanUrlList (getLoader ().getResources ("services.list"));
+			enumeration = cleanUrlList(getLoader().getResources("services.list"));
 		}
 
 		int serviceCount = 0;
 
-		while (enumeration.hasMoreElements ())
+		while (enumeration.hasMoreElements())
 		{
 			serviceCount++;
-			readEntries (services, (URL) enumeration.nextElement ());
+			readEntries(services, (URL) enumeration.nextElement());
 		}
 
 		if (serviceCount == 0)
 		{
-			System.err.println ("[KeelMetaInfoManager] WARNING: No services configured");
+			System.err.println("[KeelMetaInfoManager] WARNING: No services configured");
 		}
 
-		final Iterator it = services.iterator ();
+		final Iterator it = services.iterator();
 
-		while (it.hasNext ())
+		while (it.hasNext())
 		{
-			final String role = (String) it.next ();
+			final String role = (String) it.next();
 
-			getLogger ().debug ("Adding service: " + role);
+			getLogger().debug("Adding service: " + role);
 
 			try
 			{
-				setupImplementations (role);
+				setupImplementations(role);
 			}
 			catch (Exception e)
 			{
-				getLogger ().debug ("Specified service '" + role + "' is not available", e);
+				getLogger().debug("Specified service '" + role + "' is not available", e);
 			}
 		}
 	}
 
-	public Enumeration cleanUrlList (Enumeration originalURLs)
+	public Enumeration cleanUrlList(Enumeration originalURLs)
 	{
-		Vector v = new Vector ();
+		Vector v = new Vector();
 		int origSize = 0;
 		int valids = 0;
-		ClassLoader l = getClass ().getClassLoader ();
+		ClassLoader l = getClass().getClassLoader();
 
 		if (l instanceof URLClassLoader)
 		{
 			URLClassLoader ul = (URLClassLoader) l;
-			URL[] validUrls = ul.getURLs ();
+			URL[] validUrls = ul.getURLs();
 
 			if (validUrls.length == 0)
 			{
 				return originalURLs;
 			}
 
-			while (originalURLs.hasMoreElements ())
+			while (originalURLs.hasMoreElements())
 			{
 				origSize++;
 
-				URL oneURL = (URL) originalURLs.nextElement ();
-				StringTokenizer stk = new StringTokenizer (oneURL.getFile (), "!");
-				String checkUrl = stk.nextToken ();
+				URL oneURL = (URL) originalURLs.nextElement();
+				StringTokenizer stk = new StringTokenizer(oneURL.getFile(), "!");
+				String checkUrl = stk.nextToken();
 
 				for (int i = 0; i < validUrls.length; i++)
 				{
-					if (validUrls[i].toString ().equals (checkUrl))
+					if (validUrls[i].toString().equals(checkUrl))
 					{
-						v.addElement (oneURL);
+						v.addElement(oneURL);
 						valids++;
 					}
 				}
@@ -181,15 +181,15 @@ public final class KeelMetaInfoManager extends AbstractMetaInfoManager implement
 		}
 		else
 		{
-			throw new IllegalArgumentException ("Incorrect type of classloader: Using a " + l.getClass ().getName ());
+			throw new IllegalArgumentException("Incorrect type of classloader: Using a " + l.getClass().getName());
 		}
 
 		if (valids == 0)
 		{
-			System.err.println ("[KeelMetaInfoManager] WARNING: There were no valid URLs");
+			System.err.println("[KeelMetaInfoManager] WARNING: There were no valid URLs");
 		}
 
-		return v.elements ();
+		return v.elements();
 	}
 
 	/**
@@ -200,24 +200,24 @@ public final class KeelMetaInfoManager extends AbstractMetaInfoManager implement
 	 *
 	 * @throws ClassNotFoundException if the role or component cannot be found
 	 */
-	private void setupImplementations (final String role) throws ClassNotFoundException
+	private void setupImplementations(final String role) throws ClassNotFoundException
 	{
-		final Iterator it = Service.providers (getLoader ().loadClass (role), getLoader ());
+		final Iterator it = Service.providers(getLoader().loadClass(role), getLoader());
 
-		while (it.hasNext ())
+		while (it.hasNext())
 		{
-			final String impl = ((Class) it.next ()).getName ();
+			final String impl = ((Class) it.next()).getName();
 
-			getLogger ().debug ("Reading meta info for " + impl);
+			getLogger().debug("Reading meta info for " + impl);
 
-			if (! isAlreadyAdded (impl))
+			if (! isAlreadyAdded(impl))
 			{
-				readMeta (role, impl);
+				readMeta(role, impl);
 			}
 			else
 			{
 				// Mini-optimization: read meta info only once
-				addComponent (role, impl, null, null);
+				addComponent(role, impl, null, null);
 			}
 		}
 	}
@@ -228,58 +228,58 @@ public final class KeelMetaInfoManager extends AbstractMetaInfoManager implement
 	 * @param role
 	 * @param implementation
 	 */
-	private void readMeta (final String role, final String implementation)
+	private void readMeta(final String role, final String implementation)
 	{
-		final Properties meta = new Properties ();
-		final List deps = new ArrayList ();
+		final Properties meta = new Properties();
+		final List deps = new ArrayList();
 
 		try
 		{
-			final InputStream stream = getLoader ().getResourceAsStream (getMetaFile (implementation));
+			final InputStream stream = getLoader().getResourceAsStream(getMetaFile(implementation));
 
 			if (stream != null)
 			{
-				meta.load (stream);
+				meta.load(stream);
 			}
 			else
 			{
-				getLogger ().error ("Meta information for " + implementation + " unavailable, skipping this class.");
+				getLogger().error("Meta information for " + implementation + " unavailable, skipping this class.");
 
 				return;
 			}
 		}
 		catch (IOException ioe)
 		{
-			getLogger ().error ("Could not load meta information for " + implementation + ", skipping this class.");
+			getLogger().error("Could not load meta information for " + implementation + ", skipping this class.");
 
 			return;
 		}
 
 		try
 		{
-			URL depURL = getLoader ().getResource (getDepFile (implementation));
+			URL depURL = getLoader().getResource(getDepFile(implementation));
 
 			if (depURL == null)
 			{
-				if (getLogger ().isDebugEnabled ())
+				if (getLogger().isDebugEnabled())
 				{
-					getLogger ().debug ("No dependencies for " + implementation + ".");
+					getLogger().debug("No dependencies for " + implementation + ".");
 				}
 			}
 			else
 			{
-				HashSet set = new HashSet ();
+				HashSet set = new HashSet();
 
-				readEntries (set, depURL);
-				deps.addAll (set);
+				readEntries(set, depURL);
+				deps.addAll(set);
 			}
 		}
 		catch (Exception ioe)
 		{
-			getLogger ().debug ("Could not load dependencies for " + implementation + ".", ioe);
+			getLogger().debug("Could not load dependencies for " + implementation + ".", ioe);
 		}
 
-		addComponent (role, implementation, meta, deps);
+		addComponent(role, implementation, meta, deps);
 	}
 
 	/**
@@ -288,9 +288,9 @@ public final class KeelMetaInfoManager extends AbstractMetaInfoManager implement
 	 * @param implementation
 	 * @return String
 	 */
-	private String getMetaFile (final String implementation)
+	private String getMetaFile(final String implementation)
 	{
-		String entry = implementation.replace ('.', '/');
+		String entry = implementation.replace('.', '/');
 
 		entry += ".meta";
 
@@ -303,9 +303,9 @@ public final class KeelMetaInfoManager extends AbstractMetaInfoManager implement
 	 * @param implementation
 	 * @return String
 	 */
-	private String getDepFile (final String implementation)
+	private String getDepFile(final String implementation)
 	{
-		String entry = implementation.replace ('.', '/');
+		String entry = implementation.replace('.', '/');
 
 		entry += ".deps";
 
@@ -320,31 +320,31 @@ public final class KeelMetaInfoManager extends AbstractMetaInfoManager implement
 	 *
 	 * @throws IOException if we cannot read the entries
 	 */
-	private void readEntries (final Set entries, final URL url) throws IOException
+	private void readEntries(final Set entries, final URL url) throws IOException
 	{
-		final BufferedReader reader = new BufferedReader (new InputStreamReader (url.openStream ()));
+		final BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
 
 		try
 		{
-			String entry = reader.readLine ();
+			String entry = reader.readLine();
 
 			while (entry != null)
 			{
-				entries.add (entry);
-				entry = reader.readLine ();
+				entries.add(entry);
+				entry = reader.readLine();
 			}
 		}
 		finally
 		{
-			reader.close ();
+			reader.close();
 		}
 	}
 
-	protected void addComponent (final String role, final String className, final Properties meta, final List deps)
+	protected void addComponent(final String role, final String className, final Properties meta, final List deps)
 	{
-		super.addComponent (role, className, meta, deps);
+		super.addComponent(role, className, meta, deps);
 
-		getLogger ().info ("[KeelMetaInfoManager] Added role '" + role + "' with class '" + className + "'");
+		getLogger().info("[KeelMetaInfoManager] Added role '" + role + "' with class '" + className + "'");
 	}
 
 	/** Get the classloader used for the RoleManager for any class that
@@ -352,8 +352,8 @@ public final class KeelMetaInfoManager extends AbstractMetaInfoManager implement
 	 *
 	 * @return ClassLoader
 	 */
-	protected ClassLoader getLoader ()
+	protected ClassLoader getLoader()
 	{
-		return getClass ().getClassLoader ();
+		return getClass().getClassLoader();
 	}
 }

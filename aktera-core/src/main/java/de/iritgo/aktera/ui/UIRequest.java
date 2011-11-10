@@ -34,21 +34,21 @@ public interface UIRequest
 	 *
 	 * @return bean The bean name
 	 */
-	public String getBean ();
+	public String getBean();
 
 	/**
 	 * Get the user environment.
 	 *
 	 * @return The user environment
 	 */
-	public UserEnvironment getUserEnvironment ();
+	public UserEnvironment getUserEnvironment();
 
 	/**
 	 * Get the request locale.
 	 *
 	 * @return The request locale
 	 */
-	public Locale getLocale ();
+	public Locale getLocale();
 
 	/**
 	 * Set a parameter.
@@ -56,7 +56,7 @@ public interface UIRequest
 	 * @param name The parameter name
 	 * @param value The parameter value
 	 */
-	public void setParameter (String name, Object value);
+	public void setParameter(String name, Object value);
 
 	/**
 	 * Return the value of the specified parameter.
@@ -64,7 +64,7 @@ public interface UIRequest
 	 * @param name Name of the required parameter
 	 * @return The parameter value
 	 */
-	public Object getParameter (String name);
+	public Object getParameter(String name);
 
 	/**
 	 * Check the existence of the specified parameter.
@@ -72,7 +72,7 @@ public interface UIRequest
 	 * @param name The name of the parameter to check
 	 * @return True if the parameter exists
 	 */
-	public boolean hasParameter (String name);
+	public boolean hasParameter(String name);
 
 	/**
 	 * Return the values of a multi-valued parameter as an array of objects.
@@ -80,7 +80,7 @@ public interface UIRequest
 	 * @param name Name of the required parameter
 	 * @return The parameter value as an array of objects
 	 */
-	public Object[] getParameterAsArray (String name);
+	public Object[] getParameterAsArray(String name);
 
 	/**
 	 * Return the values of a multi-valued parameter as an array of objects.
@@ -89,7 +89,7 @@ public interface UIRequest
 	 * @param defaultValue The array value to return if no such parameter exists
 	 * @return The parameter value as an array of objects
 	 */
-	public Object[] getParameterAsArray (String name, Object[] defaultValue);
+	public Object[] getParameterAsArray(String name, Object[] defaultValue);
 
 	/**
 	 * Return the value of the specified parameter as a date
@@ -97,7 +97,7 @@ public interface UIRequest
 	 * @param name Name of the required parameter
 	 * @return A date value for the specified parameter, or null if there is no such parameter
 	 */
-	public Date getParameterAsDate (String name);
+	public Date getParameterAsDate(String name);
 
 	/**
 	 * Return the specified parameter's value as a date, or the default value if no such
@@ -107,7 +107,7 @@ public interface UIRequest
 	 * @param defaultValue The date value to return if no such parameter exists
 	 * @return The specified parameter as a date, or the default
 	 */
-	public Date getParameterAsDate (String name, Date defaultValue);
+	public Date getParameterAsDate(String name, Date defaultValue);
 
 	/**
 	 * Return the specified parameter's value as a double.
@@ -115,7 +115,7 @@ public interface UIRequest
 	 * @param name Name of the required parameter
 	 * @return The specified value as a double, or 0 if there is no such parameter
 	 */
-	public double getParameterAsDouble (String name);
+	public double getParameterAsDouble(String name);
 
 	/**
 	 * Return the specified parameter's value as a double.
@@ -124,7 +124,7 @@ public interface UIRequest
 	 * @param defaultValue The double value to return if no such parameter exists
 	 * @return The specified value as a double, or 0 if there is no such parameter
 	 */
-	public double getParameterAsDouble (String name, double defaultValue);
+	public double getParameterAsDouble(String name, double defaultValue);
 
 	/**
 	 * Return the value of a parameter as a float.
@@ -132,7 +132,7 @@ public interface UIRequest
 	 * @param name Name of the required parameter
 	 * @return The specified parameter as a float, or 0 if there is no such parameter
 	 */
-	public float getParameterAsFloat (String name);
+	public float getParameterAsFloat(String name);
 
 	/**
 	 * Return the specified parameter's value as a float.
@@ -142,7 +142,7 @@ public interface UIRequest
 	 * @return The specified parameter's value as a float, or the default value if no such
 	 * parameter exists
 	 */
-	public float getParameterAsFloat (String name, float defaultValue);
+	public float getParameterAsFloat(String name, float defaultValue);
 
 	/**
 	 * Get the named parameter as an int. Return 0 if there is no such parameter.
@@ -150,7 +150,7 @@ public interface UIRequest
 	 * @param name Name of the required parameter
 	 * @return An int representation of the paramter, 0 if no such parameter
 	 */
-	public int getParameterAsInt (String name);
+	public int getParameterAsInt(String name);
 
 	/**
 	 * Return the specified parameter as an integer, returning the supplied default
@@ -160,7 +160,7 @@ public interface UIRequest
 	 * @param defaultValue The value returned if no such parameter exists
 	 * @return The int value corresponding to the named parameter
 	 */
-	public int getParameterAsInt (String name, int defaultValue);
+	public int getParameterAsInt(String name, int defaultValue);
 
 	/**
 	 * Return the values of a parameter which has more than one value.
@@ -168,7 +168,7 @@ public interface UIRequest
 	 * @param name Name of the required parameter
 	 * @return The specified parameter as a list of values
 	 */
-	public List getParameterAsList (String name);
+	public List getParameterAsList(String name);
 
 	/**
 	 * Return the values of a parameter which has more than one value.
@@ -178,7 +178,7 @@ public interface UIRequest
 	 * @return The specified parameter as a list of values, or the default list supplied
 	 * if no such parameter exists
 	 */
-	public List getParameterAsList (String name, List defaultValue);
+	public List getParameterAsList(String name, List defaultValue);
 
 	/**
 	 * Return the specified parameter as a long.
@@ -186,7 +186,7 @@ public interface UIRequest
 	 * @param name Name of the required parameter
 	 * @return The parameter value as a long, or 0 if no such parameter exists.
 	 */
-	public long getParameterAsLong (String name);
+	public long getParameterAsLong(String name);
 
 	/**
 	 * Return the specified parameter as a long, or the default value if there
@@ -197,7 +197,7 @@ public interface UIRequest
 	 * @return The value of the specified parameter as a long, or the default
 	 * value if no such parameter exists.
 	 */
-	public long getParameterAsLong (String name, long defaultValue);
+	public long getParameterAsLong(String name, long defaultValue);
 
 	/**
 	 * Return the specified parameter's value as a string.
@@ -205,7 +205,7 @@ public interface UIRequest
 	 * @param name Name of the required parameter
 	 * @return The parameter value as a string, or an empty string if there is no such parameter
 	 */
-	public String getParameterAsString (String name);
+	public String getParameterAsString(String name);
 
 	/**
 	 * Return the specified parameter's value as a string.
@@ -215,12 +215,12 @@ public interface UIRequest
 	 * @return The value of the specified parameter as a long, or the default
 	 * value if no such parameter exists
 	 */
-	public String getParameterAsString (String name, String defaultValue);
+	public String getParameterAsString(String name, String defaultValue);
 
 	/**
 	 * Return a map of all parameters.
 	 *
 	 * @return The parameter map
 	 */
-	public Map<String, Object> getParameters ();
+	public Map<String, Object> getParameters();
 }

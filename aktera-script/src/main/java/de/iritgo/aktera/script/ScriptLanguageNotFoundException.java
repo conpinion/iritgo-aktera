@@ -32,7 +32,7 @@ public class ScriptLanguageNotFoundException extends Exception
 	/**
 	 * Initialize a ScriptNotFoundException.
 	 */
-	public ScriptLanguageNotFoundException ()
+	public ScriptLanguageNotFoundException()
 	{
 	}
 
@@ -41,9 +41,9 @@ public class ScriptLanguageNotFoundException extends Exception
 	 *
 	 * @param message The exception message
 	 */
-	public ScriptLanguageNotFoundException (String message)
+	public ScriptLanguageNotFoundException(String message)
 	{
-		super (message);
+		super(message);
 	}
 
 	/**
@@ -51,9 +51,9 @@ public class ScriptLanguageNotFoundException extends Exception
 	 *
 	 * @param cause Original exception
 	 */
-	public ScriptLanguageNotFoundException (Throwable cause)
+	public ScriptLanguageNotFoundException(Throwable cause)
 	{
-		super (cause);
+		super(cause);
 	}
 
 	/**
@@ -62,8 +62,8 @@ public class ScriptLanguageNotFoundException extends Exception
 	 * @param message The exception message
 	 * @param cause Original exception
 	 */
-	public ScriptLanguageNotFoundException (String message, Throwable cause)
+	public ScriptLanguageNotFoundException(String message, Throwable cause)
 	{
-		super (message, cause);
+		super(message, cause);
 	}
 }

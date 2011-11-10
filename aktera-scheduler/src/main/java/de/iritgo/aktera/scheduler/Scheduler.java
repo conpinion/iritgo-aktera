@@ -42,7 +42,7 @@ public interface Scheduler
 	 * @param times When to execute the job
 	 */
 	@SuppressWarnings("unchecked")
-	public void scheduleBean (String jobName, String beanName, Map parameters, ScheduleTimes times);
+	public void scheduleBean(String jobName, String beanName, Map parameters, ScheduleTimes times);
 
 	/**
 	 * Scheduled execution of beans.
@@ -54,7 +54,7 @@ public interface Scheduler
 	 * @param times When to execute the job
 	 */
 	@SuppressWarnings("unchecked")
-	public void scheduleBean (String jobName, String groupName, String beanName, Map parameters, ScheduleTimes times);
+	public void scheduleBean(String jobName, String groupName, String beanName, Map parameters, ScheduleTimes times);
 
 	/**
 	 * Scheduled execution of Keel models.
@@ -63,7 +63,7 @@ public interface Scheduler
 	 * @param request The model request to execute
 	 * @param times When to execute the job
 	 */
-	public void scheduleModel (String jobName, ModelRequest request, ScheduleTimes times);
+	public void scheduleModel(String jobName, ModelRequest request, ScheduleTimes times);
 
 	/**
 	 * Scheduled execution of Keel models.
@@ -73,7 +73,7 @@ public interface Scheduler
 	 * @param request The model request to execute
 	 * @param times When to execute the job
 	 */
-	public void scheduleModel (String jobName, String groupName, ModelRequest request, ScheduleTimes times);
+	public void scheduleModel(String jobName, String groupName, ModelRequest request, ScheduleTimes times);
 
 	/**
 	 * Scheduled execution of runnables.
@@ -83,7 +83,7 @@ public interface Scheduler
 	 * @param times When to execute the job
 	 */
 	@SuppressWarnings("unchecked")
-	public void scheduleRunnable (String jobName, Runnable runnable, ScheduleTimes times);
+	public void scheduleRunnable(String jobName, Runnable runnable, ScheduleTimes times);
 
 	/**
 	 * Scheduled execution of runnables.
@@ -94,36 +94,36 @@ public interface Scheduler
 	 * @param times When to execute the job
 	 */
 	@SuppressWarnings("unchecked")
-	public void scheduleRunnable (String jobName, String groupName, Runnable runnable, ScheduleTimes times);
+	public void scheduleRunnable(String jobName, String groupName, Runnable runnable, ScheduleTimes times);
 
 	/**
 	 * Remove all jobs in the specified group.
 	 *
 	 * @param groupName The group name
 	 */
-	public void removeAllJobsInGroup (String groupName);
+	public void removeAllJobsInGroup(String groupName);
 
 	/**
 	 * Get a list of all job group names.
 	 */
-	public String[] getGroupNames ();
+	public String[] getGroupNames();
 
 	/**
 	 * Get a list of all job names in a given group.
 	 *
 	 * @param groupName The group name
 	 */
-	public String[] getJobNames (String groupName);
+	public String[] getJobNames(String groupName);
 
 	/**
 	 * Initialize and start the scheduler.
 	 * @throws SchedulerException
 	 */
-	public void initialize () throws SchedulerException;
+	public void initialize() throws SchedulerException;
 
 	/**
 	 * Stop the scheduler and free all resources.
 	 * @throws SchedulerException
 	 */
-	public void dispose () throws SchedulerException;
+	public void dispose() throws SchedulerException;
 }

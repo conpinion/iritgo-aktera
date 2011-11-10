@@ -46,17 +46,17 @@ import de.iritgo.simplelife.data.Tuple2;
 public class PermissionManagerImpl implements PermissionManager
 {
 	/** A list of all permission meta data */
-	private List<PermissionMetaData> permissionMetaData = new LinkedList<PermissionMetaData> ();
+	private List<PermissionMetaData> permissionMetaData = new LinkedList<PermissionMetaData>();
 
 	/** A map from permission ids to permission meta data */
 	private Map<String, PermissionMetaData> permissionMetaDataById = null;
 
-	public void setPermissionMetaData (List<PermissionMetaData> permissionMetaData)
+	public void setPermissionMetaData(List<PermissionMetaData> permissionMetaData)
 	{
 		this.permissionMetaData = permissionMetaData;
 	}
 
-	public List<PermissionMetaData> getPermissionMetaData ()
+	public List<PermissionMetaData> getPermissionMetaData()
 	{
 		return permissionMetaData;
 	}
@@ -64,23 +64,23 @@ public class PermissionManagerImpl implements PermissionManager
 	/**
 	 * @see de.iritgo.aktera.permissions.PermissionManager#getMetaDataById(java.lang.String)
 	 */
-	public synchronized PermissionMetaData getMetaDataById (String id)
+	public synchronized PermissionMetaData getMetaDataById(String id)
 	{
 		if (permissionMetaDataById == null)
 		{
-			permissionMetaDataById = new HashMap<String, PermissionMetaData> ();
+			permissionMetaDataById = new HashMap<String, PermissionMetaData>();
 			for (PermissionMetaData pmd : permissionMetaData)
 			{
-				permissionMetaDataById.put (pmd.getId (), pmd);
+				permissionMetaDataById.put(pmd.getId(), pmd);
 			}
 		}
-		return permissionMetaDataById.get (id);
+		return permissionMetaDataById.get(id);
 	}
 
 	/** Our logger. */
 	private Logger logger;
 
-	public void setLogger (Logger logger)
+	public void setLogger(Logger logger)
 	{
 		this.logger = logger;
 	}
@@ -88,7 +88,7 @@ public class PermissionManagerImpl implements PermissionManager
 	/** The user DAO */
 	private UserDAO userDAO;
 
-	public void setUserDAO (UserDAO userDAO)
+	public void setUserDAO(UserDAO userDAO)
 	{
 		this.userDAO = userDAO;
 	}
@@ -96,25 +96,25 @@ public class PermissionManagerImpl implements PermissionManager
 	/** The permissionDAO */
 	private PermissionDAO permissionDAO;
 
-	public void setPermissionDAO (PermissionDAO permissionDAO)
+	public void setPermissionDAO(PermissionDAO permissionDAO)
 	{
 		this.permissionDAO = permissionDAO;
 	}
 
 	/** Cached principals. */
-	protected Map<String, Principal> principals = new HashMap<String, Principal> ();
+	protected Map<String, Principal> principals = new HashMap<String, Principal>();
 
 	/** Cached groups. */
-	protected Map<String, Group> groups = new HashMap<String, Group> ();
+	protected Map<String, Group> groups = new HashMap<String, Group>();
 
 	/** ACL owner. */
 	protected static final String ROOT_NAME = "root";
 
 	/** ACL owner. */
-	protected static Principal ROOT = new Principal (ROOT_NAME);
+	protected static Principal ROOT = new Principal(ROOT_NAME);
 
 	/** Per domain object ACL */
-	protected Map<Tuple2<String, Integer>, Acl> aclByDomainObject = new HashMap ();
+	protected Map<Tuple2<String, Integer>, Acl> aclByDomainObject = new HashMap();
 
 	/** Dummy object type for global permissions */
 	protected static final String GLOBAL_OBJECT_TYPE = "*";
@@ -122,49 +122,49 @@ public class PermissionManagerImpl implements PermissionManager
 	/**
 	 * Constructor for QuartzScheduler.
 	 */
-	public PermissionManagerImpl ()
+	public PermissionManagerImpl()
 	{
-		super ();
+		super();
 	}
 
 	/**
 	 * @see de.iritgo.aktera.permissions.PermissionManager#hasPermission(java.lang.String,
 	 *      java.lang.String)
 	 */
-	public boolean hasPermission (String userName, String permission)
+	public boolean hasPermission(String userName, String permission)
 	{
-		return hasPermission (userName, permission, GLOBAL_OBJECT_TYPE, null);
+		return hasPermission(userName, permission, GLOBAL_OBJECT_TYPE, null);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.permissions.PermissionManager#hasPermission(java.lang.Integer,
 	 *      java.lang.String)
 	 */
-	public boolean hasPermission (Integer userId, String permission)
+	public boolean hasPermission(Integer userId, String permission)
 	{
-		return hasPermission (userId, permission, GLOBAL_OBJECT_TYPE, null);
+		return hasPermission(userId, permission, GLOBAL_OBJECT_TYPE, null);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.permissions.PermissionManager#hasPermission(java.lang.String,
 	 *      java.lang.String, java.lang.String, java.lang.Integer)
 	 */
-	public synchronized boolean hasPermission (String userName, String permission, String objectType, Integer objectId)
+	public synchronized boolean hasPermission(String userName, String permission, String objectType, Integer objectId)
 	{
-		if ("admin".equals (userName))
+		if ("admin".equals(userName))
 		{
 			return true;
 		}
 
-		loadAclForUser (userName);
-		Principal principal = (Principal) principals.get (userName);
+		loadAclForUser(userName);
+		Principal principal = (Principal) principals.get(userName);
 		if (principal == null)
 		{
 			return false;
 		}
 
-		Acl acl = aclByDomainObject.get (new Tuple2 (objectType, objectId));
-		if (acl != null && acl.checkPermission (principal, new SimplePermission (permission)))
+		Acl acl = aclByDomainObject.get(new Tuple2(objectType, objectId));
+		if (acl != null && acl.checkPermission(principal, new SimplePermission(permission)))
 		{
 			return true;
 		}
@@ -176,39 +176,39 @@ public class PermissionManagerImpl implements PermissionManager
 	 * @see de.iritgo.aktera.permissions.PermissionManager#hasPermission(java.lang.Integer,
 	 *      java.lang.String, java.lang.String, java.lang.Integer)
 	 */
-	public synchronized boolean hasPermission (Integer userId, String permission, String objectType, Integer objectId)
+	public synchronized boolean hasPermission(Integer userId, String permission, String objectType, Integer objectId)
 	{
-		return hasPermission (userDAO.findUserById (userId).getName (), permission, objectType, objectId);
+		return hasPermission(userDAO.findUserById(userId).getName(), permission, objectType, objectId);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.permissions.PermissionManager#hasPermissionOnUserOrGroup(java.lang.String,
 	 *      java.lang.String, java.lang.Integer)
 	 */
-	public synchronized boolean hasPermissionOnUserOrGroup (String userName, String permission, Integer userId)
+	public synchronized boolean hasPermissionOnUserOrGroup(String userName, String permission, Integer userId)
 	{
-		if ("admin".equals (userName))
+		if ("admin".equals(userName))
 		{
 			return true;
 		}
 
-		loadAclForUser (userName);
-		Principal principal = (Principal) principals.get (userName);
+		loadAclForUser(userName);
+		Principal principal = (Principal) principals.get(userName);
 		if (principal == null)
 		{
 			return false;
 		}
 
-		Acl acl = aclByDomainObject.get (new Tuple2 (AkteraUser.class.getName (), userId));
-		if (acl != null && acl.checkPermission (principal, new SimplePermission (permission)))
+		Acl acl = aclByDomainObject.get(new Tuple2(AkteraUser.class.getName(), userId));
+		if (acl != null && acl.checkPermission(principal, new SimplePermission(permission)))
 		{
 			return true;
 		}
 
-		for (Integer groupId : userDAO.listGroupIdsOfUserId (userId.intValue ()))
+		for (Integer groupId : userDAO.listGroupIdsOfUserId(userId.intValue()))
 		{
-			acl = aclByDomainObject.get (new Tuple2 (AkteraGroup.class.getName (), groupId));
-			if (acl != null && acl.checkPermission (principal, new SimplePermission (permission)))
+			acl = aclByDomainObject.get(new Tuple2(AkteraGroup.class.getName(), groupId));
+			if (acl != null && acl.checkPermission(principal, new SimplePermission(permission)))
 			{
 				return true;
 			}
@@ -222,104 +222,102 @@ public class PermissionManagerImpl implements PermissionManager
 	 *
 	 * @param userName The user name which acl's should be loaded.
 	 */
-	protected synchronized void loadAclForUser (String userName)
+	protected synchronized void loadAclForUser(String userName)
 	{
-		Principal principal = (Principal) principals.get (userName);
+		Principal principal = (Principal) principals.get(userName);
 		if (principal != null)
 		{
 			return;
 		}
 
-		AkteraUser akteraUser = userDAO.findUserByName (userName);
+		AkteraUser akteraUser = userDAO.findUserByName(userName);
 		if (akteraUser == null)
 		{
 			return;
 		}
 
-		principal = new Principal (userName);
-		principals.put (userName, principal);
+		principal = new Principal(userName);
+		principals.put(userName, principal);
 
 		try
 		{
-			for (AkteraGroup akteraGroup : userDAO.findGroupsByUser (akteraUser))
+			for (AkteraGroup akteraGroup : userDAO.findGroupsByUser(akteraUser))
 			{
-				String groupName = akteraGroup.getName ();
-				Group group = (Group) groups.get (groupName);
+				String groupName = akteraGroup.getName();
+				Group group = (Group) groups.get(groupName);
 				if (group == null)
 				{
-					group = new Group (groupName);
-					groups.put (groupName, group);
+					group = new Group(groupName);
+					groups.put(groupName, group);
 
-					for (Permission permissionEntity : permissionDAO.findGroupPermissions (akteraGroup))
+					for (Permission permissionEntity : permissionDAO.findGroupPermissions(akteraGroup))
 					{
-						Tuple2 aclKey = new Tuple2 (
-										permissionEntity.getObjectType () != null ? permissionEntity.getObjectType ()
-														: GLOBAL_OBJECT_TYPE, permissionEntity.getObjectId ());
-						Acl acl = aclByDomainObject.get (aclKey);
+						Tuple2 aclKey = new Tuple2(permissionEntity.getObjectType() != null ? permissionEntity
+										.getObjectType() : GLOBAL_OBJECT_TYPE, permissionEntity.getObjectId());
+						Acl acl = aclByDomainObject.get(aclKey);
 						if (acl == null)
 						{
-							acl = new Acl (ROOT, ROOT_NAME);
-							aclByDomainObject.put (aclKey, acl);
+							acl = new Acl(ROOT, ROOT_NAME);
+							aclByDomainObject.put(aclKey, acl);
 						}
-						AclEntry aclEntry = acl.findAclEntry (group, permissionEntity.getNegative ());
+						AclEntry aclEntry = acl.findAclEntry(group, permissionEntity.getNegative());
 						if (aclEntry == null)
 						{
-							aclEntry = new AclEntry (group);
-							if (permissionEntity.getNegative ())
+							aclEntry = new AclEntry(group);
+							if (permissionEntity.getNegative())
 							{
-								aclEntry.setNegativePermissions ();
+								aclEntry.setNegativePermissions();
 							}
-							acl.addEntry (ROOT, aclEntry);
+							acl.addEntry(ROOT, aclEntry);
 						}
-						aclEntry.addPermission (new SimplePermission (permissionEntity.getPermission ()));
+						aclEntry.addPermission(new SimplePermission(permissionEntity.getPermission()));
 					}
 				}
 
-				if (! group.isMember (principal))
+				if (! group.isMember(principal))
 				{
-					group.addMember (principal);
+					group.addMember(principal);
 				}
 			}
 
-			for (Permission permissionEntity : permissionDAO.findUserPermissions (akteraUser))
+			for (Permission permissionEntity : permissionDAO.findUserPermissions(akteraUser))
 			{
-				Tuple2 aclKey = new Tuple2 (
-								permissionEntity.getObjectType () != null ? permissionEntity.getObjectType ()
-												: GLOBAL_OBJECT_TYPE, permissionEntity.getObjectId ());
-				Acl acl = aclByDomainObject.get (aclKey);
+				Tuple2 aclKey = new Tuple2(permissionEntity.getObjectType() != null ? permissionEntity.getObjectType()
+								: GLOBAL_OBJECT_TYPE, permissionEntity.getObjectId());
+				Acl acl = aclByDomainObject.get(aclKey);
 				if (acl == null)
 				{
-					acl = new Acl (ROOT, ROOT_NAME);
-					aclByDomainObject.put (aclKey, acl);
+					acl = new Acl(ROOT, ROOT_NAME);
+					aclByDomainObject.put(aclKey, acl);
 				}
-				AclEntry aclEntry = acl.findAclEntry (principal, permissionEntity.getNegative ());
+				AclEntry aclEntry = acl.findAclEntry(principal, permissionEntity.getNegative());
 				if (aclEntry == null)
 				{
-					aclEntry = new AclEntry (principal);
-					if (permissionEntity.getNegative ())
+					aclEntry = new AclEntry(principal);
+					if (permissionEntity.getNegative())
 					{
-						aclEntry.setNegativePermissions ();
+						aclEntry.setNegativePermissions();
 					}
-					acl.addEntry (ROOT, aclEntry);
+					acl.addEntry(ROOT, aclEntry);
 				}
-				aclEntry.addPermission (new SimplePermission (permissionEntity.getPermission ()));
+				aclEntry.addPermission(new SimplePermission(permissionEntity.getPermission()));
 			}
 		}
 		catch (NotOwnerException x)
 		{
-			logger.error ("Unable to load permissions for user '" + userName + "': " + x);
+			logger.error("Unable to load permissions for user '" + userName + "': " + x);
 		}
 	}
 
 	/**
 	 * @see de.iritgo.aktera.permissions.PermissionManager#clear()
 	 */
-	public synchronized void clear ()
+	public synchronized void clear()
 	{
-		principals = new HashMap<String, Principal> ();
-		groups = new HashMap<String, Group> ();
-		ROOT = new Principal ("root");
-		aclByDomainObject.clear ();
+		principals = new HashMap<String, Principal>();
+		groups = new HashMap<String, Group>();
+		ROOT = new Principal("root");
+		aclByDomainObject.clear();
 	}
 
 	/**
@@ -327,9 +325,9 @@ public class PermissionManagerImpl implements PermissionManager
 	 *      java.lang.String)
 	 */
 	@Transactional(readOnly = false)
-	public void deleteAllPermissionsOfPrincipal (Integer principalId, String principalType)
+	public void deleteAllPermissionsOfPrincipal(Integer principalId, String principalType)
 	{
-		permissionDAO.deleteAllPermissionsOfPrincipal (principalId, principalType);
-		clear ();
+		permissionDAO.deleteAllPermissionsOfPrincipal(principalId, principalType);
+		clear();
 	}
 }

@@ -34,19 +34,19 @@ import java.util.Properties;
 @SuppressWarnings("serial")
 public class JournalToolBarItem extends IAction
 {
-	public JournalToolBarItem ()
+	public JournalToolBarItem()
 	{
-		setSmallIcon (new ImageIcon (getClass ().getResource ("/resources/journal-16.png")));
-		setToolTipText ("journalButton");
+		setSmallIcon(new ImageIcon(getClass().getResource("/resources/journal-16.png")));
+		setToolTipText("journalButton");
 	}
 
-	public void actionPerformed (ActionEvent e)
+	public void actionPerformed(ActionEvent e)
 	{
-		Properties props = new Properties ();
+		Properties props = new Properties();
 
-		props.setProperty ("model", "de.telcat.iptell.base.journal.TurnOffJournalIndicationLed");
-		props.setProperty ("name", AppContext.instance ().getUser ().getName ());
-		CommandTools.performAsync ("AkteraAktarioKeelCommand", props);
-		CommandTools.performSimple ("de.iritgo.aktera.journal.ShowEmbeddedJournal");
+		props.setProperty("model", "de.telcat.iptell.base.journal.TurnOffJournalIndicationLed");
+		props.setProperty("name", AppContext.instance().getUser().getName());
+		CommandTools.performAsync("AkteraAktarioKeelCommand", props);
+		CommandTools.performSimple("de.iritgo.aktera.journal.ShowEmbeddedJournal");
 	}
 }

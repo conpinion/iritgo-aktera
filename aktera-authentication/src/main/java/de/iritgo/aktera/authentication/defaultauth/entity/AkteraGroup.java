@@ -85,7 +85,7 @@ public class AkteraGroup implements Serializable
 	 *   null-allowed="false"
 	 *   auto-increment="identity"
 	 */
-	public Integer getId ()
+	public Integer getId()
 	{
 		return id;
 	}
@@ -93,7 +93,7 @@ public class AkteraGroup implements Serializable
 	/**
 	 * Set the group primary key.
 	 */
-	public void setId (Integer id)
+	public void setId(Integer id)
 	{
 		this.id = id;
 	}
@@ -108,7 +108,7 @@ public class AkteraGroup implements Serializable
 	 *   length="255"
 	 *   null-allowed="false"
 	 */
-	public String getName ()
+	public String getName()
 	{
 		return name;
 	}
@@ -116,7 +116,7 @@ public class AkteraGroup implements Serializable
 	/**
 	 * Set the group name.
 	 */
-	public void setName (String name)
+	public void setName(String name)
 	{
 		this.name = name;
 	}
@@ -130,7 +130,7 @@ public class AkteraGroup implements Serializable
 	 *   type="boolean"
 	 *   default-value="false"
 	 */
-	public Boolean getProtect ()
+	public Boolean getProtect()
 	{
 		return protect;
 	}
@@ -138,7 +138,7 @@ public class AkteraGroup implements Serializable
 	/**
 	 * Set the protected flag.
 	 */
-	public void setProtect (Boolean protect)
+	public void setProtect(Boolean protect)
 	{
 		this.protect = protect;
 	}
@@ -153,7 +153,7 @@ public class AkteraGroup implements Serializable
 	 *   length="255"
 	 *   null-allowed="true"
 	 */
-	public String getTitle ()
+	public String getTitle()
 	{
 		return title;
 	}
@@ -161,7 +161,7 @@ public class AkteraGroup implements Serializable
 	/**
 	 * Set the group title.
 	 */
-	public void setTitle (String title)
+	public void setTitle(String title)
 	{
 		this.title = title;
 	}
@@ -175,7 +175,7 @@ public class AkteraGroup implements Serializable
 	 *   type="boolean"
 	 *   default-value="true"
 	 */
-	public Boolean getVisible ()
+	public Boolean getVisible()
 	{
 		return visible;
 	}
@@ -183,13 +183,13 @@ public class AkteraGroup implements Serializable
 	/**
 	 * Set the visible flag.
 	 */
-	public void setVisible (Boolean visible)
+	public void setVisible(Boolean visible)
 	{
 		this.visible = visible;
 	}
 
-	public String getDisplayName ()
+	public String getDisplayName()
 	{
-		return StringTools.isNotTrimEmpty (title) ? title : name;
+		return StringTools.isNotTrimEmpty(title) ? title : name;
 	}
 }

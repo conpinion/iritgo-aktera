@@ -30,27 +30,27 @@ public interface StandardDao
 {
 	public static final String ID = "de.iritgo.aktera.hibernate.StandardDao";
 
-	public long countByNamedQuery (final String query, final Properties params);
+	public long countByNamedQuery(final String query, final Properties params);
 
-	public long countByNamedFindQuery (final String query, final Properties params);
+	public long countByNamedFindQuery(final String query, final Properties params);
 
-	public long countByQuery (final String query, final Properties params);
+	public long countByQuery(final String query, final Properties params);
 
-	public long countByFindQuery (final String query, final Properties params);
+	public long countByFindQuery(final String query, final Properties params);
 
-	public List findByNamedQuery (final String query, final Properties params, final int firstResult,
+	public List findByNamedQuery(final String query, final Properties params, final int firstResult,
 					final int maxResults, final String orderBy, final SortOrder orderDir);
 
-	public List findByQuery (final String query, final Properties params, final int firstResult, final int maxResults,
+	public List findByQuery(final String query, final Properties params, final int firstResult, final int maxResults,
 					final String orderBy, SortOrder orderDir);
 
-	public Object get (String entityName, Serializable id);
+	public Object get(String entityName, Serializable id);
 
-	public Object newEntity (String entityName) throws InstantiationException, IllegalAccessException;
+	public Object newEntity(String entityName) throws InstantiationException, IllegalAccessException;
 
-	public void update (Object entity);
+	public void update(Object entity);
 
-	public void create (Object entity);
+	public void create(Object entity);
 
-	public void delete (Object entity);
+	public void delete(Object entity);
 }

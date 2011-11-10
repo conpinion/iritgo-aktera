@@ -45,7 +45,7 @@ public class ScheduleFormularHandler extends FormularHandler
 	/**
 	 * @param scheduleDAO The new scheduleDAO.
 	 */
-	public void setScheduleDAO (ScheduleDAO scheduleDAO)
+	public void setScheduleDAO(ScheduleDAO scheduleDAO)
 	{
 		this.scheduleDAO = scheduleDAO;
 	}
@@ -54,25 +54,25 @@ public class ScheduleFormularHandler extends FormularHandler
 	 * @see de.iritgo.aktera.ui.form.FormularHandler#adjustFormular(de.iritgo.aktera.model.ModelRequest, de.iritgo.aktera.ui.form.FormularDescriptor, de.iritgo.aktera.ui.form.PersistentDescriptor)
 	 */
 	@Override
-	public void adjustFormular (ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents)
+	public void adjustFormular(ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents)
 		throws ModelException, PersistenceException
 	{
-		persistents.putAttribute ("schedule.holidaysProvinceCountry", persistents.getPersistent ("schedule")
-						.getFieldString ("holidaysCountry"));
+		persistents.putAttribute("schedule.holidaysProvinceCountry", persistents.getPersistent("schedule")
+						.getFieldString("holidaysCountry"));
 	}
 
 	/**
 	 * @see de.iritgo.aktera.ui.form.FormularHandler#createPersistents(de.iritgo.aktera.model.ModelRequest, de.iritgo.aktera.ui.form.FormularDescriptor, de.iritgo.aktera.ui.form.PersistentDescriptor, List)
 	 */
 	@Override
-	public int createPersistents (ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents,
+	public int createPersistents(ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents,
 					List<Configuration> persistentConfig) throws ModelException, PersistenceException
 	{
 		synchronized (Schedule.class)
 		{
-			persistents.getPersistent ("schedule").setField ("position", scheduleDAO.maxSchedulePosition () + 1);
+			persistents.getPersistent("schedule").setField("position", scheduleDAO.maxSchedulePosition() + 1);
 
-			return super.createPersistents (request, formular, persistents, persistentConfig);
+			return super.createPersistents(request, formular, persistents, persistentConfig);
 		}
 	}
 
@@ -80,16 +80,16 @@ public class ScheduleFormularHandler extends FormularHandler
 	 * @see de.iritgo.aktera.ui.form.FormularHandler#deletePersistent(de.iritgo.aktera.model.ModelRequest, de.iritgo.aktera.model.ModelResponse, Object, de.iritgo.aktera.persist.Persistent, boolean)
 	 */
 	@Override
-	public void deletePersistent (ModelRequest request, ModelResponse response, Object id, Persistent persistent,
+	public void deletePersistent(ModelRequest request, ModelResponse response, Object id, Persistent persistent,
 					boolean systemDelete) throws ModelException, PersistenceException
 	{
 		synchronized (Schedule.class)
 		{
-			Schedule schedule = scheduleDAO.findScheduleById (persistent.getFieldInt ("id"));
+			Schedule schedule = scheduleDAO.findScheduleById(persistent.getFieldInt("id"));
 
-			scheduleDAO.deleteAllActionsOfSchedule (schedule);
-			scheduleDAO.moveScheduleToEnd (schedule);
-			super.deletePersistent (request, response, id, persistent, systemDelete);
+			scheduleDAO.deleteAllActionsOfSchedule(schedule);
+			scheduleDAO.moveScheduleToEnd(schedule);
+			super.deletePersistent(request, response, id, persistent, systemDelete);
 		}
 	}
 }

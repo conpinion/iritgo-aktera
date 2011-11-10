@@ -51,14 +51,14 @@ public class IritgoProperties implements Serializable
 	 *   primary-key="true"
 	 *   null-allowed="false"
 	 */
-	public String getName ()
+	public String getName()
 	{
 		return name;
 	}
 
 	/**
 	 */
-	public void setName (String name)
+	public void setName(String name)
 	{
 		this.name = name;
 	}
@@ -70,14 +70,14 @@ public class IritgoProperties implements Serializable
 	 *   type="varchar"
 	 *   length="80"
 	 */
-	public String getValue ()
+	public String getValue()
 	{
 		return value;
 	}
 
 	/**
 	 */
-	public void setValue (String value)
+	public void setValue(String value)
 	{
 		this.value = value;
 	}

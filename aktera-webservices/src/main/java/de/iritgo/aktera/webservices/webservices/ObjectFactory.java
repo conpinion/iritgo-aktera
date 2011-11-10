@@ -52,7 +52,7 @@ public class ObjectFactory
 	 * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: de.iritgo.aktera.webservices.webservices
 	 * 
 	 */
-	public ObjectFactory ()
+	public ObjectFactory()
 	{
 	}
 
@@ -60,36 +60,36 @@ public class ObjectFactory
 	 * Create an instance of {@link EchoRequest }
 	 * 
 	 */
-	public EchoRequest createEchoRequest ()
+	public EchoRequest createEchoRequest()
 	{
-		return new EchoRequest ();
+		return new EchoRequest();
 	}
 
 	/**
 	 * Create an instance of {@link EchoResponse }
 	 * 
 	 */
-	public EchoResponse createEchoResponse ()
+	public EchoResponse createEchoResponse()
 	{
-		return new EchoResponse ();
+		return new EchoResponse();
 	}
 
 	/**
 	 * Create an instance of {@link PingRequest }
 	 * 
 	 */
-	public PingRequest createPingRequest ()
+	public PingRequest createPingRequest()
 	{
-		return new PingRequest ();
+		return new PingRequest();
 	}
 
 	/**
 	 * Create an instance of {@link PongResponse }
 	 * 
 	 */
-	public PongResponse createPongResponse ()
+	public PongResponse createPongResponse()
 	{
-		return new PongResponse ();
+		return new PongResponse();
 	}
 
 }

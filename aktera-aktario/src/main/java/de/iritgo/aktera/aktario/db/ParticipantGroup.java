@@ -50,14 +50,14 @@ public class ParticipantGroup implements Serializable
 	 *   primary-key="true"
 	 *   null-allowed="false"
 	 */
-	public Long getId ()
+	public Long getId()
 	{
 		return id;
 	}
 
 	/**
 	 */
-	public void setId (Long id)
+	public void setId(Long id)
 	{
 		this.id = id;
 	}
@@ -69,7 +69,7 @@ public class ParticipantGroup implements Serializable
 	 *   type="varchar"
 	 *   length="80"
 	 */
-	public String getIritgoUserName ()
+	public String getIritgoUserName()
 	{
 		return iritgoUserName;
 	}
@@ -77,7 +77,7 @@ public class ParticipantGroup implements Serializable
 	/**
 	 * Set the Iritgo user name
 	 */
-	public void setIritgoUserName (String iritgoUserName)
+	public void setIritgoUserName(String iritgoUserName)
 	{
 		this.iritgoUserName = iritgoUserName;
 	}

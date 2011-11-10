@@ -37,11 +37,11 @@ public class DefaultWebappRequest implements WebappRequest
 {
 	private HttpServletRequest hreq = null;
 
-	private DefaultWebappRequest ()
+	private DefaultWebappRequest()
 	{
 	}
 
-	public DefaultWebappRequest (HttpServletRequest hreq)
+	public DefaultWebappRequest(HttpServletRequest hreq)
 	{
 		this.hreq = hreq;
 	}
@@ -49,70 +49,70 @@ public class DefaultWebappRequest implements WebappRequest
 	/**
 	 * @see de.iritgo.aktera.clients.webapp.WebappRequest#getParameter(java.lang.String)
 	 */
-	public final String getParameter (String name)
+	public final String getParameter(String name)
 	{
-		return hreq.getParameter (name);
+		return hreq.getParameter(name);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.clients.webapp.WebappRequest#getParameterValues(java.lang.String)
 	 */
-	public final String[] getParameterValues (String name)
+	public final String[] getParameterValues(String name)
 	{
-		return hreq.getParameterValues (name);
+		return hreq.getParameterValues(name);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.clients.webapp.WebappRequest#getCookies()
 	 */
-	public final Cookie[] getCookies ()
+	public final Cookie[] getCookies()
 	{
-		return hreq.getCookies ();
+		return hreq.getCookies();
 	}
 
 	/**
 	 * @see de.iritgo.aktera.clients.webapp.WebappRequest#getParameterNames()
 	 */
-	public final Enumeration getParameterNames ()
+	public final Enumeration getParameterNames()
 	{
-		return hreq.getParameterNames ();
+		return hreq.getParameterNames();
 	}
 
 	/**
 	 * @see de.iritgo.aktera.clients.webapp.WebappRequest#getSessionId()
 	 */
-	public final String getSessionId ()
+	public final String getSessionId()
 	{
-		return hreq.getSession (true).getId ();
+		return hreq.getSession(true).getId();
 	}
 
 	/**
 	 * @see de.iritgo.aktera.clients.webapp.WebappRequest#getRemoteAddr()
 	 */
-	public final String getRemoteAddr ()
+	public final String getRemoteAddr()
 	{
-		return hreq.getRemoteAddr ();
+		return hreq.getRemoteAddr();
 	}
 
 	/**
 	 * @see de.iritgo.aktera.clients.webapp.WebappRequest#setAttribute(java.lang.String, java.lang.Object)
 	 */
-	public final void setAttribute (String name, Object value)
+	public final void setAttribute(String name, Object value)
 	{
 		if (name != null)
 		{
-			hreq.setAttribute (name, value);
+			hreq.setAttribute(name, value);
 		}
 	}
 
 	/**
 	 * @see de.iritgo.aktera.clients.webapp.WebappRequest#getRequestURL()
 	 */
-	public final String getRequestURL ()
+	public final String getRequestURL()
 	{
-		if (hreq.getRequestURL () != null)
+		if (hreq.getRequestURL() != null)
 		{
-			return hreq.getRequestURL ().toString ();
+			return hreq.getRequestURL().toString();
 		}
 		else
 		{
@@ -123,84 +123,84 @@ public class DefaultWebappRequest implements WebappRequest
 	/**
 	 * @see de.iritgo.aktera.clients.webapp.WebappRequest#getQueryString()
 	 */
-	public final String getQueryString ()
+	public final String getQueryString()
 	{
-		return hreq.getQueryString ();
+		return hreq.getQueryString();
 	}
 
 	/**
 	 * @see de.iritgo.aktera.clients.webapp.WebappRequest#getRealPath(java.lang.String)
 	 */
-	public final String getRealPath (String path)
+	public final String getRealPath(String path)
 	{
-		return hreq.getSession (true).getServletContext ().getRealPath (path);
+		return hreq.getSession(true).getServletContext().getRealPath(path);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.clients.webapp.WebappRequest#getAttribute(java.lang.String)
 	 */
-	public final Object getAttribute (String name)
+	public final Object getAttribute(String name)
 	{
-		return hreq.getAttribute (name);
+		return hreq.getAttribute(name);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.clients.webapp.WebappRequest#getInitParameter(java.lang.String)
 	 */
-	public final String getInitParameter (String name)
+	public final String getInitParameter(String name)
 	{
-		return hreq.getSession (true).getServletContext ().getInitParameter (name);
+		return hreq.getSession(true).getServletContext().getInitParameter(name);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.clients.webapp.WebappRequest#getHeaderNames()
 	 */
-	public final Enumeration getHeaderNames ()
+	public final Enumeration getHeaderNames()
 	{
-		return hreq.getHeaderNames ();
+		return hreq.getHeaderNames();
 	}
 
 	/**
 	 * @see de.iritgo.aktera.clients.webapp.WebappRequest#getHeader(java.lang.String)
 	 */
-	public final String getHeader (String name)
+	public final String getHeader(String name)
 	{
-		return hreq.getHeader (name);
+		return hreq.getHeader(name);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.clients.webapp.WebappRequest#getSource()
 	 */
-	public final String getSource ()
+	public final String getSource()
 	{
-		return hreq.getRemoteAddr ();
+		return hreq.getRemoteAddr();
 	}
 
 	/**
 	 * @see de.iritgo.aktera.clients.webapp.WebappRequest#getSource()
 	 */
-	public final Locale getLocale ()
+	public final Locale getLocale()
 	{
-		return hreq.getLocale ();
+		return hreq.getLocale();
 	}
 
-	public String getScheme ()
+	public String getScheme()
 	{
-		return hreq.getScheme ();
+		return hreq.getScheme();
 	}
 
-	public String getServerName ()
+	public String getServerName()
 	{
-		return hreq.getServerName ();
+		return hreq.getServerName();
 	}
 
-	public int getServerPort ()
+	public int getServerPort()
 	{
-		return hreq.getServerPort ();
+		return hreq.getServerPort();
 	}
 
-	public String getContextPath ()
+	public String getContextPath()
 	{
-		return hreq.getContextPath ();
+		return hreq.getContextPath();
 	}
 }

@@ -46,7 +46,7 @@ public class OptionsCollectionTag extends org.apache.struts.taglib.html.OptionsC
 
 		public boolean selected;
 
-		public Option (String label, String value, boolean selected)
+		public Option(String label, String value, boolean selected)
 		{
 			this.label = label;
 			this.value = value;
@@ -72,22 +72,22 @@ public class OptionsCollectionTag extends org.apache.struts.taglib.html.OptionsC
 	/** Collected options. */
 	protected List options;
 
-	public String getBundle ()
+	public String getBundle()
 	{
 		return this.bundle;
 	}
 
-	public void setBundle (String bundle)
+	public void setBundle(String bundle)
 	{
 		this.bundle = bundle;
 	}
 
-	public String getLocale ()
+	public String getLocale()
 	{
 		return this.locale;
 	}
 
-	public void setLocale (String locale)
+	public void setLocale(String locale)
 	{
 		this.locale = locale;
 	}
@@ -100,9 +100,9 @@ public class OptionsCollectionTag extends org.apache.struts.taglib.html.OptionsC
 	 * Release any acquired resources.
 	 */
 	@Override
-	public void release ()
+	public void release()
 	{
-		super.release ();
+		super.release();
 		sort = true;
 	}
 
@@ -115,22 +115,22 @@ public class OptionsCollectionTag extends org.apache.struts.taglib.html.OptionsC
 	 * @param matched Should this value be marked as selected?
 	 */
 	@Override
-	protected void addOption (StringBuffer sb, String label, String value, boolean matched)
+	protected void addOption(StringBuffer sb, String label, String value, boolean matched)
 	{
 		try
 		{
-			if (label.startsWith ("$"))
+			if (label.startsWith("$"))
 			{
 				String optionBundle = bundle;
-				int colonIndex = label.indexOf (":");
+				int colonIndex = label.indexOf(":");
 
 				if (colonIndex != - 1)
 				{
-					optionBundle = label.substring (1, colonIndex);
-					label = label.substring (colonIndex);
+					optionBundle = label.substring(1, colonIndex);
+					label = label.substring(colonIndex);
 				}
 
-				String[] args = label.split ("\\|");
+				String[] args = label.split("\\|");
 
 				if (args.length > 1)
 				{
@@ -138,15 +138,15 @@ public class OptionsCollectionTag extends org.apache.struts.taglib.html.OptionsC
 
 					for (int i = 0; i < args2.length; ++i)
 					{
-						args2[i] = args[i + 1].replaceAll ("\\\\\\|", "\\|");
+						args2[i] = args[i + 1].replaceAll("\\\\\\|", "\\|");
 					}
 
-					label = TagUtils.getInstance ().message (pageContext, optionBundle, locale, args[0].substring (1),
+					label = TagUtils.getInstance().message(pageContext, optionBundle, locale, args[0].substring(1),
 									args2);
 				}
 				else
 				{
-					label = TagUtils.getInstance ().message (pageContext, optionBundle, locale, label.substring (1));
+					label = TagUtils.getInstance().message(pageContext, optionBundle, locale, label.substring(1));
 				}
 			}
 		}
@@ -154,16 +154,16 @@ public class OptionsCollectionTag extends org.apache.struts.taglib.html.OptionsC
 		{
 		}
 
-		if (getParent () == null || ! (getParent () instanceof de.iritgo.aktera.struts.tags.html.SelectTag)
-						|| ! ((SelectTag) getParent ()).getReadOnly ())
+		if (getParent() == null || ! (getParent() instanceof de.iritgo.aktera.struts.tags.html.SelectTag)
+						|| ! ((SelectTag) getParent()).getReadOnly())
 		{
-			options.add (new Option (label, value, matched));
+			options.add(new Option(label, value, matched));
 		}
 		else if (matched)
 		{
 			try
 			{
-				TagUtils.getInstance ().write (pageContext, label);
+				TagUtils.getInstance().write(pageContext, label);
 			}
 			catch (JspException x)
 			{
@@ -177,17 +177,17 @@ public class OptionsCollectionTag extends org.apache.struts.taglib.html.OptionsC
 	 * @exception JspException if a JSP exception has occurred
 	 */
 	@Override
-	public int doStartTag () throws JspException
+	public int doStartTag() throws JspException
 	{
-		options = new LinkedList ();
+		options = new LinkedList();
 
-		super.doStartTag ();
+		super.doStartTag();
 
 		if (sort)
 		{
-			Collections.sort (options, new Comparator ()
+			Collections.sort(options, new Comparator()
 			{
-				public int compare (Object o1, Object o2)
+				public int compare(Object o1, Object o2)
 				{
 					Option opt1 = (Option) o1;
 					Option opt2 = (Option) o2;
@@ -197,21 +197,21 @@ public class OptionsCollectionTag extends org.apache.struts.taglib.html.OptionsC
 						return 0;
 					}
 
-					return opt1.label.compareTo (opt2.label);
+					return opt1.label.compareTo(opt2.label);
 				}
 			});
 		}
 
-		StringBuffer sb = new StringBuffer ();
+		StringBuffer sb = new StringBuffer();
 
-		for (Iterator i = options.iterator (); i.hasNext ();)
+		for (Iterator i = options.iterator(); i.hasNext();)
 		{
-			Option o = (Option) i.next ();
+			Option o = (Option) i.next();
 
-			super.addOption (sb, o.label, o.value, o.selected);
+			super.addOption(sb, o.label, o.value, o.selected);
 		}
 
-		TagUtils.getInstance ().write (pageContext, sb.toString ());
+		TagUtils.getInstance().write(pageContext, sb.toString());
 
 		return SKIP_BODY;
 	}

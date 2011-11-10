@@ -27,22 +27,22 @@ import de.iritgo.aktera.*;
 @SuppressWarnings("serial")
 public class NoSuchAddressStoreTypeException extends Exception
 {
-	public NoSuchAddressStoreTypeException ()
+	public NoSuchAddressStoreTypeException()
 	{
 	}
 
-	public NoSuchAddressStoreTypeException (String message)
+	public NoSuchAddressStoreTypeException(String message)
 	{
-		super (message);
+		super(message);
 	}
 
-	public NoSuchAddressStoreTypeException (Throwable cause)
+	public NoSuchAddressStoreTypeException(Throwable cause)
 	{
-		super (cause);
+		super(cause);
 	}
 
-	public NoSuchAddressStoreTypeException (String message, Throwable cause)
+	public NoSuchAddressStoreTypeException(String message, Throwable cause)
 	{
-		super (message, cause);
+		super(message, cause);
 	}
 }

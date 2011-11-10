@@ -33,181 +33,181 @@ import de.iritgo.simplelife.data.KeyedValue2;
  */
 public class ScriptManagerTest
 {
-	private ScriptManager scriptManager = new ScriptManagerImpl ();
+	private ScriptManager scriptManager = new ScriptManagerImpl();
 
 	@Before
-	public void setUp () throws Exception
+	public void setUp() throws Exception
 	{
-		Map<String, ScriptCompiler> compilers = new HashMap<String, ScriptCompiler> ();
+		Map<String, ScriptCompiler> compilers = new HashMap<String, ScriptCompiler>();
 
-		compilers.put ("scriptLanguage", new ScriptCompiler ()
+		compilers.put("scriptLanguage", new ScriptCompiler()
 		{
-			public CompiledScript compile (final String scriptName, final String scriptCode)
+			public CompiledScript compile(final String scriptName, final String scriptCode)
 			{
-				return new CompiledScript ()
+				return new CompiledScript()
 				{
 					private String code = scriptCode;
 
 					@Override
-					public Object execute (String methodName, Object... args)
+					public Object execute(String methodName, Object... args)
 						throws ScriptMethodNotFoundException, ScriptExecutionException
 					{
 						try
 						{
-							return MethodUtils.invokeMethod (Class.forName (code).newInstance (), methodName, args);
+							return MethodUtils.invokeMethod(Class.forName(code).newInstance(), methodName, args);
 						}
 						catch (InstantiationException x)
 						{
-							throw new ScriptExecutionException ();
+							throw new ScriptExecutionException();
 						}
 						catch (IllegalAccessException x)
 						{
-							throw new ScriptMethodNotFoundException ();
+							throw new ScriptMethodNotFoundException();
 						}
 						catch (NoSuchMethodException x)
 						{
-							throw new ScriptMethodNotFoundException ();
+							throw new ScriptMethodNotFoundException();
 						}
 						catch (InvocationTargetException x)
 						{
-							throw new ScriptExecutionException ();
+							throw new ScriptExecutionException();
 						}
 						catch (ClassNotFoundException x)
 						{
-							throw new ScriptExecutionException ();
+							throw new ScriptExecutionException();
 						}
 					}
 				};
 			}
 
-			public void check (String script) throws ScriptCompilerException
+			public void check(String script) throws ScriptCompilerException
 			{
 				try
 				{
-					Class.forName (script);
+					Class.forName(script);
 				}
 				catch (ClassNotFoundException x)
 				{
-					throw new ScriptCompilerException (x);
+					throw new ScriptCompilerException(x);
 				}
 			}
 		});
-		((ScriptManagerImpl) scriptManager).setCompilers (compilers);
+		((ScriptManagerImpl) scriptManager).setCompilers(compilers);
 
-		List<ScriptProvider> providers = new LinkedList<ScriptProvider> ();
+		List<ScriptProvider> providers = new LinkedList<ScriptProvider>();
 
-		providers.add (new ScriptProvider ()
+		providers.add(new ScriptProvider()
 		{
-			public Script find (String scriptName) throws ScriptNotFoundException
+			public Script find(String scriptName) throws ScriptNotFoundException
 			{
-				if ("ScriptWithMissingLanguage".equals (scriptName))
+				if ("ScriptWithMissingLanguage".equals(scriptName))
 				{
-					return new Script ("ScriptWithMissingLanguage", "java.lang.String", "missingScriptLanguage");
+					return new Script("ScriptWithMissingLanguage", "java.lang.String", "missingScriptLanguage");
 				}
-				else if ("Script".equals (scriptName))
+				else if ("Script".equals(scriptName))
 				{
-					return new Script ("Script", "java.lang.String", "scriptLanguage");
+					return new Script("Script", "java.lang.String", "scriptLanguage");
 				}
 
-				throw new ScriptNotFoundException ();
+				throw new ScriptNotFoundException();
 			}
 
-			public List<KeyedValue2<String, Integer, String>> listScriptNames ()
+			public List<KeyedValue2<String, Integer, String>> listScriptNames()
 			{
-				List<KeyedValue2<String, Integer, String>> scriptNames = new LinkedList<KeyedValue2<String, Integer, String>> ();
+				List<KeyedValue2<String, Integer, String>> scriptNames = new LinkedList<KeyedValue2<String, Integer, String>>();
 
-				scriptNames.add (new KeyedValue2<String, Integer, String> ("ScriptWithMissingLanguage", 1,
+				scriptNames.add(new KeyedValue2<String, Integer, String>("ScriptWithMissingLanguage", 1,
 								"ScriptWithMissingLanguage"));
-				scriptNames.add (new KeyedValue2<String, Integer, String> ("Script", 2, "Script"));
+				scriptNames.add(new KeyedValue2<String, Integer, String>("Script", 2, "Script"));
 
 				return scriptNames;
 			}
 
-			public void invalidate (String scriptName)
+			public void invalidate(String scriptName)
 			{
 			}
 
-			public List<KeyedValue2<String, Integer, String>> listScriptNamesByImplementedMethod (String methodName)
+			public List<KeyedValue2<String, Integer, String>> listScriptNamesByImplementedMethod(String methodName)
 			{
-				List<KeyedValue2<String, Integer, String>> scriptNames = new LinkedList<KeyedValue2<String, Integer, String>> ();
+				List<KeyedValue2<String, Integer, String>> scriptNames = new LinkedList<KeyedValue2<String, Integer, String>>();
 
-				scriptNames.add (new KeyedValue2<String, Integer, String> ("Script", 2, "Script"));
+				scriptNames.add(new KeyedValue2<String, Integer, String>("Script", 2, "Script"));
 
 				return scriptNames;
 			}
 
-			public String findScriptNameById (Integer id)
+			public String findScriptNameById(Integer id)
 			{
 				return "Script";
 			}
 
-			public String findScriptDisplayNameById (Integer id)
+			public String findScriptDisplayNameById(Integer id)
 			{
 				return "Script";
 			}
 		});
-		providers.add (new ScriptProvider ()
+		providers.add(new ScriptProvider()
 		{
-			private Script script = new Script ("ModifyableScript", "java.lang.String", "scriptLanguage");
+			private Script script = new Script("ModifyableScript", "java.lang.String", "scriptLanguage");
 
-			public Script find (String scriptName) throws ScriptNotFoundException
+			public Script find(String scriptName) throws ScriptNotFoundException
 			{
-				if ("ModifyableScript".equals (scriptName))
+				if ("ModifyableScript".equals(scriptName))
 				{
 					return script;
 				}
 
-				throw new ScriptNotFoundException ();
+				throw new ScriptNotFoundException();
 			}
 
-			public List<KeyedValue2<String, Integer, String>> listScriptNames ()
+			public List<KeyedValue2<String, Integer, String>> listScriptNames()
 			{
-				List<KeyedValue2<String, Integer, String>> scriptNames = new LinkedList<KeyedValue2<String, Integer, String>> ();
+				List<KeyedValue2<String, Integer, String>> scriptNames = new LinkedList<KeyedValue2<String, Integer, String>>();
 
-				scriptNames.add (new KeyedValue2<String, Integer, String> ("ModifyableScript", 3, "ModifyableScript"));
-				scriptNames.add (new KeyedValue2<String, Integer, String> ("Script", 4, "Script"));
+				scriptNames.add(new KeyedValue2<String, Integer, String>("ModifyableScript", 3, "ModifyableScript"));
+				scriptNames.add(new KeyedValue2<String, Integer, String>("Script", 4, "Script"));
 
 				return scriptNames;
 			}
 
-			public void invalidate (String scriptName)
+			public void invalidate(String scriptName)
 			{
-				script = new Script ("ModifyableScript", "java.util.Date", "scriptLanguage");
+				script = new Script("ModifyableScript", "java.util.Date", "scriptLanguage");
 			}
 
-			public List<KeyedValue2<String, Integer, String>> listScriptNamesByImplementedMethod (String methodName)
+			public List<KeyedValue2<String, Integer, String>> listScriptNamesByImplementedMethod(String methodName)
 			{
-				List<KeyedValue2<String, Integer, String>> scriptNames = new LinkedList<KeyedValue2<String, Integer, String>> ();
+				List<KeyedValue2<String, Integer, String>> scriptNames = new LinkedList<KeyedValue2<String, Integer, String>>();
 
-				scriptNames.add (new KeyedValue2<String, Integer, String> ("ModifyableScript", 3, "ModifyableScript"));
+				scriptNames.add(new KeyedValue2<String, Integer, String>("ModifyableScript", 3, "ModifyableScript"));
 
 				return scriptNames;
 			}
 
-			public String findScriptNameById (Integer id)
+			public String findScriptNameById(Integer id)
 			{
 				return null;
 			}
 
-			public String findScriptDisplayNameById (Integer id)
+			public String findScriptDisplayNameById(Integer id)
 			{
 				return null;
 			}
 		});
-		((ScriptManagerImpl) scriptManager).setProviders (providers);
+		((ScriptManagerImpl) scriptManager).setProviders(providers);
 	}
 
 	@Test
-	public void callMissingScript ()
+	public void callMissingScript()
 		throws ScriptLanguageNotFoundException, ScriptCompilerException, ScriptExecutionException,
 		ScriptMethodNotFoundException
 	{
 		try
 		{
 			@SuppressWarnings("unused")
-			Object ignored = scriptManager.execute ("ScriptThatDoesntExist", "scriptMethod");
+			Object ignored = scriptManager.execute("ScriptThatDoesntExist", "scriptMethod");
 
-			fail ("No exception triggered");
+			fail("No exception triggered");
 		}
 		catch (ScriptNotFoundException ignored)
 		{
@@ -216,16 +216,16 @@ public class ScriptManagerTest
 	}
 
 	@Test
-	public void callScriptWithMissingMethod ()
+	public void callScriptWithMissingMethod()
 		throws ScriptNotFoundException, ScriptLanguageNotFoundException, ScriptCompilerException,
 		ScriptExecutionException
 	{
 		try
 		{
 			@SuppressWarnings("unused")
-			Object dummy = scriptManager.execute ("Script", "missingScriptMethod");
+			Object dummy = scriptManager.execute("Script", "missingScriptMethod");
 
-			fail ("No exception thrown");
+			fail("No exception thrown");
 		}
 		catch (ScriptMethodNotFoundException ignored)
 		{
@@ -234,16 +234,16 @@ public class ScriptManagerTest
 	}
 
 	@Test
-	public void callcriptWithMissingLanguage ()
+	public void callcriptWithMissingLanguage()
 		throws ScriptCompilerException, ScriptNotFoundException, ScriptMethodNotFoundException,
 		ScriptExecutionException
 	{
 		try
 		{
 			@SuppressWarnings("unused")
-			Object ignored = scriptManager.execute ("ScriptWithMissingLanguage", "scriptMethod");
+			Object ignored = scriptManager.execute("ScriptWithMissingLanguage", "scriptMethod");
 
-			fail ("No exception triggered");
+			fail("No exception triggered");
 		}
 		catch (ScriptLanguageNotFoundException ignored)
 		{
@@ -252,79 +252,79 @@ public class ScriptManagerTest
 	}
 
 	@Test
-	public void callScript ()
+	public void callScript()
 		throws ScriptNotFoundException, ScriptMethodNotFoundException, ScriptLanguageNotFoundException,
 		ScriptCompilerException, ScriptExecutionException
 	{
-		Object res = scriptManager.execute ("Script", "getClass");
+		Object res = scriptManager.execute("Script", "getClass");
 
-		assertEquals ("Script returned wrong value", String.class, res);
+		assertEquals("Script returned wrong value", String.class, res);
 	}
 
 	@Test
-	public void listScriptNames ()
+	public void listScriptNames()
 	{
-		Set<KeyedValue2<String, Integer, String>> expected = new HashSet<KeyedValue2<String, Integer, String>> ();
+		Set<KeyedValue2<String, Integer, String>> expected = new HashSet<KeyedValue2<String, Integer, String>>();
 
-		expected.add (new KeyedValue2<String, Integer, String> ("ScriptWithMissingLanguage", 1,
+		expected.add(new KeyedValue2<String, Integer, String>("ScriptWithMissingLanguage", 1,
 						"ScriptWithMissingLanguage"));
-		expected.add (new KeyedValue2<String, Integer, String> ("Script", 2, "Script"));
-		expected.add (new KeyedValue2<String, Integer, String> ("ModifyableScript", 3, "ModifyableScript"));
-		assertEquals ("Wrong script list", expected, scriptManager.listScriptNames ());
+		expected.add(new KeyedValue2<String, Integer, String>("Script", 2, "Script"));
+		expected.add(new KeyedValue2<String, Integer, String>("ModifyableScript", 3, "ModifyableScript"));
+		assertEquals("Wrong script list", expected, scriptManager.listScriptNames());
 	}
 
 	@Test
-	public void listScriptNamesByImplementedMethod ()
+	public void listScriptNamesByImplementedMethod()
 	{
-		Set<KeyedValue2<String, Integer, String>> expected = new HashSet<KeyedValue2<String, Integer, String>> ();
+		Set<KeyedValue2<String, Integer, String>> expected = new HashSet<KeyedValue2<String, Integer, String>>();
 
-		expected.add (new KeyedValue2<String, Integer, String> ("Script", 2, "Script"));
-		expected.add (new KeyedValue2<String, Integer, String> ("ModifyableScript", 3, "ModifyableScript"));
-		assertEquals ("Wrong script list", expected, scriptManager.listScriptNamesByImplementedMethod ("scriptMethod"));
+		expected.add(new KeyedValue2<String, Integer, String>("Script", 2, "Script"));
+		expected.add(new KeyedValue2<String, Integer, String>("ModifyableScript", 3, "ModifyableScript"));
+		assertEquals("Wrong script list", expected, scriptManager.listScriptNamesByImplementedMethod("scriptMethod"));
 	}
 
 	@Test
-	public void scriptModification ()
+	public void scriptModification()
 		throws ScriptNotFoundException, ScriptMethodNotFoundException, ScriptLanguageNotFoundException,
 		ScriptCompilerException, ScriptExecutionException
 	{
-		Object res = scriptManager.execute ("ModifyableScript", "getClass");
+		Object res = scriptManager.execute("ModifyableScript", "getClass");
 
-		assertEquals ("Unexpected original script result", String.class, res);
-		scriptManager.invalidate ("ModifyableScript");
-		res = scriptManager.execute ("ModifyableScript", "getClass");
-		assertEquals ("Script change unseen by the script manager", Date.class, res);
+		assertEquals("Unexpected original script result", String.class, res);
+		scriptManager.invalidate("ModifyableScript");
+		res = scriptManager.execute("ModifyableScript", "getClass");
+		assertEquals("Script change unseen by the script manager", Date.class, res);
 	}
 
 	@Test
-	public void scriptCompilerList ()
+	public void scriptCompilerList()
 	{
-		Set<String> expected = new HashSet<String> ();
+		Set<String> expected = new HashSet<String>();
 
-		expected.add ("scriptLanguage");
-		assertEquals ("Wrong compiler list", expected, scriptManager.listCompilerNames ());
+		expected.add("scriptLanguage");
+		assertEquals("Wrong compiler list", expected, scriptManager.listCompilerNames());
 	}
 
 	@Test
-	public void correctScriptCheck () throws ScriptLanguageNotFoundException
+	public void correctScriptCheck() throws ScriptLanguageNotFoundException
 	{
 		try
 		{
-			scriptManager.check ("java.lang.String", "scriptLanguage");
+			scriptManager.check("java.lang.String", "scriptLanguage");
 		}
 		catch (ScriptCompilerException x)
 		{
-			fail ("Exception thrown for correct script");
+			fail("Exception thrown for correct script");
 		}
 	}
 
 	@Test
-	public void incorrectScriptCheck () throws ScriptLanguageNotFoundException
+	public void incorrectScriptCheck() throws ScriptLanguageNotFoundException
 	{
 		try
 		{
-			scriptManager.check ("not.existing.Class", "scriptLanguage");
-			fail ("No excpetion thrown for incorrect script");
+			scriptManager.check("not.existing.Class", "scriptLanguage");
+			fail("No excpetion thrown for incorrect script");
 		}
 		catch (ScriptCompilerException x)
 		{
@@ -333,18 +333,18 @@ public class ScriptManagerTest
 	}
 
 	@Test
-	public void runScriptCode ()
+	public void runScriptCode()
 		throws ScriptMethodNotFoundException, ScriptLanguageNotFoundException, ScriptCompilerException,
 		ScriptExecutionException
 	{
-		Object res = scriptManager.run ("java.lang.String", "scriptLanguage", "Script", "getClass");
+		Object res = scriptManager.run("java.lang.String", "scriptLanguage", "Script", "getClass");
 
-		assertEquals ("Script returned wrong value", String.class, res);
+		assertEquals("Script returned wrong value", String.class, res);
 	}
 
 	@Test
-	public void findScriptNameById ()
+	public void findScriptNameById()
 	{
-		assertEquals ("Wrong script name", "Script", scriptManager.findScriptNameById (2));
+		assertEquals("Wrong script name", "Script", scriptManager.findScriptNameById(2));
 	}
 }

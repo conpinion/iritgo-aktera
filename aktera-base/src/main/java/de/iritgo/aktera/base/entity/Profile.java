@@ -74,7 +74,7 @@ public class Profile implements Serializable
 	 *
 	 * @return The party id.
 	 */
-	public Integer getPartyId ()
+	public Integer getPartyId()
 	{
 		return partyId;
 	}
@@ -84,7 +84,7 @@ public class Profile implements Serializable
 	 *
 	 * @param partyId The new party id.
 	 */
-	public void setPartyId (Integer partyId)
+	public void setPartyId(Integer partyId)
 	{
 		this.partyId = partyId;
 	}
@@ -100,7 +100,7 @@ public class Profile implements Serializable
 	 *
 	 * @return The Last login date.
 	 */
-	public Timestamp getLastLogin ()
+	public Timestamp getLastLogin()
 	{
 		return lastLogin;
 	}
@@ -110,7 +110,7 @@ public class Profile implements Serializable
 	 *
 	 * @param lastLogin The new last login date.
 	 */
-	public void setLastLogin (Timestamp lastLogin)
+	public void setLastLogin(Timestamp lastLogin)
 	{
 		this.lastLogin = lastLogin;
 	}
@@ -126,7 +126,7 @@ public class Profile implements Serializable
 	 *
 	 * @return The birth date.
 	 */
-	public Date getBirthDate ()
+	public Date getBirthDate()
 	{
 		return birthDate;
 	}
@@ -136,7 +136,7 @@ public class Profile implements Serializable
 	 *
 	 * @param birthDate The new birth date.
 	 */
-	public void setBirthDate (Date birthDate)
+	public void setBirthDate(Date birthDate)
 	{
 		this.birthDate = birthDate;
 	}
@@ -152,7 +152,7 @@ public class Profile implements Serializable
 	 *
 	 * @return True, if the personal information should be published.
 	 */
-	public Boolean getPublishInformation ()
+	public Boolean getPublishInformation()
 	{
 		return publishInformation;
 	}
@@ -162,7 +162,7 @@ public class Profile implements Serializable
 	 *
 	 * @param publishInformation The new state.
 	 */
-	public void setPublishInformation (Boolean publishInformation)
+	public void setPublishInformation(Boolean publishInformation)
 	{
 		this.publishInformation = publishInformation;
 	}

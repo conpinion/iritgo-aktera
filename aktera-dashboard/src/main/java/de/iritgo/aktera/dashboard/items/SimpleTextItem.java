@@ -30,28 +30,28 @@ public interface SimpleTextItem extends DashboardItem
 	 *
 	 * @return The label
 	 */
-	public String getLabel ();
+	public String getLabel();
 
 	/**
 	 * Return the description of the board
 	 *
 	 * @return
 	 */
-	public String getDescription ();
+	public String getDescription();
 
 	/**
 	 * Return the measuring unit for the board.
 	 *
 	 * @return The measuring unit
 	 */
-	public String getMeasuringUnit ();
+	public String getMeasuringUnit();
 
 	/**
 	 * The current value for the board
 	 *
 	 * @return The value
 	 */
-	public String getText ();
+	public String getText();
 
 	/**
 	 * Return true if the given value is a green value.
@@ -59,7 +59,7 @@ public interface SimpleTextItem extends DashboardItem
 	 * @param text The text
 	 * @return True if a green value
 	 */
-	public boolean isGreenText (String text);
+	public boolean isGreenText(String text);
 
 	/**
 	 * Return true if the given value is a yellow value.
@@ -67,7 +67,7 @@ public interface SimpleTextItem extends DashboardItem
 	 * @param text The text
 	 * @return True if a yellow value
 	 */
-	public boolean isYellowText (String text);
+	public boolean isYellowText(String text);
 
 	/**
 	 * Return true if the given value is a red value.
@@ -75,5 +75,5 @@ public interface SimpleTextItem extends DashboardItem
 	 * @param text The text
 	 * @return True if a red text
 	 */
-	public boolean isRedText (String text);
+	public boolean isRedText(String text);
 }

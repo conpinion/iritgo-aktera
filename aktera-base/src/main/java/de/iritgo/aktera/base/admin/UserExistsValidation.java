@@ -28,11 +28,11 @@ import de.iritgo.aktera.ui.form.ObjectExistsValidation;
  */
 public class UserExistsValidation extends ObjectExistsValidation
 {
-	public UserExistsValidation ()
+	public UserExistsValidation()
 	{
 	}
 
-	public String getErrorTextId ()
+	public String getErrorTextId()
 	{
 		return "userExistsValidation";
 	}

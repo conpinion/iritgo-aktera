@@ -24,18 +24,18 @@ final class ComponentKeelKey
 {
 	private final Object m_component;
 
-	public ComponentKeelKey (final Object component)
+	public ComponentKeelKey(final Object component)
 	{
 		m_component = component;
 	}
 
-	public boolean equals (final Object other)
+	public boolean equals(final Object other)
 	{
 		return (other instanceof ComponentKeelKey) && ((ComponentKeelKey) other).m_component == m_component;
 	}
 
-	public int hashCode ()
+	public int hashCode()
 	{
-		return System.identityHashCode (m_component);
+		return System.identityHashCode(m_component);
 	}
 }

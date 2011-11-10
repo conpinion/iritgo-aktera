@@ -40,19 +40,19 @@ public abstract class AbstractStartupHandler implements StartupHandler
 	/**
 	 * @see de.iritgo.aktera.startup.StartupHandler#startup()
 	 */
-	public abstract void startup () throws StartupException;
+	public abstract void startup() throws StartupException;
 
 	/**
 	 * @see de.iritgo.aktera.startup.StartupHandler#shutdown()
 	 */
-	public abstract void shutdown () throws ShutdownException;
+	public abstract void shutdown() throws ShutdownException;
 
 	/**
 	 * Get the configuration.
 	 *
 	 * @return The configuration
 	 */
-	public Configuration getConfiguration ()
+	public Configuration getConfiguration()
 	{
 		return configuration;
 	}
@@ -60,7 +60,7 @@ public abstract class AbstractStartupHandler implements StartupHandler
 	/**
 	 * @see de.iritgo.aktera.startup.StartupHandler#setConfiguration(org.apache.avalon.framework.configuration.Configuration)
 	 */
-	public void setConfiguration (Configuration configuration)
+	public void setConfiguration(Configuration configuration)
 	{
 		this.configuration = configuration;
 	}
@@ -70,7 +70,7 @@ public abstract class AbstractStartupHandler implements StartupHandler
 	 *
 	 * @return The logger.
 	 */
-	public Logger getLogger ()
+	public Logger getLogger()
 	{
 		return logger;
 	}
@@ -78,7 +78,7 @@ public abstract class AbstractStartupHandler implements StartupHandler
 	/**
 	 * @see de.iritgo.aktera.startup.StartupHandler#setLogger(org.apache.avalon.framework.logger.Logger)
 	 */
-	public void setLogger (Logger logger)
+	public void setLogger(Logger logger)
 	{
 		this.logger = logger;
 	}

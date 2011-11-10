@@ -49,113 +49,113 @@ public class AddressClientManager extends AddressAktarioManager
 {
 	public static final String ID = "de.iritgo.aktera.address.AddressClientManager";
 
-	private ImageIcon emailIcon = new ImageIcon (AddressClientManager.class.getResource ("/resources/email-16.png"));
+	private ImageIcon emailIcon = new ImageIcon(AddressClientManager.class.getResource("/resources/email-16.png"));
 
-	private ImageIcon webIcon = new ImageIcon (AddressClientManager.class.getResource ("/resources/world-16.png"));
+	private ImageIcon webIcon = new ImageIcon(AddressClientManager.class.getResource("/resources/world-16.png"));
 
-	private I18NString emailLabel = new I18NString ("email");
+	private I18NString emailLabel = new I18NString("email");
 
-	private I18NString homepageLabel = new I18NString ("homepage");
+	private I18NString homepageLabel = new I18NString("homepage");
 
 	/**
 	 * Extension point for adding columns that are to be displayed in the
 	 * address table.
 	 */
-	private List<ITableColumn> addressTableColumns = new ArrayList ();
+	private List<ITableColumn> addressTableColumns = new ArrayList();
 
 	/** Extension point for adding items to the address action popup menu */
-	private List<IMenuItemProvider> addressTableActionMenuItemProviders = new ArrayList ();
+	private List<IMenuItemProvider> addressTableActionMenuItemProviders = new ArrayList();
 
-	public AddressClientManager ()
+	public AddressClientManager()
 	{
-		super (ID);
+		super(ID);
 	}
 
-	public List<ITableColumn> getAddressTableColumns ()
+	public List<ITableColumn> getAddressTableColumns()
 	{
 		return addressTableColumns;
 	}
 
-	public void addAddressTableColumn (ITableColumn column)
+	public void addAddressTableColumn(ITableColumn column)
 	{
-		addressTableColumns.add (column);
+		addressTableColumns.add(column);
 	}
 
-	public List<IMenuItemProvider> getAddressTableActionMenuItemProviders ()
+	public List<IMenuItemProvider> getAddressTableActionMenuItemProviders()
 	{
 		return addressTableActionMenuItemProviders;
 	}
 
-	public void addAddressTableActionMenuItemProvider (int index, IMenuItemProvider provider)
+	public void addAddressTableActionMenuItemProvider(int index, IMenuItemProvider provider)
 	{
-		addressTableActionMenuItemProviders.add (index, provider);
+		addressTableActionMenuItemProviders.add(index, provider);
 	}
 
-	public void addAddressTableActionMenuItemProvider (IMenuItemProvider provider)
+	public void addAddressTableActionMenuItemProvider(IMenuItemProvider provider)
 	{
-		addressTableActionMenuItemProviders.add (provider);
+		addressTableActionMenuItemProviders.add(provider);
 	}
 
 	/** Extension point for adding actions to a phone number field */
-	private List<IAction> phoneNumberFieldActions = new ArrayList ();
+	private List<IAction> phoneNumberFieldActions = new ArrayList();
 
-	public List<IAction> getPhoneNumberFieldActions ()
+	public List<IAction> getPhoneNumberFieldActions()
 	{
 		return phoneNumberFieldActions;
 	}
 
-	public void addPhoneNumberFieldAction (IAction action)
+	public void addPhoneNumberFieldAction(IAction action)
 	{
-		phoneNumberFieldActions.add (action);
+		phoneNumberFieldActions.add(action);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.address.AddressAktarioManager#init()
 	 */
 	@Override
-	public void init ()
+	public void init()
 	{
-		if (! IritgoEngine.instance ().isServer ())
+		if (! IritgoEngine.instance().isServer())
 		{
-			Properties props = new Properties ();
+			Properties props = new Properties();
 
-			props.setProperty ("command", "aktera-client.showEmbeddedAddress");
-			props.setProperty ("name", "showEmbeddedAddress");
-			CommandTools.performSimple ("aktario-xmlrpc.AddXmlRpcCommand", props);
+			props.setProperty("command", "aktera-client.showEmbeddedAddress");
+			props.setProperty("name", "showEmbeddedAddress");
+			CommandTools.performSimple("aktario-xmlrpc.AddXmlRpcCommand", props);
 
-			addAddressTableColumn (new ITableColumn ().withTitle ("id"));
-			addAddressTableColumn (new ITableColumn ().withTitle ("name"));
-			addAddressTableColumn (new ITableColumn ().withTitle ("firstName"));
-			addAddressTableColumn (new ITableColumn ().withTitle ("company"));
-			addAddressTableColumn (new AddressViewColumn ());
-			addAddressTableColumn (new AddressActionColumn ());
+			addAddressTableColumn(new ITableColumn().withTitle("id"));
+			addAddressTableColumn(new ITableColumn().withTitle("name"));
+			addAddressTableColumn(new ITableColumn().withTitle("firstName"));
+			addAddressTableColumn(new ITableColumn().withTitle("company"));
+			addAddressTableColumn(new AddressViewColumn());
+			addAddressTableColumn(new AddressActionColumn());
 
-			addAddressTableActionMenuItemProvider (new IMenuItemProvider ()
+			addAddressTableActionMenuItemProvider(new IMenuItemProvider()
 			{
 				@Override
-				public IMenuItem create (Object... params)
+				public IMenuItem create(Object... params)
 				{
 					Address address = (Address) params[0];
-					IMenuItem menuItem = new IMenuItem ("<html><span style=\"width:8em\"><b>"
-									+ (StringTools.isTrimEmpty (address.getEmail ()) ? "-" : address.getEmail ())
-									+ "</b></span> (" + emailLabel.get () + ")</html>", (Icon) emailIcon);
+					IMenuItem menuItem = new IMenuItem("<html><span style=\"width:8em\"><b>"
+									+ (StringTools.isTrimEmpty(address.getEmail()) ? "-" : address.getEmail())
+									+ "</b></span> (" + emailLabel.get() + ")</html>", (Icon) emailIcon);
 
-					menuItem.addActionListener (new EMailAction (address.getEmail ()));
+					menuItem.addActionListener(new EMailAction(address.getEmail()));
 
 					return menuItem;
 				}
 			});
-			addAddressTableActionMenuItemProvider (new IMenuItemProvider ()
+			addAddressTableActionMenuItemProvider(new IMenuItemProvider()
 			{
 				@Override
-				public IMenuItem create (Object... params)
+				public IMenuItem create(Object... params)
 				{
 					Address address = (Address) params[0];
-					IMenuItem menuItem = new IMenuItem ("<html><span style=\"width:8em\"><b>"
-									+ (StringTools.isTrimEmpty (address.getHomepage ()) ? "-" : address.getHomepage ())
-									+ "</b></span> (" + homepageLabel.get () + ")</html>", (Icon) webIcon);
+					IMenuItem menuItem = new IMenuItem("<html><span style=\"width:8em\"><b>"
+									+ (StringTools.isTrimEmpty(address.getHomepage()) ? "-" : address.getHomepage())
+									+ "</b></span> (" + homepageLabel.get() + ")</html>", (Icon) webIcon);
 
-					menuItem.addActionListener (new WebPageAction (address.getHomepage ()));
+					menuItem.addActionListener(new WebPageAction(address.getHomepage()));
 
 					return menuItem;
 				}
@@ -167,11 +167,11 @@ public class AddressClientManager extends AddressAktarioManager
 	 * @see de.iritgo.aktera.address.AddressAktarioManager#pluginEvent(de.iritgo.aktario.core.plugin.PluginStateEvent)
 	 */
 	@Override
-	public void pluginEvent (PluginStateEvent event)
+	public void pluginEvent(PluginStateEvent event)
 	{
-		if (event.allPluginsInitialized ())
+		if (event.allPluginsInitialized())
 		{
-			DataObjectTools.registerOnStartupDynDataObject (address);
+			DataObjectTools.registerOnStartupDynDataObject(address);
 		}
 	}
 }

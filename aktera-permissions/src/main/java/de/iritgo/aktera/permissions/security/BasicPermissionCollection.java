@@ -41,89 +41,89 @@ final class BasicPermissionCollection extends PermissionCollection implements ja
 
 	private Class permClass;
 
-	public BasicPermissionCollection ()
+	public BasicPermissionCollection()
 	{
-		perms = new HashMap (11);
+		perms = new HashMap(11);
 		all_allowed = false;
 	}
 
 	@Override
-	public void add (AbstractPermission permission)
+	public void add(AbstractPermission permission)
 	{
 		if (! (permission instanceof BasicPermission))
-			throw new IllegalArgumentException ("invalid permission: " + permission);
-		if (isReadOnly ())
-			throw new SecurityException ("attempt to add a Permission to a readonly PermissionCollection");
+			throw new IllegalArgumentException("invalid permission: " + permission);
+		if (isReadOnly())
+			throw new SecurityException("attempt to add a Permission to a readonly PermissionCollection");
 
 		BasicPermission bp = (BasicPermission) permission;
 
-		if (perms.size () == 0)
+		if (perms.size() == 0)
 		{
-			permClass = bp.getClass ();
+			permClass = bp.getClass();
 		}
 		else
 		{
-			if (bp.getClass () != permClass)
-				throw new IllegalArgumentException ("invalid permission: " + permission);
+			if (bp.getClass() != permClass)
+				throw new IllegalArgumentException("invalid permission: " + permission);
 		}
 
 		synchronized (this)
 		{
-			perms.put (bp.getCanonicalName (), permission);
+			perms.put(bp.getCanonicalName(), permission);
 		}
 
 		if (! all_allowed)
 		{
-			if (bp.getCanonicalName ().equals ("*"))
+			if (bp.getCanonicalName().equals("*"))
 				all_allowed = true;
 		}
 	}
 
 	@Override
-	public boolean implies (AbstractPermission permission)
+	public boolean implies(AbstractPermission permission)
 	{
 		if (! (permission instanceof BasicPermission))
 			return false;
 
 		BasicPermission bp = (BasicPermission) permission;
 
-		if (bp.getClass () != permClass)
+		if (bp.getClass() != permClass)
 			return false;
 
 		if (all_allowed)
 			return true;
 
-		String path = bp.getCanonicalName ();
+		String path = bp.getCanonicalName();
 
 		AbstractPermission x;
 
 		synchronized (this)
 		{
-			x = (AbstractPermission) perms.get (path);
+			x = (AbstractPermission) perms.get(path);
 		}
 
 		if (x != null)
 		{
-			return x.implies (permission);
+			return x.implies(permission);
 		}
 
 		int last, offset;
 
-		offset = path.length () - 1;
+		offset = path.length() - 1;
 
-		while ((last = path.lastIndexOf (".", offset)) != - 1)
+		while ((last = path.lastIndexOf(".", offset)) != - 1)
 		{
 
-			path = path.substring (0, last + 1) + "*";
+			path = path.substring(0, last + 1) + "*";
 
 			synchronized (this)
 			{
-				x = (AbstractPermission) perms.get (path);
+				x = (AbstractPermission) perms.get(path);
 			}
 
 			if (x != null)
 			{
-				return x.implies (permission);
+				return x.implies(permission);
 			}
 			offset = last - 1;
 		}
@@ -132,60 +132,60 @@ final class BasicPermissionCollection extends PermissionCollection implements ja
 	}
 
 	@Override
-	public Enumeration elements ()
+	public Enumeration elements()
 	{
 		synchronized (this)
 		{
-			return Collections.enumeration (perms.values ());
+			return Collections.enumeration(perms.values());
 		}
 	}
 
 	private static final ObjectStreamField[] serialPersistentFields =
 	{
-					new ObjectStreamField ("permissions", Hashtable.class),
-					new ObjectStreamField ("all_allowed", Boolean.TYPE),
-					new ObjectStreamField ("permClass", Class.class),
+					new ObjectStreamField("permissions", Hashtable.class),
+					new ObjectStreamField("all_allowed", Boolean.TYPE),
+					new ObjectStreamField("permClass", Class.class),
 	};
 
-	private void writeObject (ObjectOutputStream out) throws IOException
+	private void writeObject(ObjectOutputStream out) throws IOException
 	{
-		Hashtable permissions = new Hashtable (perms.size () * 2);
+		Hashtable permissions = new Hashtable(perms.size() * 2);
 
 		synchronized (this)
 		{
-			permissions.putAll (perms);
+			permissions.putAll(perms);
 		}
 
-		ObjectOutputStream.PutField pfields = out.putFields ();
-		pfields.put ("all_allowed", all_allowed);
-		pfields.put ("permissions", permissions);
-		pfields.put ("permClass", permClass);
-		out.writeFields ();
+		ObjectOutputStream.PutField pfields = out.putFields();
+		pfields.put("all_allowed", all_allowed);
+		pfields.put("permissions", permissions);
+		pfields.put("permClass", permClass);
+		out.writeFields();
 	}
 
 	/**
 	 * readObject is called to restore the state of the
 	 * BasicPermissionCollection from a stream.
 	 */
-	private void readObject (java.io.ObjectInputStream in) throws IOException, ClassNotFoundException
+	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
-		ObjectInputStream.GetField gfields = in.readFields ();
+		ObjectInputStream.GetField gfields = in.readFields();
 
-		Hashtable permissions = (Hashtable) gfields.get ("permissions", null);
-		perms = new HashMap (permissions.size () * 2);
-		perms.putAll (permissions);
+		Hashtable permissions = (Hashtable) gfields.get("permissions", null);
+		perms = new HashMap(permissions.size() * 2);
+		perms.putAll(permissions);
 
-		all_allowed = gfields.get ("all_allowed", false);
+		all_allowed = gfields.get("all_allowed", false);
 
-		permClass = (Class) gfields.get ("permClass", null);
+		permClass = (Class) gfields.get("permClass", null);
 
 		if (permClass == null)
 		{
-			Enumeration e = permissions.elements ();
-			if (e.hasMoreElements ())
+			Enumeration e = permissions.elements();
+			if (e.hasMoreElements())
 			{
-				AbstractPermission p = (AbstractPermission) e.nextElement ();
-				permClass = p.getClass ();
+				AbstractPermission p = (AbstractPermission) e.nextElement();
+				permClass = p.getClass();
 			}
 		}
 	}

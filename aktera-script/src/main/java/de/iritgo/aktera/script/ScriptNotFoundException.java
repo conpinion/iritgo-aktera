@@ -32,7 +32,7 @@ public class ScriptNotFoundException extends Exception
 	/**
 	 * Initialize a ScriptNotFoundException.
 	 */
-	public ScriptNotFoundException ()
+	public ScriptNotFoundException()
 	{
 	}
 
@@ -41,9 +41,9 @@ public class ScriptNotFoundException extends Exception
 	 *
 	 * @param message The exception message
 	 */
-	public ScriptNotFoundException (String message)
+	public ScriptNotFoundException(String message)
 	{
-		super (message);
+		super(message);
 	}
 
 	/**
@@ -51,9 +51,9 @@ public class ScriptNotFoundException extends Exception
 	 *
 	 * @param cause Original exception
 	 */
-	public ScriptNotFoundException (Throwable cause)
+	public ScriptNotFoundException(Throwable cause)
 	{
-		super (cause);
+		super(cause);
 	}
 
 	/**
@@ -62,8 +62,8 @@ public class ScriptNotFoundException extends Exception
 	 * @param message The exception message
 	 * @param cause Original exception
 	 */
-	public ScriptNotFoundException (String message, Throwable cause)
+	public ScriptNotFoundException(String message, Throwable cause)
 	{
-		super (message, cause);
+		super(message, cause);
 	}
 }

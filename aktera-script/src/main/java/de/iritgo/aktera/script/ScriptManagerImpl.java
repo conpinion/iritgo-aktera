@@ -38,18 +38,18 @@ import java.util.Set;
 public class ScriptManagerImpl implements ScriptManager
 {
 	/** This map stores the compiled scripts under their name */
-	private Map<String, CompiledScript> compiledScripts = new HashMap ();
+	private Map<String, CompiledScript> compiledScripts = new HashMap();
 
 	/** All available script compilers, indexed by name */
-	private Map<String, ScriptCompiler> compilers = new HashMap<String, ScriptCompiler> ();
+	private Map<String, ScriptCompiler> compilers = new HashMap<String, ScriptCompiler>();
 
 	/** All available script providers, indexed by name */
-	private List<ScriptProvider> providers = new LinkedList<ScriptProvider> ();
+	private List<ScriptProvider> providers = new LinkedList<ScriptProvider>();
 
 	/**
 	 * Set the available script compilers.
 	 */
-	public void setCompilers (Map<String, ScriptCompiler> compilers)
+	public void setCompilers(Map<String, ScriptCompiler> compilers)
 	{
 		this.compilers = compilers;
 	}
@@ -57,7 +57,7 @@ public class ScriptManagerImpl implements ScriptManager
 	/**
 	 * Set the available script providers.
 	 */
-	public void setProviders (List<ScriptProvider> providers)
+	public void setProviders(List<ScriptProvider> providers)
 	{
 		this.providers = providers;
 	}
@@ -67,18 +67,18 @@ public class ScriptManagerImpl implements ScriptManager
 	 * @throws ScriptLanguageNotFoundException
 	 * @see de.iritgo.aktera.script.ScriptManager#execute(java.lang.String, java.lang.String, java.lang.Object[])
 	 */
-	public Object execute (String scriptName, String methodName, Object... args)
+	public Object execute(String scriptName, String methodName, Object... args)
 		throws ScriptNotFoundException, ScriptMethodNotFoundException, ScriptLanguageNotFoundException,
 		ScriptExecutionException, ScriptCompilerException
 	{
-		if (! isCompiled (scriptName))
+		if (! isCompiled(scriptName))
 		{
-			Script script = find (scriptName);
+			Script script = find(scriptName);
 
-			compile (script);
+			compile(script);
 		}
 
-		return executeCompiledScript (scriptName, methodName, args);
+		return executeCompiledScript(scriptName, methodName, args);
 	}
 
 	/**
@@ -93,25 +93,26 @@ public class ScriptManagerImpl implements ScriptManager
 	 * @throws ScriptMethodNotFoundException If the script doesn't contain the
 	 * specified method
 	 */
-	private Object executeCompiledScript (String scriptName, String methodName, Object... args)
+	private Object executeCompiledScript(String scriptName, String methodName, Object... args)
 		throws ScriptExecutionException, ScriptMethodNotFoundException
 	{
-		CompiledScript compiledScript = compiledScripts.get (scriptName);
-		return compiledScript.execute (methodName, args);
+		CompiledScript compiledScript = compiledScripts.get(scriptName);
+		return compiledScript.execute(methodName, args);
 	}
 
 	/**
 	 * @throws ScriptCompilerException
 	 * @see de.iritgo.aktera.script.ScriptManager#compile(java.lang.String, java.lang.String)
 	 */
-	protected void compile (Script script) throws ScriptLanguageNotFoundException, ScriptCompilerException
+	protected void compile(Script script) throws ScriptLanguageNotFoundException, ScriptCompilerException
 	{
-		if (! compilers.containsKey (script.getLanguage ()))
+		if (! compilers.containsKey(script.getLanguage()))
 		{
-			throw new ScriptLanguageNotFoundException ("No such script language '" + script.getLanguage () + "'");
+			throw new ScriptLanguageNotFoundException("No such script language '" + script.getLanguage() + "'");
 		}
 
-		compiledScripts.put (script.getName (), compilers.get (script.getLanguage ()).compile (script.getName (), script.getCode ()));
+		compiledScripts.put(script.getName(), compilers.get(script.getLanguage()).compile(script.getName(),
+						script.getCode()));
 	}
 
 	/**
@@ -122,20 +123,20 @@ public class ScriptManagerImpl implements ScriptManager
 	 * @return The script
 	 * @throws ScriptNotFoundException If no provider contains this script
 	 */
-	protected Script find (String scriptName) throws ScriptNotFoundException
+	protected Script find(String scriptName) throws ScriptNotFoundException
 	{
 		for (ScriptProvider provider : providers)
 		{
 			try
 			{
-				return provider.find (scriptName);
+				return provider.find(scriptName);
 			}
 			catch (ScriptNotFoundException ignored)
 			{
 			}
 		}
 
-		throw new ScriptNotFoundException ("No such script with name '" + scriptName + "'");
+		throw new ScriptNotFoundException("No such script with name '" + scriptName + "'");
 	}
 
 	/**
@@ -144,29 +145,29 @@ public class ScriptManagerImpl implements ScriptManager
 	 * @param scriptName The name of the script
 	 * @return True if the script is already compiled
 	 */
-	protected boolean isCompiled (String scriptName)
+	protected boolean isCompiled(String scriptName)
 	{
-		return compiledScripts.containsKey (scriptName);
+		return compiledScripts.containsKey(scriptName);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.script.ScriptManager#hasCompiledScript(java.lang.String)
 	 */
-	public boolean hasCompiledScript (String scriptName)
+	public boolean hasCompiledScript(String scriptName)
 	{
-		return isCompiled (scriptName);
+		return isCompiled(scriptName);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.script.ScriptManager#listScriptNames()
 	 */
-	public Collection<KeyedValue2<String, Integer, String>> listScriptNames ()
+	public Collection<KeyedValue2<String, Integer, String>> listScriptNames()
 	{
-		Set<KeyedValue2<String, Integer, String>> scriptNames = new HashSet<KeyedValue2<String, Integer, String>> ();
+		Set<KeyedValue2<String, Integer, String>> scriptNames = new HashSet<KeyedValue2<String, Integer, String>>();
 
 		for (ScriptProvider provider : providers)
 		{
-			scriptNames.addAll (provider.listScriptNames ());
+			scriptNames.addAll(provider.listScriptNames());
 		}
 
 		return scriptNames;
@@ -175,13 +176,13 @@ public class ScriptManagerImpl implements ScriptManager
 	/**
 	 * @see de.iritgo.aktera.script.ScriptManager#listScriptNamesByImplementedMethod(java.lang.String)
 	 */
-	public Collection<KeyedValue2<String, Integer, String>> listScriptNamesByImplementedMethod (String methodName)
+	public Collection<KeyedValue2<String, Integer, String>> listScriptNamesByImplementedMethod(String methodName)
 	{
-		Set<KeyedValue2<String, Integer, String>> scriptNames = new HashSet<KeyedValue2<String, Integer, String>> ();
+		Set<KeyedValue2<String, Integer, String>> scriptNames = new HashSet<KeyedValue2<String, Integer, String>>();
 
 		for (ScriptProvider provider : providers)
 		{
-			scriptNames.addAll (provider.listScriptNamesByImplementedMethod (methodName));
+			scriptNames.addAll(provider.listScriptNamesByImplementedMethod(methodName));
 		}
 
 		return scriptNames;
@@ -190,63 +191,63 @@ public class ScriptManagerImpl implements ScriptManager
 	/**
 	 * @see de.iritgo.aktera.script.ScriptManager#listCompilerNames()
 	 */
-	public Collection<String> listCompilerNames ()
+	public Collection<String> listCompilerNames()
 	{
-		return compilers.keySet ();
+		return compilers.keySet();
 	}
 
 	/**
 	 * @see de.iritgo.aktera.script.ScriptManager#check(java.lang.String, java.lang.String)
 	 */
-	public void check (String scriptCode, String language)
+	public void check(String scriptCode, String language)
 		throws ScriptCompilerException, ScriptLanguageNotFoundException
 	{
-		if (! compilers.containsKey (language))
+		if (! compilers.containsKey(language))
 		{
-			throw new ScriptLanguageNotFoundException ("No script compiler with name '" + language + "' found");
+			throw new ScriptLanguageNotFoundException("No script compiler with name '" + language + "' found");
 		}
 
-		compilers.get (language).check (scriptCode);
+		compilers.get(language).check(scriptCode);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.script.ScriptManager#invalidate(java.lang.String)
 	 */
-	public void invalidate (String scriptName)
+	public void invalidate(String scriptName)
 	{
-		compiledScripts.remove (scriptName);
+		compiledScripts.remove(scriptName);
 
 		for (ScriptProvider provider : providers)
 		{
-			provider.invalidate (scriptName);
+			provider.invalidate(scriptName);
 		}
 	}
 
 	/**
 	 * @see de.iritgo.aktera.script.ScriptManager#run(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.Object[])
 	 */
-	public Object run (String scriptCode, String scriptLanguage, String scriptName, String methodName, Object... args)
+	public Object run(String scriptCode, String scriptLanguage, String scriptName, String methodName, Object... args)
 		throws ScriptMethodNotFoundException, ScriptLanguageNotFoundException, ScriptExecutionException,
 		ScriptCompilerException
 	{
-		if (! compiledScripts.containsKey (scriptName))
+		if (! compiledScripts.containsKey(scriptName))
 		{
-			Script script = new Script (scriptName, scriptCode, scriptLanguage);
+			Script script = new Script(scriptName, scriptCode, scriptLanguage);
 
-			compile (script);
+			compile(script);
 		}
 
-		return executeCompiledScript (scriptName, methodName, args);
+		return executeCompiledScript(scriptName, methodName, args);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.script.ScriptManager#findScriptNameById(java.lang.Integer)
 	 */
-	public String findScriptNameById (Integer id)
+	public String findScriptNameById(Integer id)
 	{
 		for (ScriptProvider provider : providers)
 		{
-			String name = provider.findScriptNameById (id);
+			String name = provider.findScriptNameById(id);
 
 			if (name != null)
 			{
@@ -260,11 +261,11 @@ public class ScriptManagerImpl implements ScriptManager
 	/**
 	 * @see de.iritgo.aktera.script.ScriptManager#findScriptDisplayNameById(java.lang.Integer)
 	 */
-	public String findScriptDisplayNameById (Integer id)
+	public String findScriptDisplayNameById(Integer id)
 	{
 		for (ScriptProvider provider : providers)
 		{
-			String name = provider.findScriptDisplayNameById (id);
+			String name = provider.findScriptDisplayNameById(id);
 
 			if (name != null)
 			{

@@ -47,76 +47,76 @@ public class ShowModelRequest extends StandardLogEnabledModel
 	 * @param req The model request.
 	 * @return The model response.
 	 */
-	public ModelResponse execute (ModelRequest req) throws ModelException
+	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
-		ModelResponse res = req.createResponse ();
+		ModelResponse res = req.createResponse();
 
-		System.out.println ("\nModel Request:");
+		System.out.println("\nModel Request:");
 
-		System.out.println ("  Source: " + req.getSource ());
+		System.out.println("  Source: " + req.getSource());
 
-		Output source = res.createOutput ("source", req.getSource ());
+		Output source = res.createOutput("source", req.getSource());
 
-		res.add (source);
+		res.add(source);
 
-		System.out.println ("  Headers:");
+		System.out.println("  Headers:");
 
-		Output headerList = res.createOutput ("headers");
+		Output headerList = res.createOutput("headers");
 
-		res.add (headerList);
+		res.add(headerList);
 
 		int num = 1;
 
-		for (Iterator i = req.getHeaders ().entrySet ().iterator (); i.hasNext ();)
+		for (Iterator i = req.getHeaders().entrySet().iterator(); i.hasNext();)
 		{
-			Map.Entry entry = (Map.Entry) i.next ();
+			Map.Entry entry = (Map.Entry) i.next();
 
-			System.out.println ("   " + (String) entry.getKey () + ": " + req.getHeader ((String) entry.getKey ()));
+			System.out.println("   " + (String) entry.getKey() + ": " + req.getHeader((String) entry.getKey()));
 
-			Output header = res.createOutput ("header" + num++, (String) entry.getKey ());
+			Output header = res.createOutput("header" + num++, (String) entry.getKey());
 
-			header.setAttribute ("value", req.getHeader ((String) entry.getKey ()));
-			headerList.add (header);
+			header.setAttribute("value", req.getHeader((String) entry.getKey()));
+			headerList.add(header);
 		}
 
-		System.out.println ("  Parameters:");
+		System.out.println("  Parameters:");
 
-		Output parameterList = res.createOutput ("parameters");
+		Output parameterList = res.createOutput("parameters");
 
-		res.add (parameterList);
+		res.add(parameterList);
 
 		num = 1;
 
-		for (Iterator i = req.getParameters ().entrySet ().iterator (); i.hasNext ();)
+		for (Iterator i = req.getParameters().entrySet().iterator(); i.hasNext();)
 		{
-			Map.Entry entry = (Map.Entry) i.next ();
+			Map.Entry entry = (Map.Entry) i.next();
 
-			System.out.println ("   " + (String) entry.getKey () + " = " + req.getParameter ((String) entry.getKey ()));
+			System.out.println("   " + (String) entry.getKey() + " = " + req.getParameter((String) entry.getKey()));
 
-			Output parameter = res.createOutput ("parameter" + num++, (String) entry.getKey ());
+			Output parameter = res.createOutput("parameter" + num++, (String) entry.getKey());
 
-			parameter.setAttribute ("value", req.getParameter ((String) entry.getKey ()));
-			parameterList.add (parameter);
+			parameter.setAttribute("value", req.getParameter((String) entry.getKey()));
+			parameterList.add(parameter);
 		}
 
-		System.out.println ("  Attributes:");
+		System.out.println("  Attributes:");
 
-		Output attributeList = res.createOutput ("attributes");
+		Output attributeList = res.createOutput("attributes");
 
-		res.add (attributeList);
+		res.add(attributeList);
 
 		num = 1;
 
-		for (Iterator i = req.getAttributes ().entrySet ().iterator (); i.hasNext ();)
+		for (Iterator i = req.getAttributes().entrySet().iterator(); i.hasNext();)
 		{
-			Map.Entry entry = (Map.Entry) i.next ();
+			Map.Entry entry = (Map.Entry) i.next();
 
-			System.out.println ("   " + (String) entry.getKey () + " = " + req.getAttribute ((String) entry.getKey ()));
+			System.out.println("   " + (String) entry.getKey() + " = " + req.getAttribute((String) entry.getKey()));
 
-			Output attribute = res.createOutput ("attribute" + num++, (String) entry.getKey ());
+			Output attribute = res.createOutput("attribute" + num++, (String) entry.getKey());
 
-			attribute.setAttribute ("value", req.getAttribute ((String) entry.getKey ()));
-			attributeList.add (attribute);
+			attribute.setAttribute("value", req.getAttribute((String) entry.getKey()));
+			attributeList.add(attribute);
 		}
 
 		return res;

@@ -43,7 +43,7 @@ public class EventManagerImpl implements EventManager, StartupHandler
 	/** The logger. */
 	private Logger logger;
 
-	public void setLogger (Logger logger)
+	public void setLogger(Logger logger)
 	{
 		this.logger = logger;
 	}
@@ -51,7 +51,7 @@ public class EventManagerImpl implements EventManager, StartupHandler
 	/** Service configuration. */
 	private Configuration configuration;
 
-	public void setConfiguration (Configuration configuration)
+	public void setConfiguration(Configuration configuration)
 	{
 		this.configuration = configuration;
 	}
@@ -59,7 +59,7 @@ public class EventManagerImpl implements EventManager, StartupHandler
 	/** Events */
 	private List<Event> events;
 
-	public void setEvents (List<Event> events)
+	public void setEvents(List<Event> events)
 	{
 		this.events = events;
 	}
@@ -67,109 +67,114 @@ public class EventManagerImpl implements EventManager, StartupHandler
 	/** Handlers */
 	private List<StandardEventHandler> handlers;
 
-	public void setHandlers (List<StandardEventHandler> handlers)
+	public void setHandlers(List<StandardEventHandler> handlers)
 	{
 		this.handlers = handlers;
 	}
 
 	/** Event definitions. */
-	protected Map<String, Event> eventDefs = new HashMap<String, Event> ();
+	protected Map<String, Event> eventDefs = new HashMap<String, Event>();
 
 	/** Event handlers. */
-	protected EventHandlerTree eventHandlers = new EventHandlerTree ();
+	protected EventHandlerTree eventHandlers = new EventHandlerTree();
 
 	/**
 	 * @see org.apache.avalon.framework.configuration.Initializable#initialize()
 	 */
-	public void initialize () throws Exception
+	public void initialize() throws Exception
 	{
 	}
 
 	/**
 	 * @see de.iritgo.aktera.event.EventManager#fire(java.lang.String)
 	 */
-	public void fire (String eventId)
+	public void fire(String eventId)
 	{
-		fire (eventId, (ModelRequest) null);
+		fire(eventId, (ModelRequest) null);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.event.EventManager#fire(java.lang.String, java.util.Properties)
 	 */
-	public void fire (String eventId, Properties properties)
+	public void fire(String eventId, Properties properties)
 	{
-		fire (eventId, (ModelRequest) null, properties);
+		fire(eventId, (ModelRequest) null, properties);
+	}
+
+	public void fire(String eventId, Logger logger, Properties properties)
+	{
+		fire(eventId, (ModelRequest) null, logger, properties);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.event.EventManager#fire(String, ModelRequest)
 	 */
-	public void fire (String eventId, ModelRequest req)
+	public void fire(String eventId, ModelRequest req)
 	{
-		fire (eventId, req, logger, null);
+		fire(eventId, req, logger, null);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.event.EventManager#fire(String, ModelRequest)
 	 */
-	public void fire (String eventId, ModelRequest req, Logger logger)
+	public void fire(String eventId, ModelRequest req, Logger logger)
 	{
-		fire (eventId, req, logger, null);
+		fire(eventId, req, logger, null);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.event.EventManager#fire(String,ModelRequest, Hashtable)
 	 */
-	public void fire (String eventId, ModelRequest req, Properties properties)
+	public void fire(String eventId, ModelRequest req, Properties properties)
 	{
-		fire (eventId, req, logger, properties);
+		fire(eventId, req, logger, properties);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.event.EventManager#fire(String,ModelRequest, Hashtable)
 	 */
-	public void fire (String eventId, ModelRequest req, Logger logger, Properties properties)
+	public void fire(String eventId, ModelRequest req, Logger logger, Properties properties)
 	{
-		Event eventProto = eventDefs.get (eventId);
+		Event eventProto = eventDefs.get(eventId);
 
 		if (eventProto == null)
 		{
-			logger.error ("Unable to find event '" + eventId + "'");
+			logger.error("Unable to find event '" + eventId + "'");
 
 			return;
 		}
 
-		Event event = eventProto.clone ();
+		Event event = eventProto.clone();
 
-		event.setRequest (req);
+		event.setRequest(req);
 
 		if (logger == null || logger instanceof NullLogger)
 		{
-			event.setLogger (logger);
+			event.setLogger(logger);
 		}
 		else
 		{
-			event.setLogger (logger);
+			event.setLogger(logger);
 		}
 
-		event.setProperties (properties);
+		event.setProperties(properties);
 
 		EventHandlerTree node = eventHandlers;
 
-		for (String eventIdPart : eventId.split ("\\."))
+		for (String eventIdPart : eventId.split("\\."))
 		{
-			node = node.getChild (eventIdPart);
+			node = node.getChild(eventIdPart);
 
 			if (node == null)
 			{
 				break;
 			}
 
-			if (node.getHandlers ().size () != 0)
+			if (node.getHandlers().size() != 0)
 			{
-				for (StandardEventHandler handler : node.getHandlers ())
+				for (StandardEventHandler handler : node.getHandlers())
 				{
-					handler.handle (event);
+					handler.handle(event);
 				}
 			}
 		}
@@ -178,49 +183,49 @@ public class EventManagerImpl implements EventManager, StartupHandler
 	/**
 	 * @see de.iritgo.aktera.startup.StartupHandler#startup()
 	 */
-	public void startup () throws StartupException
+	public void startup() throws StartupException
 	{
 		for (Event event : events)
 		{
-			eventDefs.put (event.getEventId (), event);
+			eventDefs.put(event.getEventId(), event);
 		}
 
-		for (Configuration config : configuration.getChildren ("event"))
+		for (Configuration config : configuration.getChildren("event"))
 		{
 			try
 			{
-				String id = config.getAttribute ("id");
+				String id = config.getAttribute("id");
 
-				eventDefs.put (id, new Event (id));
-				logger.debug ("Added event '" + id + "'");
+				eventDefs.put(id, new Event(id));
+				logger.debug("Added event '" + id + "'");
 			}
 			catch (ConfigurationException x)
 			{
-				logger.error ("Unable to add event", x);
+				logger.error("Unable to add event", x);
 			}
 		}
 
 		for (StandardEventHandler handler : handlers)
 		{
-			if (handler.getLogger () == null)
+			if (handler.getLogger() == null)
 			{
-				handler.setLogger (logger);
+				handler.setLogger(logger);
 			}
-			eventHandlers.insert (handler.getEvent (), handler);
+			eventHandlers.insert(handler.getEvent(), handler);
 		}
 
-		for (Configuration config : configuration.getChildren ("handler"))
+		for (Configuration config : configuration.getChildren("handler"))
 		{
 			try
 			{
-				String eventId = config.getAttribute ("event");
+				String eventId = config.getAttribute("event");
 
-				eventHandlers.insert (eventId, new DelegatingEventHandler (config, logger));
-				logger.debug ("Added event handler for event '" + eventId + "'");
+				eventHandlers.insert(eventId, new DelegatingEventHandler(config, logger));
+				logger.debug("Added event handler for event '" + eventId + "'");
 			}
 			catch (ConfigurationException x)
 			{
-				logger.error ("Unable to add event handler", x);
+				logger.error("Unable to add event handler", x);
 			}
 		}
 	}
@@ -228,7 +233,7 @@ public class EventManagerImpl implements EventManager, StartupHandler
 	/**
 	 * @see de.iritgo.aktera.startup.StartupHandler#shutdown()
 	 */
-	public void shutdown () throws ShutdownException
+	public void shutdown() throws ShutdownException
 	{
 	}
 }

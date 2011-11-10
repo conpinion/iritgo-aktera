@@ -43,104 +43,104 @@ public class GroovyShellService extends GroovyService
 
 	private Thread serverThread;
 
-	private List<GroovyShellThread> threads = new ArrayList<GroovyShellThread> ();
+	private List<GroovyShellThread> threads = new ArrayList<GroovyShellThread>();
 
 	private boolean bindOnLocalehost;
 
-	public GroovyShellService ()
+	public GroovyShellService()
 	{
-		super ();
+		super();
 	}
 
-	public GroovyShellService (int socket)
+	public GroovyShellService(int socket)
 	{
-		super ();
+		super();
 		this.socket = socket;
 	}
 
-	public GroovyShellService (Map bindings, int socket)
+	public GroovyShellService(Map bindings, int socket)
 	{
-		super (bindings);
+		super(bindings);
 		this.socket = socket;
 	}
 
-	public void launch ()
+	public void launch()
 	{
-		logger.info ("GroovyShellService launch()");
+		logger.info("GroovyShellService launch()");
 
 		try
 		{
 			if (bindOnLocalehost)
-				serverSocket = new ServerSocket (socket, 0, Inet4Address.getByName ("127.0.0.1"));
+				serverSocket = new ServerSocket(socket, 0, Inet4Address.getByName("127.0.0.1"));
 			else
-				serverSocket = new ServerSocket (socket);
+				serverSocket = new ServerSocket(socket);
 
-			logger.info ("GroovyShellService launch() serverSocket: " + serverSocket);
+			logger.info("GroovyShellService launch() serverSocket: " + serverSocket);
 
 			while (true)
 			{
 				Socket clientSocket = null;
 				try
 				{
-					clientSocket = serverSocket.accept ();
-					logger.info ("GroovyShellService launch() clientSocket: " + clientSocket);
+					clientSocket = serverSocket.accept();
+					logger.info("GroovyShellService launch() clientSocket: " + clientSocket);
 				}
 				catch (IOException e)
 				{
-					logger.debug ("e: " + e);
+					logger.debug("e: " + e);
 					return;
 				}
 
-				GroovyShellThread clientThread = new GroovyShellThread (clientSocket, createBinding ());
-				threads.add (clientThread);
-				clientThread.start ();
+				GroovyShellThread clientThread = new GroovyShellThread(clientSocket, createBinding());
+				threads.add(clientThread);
+				clientThread.start();
 			}
 		}
 		catch (IOException e)
 		{
-			logger.debug ("e: " + e);
+			logger.debug("e: " + e);
 			return;
 		}
 		finally
 		{
 			try
 			{
-				serverSocket.close ();
+				serverSocket.close();
 			}
 			catch (IOException e)
 			{
-				logger.warn ("e: " + e);
+				logger.warn("e: " + e);
 				return;
 			}
-			logger.info ("GroovyShellService launch() closed connection");
+			logger.info("GroovyShellService launch() closed connection");
 		}
 	}
 
 	@Override
-	public void destroy ()
+	public void destroy()
 	{
-		logger.info ("closing serverSocket: " + serverSocket);
+		logger.info("closing serverSocket: " + serverSocket);
 		try
 		{
-			serverSocket.close ();
+			serverSocket.close();
 			for (GroovyShellThread nextThread : threads)
 			{
-				logger.info ("closing nextThread: " + nextThread);
-				nextThread.getSocket ().close ();
+				logger.info("closing nextThread: " + nextThread);
+				nextThread.getSocket().close();
 			}
 		}
 		catch (IOException e)
 		{
-			logger.warn ("e: " + e);
+			logger.warn("e: " + e);
 		}
 	}
 
-	public void setSocket (final int socket)
+	public void setSocket(final int socket)
 	{
 		this.socket = socket;
 	}
 
-	public void setBindOnLocalhost (Boolean bindOnLocalehost)
+	public void setBindOnLocalhost(Boolean bindOnLocalehost)
 	{
 		this.bindOnLocalehost = bindOnLocalehost;
 	}

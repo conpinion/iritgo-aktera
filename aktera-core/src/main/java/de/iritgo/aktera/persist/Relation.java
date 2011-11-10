@@ -39,15 +39,15 @@ public interface Relation
 
 	public static int OTHER = 2;
 
-	public int getType ();
+	public int getType();
 
-	public String getToPersistent ();
+	public String getToPersistent();
 
-	public String getFromPersistent ();
+	public String getFromPersistent();
 
-	public Set getFromFields ();
+	public Set getFromFields();
 
-	public Set getToFields ();
+	public Set getToFields();
 
-	public Set getLookedUpFields ();
+	public Set getLookedUpFields();
 }

@@ -36,8 +36,7 @@ import javax.security.auth.callback.PasswordCallback;
 import javax.security.auth.callback.TextInputCallback;
 import javax.security.auth.login.FailedLoginException;
 import javax.security.auth.login.LoginException;
-import javax.security.auth.spi.LoginModule;
-/* Java imports */
+import javax.security.auth.spi.LoginModule; /* Java imports */
 import java.util.Map;
 
 
@@ -78,7 +77,7 @@ public class KeelLoginModule implements LoginModule
 	 * Creates a login module that can authenticate against a persistent
 	 * object.
 	 */
-	public KeelLoginModule ()
+	public KeelLoginModule()
 	{
 	}
 
@@ -105,7 +104,7 @@ public class KeelLoginModule implements LoginModule
 	 *            options specified in the login <code>Configuration</code>
 	 *            for this particular <code>LoginModule</code>.
 	 */
-	public void initialize (Subject subject, CallbackHandler callbackHandler, Map sharedState, Map options)
+	public void initialize(Subject subject, CallbackHandler callbackHandler, Map sharedState, Map options)
 	{
 		// save the initial state
 		this.callbackHandler = callbackHandler;
@@ -114,26 +113,26 @@ public class KeelLoginModule implements LoginModule
 		this.options = options;
 
 		// initialize any configured options
-		if (options.containsKey ("debug"))
+		if (options.containsKey("debug"))
 		{
-			debug = "true".equalsIgnoreCase ((String) options.get ("debug"));
+			debug = "true".equalsIgnoreCase((String) options.get("debug"));
 		}
 
 		debug = false;
 
 		if (debug)
 		{
-			System.out.println ("\t\t[KeelLoginModule] initialize");
+			System.out.println("\t\t[KeelLoginModule] initialize");
 		}
 
-		if (options.containsKey ("password-seq"))
+		if (options.containsKey("password-seq"))
 		{
-			passwordSeq = (String) options.get ("password-seq");
+			passwordSeq = (String) options.get("password-seq");
 		}
 
 		if (debug)
 		{
-			System.out.println ("\t\t[KeelLoginModule] password-seq: " + passwordSeq);
+			System.out.println("\t\t[KeelLoginModule] password-seq: " + passwordSeq);
 		}
 	}
 
@@ -152,16 +151,16 @@ public class KeelLoginModule implements LoginModule
 	 *                if this <code>LoginModule</code> is unable to perform
 	 *                the authentication.
 	 */
-	public boolean login () throws LoginException
+	public boolean login() throws LoginException
 	{
 		if (debug)
 		{
-			System.out.println ("\t\t[KeelLoginModule] login");
+			System.out.println("\t\t[KeelLoginModule] login");
 		}
 
 		if (callbackHandler == null)
 		{
-			throw new LoginException ("Error: no CallbackHandler available "
+			throw new LoginException("Error: no CallbackHandler available "
 							+ "to garner authentication information from the user");
 		}
 
@@ -170,41 +169,41 @@ public class KeelLoginModule implements LoginModule
 			// Setup default callback handlers.
 			Callback[] callbacks = new Callback[]
 			{
-							new NameCallback ("Username: "), /* 0 */
-							new PasswordCallback ("Password: ", false), /* 1 */
-							new ConfirmationCallback (ConfirmationCallback.INFORMATION,
+							new NameCallback("Username: "), /* 0 */
+							new PasswordCallback("Password: ", false), /* 1 */
+							new ConfirmationCallback(ConfirmationCallback.INFORMATION,
 											ConfirmationCallback.YES_NO_OPTION, ConfirmationCallback.NO),
 
 							/* 2 */
-							new TextInputCallback ("Domain: "), /* 3 */
-							new ConfigurationCallback (), /* 4 */
-							new LoggerCallback (), /* 5 */
-							new ServiceManagerCallback ()
+							new TextInputCallback("Domain: "), /* 3 */
+							new ConfigurationCallback(), /* 4 */
+							new LoggerCallback(), /* 5 */
+							new ServiceManagerCallback()
 			}; /* 6 */
 
-			callbackHandler.handle (callbacks);
+			callbackHandler.handle(callbacks);
 
-			String loginName = ((NameCallback) callbacks[0]).getName ();
-			String password = new String (((PasswordCallback) callbacks[1]).getPassword ());
+			String loginName = ((NameCallback) callbacks[0]).getName();
+			String password = new String(((PasswordCallback) callbacks[1]).getPassword());
 
-			((PasswordCallback) callbacks[1]).clearPassword ();
+			((PasswordCallback) callbacks[1]).clearPassword();
 
-			String domain = ((TextInputCallback) callbacks[3]).getText ();
-			Configuration config = ((ConfigurationCallback) callbacks[4]).getConfiguration ();
+			String domain = ((TextInputCallback) callbacks[3]).getText();
+			Configuration config = ((ConfigurationCallback) callbacks[4]).getConfiguration();
 
-			log = ((LoggerCallback) callbacks[5]).getLog ();
+			log = ((LoggerCallback) callbacks[5]).getLog();
 
-			ServiceManager sm = ((ServiceManagerCallback) callbacks[6]).getServiceManager ();
+			ServiceManager sm = ((ServiceManagerCallback) callbacks[6]).getServiceManager();
 
-			log.debug ("Log assigned in KeelLoginModule");
+			log.debug("Log assigned in KeelLoginModule");
 
-			LoginHelper lb = new LoginHelper ();
+			LoginHelper lb = new LoginHelper();
 
-			Subject tmp = lb.attemptLogin (domain, loginName, password, passwordSeq, log, config, sm);
+			Subject tmp = lb.attemptLogin(domain, loginName, password, passwordSeq, log, config, sm);
 
 			//Add the uid to the sharedState Map to be used by subsequent
 			// LoginModule implementations
-			this.sharedState.put ("subject", tmp);
+			this.sharedState.put("subject", tmp);
 
 			success = true;
 
@@ -221,8 +220,8 @@ public class KeelLoginModule implements LoginModule
 		}
 		catch (Exception ex)
 		{
-			ex.printStackTrace (System.err);
-			throw new LoginException (ex.toString ());
+			ex.printStackTrace(System.err);
+			throw new LoginException(ex.toString());
 		}
 	}
 
@@ -250,38 +249,38 @@ public class KeelLoginModule implements LoginModule
 	 * @return true if this LoginModule's own login and commit attempts
 	 *         succeeded, or false otherwise.
 	 */
-	public boolean commit () throws LoginException
+	public boolean commit() throws LoginException
 	{
 		boolean returnValue = false;
 
 		if (debug)
 		{
-			System.out.println ("\t\t[KeelLoginModule] commit");
+			System.out.println("\t\t[KeelLoginModule] commit");
 		}
 
 		if (success)
 		{
-			if (subject.isReadOnly ())
+			if (subject.isReadOnly())
 			{
-				throw new LoginException ("Subject is Readonly");
+				throw new LoginException("Subject is Readonly");
 			}
 
 			if (callbackHandler instanceof LoginCallbackHandler)
 			{
-				((LoginCallbackHandler) callbackHandler).clearPassword ();
+				((LoginCallbackHandler) callbackHandler).clearPassword();
 			}
 
 			try
 			{
-				Subject tmp = (Subject) sharedState.get ("subject");
+				Subject tmp = (Subject) sharedState.get("subject");
 
-				subject.getPrincipals ().addAll (tmp.getPrincipals ());
-				subject.getPublicCredentials ().addAll (tmp.getPublicCredentials ());
-				subject.getPrivateCredentials ().addAll (tmp.getPrivateCredentials ());
+				subject.getPrincipals().addAll(tmp.getPrincipals());
+				subject.getPublicCredentials().addAll(tmp.getPublicCredentials());
+				subject.getPrivateCredentials().addAll(tmp.getPrivateCredentials());
 			}
 			catch (Exception ex)
 			{
-				throw new LoginException (ex.getMessage ());
+				throw new LoginException(ex.getMessage());
 			}
 
 			returnValue = true;
@@ -310,11 +309,11 @@ public class KeelLoginModule implements LoginModule
 	 * @return false if this LoginModule's own login and/or commit attempts
 	 *         failed, and true otherwise.
 	 */
-	public boolean abort () throws javax.security.auth.login.LoginException
+	public boolean abort() throws javax.security.auth.login.LoginException
 	{
 		if (debug)
 		{
-			System.out.println ("\t\t[KeelLoginModule] abort");
+			System.out.println("\t\t[KeelLoginModule] abort");
 		}
 
 		// Clean out state
@@ -322,10 +321,10 @@ public class KeelLoginModule implements LoginModule
 
 		if (callbackHandler instanceof LoginCallbackHandler)
 		{
-			((LoginCallbackHandler) callbackHandler).clearPassword ();
+			((LoginCallbackHandler) callbackHandler).clearPassword();
 		}
 
-		logout ();
+		logout();
 
 		return (true);
 	}
@@ -345,11 +344,11 @@ public class KeelLoginModule implements LoginModule
 	 * @return true in all cases since this <code>LoginModule</code> should
 	 *         not be ignored.
 	 */
-	public boolean logout () throws javax.security.auth.login.LoginException
+	public boolean logout() throws javax.security.auth.login.LoginException
 	{
 		if (debug)
 		{
-			System.out.println ("\t\t[KeelLoginModule] logout");
+			System.out.println("\t\t[KeelLoginModule] logout");
 		}
 
 		// Clean out state
@@ -357,15 +356,15 @@ public class KeelLoginModule implements LoginModule
 
 		if (callbackHandler instanceof LoginCallbackHandler)
 		{
-			((LoginCallbackHandler) callbackHandler).clearPassword ();
+			((LoginCallbackHandler) callbackHandler).clearPassword();
 		}
 
 		// remove the principals the login module added
 		if (subject != null)
 		{
-			subject.getPrincipals ().clear ();
-			subject.getPrivateCredentials ().clear ();
-			subject.getPublicCredentials ().clear ();
+			subject.getPrincipals().clear();
+			subject.getPrivateCredentials().clear();
+			subject.getPublicCredentials().clear();
 		}
 
 		return (true);

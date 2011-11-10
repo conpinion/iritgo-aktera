@@ -22,7 +22,7 @@ package de.iritgo.aktera.script;
 
 public interface ScriptCompiler
 {
-	public CompiledScript compile (String scriptName, String scriptCode) throws ScriptCompilerException;
+	public CompiledScript compile(String scriptName, String scriptCode) throws ScriptCompilerException;
 
-	public void check (String scriptCode) throws ScriptCompilerException;
+	public void check(String scriptCode) throws ScriptCompilerException;
 }

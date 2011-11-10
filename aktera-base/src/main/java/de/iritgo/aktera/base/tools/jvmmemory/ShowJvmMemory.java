@@ -35,39 +35,39 @@ public class ShowJvmMemory extends AbstractUIController
 	/**
 	 * @see de.iritgo.aktera.ui.UIController#execute(de.iritgo.aktera.ui.UIRequest, de.iritgo.aktera.ui.UIResponse)
 	 */
-	public void execute (UIRequest request, UIResponse response) throws UIControllerException
+	public void execute(UIRequest request, UIResponse response) throws UIControllerException
 	{
-		if (request.getParameter ("gc") != null)
+		if (request.getParameter("gc") != null)
 		{
-			System.gc ();
+			System.gc();
 		}
 
-		Command cmd = response.addCommand ("cmd5Minutes", "de.iritgo.aktera.base.ShowJvmMemoryHistory");
+		Command cmd = response.addCommand("cmd5Minutes", "de.iritgo.aktera.base.ShowJvmMemoryHistory");
 
-		cmd.setParameter ("startTime", "5");
+		cmd.setParameter("startTime", "5");
 
-		cmd = response.addCommand ("cmd30Minutes", "de.iritgo.aktera.base.ShowJvmMemoryHistory");
-		cmd.setParameter ("startTime", "30");
+		cmd = response.addCommand("cmd30Minutes", "de.iritgo.aktera.base.ShowJvmMemoryHistory");
+		cmd.setParameter("startTime", "30");
 
-		cmd = response.addCommand ("cmd60Minutes", "de.iritgo.aktera.base.ShowJvmMemoryHistory");
-		cmd.setParameter ("startTime", "60");
+		cmd = response.addCommand("cmd60Minutes", "de.iritgo.aktera.base.ShowJvmMemoryHistory");
+		cmd.setParameter("startTime", "60");
 
-		cmd = response.addCommand ("cmd120Minutes", "de.iritgo.aktera.base.ShowJvmMemoryHistory");
-		cmd.setParameter ("startTime", "120");
+		cmd = response.addCommand("cmd120Minutes", "de.iritgo.aktera.base.ShowJvmMemoryHistory");
+		cmd.setParameter("startTime", "120");
 
-		cmd = response.addCommand ("cmdDay", "de.iritgo.aktera.base.ShowJvmMemoryHistory");
-		cmd.setParameter ("startTime", "1440");
+		cmd = response.addCommand("cmdDay", "de.iritgo.aktera.base.ShowJvmMemoryHistory");
+		cmd.setParameter("startTime", "1440");
 
-		cmd = response.addCommand ("cmdWeek", "de.iritgo.aktera.base.ShowJvmMemoryHistory");
-		cmd.setParameter ("startTime", "10080");
+		cmd = response.addCommand("cmdWeek", "de.iritgo.aktera.base.ShowJvmMemoryHistory");
+		cmd.setParameter("startTime", "10080");
 
-		cmd = response.addCommand ("cmdMonth", "de.iritgo.aktera.base.ShowJvmMemoryHistory");
-		cmd.setParameter ("startTime", "302400");
+		cmd = response.addCommand("cmdMonth", "de.iritgo.aktera.base.ShowJvmMemoryHistory");
+		cmd.setParameter("startTime", "302400");
 
-		cmd = response.addCommand ("cmdYear", "de.iritgo.aktera.base.ShowJvmMemoryHistory");
-		cmd.setParameter ("cmdYear", "3628800");
+		cmd = response.addCommand("cmdYear", "de.iritgo.aktera.base.ShowJvmMemoryHistory");
+		cmd.setParameter("cmdYear", "3628800");
 
-		cmd = response.addCommand ("cmdGC", "de.iritgo.aktera.base.ShowJvmMemoryHistory");
-		cmd.setParameter ("gc", "Y");
+		cmd = response.addCommand("cmdGC", "de.iritgo.aktera.base.ShowJvmMemoryHistory");
+		cmd.setParameter("gc", "Y");
 	}
 }

@@ -24,26 +24,26 @@ public class SimplePermission extends BasicPermission implements java.security.a
 {
 	private static final long serialVersionUID = 1L;
 
-	public SimplePermission (String name)
+	public SimplePermission(String name)
 	{
-		super (name);
+		super(name);
 	}
 
 	@Override
-	public boolean equals (Object obj)
+	public boolean equals(Object obj)
 	{
 		if (obj == this)
 		{
 			return true;
 		}
 
-		if ((obj == null) || (obj.getClass () != getClass ()))
+		if ((obj == null) || (obj.getClass() != getClass()))
 		{
 			return false;
 		}
 
 		SimplePermission op = (SimplePermission) obj;
 
-		return this.implies (op);
+		return this.implies(op);
 	}
 }

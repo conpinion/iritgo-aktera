@@ -35,45 +35,45 @@ public class SuperSelenium extends DefaultSelenium
 
 	private int waitForPageTimeout = 30000;
 
-	public SuperSelenium (String serverHost, int serverPort, String browserStartCommand, String browserURL)
+	public SuperSelenium(String serverHost, int serverPort, String browserStartCommand, String browserURL)
 	{
-		super (serverHost, serverPort, browserStartCommand, browserURL);
+		super(serverHost, serverPort, browserStartCommand, browserURL);
 	}
 
-	public void setContext (String context)
+	public void setContext(String context)
 	{
 		this.context = context;
 	}
 
-	public void setWaitForPageTimeout (int waitForPageTimeout)
+	public void setWaitForPageTimeout(int waitForPageTimeout)
 	{
 		this.waitForPageTimeout = waitForPageTimeout;
 	}
 
-	public void setStartModel (String startModel)
+	public void setStartModel(String startModel)
 	{
 		this.startModel = startModel;
 	}
 
-	public void assertElementPresent (String locator)
+	public void assertElementPresent(String locator)
 	{
-		assertTrue ("Element not found: " + locator, isElementPresent (locator));
+		assertTrue("Element not found: " + locator, isElementPresent(locator));
 	}
 
-	public void assertTextNotPresent (String text)
+	public void assertTextNotPresent(String text)
 	{
-		assertTrue ("Text found: \"" + text + "\"", ! isTextPresent (text));
+		assertTrue("Text found: \"" + text + "\"", ! isTextPresent(text));
 	}
 
-	public void assertTextPresent (String text)
+	public void assertTextPresent(String text)
 	{
-		assertTrue ("Text not found: \"" + text + "\"", isTextPresent (text));
+		assertTrue("Text not found: \"" + text + "\"", isTextPresent(text));
 	}
 
-	public void clickButton (String locator)
+	public void clickButton(String locator)
 	{
-		click (locator);
-		waitForPageToLoad ();
+		click(locator);
+		waitForPageToLoad();
 	}
 
 	/**
@@ -82,10 +82,10 @@ public class SuperSelenium extends DefaultSelenium
 	 * @param text
 	 *            The link text
 	 */
-	public void clickLinkContainingText (String text)
+	public void clickLinkContainingText(String text)
 	{
-		click ("link=" + text);
-		waitForPageToLoad ();
+		click("link=" + text);
+		waitForPageToLoad();
 	}
 
 	/**
@@ -94,67 +94,67 @@ public class SuperSelenium extends DefaultSelenium
 	 * @param text
 	 *            The link text
 	 */
-	public void clickLinkWithText (String text)
+	public void clickLinkWithText(String text)
 	{
-		click ("link=" + text);
-		waitForPageToLoad ();
+		click("link=" + text);
+		waitForPageToLoad();
 	}
 
-	public void clickTable (String text)
+	public void clickTable(String text)
 	{
-		click ("//td[contains(text(),'" + text + "')]");
-		waitForPageToLoad ();
+		click("//td[contains(text(),'" + text + "')]");
+		waitForPageToLoad();
 	}
 
-	public void enterText (String locator, String value)
+	public void enterText(String locator, String value)
 	{
-		type (locator, value);
+		type(locator, value);
 	}
 
-	public void selectTable (String text)
+	public void selectTable(String text)
 	{
-		check ("xpath=/descendant-or-self::node()/child::input[parent::node()/parent::node()/child::td[contains(child::text(),'"
+		check("xpath=/descendant-or-self::node()/child::input[parent::node()/parent::node()/child::td[contains(child::text(),'"
 						+ text + "')]]");
 	}
 
 	/**
 	 * Wait for the current page to load.
 	 */
-	public void waitForPageToLoad ()
+	public void waitForPageToLoad()
 	{
-		waitForPageToLoad (String.valueOf (waitForPageTimeout));
+		waitForPageToLoad(String.valueOf(waitForPageTimeout));
 	}
 
-	public void openStartPage ()
+	public void openStartPage()
 	{
-		openURL (startModel);
+		openURL(startModel);
 	}
 
-	public void selectReload (String locator, String value)
+	public void selectReload(String locator, String value)
 	{
-		select (locator, value);
-		waitForPageToLoad ();
+		select(locator, value);
+		waitForPageToLoad();
 	}
 
-	protected void openURL (String url)
+	protected void openURL(String url)
 	{
-		open ("/" + context + "/" + url);
+		open("/" + context + "/" + url);
 	}
 
-	public void openController (String controller)
+	public void openController(String controller)
 	{
-		openURL ("model.do?model=" + controller);
+		openURL("model.do?model=" + controller);
 	}
 
-	public void openController (String controller, Properties params)
+	public void openController(String controller, Properties params)
 	{
-		StringBuilder url = new StringBuilder ("model.do?model=" + controller);
+		StringBuilder url = new StringBuilder("model.do?model=" + controller);
 
-		for (Map.Entry param : params.entrySet ())
+		for (Map.Entry param : params.entrySet())
 		{
-			StringTools.appendWithDelimiter (url, param.getKey () + "=" + param.getValue (), "&");
+			StringTools.appendWithDelimiter(url, param.getKey() + "=" + param.getValue(), "&");
 		}
 
-		openURL ("model.do?model=" + url.toString ());
+		openURL("model.do?model=" + url.toString());
 	}
 }

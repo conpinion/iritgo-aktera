@@ -51,35 +51,35 @@ class TempUserEnvironment implements UserEnvironment
 
 	private int uid = 0;
 
-	private Map attribs = new HashMap ();
+	private Map attribs = new HashMap();
 
 	/**
 	 *
 	 */
-	public TempUserEnvironment ()
+	public TempUserEnvironment()
 	{
-		super ();
+		super();
 
 		// TODO Auto-generated constructor stub
 	}
 
-	public String toString ()
+	public String toString()
 	{
-		StringBuffer groupString = new StringBuffer ();
+		StringBuffer groupString = new StringBuffer();
 
-		for (Iterator i = groups.iterator (); i.hasNext ();)
+		for (Iterator i = groups.iterator(); i.hasNext();)
 		{
-			groupString.append (",");
-			groupString.append ((String) i.next ());
+			groupString.append(",");
+			groupString.append((String) i.next());
 		}
 
-		return "[TempUserEnvironment] " + loginName + ", uid=" + uid + ", groups " + groupString.toString ();
+		return "[TempUserEnvironment] " + loginName + ", uid=" + uid + ", groups " + groupString.toString();
 	}
 
 	/* (non-Javadoc)
 	 * @see de.iritgo.aktera.authentication.UserEnvironment#setLoginContext(javax.security.auth.login.LoginContext)
 	 */
-	public void setLoginContext (LoginContext lc) throws AuthorizationException
+	public void setLoginContext(LoginContext lc) throws AuthorizationException
 	{
 		// TODO Auto-generated method stub
 	}
@@ -87,7 +87,7 @@ class TempUserEnvironment implements UserEnvironment
 	/* (non-Javadoc)
 	 * @see de.iritgo.aktera.authentication.UserEnvironment#getLoginContext()
 	 */
-	public LoginContext getLoginContext () throws AuthorizationException
+	public LoginContext getLoginContext() throws AuthorizationException
 	{
 		// TODO Auto-generated method stub
 		return null;
@@ -96,7 +96,7 @@ class TempUserEnvironment implements UserEnvironment
 	/* (non-Javadoc)
 	 * @see de.iritgo.aktera.authentication.UserEnvironment#getSubject()
 	 */
-	public Subject getSubject () throws AuthorizationException
+	public Subject getSubject() throws AuthorizationException
 	{
 		// TODO Auto-generated method stub
 		return null;
@@ -105,13 +105,13 @@ class TempUserEnvironment implements UserEnvironment
 	/* (non-Javadoc)
 	 * @see de.iritgo.aktera.authentication.UserEnvironment#getLoginName()
 	 */
-	public String getLoginName () throws AuthorizationException
+	public String getLoginName() throws AuthorizationException
 	{
 		// TODO Auto-generated method stub
 		return loginName;
 	}
 
-	public void setLoginName (String newName)
+	public void setLoginName(String newName)
 	{
 		loginName = newName;
 	}
@@ -119,7 +119,7 @@ class TempUserEnvironment implements UserEnvironment
 	/* (non-Javadoc)
 	 * @see de.iritgo.aktera.authentication.UserEnvironment#getDomain()
 	 */
-	public String getDomain () throws AuthorizationException
+	public String getDomain() throws AuthorizationException
 	{
 		// TODO Auto-generated method stub
 		return null;
@@ -128,7 +128,7 @@ class TempUserEnvironment implements UserEnvironment
 	/* (non-Javadoc)
 	 * @see de.iritgo.aktera.authentication.UserEnvironment#getUserDescrip()
 	 */
-	public String getUserDescrip () throws AuthorizationException
+	public String getUserDescrip() throws AuthorizationException
 	{
 		// TODO Auto-generated method stub
 		return null;
@@ -137,13 +137,13 @@ class TempUserEnvironment implements UserEnvironment
 	/* (non-Javadoc)
 	 * @see de.iritgo.aktera.authentication.UserEnvironment#getUid()
 	 */
-	public int getUid () throws AuthorizationException
+	public int getUid() throws AuthorizationException
 	{
 		// TODO Auto-generated method stub
 		return uid;
 	}
 
-	public void setUid (int newUid)
+	public void setUid(int newUid)
 	{
 		uid = newUid;
 	}
@@ -151,13 +151,13 @@ class TempUserEnvironment implements UserEnvironment
 	/* (non-Javadoc)
 	 * @see de.iritgo.aktera.authentication.UserEnvironment#getGroups()
 	 */
-	public List<String> getGroups () throws AuthorizationException
+	public List<String> getGroups() throws AuthorizationException
 	{
 		// TODO Auto-generated method stub
 		return groups;
 	}
 
-	public void setGroups (List newGroups)
+	public void setGroups(List newGroups)
 	{
 		groups = newGroups;
 	}
@@ -165,28 +165,28 @@ class TempUserEnvironment implements UserEnvironment
 	/* (non-Javadoc)
 	 * @see de.iritgo.aktera.authentication.UserEnvironment#reset()
 	 */
-	public void reset () throws AuthorizationException
+	public void reset() throws AuthorizationException
 	{
 		// TODO Auto-generated method stub
 	}
 
-	public void setAttribute (String name, Object attrib)
+	public void setAttribute(String name, Object attrib)
 	{
-		attribs.put (name, attrib);
+		attribs.put(name, attrib);
 	}
 
-	public Object getAttribute (String name)
+	public Object getAttribute(String name)
 	{
-		return attribs.get (name);
+		return attribs.get(name);
 	}
 
-	public void removeAttribute (String attributeName)
+	public void removeAttribute(String attributeName)
 	{
-		attribs.remove (attributeName);
+		attribs.remove(attributeName);
 	}
 
-	public void clearAttributes ()
+	public void clearAttributes()
 	{
-		attribs.clear ();
+		attribs.clear();
 	}
 }

@@ -39,16 +39,16 @@ public class KeelServerThread extends Thread
 
 	private ModelException myException = null;
 
-	public void setRequest (ModelRequest req)
+	public void setRequest(ModelRequest req)
 	{
 		myRequest = req;
 	}
 
-	public void run ()
+	public void run()
 	{
 		try
 		{
-			myResponse = myRequest.execute ();
+			myResponse = myRequest.execute();
 		}
 		catch (ModelException me)
 		{
@@ -56,7 +56,7 @@ public class KeelServerThread extends Thread
 		}
 	}
 
-	public ModelResponse getResponse () throws ModelException
+	public ModelResponse getResponse() throws ModelException
 	{
 		if (myException != null)
 		{

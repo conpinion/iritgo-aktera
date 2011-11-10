@@ -46,55 +46,55 @@ public class StoreLicense extends StandardLogEnabledModel
 	 * @param req The model request.
 	 * @return The model response.
 	 */
-	public ModelResponse execute (ModelRequest req) throws ModelException
+	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
-		ModelResponse res = req.createResponse ();
+		ModelResponse res = req.createResponse();
 
-		if (req.getParameter ("license") != null)
+		if (req.getParameter("license") != null)
 		{
 			try
 			{
-				String license = req.getParameterAsString ("license").replaceAll ("\r", "");
+				String license = req.getParameterAsString("license").replaceAll("\r", "");
 
-				if (! license.endsWith ("\n"))
+				if (! license.endsWith("\n"))
 				{
 					license += "\n";
 				}
 
-				File file = new File (System.getProperty ("iritgo.license.path"));
-				PrintWriter fileOut = new PrintWriter (file);
+				File file = new File(System.getProperty("iritgo.license.path"));
+				PrintWriter fileOut = new PrintWriter(file);
 
-				fileOut.print (license);
-				fileOut.close ();
+				fileOut.print(license);
+				fileOut.close();
 			}
 			catch (Exception x)
 			{
-				System.out.println ("[StoreLicense] " + x);
+				System.out.println("[StoreLicense] " + x);
 			}
 		}
-		else if (req.getParameter ("fileUpload1") != null)
+		else if (req.getParameter("fileUpload1") != null)
 		{
 			try
 			{
-				BinaryWrapper data = (BinaryWrapper) req.getParameter ("fileUpload1");
+				BinaryWrapper data = (BinaryWrapper) req.getParameter("fileUpload1");
 
 				if (data != null)
 				{
-					File file = new File (System.getProperty ("iritgo.license.path"));
+					File file = new File(System.getProperty("iritgo.license.path"));
 
-					data.write (file);
+					data.write(file);
 				}
 			}
 			catch (Exception x)
 			{
-				System.out.println ("[StoreLicense] " + x);
+				System.out.println("[StoreLicense] " + x);
 			}
 		}
 
-		Command cmd = res.createCommand ("aktera.tools.goto-start-model");
+		Command cmd = res.createCommand("aktera.tools.goto-start-model");
 
-		cmd.setName ("cmdLogin");
-		res.add (cmd);
+		cmd.setName("cmdLogin");
+		res.add(cmd);
 
 		return res;
 	}

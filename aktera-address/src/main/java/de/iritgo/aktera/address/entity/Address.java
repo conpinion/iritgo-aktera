@@ -166,7 +166,7 @@ public class Address implements Serializable
 	@Cascade(value = org.hibernate.annotations.CascadeType.ALL)
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-	private Set<PhoneNumber> phoneNumbers = new HashSet<PhoneNumber> ();
+	private Set<PhoneNumber> phoneNumbers = new HashSet<PhoneNumber>();
 
 	/** The address store. Calculated at runtime */
 	@Transient
@@ -179,7 +179,7 @@ public class Address implements Serializable
 	/**
 	 * Create a default address.
 	 */
-	public Address ()
+	public Address()
 	{
 	}
 
@@ -188,7 +188,7 @@ public class Address implements Serializable
 	 *
 	 * @param lastName The last name
 	 */
-	public Address (String lastName)
+	public Address(String lastName)
 	{
 		this.lastName = lastName;
 	}
@@ -199,7 +199,7 @@ public class Address implements Serializable
 	 * @persist.field name="id" db-name="id" type="integer" primary-key="true"
 	 *                null-allowed="false" auto-increment="identity"
 	 */
-	public Integer getId ()
+	public Integer getId()
 	{
 		return id;
 	}
@@ -207,7 +207,7 @@ public class Address implements Serializable
 	/**
 	 * Set the primary key.
 	 */
-	public void setId (Integer id)
+	public void setId(Integer id)
 	{
 		this.id = id;
 	}
@@ -217,7 +217,7 @@ public class Address implements Serializable
 	 *
 	 * @persist.field name="partyId" db-name="partyId" type="integer"
 	 */
-	public Integer getPartyId ()
+	public Integer getPartyId()
 	{
 		return partyId;
 	}
@@ -225,7 +225,7 @@ public class Address implements Serializable
 	/**
 	 * Set the foreign party key.
 	 */
-	public void setPartyId (Integer partyId)
+	public void setPartyId(Integer partyId)
 	{
 		this.partyId = partyId;
 	}
@@ -233,7 +233,7 @@ public class Address implements Serializable
 	/**
 	 * Get the alternate id.
 	 */
-	public String getAlternateId ()
+	public String getAlternateId()
 	{
 		return alternateId;
 	}
@@ -241,7 +241,7 @@ public class Address implements Serializable
 	/**
 	 * Set the alternate id.
 	 */
-	public void setAlternateId (String alteranteId)
+	public void setAlternateId(String alteranteId)
 	{
 		this.alternateId = alteranteId;
 	}
@@ -251,7 +251,7 @@ public class Address implements Serializable
 	 *
 	 * @return The address id or alternate id
 	 */
-	public Object getAnyId ()
+	public Object getAnyId()
 	{
 		if (id != null)
 		{
@@ -269,7 +269,7 @@ public class Address implements Serializable
 	 * @persist.valid-value value="G" descrip="$global"
 	 * @persist.valid-value value="P" descrip="$private"
 	 */
-	public String getCategory ()
+	public String getCategory()
 	{
 		return category;
 	}
@@ -277,7 +277,7 @@ public class Address implements Serializable
 	/**
 	 * Set the address category.
 	 */
-	public void setCategory (String category)
+	public void setCategory(String category)
 	{
 		this.category = category;
 	}
@@ -288,7 +288,7 @@ public class Address implements Serializable
 	 * @persist.field name="salutation" db-name="salutation" type="varchar"
 	 *                length="16"
 	 */
-	public String getSalutation ()
+	public String getSalutation()
 	{
 		return salutation;
 	}
@@ -296,7 +296,7 @@ public class Address implements Serializable
 	/**
 	 * Set the salutation.
 	 */
-	public void setSalutation (String salutation)
+	public void setSalutation(String salutation)
 	{
 		this.salutation = salutation;
 	}
@@ -307,7 +307,7 @@ public class Address implements Serializable
 	 * @persist.field name="lastName" db-name="lastName" type="varchar"
 	 *                length="255"
 	 */
-	public String getLastName ()
+	public String getLastName()
 	{
 		return lastName;
 	}
@@ -315,10 +315,10 @@ public class Address implements Serializable
 	/**
 	 * Set the last name.
 	 */
-	public void setLastName (String lastName)
+	public void setLastName(String lastName)
 	{
 		this.lastName = lastName;
-		this.internalLastname = StringTools.trim (lastName).toLowerCase ();
+		this.internalLastname = StringTools.trim(lastName).toLowerCase();
 	}
 
 	/**
@@ -327,7 +327,7 @@ public class Address implements Serializable
 	 * @persist.field name="internalLastname" db-name="internalLastname"
 	 *                type="varchar" length="255"
 	 */
-	public String getInternalLastname ()
+	public String getInternalLastname()
 	{
 		return internalLastname;
 	}
@@ -335,7 +335,7 @@ public class Address implements Serializable
 	/**
 	 * Set the last internal last name.
 	 */
-	public void setInternalLastname (String internalLastname)
+	public void setInternalLastname(String internalLastname)
 	{
 		this.internalLastname = internalLastname;
 	}
@@ -346,7 +346,7 @@ public class Address implements Serializable
 	 * @persist.field name="firstName" db-name="firstName" type="varchar"
 	 *                length="80"
 	 */
-	public String getFirstName ()
+	public String getFirstName()
 	{
 		return firstName;
 	}
@@ -354,7 +354,7 @@ public class Address implements Serializable
 	/**
 	 * Set the first name.
 	 */
-	public void setFirstName (String firstName)
+	public void setFirstName(String firstName)
 	{
 		this.firstName = firstName;
 	}
@@ -365,7 +365,7 @@ public class Address implements Serializable
 	 * @persist.field name="company" db-name="company" type="varchar"
 	 *                length="255"
 	 */
-	public String getCompany ()
+	public String getCompany()
 	{
 		return company;
 	}
@@ -373,10 +373,10 @@ public class Address implements Serializable
 	/**
 	 * Set the company.
 	 */
-	public void setCompany (String company)
+	public void setCompany(String company)
 	{
 		this.company = company;
-		this.internalCompany = StringTools.trim (company).toLowerCase ();
+		this.internalCompany = StringTools.trim(company).toLowerCase();
 	}
 
 	/**
@@ -385,7 +385,7 @@ public class Address implements Serializable
 	 * @persist.field name="internalCompany" db-name="internalCompany"
 	 *                type="varchar" length="255"
 	 */
-	public String getInternalCompany ()
+	public String getInternalCompany()
 	{
 		return internalCompany;
 	}
@@ -393,7 +393,7 @@ public class Address implements Serializable
 	/**
 	 * Set the internal company.
 	 */
-	public void setInternalCompany (String internalCompany)
+	public void setInternalCompany(String internalCompany)
 	{
 		this.internalCompany = internalCompany;
 	}
@@ -404,7 +404,7 @@ public class Address implements Serializable
 	 * @persist.field name="position" db-name="position" type="varchar"
 	 *                length="80"
 	 */
-	public String getPosition ()
+	public String getPosition()
 	{
 		return position;
 	}
@@ -412,7 +412,7 @@ public class Address implements Serializable
 	/**
 	 * Set the position in the company.
 	 */
-	public void setPosition (String position)
+	public void setPosition(String position)
 	{
 		this.position = position;
 	}
@@ -423,7 +423,7 @@ public class Address implements Serializable
 	 * @persist.field name="division" db-name="division" type="varchar"
 	 *                length="80"
 	 */
-	public String getDivision ()
+	public String getDivision()
 	{
 		return division;
 	}
@@ -431,7 +431,7 @@ public class Address implements Serializable
 	/**
 	 * Set the division.
 	 */
-	public void setDivision (String division)
+	public void setDivision(String division)
 	{
 		this.division = division;
 	}
@@ -441,7 +441,7 @@ public class Address implements Serializable
 	 *
 	 * @persist.field name="street" db-name="street" type="varchar" length="80"
 	 */
-	public String getStreet ()
+	public String getStreet()
 	{
 		return street;
 	}
@@ -449,7 +449,7 @@ public class Address implements Serializable
 	/**
 	 * Set the street.
 	 */
-	public void setStreet (String street)
+	public void setStreet(String street)
 	{
 		this.street = street;
 	}
@@ -459,7 +459,7 @@ public class Address implements Serializable
 	 *
 	 * @persist.field name="city" db-name="city" type="varchar" length="80"
 	 */
-	public String getCity ()
+	public String getCity()
 	{
 		return city;
 	}
@@ -467,7 +467,7 @@ public class Address implements Serializable
 	/**
 	 * Set the city.
 	 */
-	public void setCity (String city)
+	public void setCity(String city)
 	{
 		this.city = city;
 	}
@@ -478,7 +478,7 @@ public class Address implements Serializable
 	 * @persist.field name="country" db-name="country" type="varchar"
 	 *                length="80"
 	 */
-	public String getCountry ()
+	public String getCountry()
 	{
 		return country;
 	}
@@ -486,7 +486,7 @@ public class Address implements Serializable
 	/**
 	 * Set the country.
 	 */
-	public void setCountry (String country)
+	public void setCountry(String country)
 	{
 		this.country = country;
 	}
@@ -497,7 +497,7 @@ public class Address implements Serializable
 	 * @persist.field name="postalCode" db-name="postalCode" type="varchar"
 	 *                length="32"
 	 */
-	public String getPostalCode ()
+	public String getPostalCode()
 	{
 		return postalCode;
 	}
@@ -505,7 +505,7 @@ public class Address implements Serializable
 	/**
 	 * Set the postal code.
 	 */
-	public void setPostalCode (String postalCode)
+	public void setPostalCode(String postalCode)
 	{
 		this.postalCode = postalCode;
 	}
@@ -515,7 +515,7 @@ public class Address implements Serializable
 	 *
 	 * @persist.field name="email" db-name="email" type="varchar" length="255"
 	 */
-	public String getEmail ()
+	public String getEmail()
 	{
 		return email;
 	}
@@ -523,7 +523,7 @@ public class Address implements Serializable
 	/**
 	 * Set the email address.
 	 */
-	public void setEmail (String email)
+	public void setEmail(String email)
 	{
 		this.email = email;
 	}
@@ -533,7 +533,7 @@ public class Address implements Serializable
 	 *
 	 * @persist.field name="web" db-name="web" type="varchar" length="80"
 	 */
-	public String getWeb ()
+	public String getWeb()
 	{
 		return web;
 	}
@@ -541,7 +541,7 @@ public class Address implements Serializable
 	/**
 	 * Set the web url.
 	 */
-	public void setWeb (String web)
+	public void setWeb(String web)
 	{
 		this.web = web;
 	}
@@ -551,7 +551,7 @@ public class Address implements Serializable
 	 *
 	 * @persist.field name="phone" db-name="phone" type="varchar" length="80"
 	 */
-	public String getPhone ()
+	public String getPhone()
 	{
 		return phone;
 	}
@@ -559,7 +559,7 @@ public class Address implements Serializable
 	/**
 	 * Set the phone number.
 	 */
-	public void setPhone (String phone)
+	public void setPhone(String phone)
 	{
 		this.phone = phone;
 	}
@@ -569,7 +569,7 @@ public class Address implements Serializable
 	 *
 	 * @persist.field name="mobile" db-name="mobile" type="varchar" length="80"
 	 */
-	public String getMobile ()
+	public String getMobile()
 	{
 		return mobile;
 	}
@@ -577,7 +577,7 @@ public class Address implements Serializable
 	/**
 	 * Set the mobile number.
 	 */
-	public void setMobile (String mobile)
+	public void setMobile(String mobile)
 	{
 		this.mobile = mobile;
 	}
@@ -587,7 +587,7 @@ public class Address implements Serializable
 	 *
 	 * @persist.field name="ownerId" db-name="ownerId" type="integer"
 	 */
-	public Integer getOwnerId ()
+	public Integer getOwnerId()
 	{
 		return ownerId;
 	}
@@ -595,7 +595,7 @@ public class Address implements Serializable
 	/**
 	 * Set the foreign owner key.
 	 */
-	public void setOwnerId (Integer ownerId)
+	public void setOwnerId(Integer ownerId)
 	{
 		this.ownerId = ownerId;
 	}
@@ -605,7 +605,7 @@ public class Address implements Serializable
 	 *
 	 * @persist.field name="remark" db-name="remark" type="text"
 	 */
-	public String getRemark ()
+	public String getRemark()
 	{
 		return remark;
 	}
@@ -613,7 +613,7 @@ public class Address implements Serializable
 	/**
 	 * Set the remark.
 	 */
-	public void setRemark (String remark)
+	public void setRemark(String remark)
 	{
 		this.remark = remark;
 	}
@@ -624,7 +624,7 @@ public class Address implements Serializable
 	 * @persist.field name="contactNumber" db-name="contactNumber"
 	 *                type="varchar" length="80"
 	 */
-	public String getContactNumber ()
+	public String getContactNumber()
 	{
 		return contactNumber;
 	}
@@ -632,7 +632,7 @@ public class Address implements Serializable
 	/**
 	 * Set the contact number.
 	 */
-	public void setContactNumber (String contactNumber)
+	public void setContactNumber(String contactNumber)
 	{
 		this.contactNumber = contactNumber;
 	}
@@ -643,7 +643,7 @@ public class Address implements Serializable
 	 * @persist.field name="companyNumber" db-name="companyNumber"
 	 *                type="varchar" length="80"
 	 */
-	public String getCompanyNumber ()
+	public String getCompanyNumber()
 	{
 		return companyNumber;
 	}
@@ -651,7 +651,7 @@ public class Address implements Serializable
 	/**
 	 * Set the company number.
 	 */
-	public void setCompanyNumber (String companyNumber)
+	public void setCompanyNumber(String companyNumber)
 	{
 		this.companyNumber = companyNumber;
 	}
@@ -663,7 +663,7 @@ public class Address implements Serializable
 	 * @persist.field name="sourceSystemId" db-name="sourceSystemId"
 	 *                type="varchar" length="80"
 	 */
-	public String getSourceSystemId ()
+	public String getSourceSystemId()
 	{
 		return sourceSystemId;
 	}
@@ -671,7 +671,7 @@ public class Address implements Serializable
 	/**
 	 * Set the data source system id.
 	 */
-	public void setSourceSystemId (String sourceSystemId)
+	public void setSourceSystemId(String sourceSystemId)
 	{
 		this.sourceSystemId = sourceSystemId;
 	}
@@ -683,7 +683,7 @@ public class Address implements Serializable
 	 * @persist.field name="sourceSystemClient" db-name="sourceSystemClient"
 	 *                type="varchar" length="80"
 	 */
-	public String getSourceSystemClient ()
+	public String getSourceSystemClient()
 	{
 		return sourceSystemClient;
 	}
@@ -691,7 +691,7 @@ public class Address implements Serializable
 	/**
 	 * Set the data source system client.
 	 */
-	public void setSourceSystemClient (String sourceSystemClient)
+	public void setSourceSystemClient(String sourceSystemClient)
 	{
 		this.sourceSystemClient = sourceSystemClient;
 	}
@@ -707,7 +707,7 @@ public class Address implements Serializable
 	 * @hibernate.collection-one-to-many
 	 *                                   class="de.iritgo.aktera.address.entity.PhoneNumber"
 	 */
-	public Set<PhoneNumber> getPhoneNumbers ()
+	public Set<PhoneNumber> getPhoneNumbers()
 	{
 		return phoneNumbers;
 	}
@@ -715,81 +715,81 @@ public class Address implements Serializable
 	/**
 	 * Set the phone numbers.
 	 */
-	public void setPhoneNumbers (Set<PhoneNumber> phoneNumbers)
+	public void setPhoneNumbers(Set<PhoneNumber> phoneNumbers)
 	{
 		this.phoneNumbers = phoneNumbers;
 	}
 
-	public Set<PhoneNumber> getPhoneNumbersDetached ()
+	public Set<PhoneNumber> getPhoneNumbersDetached()
 	{
-		Set<PhoneNumber> res = new HashSet<PhoneNumber> ();
+		Set<PhoneNumber> res = new HashSet<PhoneNumber>();
 
 		for (PhoneNumber number : phoneNumbers)
 		{
-			PhoneNumber copy = new PhoneNumber ();
+			PhoneNumber copy = new PhoneNumber();
 
-			copy.setId (number.getId ());
-			copy.setAddressId (number.getAddressId ());
-			copy.setCategory (number.getCategory ());
-			copy.setNumber (number.getNumber ());
-			copy.setInternalNumber (number.getInternalNumber ());
-			res.add (copy);
+			copy.setId(number.getId());
+			copy.setAddressId(number.getAddressId());
+			copy.setCategory(number.getCategory());
+			copy.setNumber(number.getNumber());
+			copy.setInternalNumber(number.getInternalNumber());
+			res.add(copy);
 		}
 
 		return res;
 	}
 
-	public void addPhoneNumber (PhoneNumber phoneNumber)
+	public void addPhoneNumber(PhoneNumber phoneNumber)
 	{
-		phoneNumber.setAddress (this);
-		phoneNumbers.add (phoneNumber);
+		phoneNumber.setAddress(this);
+		phoneNumbers.add(phoneNumber);
 	}
 
-	public PhoneNumber getPhoneNumberByCategory (final String category)
+	public PhoneNumber getPhoneNumberByCategory(final String category)
 	{
-		PhoneNumber number = (PhoneNumber) CollectionUtils.find (phoneNumbers, new Predicate ()
+		PhoneNumber number = (PhoneNumber) CollectionUtils.find(phoneNumbers, new Predicate()
 		{
-			public boolean evaluate (Object o)
+			public boolean evaluate(Object o)
 			{
-				return ((PhoneNumber) o).getCategory ().equals (category);
+				return ((PhoneNumber) o).getCategory().equals(category);
 			}
 		});
 
 		if (number == null)
 		{
-			number = new PhoneNumber ();
-			number.setCategory (category);
-			number.setAddress (this);
-			phoneNumbers.add (number);
+			number = new PhoneNumber();
+			number.setCategory(category);
+			number.setAddress(this);
+			phoneNumbers.add(number);
 		}
 
 		return number;
 	}
 
-	public PhoneNumber getPhoneNumber (String category)
+	public PhoneNumber getPhoneNumber(String category)
 	{
-		return getPhoneNumberByCategory (category);
+		return getPhoneNumberByCategory(category);
 	}
 
-	public PhoneNumber getPhoneNumber (Category category)
+	public PhoneNumber getPhoneNumber(Category category)
 	{
-		return getPhoneNumberByCategory (category.toString ());
+		return getPhoneNumberByCategory(category.toString());
 	}
 
-	public void setAddressStore (AddressStore addressStore)
+	public void setAddressStore(AddressStore addressStore)
 	{
 		this.addressStore = addressStore;
 	}
 
-	public AddressStore getAddressStore ()
+	public AddressStore getAddressStore()
 	{
 		return addressStore;
 	}
 
 	@Override
-	public String toString ()
+	public String toString()
 	{
-		return getClass ().getName () + " (id=" + id + ",partyId=" + partyId + ",lastName=" + lastName + ",company="
+		return getClass().getName() + " (id=" + id + ",partyId=" + partyId + ",lastName=" + lastName + ",company="
 						+ company + ")";
 	}
 }

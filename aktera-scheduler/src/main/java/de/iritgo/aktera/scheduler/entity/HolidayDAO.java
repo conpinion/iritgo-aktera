@@ -39,5 +39,5 @@ public interface HolidayDAO
 	 * @param province The (optional) country province
 	 * @return True if date is a holiday
 	 */
-	public boolean dateIsHoliday (Date date, String country, String province);
+	public boolean dateIsHoliday(Date date, String country, String province);
 }

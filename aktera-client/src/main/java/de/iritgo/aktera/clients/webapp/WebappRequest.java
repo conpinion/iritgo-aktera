@@ -42,96 +42,96 @@ public interface WebappRequest
 	 * @param key Atrribute key
 	 * @param value Attribute value
 	 */
-	void setAttribute (String key, Object value);
+	void setAttribute(String key, Object value);
 
 	/**
 	 * Get configuration parameters
 	 * @param key Paramater key
 	 * @return Parameter value
 	 */
-	String getInitParameter (String key);
+	String getInitParameter(String key);
 
 	/**
 	 * Get names of all the paramters in the request
 	 * @return enumaeration of parameter names
 	 */
-	Enumeration getParameterNames ();
+	Enumeration getParameterNames();
 
 	/**
 	 * Get the value of a parameter
 	 * @param key Parameter key
 	 * @return Parameter value
 	 */
-	String getParameter (String key);
+	String getParameter(String key);
 
 	/**
 	 * Get the values of a parameter
 	 * @param key Parameter key
 	 * @return Parameter value
 	 */
-	String[] getParameterValues (String key);
+	String[] getParameterValues(String key);
 
 	/**
 	 * Get the value of a particular attribute
 	 * @param key Attribute key
 	 * @return Attribute value
 	 */
-	Object getAttribute (String key);
+	Object getAttribute(String key);
 
 	/**
 	 * Get all the HTTP cookies in the session
 	 * @return cookies
 	 */
-	Cookie[] getCookies ();
+	Cookie[] getCookies();
 
 	/**
 	 * Get the request URL
 	 * @return request URL
 	 */
-	String getRequestURL ();
+	String getRequestURL();
 
 	/**
 	 * Get query string
 	 * @return query strin
 	 */
-	String getQueryString ();
+	String getQueryString();
 
 	/**
 	 * Get session ID set by browser
 	 * @return session ID
 	 */
-	String getSessionId ();
+	String getSessionId();
 
 	/**
 	 * Get IP address of browser
 	 * @return IP address
 	 */
-	String getRemoteAddr ();
+	String getRemoteAddr();
 
 	/**
 	 * Get fully qualified path
 	 * @param path Path relative to webapp/WEB-INF
 	 * @return fully qualified path
 	 */
-	String getRealPath (String path);
+	String getRealPath(String path);
 
 	/**
 	 */
-	Enumeration getHeaderNames ();
+	Enumeration getHeaderNames();
 
 	/**
 	 */
-	String getHeader (String name);
+	String getHeader(String name);
 
-	String getSource ();
+	String getSource();
 
-	Locale getLocale ();
+	Locale getLocale();
 
-	String getScheme ();
+	String getScheme();
 
-	String getServerName ();
+	String getServerName();
 
-	int getServerPort ();
+	int getServerPort();
 
-	String getContextPath ();
+	String getContextPath();
 }

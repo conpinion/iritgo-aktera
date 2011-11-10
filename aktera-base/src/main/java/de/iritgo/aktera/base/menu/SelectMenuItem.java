@@ -45,29 +45,29 @@ public class SelectMenuItem extends StandardLogEnabledModel
 	 * @param req The model request.
 	 * @throws ModelException In case of a business failure.
 	 */
-	public ModelResponse execute (ModelRequest req) throws ModelException
+	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
-		if (req.getParameter ("menu") != null)
+		if (req.getParameter("menu") != null)
 		{
-			UserTools.setContextObject (req, "aktera.currentMenu", req.getParameterAsString ("menu"));
+			UserTools.setContextObject(req, "aktera.currentMenu", req.getParameterAsString("menu"));
 		}
 
-		if (req.getParameter ("menu") != null)
+		if (req.getParameter("menu") != null)
 		{
-			UserTools.setContextObject (req, "aktera.currentMenuItem", req.getParameterAsString ("menuItem"));
+			UserTools.setContextObject(req, "aktera.currentMenuItem", req.getParameterAsString("menuItem"));
 		}
 		else
 		{
-			UserTools.setContextObject (req, "aktera.currentMenuItem", req.getParameterAsString ("item"));
+			UserTools.setContextObject(req, "aktera.currentMenuItem", req.getParameterAsString("item"));
 		}
 
-		if (req.getParameter ("targetModel") != null)
+		if (req.getParameter("targetModel") != null)
 		{
-			return ModelTools.callModel (req, req.getParameterAsString ("targetModel"));
+			return ModelTools.callModel(req, req.getParameterAsString("targetModel"));
 		}
 		else
 		{
-			return req.createResponse ();
+			return req.createResponse();
 		}
 	}
 }

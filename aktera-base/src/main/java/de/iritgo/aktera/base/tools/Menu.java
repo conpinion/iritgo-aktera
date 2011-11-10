@@ -52,11 +52,11 @@ public class Menu extends SecurableStandardLogEnabledModel
 	 * @param req The model request.
 	 * @throws ModelException In case of a business failure.
 	 */
-	public ModelResponse execute (ModelRequest req) throws ModelException
+	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
-		ModelResponse res = req.createResponse ();
+		ModelResponse res = req.createResponse();
 
-		Configuration config = getConfiguration ();
+		Configuration config = getConfiguration();
 
 		if (config == null)
 		{
@@ -67,17 +67,17 @@ public class Menu extends SecurableStandardLogEnabledModel
 
 		try
 		{
-			userEnv = (UserEnvironment) req.getContext ().get (UserEnvironment.CONTEXT_KEY);
+			userEnv = (UserEnvironment) req.getContext().get(UserEnvironment.CONTEXT_KEY);
 		}
 		catch (ContextException x)
 		{
 		}
 
-		Output outMenuList = res.createOutput ("menuList");
+		Output outMenuList = res.createOutput("menuList");
 
-		res.add (outMenuList);
+		res.add(outMenuList);
 
-		Configuration[] menus = config.getChildren ("menu");
+		Configuration[] menus = config.getChildren("menu");
 
 		for (int i = 0; i < menus.length; ++i)
 		{
@@ -85,8 +85,8 @@ public class Menu extends SecurableStandardLogEnabledModel
 
 			try
 			{
-				if (menuConfig.getAttribute ("ifModule", null) != null
-								&& ! ModuleTools.moduleExists (req, menuConfig.getAttribute ("ifModule")))
+				if (menuConfig.getAttribute("ifModule", null) != null
+								&& ! ModuleTools.moduleExists(req, menuConfig.getAttribute("ifModule")))
 				{
 					continue;
 				}
@@ -95,15 +95,15 @@ public class Menu extends SecurableStandardLogEnabledModel
 			{
 			}
 
-			String menuId = "menu_" + menuConfig.getAttribute ("id", "");
+			String menuId = "menu_" + menuConfig.getAttribute("id", "");
 
 			Output outMenu = null;
 
-			for (Iterator j = outMenuList.getAll ().iterator (); j.hasNext ();)
+			for (Iterator j = outMenuList.getAll().iterator(); j.hasNext();)
 			{
-				Output aMenu = (Output) j.next ();
+				Output aMenu = (Output) j.next();
 
-				if (aMenu.getName ().equals (menuId))
+				if (aMenu.getName().equals(menuId))
 				{
 					outMenu = aMenu;
 
@@ -113,14 +113,14 @@ public class Menu extends SecurableStandardLogEnabledModel
 
 			if (outMenu == null)
 			{
-				outMenu = res.createOutput (menuId);
-				outMenuList.add (outMenu);
-				outMenu.setAttribute ("title", menuConfig.getAttribute ("title", "$noTitle"));
+				outMenu = res.createOutput(menuId);
+				outMenuList.add(outMenu);
+				outMenu.setAttribute("title", menuConfig.getAttribute("title", "$noTitle"));
 			}
 
 			Command cmd = null;
 
-			Configuration[] items = menus[i].getChildren ("item");
+			Configuration[] items = menus[i].getChildren("item");
 
 			int numVisibleItems = 0;
 
@@ -130,23 +130,23 @@ public class Menu extends SecurableStandardLogEnabledModel
 
 				boolean itemAllowed = true;
 
-				String model = itemConfig.getAttribute ("model", null);
+				String model = itemConfig.getAttribute("model", null);
 
 				if (model == null)
 				{
-					log.info ("No model specified for menu item " + i + "/" + j);
+					log.info("No model specified for menu item " + i + "/" + j);
 
 					continue;
 				}
 
 				try
 				{
-					boolean validUser = itemConfig.getAttributeAsBoolean ("validUser");
+					boolean validUser = itemConfig.getAttributeAsBoolean("validUser");
 
 					try
 					{
 						itemAllowed = itemAllowed
-										&& (validUser == (userEnv != null && userEnv.getUid () != UserEnvironment.ANONYMOUS_UID));
+										&& (validUser == (userEnv != null && userEnv.getUid() != UserEnvironment.ANONYMOUS_UID));
 					}
 					catch (AuthorizationException x)
 					{
@@ -159,25 +159,25 @@ public class Menu extends SecurableStandardLogEnabledModel
 
 				try
 				{
-					String userGroup = itemConfig.getAttribute ("userGroup");
+					String userGroup = itemConfig.getAttribute("userGroup");
 
 					try
 					{
-						itemAllowed = itemAllowed && userEnv != null && userEnv.getGroups ().contains (userGroup);
+						itemAllowed = itemAllowed && userEnv != null && userEnv.getGroups().contains(userGroup);
 					}
 					catch (AuthorizationException x)
 					{
 						itemAllowed = false;
 					}
 
-					String notUserGroup = itemConfig.getAttribute ("notUserGroup");
+					String notUserGroup = itemConfig.getAttribute("notUserGroup");
 
 					if (notUserGroup != null)
 					{
 						try
 						{
 							itemAllowed = itemAllowed && userEnv != null
-											&& ! userEnv.getGroups ().contains (notUserGroup);
+											&& ! userEnv.getGroups().contains(notUserGroup);
 						}
 						catch (AuthorizationException x)
 						{
@@ -191,27 +191,27 @@ public class Menu extends SecurableStandardLogEnabledModel
 
 				if (itemAllowed)
 				{
-					cmd = res.createCommand (model);
-					outMenu.add (cmd);
+					cmd = res.createCommand(model);
+					outMenu.add(cmd);
 
-					cmd.setLabel (itemConfig.getAttribute ("title", "$noTitle"));
-					cmd.setAttribute ("hasNext", new Boolean (j + 1 < items.length));
-					cmd.setAttribute ("bundle", itemConfig.getAttribute ("bundle", "Aktera"));
+					cmd.setLabel(itemConfig.getAttribute("title", "$noTitle"));
+					cmd.setAttribute("hasNext", new Boolean(j + 1 < items.length));
+					cmd.setAttribute("bundle", itemConfig.getAttribute("bundle", "Aktera"));
 
-					if (itemConfig.getAttribute ("icon", null) != null)
+					if (itemConfig.getAttribute("icon", null) != null)
 					{
-						cmd.setAttribute ("icon", itemConfig.getAttribute ("icon", "menu-bullet"));
+						cmd.setAttribute("icon", itemConfig.getAttribute("icon", "menu-bullet"));
 					}
 
 					++numVisibleItems;
 				}
 			}
 
-			outMenu.setAttribute ("numVisibleItems", new Integer (numVisibleItems));
+			outMenu.setAttribute("numVisibleItems", new Integer(numVisibleItems));
 
 			if (cmd != null)
 			{
-				cmd.setAttribute ("last", new Boolean (true));
+				cmd.setAttribute("last", new Boolean(true));
 			}
 		}
 

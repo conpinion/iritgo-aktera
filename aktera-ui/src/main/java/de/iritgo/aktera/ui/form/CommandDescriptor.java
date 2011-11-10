@@ -55,10 +55,10 @@ public class CommandDescriptor
 	/**
 	 * Create a new CommandDescriptor.
 	 */
-	public CommandDescriptor ()
+	public CommandDescriptor()
 	{
-		commands = new LinkedList<CommandInfo> ();
-		commandsByName = new HashMap<String, CommandInfo> ();
+		commands = new LinkedList<CommandInfo>();
+		commandsByName = new HashMap<String, CommandInfo>();
 	}
 
 	/**
@@ -66,9 +66,9 @@ public class CommandDescriptor
 	 *
 	 * @param label The command group label.
 	 */
-	public CommandDescriptor (String label)
+	public CommandDescriptor(String label)
 	{
-		this ();
+		this();
 		this.label = label;
 	}
 
@@ -77,11 +77,11 @@ public class CommandDescriptor
 	 *
 	 * @param commandInfo The command info.
 	 */
-	public CommandDescriptor add (CommandInfo commandInfo)
+	public CommandDescriptor add(CommandInfo commandInfo)
 	{
 		lastCommand = commandInfo;
-		commands.add (commandInfo);
-		commandsByName.put (commandInfo.getName (), commandInfo);
+		commands.add(commandInfo);
+		commandsByName.put(commandInfo.getName(), commandInfo);
 
 		return this;
 	}
@@ -93,11 +93,11 @@ public class CommandDescriptor
 	 * @param name The command name.
 	 * @param label The command label.
 	 */
-	public CommandDescriptor add (String model, String name, String label)
+	public CommandDescriptor add(String model, String name, String label)
 	{
-		lastCommand = new CommandInfo (model, name, label, null);
-		commands.add (lastCommand);
-		commandsByName.put (name, lastCommand);
+		lastCommand = new CommandInfo(model, name, label, null);
+		commands.add(lastCommand);
+		commandsByName.put(name, lastCommand);
 
 		return this;
 	}
@@ -110,11 +110,11 @@ public class CommandDescriptor
 	 * @param label The command label.
 	 * @param icon The command icon.
 	 */
-	public CommandDescriptor add (String model, String name, String label, String icon)
+	public CommandDescriptor add(String model, String name, String label, String icon)
 	{
-		lastCommand = new CommandInfo (model, name, label, icon);
-		commands.add (lastCommand);
-		commandsByName.put (name, lastCommand);
+		lastCommand = new CommandInfo(model, name, label, icon);
+		commands.add(lastCommand);
+		commandsByName.put(name, lastCommand);
 
 		return this;
 	}
@@ -128,12 +128,12 @@ public class CommandDescriptor
 	 * @param bundle The command label.
 	 * @param icon The command icon.
 	 */
-	public CommandDescriptor add (String model, String name, String label, String bundle, String icon)
+	public CommandDescriptor add(String model, String name, String label, String bundle, String icon)
 	{
-		lastCommand = new CommandInfo (model, name, label, icon);
-		lastCommand.setBundle (bundle);
-		commands.add (lastCommand);
-		commandsByName.put (name, lastCommand);
+		lastCommand = new CommandInfo(model, name, label, icon);
+		lastCommand.setBundle(bundle);
+		commands.add(lastCommand);
+		commandsByName.put(name, lastCommand);
 
 		return this;
 	}
@@ -146,12 +146,12 @@ public class CommandDescriptor
 	 * @param label The command label.
 	 * @param icon The command icon.
 	 */
-	public CommandDescriptor add (String model, String name, String label, String bundle, String icon, String style)
+	public CommandDescriptor add(String model, String name, String label, String bundle, String icon, String style)
 	{
-		lastCommand = new CommandInfo (model, name, label, icon, style);
-		lastCommand.setBundle (bundle);
-		commands.add (lastCommand);
-		commandsByName.put (name, lastCommand);
+		lastCommand = new CommandInfo(model, name, label, icon, style);
+		lastCommand.setBundle(bundle);
+		commands.add(lastCommand);
+		commandsByName.put(name, lastCommand);
 
 		return this;
 	}
@@ -161,9 +161,9 @@ public class CommandDescriptor
 	 *
 	 * @return A command iterator.
 	 */
-	public Iterator iterator ()
+	public Iterator iterator()
 	{
-		return commands.iterator ();
+		return commands.iterator();
 	}
 
 	/**
@@ -172,11 +172,11 @@ public class CommandDescriptor
 	 * @param name Parameter name.
 	 * @param value Parameter value.
 	 */
-	public CommandDescriptor withParameter (String name, Object value)
+	public CommandDescriptor withParameter(String name, Object value)
 	{
 		if (lastCommand != null)
 		{
-			lastCommand.addParameter (name, value);
+			lastCommand.addParameter(name, value);
 		}
 
 		return this;
@@ -188,11 +188,11 @@ public class CommandDescriptor
 	 * @param name Attribute name.
 	 * @param value Attribute value.
 	 */
-	public CommandDescriptor withAttribute (String name, Object value)
+	public CommandDescriptor withAttribute(String name, Object value)
 	{
 		if (lastCommand != null)
 		{
-			lastCommand.addAttribute (name, value);
+			lastCommand.addAttribute(name, value);
 		}
 
 		return this;
@@ -203,7 +203,7 @@ public class CommandDescriptor
 	 *
 	 * @param label The new label.
 	 */
-	public void setLabel (String label)
+	public void setLabel(String label)
 	{
 		this.label = label;
 	}
@@ -213,7 +213,7 @@ public class CommandDescriptor
 	 *
 	 * @return The label.
 	 */
-	public String getLabel ()
+	public String getLabel()
 	{
 		return label;
 	}
@@ -223,9 +223,9 @@ public class CommandDescriptor
 	 *
 	 * @return The command count.
 	 */
-	public int commandCount ()
+	public int commandCount()
 	{
-		return commands.size ();
+		return commands.size();
 	}
 
 	/**
@@ -233,11 +233,11 @@ public class CommandDescriptor
 	 *
 	 * @param bundle The new resource bundle.
 	 */
-	public CommandDescriptor setBundle (String bundle)
+	public CommandDescriptor setBundle(String bundle)
 	{
 		if (lastCommand != null)
 		{
-			lastCommand.setBundle (bundle);
+			lastCommand.setBundle(bundle);
 		}
 
 		return this;
@@ -248,11 +248,11 @@ public class CommandDescriptor
 	 *
 	 * @return True if the descriptor has visible buttons.
 	 */
-	public boolean hasVisibleButtons ()
+	public boolean hasVisibleButtons()
 	{
 		for (CommandInfo command : commands)
 		{
-			if (command.isVisible ())
+			if (command.isVisible())
 			{
 				return true;
 			}
@@ -267,9 +267,9 @@ public class CommandDescriptor
 	 * @param name The name of the command to retrieve
 	 * @return True if the command was found
 	 */
-	public boolean hasCommand (String name)
+	public boolean hasCommand(String name)
 	{
-		return commandsByName.get (name) != null;
+		return commandsByName.get(name) != null;
 	}
 
 	/**
@@ -278,21 +278,21 @@ public class CommandDescriptor
 	 * @param name The name of the command to retrieve.
 	 * @return The command or null if it wasn't found.
 	 */
-	public CommandInfo getCommand (String name)
+	public CommandInfo getCommand(String name)
 	{
-		return commandsByName.get (name);
+		return commandsByName.get(name);
 	}
 
 	/**
 	 * Sort the commands by position.
 	 */
-	public void sortCommands ()
+	public void sortCommands()
 	{
-		Collections.sort (commands, new Comparator<CommandInfo> ()
+		Collections.sort(commands, new Comparator<CommandInfo>()
 		{
-			public int compare (CommandInfo command1, CommandInfo command2)
+			public int compare(CommandInfo command1, CommandInfo command2)
 			{
-				return command1.getPosition () - command2.getPosition ();
+				return command1.getPosition() - command2.getPosition();
 			}
 		});
 	}

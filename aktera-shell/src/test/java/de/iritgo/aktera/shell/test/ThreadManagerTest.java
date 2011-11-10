@@ -28,7 +28,7 @@ import org.junit.Test;
 public class ThreadManagerTest
 {
 	@Test
-	public void testSimpleVelocityTemplate ()
+	public void testSimpleVelocityTemplate()
 	{
 	}
 }

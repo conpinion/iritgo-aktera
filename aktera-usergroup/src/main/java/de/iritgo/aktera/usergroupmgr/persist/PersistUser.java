@@ -58,7 +58,7 @@ public class PersistUser extends AbstractKeelServiceable implements User, LogEna
 	/**
 	 * @see de.iritgo.aktera.usergroupmgr.User#get(de.iritgo.aktera.usergroupmgr.User.Property)
 	 */
-	public Object get (Property property) throws UserMgrException
+	public Object get(Property property) throws UserMgrException
 	{
 		String value = null;
 
@@ -80,7 +80,7 @@ public class PersistUser extends AbstractKeelServiceable implements User, LogEna
 		}
 		else
 		{
-			log.debug ("Could not return value for property " + property);
+			log.debug("Could not return value for property " + property);
 		}
 
 		return value;
@@ -89,12 +89,12 @@ public class PersistUser extends AbstractKeelServiceable implements User, LogEna
 	/**
 	 * @see de.iritgo.aktera.usergroupmgr.User#set(de.iritgo.aktera.usergroupmgr.User.Property, java.lang.Object)
 	 */
-	public boolean set (Property property, Object value) throws UserMgrException
+	public boolean set(Property property, Object value) throws UserMgrException
 	{
 		if ((value != null) && ! (value instanceof String))
 		{
-			throw new UserMgrException ("Value for property " + property + " must be a String object, but is a"
-							+ value.getClass ().getName ());
+			throw new UserMgrException("Value for property " + property + " must be a String object, but is a"
+							+ value.getClass().getName());
 		}
 
 		boolean status = true;
@@ -119,7 +119,7 @@ public class PersistUser extends AbstractKeelServiceable implements User, LogEna
 			}
 			else
 			{
-				log.debug ("Could not set value for property " + property);
+				log.debug("Could not set value for property " + property);
 				status = false;
 			}
 		}
@@ -130,17 +130,17 @@ public class PersistUser extends AbstractKeelServiceable implements User, LogEna
 	/**
 	 * @see de.iritgo.aktera.usergroupmgr.User#getUserManager()
 	 */
-	public UserManager getUserManager () throws UserMgrException
+	public UserManager getUserManager() throws UserMgrException
 	{
 		UserManager um;
 
 		try
 		{
-			um = (UserManager) getService (UserManager.ROLE, "persist-user-manager");
+			um = (UserManager) getService(UserManager.ROLE, "persist-user-manager");
 		}
 		catch (ServiceException e)
 		{
-			throw new UserMgrException ("Error getting user manager service", e);
+			throw new UserMgrException("Error getting user manager service", e);
 		}
 
 		return um;
@@ -149,17 +149,17 @@ public class PersistUser extends AbstractKeelServiceable implements User, LogEna
 	/**
 	 * @see de.iritgo.aktera.usergroupmgr.Group#getGroupManager()
 	 */
-	protected GroupManager getGroupManager () throws UserMgrException
+	protected GroupManager getGroupManager() throws UserMgrException
 	{
 		GroupManager um;
 
 		try
 		{
-			um = (GroupManager) getService (GroupManager.ROLE, "persist-group-manager");
+			um = (GroupManager) getService(GroupManager.ROLE, "persist-group-manager");
 		}
 		catch (ServiceException e)
 		{
-			throw new UserMgrException ("Error getting group manager service", e);
+			throw new UserMgrException("Error getting group manager service", e);
 		}
 
 		return um;
@@ -168,7 +168,7 @@ public class PersistUser extends AbstractKeelServiceable implements User, LogEna
 	/**
 	 * @see org.apache.avalon.framework.logger.LogEnabled#enableLogging(org.apache.avalon.framework.logger.Logger)
 	 */
-	public void enableLogging (Logger logger)
+	public void enableLogging(Logger logger)
 	{
 		log = logger;
 	}
@@ -176,8 +176,8 @@ public class PersistUser extends AbstractKeelServiceable implements User, LogEna
 	/**
 	 * @see de.iritgo.aktera.usergroupmgr.User#listGroups()
 	 */
-	public Group[] listGroups () throws UserMgrException
+	public Group[] listGroups() throws UserMgrException
 	{
-		return getGroupManager ().listGroups (this);
+		return getGroupManager().listGroups(this);
 	}
 }

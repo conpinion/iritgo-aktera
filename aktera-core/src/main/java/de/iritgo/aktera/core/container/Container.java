@@ -37,19 +37,19 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
  */
 public interface Container
 {
-	public Object getService (String role) throws ServiceException;
+	public Object getService(String role) throws ServiceException;
 
-	public Object getService (String role, String hint) throws ServiceException;
+	public Object getService(String role, String hint) throws ServiceException;
 
-	public Object getService (String role, String hint, Context context) throws ServiceException;
+	public Object getService(String role, String hint, Context context) throws ServiceException;
 
-	public void release (Object service);
+	public void release(Object service);
 
-	public void release (String role, Object service);
+	public void release(String role, Object service);
 
-	public void dispose ();
+	public void dispose();
 
-	public Configuration getSystemConfig () throws ConfigurationException;
+	public Configuration getSystemConfig() throws ConfigurationException;
 
 	/**
 	 * Get a Spring bean from the Spring container.
@@ -58,20 +58,20 @@ public interface Container
 	 * @return The Spring bean.
 	 * @throws BeansException If the bean cannot be retrieved.
 	 */
-	public Object getSpringBean (String name) throws BeansException;
+	public Object getSpringBean(String name) throws BeansException;
 
 	/**
 	 * @return
 	 */
-	public ConfigurableBeanFactory getSpringBeanFactory ();
+	public ConfigurableBeanFactory getSpringBeanFactory();
 
-	public String[] getHibernateConfigLocations ();
+	public String[] getHibernateConfigLocations();
 
-	public void addShutdownHandler (Runnable shutdownHandler);
+	public void addShutdownHandler(Runnable shutdownHandler);
 
-	public Logger getLogger (String category);
+	public Logger getLogger(String category);
 
-	public void setLogLevel (String logLevel);
+	public void setLogLevel(String logLevel);
 
-	public void setLogLevel (String logLevel, String category);
+	public void setLogLevel(String logLevel, String category);
 }

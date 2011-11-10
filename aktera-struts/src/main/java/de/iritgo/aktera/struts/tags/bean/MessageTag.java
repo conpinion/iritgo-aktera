@@ -38,17 +38,17 @@ public class MessageTag extends org.apache.struts.taglib.bean.MessageTag
 	 * @return SKIP_BODY.
 	 */
 	@Override
-	public int doStartTag () throws JspException
+	public int doStartTag() throws JspException
 	{
 		String key = this.key;
 
 		if (key == null)
 		{
-			Object value = TagUtils.getInstance ().lookup (pageContext, name, property, scope);
+			Object value = TagUtils.getInstance().lookup(pageContext, name, property, scope);
 			if (value != null && ! (value instanceof String))
 			{
-				JspException x = new JspException (messages.getMessage ("message.property", key));
-				TagUtils.getInstance ().saveException (pageContext, x);
+				JspException x = new JspException(messages.getMessage("message.property", key));
+				TagUtils.getInstance().saveException(pageContext, x);
 				throw x;
 			}
 			key = (String) value;
@@ -67,26 +67,25 @@ public class MessageTag extends org.apache.struts.taglib.bean.MessageTag
 		args[8] = "";
 		args[9] = "";
 
-		if (key.indexOf ("|") != - 1)
+		if (key.indexOf("|") != - 1)
 		{
-			String[] parts = key.split ("\\|");
+			String[] parts = key.split("\\|");
 			key = parts[0];
-			for (int i = 1; i < Math.min (parts.length, 10); ++i)
+			for (int i = 1; i < Math.min(parts.length, 10); ++i)
 			{
-				if (! "".equals (parts[i]))
+				if (! "".equals(parts[i]))
 				{
-					if (parts[i].length () >= 2 && parts[i].startsWith ("$")
-									&& Character.isLetter (parts[i].charAt (1)))
+					if (parts[i].length() >= 2 && parts[i].startsWith("$") && Character.isLetter(parts[i].charAt(1)))
 					{
-						String val = parts[i].substring (1);
+						String val = parts[i].substring(1);
 						String bundle = this.bundle;
-						int colonPos = val.indexOf (':');
+						int colonPos = val.indexOf(':');
 						if (colonPos != - 1)
 						{
-							bundle = val.substring (0, colonPos);
-							val = val.substring (colonPos + 1);
+							bundle = val.substring(0, colonPos);
+							val = val.substring(colonPos + 1);
 						}
-						args[i - 1] = TagUtils.getInstance ().message (pageContext, bundle, this.localeKey, val);
+						args[i - 1] = TagUtils.getInstance().message(pageContext, bundle, this.localeKey, val);
 					}
 					else
 					{
@@ -101,9 +100,9 @@ public class MessageTag extends org.apache.struts.taglib.bean.MessageTag
 		}
 
 		String bundle = this.bundle;
-		if (key.startsWith ("$"))
+		if (key.startsWith("$"))
 		{
-			String[] parts = key.substring (1).split (":");
+			String[] parts = key.substring(1).split(":");
 			if (parts.length > 1)
 			{
 				bundle = parts[0];
@@ -115,16 +114,16 @@ public class MessageTag extends org.apache.struts.taglib.bean.MessageTag
 			}
 		}
 
-		String message = TagUtils.getInstance ().message (pageContext, bundle, this.localeKey, key, args);
+		String message = TagUtils.getInstance().message(pageContext, bundle, this.localeKey, key, args);
 
 		if (message == null)
 		{
-			JspException x = new JspException (messages.getMessage ("message.message", "\"" + key + "\""));
-			TagUtils.getInstance ().saveException (pageContext, x);
+			JspException x = new JspException(messages.getMessage("message.message", "\"" + key + "\""));
+			TagUtils.getInstance().saveException(pageContext, x);
 			throw x;
 		}
 
-		TagUtils.getInstance ().write (pageContext, message);
+		TagUtils.getInstance().write(pageContext, message);
 
 		return (SKIP_BODY);
 	}

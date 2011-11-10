@@ -32,43 +32,43 @@ public interface Group
 	{
 		private static int nextOrdinal = 0;
 
-		public static final Property GID = new Property ("GID");
+		public static final Property GID = new Property("GID");
 
-		public static final Property NAME = new Property ("NAME");
+		public static final Property NAME = new Property("NAME");
 
-		public static final Property DESCRIPTION = new Property ("DESCRIPTION");
+		public static final Property DESCRIPTION = new Property("DESCRIPTION");
 
 		protected final String name;
 
 		private final int ordinal = nextOrdinal++;
 
-		protected Property (String name)
+		protected Property(String name)
 		{
 			this.name = name;
 		}
 
-		public String toString ()
+		public String toString()
 		{
 			return name;
 		}
 
-		public int compareTo (Object o)
+		public int compareTo(Object o)
 		{
 			return ordinal - ((Property) o).ordinal;
 		}
 	}
 
-	public final static String ROLE = Group.class.getName ();
+	public final static String ROLE = Group.class.getName();
 
-	public Object get (Property property) throws UserMgrException;
+	public Object get(Property property) throws UserMgrException;
 
-	public boolean set (Property property, Object value) throws UserMgrException;
+	public boolean set(Property property, Object value) throws UserMgrException;
 
-	public GroupManager getGroupManager () throws UserMgrException;
+	public GroupManager getGroupManager() throws UserMgrException;
 
-	public User[] listUsers () throws UserMgrException;
+	public User[] listUsers() throws UserMgrException;
 
-	public boolean addUser (User user) throws UserMgrException;
+	public boolean addUser(User user) throws UserMgrException;
 
-	public boolean deleteUser (User user) throws UserMgrException;
+	public boolean deleteUser(User user) throws UserMgrException;
 }

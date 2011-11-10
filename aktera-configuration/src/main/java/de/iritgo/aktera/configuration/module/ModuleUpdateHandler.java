@@ -34,24 +34,24 @@ import java.sql.Connection;
 public class ModuleUpdateHandler extends UpdateHandler
 {
 	@Override
-	public void updateDatabase (ModelRequest req, Logger logger, Connection connection, PersistentFactory pf,
+	public void updateDatabase(ModelRequest req, Logger logger, Connection connection, PersistentFactory pf,
 					ModuleVersion currentVersion, ModuleVersion newVersion) throws Exception
 	{
-		if (currentVersion.between ("0.0.0", "2.1.2"))
+		if (currentVersion.between("0.0.0", "2.1.2"))
 		{
-			createKeelIdColumn ("SystemConfig");
+			createKeelIdColumn("SystemConfig");
 
-			currentVersion.setVersion ("2.1.2");
+			currentVersion.setVersion("2.1.2");
 		}
 
-		if (currentVersion.lessThan ("2.2.1"))
+		if (currentVersion.lessThan("2.2.1"))
 		{
-			createPrimaryKeySequenceFromIdTable ("SystemConfig", "id");
+			createPrimaryKeySequenceFromIdTable("SystemConfig", "id");
 
-			updateColumnType ("SystemConfig", "category", "varchar(255)");
-			updateColumnType ("SystemConfig", "name", "varchar(255)");
+			updateColumnType("SystemConfig", "category", "varchar(255)");
+			updateColumnType("SystemConfig", "name", "varchar(255)");
 
-			currentVersion.setVersion ("2.2.1");
+			currentVersion.setVersion("2.2.1");
 		}
 	}
 }

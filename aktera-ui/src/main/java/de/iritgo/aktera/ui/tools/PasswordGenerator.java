@@ -32,7 +32,7 @@ public class PasswordGenerator
 
 	final String alphabet = "abcdefghijklmnopqrstuvwxyz";
 
-	public String generate (int npw, int pwl)
+	public String generate(int npw, int pwl)
 	{
 		int c1;
 		int c2;
@@ -43,19 +43,19 @@ public class PasswordGenerator
 		int pwnum;
 		double pik;
 		StringBuffer password;
-		Random ran = new Random (); // new random source seeded by clock
+		Random ran = new Random(); // new random source seeded by clock
 
 		if (data == null)
 		{
-			data = new GpwData ();
+			data = new GpwData();
 		}
 
 		// Pick a random starting point.
 		for (pwnum = 0; pwnum < npw; pwnum++)
 		{
-			password = new StringBuffer (pwl);
-			pik = ran.nextDouble (); // random number [0,1]
-			ranno = (long) (pik * data.getSigma ()); // weight by sum of frequencies
+			password = new StringBuffer(pwl);
+			pik = ran.nextDouble(); // random number [0,1]
+			ranno = (long) (pik * data.getSigma()); // weight by sum of frequencies
 			sum = 0;
 
 			for (c1 = 0; c1 < 26; c1++)
@@ -64,13 +64,13 @@ public class PasswordGenerator
 				{
 					for (c3 = 0; c3 < 26; c3++)
 					{
-						sum += data.get (c1, c2, c3);
+						sum += data.get(c1, c2, c3);
 
 						if (sum > ranno)
 						{
-							password.append (alphabet.charAt (c1));
-							password.append (alphabet.charAt (c2));
-							password.append (alphabet.charAt (c3));
+							password.append(alphabet.charAt(c1));
+							password.append(alphabet.charAt(c2));
+							password.append(alphabet.charAt(c3));
 							c1 = 26; // Found start. Break all 3 loops.	
 							c2 = 26;
 							c3 = 26;
@@ -84,13 +84,13 @@ public class PasswordGenerator
 
 			while (nchar < pwl)
 			{
-				c1 = alphabet.indexOf (password.charAt (nchar - 2));
-				c2 = alphabet.indexOf (password.charAt (nchar - 1));
+				c1 = alphabet.indexOf(password.charAt(nchar - 2));
+				c2 = alphabet.indexOf(password.charAt(nchar - 1));
 				sum = 0;
 
 				for (c3 = 0; c3 < 26; c3++)
 				{
-					sum += data.get (c1, c2, c3);
+					sum += data.get(c1, c2, c3);
 				}
 
 				if (sum == 0)
@@ -98,17 +98,17 @@ public class PasswordGenerator
 					break; // exit while l	oop
 				}
 
-				pik = ran.nextDouble ();
+				pik = ran.nextDouble();
 				ranno = (long) (pik * sum);
 				sum = 0;
 
 				for (c3 = 0; c3 < 26; c3++)
 				{
-					sum += data.get (c1, c2, c3);
+					sum += data.get(c1, c2, c3);
 
 					if (sum > ranno)
 					{
-						password.append (alphabet.charAt (c3));
+						password.append(alphabet.charAt(c3));
 						c3 = 26; // break for loop	
 					} // if sum	
 				} // for c3	
@@ -116,7 +116,7 @@ public class PasswordGenerator
 				nchar++;
 			} // while nchar		
 
-			return password.toString (); // Password generated
+			return password.toString(); // Password generated
 		} // for pwnum	
 
 		return null;
@@ -132,7 +132,7 @@ class GpwData
 
 	static long[] sigma = null; // 125729
 
-	GpwData ()
+	GpwData()
 	{
 		int c1;
 		int c2;
@@ -140,8 +140,8 @@ class GpwData
 
 		tris = new short[26][26][26];
 		sigma = new long[1];
-		GpwDataInit1.fill (this); // Break into two classes for NS 4.0
-		GpwDataInit2.fill (this); // .. its Java 1.1 barfs on methods > 65K
+		GpwDataInit1.fill(this); // Break into two classes for NS 4.0
+		GpwDataInit2.fill(this); // .. its Java 1.1 barfs on methods > 65K
 
 		for (c1 = 0; c1 < 26; c1++)
 		{
@@ -155,17 +155,17 @@ class GpwData
 		} // for c1	
 	} // constructor		
 
-	void set (int x1, int x2, int x3, short v)
+	void set(int x1, int x2, int x3, short v)
 	{
 		tris[x1][x2][x3] = v;
 	} // set()		
 
-	long get (int x1, int x2, int x3)
+	long get(int x1, int x2, int x3)
 	{
 		return (long) tris[x1][x2][x3];
 	} // get()	
 
-	long getSigma ()
+	long getSigma()
 	{
 		return sigma[0];
 	} // g		et()
@@ -1557,7 +1557,7 @@ class GpwDataInit1
 					}
 	};
 
-	static void fill (GpwData xx)
+	static void fill(GpwData xx)
 	{
 		int c1;
 		int c2;
@@ -1569,7 +1569,7 @@ class GpwDataInit1
 			{
 				for (c3 = 0; c3 < 26; c3++)
 				{
-					xx.set (c1, c2, c3, tris1[c1][c2][c3]);
+					xx.set(c1, c2, c3, tris1[c1][c2][c3]);
 				} // for c3	
 			} // for c2		
 		} // for c1	
@@ -2962,7 +2962,7 @@ class GpwDataInit2
 					}
 	};
 
-	static void fill (GpwData xx)
+	static void fill(GpwData xx)
 	{
 		int c1;
 		int c2;
@@ -2974,7 +2974,7 @@ class GpwDataInit2
 			{
 				for (c3 = 0; c3 < 26; c3++)
 				{
-					xx.set (c1 + 13, c2, c3, tris2[c1][c2][c3]);
+					xx.set(c1 + 13, c2, c3, tris2[c1][c2][c3]);
 				} // for c3	
 			} // for c2	
 		} // for c1	

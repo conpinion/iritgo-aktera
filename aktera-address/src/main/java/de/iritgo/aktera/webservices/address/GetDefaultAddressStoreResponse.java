@@ -72,7 +72,7 @@ public class GetDefaultAddressStoreResponse
 	 * Gets the value of the id property.
 	 * 
 	 */
-	public long getId ()
+	public long getId()
 	{
 		return id;
 	}
@@ -81,7 +81,7 @@ public class GetDefaultAddressStoreResponse
 	 * Sets the value of the id property.
 	 * 
 	 */
-	public void setId (long value)
+	public void setId(long value)
 	{
 		this.id = value;
 	}
@@ -94,7 +94,7 @@ public class GetDefaultAddressStoreResponse
 	 *     {@link String }
 	 *     
 	 */
-	public String getName ()
+	public String getName()
 	{
 		return name;
 	}
@@ -107,7 +107,7 @@ public class GetDefaultAddressStoreResponse
 	 *     {@link String }
 	 *     
 	 */
-	public void setName (String value)
+	public void setName(String value)
 	{
 		this.name = value;
 	}

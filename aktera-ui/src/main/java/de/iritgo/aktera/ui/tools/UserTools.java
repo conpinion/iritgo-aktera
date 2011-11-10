@@ -47,17 +47,17 @@ public class UserTools
 	 * @param req The model request.
 	 * @return The user id or null if no user exists in the current session.
 	 */
-	public static Integer getCurrentUserId (ModelRequest req)
+	public static Integer getCurrentUserId(ModelRequest req)
 	{
 		try
 		{
-			Context context = req.getContext ();
+			Context context = req.getContext();
 
-			UserEnvironment userEnv = (UserEnvironment) context.get (UserEnvironment.CONTEXT_KEY);
+			UserEnvironment userEnv = (UserEnvironment) context.get(UserEnvironment.CONTEXT_KEY);
 
-			if (userEnv != null && userEnv.getUid () != UserEnvironment.ANONYMOUS_UID)
+			if (userEnv != null && userEnv.getUid() != UserEnvironment.ANONYMOUS_UID)
 			{
-				return new Integer (userEnv.getUid ());
+				return new Integer(userEnv.getUid());
 			}
 			else
 			{
@@ -85,16 +85,16 @@ public class UserTools
 	 * @return The user's system name null if no user exists in the current
 	 *         session.
 	 */
-	public static String getCurrentUserName (ModelRequest req)
+	public static String getCurrentUserName(ModelRequest req)
 	{
 		try
 		{
-			Context context = req.getContext ();
-			UserEnvironment userEnv = (UserEnvironment) context.get (UserEnvironment.CONTEXT_KEY);
+			Context context = req.getContext();
+			UserEnvironment userEnv = (UserEnvironment) context.get(UserEnvironment.CONTEXT_KEY);
 
-			if (userEnv != null && userEnv.getUid () != UserEnvironment.ANONYMOUS_UID)
+			if (userEnv != null && userEnv.getUid() != UserEnvironment.ANONYMOUS_UID)
 			{
-				return userEnv.getLoginName ();
+				return userEnv.getLoginName();
 			}
 			else
 			{
@@ -122,17 +122,17 @@ public class UserTools
 	 * @param key Key of the object to retrieve.
 	 * @return The environment object or null.
 	 */
-	public static Object getUserEnvObject (ModelRequest req, String key)
+	public static Object getUserEnvObject(ModelRequest req, String key)
 	{
 		try
 		{
-			Context context = req.getContext ();
+			Context context = req.getContext();
 
-			UserEnvironment userEnv = (UserEnvironment) context.get (UserEnvironment.CONTEXT_KEY);
+			UserEnvironment userEnv = (UserEnvironment) context.get(UserEnvironment.CONTEXT_KEY);
 
 			if (userEnv != null)
 			{
-				return userEnv.getAttribute (key);
+				return userEnv.getAttribute(key);
 			}
 
 			return null;
@@ -154,16 +154,16 @@ public class UserTools
 	 * @param key Key of the object to store.
 	 * @param val The object to store.
 	 */
-	public static void setUserEnvObject (ModelRequest req, String key, Object val)
+	public static void setUserEnvObject(ModelRequest req, String key, Object val)
 	{
 		try
 		{
-			Context context = req.getContext ();
-			UserEnvironment userEnv = (UserEnvironment) context.get (UserEnvironment.CONTEXT_KEY);
+			Context context = req.getContext();
+			UserEnvironment userEnv = (UserEnvironment) context.get(UserEnvironment.CONTEXT_KEY);
 
 			if (userEnv != null)
 			{
-				userEnv.setAttribute (key, val);
+				userEnv.setAttribute(key, val);
 			}
 		}
 		catch (ContextException x)
@@ -180,16 +180,16 @@ public class UserTools
 	 * @param req The model request.
 	 * @param key Key of the object to remove.
 	 */
-	public static void removeUserEnvObject (ModelRequest req, String key)
+	public static void removeUserEnvObject(ModelRequest req, String key)
 	{
 		try
 		{
-			Context context = req.getContext ();
-			UserEnvironment userEnv = (UserEnvironment) context.get (UserEnvironment.CONTEXT_KEY);
+			Context context = req.getContext();
+			UserEnvironment userEnv = (UserEnvironment) context.get(UserEnvironment.CONTEXT_KEY);
 
 			if (userEnv != null)
 			{
-				userEnv.removeAttribute (key);
+				userEnv.removeAttribute(key);
 			}
 		}
 		catch (ContextException x)
@@ -207,13 +207,13 @@ public class UserTools
 	 * @param key Key of the object to retrieve.
 	 * @return The environment object or null.
 	 */
-	public static Object getContextObject (ModelRequest req, String key)
+	public static Object getContextObject(ModelRequest req, String key)
 	{
 		try
 		{
-			UserEnvironment ue = (UserEnvironment) req.getContext ().get (UserEnvironment.CONTEXT_KEY);
+			UserEnvironment ue = (UserEnvironment) req.getContext().get(UserEnvironment.CONTEXT_KEY);
 
-			return ue.getAttribute (key);
+			return ue.getAttribute(key);
 		}
 		catch (ContextException x)
 		{
@@ -232,13 +232,13 @@ public class UserTools
 	 * @param key Key of the object to store.
 	 * @param val The object to store.
 	 */
-	public static void setContextObject (ModelRequest req, String key, Object val)
+	public static void setContextObject(ModelRequest req, String key, Object val)
 	{
 		try
 		{
-			UserEnvironment ue = (UserEnvironment) req.getContext ().get (UserEnvironment.CONTEXT_KEY);
+			UserEnvironment ue = (UserEnvironment) req.getContext().get(UserEnvironment.CONTEXT_KEY);
 
-			ue.setAttribute (key, val);
+			ue.setAttribute(key, val);
 		}
 		catch (ContextException x)
 		{
@@ -254,13 +254,13 @@ public class UserTools
 	 * @param req The model request.
 	 * @param key Key of the object to remove.
 	 */
-	public static void removeContextObject (ModelRequest req, String key)
+	public static void removeContextObject(ModelRequest req, String key)
 	{
 		try
 		{
-			UserEnvironment ue = (UserEnvironment) req.getContext ().get (UserEnvironment.CONTEXT_KEY);
+			UserEnvironment ue = (UserEnvironment) req.getContext().get(UserEnvironment.CONTEXT_KEY);
 
-			ue.removeAttribute (key);
+			ue.removeAttribute(key);
 		}
 		catch (ContextException x)
 		{
@@ -276,9 +276,9 @@ public class UserTools
 	 * @param req The model request.
 	 * @return The user preferences or null.
 	 */
-	public static Preferences getUserPreferences (ModelRequest req)
+	public static Preferences getUserPreferences(ModelRequest req)
 	{
-		return (Preferences) getUserEnvObject (req, "sessionPreferences");
+		return (Preferences) getUserEnvObject(req, "sessionPreferences");
 	}
 
 	/**
@@ -288,21 +288,21 @@ public class UserTools
 	 * @param groupName The name of the group to check.
 	 * @return True if the user belongs to this group.
 	 */
-	public static boolean currentUserIsInGroup (ModelRequest req, String groupName)
+	public static boolean currentUserIsInGroup(ModelRequest req, String groupName)
 	{
 		try
 		{
-			Context context = req.getContext ();
+			Context context = req.getContext();
 
-			UserEnvironment userEnv = (UserEnvironment) context.get (UserEnvironment.CONTEXT_KEY);
+			UserEnvironment userEnv = (UserEnvironment) context.get(UserEnvironment.CONTEXT_KEY);
 
 			if (userEnv != null)
 			{
-				for (Iterator i = userEnv.getGroups ().iterator (); i.hasNext ();)
+				for (Iterator i = userEnv.getGroups().iterator(); i.hasNext();)
 				{
-					String aGroup = (String) i.next ();
+					String aGroup = (String) i.next();
 
-					if (aGroup.equals (groupName))
+					if (aGroup.equals(groupName))
 					{
 						return true;
 					}
@@ -332,45 +332,45 @@ public class UserTools
 	 * @param pwl
 	 * @return
 	 */
-	public static String getGeneratedPassword (int npw, int pwl)
+	public static String getGeneratedPassword(int npw, int pwl)
 	{
-		PasswordGenerator passwordGenerator = new PasswordGenerator ();
+		PasswordGenerator passwordGenerator = new PasswordGenerator();
 
 		String password = "secret";
 
 		try
 		{
-			password = passwordGenerator.generate (npw, pwl);
+			password = passwordGenerator.generate(npw, pwl);
 		}
 		catch (Exception x)
 		{
-			System.out.println ("UserTools.getGeneratedPassword error: " + x);
+			System.out.println("UserTools.getGeneratedPassword error: " + x);
 		}
 
 		return password;
 	}
 
-	public static String getGeneratedPassword ()
+	public static String getGeneratedPassword()
 	{
-		PasswordGenerator passwordGenerator = new PasswordGenerator ();
+		PasswordGenerator passwordGenerator = new PasswordGenerator();
 
-		return passwordGenerator.generate (10, 10);
+		return passwordGenerator.generate(10, 10);
 	}
 
-	public static boolean currentUserHasPermission (ModelRequest req, String permission) throws ModelException
+	public static boolean currentUserHasPermission(ModelRequest req, String permission) throws ModelException
 	{
-		PermissionManager pm = (PermissionManager) req.getSpringBean (PermissionManager.ID);
+		PermissionManager pm = (PermissionManager) req.getSpringBean(PermissionManager.ID);
 
-		return pm.hasPermission (getCurrentUserName (req), permission);
+		return pm.hasPermission(getCurrentUserName(req), permission);
 	}
 
-	public static UserEnvironment getUserEnvironment (ModelRequest req)
+	public static UserEnvironment getUserEnvironment(ModelRequest req)
 	{
 		try
 		{
-			Context context = req.getContext ();
+			Context context = req.getContext();
 
-			return (UserEnvironment) context.get (UserEnvironment.CONTEXT_KEY);
+			return (UserEnvironment) context.get(UserEnvironment.CONTEXT_KEY);
 		}
 		catch (ContextException x)
 		{
@@ -382,43 +382,43 @@ public class UserTools
 		}
 	}
 
-	public static Integer getActualRequestUserId (ModelRequest request)
+	public static Integer getActualRequestUserId(ModelRequest request)
 		throws PersistenceException, PermissionException, ModelException
 	{
-		if (! StringTools.isTrimEmpty (request.getParameter ("userId")))
+		if (! StringTools.isTrimEmpty(request.getParameter("userId")))
 		{
-			int userId = request.getParameterAsInt ("userId", - 1);
+			int userId = request.getParameterAsInt("userId", - 1);
 
-			if (! UserTools.currentUserIsInGroup (request, "manager") && UserTools.getCurrentUserId (request) != userId)
+			if (! UserTools.currentUserIsInGroup(request, "manager") && UserTools.getCurrentUserId(request) != userId)
 			{
-				throw new PermissionException ("Permission denied to edit com device function keys of user " + userId);
+				throw new PermissionException("Permission denied to edit com device function keys of user " + userId);
 			}
 
 			return userId;
 		}
 
-		return UserTools.getCurrentUserId (request);
+		return UserTools.getCurrentUserId(request);
 	}
 
-	public static String getActualRequestUserName (ModelRequest request)
+	public static String getActualRequestUserName(ModelRequest request)
 		throws PersistenceException, PermissionException, ModelException
 	{
-		PersistentFactory pf = (PersistentFactory) request.getService (PersistentFactory.ROLE, request.getDomain ());
-		String userName = UserTools.getCurrentUserName (request);
-		if (! StringTools.isTrimEmpty (request.getParameter ("userId")))
+		PersistentFactory pf = (PersistentFactory) request.getService(PersistentFactory.ROLE, request.getDomain());
+		String userName = UserTools.getCurrentUserName(request);
+		if (! StringTools.isTrimEmpty(request.getParameter("userId")))
 		{
-			int userId = request.getParameterAsInt ("userId", - 1);
-			if (! UserTools.currentUserIsInGroup (request, "manager") && UserTools.getCurrentUserId (request) != userId)
+			int userId = request.getParameterAsInt("userId", - 1);
+			if (! UserTools.currentUserIsInGroup(request, "manager") && UserTools.getCurrentUserId(request) != userId)
 			{
-				throw new PermissionException ("Permission denied to edit com device function keys of user " + userId);
+				throw new PermissionException("Permission denied to edit com device function keys of user " + userId);
 			}
 
 			try
 			{
-				Persistent user = pf.create ("keel.user");
-				user.setField ("uid", userId);
-				user.find ();
-				userName = user.getFieldString ("name");
+				Persistent user = pf.create("keel.user");
+				user.setField("uid", userId);
+				user.find();
+				userName = user.getFieldString("name");
 			}
 			catch (PersistenceException x)
 			{

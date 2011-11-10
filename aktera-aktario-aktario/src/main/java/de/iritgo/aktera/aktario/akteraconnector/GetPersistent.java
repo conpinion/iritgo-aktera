@@ -29,17 +29,17 @@ import de.iritgo.aktario.core.command.Command;
  */
 public class GetPersistent extends Command
 {
-	public GetPersistent ()
+	public GetPersistent()
 	{
-		super ("GetPersistent");
+		super("GetPersistent");
 	}
 
-	public Object performWithResult ()
+	public Object performWithResult()
 	{
-		ConnectorServerManager csm = (ConnectorServerManager) Engine.instance ().getManagerRegistry ().getManager (
+		ConnectorServerManager csm = (ConnectorServerManager) Engine.instance().getManagerRegistry().getManager(
 						"ConnectorServerManager");
 
-		csm.getPersistentAttributes (properties, (Long) properties.get ("userUniqueId"));
+		csm.getPersistentAttributes(properties, (Long) properties.get("userUniqueId"));
 
 		return null;
 	}

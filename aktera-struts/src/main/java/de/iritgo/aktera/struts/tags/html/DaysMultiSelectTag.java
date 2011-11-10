@@ -58,7 +58,7 @@ public class DaysMultiSelectTag extends org.apache.struts.taglib.html.BaseInputT
 	/**
 	 * Get the bean name.
 	 */
-	public String getName ()
+	public String getName()
 	{
 		return this.name;
 	}
@@ -66,7 +66,7 @@ public class DaysMultiSelectTag extends org.apache.struts.taglib.html.BaseInputT
 	/**
 	 * Set the bean name.
 	 */
-	public void setName (String name)
+	public void setName(String name)
 	{
 		this.name = name;
 	}
@@ -74,7 +74,7 @@ public class DaysMultiSelectTag extends org.apache.struts.taglib.html.BaseInputT
 	/**
 	 * Get the bundle name.
 	 */
-	public String getBundle ()
+	public String getBundle()
 	{
 		return this.bundle;
 	}
@@ -82,7 +82,7 @@ public class DaysMultiSelectTag extends org.apache.struts.taglib.html.BaseInputT
 	/**
 	 * Set the bundle name.
 	 */
-	public void setBundle (String bundle)
+	public void setBundle(String bundle)
 	{
 		this.bundle = bundle;
 	}
@@ -92,7 +92,7 @@ public class DaysMultiSelectTag extends org.apache.struts.taglib.html.BaseInputT
 	 *
 	 * @return The locale.
 	 */
-	public String getLocale ()
+	public String getLocale()
 	{
 		return this.locale;
 	}
@@ -102,7 +102,7 @@ public class DaysMultiSelectTag extends org.apache.struts.taglib.html.BaseInputT
 	 *
 	 * @param locale The new locale.
 	 */
-	public void setLocale (String locale)
+	public void setLocale(String locale)
 	{
 		this.locale = locale;
 	}
@@ -112,7 +112,7 @@ public class DaysMultiSelectTag extends org.apache.struts.taglib.html.BaseInputT
 	 *
 	 * @param readOnly Read only flag.
 	 */
-	public void setReadOnly (boolean readOnly)
+	public void setReadOnly(boolean readOnly)
 	{
 		this.readOnly = readOnly;
 	}
@@ -122,7 +122,7 @@ public class DaysMultiSelectTag extends org.apache.struts.taglib.html.BaseInputT
 	 *
 	 * @retrun The read only flag.
 	 */
-	public boolean getReadOnly ()
+	public boolean getReadOnly()
 	{
 		return readOnly;
 	}
@@ -130,9 +130,9 @@ public class DaysMultiSelectTag extends org.apache.struts.taglib.html.BaseInputT
 	/**
 	 * Reset all tag attributes to their default values.
 	 */
-	public void release ()
+	public void release()
 	{
-		super.release ();
+		super.release();
 
 		name = null;
 		readOnly = false;
@@ -144,69 +144,68 @@ public class DaysMultiSelectTag extends org.apache.struts.taglib.html.BaseInputT
 	 *
 	 * @exception JspException if a JSP exception has occurred
 	 */
-	public int doStartTag () throws JspException
+	public int doStartTag() throws JspException
 	{
 		String selectedDays = "";
 
 		if (value != null)
 		{
-			selectedDays = "," + value.toString () + ",";
+			selectedDays = "," + value.toString() + ",";
 		}
 		else
 		{
-			Object val = TagUtils.getInstance ().lookup (pageContext, name, property, null);
+			Object val = TagUtils.getInstance().lookup(pageContext, name, property, null);
 
 			if (val != null)
 			{
-				selectedDays = "," + val.toString () + ",";
+				selectedDays = "," + val.toString() + ",";
 			}
 		}
 
-		StringBuffer results = new StringBuffer ();
+		StringBuffer results = new StringBuffer();
 
-		results.append ("<table><tr>\n");
+		results.append("<table><tr>\n");
 
 		int day = 1;
 
 		for (int i = 0; i < 7; ++i)
 		{
-			results.append ("<td valign=\"top\"><select multiple=\"true\" size=\"4\" name=\"" + prepareName ()
-							+ "\">\n");
+			results.append("<td valign=\"top\"><select multiple=\"true\" size=\"4\" name=\"" + prepareName() + "\">\n");
 
 			for (int j = 0; j < 4; ++j)
 			{
-				results.append ("<option value=\"" + day + "\"");
+				results.append("<option value=\"" + day + "\"");
 
-				if (selectedDays.indexOf ("," + day + ",") != - 1)
+				if (selectedDays.indexOf("," + day + ",") != - 1)
 				{
-					results.append (" selected=\"true\"");
+					results.append(" selected=\"true\"");
 				}
 
-				results.append (">" + day + "</option>");
+				results.append(">" + day + "</option>");
 				++day;
 			}
 
-			results.append ("</select></td>\n");
+			results.append("</select></td>\n");
 		}
 
-		results.append ("<td valign=\"top\"><select multiple=\"true\" size=\"4\" name=\"" + prepareName () + "\">\n");
+		results.append("<td valign=\"top\"><select multiple=\"true\" size=\"4\" name=\"" + prepareName() + "\">\n");
 
 		for (int j = 0; j < 3; ++j)
 		{
-			results.append ("<option value=\"" + day + "\"");
+			results.append("<option value=\"" + day + "\"");
 
-			if (selectedDays.indexOf ("," + day + ",") != - 1)
+			if (selectedDays.indexOf("," + day + ",") != - 1)
 			{
-				results.append (" selected=\"true\"");
+				results.append(" selected=\"true\"");
 			}
 
-			results.append (">" + day + "</option>");
+			results.append(">" + day + "</option>");
 			++day;
 		}
 
-		results.append ("</select></td>\n");
-		results.append ("</tr></table>\n");
-		TagUtils.getInstance ().write (pageContext, results.toString ());
+		results.append("</select></td>\n");
+		results.append("</tr></table>\n");
+		TagUtils.getInstance().write(pageContext, results.toString());
 
 		return SKIP_BODY;
 	}

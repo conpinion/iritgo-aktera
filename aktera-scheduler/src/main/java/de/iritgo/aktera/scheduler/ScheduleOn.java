@@ -29,25 +29,25 @@ import de.iritgo.simplelife.string.StringTools;
 public class ScheduleOn extends ScheduleTimes
 {
 	/** Seconds. */
-	private StringBuilder seconds = new StringBuilder ();
+	private StringBuilder seconds = new StringBuilder();
 
 	/** Minutes. */
-	private StringBuilder minutes = new StringBuilder ();
+	private StringBuilder minutes = new StringBuilder();
 
 	/** Hours. */
-	private StringBuilder hours = new StringBuilder ();
+	private StringBuilder hours = new StringBuilder();
 
 	/** Days of month. */
-	private StringBuilder daysOfMonth = new StringBuilder ();
+	private StringBuilder daysOfMonth = new StringBuilder();
 
 	/** Months. */
-	private StringBuilder months = new StringBuilder ();
+	private StringBuilder months = new StringBuilder();
 
 	/** Days of wheek. */
-	private StringBuilder daysOfWeek = new StringBuilder ();
+	private StringBuilder daysOfWeek = new StringBuilder();
 
 	/** Years. */
-	private StringBuilder years = new StringBuilder ();
+	private StringBuilder years = new StringBuilder();
 
 	/**
 	 * Set the seconds on which to execute the job.
@@ -56,9 +56,9 @@ public class ScheduleOn extends ScheduleTimes
 	 * @param seconds Cron like seconds: 0-59 and special chars , - * /
 	 * @return This
 	 */
-	public ScheduleOn seconds (String seconds)
+	public ScheduleOn seconds(String seconds)
 	{
-		this.seconds = new StringBuilder (seconds);
+		this.seconds = new StringBuilder(seconds);
 
 		return this;
 	}
@@ -70,11 +70,11 @@ public class ScheduleOn extends ScheduleTimes
 	 * @param second The second (0-59)
 	 * @return This
 	 */
-	public ScheduleOn second (int second)
+	public ScheduleOn second(int second)
 	{
 		if (0 <= second && second <= 59)
 		{
-			StringTools.appendWithDelimiter (seconds, String.valueOf (second), ",");
+			StringTools.appendWithDelimiter(seconds, String.valueOf(second), ",");
 		}
 
 		return this;
@@ -87,9 +87,9 @@ public class ScheduleOn extends ScheduleTimes
 	 * @param minutes Cron like minutes: 0-59 and special chars , - * /
 	 * @return This
 	 */
-	public ScheduleOn minutes (String minutes)
+	public ScheduleOn minutes(String minutes)
 	{
-		setMinutes (minutes);
+		setMinutes(minutes);
 
 		return this;
 	}
@@ -101,11 +101,11 @@ public class ScheduleOn extends ScheduleTimes
 	 * @param minute The minute (0-59)
 	 * @return This
 	 */
-	public ScheduleOn minute (int minute)
+	public ScheduleOn minute(int minute)
 	{
 		if (0 <= minute && minute <= 59)
 		{
-			StringTools.appendWithDelimiter (minutes, String.valueOf (minute), ",");
+			StringTools.appendWithDelimiter(minutes, String.valueOf(minute), ",");
 		}
 
 		return this;
@@ -118,9 +118,9 @@ public class ScheduleOn extends ScheduleTimes
 	 * @param hours Cron like hours: 0-23 and special chars , - * /
 	 * @return This
 	 */
-	public ScheduleOn hours (String hours)
+	public ScheduleOn hours(String hours)
 	{
-		setHours (hours);
+		setHours(hours);
 
 		return this;
 	}
@@ -132,11 +132,11 @@ public class ScheduleOn extends ScheduleTimes
 	 * @param hour The hour (0-23)
 	 * @return This
 	 */
-	public ScheduleOn hour (int hour)
+	public ScheduleOn hour(int hour)
 	{
 		if (0 <= hour && hour <= 23)
 		{
-			StringTools.appendWithDelimiter (hours, String.valueOf (hour), ",");
+			StringTools.appendWithDelimiter(hours, String.valueOf(hour), ",");
 		}
 
 		return this;
@@ -149,9 +149,9 @@ public class ScheduleOn extends ScheduleTimes
 	 * @param daysOfMonth Cron like days: 1-31 and special chars , - * ? / L W
 	 * @return This
 	 */
-	public ScheduleOn daysOfMonth (String daysOfMonth)
+	public ScheduleOn daysOfMonth(String daysOfMonth)
 	{
-		setDaysOfMonth (daysOfMonth);
+		setDaysOfMonth(daysOfMonth);
 
 		return this;
 	}
@@ -163,12 +163,12 @@ public class ScheduleOn extends ScheduleTimes
 	 * @param dayOfMonth The day of month (1-31)
 	 * @return This
 	 */
-	public ScheduleOn dayOfMonth (int dayOfMonth)
+	public ScheduleOn dayOfMonth(int dayOfMonth)
 	{
 		if (1 <= dayOfMonth && dayOfMonth <= 31)
 		{
-			StringTools.appendWithDelimiter (daysOfMonth, String.valueOf (dayOfMonth), ",");
-			daysOfWeek = new StringBuilder ("?");
+			StringTools.appendWithDelimiter(daysOfMonth, String.valueOf(dayOfMonth), ",");
+			daysOfWeek = new StringBuilder("?");
 		}
 
 		return this;
@@ -181,9 +181,9 @@ public class ScheduleOn extends ScheduleTimes
 	 * @param months Cron like months: 1-12 or JAN-DEC
 	 * @return This
 	 */
-	public ScheduleOn months (String months)
+	public ScheduleOn months(String months)
 	{
-		setMonths (months);
+		setMonths(months);
 
 		return this;
 	}
@@ -195,11 +195,11 @@ public class ScheduleOn extends ScheduleTimes
 	 * @param month The month (1-12)
 	 * @return This
 	 */
-	public ScheduleOn month (int month)
+	public ScheduleOn month(int month)
 	{
 		if (1 <= month && month <= 12)
 		{
-			StringTools.appendWithDelimiter (months, String.valueOf (month), ",");
+			StringTools.appendWithDelimiter(months, String.valueOf(month), ",");
 		}
 
 		return this;
@@ -212,9 +212,9 @@ public class ScheduleOn extends ScheduleTimes
 	 * @param daysOfWeek Cron like days: 1-7 and special chars , - * ? / L #
 	 * @return This
 	 */
-	public ScheduleOn daysOfWeek (String daysOfWeek)
+	public ScheduleOn daysOfWeek(String daysOfWeek)
 	{
-		setDaysOfWeek (daysOfWeek);
+		setDaysOfWeek(daysOfWeek);
 
 		return this;
 	}
@@ -226,12 +226,12 @@ public class ScheduleOn extends ScheduleTimes
 	 * @param dayOfWeek The day of week (1-7)
 	 * @return This
 	 */
-	public ScheduleOn dayOfWeek (int dayOfWeek)
+	public ScheduleOn dayOfWeek(int dayOfWeek)
 	{
 		if (1 <= dayOfWeek && dayOfWeek <= 7)
 		{
-			StringTools.appendWithDelimiter (daysOfWeek, String.valueOf (dayOfWeek), ",");
-			daysOfMonth = new StringBuilder ("?");
+			StringTools.appendWithDelimiter(daysOfWeek, String.valueOf(dayOfWeek), ",");
+			daysOfMonth = new StringBuilder("?");
 		}
 
 		return this;
@@ -244,9 +244,9 @@ public class ScheduleOn extends ScheduleTimes
 	 * @param months Cron like years: null or empty or 1970-2099 and special chars , - * /
 	 * @return This
 	 */
-	public ScheduleOn years (String years)
+	public ScheduleOn years(String years)
 	{
-		setYears (years);
+		setYears(years);
 
 		return this;
 	}
@@ -258,11 +258,11 @@ public class ScheduleOn extends ScheduleTimes
 	 * @param year The year (1970-2099)
 	 * @return This
 	 */
-	public ScheduleOn year (int year)
+	public ScheduleOn year(int year)
 	{
 		if (1970 <= year && year <= 2099)
 		{
-			StringTools.appendWithDelimiter (years, String.valueOf (year), ",");
+			StringTools.appendWithDelimiter(years, String.valueOf(year), ",");
 		}
 
 		return this;
@@ -273,109 +273,109 @@ public class ScheduleOn extends ScheduleTimes
 	 *
 	 * @return The cron like schedule expression.
 	 */
-	public String createCronExpression ()
+	public String createCronExpression()
 	{
-		StringBuilder sb = new StringBuilder ();
+		StringBuilder sb = new StringBuilder();
 
-		sb.append (! StringTools.isTrimEmpty (seconds) ? seconds : "*");
-		sb.append (" ");
-		sb.append (! StringTools.isTrimEmpty (minutes) ? minutes : "*");
-		sb.append (" ");
-		sb.append (! StringTools.isTrimEmpty (hours) ? hours : "*");
-		sb.append (" ");
+		sb.append(! StringTools.isTrimEmpty(seconds) ? seconds : "*");
+		sb.append(" ");
+		sb.append(! StringTools.isTrimEmpty(minutes) ? minutes : "*");
+		sb.append(" ");
+		sb.append(! StringTools.isTrimEmpty(hours) ? hours : "*");
+		sb.append(" ");
 
-		if (! StringTools.isTrimEmpty (daysOfMonth))
+		if (! StringTools.isTrimEmpty(daysOfMonth))
 		{
-			sb.append (daysOfMonth);
+			sb.append(daysOfMonth);
 		}
 		else
 		{
-			sb.append (StringTools.isTrimEmpty (daysOfWeek) ? "*" : "?");
+			sb.append(StringTools.isTrimEmpty(daysOfWeek) ? "*" : "?");
 		}
 
-		sb.append (" ");
-		sb.append (! StringTools.isTrimEmpty (months) ? months : "*");
-		sb.append (" ");
+		sb.append(" ");
+		sb.append(! StringTools.isTrimEmpty(months) ? months : "*");
+		sb.append(" ");
 
-		if (! StringTools.isTrimEmpty (daysOfWeek) && StringTools.isTrimEmpty (daysOfMonth))
+		if (! StringTools.isTrimEmpty(daysOfWeek) && StringTools.isTrimEmpty(daysOfMonth))
 		{
-			sb.append (daysOfWeek);
+			sb.append(daysOfWeek);
 		}
 		else
 		{
-			sb.append ("?");
+			sb.append("?");
 		}
 
-		if (! StringTools.isTrimEmpty (years))
+		if (! StringTools.isTrimEmpty(years))
 		{
-			sb.append (" ");
-			sb.append (years);
+			sb.append(" ");
+			sb.append(years);
 		}
 
-		return sb.toString ();
+		return sb.toString();
 	}
 
 	/**
 	 * @see #seconds(String)
 	 */
-	public void setSeconds (String seconds)
+	public void setSeconds(String seconds)
 	{
-		this.seconds = new StringBuilder (StringTools.trim (seconds));
+		this.seconds = new StringBuilder(StringTools.trim(seconds));
 	}
 
 	/**
 	 * @see #minutes(String)
 	 */
-	public void setMinutes (String minutes)
+	public void setMinutes(String minutes)
 	{
-		this.minutes = new StringBuilder (StringTools.trim (minutes));
+		this.minutes = new StringBuilder(StringTools.trim(minutes));
 	}
 
 	/**
 	 * @see #hours(String)
 	 */
-	public void setHours (String hours)
+	public void setHours(String hours)
 	{
-		this.hours = new StringBuilder (StringTools.trim (hours));
+		this.hours = new StringBuilder(StringTools.trim(hours));
 	}
 
 	/**
 	 * @see #daysOfMonth(String)
 	 */
-	public void setDaysOfMonth (String daysOfMonth)
+	public void setDaysOfMonth(String daysOfMonth)
 	{
-		this.daysOfMonth = new StringBuilder (StringTools.trim (daysOfMonth));
+		this.daysOfMonth = new StringBuilder(StringTools.trim(daysOfMonth));
 	}
 
 	/**
 	 * @see #months(String)
 	 */
-	public void setMonths (String months)
+	public void setMonths(String months)
 	{
-		this.months = new StringBuilder (StringTools.trim (months));
+		this.months = new StringBuilder(StringTools.trim(months));
 	}
 
 	/**
 	 * @see #daysOfWeek(String)
 	 */
-	public void setDaysOfWeek (String daysOfWeek)
+	public void setDaysOfWeek(String daysOfWeek)
 	{
-		this.daysOfWeek = new StringBuilder (StringTools.trim (daysOfWeek));
+		this.daysOfWeek = new StringBuilder(StringTools.trim(daysOfWeek));
 	}
 
 	/**
 	 * @see #years(String)
 	 */
-	public void setYears (String years)
+	public void setYears(String years)
 	{
-		this.years = new StringBuilder (StringTools.trim (years));
+		this.years = new StringBuilder(StringTools.trim(years));
 	}
 
 	/**
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString ()
+	public String toString()
 	{
-		return "ScheduleOn@" + hashCode () + "[" + createCronExpression () + "]";
+		return "ScheduleOn@" + hashCode() + "[" + createCronExpression() + "]";
 	}
 }

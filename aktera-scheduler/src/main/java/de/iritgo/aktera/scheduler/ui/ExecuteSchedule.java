@@ -46,10 +46,10 @@ public class ExecuteSchedule extends AbstractListCommandModel
 	 * @see de.iritgo.aktera.ui.listing.AbstractListCommandModel#execute(de.iritgo.aktera.model.ModelRequest, de.iritgo.aktera.model.ModelResponse, java.lang.String)
 	 */
 	@Override
-	protected void execute (ModelRequest request, ModelResponse response, String id) throws ModelException
+	protected void execute(ModelRequest request, ModelResponse response, String id) throws ModelException
 	{
-		ScheduleManager scheduleManager = (ScheduleManager) request.getSpringBean (ScheduleManager.ID);
+		ScheduleManager scheduleManager = (ScheduleManager) request.getSpringBean(ScheduleManager.ID);
 
-		scheduleManager.executeSchedule (NumberTools.toIntInstance (id, - 1));
+		scheduleManager.executeSchedule(NumberTools.toIntInstance(id, - 1));
 	}
 }

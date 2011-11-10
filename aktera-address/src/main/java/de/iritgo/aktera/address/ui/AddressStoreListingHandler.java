@@ -32,16 +32,16 @@ public class AddressStoreListingHandler extends ListingHandler
 	@Autowired
 	protected AddressManager addressManager;
 
-	public CellData formatTypeColumn (Object value)
+	public CellData formatTypeColumn(Object value)
 	{
 		try
 		{
-			AddressStoreType type = addressManager.getAddressStoreType ((String) value);
-			return new CellData (type.getLabel (), ListingColumnViewer.MESSAGE);
+			AddressStoreType type = addressManager.getAddressStoreType((String) value);
+			return new CellData(type.getLabel(), ListingColumnViewer.MESSAGE);
 		}
 		catch (NoSuchAddressStoreTypeException x)
 		{
-			return new CellData (value, ListingColumnViewer.TEXT);
+			return new CellData(value, ListingColumnViewer.TEXT);
 		}
 	}
 }

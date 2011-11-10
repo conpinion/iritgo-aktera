@@ -38,29 +38,29 @@ public class AddressManagerTest
 	private AddressStore addressStore2;
 
 	@Before
-	public void setUp () throws Exception
+	public void setUp() throws Exception
 	{
-		addressManager = new AddressManagerImpl ();
+		addressManager = new AddressManagerImpl();
 
-		List<AddressStore> stores = new LinkedList<AddressStore> ();
+		List<AddressStore> stores = new LinkedList<AddressStore>();
 
-		addressStore1 = createMock (AddressStore.class);
-		addressStore2 = createMock (AddressStore.class);
-		stores.add (addressStore1);
-		stores.add (addressStore2);
-		((AddressManagerImpl) addressManager).setAddressStores (stores);
+		addressStore1 = createMock(AddressStore.class);
+		addressStore2 = createMock(AddressStore.class);
+		stores.add(addressStore1);
+		stores.add(addressStore2);
+		((AddressManagerImpl) addressManager).setAddressStores(stores);
 	}
 
 	@Test
-	public void findAddressByName ()
+	public void findAddressByName()
 	{
-		Address expected = new Address ("Alice");
+		Address expected = new Address("Alice");
 
-		expect (addressStore1.findAddressByLastNameOrCompany ("Alice")).andReturn (new Empty ());
-		expect (addressStore2.findAddressByLastNameOrCompany ("Alice")).andReturn (new Full (expected));
-		expect (addressStore2.getName ()).andReturn ("addressStore2");
-		replay (addressStore1, addressStore2);
-		assertEquals (expected, addressManager.findAddressByLastNameOrCompany ("Alice"));
-		verify (addressStore1, addressStore2);
+		expect(addressStore1.findAddressByLastNameOrCompany("Alice")).andReturn(new Empty());
+		expect(addressStore2.findAddressByLastNameOrCompany("Alice")).andReturn(new Full(expected));
+		expect(addressStore2.getName()).andReturn("addressStore2");
+		replay(addressStore1, addressStore2);
+		assertEquals(expected, addressManager.findAddressByLastNameOrCompany("Alice"));
+		verify(addressStore1, addressStore2);
 	}
 }

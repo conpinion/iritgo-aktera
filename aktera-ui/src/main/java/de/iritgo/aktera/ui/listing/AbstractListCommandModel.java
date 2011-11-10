@@ -45,15 +45,15 @@ public abstract class AbstractListCommandModel extends SecurableStandardLogEnabl
 	/**
 	 * Initialization.
 	 */
-	public AbstractListCommandModel ()
+	public AbstractListCommandModel()
 	{
-		this ("id");
+		this("id");
 	}
 
 	/**
 	 * Initialization.
 	 */
-	public AbstractListCommandModel (String idParameterName)
+	public AbstractListCommandModel(String idParameterName)
 	{
 		this.idParameterName = idParameterName;
 	}
@@ -64,27 +64,27 @@ public abstract class AbstractListCommandModel extends SecurableStandardLogEnabl
 	 * @param request The model request
 	 * @return The model response
 	 */
-	public ModelResponse execute (ModelRequest request) throws ModelException
+	public ModelResponse execute(ModelRequest request) throws ModelException
 	{
 		String[] ids;
 
-		if (request.getParameter (idParameterName) == null)
+		if (request.getParameter(idParameterName) == null)
 		{
 			ids = new String[0];
 		}
-		else if (request.getParameter (idParameterName) instanceof String)
+		else if (request.getParameter(idParameterName) instanceof String)
 		{
 			ids = new String[]
 			{
-				(String) request.getParameter (idParameterName)
+				(String) request.getParameter(idParameterName)
 			};
 		}
 		else
 		{
-			ids = (String[]) request.getParameter (idParameterName);
+			ids = (String[]) request.getParameter(idParameterName);
 		}
 
-		return execute (request, ids);
+		return execute(request, ids);
 	}
 
 	/**
@@ -95,13 +95,13 @@ public abstract class AbstractListCommandModel extends SecurableStandardLogEnabl
 	 * @return The model response
 	 * @throws ModelException
 	 */
-	protected ModelResponse execute (ModelRequest request, String[] ids) throws ModelException
+	protected ModelResponse execute(ModelRequest request, String[] ids) throws ModelException
 	{
-		ModelResponse res = request.createResponse ();
+		ModelResponse res = request.createResponse();
 
 		for (String id : ids)
 		{
-			execute (request, res, id);
+			execute(request, res, id);
 		}
 
 		return res;
@@ -115,7 +115,7 @@ public abstract class AbstractListCommandModel extends SecurableStandardLogEnabl
 	 * @param id The id of the persistent to act upon
 	 * @throws ModelException
 	 */
-	protected void execute (ModelRequest request, ModelResponse response, String id) throws ModelException
+	protected void execute(ModelRequest request, ModelResponse response, String id) throws ModelException
 	{
 	}
 
@@ -129,29 +129,29 @@ public abstract class AbstractListCommandModel extends SecurableStandardLogEnabl
 	 * @throws PermissionException If the current user has no permission to upload files
 	 * for another user
 	 */
-	protected String getActualUserName (ModelRequest request)
+	protected String getActualUserName(ModelRequest request)
 		throws PersistenceException, PermissionException, ModelException
 	{
-		PersistentFactory pf = (PersistentFactory) request.getService (PersistentFactory.ROLE, request.getDomain ());
+		PersistentFactory pf = (PersistentFactory) request.getService(PersistentFactory.ROLE, request.getDomain());
 
-		String userName = UserTools.getCurrentUserName (request);
+		String userName = UserTools.getCurrentUserName(request);
 
-		if (request.getParameter ("userId") != null)
+		if (request.getParameter("userId") != null)
 		{
-			int userId = NumberTools.toInt (request.getParameter ("userId"), UserTools.getCurrentUserId (request));
+			int userId = NumberTools.toInt(request.getParameter("userId"), UserTools.getCurrentUserId(request));
 
-			if (! UserTools.currentUserIsInGroup (request, "manager") && UserTools.getCurrentUserId (request) != userId)
+			if (! UserTools.currentUserIsInGroup(request, "manager") && UserTools.getCurrentUserId(request) != userId)
 			{
-				throw new PermissionException ("Permission denied to edit com device function keys of user " + userId);
+				throw new PermissionException("Permission denied to edit com device function keys of user " + userId);
 			}
 
 			try
 			{
-				Persistent user = pf.create ("keel.user");
+				Persistent user = pf.create("keel.user");
 
-				user.setField ("uid", userId);
-				user.find ();
-				userName = user.getFieldString ("name");
+				user.setField("uid", userId);
+				user.find();
+				userName = user.getFieldString("name");
 			}
 			catch (PersistenceException x)
 			{

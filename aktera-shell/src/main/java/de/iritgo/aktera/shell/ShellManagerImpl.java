@@ -31,8 +31,8 @@ public class ShellManagerImpl implements ShellManager
 	@Autowired
 	private GroovyShellService groovyShellService;
 
-	public void startShell ()
+	public void startShell()
 	{
-		groovyShellService.launch ();
+		groovyShellService.launch();
 	}
 }

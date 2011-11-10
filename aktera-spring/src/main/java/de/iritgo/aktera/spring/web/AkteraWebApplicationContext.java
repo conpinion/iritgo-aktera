@@ -31,17 +31,17 @@ import java.io.IOException;
 public class AkteraWebApplicationContext extends AbstractRefreshableWebApplicationContext
 {
 	@Override
-	protected void loadBeanDefinitions (DefaultListableBeanFactory beanFactory) throws IOException, BeansException
+	protected void loadBeanDefinitions(DefaultListableBeanFactory beanFactory) throws IOException, BeansException
 	{
-		if (beanFactory.getParentBeanFactory () == null)
+		if (beanFactory.getParentBeanFactory() == null)
 		{
-			beanFactory.setParentBeanFactory (SpringTools.getBeanFactory ());
+			beanFactory.setParentBeanFactory(SpringTools.getBeanFactory());
 		}
 	}
 
 	@Override
-	public BeanFactory getParentBeanFactory ()
+	public BeanFactory getParentBeanFactory()
 	{
-		return SpringTools.getBeanFactory ();
+		return SpringTools.getBeanFactory();
 	}
 }

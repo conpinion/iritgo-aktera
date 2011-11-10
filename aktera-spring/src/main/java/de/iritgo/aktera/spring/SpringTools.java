@@ -35,16 +35,16 @@ public class SpringTools
 	 * @param id The bean id
 	 * @return The bean object
 	 */
-	public static Object getBean (String id)
+	public static Object getBean(String id)
 	{
-		return KeelContainer.defaultContainer ().getSpringBean (id);
+		return KeelContainer.defaultContainer().getSpringBean(id);
 	}
 
 	/**
 	 * @return
 	 */
-	public static ConfigurableBeanFactory getBeanFactory ()
+	public static ConfigurableBeanFactory getBeanFactory()
 	{
-		return KeelContainer.defaultContainer ().getSpringBeanFactory ();
+		return KeelContainer.defaultContainer().getSpringBeanFactory();
 	}
 }

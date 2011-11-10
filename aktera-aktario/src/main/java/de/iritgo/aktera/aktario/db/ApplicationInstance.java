@@ -53,14 +53,14 @@ public class ApplicationInstance implements Serializable
 	 *   primary-key="true"
 	 *   null-allowed="false"
 	 */
-	public Long getId ()
+	public Long getId()
 	{
 		return id;
 	}
 
 	/**
 	 */
-	public void setId (Long id)
+	public void setId(Long id)
 	{
 		this.id = id;
 	}
@@ -72,14 +72,14 @@ public class ApplicationInstance implements Serializable
 	 *   type="varchar"
 	 *   length="80"
 	 */
-	public String getApplicationId ()
+	public String getApplicationId()
 	{
 		return applicationId;
 	}
 
 	/**
 	 */
-	public void setApplicationId (String applicationId)
+	public void setApplicationId(String applicationId)
 	{
 		this.applicationId = applicationId;
 	}
@@ -91,14 +91,14 @@ public class ApplicationInstance implements Serializable
 	 *   type="varchar"
 	 *   length="80"
 	 */
-	public String getName ()
+	public String getName()
 	{
 		return name;
 	}
 
 	/**
 	 */
-	public void setName (String name)
+	public void setName(String name)
 	{
 		this.name = name;
 	}

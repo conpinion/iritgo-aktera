@@ -87,92 +87,92 @@ public class Import extends SecurableStandardLogEnabledModel
 	 * @throws ModelException
 	 *             In case of a business failure.
 	 */
-	public ModelResponse execute (ModelRequest req) throws ModelException
+	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
-		ImportParams params = getImportParams (req);
-		Properties properties = new Properties ();
+		ImportParams params = getImportParams(req);
+		Properties properties = new Properties();
 
-		if (StringTools.isNotTrimEmpty (params.destination))
+		if (StringTools.isNotTrimEmpty(params.destination))
 		{
-			properties.setProperty ("destination", params.destination);
+			properties.setProperty("destination", params.destination);
 		}
 
-		ModelResponse res = req.createResponse ();
+		ModelResponse res = req.createResponse();
 
-		Command cmdBack = res.createCommand (params.backModel);
+		Command cmdBack = res.createCommand(params.backModel);
 
-		cmdBack.setName ("cmdBack");
-		res.add (cmdBack);
+		cmdBack.setName("cmdBack");
+		res.add(cmdBack);
 
-		if ("analyze".equals (params.mode))
+		if ("analyze".equals(params.mode))
 		{
-			if (analyze (req, res, params.fileName, params.handlerId, params.xslt, properties))
+			if (analyze(req, res, params.fileName, params.handlerId, params.xslt, properties))
 			{
-				Properties props = new Properties ();
+				Properties props = new Properties();
 
-				props.put ("file", params.fileName);
+				props.put("file", params.fileName);
 
-				if (StringTools.isNotTrimEmpty (params.destination))
+				if (StringTools.isNotTrimEmpty(params.destination))
 				{
-					props.put ("destination", params.destination);
+					props.put("destination", params.destination);
 				}
 
-				props.put ("backModel", params.backModel);
-				props.put ("handler", params.handlerId);
-				props.put ("xslt", params.xslt);
-				props.put ("importModel", getConfiguration ().getAttribute ("id", "none"));
+				props.put("backModel", params.backModel);
+				props.put("handler", params.handlerId);
+				props.put("xslt", params.xslt);
+				props.put("importModel", getConfiguration().getAttribute("id", "none"));
 
-				return ModelTools.callModel (req, "aktera.import.analyse.report", props);
+				return ModelTools.callModel(req, "aktera.import.analyse.report", props);
 			}
 			else
 			{
-				Command cmdForce = res.createCommand (getConfiguration ().getAttribute ("id", "none"));
+				Command cmdForce = res.createCommand(getConfiguration().getAttribute("id", "none"));
 
-				cmdForce.setName ("cmdForce");
-				cmdForce.setParameter ("file", params.fileName);
+				cmdForce.setName("cmdForce");
+				cmdForce.setParameter("file", params.fileName);
 
-				if (StringTools.isNotTrimEmpty (params.destination))
+				if (StringTools.isNotTrimEmpty(params.destination))
 				{
-					cmdForce.setParameter ("destination", params.destination);
+					cmdForce.setParameter("destination", params.destination);
 				}
 
-				cmdForce.setParameter ("mode", "analyze");
-				cmdForce.setParameter ("force", "Y");
-				cmdForce.setParameter ("backModel", params.backModel);
-				cmdForce.setParameter ("handler", params.handlerId);
-				cmdForce.setParameter ("xslt", params.xslt);
-				res.add (cmdForce);
+				cmdForce.setParameter("mode", "analyze");
+				cmdForce.setParameter("force", "Y");
+				cmdForce.setParameter("backModel", params.backModel);
+				cmdForce.setParameter("handler", params.handlerId);
+				cmdForce.setParameter("xslt", params.xslt);
+				res.add(cmdForce);
 
-				res.setAttribute ("forward", "aktera.import.analyse-report");
+				res.setAttribute("forward", "aktera.import.analyse-report");
 
 				return res;
 			}
 		}
-		else if ("import".equals (params.mode))
+		else if ("import".equals(params.mode))
 		{
-			if (perform (req, res, params.fileName, params.handlerId, params.xslt, properties))
+			if (perform(req, res, params.fileName, params.handlerId, params.xslt, properties))
 			{
-				Properties props = new Properties ();
+				Properties props = new Properties();
 
-				props.put ("backModel", params.backModel);
+				props.put("backModel", params.backModel);
 
-				if (StringTools.isNotTrimEmpty (params.destination))
+				if (StringTools.isNotTrimEmpty(params.destination))
 				{
-					props.put ("destination", params.destination);
+					props.put("destination", params.destination);
 				}
 
-				return ModelTools.callModel (req, "aktera.import.report", props);
+				return ModelTools.callModel(req, "aktera.import.report", props);
 			}
 			else
 			{
-				res.setAttribute ("forward", "aktera.import.report");
+				res.setAttribute("forward", "aktera.import.report");
 
 				return res;
 			}
 		}
 		else
 		{
-			throw new ModelException ("[Import] Unknown import mode '" + params.mode + "'");
+			throw new ModelException("[Import] Unknown import mode '" + params.mode + "'");
 		}
 	}
 
@@ -183,44 +183,44 @@ public class Import extends SecurableStandardLogEnabledModel
 	 *            A model request.
 	 * @return The import parameters.
 	 */
-	private ImportParams getImportParams (ModelRequest req) throws ModelException
+	private ImportParams getImportParams(ModelRequest req) throws ModelException
 	{
-		ImportParams params = new ImportParams ();
+		ImportParams params = new ImportParams();
 
-		params.fileName = StringTools.trim (req.getParameter ("file"));
+		params.fileName = StringTools.trim(req.getParameter("file"));
 
-		if (StringTools.isTrimEmpty (params.fileName))
+		if (StringTools.isTrimEmpty(params.fileName))
 		{
 			params.fileName = "import.data";
 		}
 
-		params.mode = StringTools.trim (req.getParameter ("mode"));
+		params.mode = StringTools.trim(req.getParameter("mode"));
 
-		if (StringTools.isTrimEmpty (params.mode))
+		if (StringTools.isTrimEmpty(params.mode))
 		{
 			params.mode = "analyze";
 		}
 
-		params.destination = (String) req.getParameter ("destination");
+		params.destination = (String) req.getParameter("destination");
 
-		params.handlerId = StringTools.trim (req.getParameterAsString ("handler"));
+		params.handlerId = StringTools.trim(req.getParameterAsString("handler"));
 
-		params.backModel = StringTools.trim (req.getParameterAsString ("backModel"));
+		params.backModel = StringTools.trim(req.getParameterAsString("backModel"));
 
-		if (StringTools.isTrimEmpty (params.backModel))
+		if (StringTools.isTrimEmpty(params.backModel))
 		{
 			params.backModel = "aktera.import.define.edit";
 		}
 
-		params.xslt = StringTools.trim (req.getParameterAsString ("xslt"));
+		params.xslt = StringTools.trim(req.getParameterAsString("xslt"));
 
-		if (StringTools.isTrimEmpty (params.xslt))
+		if (StringTools.isTrimEmpty(params.xslt))
 		{
-			FormularDescriptor form = FormTools.getFormularFromContext (req, "aktera.import.define.edit", - 1);
+			FormularDescriptor form = FormTools.getFormularFromContext(req, "aktera.import.define.edit", - 1);
 
 			if (form != null)
 			{
-				params.xslt = (String) form.getPersistents ().getAttribute ("xslt");
+				params.xslt = (String) form.getPersistents().getAttribute("xslt");
 			}
 		}
 
@@ -234,20 +234,20 @@ public class Import extends SecurableStandardLogEnabledModel
 	 *            The xml document.
 	 * @return The import node (null if none was found).
 	 */
-	protected Node getImportNode (Document doc)
+	protected Node getImportNode(Document doc)
 	{
 		try
 		{
-			XPath xPath = XPathFactory.newInstance ().newXPath ();
+			XPath xPath = XPathFactory.newInstance().newXPath();
 
-			Node node = (Node) xPath.evaluate ("/import", doc, XPathConstants.NODE);
+			Node node = (Node) xPath.evaluate("/import", doc, XPathConstants.NODE);
 
 			if (node != null)
 			{
 				return node;
 			}
 
-			return (Node) xPath.evaluate ("//import", doc, XPathConstants.NODE);
+			return (Node) xPath.evaluate("//import", doc, XPathConstants.NODE);
 		}
 		catch (Exception x)
 		{
@@ -268,43 +268,43 @@ public class Import extends SecurableStandardLogEnabledModel
 	 *            XSLT script used to convert to xml
 	 * @throws ModelException
 	 */
-	protected void convertToXml (ModelRequest request, String fileName, String xslt)
+	protected void convertToXml(ModelRequest request, String fileName, String xslt)
 		throws IOException, javax.xml.transform.TransformerConfigurationException,
 		javax.xml.transform.TransformerException, ModelException
 	{
-		ImportManager im = (ImportManager) request.getSpringBean (ImportManager.ID);
+		ImportManager im = (ImportManager) request.getSpringBean(ImportManager.ID);
 
-		if (im.validateXmlFile (new File (fileName)))
+		if (im.validateXmlFile(new File(fileName)))
 		{
 			return;
 		}
 
-		if (StringTools.isTrimEmpty (xslt))
+		if (StringTools.isTrimEmpty(xslt))
 		{
 			return;
 		}
 
-		File orgFile = new File (fileName);
-		File tmpFile = new File (fileName + ".tmp");
+		File orgFile = new File(fileName);
+		File tmpFile = new File(fileName + ".tmp");
 
-		SystemTools.startAndWaitAkteraProcess ("/usr/bin/dos2unix", orgFile.getCanonicalPath ());
+		SystemTools.startAndWaitAkteraProcess("/usr/bin/dos2unix", orgFile.getCanonicalPath());
 
-		SystemTools.startAndWaitAkteraProcess ("/usr/bin/csv2xml", "-r import -d ; -i " + orgFile.getCanonicalPath ()
-						+ " -o " + tmpFile.getCanonicalPath ());
+		SystemTools.startAndWaitAkteraProcess("/usr/bin/csv2xml", "-r import -d ; -i " + orgFile.getCanonicalPath()
+						+ " -o " + tmpFile.getCanonicalPath());
 
-		String xslFileName = System.getProperty ("keel.config.dir") + "/../resources/csv2xml/" + xslt + ".xsl";
+		String xslFileName = System.getProperty("keel.config.dir") + "/../resources/csv2xml/" + xslt + ".xsl";
 
-		javax.xml.transform.TransformerFactory tFactory = javax.xml.transform.TransformerFactory.newInstance ();
+		javax.xml.transform.TransformerFactory tFactory = javax.xml.transform.TransformerFactory.newInstance();
 
-		javax.xml.transform.Source stylesheet = new javax.xml.transform.stream.StreamSource (xslFileName);
+		javax.xml.transform.Source stylesheet = new javax.xml.transform.stream.StreamSource(xslFileName);
 
-		javax.xml.transform.Transformer transformer = tFactory.newTransformer (stylesheet);
+		javax.xml.transform.Transformer transformer = tFactory.newTransformer(stylesheet);
 
-		transformer.transform (new javax.xml.transform.stream.StreamSource (tmpFile.getCanonicalPath ()),
-						new javax.xml.transform.stream.StreamResult (new java.io.FileOutputStream (orgFile
-										.getCanonicalPath ())));
+		transformer.transform(new javax.xml.transform.stream.StreamSource(tmpFile.getCanonicalPath()),
+						new javax.xml.transform.stream.StreamResult(new java.io.FileOutputStream(orgFile
+										.getCanonicalPath())));
 
-		tmpFile.delete ();
+		tmpFile.delete();
 	}
 
 	/**
@@ -325,125 +325,125 @@ public class Import extends SecurableStandardLogEnabledModel
 	 * @return False if the import wasn't started because of an existing lock
 	 *         file.
 	 */
-	protected boolean analyze (final ModelRequest req, ModelResponse res, final String fileName,
-					final String handlerId, String xslt, final Properties properties) throws ModelException
+	protected boolean analyze(final ModelRequest req, ModelResponse res, final String fileName, final String handlerId,
+					String xslt, final Properties properties) throws ModelException
 	{
-		final I18N i18n = (I18N) req.getSpringBean (I18N.ID);
-		final ImportManager im = (ImportManager) req.getSpringBean (ImportManager.ID);
+		final I18N i18n = (I18N) req.getSpringBean(I18N.ID);
+		final ImportManager im = (ImportManager) req.getSpringBean(ImportManager.ID);
 
-		FileTools.newAkteraFile ("/var/tmp/iritgo").mkdirs ();
+		FileTools.newAkteraFile("/var/tmp/iritgo").mkdirs();
 
-		final File lockFile = FileTools.newAkteraFile ("/var/tmp/iritgo/import.lck");
+		final File lockFile = FileTools.newAkteraFile("/var/tmp/iritgo/import.lck");
 
-		if ("Y".equals (req.getParameter ("force")))
+		if ("Y".equals(req.getParameter("force")))
 		{
-			lockFile.delete ();
+			lockFile.delete();
 		}
 
-		if (lockFile.exists ())
+		if (lockFile.exists())
 		{
 			return false;
 		}
 
 		try
 		{
-			lockFile.createNewFile ();
+			lockFile.createNewFile();
 
-			File reportFile = FileTools.newAkteraFile ("/var/tmp/iritgo/import-report.txt");
+			File reportFile = FileTools.newAkteraFile("/var/tmp/iritgo/import-report.txt");
 
-			reportFile.delete ();
-			reportFile.createNewFile ();
+			reportFile.delete();
+			reportFile.createNewFile();
 
-			final PrintWriter reporter = new PrintWriter (new FileOutputStream (reportFile), true);
+			final PrintWriter reporter = new PrintWriter(new FileOutputStream(reportFile), true);
 
-			convertToXml (req, fileName, xslt);
+			convertToXml(req, fileName, xslt);
 
-			if (im.validateXmlFile (new File (fileName)))
+			if (im.validateXmlFile(new File(fileName)))
 			{
-				new Thread ()
+				new Thread()
 				{
-					public void run ()
+					public void run()
 					{
 						boolean ok = true;
 
 						try
 						{
-							File file = new File (fileName);
-							Document doc = DocumentBuilderFactory.newInstance ().newDocumentBuilder ().parse (
-											"file://" + file.getAbsolutePath ());
+							File file = new File(fileName);
+							Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(
+											"file://" + file.getAbsolutePath());
 
-							if (doc.getChildNodes ().getLength () > 0)
+							if (doc.getChildNodes().getLength() > 0)
 							{
-								XPath xPath = XPathFactory.newInstance ().newXPath ();
-								Node importElem = (Node) xPath.evaluate ("import", doc, XPathConstants.NODE);
+								XPath xPath = XPathFactory.newInstance().newXPath();
+								Node importElem = (Node) xPath.evaluate("import", doc, XPathConstants.NODE);
 
 								if (importElem != null)
 								{
-									reporter.println (i18n.msg (req, "Aktera", "startingImportAnalysis"));
-									ok = im.analyzeImport (req, doc, importElem, reporter, i18n, handlerId, properties);
+									reporter.println(i18n.msg(req, "Aktera", "startingImportAnalysis"));
+									ok = im.analyzeImport(req, doc, importElem, reporter, i18n, handlerId, properties);
 								}
 								else
 								{
-									reporter.println (i18n.msg (req, "AkteraImporter",
-													"importErrorNoImportRootNodeFound"));
+									reporter.println(i18n
+													.msg(req, "AkteraImporter", "importErrorNoImportRootNodeFound"));
 								}
 							}
 							else
 							{
-								reporter.println (i18n.msg (req, "AkteraImporter", "importErrorNoImportRootNodeFound"));
+								reporter.println(i18n.msg(req, "AkteraImporter", "importErrorNoImportRootNodeFound"));
 							}
 						}
 						catch (ParserConfigurationException x)
 						{
-							reporter.println (i18n.msg (req, "Aktera", "importError", x.toString ()));
+							reporter.println(i18n.msg(req, "Aktera", "importError", x.toString()));
 						}
 						catch (SAXException x)
 						{
-							reporter.println (i18n.msg (req, "Aktera", "importError", x.toString ()));
+							reporter.println(i18n.msg(req, "Aktera", "importError", x.toString()));
 						}
 						catch (IOException x)
 						{
-							reporter.println (i18n.msg (req, "Aktera", "importError", x.toString ()));
+							reporter.println(i18n.msg(req, "Aktera", "importError", x.toString()));
 						}
 						catch (XPathExpressionException x)
 						{
-							reporter.println (i18n.msg (req, "Aktera", "importError", x.toString ()));
+							reporter.println(i18n.msg(req, "Aktera", "importError", x.toString()));
 						}
 						catch (ModelException x)
 						{
-							reporter.println (i18n.msg (req, "Aktera", "importError", x.toString ()));
+							reporter.println(i18n.msg(req, "Aktera", "importError", x.toString()));
 						}
 
-						reporter.println (i18n.msg (req, "Aktera", "finishedImportAnalysis"));
-						reporter.println ();
-						reporter.println (i18n.msg (req, "Aktera", "reportFileResult", (ok ? "OK" : "ERROR")));
+						reporter.println(i18n.msg(req, "Aktera", "finishedImportAnalysis"));
+						reporter.println();
+						reporter.println(i18n.msg(req, "Aktera", "reportFileResult", (ok ? "OK" : "ERROR")));
 
-						reporter.close ();
-						lockFile.delete ();
+						reporter.close();
+						lockFile.delete();
 					}
-				}.start ();
+				}.start();
 			}
 			else
 			{
-				reporter.println (i18n.msg (req, "Aktera", "importFileDoesntContainImportElement"));
-				reporter.println ();
-				reporter.println (i18n.msg (req, "Aktera", "reportFileResult", "ERROR"));
-				reporter.close ();
-				lockFile.delete ();
+				reporter.println(i18n.msg(req, "Aktera", "importFileDoesntContainImportElement"));
+				reporter.println();
+				reporter.println(i18n.msg(req, "Aktera", "reportFileResult", "ERROR"));
+				reporter.close();
+				lockFile.delete();
 			}
 		}
 		catch (Exception x)
 		{
 			try
 			{
-				File reportFile = FileTools.newAkteraFile ("/var/tmp/iritgo/import-report.txt");
-				PrintWriter out = new PrintWriter (reportFile);
+				File reportFile = FileTools.newAkteraFile("/var/tmp/iritgo/import-report.txt");
+				PrintWriter out = new PrintWriter(reportFile);
 
-				out.println (i18n.msg (req, "Aktera", "importError", x.toString ()));
-				out.println ();
-				out.println (i18n.msg (req, "Aktera", "reportFileResult", "ERROR"));
-				out.close ();
-				lockFile.delete ();
+				out.println(i18n.msg(req, "Aktera", "importError", x.toString()));
+				out.println();
+				out.println(i18n.msg(req, "Aktera", "reportFileResult", "ERROR"));
+				out.close();
+				lockFile.delete();
 			}
 			catch (IOException xx)
 			{
@@ -473,114 +473,114 @@ public class Import extends SecurableStandardLogEnabledModel
 	 * @return False if the import wasn't started because of an existing lock
 	 *         file.
 	 */
-	protected boolean perform (final ModelRequest req, ModelResponse res, final String fileName,
-					final String handlerId, String xslt, final Properties properties) throws ModelException
+	protected boolean perform(final ModelRequest req, ModelResponse res, final String fileName, final String handlerId,
+					String xslt, final Properties properties) throws ModelException
 	{
-		final I18N i18n = (I18N) req.getSpringBean (I18N.ID);
-		final ImportManager im = (ImportManager) req.getSpringBean (ImportManager.ID);
+		final I18N i18n = (I18N) req.getSpringBean(I18N.ID);
+		final ImportManager im = (ImportManager) req.getSpringBean(ImportManager.ID);
 
-		FileTools.newAkteraFile ("/var/tmp/iritgo").mkdirs ();
+		FileTools.newAkteraFile("/var/tmp/iritgo").mkdirs();
 
-		final File lockFile = FileTools.newAkteraFile ("/var/tmp/iritgo/import.lck");
+		final File lockFile = FileTools.newAkteraFile("/var/tmp/iritgo/import.lck");
 
-		if (lockFile.exists ())
+		if (lockFile.exists())
 		{
 			return true;
 		}
 
 		try
 		{
-			lockFile.createNewFile ();
+			lockFile.createNewFile();
 
-			File reportFile = FileTools.newAkteraFile ("/var/tmp/iritgo/import-report.txt");
+			File reportFile = FileTools.newAkteraFile("/var/tmp/iritgo/import-report.txt");
 
-			reportFile.delete ();
-			reportFile.createNewFile ();
+			reportFile.delete();
+			reportFile.createNewFile();
 
-			final PrintWriter reporter = new PrintWriter (new FileOutputStream (reportFile), true);
+			final PrintWriter reporter = new PrintWriter(new FileOutputStream(reportFile), true);
 
-			convertToXml (req, fileName, xslt);
+			convertToXml(req, fileName, xslt);
 
-			if (im.validateXmlFile (new File (fileName)))
+			if (im.validateXmlFile(new File(fileName)))
 			{
-				new Thread ()
+				new Thread()
 				{
-					public void run ()
+					public void run()
 					{
 						boolean ok = true;
 						File file = null;
 
 						try
 						{
-							file = new File (fileName);
+							file = new File(fileName);
 
-							Document doc = DocumentBuilderFactory.newInstance ().newDocumentBuilder ().parse (
-											"file://" + file.getAbsolutePath ());
+							Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(
+											"file://" + file.getAbsolutePath());
 
-							XPath xPath = XPathFactory.newInstance ().newXPath ();
+							XPath xPath = XPathFactory.newInstance().newXPath();
 
-							Node importElem = (Node) xPath.evaluate ("import", doc, XPathConstants.NODE);
+							Node importElem = (Node) xPath.evaluate("import", doc, XPathConstants.NODE);
 
-							reporter.println (i18n.msg (req, "Aktera", "startingImport"));
+							reporter.println(i18n.msg(req, "Aktera", "startingImport"));
 
-							ok = im.performImport (req, doc, importElem, reporter, i18n, handlerId, properties);
+							ok = im.performImport(req, doc, importElem, reporter, i18n, handlerId, properties);
 						}
 						catch (ParserConfigurationException x)
 						{
-							reporter.println (i18n.msg (req, "Aktera", "importError", x.toString ()));
+							reporter.println(i18n.msg(req, "Aktera", "importError", x.toString()));
 						}
 						catch (SAXException x)
 						{
-							reporter.println (i18n.msg (req, "Aktera", "importError", x.toString ()));
+							reporter.println(i18n.msg(req, "Aktera", "importError", x.toString()));
 						}
 						catch (IOException x)
 						{
-							reporter.println (i18n.msg (req, "Aktera", "importError", x.toString ()));
+							reporter.println(i18n.msg(req, "Aktera", "importError", x.toString()));
 						}
 						catch (XPathExpressionException x)
 						{
-							reporter.println (i18n.msg (req, "Aktera", "importError", x.toString ()));
+							reporter.println(i18n.msg(req, "Aktera", "importError", x.toString()));
 						}
 						catch (ModelException x)
 						{
-							reporter.println (i18n.msg (req, "Aktera", "importError", x.toString ()));
+							reporter.println(i18n.msg(req, "Aktera", "importError", x.toString()));
 						}
 						finally
 						{
-							lockFile.delete ();
-							file.delete ();
+							lockFile.delete();
+							file.delete();
 						}
 
-						reporter.println (i18n.msg (req, "Aktera", "finishedImport"));
-						reporter.println ();
-						reporter.println (i18n.msg (req, "Aktera", "reportFileResult", (ok ? "OK" : "ERROR")));
+						reporter.println(i18n.msg(req, "Aktera", "finishedImport"));
+						reporter.println();
+						reporter.println(i18n.msg(req, "Aktera", "reportFileResult", (ok ? "OK" : "ERROR")));
 
-						reporter.close ();
+						reporter.close();
 					}
-				}.start ();
+				}.start();
 			}
 			else
 			{
-				reporter.println (i18n.msg (req, "Aktera", "importFileDoesntContainImportElement"));
-				reporter.println ();
-				reporter.println (i18n.msg (req, "Aktera", "reportFileResult", "ERROR"));
-				reporter.close ();
-				lockFile.delete ();
+				reporter.println(i18n.msg(req, "Aktera", "importFileDoesntContainImportElement"));
+				reporter.println();
+				reporter.println(i18n.msg(req, "Aktera", "reportFileResult", "ERROR"));
+				reporter.close();
+				lockFile.delete();
 			}
 		}
 		catch (Exception x)
 		{
 			try
 			{
-				lockFile.delete ();
+				lockFile.delete();
 
-				File reportFile = FileTools.newAkteraFile ("/var/tmp/iritgo/import-report.txt");
-				PrintWriter out = new PrintWriter (reportFile);
+				File reportFile = FileTools.newAkteraFile("/var/tmp/iritgo/import-report.txt");
+				PrintWriter out = new PrintWriter(reportFile);
 
-				out.println (i18n.msg (req, "Aktera", "importError", x.toString ()));
-				out.println ();
-				out.println (i18n.msg (req, "Aktera", "reportFileResult", "ERROR"));
-				out.close ();
+				out.println(i18n.msg(req, "Aktera", "importError", x.toString()));
+				out.println();
+				out.println(i18n.msg(req, "Aktera", "reportFileResult", "ERROR"));
+				out.close();
 			}
 			catch (IOException xx)
 			{

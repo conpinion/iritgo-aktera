@@ -32,7 +32,7 @@ public class ScheduleRepeated extends ScheduleTimes
 	public static final int INDEFINITELY = - 1;
 
 	/** Date on which to execute the job for the first time. */
-	private Date from = new Date ();
+	private Date from = new Date();
 
 	/** Date on which to execute the job for the last time. */
 	private Date until;
@@ -49,7 +49,7 @@ public class ScheduleRepeated extends ScheduleTimes
 	 * @param from The first schedule date
 	 * @return This
 	 */
-	public ScheduleRepeated from (Date from)
+	public ScheduleRepeated from(Date from)
 	{
 		this.from = from;
 
@@ -62,7 +62,7 @@ public class ScheduleRepeated extends ScheduleTimes
 	 * @param last The last schedule date
 	 * @return This
 	 */
-	public ScheduleRepeated until (Date until)
+	public ScheduleRepeated until(Date until)
 	{
 		this.until = until;
 
@@ -75,7 +75,7 @@ public class ScheduleRepeated extends ScheduleTimes
 	 * @param repeat The repetition count
 	 * @return This
 	 */
-	public ScheduleRepeated repeat (int repeat)
+	public ScheduleRepeated repeat(int repeat)
 	{
 		this.count = repeat;
 
@@ -88,7 +88,7 @@ public class ScheduleRepeated extends ScheduleTimes
 	 * @param interval The repetition interval
 	 * @return This
 	 */
-	public ScheduleRepeated interval (int interval)
+	public ScheduleRepeated interval(int interval)
 	{
 		this.interval = 1000 * interval;
 
@@ -100,7 +100,7 @@ public class ScheduleRepeated extends ScheduleTimes
 	 *
 	 * @return The first schedule date
 	 */
-	public Date getFrom ()
+	public Date getFrom()
 	{
 		return from;
 	}
@@ -111,7 +111,7 @@ public class ScheduleRepeated extends ScheduleTimes
 	 * @param from The first schedule date
 	 * @return This
 	 */
-	public void setFrom (Date from)
+	public void setFrom(Date from)
 	{
 		this.from = from;
 	}
@@ -121,7 +121,7 @@ public class ScheduleRepeated extends ScheduleTimes
 	 *
 	 * @return The last schedule date
 	 */
-	public Date getUntil ()
+	public Date getUntil()
 	{
 		return until;
 	}
@@ -132,7 +132,7 @@ public class ScheduleRepeated extends ScheduleTimes
 	 * @param last The last schedule date
 	 * @return This
 	 */
-	public void setUntil (Date until)
+	public void setUntil(Date until)
 	{
 		this.until = until;
 	}
@@ -142,7 +142,7 @@ public class ScheduleRepeated extends ScheduleTimes
 	 *
 	 * @return The repeat count
 	 */
-	public int getCount ()
+	public int getCount()
 	{
 		return count;
 	}
@@ -152,7 +152,7 @@ public class ScheduleRepeated extends ScheduleTimes
 	 *
 	 * @return If the repeat count is indefinitely
 	 */
-	public boolean isIndefinitely ()
+	public boolean isIndefinitely()
 	{
 		return count == INDEFINITELY;
 	}
@@ -163,7 +163,7 @@ public class ScheduleRepeated extends ScheduleTimes
 	 * @param repeat The repetition count
 	 * @return This
 	 */
-	public void setCount (int count)
+	public void setCount(int count)
 	{
 		this.count = count;
 	}
@@ -173,7 +173,7 @@ public class ScheduleRepeated extends ScheduleTimes
 	 *
 	 * @return The repeat interval
 	 */
-	public int getInterval ()
+	public int getInterval()
 	{
 		return interval;
 	}
@@ -184,7 +184,7 @@ public class ScheduleRepeated extends ScheduleTimes
 	 * @param interval The repetition interval
 	 * @return This
 	 */
-	public void setInterval (int interval)
+	public void setInterval(int interval)
 	{
 		this.interval = interval;
 	}

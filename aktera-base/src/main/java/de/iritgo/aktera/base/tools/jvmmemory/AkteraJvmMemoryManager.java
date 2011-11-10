@@ -29,7 +29,7 @@ public interface AkteraJvmMemoryManager
 
 	public static int DATA_CAPTURE_INTERVAL = 60 * 5;
 
-	public void generateGraph (String name, BufferedImage bufferedImage);
+	public void generateGraph(String name, BufferedImage bufferedImage);
 
-	public void setStartTime (int startTime);
+	public void setStartTime(int startTime);
 }

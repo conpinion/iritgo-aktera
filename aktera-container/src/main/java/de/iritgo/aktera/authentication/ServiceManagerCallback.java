@@ -33,12 +33,12 @@ public class ServiceManagerCallback implements Callback, Serializable
 {
 	private ServiceManager myManager;
 
-	public void setServiceManager (ServiceManager newManager)
+	public void setServiceManager(ServiceManager newManager)
 	{
 		myManager = newManager;
 	}
 
-	public ServiceManager getServiceManager ()
+	public ServiceManager getServiceManager()
 	{
 		return myManager;
 	}

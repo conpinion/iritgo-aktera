@@ -41,7 +41,7 @@ public abstract class RowData
 	 *
 	 * @param listing The listing descriptor.
 	 */
-	public RowData (ListingDescriptor listing)
+	public RowData(ListingDescriptor listing)
 	{
 		this.listing = listing;
 	}
@@ -52,7 +52,7 @@ public abstract class RowData
 	 * @param columnName The name of the column (as specified by the column tag)
 	 * @return The column value object
 	 */
-	public Object get (String columnName) throws PersistenceException
+	public Object get(String columnName) throws PersistenceException
 	{
 		return null;
 	}
@@ -65,7 +65,7 @@ public abstract class RowData
 	 * @throws PersistenceException If an unknown column name was specified or
 	 *   an error occurred during data retrieval.
 	 */
-	public String getString (String columnName) throws PersistenceException
+	public String getString(String columnName) throws PersistenceException
 	{
 		return null;
 	}
@@ -78,7 +78,7 @@ public abstract class RowData
 	 * @throws PersistenceException If an unknown column name was specified or
 	 *   an error occurred during data retrieval.
 	 */
-	public int getInt (String columnName) throws PersistenceException
+	public int getInt(String columnName) throws PersistenceException
 	{
 		return 0;
 	}
@@ -91,7 +91,7 @@ public abstract class RowData
 	 * @throws PersistenceException If an unknown column name was specified or
 	 *   an error occurred during data retrieval.
 	 */
-	public long getLong (String columnName) throws PersistenceException
+	public long getLong(String columnName) throws PersistenceException
 	{
 		return 0;
 	}
@@ -104,7 +104,7 @@ public abstract class RowData
 	 * @throws PersistenceException If an unknown column name was specified or
 	 *   an error occurred during data retrieval.
 	 */
-	public float getFloat (String columnName) throws PersistenceException
+	public float getFloat(String columnName) throws PersistenceException
 	{
 		return 0;
 	}
@@ -117,7 +117,7 @@ public abstract class RowData
 	 * @throws PersistenceException If an unknown column name was specified or
 	 *   an error occurred during data retrieval.
 	 */
-	public Time getTime (String columnName) throws PersistenceException
+	public Time getTime(String columnName) throws PersistenceException
 	{
 		return null;
 	}
@@ -130,7 +130,7 @@ public abstract class RowData
 	 * @throws PersistenceException If an unknown column name was specified or
 	 *   an error occurred during data retrieval.
 	 */
-	public Date getDate (String columnName) throws PersistenceException
+	public Date getDate(String columnName) throws PersistenceException
 	{
 		return null;
 	}
@@ -143,7 +143,7 @@ public abstract class RowData
 	 * @throws PersistenceException If an unknown column name was specified or
 	 *   an error occurred during data retrieval.
 	 */
-	public Timestamp getTimestamp (String columnName) throws PersistenceException
+	public Timestamp getTimestamp(String columnName) throws PersistenceException
 	{
 		return null;
 	}

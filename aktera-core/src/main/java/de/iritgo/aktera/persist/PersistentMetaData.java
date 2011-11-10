@@ -54,30 +54,30 @@ public interface PersistentMetaData
 	 * @return String The default value for this field.
 	 * @throws PersistenceException If there is no such field.
 	 */
-	public String getDefaultValue (String fieldName) throws PersistenceException;
+	public String getDefaultValue(String fieldName) throws PersistenceException;
 
 	/**
 	 * Return a set of relation names, where each relation is a "detail" relationship
 	 * between this persistent and another.
 	 */
-	public Set getDetailNames ();
+	public Set getDetailNames();
 
 	/**
 	 * Get a specific Relation object which describes a relationship involving this persistent
 	 */
-	public Relation getRelation (String relationName);
+	public Relation getRelation(String relationName);
 
 	/**
 	 * Get the set of all Relation names associated with this persistent.
 	 */
-	public Set getRelationNames ();
+	public Set getRelationNames();
 
 	/**
 	 * Determine if the specified field may contain null.
 	 * @return True if the field may be null, false if it may not
 	 * @throws PersistenceException If there is no such field in this persistent
 	 */
-	public boolean allowsNull (String fieldName) throws PersistenceException;
+	public boolean allowsNull(String fieldName) throws PersistenceException;
 
 	/**
 	 * Get a named "attribute" of this field from the setup meta-data for the
@@ -91,21 +91,21 @@ public interface PersistentMetaData
 	 * necessarily.
 	 * @throws PersistenceException If there is no such field, or no such attribute.
 	 */
-	public Object getAttribute (String fieldName, String attribName) throws PersistenceException;
+	public Object getAttribute(String fieldName, String attribName) throws PersistenceException;
 
 	/**
 	 * Return the current object's character set
 	 *
 	 * @return A string representing this Persistent's character set.
 	 */
-	public String getCharset ();
+	public String getCharset();
 
 	/**
 	 * Return a description of this Persistent.
 	 *
 	 * @return A string describing this Persistent
 	 */
-	public String getDescription ();
+	public String getDescription();
 
 	/**
 	 * Return the description of a field
@@ -114,7 +114,7 @@ public interface PersistentMetaData
 	 * @return    String The description of the field
 	 * @throws    PersistenceException If there is no such field
 	 */
-	public String getDescription (String fieldName) throws PersistenceException;
+	public String getDescription(String fieldName) throws PersistenceException;
 
 	/**
 	 * Get a set of all of the fields in this object.
@@ -122,7 +122,7 @@ public interface PersistentMetaData
 	 * @return    A Set of all of the field names in this object
 	 * @throws    PersistenceException If the list cannot be retrieved
 	 */
-	public Set getFieldNames ();
+	public Set getFieldNames();
 
 	/**
 	 * Get the name of the field in the actual database, that is, the name to be
@@ -132,14 +132,14 @@ public interface PersistentMetaData
 	 * @return The actual name of the field as a column in the underlying
 	 * database.
 	 */
-	public String getDatabaseName (String fieldName) throws PersistenceException;
+	public String getDatabaseName(String fieldName) throws PersistenceException;
 
 	/**
 	 * Get a list of all of the names of the key fields in this object
 	 *
 	 * @return    An Set of all of the names of the key fields
 	 */
-	public Set getKeyFieldNames ();
+	public Set getKeyFieldNames();
 
 	/**
 	 * Determine if the specified field participates in the primary key for this
@@ -148,13 +148,13 @@ public interface PersistentMetaData
 	 * @return boolean True if the field is one of the primary key fields, false if
 	 * it is not.
 	 */
-	public boolean isKeyField (String fieldName);
+	public boolean isKeyField(String fieldName);
 
 	/**
 	 * Return the maximum length of the specified field, if any maximum is configured. Return 0 if no maximum is configured.
 	 * @throws PersistenceException If no such field exists
 	 */
-	public int getLength (String fieldName) throws PersistenceException;
+	public int getLength(String fieldName) throws PersistenceException;
 
 	/**
 	 * Return the precision of the specified field, if any precision is configured. Return 0 if none is specified
@@ -163,7 +163,7 @@ public interface PersistentMetaData
 	 * @throws PersistenceException If the field does not exist in this Persistent
 	 * @return The precision of the specified field
 	 */
-	public int getPrecision (String fieldName) throws PersistenceException;
+	public int getPrecision(String fieldName) throws PersistenceException;
 
 	/**
 	 * Get a field's lookup object - this is the name of another Persistent
@@ -174,7 +174,7 @@ public interface PersistentMetaData
 	 * @return The name of the lookup object, if any
 	 * @throws PersistenceException If the specified field does not exist.
 	 */
-	public String getLookupObject (String fieldName) throws PersistenceException;
+	public String getLookupObject(String fieldName) throws PersistenceException;
 
 	/**
 	 * Added by Santanu Dutt
@@ -184,7 +184,7 @@ public interface PersistentMetaData
 	 * @return The name of the lookup field
 	 * @throws PersistenceException If the specified field does not exist.
 	 */
-	public String getLookupField (String fieldName) throws PersistenceException;
+	public String getLookupField(String fieldName) throws PersistenceException;
 
 	/**
 	 * Added by Santanu Dutt
@@ -193,20 +193,20 @@ public interface PersistentMetaData
 	 * @param fieldName
 	 * @throws PersistenceException If the specified field does not exist.
 	 */
-	public String getLookupFieldDisplay (String fieldName) throws PersistenceException;
+	public String getLookupFieldDisplay(String fieldName) throws PersistenceException;
 
 	/**
 	 * Get the name of this object
 	 *
 	 * @return    String The Persistent object name. Often (but NOT always) the same as the table name in the database
 	 */
-	public String getName ();
+	public String getName();
 
 	/**
 	 * The name of the actual table (if a relational database) that stores this
 	 * Persistent.
 	 */
-	public String getTableName ();
+	public String getTableName();
 
 	/**
 	 * Return the name of the Java type of a field - this is the "internal" type of this field, not the type
@@ -216,7 +216,7 @@ public interface PersistentMetaData
 	 * @return    String: The type of the field
 	 * @throws    PersistenceException If there is no such field in this object
 	 */
-	public String getType (String fieldName) throws PersistenceException;
+	public String getType(String fieldName) throws PersistenceException;
 
 	/**
 	 * Retrieve the database storage type of the specified field.
@@ -225,19 +225,19 @@ public interface PersistentMetaData
 	 * @return String The database-specific type name
 	 * @throws PersistenceException If there is no such field
 	 */
-	public String getDBType (String fieldName) throws PersistenceException;
+	public String getDBType(String fieldName) throws PersistenceException;
 
 	/**
 	 * Return an Set of the names of each of the indicies defined on this table
 	 * on this table
 	 */
-	public Set getIndicies ();
+	public Set getIndicies();
 
 	/**
 	 * Return the set of field names indexed by the named index.
 	 * @throws PersistenceException If there is no index with the given name
 	 */
-	public Set getIndexedFields (String indexName) throws PersistenceException;
+	public Set getIndexedFields(String indexName) throws PersistenceException;
 
 	/**
 	 * This method will return a boolean true if the field is defined in the Persistent
@@ -246,7 +246,7 @@ public interface PersistentMetaData
 	 * @return boolean
 	 * @param fieldName Name of the field to be tested for
 	 */
-	public boolean hasField (String fieldName);
+	public boolean hasField(String fieldName);
 
 	/**
 	 * Method called to determine if a particular field is multi-valued,
@@ -256,7 +256,7 @@ public interface PersistentMetaData
 	 * @return    boolean True if the field is multi-valued, false if not
 	 * @throws    PersistenceException If there is no such field
 	 */
-	public boolean isMultiValued (String fieldName) throws PersistenceException;
+	public boolean isMultiValued(String fieldName) throws PersistenceException;
 
 	/**
 	 * Is a given field readOnly - these fields are not offered for entry
@@ -266,7 +266,7 @@ public interface PersistentMetaData
 	 * @return True of the field is "read only", false if it is not
 	 * @throws PersistenceException Ff there is no such field
 	 */
-	public boolean isReadOnly (String fieldName) throws PersistenceException;
+	public boolean isReadOnly(String fieldName) throws PersistenceException;
 
 	/**
 	 * Is a given field 'hidden' - these fields are not shown
@@ -278,30 +278,30 @@ public interface PersistentMetaData
 	 * @return True if the field is 'hidden', false if it is not
 	 * @throws PersistenceException If there is no such field.
 	 */
-	public boolean isHidden (String fieldName) throws PersistenceException;
+	public boolean isHidden(String fieldName) throws PersistenceException;
 
 	/**
 	 * Return the Schema name for this Persistent. This is the part of the name
 	 * before the period in the full name.
 	 *
 	 */
-	public String getSchemaName ();
+	public String getSchemaName();
 
 	/**
 	 * Specify the schema name for this Persistent.
 	 */
-	void setSchemaName (String newName) throws PersistenceException;
+	void setSchemaName(String newName) throws PersistenceException;
 
 	/**
 	 * This is configuration for the underlying Persistent
 	 */
-	void configurePersistent (Configuration newConfig) throws PersistenceException;
+	void configurePersistent(Configuration newConfig) throws PersistenceException;
 
 	/**
 	 * Specify the DatabaseType implementation used for this Persistent.
 	 * @param newType The DatabaseType implementation used for this Persistent.
 	 */
-	public void setDatabaseType (DatabaseType newType);
+	public void setDatabaseType(DatabaseType newType);
 
 	/**
 	 * Return the IdGenerator instance configured for a particular field, if any.
@@ -310,34 +310,34 @@ public interface PersistentMetaData
 	 * for this field, if any. Null if this field is not auto-incremented.
 	 * @throws PersistenceException If there is no such field name.
 	 */
-	public IdGenerator getIdGenerator (String fieldName) throws PersistenceException;
+	public IdGenerator getIdGenerator(String fieldName) throws PersistenceException;
 
 	/**
 	 * Return the name of the DatabaseType implementation configured for this
 	 * Persistent.
 	 * @return DatabaseType A name of a DatabaseType implementation.
 	 */
-	public DatabaseType getDatabaseType ();
+	public DatabaseType getDatabaseType();
 
 	/**
 	 * Return true if we are collecting Cache statistics for this Persistent.
 	 * @return boolean True if statistics are being collected, false if not.
 	 */
-	public boolean collectStatistics ();
+	public boolean collectStatistics();
 
 	/**
 	 * Get the size of the cache (in elements) used for this Persistent. Zero
 	 * indicates no caching is performed.
 	 * @return int Size of the cache in number of elements.
 	 */
-	public int getCacheSize ();
+	public int getCacheSize();
 
 	/**
 	 * Get the name of the class defined as a "Helper" for this Persistent, if any.
 	 * @return String The full classname of the Helper class. Null if no helper is
 	 * specified.
 	 */
-	public String getHelperClassName ();
+	public String getHelperClassName();
 
 	/**
 	 * Determine if a specified field is automatically incremented in value as
@@ -348,20 +348,20 @@ public interface PersistentMetaData
 	 * False if it is not auto-incremented.
 	 * @throws PersistenceException If there is no such field.
 	 */
-	public boolean isAutoIncremented (String fieldName) throws PersistenceException;
+	public boolean isAutoIncremented(String fieldName) throws PersistenceException;
 
 	/**
 	 * Get the name of this field as it is stored in the database (the column
 	 * name), actually used in SQL.
 	 * @throws PersistenceException If there is no such field
 	 */
-	public String getDBFieldName (String fieldName) throws PersistenceException;
+	public String getDBFieldName(String fieldName) throws PersistenceException;
 
 	/**
 	 * Return the valid expression pattern (pre-compiled) for the named field, if any.
 	 * @throws PersistenceException If there is no such field
 	 */
-	public Pattern getPattern (String fieldName) throws PersistenceException;
+	public Pattern getPattern(String fieldName) throws PersistenceException;
 
 	/**
 	 * Checks to make sure that the fieldName is valid, and then checks to make
@@ -372,7 +372,7 @@ public interface PersistentMetaData
 	 * @return boolean
 	 * @throws PersistenceException If there is no such field
 	 */
-	public boolean hasListValidValues (String fieldName) throws PersistenceException;
+	public boolean hasListValidValues(String fieldName) throws PersistenceException;
 
 	/**
 	 * Returns a map of Valid values (id/description pairs). This method
@@ -392,7 +392,7 @@ public interface PersistentMetaData
 	 * @return Map
 	 * @throws PersistenceException
 	 */
-	public Map getListValidValues (String fieldName) throws PersistenceException;
+	public Map getListValidValues(String fieldName) throws PersistenceException;
 
 	/**
 	 * Determine if the specified field is stored in an encrypted format.
@@ -401,28 +401,28 @@ public interface PersistentMetaData
 	 * @return boolean True if the field is specified as encrypted, false otherwise
 	 * @throws PersistenceException If there is no such field.
 	 */
-	public boolean isEncrypted (String fieldName) throws PersistenceException;
+	public boolean isEncrypted(String fieldName) throws PersistenceException;
 
 	/**
 	 * The Persistent factory (only) hands this PersistentMetaData it's data source component, which it
 	 * passes on as needed to the Persistent objects themselves. Only visible
 	 * within the package.
 	 */
-	void setDataSource (DataSourceComponent newSource) throws PersistenceException;
+	void setDataSource(DataSourceComponent newSource) throws PersistenceException;
 
 	/**
 	 * Return the DataSourceComponent used for this Persistent. Only visible within
 	 * the package.
 	 * @return DataSourceComponent The DataSourceComponent used for this Persistent.
 	 */
-	DataSourceComponent getDataSource ();
+	DataSourceComponent getDataSource();
 
 	/**
 	 * If the Persistent has been defined as having a specific "page size" (for
 	 * display in listings), return the specified size.
 	 * @return int The page size configured for this Persistent.
 	 */
-	public int getPageSize ();
+	public int getPageSize();
 
 	/**
 	 * Return any special additional attributes configured
@@ -430,7 +430,7 @@ public interface PersistentMetaData
 	 * @param fieldName The name of the field to retrieve the Attribute map for.
 	 * @return A Map of attribute names and values for this field.
 	 */
-	public Map getAttributes (String fieldName) throws PersistenceException;
+	public Map getAttributes(String fieldName) throws PersistenceException;
 
 	/**
 	 * Return a map of declared valid values configured for the named
@@ -438,27 +438,27 @@ public interface PersistentMetaData
 	 * in configuration, or it may dynamically figure them out. Applications
 	 * should call getValidValues from the Persistent object, not this method.
 	 */
-	Map getStaticValidValues (String fieldName) throws PersistenceException;
+	Map getStaticValidValues(String fieldName) throws PersistenceException;
 
 	/**
 	 * A particular persistent may be implemented by a specified class, in which
 	 * case an instance of this class is created when a "create" on this persistent
 	 * is called
 	 */
-	String getClassName ();
+	String getClassName();
 
 	/**
 	 * Specify the PersistentFactory used to create instances of this Persistent.
 	 * @param myFactory The PersistentFactory used to create these Persistent
 	 * objects.
 	 */
-	void setFactory (PersistentFactory myFactory);
+	void setFactory(PersistentFactory myFactory);
 
 	/**
 	 * Return the current PersistentFactory
 	 * @return PersistentFactory
 	 */
-	public PersistentFactory getFactory ();
+	public PersistentFactory getFactory();
 
 	/**
 	 *  Determine   if   the Persistent objects specified by this Meta-data are
@@ -468,16 +468,16 @@ public interface PersistentMetaData
 	 * Added by Santanu Dutt for Securable
 	 * Persistent objects
 	 */
-	public boolean isSecurable ();
+	public boolean isSecurable();
 
-	public boolean isRowSecurable ();
+	public boolean isRowSecurable();
 
 	/**
 	 * If securable, then each peristent can have it's own authorization
 	 * manager
 	 * @return
 	 */
-	public AuthorizationManager getAuthManager ();
+	public AuthorizationManager getAuthManager();
 
 	/**
 	 * Some securable persistents that are also used by the AuthorizationManager
@@ -487,12 +487,12 @@ public interface PersistentMetaData
 	 * But only certain persistents, by using the am-bypass-allowed attr. in
 	 * configuration, are allowed to have auth. bypassed.
 	 */
-	public boolean isAuthManagerBypassAllowed ();
+	public boolean isAuthManagerBypassAllowed();
 
 	/**
 	 * @param oneFieldName
 	 * @return
 	 * @throws PersistenceException
 	 */
-	public Object getAutoIncremented (String oneFieldName) throws PersistenceException;
+	public Object getAutoIncremented(String oneFieldName) throws PersistenceException;
 }

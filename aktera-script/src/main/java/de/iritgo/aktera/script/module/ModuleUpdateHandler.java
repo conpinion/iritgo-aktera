@@ -34,29 +34,29 @@ import java.sql.Connection;
 public class ModuleUpdateHandler extends UpdateHandler
 {
 	@Override
-	public void updateDatabase (ModelRequest req, Logger logger, Connection connection, PersistentFactory pf,
+	public void updateDatabase(ModelRequest req, Logger logger, Connection connection, PersistentFactory pf,
 					ModuleVersion currentVersion, ModuleVersion newVersion) throws Exception
 	{
-		if (currentVersion.between ("0.0.0", "2.1.2"))
+		if (currentVersion.between("0.0.0", "2.1.2"))
 		{
 			// Create the script table.
-			update ("CREATE TABLE script (" + " author varchar(255) NULL," + " code text NULL,"
+			update("CREATE TABLE script (" + " author varchar(255) NULL," + " code text NULL,"
 							+ " copyright varchar(255) NULL," + " description text NULL," + " id int4 NOT NULL,"
 							+ " language varchar(32) NOT NULL," + " name varchar(255) NOT NULL,"
 							+ " displayname varchar(255) NOT NULL," + " version varchar(80) NULL" + ")");
 
-			createAutoIncrement ("Script", 1);
+			createAutoIncrement("Script", 1);
 
-			currentVersion.setVersion ("2.1.2");
+			currentVersion.setVersion("2.1.2");
 		}
 
-		if (currentVersion.lessThan ("2.2.1"))
+		if (currentVersion.lessThan("2.2.1"))
 		{
-			update ("ALTER TABLE Script ADD PRIMARY KEY (id)");
+			update("ALTER TABLE Script ADD PRIMARY KEY (id)");
 
-			createPrimaryKeySequenceFromIdTable ("Script", "id");
+			createPrimaryKeySequenceFromIdTable("Script", "id");
 
-			currentVersion.setVersion ("2.2.1");
+			currentVersion.setVersion("2.2.1");
 		}
 	}
 }

@@ -28,8 +28,8 @@ import de.iritgo.aktera.model.ModelRequest;
  */
 public interface Validation
 {
-	public boolean checkValidation (ModelRequest req, PersistentDescriptor persistentDescriptor,
+	public boolean checkValidation(ModelRequest req, PersistentDescriptor persistentDescriptor,
 					FieldDescriptor fieldDescriptor, String value);
 
-	public String getErrorTextId ();
+	public String getErrorTextId();
 }

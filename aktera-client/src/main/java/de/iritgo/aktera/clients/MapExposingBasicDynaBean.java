@@ -37,12 +37,12 @@ public class MapExposingBasicDynaBean extends BasicDynaBean
 	/**
 	 * @param dynaClass
 	 */
-	public MapExposingBasicDynaBean (DynaClass dynaClass)
+	public MapExposingBasicDynaBean(DynaClass dynaClass)
 	{
-		super (dynaClass);
+		super(dynaClass);
 	}
 
-	public Map getMap ()
+	public Map getMap()
 	{
 		return values;
 	}

@@ -42,7 +42,7 @@ public class AuthorizationManagerImpl implements AuthorizationManager
 	 * @param authorizationDAO
 	 *            The authorization DAO
 	 */
-	public void setAuthorizationDAO (AuthorizationDAO authorizationDAO)
+	public void setAuthorizationDAO(AuthorizationDAO authorizationDAO)
 	{
 		this.authorizationDAO = authorizationDAO;
 	}
@@ -51,7 +51,7 @@ public class AuthorizationManagerImpl implements AuthorizationManager
 	 * @see de.iritgo.aktera.authorization.AuthorizationManager#allowed(de.iritgo.aktera.authorization.Operation,
 	 *      de.iritgo.aktera.authentication.UserEnvironment)
 	 */
-	public boolean allowed (Operation o, UserEnvironment ue) throws AuthorizationException
+	public boolean allowed(Operation o, UserEnvironment ue) throws AuthorizationException
 	{
 		return false;
 	}
@@ -60,7 +60,7 @@ public class AuthorizationManagerImpl implements AuthorizationManager
 	 * @see de.iritgo.aktera.authorization.AuthorizationManager#allowed(de.iritgo.aktera.authorization.Operation,
 	 *      org.apache.avalon.framework.context.Context)
 	 */
-	public boolean allowed (Operation o, Context c) throws AuthorizationException
+	public boolean allowed(Operation o, Context c) throws AuthorizationException
 	{
 		return false;
 	}
@@ -69,7 +69,7 @@ public class AuthorizationManagerImpl implements AuthorizationManager
 	 * @see de.iritgo.aktera.authorization.AuthorizationManager#allowed(java.lang.Object,
 	 *      de.iritgo.aktera.authentication.UserEnvironment)
 	 */
-	public boolean allowed (Object service, UserEnvironment ue) throws AuthorizationException
+	public boolean allowed(Object service, UserEnvironment ue) throws AuthorizationException
 	{
 		return false;
 	}
@@ -78,7 +78,7 @@ public class AuthorizationManagerImpl implements AuthorizationManager
 	 * @see de.iritgo.aktera.authorization.AuthorizationManager#allowed(java.lang.Object,
 	 *      org.apache.avalon.framework.context.Context)
 	 */
-	public boolean allowed (Object service, Context c) throws AuthorizationException
+	public boolean allowed(Object service, Context c) throws AuthorizationException
 	{
 		return false;
 	}
@@ -86,27 +86,27 @@ public class AuthorizationManagerImpl implements AuthorizationManager
 	/**
 	 * @see de.iritgo.aktera.authorization.AuthorizationManager#allowed(java.lang.Object, java.lang.String, de.iritgo.aktera.authentication.UserEnvironment)
 	 */
-	public boolean allowed (Object service, String serviceId, UserEnvironment ue) throws AuthorizationException
+	public boolean allowed(Object service, String serviceId, UserEnvironment ue) throws AuthorizationException
 	{
 		if (service instanceof UIController)
 		{
-			if (ue.getGroups ().contains ("root"))
+			if (ue.getGroups().contains("root"))
 			{
 				return true;
 			}
 
 			UIController controller = (UIController) service;
 
-			switch (controller.getSecurity ())
+			switch (controller.getSecurity())
 			{
 				case NONE:
 					return true;
 
 				case COMPONENT:
-					return checkComponentSecurity (service, ue);
+					return checkComponentSecurity(service, ue);
 
 				case INSTANCE:
-					return checkInstanceSecurity (service, serviceId, ue);
+					return checkInstanceSecurity(service, serviceId, ue);
 
 				case INVOKATION:
 					return false;
@@ -126,16 +126,16 @@ public class AuthorizationManagerImpl implements AuthorizationManager
 	 * @return True if the user is authorized
 	 * @throws AuthorizationException
 	 */
-	private boolean checkComponentSecurity (Object service, UserEnvironment ue) throws AuthorizationException
+	private boolean checkComponentSecurity(Object service, UserEnvironment ue) throws AuthorizationException
 	{
-		for (String group : ue.getGroups ())
+		for (String group : ue.getGroups())
 		{
-			ComponentSecurity security = authorizationDAO.findComponentSecurityById (service.getClass ().getName (),
-							group);
+			ComponentSecurity security = authorizationDAO
+							.findComponentSecurityById(service.getClass().getName(), group);
 
 			if (security != null)
 			{
-				if (security.getOperationsAllowed ().equals ("*"))
+				if (security.getOperationsAllowed().equals("*"))
 				{
 					return true;
 				}
@@ -154,17 +154,17 @@ public class AuthorizationManagerImpl implements AuthorizationManager
 	 * @return True if the user is authorized
 	 * @throws AuthorizationException
 	 */
-	private boolean checkInstanceSecurity (Object service, String serviceId, UserEnvironment ue)
+	private boolean checkInstanceSecurity(Object service, String serviceId, UserEnvironment ue)
 		throws AuthorizationException
 	{
-		for (String group : ue.getGroups ())
+		for (String group : ue.getGroups())
 		{
-			InstanceSecurity security = authorizationDAO.findInstanceSecurityById (service.getClass ().getName (),
+			InstanceSecurity security = authorizationDAO.findInstanceSecurityById(service.getClass().getName(),
 							serviceId, group);
 
 			if (security != null)
 			{
-				if (security.getOperationsAllowed ().equals ("*"))
+				if (security.getOperationsAllowed().equals("*"))
 				{
 					return true;
 				}

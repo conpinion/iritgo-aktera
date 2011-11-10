@@ -38,48 +38,48 @@ import java.util.Iterator;
  */
 public class InformixDatabaseType extends JDBCDatabaseType
 {
-	public void createTable (PersistentMetaData pmd, DataSourceComponent dataSource) throws PersistenceException
+	public void createTable(PersistentMetaData pmd, DataSourceComponent dataSource) throws PersistenceException
 	{
-		if (tableExists (pmd.getTableName (), dataSource))
+		if (tableExists(pmd.getTableName(), dataSource))
 		{
 			// TODO: Read existing table definition, report on differences
-			log.info ("Table " + pmd.getTableName () + " already exists. No action taken");
+			log.info("Table " + pmd.getTableName() + " already exists. No action taken");
 
 			return;
 		}
 
 		Connection myConnection = null;
-		StringBuffer createStatement = new StringBuffer ("");
+		StringBuffer createStatement = new StringBuffer("");
 
 		try
 		{
 			/* Create the table itself
 			 */
-			createStatement = getCreateTableStatement (pmd, dataSource);
-			myConnection = dataSource.getConnection ();
-			log.info ("Running Create:" + createStatement.toString ());
+			createStatement = getCreateTableStatement(pmd, dataSource);
+			myConnection = dataSource.getConnection();
+			log.info("Running Create:" + createStatement.toString());
 
-			Statement s = myConnection.createStatement ();
+			Statement s = myConnection.createStatement();
 
-			s.executeUpdate (createStatement.toString ());
+			s.executeUpdate(createStatement.toString());
 
 			/* If the ALTER TABLE syntax is supported, then
 			 * specify columns
 			 */
-			if (isAlterKeySupported ())
+			if (isAlterKeySupported())
 			{
-				createKeys (pmd, myConnection);
+				createKeys(pmd, myConnection);
 			}
 
 			/* Create indexes as necessary
 			 */
-			createIndices (pmd, myConnection, true);
+			createIndices(pmd, myConnection, true);
 		}
 		catch (Exception e)
 		{
-			log.error ("Error building create statement", e);
-			throw new PersistenceException ("Unable to build/execute create statement '" + createStatement.toString ()
-							+ "' for table '" + pmd.getTableName () + "'", e);
+			log.error("Error building create statement", e);
+			throw new PersistenceException("Unable to build/execute create statement '" + createStatement.toString()
+							+ "' for table '" + pmd.getTableName() + "'", e);
 		}
 		finally
 		{
@@ -87,17 +87,17 @@ public class InformixDatabaseType extends JDBCDatabaseType
 			{
 				if (myConnection != null)
 				{
-					myConnection.close ();
+					myConnection.close();
 				}
 			}
 			catch (SQLException se)
 			{
-				throw new PersistenceException ("Unable to close/release connection", se);
+				throw new PersistenceException("Unable to close/release connection", se);
 			}
 		}
 	}
 
-	protected StringBuffer getCreateTableStatement (PersistentMetaData pmd, DataSourceComponent dataSource)
+	protected StringBuffer getCreateTableStatement(PersistentMetaData pmd, DataSourceComponent dataSource)
 		throws PersistenceException
 	{
 		String fieldName = null;
@@ -105,70 +105,70 @@ public class InformixDatabaseType extends JDBCDatabaseType
 		boolean addComma = false;
 		String identityFieldName = null;
 
-		StringBuffer createStatement = new StringBuffer ("CREATE TABLE ");
+		StringBuffer createStatement = new StringBuffer("CREATE TABLE ");
 
-		createStatement.append (pmd.getTableName () + "(");
+		createStatement.append(pmd.getTableName() + "(");
 
-		StringBuffer oneType = new StringBuffer ("");
+		StringBuffer oneType = new StringBuffer("");
 
-		for (Iterator lf = pmd.getFieldNames ().iterator (); lf.hasNext ();)
+		for (Iterator lf = pmd.getFieldNames().iterator(); lf.hasNext();)
 		{
-			fieldName = (String) lf.next ();
+			fieldName = (String) lf.next();
 
 			if (addComma)
 			{
-				createStatement.append (", ");
+				createStatement.append(", ");
 			}
 
-			if (pmd.isAutoIncremented (fieldName))
+			if (pmd.isAutoIncremented(fieldName))
 			{
-				if (pmd.isKeyField (fieldName) && (identityFieldName == null) && isIdentitySupported ()
-								&& (pmd.getIdGenerator (fieldName) == null))
+				if (pmd.isKeyField(fieldName) && (identityFieldName == null) && isIdentitySupported()
+								&& (pmd.getIdGenerator(fieldName) == null))
 				{
 					identityFieldName = fieldName;
-					createStatement.append (pmd.getDBFieldName (fieldName) + " ");
-					createStatement.append (getCreateIdentitySyntax ());
+					createStatement.append(pmd.getDBFieldName(fieldName) + " ");
+					createStatement.append(getCreateIdentitySyntax());
 				}
-				else if (isSequenceSupported ())
+				else if (isSequenceSupported())
 				{
-					createStatement.append (getCreateSequenceSyntax (fieldName));
+					createStatement.append(getCreateSequenceSyntax(fieldName));
 				}
 				else
 				{
-					createStatement.append (pmd.getDBFieldName (fieldName) + " ");
-					createStatement.append (pmd.getDBType (fieldName));
-					createStatement.append (" not null");
+					createStatement.append(pmd.getDBFieldName(fieldName) + " ");
+					createStatement.append(pmd.getDBType(fieldName));
+					createStatement.append(" not null");
 				}
 			}
 			else
 			{
-				createStatement.append (pmd.getDBFieldName (fieldName) + " ");
-				oneType = new StringBuffer ("");
-				oneType.append (pmd.getDBType (fieldName));
+				createStatement.append(pmd.getDBFieldName(fieldName) + " ");
+				oneType = new StringBuffer("");
+				oneType.append(pmd.getDBType(fieldName));
 
-				if (pmd.getLength (fieldName) != 0)
+				if (pmd.getLength(fieldName) != 0)
 				{
-					oneType.append ("(" + pmd.getLength (fieldName));
+					oneType.append("(" + pmd.getLength(fieldName));
 
-					if (pmd.getPrecision (fieldName) > 0)
+					if (pmd.getPrecision(fieldName) > 0)
 					{
-						oneType.append (", " + pmd.getPrecision (fieldName));
+						oneType.append(", " + pmd.getPrecision(fieldName));
 					}
 
-					oneType.append (")");
+					oneType.append(")");
 				}
 
-				createStatement.append (oneType.toString ());
+				createStatement.append(oneType.toString());
 
-				if (! pmd.allowsNull (fieldName))
+				if (! pmd.allowsNull(fieldName))
 				{
-					createStatement.append (" not null");
+					createStatement.append(" not null");
 				}
 				else
 				{
-					if (useExplicitNull ())
+					if (useExplicitNull())
 					{
-						createStatement.append (" null");
+						createStatement.append(" null");
 					}
 
 					//Added for compatability w/Informix standard?
@@ -181,46 +181,46 @@ public class InformixDatabaseType extends JDBCDatabaseType
 		 * the particular DBType in use doesn't support that syntax.
 		 * In that case, the key is specified as part of the CREATE TABLE syntax
 		 */
-		if (! isAlterKeySupported ())
+		if (! isAlterKeySupported())
 		{
 			short keyCount = 0;
 
 			addComma = false;
 
-			for (Iterator kf = pmd.getKeyFieldNames ().iterator (); kf.hasNext ();)
+			for (Iterator kf = pmd.getKeyFieldNames().iterator(); kf.hasNext();)
 			{
-				fieldName = (String) kf.next ();
+				fieldName = (String) kf.next();
 
-				if (! (pmd.isAutoIncremented (fieldName) && isIdentitySupported ()))
+				if (! (pmd.isAutoIncremented(fieldName) && isIdentitySupported()))
 				{
 					keyCount++;
 
 					if (addComma)
 					{
-						createStatement.append (",");
+						createStatement.append(",");
 					}
 					else
 					{
-						createStatement.append (", PRIMARY KEY (");
+						createStatement.append(", PRIMARY KEY (");
 					}
 
-					createStatement.append (pmd.getDBFieldName (fieldName));
+					createStatement.append(pmd.getDBFieldName(fieldName));
 					addComma = true;
 				}
 			}
 
 			if (keyCount != 0)
 			{
-				createStatement.append (")");
+				createStatement.append(")");
 			}
 
-			if (pmd.getKeyFieldNames ().size () == 0)
+			if (pmd.getKeyFieldNames().size() == 0)
 			{
-				log.warn ("No primary key on table '" + pmd.getTableName () + "'");
+				log.warn("No primary key on table '" + pmd.getTableName() + "'");
 			}
 		}
 
-		createStatement.append (")");
+		createStatement.append(")");
 
 		return createStatement;
 	}
@@ -229,14 +229,14 @@ public class InformixDatabaseType extends JDBCDatabaseType
 	 * Don't say "null" after fields that *do* allow null - just use "not null" on
 	 * fields that *don't* allow it...
 	 */
-	protected boolean useExplicitNull ()
+	protected boolean useExplicitNull()
 	{
 		return false;
 	}
 
 	/* @see de.iritgo.aktera.persist.DatabaseType#isAlterKeySupported()
 	 */
-	public boolean isAlterKeySupported ()
+	public boolean isAlterKeySupported()
 	{
 		return false;
 	}
@@ -244,7 +244,7 @@ public class InformixDatabaseType extends JDBCDatabaseType
 	/*
 	 * @return jkh
 	 */
-	public String getDateTimeSelectFormat ()
+	public String getDateTimeSelectFormat()
 	{
 		return ("yyyy-MM-dd hh:mm:ss");
 	}
@@ -252,7 +252,7 @@ public class InformixDatabaseType extends JDBCDatabaseType
 	/*
 	 * @return jkh
 	 */
-	public String getDateTimeUpdateFormat ()
+	public String getDateTimeUpdateFormat()
 	{
 		return ("yyyy-MM-dd hh:mm:ss");
 	}

@@ -38,7 +38,7 @@ public class Configuration implements org.apache.avalon.framework.configuration.
 	/**
 	 * Create a new Configuration.
 	 */
-	public Configuration ()
+	public Configuration()
 	{
 	}
 
@@ -47,10 +47,10 @@ public class Configuration implements org.apache.avalon.framework.configuration.
 	 *
 	 * @param keelConfig The Keel configuration
 	 */
-	private Configuration (org.apache.avalon.framework.configuration.Configuration keelConfig)
+	private Configuration(org.apache.avalon.framework.configuration.Configuration keelConfig)
 	{
 		this.keelConfig = keelConfig;
-		this.root = keelConfig.getName ();
+		this.root = keelConfig.getName();
 	}
 
 	/**
@@ -58,7 +58,7 @@ public class Configuration implements org.apache.avalon.framework.configuration.
 	 *
 	 * @return The root tag name
 	 */
-	public String getRoot ()
+	public String getRoot()
 	{
 		return root;
 	}
@@ -68,7 +68,7 @@ public class Configuration implements org.apache.avalon.framework.configuration.
 	 *
 	 * @param root The root tag name
 	 */
-	public void setRoot (String root)
+	public void setRoot(String root)
 	{
 		this.root = root;
 	}
@@ -78,17 +78,17 @@ public class Configuration implements org.apache.avalon.framework.configuration.
 	 *
 	 * @return The keel configuration
 	 */
-	private org.apache.avalon.framework.configuration.Configuration getKeelConfig ()
+	private org.apache.avalon.framework.configuration.Configuration getKeelConfig()
 	{
 		if (keelConfig == null)
 		{
 			try
 			{
-				keelConfig = KeelContainer.defaultContainer ().getSystemConfig ().getChild (root);
+				keelConfig = KeelContainer.defaultContainer().getSystemConfig().getChild(root);
 			}
 			catch (ConfigurationException x)
 			{
-				System.out.println ("[Configuration] Error: " + x);
+				System.out.println("[Configuration] Error: " + x);
 			}
 		}
 
@@ -98,118 +98,118 @@ public class Configuration implements org.apache.avalon.framework.configuration.
 	/**
 	 * @see org.apache.avalon.framework.configuration.Configuration#getAttribute(java.lang.String)
 	 */
-	public String getAttribute (String paramName) throws ConfigurationException
+	public String getAttribute(String paramName) throws ConfigurationException
 	{
-		return getKeelConfig ().getAttribute (paramName);
+		return getKeelConfig().getAttribute(paramName);
 	}
 
 	/**
 	 * @see org.apache.avalon.framework.configuration.Configuration#getAttribute(java.lang.String, java.lang.String)
 	 */
-	public String getAttribute (String name, String defaultValue)
+	public String getAttribute(String name, String defaultValue)
 	{
-		return getKeelConfig ().getAttribute (name, defaultValue);
+		return getKeelConfig().getAttribute(name, defaultValue);
 	}
 
 	/**
 	 * @see org.apache.avalon.framework.configuration.Configuration#getAttributeAsBoolean(java.lang.String)
 	 */
-	public boolean getAttributeAsBoolean (String paramName) throws ConfigurationException
+	public boolean getAttributeAsBoolean(String paramName) throws ConfigurationException
 	{
-		return getKeelConfig ().getAttributeAsBoolean (paramName);
+		return getKeelConfig().getAttributeAsBoolean(paramName);
 	}
 
 	/**
 	 * @see org.apache.avalon.framework.configuration.Configuration#getAttributeAsBoolean(java.lang.String, boolean)
 	 */
-	public boolean getAttributeAsBoolean (String name, boolean defaultValue)
+	public boolean getAttributeAsBoolean(String name, boolean defaultValue)
 	{
-		return getKeelConfig ().getAttributeAsBoolean (name, defaultValue);
+		return getKeelConfig().getAttributeAsBoolean(name, defaultValue);
 	}
 
 	/**
 	 * @see org.apache.avalon.framework.configuration.Configuration#getAttributeAsFloat(java.lang.String)
 	 */
-	public float getAttributeAsFloat (String paramName) throws ConfigurationException
+	public float getAttributeAsFloat(String paramName) throws ConfigurationException
 	{
-		return getKeelConfig ().getAttributeAsFloat (paramName);
+		return getKeelConfig().getAttributeAsFloat(paramName);
 	}
 
 	/**
 	 * @see org.apache.avalon.framework.configuration.Configuration#getAttributeAsFloat(java.lang.String, float)
 	 */
-	public float getAttributeAsFloat (String name, float defaultValue)
+	public float getAttributeAsFloat(String name, float defaultValue)
 	{
-		return getKeelConfig ().getAttributeAsFloat (name, defaultValue);
+		return getKeelConfig().getAttributeAsFloat(name, defaultValue);
 	}
 
 	/**
 	 * @see org.apache.avalon.framework.configuration.Configuration#getAttributeAsInteger(java.lang.String)
 	 */
-	public int getAttributeAsInteger (String paramName) throws ConfigurationException
+	public int getAttributeAsInteger(String paramName) throws ConfigurationException
 	{
-		return getKeelConfig ().getAttributeAsInteger (paramName);
+		return getKeelConfig().getAttributeAsInteger(paramName);
 	}
 
 	/**
 	 * @see org.apache.avalon.framework.configuration.Configuration#getAttributeAsInteger(java.lang.String, int)
 	 */
-	public int getAttributeAsInteger (String name, int defaultValue)
+	public int getAttributeAsInteger(String name, int defaultValue)
 	{
-		return getKeelConfig ().getAttributeAsInteger (name, defaultValue);
+		return getKeelConfig().getAttributeAsInteger(name, defaultValue);
 	}
 
 	/**
 	 * @see org.apache.avalon.framework.configuration.Configuration#getAttributeAsLong(java.lang.String)
 	 */
-	public long getAttributeAsLong (String name) throws ConfigurationException
+	public long getAttributeAsLong(String name) throws ConfigurationException
 	{
-		return getKeelConfig ().getAttributeAsLong (name);
+		return getKeelConfig().getAttributeAsLong(name);
 	}
 
 	/**
 	 * @see org.apache.avalon.framework.configuration.Configuration#getAttributeAsLong(java.lang.String, long)
 	 */
-	public long getAttributeAsLong (String name, long defaultValue)
+	public long getAttributeAsLong(String name, long defaultValue)
 	{
-		return getKeelConfig ().getAttributeAsLong (name, defaultValue);
+		return getKeelConfig().getAttributeAsLong(name, defaultValue);
 	}
 
 	/**
 	 * @see org.apache.avalon.framework.configuration.Configuration#getAttributeNames()
 	 */
-	public String[] getAttributeNames ()
+	public String[] getAttributeNames()
 	{
-		return getKeelConfig ().getAttributeNames ();
+		return getKeelConfig().getAttributeNames();
 	}
 
 	/**
 	 * @see org.apache.avalon.framework.configuration.Configuration#getChild(java.lang.String)
 	 */
-	public Configuration getChild (String child)
+	public Configuration getChild(String child)
 	{
-		return new Configuration (getKeelConfig ().getChild (child));
+		return new Configuration(getKeelConfig().getChild(child));
 	}
 
 	/**
 	 * @see org.apache.avalon.framework.configuration.Configuration#getChild(java.lang.String, boolean)
 	 */
-	public Configuration getChild (String child, boolean createNew)
+	public Configuration getChild(String child, boolean createNew)
 	{
-		return new Configuration (getKeelConfig ().getChild (child, createNew));
+		return new Configuration(getKeelConfig().getChild(child, createNew));
 	}
 
 	/**
 	 * @see org.apache.avalon.framework.configuration.Configuration#getChildren()
 	 */
-	public Configuration[] getChildren ()
+	public Configuration[] getChildren()
 	{
-		org.apache.avalon.framework.configuration.Configuration[] keelConfigs = getKeelConfig ().getChildren ();
+		org.apache.avalon.framework.configuration.Configuration[] keelConfigs = getKeelConfig().getChildren();
 		Configuration[] configs = new Configuration[keelConfigs.length];
 
 		for (int i = 0; i < configs.length; ++i)
 		{
-			configs[i] = new Configuration (keelConfigs[i]);
+			configs[i] = new Configuration(keelConfigs[i]);
 		}
 
 		return configs;
@@ -218,14 +218,14 @@ public class Configuration implements org.apache.avalon.framework.configuration.
 	/**
 	 * @see org.apache.avalon.framework.configuration.Configuration#getChildren(java.lang.String)
 	 */
-	public Configuration[] getChildren (String name)
+	public Configuration[] getChildren(String name)
 	{
-		org.apache.avalon.framework.configuration.Configuration[] keelConfigs = getKeelConfig ().getChildren (name);
+		org.apache.avalon.framework.configuration.Configuration[] keelConfigs = getKeelConfig().getChildren(name);
 		Configuration[] configs = new Configuration[keelConfigs.length];
 
 		for (int i = 0; i < configs.length; ++i)
 		{
-			configs[i] = new Configuration (keelConfigs[i]);
+			configs[i] = new Configuration(keelConfigs[i]);
 		}
 
 		return configs;
@@ -234,123 +234,123 @@ public class Configuration implements org.apache.avalon.framework.configuration.
 	/**
 	 * @see org.apache.avalon.framework.configuration.Configuration#getLocation()
 	 */
-	public String getLocation ()
+	public String getLocation()
 	{
-		return getKeelConfig ().getLocation ();
+		return getKeelConfig().getLocation();
 	}
 
 	/**
 	 * @see org.apache.avalon.framework.configuration.Configuration#getName()
 	 */
-	public String getName ()
+	public String getName()
 	{
-		return getKeelConfig ().getName ();
+		return getKeelConfig().getName();
 	}
 
 	/**
 	 * @see org.apache.avalon.framework.configuration.Configuration#getNamespace()
 	 */
-	public String getNamespace () throws ConfigurationException
+	public String getNamespace() throws ConfigurationException
 	{
-		return getKeelConfig ().getNamespace ();
+		return getKeelConfig().getNamespace();
 	}
 
 	/**
 	 * @see org.apache.avalon.framework.configuration.Configuration#getValue()
 	 */
-	public String getValue () throws ConfigurationException
+	public String getValue() throws ConfigurationException
 	{
-		return getKeelConfig ().getValue ();
+		return getKeelConfig().getValue();
 	}
 
 	/**
 	 * @see org.apache.avalon.framework.configuration.Configuration#getValue(java.lang.String)
 	 */
-	public String getValue (String defaultValue)
+	public String getValue(String defaultValue)
 	{
-		return getKeelConfig ().getValue (defaultValue);
+		return getKeelConfig().getValue(defaultValue);
 	}
 
 	/**
 	 * @see org.apache.avalon.framework.configuration.Configuration#getValueAsBoolean()
 	 */
-	public boolean getValueAsBoolean () throws ConfigurationException
+	public boolean getValueAsBoolean() throws ConfigurationException
 	{
-		return getKeelConfig ().getValueAsBoolean ();
+		return getKeelConfig().getValueAsBoolean();
 	}
 
 	/**
 	 * @see org.apache.avalon.framework.configuration.Configuration#getValueAsBoolean(boolean)
 	 */
-	public boolean getValueAsBoolean (boolean defaultValue)
+	public boolean getValueAsBoolean(boolean defaultValue)
 	{
-		return getKeelConfig ().getValueAsBoolean (defaultValue);
+		return getKeelConfig().getValueAsBoolean(defaultValue);
 	}
 
 	/**
 	 * @see org.apache.avalon.framework.configuration.Configuration#getValueAsFloat()
 	 */
-	public float getValueAsFloat () throws ConfigurationException
+	public float getValueAsFloat() throws ConfigurationException
 	{
-		return getKeelConfig ().getValueAsFloat ();
+		return getKeelConfig().getValueAsFloat();
 	}
 
 	/**
 	 * @see org.apache.avalon.framework.configuration.Configuration#getValueAsFloat(float)
 	 */
-	public float getValueAsFloat (float defaultValue)
+	public float getValueAsFloat(float defaultValue)
 	{
-		return getKeelConfig ().getValueAsFloat (defaultValue);
+		return getKeelConfig().getValueAsFloat(defaultValue);
 	}
 
 	/**
 	 * @see org.apache.avalon.framework.configuration.Configuration#getValueAsInteger()
 	 */
-	public int getValueAsInteger () throws ConfigurationException
+	public int getValueAsInteger() throws ConfigurationException
 	{
-		return getKeelConfig ().getValueAsInteger ();
+		return getKeelConfig().getValueAsInteger();
 	}
 
 	/**
 	 * @see org.apache.avalon.framework.configuration.Configuration#getValueAsInteger(int)
 	 */
-	public int getValueAsInteger (int defaultValue)
+	public int getValueAsInteger(int defaultValue)
 	{
-		return getKeelConfig ().getValueAsInteger (defaultValue);
+		return getKeelConfig().getValueAsInteger(defaultValue);
 	}
 
 	/**
 	 * @see org.apache.avalon.framework.configuration.Configuration#getValueAsLong()
 	 */
-	public long getValueAsLong () throws ConfigurationException
+	public long getValueAsLong() throws ConfigurationException
 	{
-		return getKeelConfig ().getValueAsLong ();
+		return getKeelConfig().getValueAsLong();
 	}
 
 	/**
 	 * @see org.apache.avalon.framework.configuration.Configuration#getValueAsLong(long)
 	 */
-	public long getValueAsLong (long defaultValue)
+	public long getValueAsLong(long defaultValue)
 	{
-		return getKeelConfig ().getValueAsLong (defaultValue);
+		return getKeelConfig().getValueAsLong(defaultValue);
 	}
 
-	public double getAttributeAsDouble (String arg0) throws ConfigurationException
-	{
-		return 0;
-	}
-
-	public double getAttributeAsDouble (String arg0, double arg1)
+	public double getAttributeAsDouble(String arg0) throws ConfigurationException
 	{
 		return 0;
 	}
 
-	public double getValueAsDouble () throws ConfigurationException
+	public double getAttributeAsDouble(String arg0, double arg1)
 	{
 		return 0;
 	}
 
-	public double getValueAsDouble (double arg0)
+	public double getValueAsDouble() throws ConfigurationException
+	{
+		return 0;
+	}
+
+	public double getValueAsDouble(double arg0)
 	{
 		return 0;
 	}

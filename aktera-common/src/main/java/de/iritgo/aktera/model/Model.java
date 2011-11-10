@@ -35,7 +35,7 @@ public interface Model
 {
 	public String ROLE = "de.iritgo.aktera.model.Model";
 
-	public ModelResponse execute (ModelRequest request) throws ModelException;
+	public ModelResponse execute(ModelRequest request) throws ModelException;
 
-	public Configuration getConfiguration ();
+	public Configuration getConfiguration();
 }

@@ -32,7 +32,7 @@ public class ScriptCompilerException extends Exception
 	/**
 	 * Initialize a ScriptNotFoundException.
 	 */
-	public ScriptCompilerException ()
+	public ScriptCompilerException()
 	{
 	}
 
@@ -41,9 +41,9 @@ public class ScriptCompilerException extends Exception
 	 *
 	 * @param message The exception message
 	 */
-	public ScriptCompilerException (String message)
+	public ScriptCompilerException(String message)
 	{
-		super (message);
+		super(message);
 	}
 
 	/**
@@ -51,9 +51,9 @@ public class ScriptCompilerException extends Exception
 	 *
 	 * @param cause Original exception
 	 */
-	public ScriptCompilerException (Throwable cause)
+	public ScriptCompilerException(Throwable cause)
 	{
-		super (cause);
+		super(cause);
 	}
 
 	/**
@@ -62,17 +62,17 @@ public class ScriptCompilerException extends Exception
 	 * @param message The exception message
 	 * @param cause Original exception
 	 */
-	public ScriptCompilerException (String message, Throwable cause)
+	public ScriptCompilerException(String message, Throwable cause)
 	{
-		super (message, cause);
+		super(message, cause);
 	}
 
 	/**
 	 * @see java.lang.Throwable#getMessage()
 	 */
 	@Override
-	public String getMessage ()
+	public String getMessage()
 	{
-		return super.getMessage () + "\n" + getCause ().getMessage ();
+		return super.getMessage() + "\n" + getCause().getMessage();
 	}
 }

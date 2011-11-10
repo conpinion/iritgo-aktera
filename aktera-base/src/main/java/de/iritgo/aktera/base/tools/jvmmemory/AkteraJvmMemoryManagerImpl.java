@@ -48,19 +48,19 @@ public class AkteraJvmMemoryManagerImpl implements AkteraJvmMemoryManager, Sched
 
 	private Scheduler scheduler;
 
-	private HashMap<String, AkteraJvmMemoryProbe> probes = new HashMap<String, AkteraJvmMemoryProbe> ();
+	private HashMap<String, AkteraJvmMemoryProbe> probes = new HashMap<String, AkteraJvmMemoryProbe>();
 
 	private int startTime = 1;
 
-	public void schedule (Map parameters)
+	public void schedule(Map parameters)
 	{
-		measurandRound (Util.getTime ());
+		measurandRound(Util.getTime());
 	}
 
 	/**
 	 * @param logger The new logger.
 	 */
-	public void setLogger (Logger logger)
+	public void setLogger(Logger logger)
 	{
 		this.logger = logger;
 	}
@@ -68,7 +68,7 @@ public class AkteraJvmMemoryManagerImpl implements AkteraJvmMemoryManager, Sched
 	/**
 	 * @param scheduler The new scheduler.
 	 */
-	public void setScheduler (Scheduler scheduler)
+	public void setScheduler(Scheduler scheduler)
 	{
 		this.scheduler = scheduler;
 	}
@@ -76,141 +76,141 @@ public class AkteraJvmMemoryManagerImpl implements AkteraJvmMemoryManager, Sched
 	/**
 	 * @see de.iritgo.aktera.startup.StartupHandler#startup()
 	 */
-	public void startup () throws StartupException
+	public void startup() throws StartupException
 	{
 		ModelRequest request = null;
 
-		initRound ();
+		initRound();
 
 		try
 		{
-			request = ModelTools.createModelRequest ();
+			request = ModelTools.createModelRequest();
 
-			logger.info ("Aktera jvm memory monitor started...(Interval: " + DATA_CAPTURE_INTERVAL + ")");
+			logger.info("Aktera jvm memory monitor started...(Interval: " + DATA_CAPTURE_INTERVAL + ")");
 
-			request = ModelTools.createModelRequest ();
-			scheduler.scheduleBean ("AkteraJvmMemoryManager", AkteraJvmMemoryManager.ID, AkteraJvmMemoryManager.ID,
-							null, new ScheduleRepeated ().interval (DATA_CAPTURE_INTERVAL));
+			request = ModelTools.createModelRequest();
+			scheduler.scheduleBean("AkteraJvmMemoryManager", AkteraJvmMemoryManager.ID, AkteraJvmMemoryManager.ID,
+							null, new ScheduleRepeated().interval(DATA_CAPTURE_INTERVAL));
 		}
 		catch (Exception x)
 		{
-			logger.error ("Aktera jvm memory monitor startup error: " + x);
+			logger.error("Aktera jvm memory monitor startup error: " + x);
 		}
 		finally
 		{
-			ModelTools.releaseModelRequest (request);
+			ModelTools.releaseModelRequest(request);
 		}
 	}
 
-	public void initRound ()
+	public void initRound()
 	{
-		long start = Util.getTime ();
+		long start = Util.getTime();
 
-		Iterator iter = ManagementFactory.getMemoryPoolMXBeans ().iterator ();
+		Iterator iter = ManagementFactory.getMemoryPoolMXBeans().iterator();
 
-		while (iter.hasNext ())
+		while (iter.hasNext())
 		{
-			MemoryPoolMXBean item = (MemoryPoolMXBean) iter.next ();
-			String name = item.getName ();
+			MemoryPoolMXBean item = (MemoryPoolMXBean) iter.next();
+			String name = item.getName();
 
 			try
 			{
-				AkteraJvmMemoryProbe probeUsage = new AkteraJvmMemoryProbe (name + "Usage", start, item.getUsage ()
-								.getMax ());
+				AkteraJvmMemoryProbe probeUsage = new AkteraJvmMemoryProbe(name + "Usage", start, item.getUsage()
+								.getMax());
 
-				probeUsage.init (name + "Usage", start);
-				probeUsage.startMeasurand (name + "Usage");
-				probeUsage.measurand ("Init", start, item.getUsage ().getInit ());
-				probeUsage.measurand ("Used", start, item.getUsage ().getUsed ());
-				probeUsage.measurand ("Committed", start, item.getUsage ().getCommitted ());
-				probeUsage.measurand ("Max", start, item.getUsage ().getMax ());
-				probeUsage.commitMeasurand ();
-				probes.put (name + "Usage", probeUsage);
+				probeUsage.init(name + "Usage", start);
+				probeUsage.startMeasurand(name + "Usage");
+				probeUsage.measurand("Init", start, item.getUsage().getInit());
+				probeUsage.measurand("Used", start, item.getUsage().getUsed());
+				probeUsage.measurand("Committed", start, item.getUsage().getCommitted());
+				probeUsage.measurand("Max", start, item.getUsage().getMax());
+				probeUsage.commitMeasurand();
+				probes.put(name + "Usage", probeUsage);
 
-				AkteraJvmMemoryProbe probePeak = new AkteraJvmMemoryProbe (name + "Peak", start, item.getPeakUsage ()
-								.getMax ());
+				AkteraJvmMemoryProbe probePeak = new AkteraJvmMemoryProbe(name + "Peak", start, item.getPeakUsage()
+								.getMax());
 
-				probePeak.init (name + "Peak", start);
-				probePeak.startMeasurand (name + "Peak");
-				probePeak.measurand ("Init", start, item.getPeakUsage ().getInit ());
-				probePeak.measurand ("Used", start, item.getPeakUsage ().getUsed ());
-				probePeak.measurand ("Committed", start, item.getPeakUsage ().getCommitted ());
-				probePeak.measurand ("Max", start, item.getPeakUsage ().getMax ());
-				probePeak.commitMeasurand ();
-				probes.put (name + "Peak", probePeak);
+				probePeak.init(name + "Peak", start);
+				probePeak.startMeasurand(name + "Peak");
+				probePeak.measurand("Init", start, item.getPeakUsage().getInit());
+				probePeak.measurand("Used", start, item.getPeakUsage().getUsed());
+				probePeak.measurand("Committed", start, item.getPeakUsage().getCommitted());
+				probePeak.measurand("Max", start, item.getPeakUsage().getMax());
+				probePeak.commitMeasurand();
+				probes.put(name + "Peak", probePeak);
 
-				if (item.getCollectionUsage () != null)
+				if (item.getCollectionUsage() != null)
 				{
-					AkteraJvmMemoryProbe probeCollection = new AkteraJvmMemoryProbe (name + "Collection", start, item
-									.getCollectionUsage ().getMax ());
+					AkteraJvmMemoryProbe probeCollection = new AkteraJvmMemoryProbe(name + "Collection", start, item
+									.getCollectionUsage().getMax());
 
-					probeCollection.init (name + "Collection", start);
-					probeCollection.startMeasurand (name + "Collection");
-					probeCollection.measurand ("Init", start, item.getCollectionUsage ().getInit ());
-					probeCollection.measurand ("Used", start, item.getCollectionUsage ().getUsed ());
-					probeCollection.measurand ("Committed", start, item.getCollectionUsage ().getCommitted ());
-					probeCollection.measurand ("Max", start, item.getCollectionUsage ().getMax ());
-					probeCollection.commitMeasurand ();
-					probes.put (name + "Collection", probeCollection);
+					probeCollection.init(name + "Collection", start);
+					probeCollection.startMeasurand(name + "Collection");
+					probeCollection.measurand("Init", start, item.getCollectionUsage().getInit());
+					probeCollection.measurand("Used", start, item.getCollectionUsage().getUsed());
+					probeCollection.measurand("Committed", start, item.getCollectionUsage().getCommitted());
+					probeCollection.measurand("Max", start, item.getCollectionUsage().getMax());
+					probeCollection.commitMeasurand();
+					probes.put(name + "Collection", probeCollection);
 				}
 			}
 			catch (IOException x)
 			{
-				logger.debug ("Error: " + x);
+				logger.debug("Error: " + x);
 			}
 		}
 	}
 
-	synchronized public void measurandRound (long time)
+	synchronized public void measurandRound(long time)
 	{
-		Iterator iter = ManagementFactory.getMemoryPoolMXBeans ().iterator ();
+		Iterator iter = ManagementFactory.getMemoryPoolMXBeans().iterator();
 
-		while (iter.hasNext ())
+		while (iter.hasNext())
 		{
-			MemoryPoolMXBean item = (MemoryPoolMXBean) iter.next ();
-			String name = item.getName ();
+			MemoryPoolMXBean item = (MemoryPoolMXBean) iter.next();
+			String name = item.getName();
 
 			try
 			{
-				AkteraJvmMemoryProbe probeUsage = probes.get (name + "Usage");
+				AkteraJvmMemoryProbe probeUsage = probes.get(name + "Usage");
 
 				if (probeUsage != null)
 				{
-					probeUsage.startMeasurand (name + "Usage");
-					probeUsage.measurand ("Init", time, item.getUsage ().getInit ());
-					probeUsage.measurand ("Used", time, item.getUsage ().getUsed ());
-					probeUsage.measurand ("Committed", time, item.getUsage ().getCommitted ());
-					probeUsage.measurand ("Max", time, item.getUsage ().getMax ());
-					probeUsage.commitMeasurand ();
+					probeUsage.startMeasurand(name + "Usage");
+					probeUsage.measurand("Init", time, item.getUsage().getInit());
+					probeUsage.measurand("Used", time, item.getUsage().getUsed());
+					probeUsage.measurand("Committed", time, item.getUsage().getCommitted());
+					probeUsage.measurand("Max", time, item.getUsage().getMax());
+					probeUsage.commitMeasurand();
 				}
 
-				AkteraJvmMemoryProbe probePeak = probes.get (name + "Peak");
+				AkteraJvmMemoryProbe probePeak = probes.get(name + "Peak");
 
 				if (probePeak != null)
 				{
-					probePeak.startMeasurand (name + "Peak");
-					probePeak.measurand ("Init", time, item.getPeakUsage ().getInit ());
-					probePeak.measurand ("Used", time, item.getPeakUsage ().getUsed ());
-					probePeak.measurand ("Committed", time, item.getPeakUsage ().getCommitted ());
-					probePeak.measurand ("Max", time, item.getPeakUsage ().getMax ());
-					probePeak.commitMeasurand ();
+					probePeak.startMeasurand(name + "Peak");
+					probePeak.measurand("Init", time, item.getPeakUsage().getInit());
+					probePeak.measurand("Used", time, item.getPeakUsage().getUsed());
+					probePeak.measurand("Committed", time, item.getPeakUsage().getCommitted());
+					probePeak.measurand("Max", time, item.getPeakUsage().getMax());
+					probePeak.commitMeasurand();
 				}
 
-				AkteraJvmMemoryProbe probeCollection = probes.get (name + "Collection");
+				AkteraJvmMemoryProbe probeCollection = probes.get(name + "Collection");
 
 				if (probeCollection != null)
 				{
-					probeCollection.startMeasurand (name + "Collection");
-					probeCollection.measurand ("Init", time, item.getCollectionUsage ().getInit ());
-					probeCollection.measurand ("Used", time, item.getCollectionUsage ().getUsed ());
-					probeCollection.measurand ("Committed", time, item.getCollectionUsage ().getCommitted ());
-					probeCollection.measurand ("Max", time, item.getCollectionUsage ().getMax ());
-					probeCollection.commitMeasurand ();
+					probeCollection.startMeasurand(name + "Collection");
+					probeCollection.measurand("Init", time, item.getCollectionUsage().getInit());
+					probeCollection.measurand("Used", time, item.getCollectionUsage().getUsed());
+					probeCollection.measurand("Committed", time, item.getCollectionUsage().getCommitted());
+					probeCollection.measurand("Max", time, item.getCollectionUsage().getMax());
+					probeCollection.commitMeasurand();
 				}
 			}
 			catch (IOException x)
 			{
-				x.printStackTrace ();
+				x.printStackTrace();
 			}
 		}
 	}
@@ -218,9 +218,9 @@ public class AkteraJvmMemoryManagerImpl implements AkteraJvmMemoryManager, Sched
 	/**
 	 * @see de.iritgo.aktera.base.tools.jvmmemory.AkteraJvmMemoryManager#generateGraph(java.lang.String)
 	 */
-	public void generateGraph (String name, BufferedImage bufferedImage)
+	public void generateGraph(String name, BufferedImage bufferedImage)
 	{
-		AkteraJvmMemoryProbe probe = probes.get (name);
+		AkteraJvmMemoryProbe probe = probes.get(name);
 
 		if (probe == null)
 		{
@@ -229,15 +229,15 @@ public class AkteraJvmMemoryManagerImpl implements AkteraJvmMemoryManager, Sched
 
 		try
 		{
-			probe.generateGraph (Util.getTime () - (startTime * 60), Util.getTime (), bufferedImage);
+			probe.generateGraph(Util.getTime() - (startTime * 60), Util.getTime(), bufferedImage);
 		}
 		catch (Exception x)
 		{
-			x.printStackTrace ();
+			x.printStackTrace();
 		}
 	}
 
-	public void setStartTime (int startTime)
+	public void setStartTime(int startTime)
 	{
 		this.startTime = startTime;
 	}
@@ -245,8 +245,8 @@ public class AkteraJvmMemoryManagerImpl implements AkteraJvmMemoryManager, Sched
 	/**
 	 * @see de.iritgo.aktera.startup.StartupHandler#shutdown()
 	 */
-	public void shutdown () throws ShutdownException
+	public void shutdown() throws ShutdownException
 	{
-		scheduler.removeAllJobsInGroup (AkteraJvmMemoryManager.ID);
+		scheduler.removeAllJobsInGroup(AkteraJvmMemoryManager.ID);
 	}
 }

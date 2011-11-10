@@ -60,7 +60,7 @@ public class DefaultLoggerFactory implements LoggerFactory, LogEnabled
 
 	private File logConfigFile = null;
 
-	private DefaultLoggerFactory ()
+	private DefaultLoggerFactory()
 	{
 		//Disable access to constructor - this is a singleton
 	}
@@ -68,32 +68,32 @@ public class DefaultLoggerFactory implements LoggerFactory, LogEnabled
 	/**
 	 * @see de.iritgo.aktera.core.log.LoggerFactory#getLoggerForCategory(java.lang.String)
 	 */
-	public Logger getLoggerForCategory (String category)
+	public Logger getLoggerForCategory(String category)
 	{
-		return getLoggerManager ().getLoggerForCategory (category);
+		return getLoggerManager().getLoggerForCategory(category);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.core.log.LoggerFactory#getDefaultLogger()
 	 */
-	public Logger getDefaultLogger ()
+	public Logger getDefaultLogger()
 	{
-		return getLoggerManager ().getDefaultLogger ();
+		return getLoggerManager().getDefaultLogger();
 	}
 
 	/**
 	 * @see org.apache.avalon.framework.logger.LogEnabled#enableLogging(org.apache.avalon.framework.logger.Logger)
 	 */
-	public void enableLogging (Logger logger)
+	public void enableLogging(Logger logger)
 	{
 		this.logger = logger;
 	}
 
-	private LoggerManager getLoggerManager ()
+	private LoggerManager getLoggerManager()
 	{
 		if (loggerManager == null)
 		{
-			loggerManager = findLoggerManager ();
+			loggerManager = findLoggerManager();
 		}
 
 		return loggerManager;
@@ -102,33 +102,33 @@ public class DefaultLoggerFactory implements LoggerFactory, LogEnabled
 	/**
 	 * @return
 	 */
-	private LoggerManager findLoggerManager ()
+	private LoggerManager findLoggerManager()
 	{
-		String logConfigDir = System.getProperty (CONFIG_PROPERTY);
+		String logConfigDir = System.getProperty(CONFIG_PROPERTY);
 
-		if (! logConfigDir.endsWith ("/"))
+		if (! logConfigDir.endsWith("/"))
 		{
 			logConfigDir = logConfigDir + "/";
 		}
 
-		LoggerManager lm = createLogkitLoggerManager (logConfigDir);
+		LoggerManager lm = createLogkitLoggerManager(logConfigDir);
 
 		if (lm == null)
 		{
 			//If a logkit configuration file does not exist, attempt to
 			// use log4j to implement our logging facade
-			System.err.println ("Logkit config file does not exist - trying log4j");
-			lm = createLog4jLoggerManager (logConfigDir);
+			System.err.println("Logkit config file does not exist - trying log4j");
+			lm = createLog4jLoggerManager(logConfigDir);
 		}
 
 		if (lm == null)
 		{
-			throw new RuntimeException ("No configuration file found for logkit or log4j");
+			throw new RuntimeException("No configuration file found for logkit or log4j");
 		}
 
-		Configuration logConfig = getLoggerManagerConfiguration ();
+		Configuration logConfig = getLoggerManagerConfiguration();
 
-		setupLoggerManager (lm, logConfigDir, logConfig);
+		setupLoggerManager(lm, logConfigDir, logConfig);
 
 		return lm;
 	}
@@ -137,49 +137,49 @@ public class DefaultLoggerFactory implements LoggerFactory, LogEnabled
 	 * @param logConfigDir
 	 * @param logConfig
 	 */
-	private void setupLoggerManager (LoggerManager lm, String logConfigDir, Configuration logConfig)
+	private void setupLoggerManager(LoggerManager lm, String logConfigDir, Configuration logConfig)
 	{
-		DefaultContext c = new DefaultContext ();
+		DefaultContext c = new DefaultContext();
 
-		c.put ("current-dir", logConfigDir + "..");
+		c.put("current-dir", logConfigDir + "..");
 
 		try
 		{
-			ContainerUtil.contextualize (lm, c);
-			ContainerUtil.configure (lm, logConfig);
+			ContainerUtil.contextualize(lm, c);
+			ContainerUtil.configure(lm, logConfig);
 		}
 		catch (ConfigurationException e)
 		{
-			throw new RuntimeException ("Error configuring primordial logger-manager", e);
+			throw new RuntimeException("Error configuring primordial logger-manager", e);
 		}
 		catch (ContextException e)
 		{
-			throw new RuntimeException ("Error contextualizing primordial logger-manager", e);
+			throw new RuntimeException("Error contextualizing primordial logger-manager", e);
 		}
 	}
 
 	/**
 	 * @return
 	 */
-	private Configuration getLoggerManagerConfiguration ()
+	private Configuration getLoggerManagerConfiguration()
 	{
 		Configuration logConfig = null;
 
 		try
 		{
-			logConfig = new DefaultConfigurationBuilder ().buildFromFile (logConfigFile);
+			logConfig = new DefaultConfigurationBuilder().buildFromFile(logConfigFile);
 		}
 		catch (ConfigurationException e)
 		{
-			throw new RuntimeException ("Error building primordial logger-manager configuration", e);
+			throw new RuntimeException("Error building primordial logger-manager configuration", e);
 		}
 		catch (SAXException e)
 		{
-			throw new RuntimeException ("Error parsing primordial logger-manager configuration", e);
+			throw new RuntimeException("Error parsing primordial logger-manager configuration", e);
 		}
 		catch (IOException e)
 		{
-			throw new RuntimeException ("Error reading primordial logger-manager configuration", e);
+			throw new RuntimeException("Error reading primordial logger-manager configuration", e);
 		}
 
 		return logConfig;
@@ -190,7 +190,7 @@ public class DefaultLoggerFactory implements LoggerFactory, LogEnabled
 	 * @param lm
 	 * @return
 	 */
-	private LoggerManager createLog4jLoggerManager (String logConfigDir)
+	private LoggerManager createLog4jLoggerManager(String logConfigDir)
 	{
 		//To remain consistent with Keel's configuration practices, we
 		// will NOT rely on log4j's
@@ -199,20 +199,20 @@ public class DefaultLoggerFactory implements LoggerFactory, LogEnabled
 		//If the log4j standard initialization system property is set,
 		// use it
 		LoggerManager lm = null;
-		String logConfigFilename = System.getProperty ("log4j.configuration");
+		String logConfigFilename = System.getProperty("log4j.configuration");
 
-		if (logConfigFilename == null || logConfigFilename.length () < 1)
+		if (logConfigFilename == null || logConfigFilename.length() < 1)
 		{
 			logConfigFilename = LOG4J_FILE_NAME;
 
 			//else default the log4j configuration file name.
 		}
 
-		logConfigFile = new File (logConfigDir + logConfigFilename);
+		logConfigFile = new File(logConfigDir + logConfigFilename);
 
-		if (logConfigFile.exists ())
+		if (logConfigFile.exists())
 		{
-			lm = new Log4JConfLoggerManager ();
+			lm = new Log4JConfLoggerManager();
 		}
 
 		return lm;
@@ -222,17 +222,17 @@ public class DefaultLoggerFactory implements LoggerFactory, LogEnabled
 	 * @param logConfigFile
 	 * @return
 	 */
-	private LoggerManager createLogkitLoggerManager (String logConfigDir)
+	private LoggerManager createLogkitLoggerManager(String logConfigDir)
 	{
 		LoggerManager lm = null;
 		String logConfigFilename = logConfigDir + LOGKIT_FILE_NAME;
 
-		logConfigFile = new File (logConfigFilename);
+		logConfigFile = new File(logConfigFilename);
 
-		if (logConfigFile.exists ())
+		if (logConfigFile.exists())
 		{
 			//Continue with logkit configuration
-			lm = new LogKitLoggerManager (null, new Hierarchy (), new ConsoleLogger (ConsoleLogger.LEVEL_INFO));
+			lm = new LogKitLoggerManager(null, new Hierarchy(), new ConsoleLogger(ConsoleLogger.LEVEL_INFO));
 		}
 		else
 		{
@@ -242,11 +242,11 @@ public class DefaultLoggerFactory implements LoggerFactory, LogEnabled
 		return lm;
 	}
 
-	public static LoggerFactory getInstance ()
+	public static LoggerFactory getInstance()
 	{
 		if (theFactory == null)
 		{
-			theFactory = new DefaultLoggerFactory ();
+			theFactory = new DefaultLoggerFactory();
 		}
 
 		return theFactory;

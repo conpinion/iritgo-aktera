@@ -44,13 +44,13 @@ import de.iritgo.simplelife.tools.*;
 @SuppressWarnings("serial")
 public class AddressGoogleStore extends AddressStore
 {
-	private static Map<String, String> phoneNumberTypes = new HashMap ();
+	private static Map<String, String> phoneNumberTypes = new HashMap();
 
 	static
 	{
-		phoneNumberTypes.put ("http://schemas.google.com/g/2005#work", "B");
-		phoneNumberTypes.put ("http://schemas.google.com/g/2005#mobile", "BM");
-		phoneNumberTypes.put ("http://schemas.google.com/g/2005#home", "P");
+		phoneNumberTypes.put("http://schemas.google.com/g/2005#work", "B");
+		phoneNumberTypes.put("http://schemas.google.com/g/2005#mobile", "BM");
+		phoneNumberTypes.put("http://schemas.google.com/g/2005#home", "P");
 	}
 
 	/** The server URL */
@@ -69,26 +69,26 @@ public class AddressGoogleStore extends AddressStore
 	private String authPassword;
 
 	@Override
-	public void init ()
+	public void init()
 	{
 	}
 
 	@Override
-	public void shutdown ()
+	public void shutdown()
 	{
 	}
 
 	@Override
-	public Option<Address> findAddressByDn (Object addressDn)
+	public Option<Address> findAddressByDn(Object addressDn)
 	{
-		Option<Address> address = new Empty ();
+		Option<Address> address = new Empty();
 		try
 		{
-			ContactsService myService = new ContactsService ("unknown");
-			myService.setUserCredentials (authUser, authPassword);
-			URL feedUrl = new URL (addressDn.toString ());
-			ContactEntry entry = myService.getEntry (feedUrl, ContactEntry.class);
-			address = new Full (createAddressFromGoogleEntry (entry));
+			ContactsService myService = new ContactsService("unknown");
+			myService.setUserCredentials(authUser, authPassword);
+			URL feedUrl = new URL(addressDn.toString());
+			ContactEntry entry = myService.getEntry(feedUrl, ContactEntry.class);
+			address = new Full(createAddressFromGoogleEntry(entry));
 		}
 		catch (AuthenticationException x)
 		{
@@ -106,103 +106,103 @@ public class AddressGoogleStore extends AddressStore
 	}
 
 	@Override
-	public Option<Address> findAddressByLastNameOrCompany (String name)
+	public Option<Address> findAddressByLastNameOrCompany(String name)
 	{
-		return new Empty ();
+		return new Empty();
 	}
 
 	@Override
-	public List<Address> findAddressByNameStartsWith (String name)
+	public List<Address> findAddressByNameStartsWith(String name)
 	{
-		List<Address> list = new LinkedList<Address> ();
+		List<Address> list = new LinkedList<Address>();
 
 		return list;
 	}
 
 	@Override
-	public List<Address> findAddressOfOwnerByNameStartsWith (String name, Integer ownerId)
+	public List<Address> findAddressOfOwnerByNameStartsWith(String name, Integer ownerId)
 	{
-		return findAddressByNameStartsWith (name);
+		return findAddressByNameStartsWith(name);
 	}
 
 	@Override
-	public Option<Address> findAddressByPhoneNumber (PhoneNumber phoneNumber)
+	public Option<Address> findAddressByPhoneNumber(PhoneNumber phoneNumber)
 	{
-		return new Empty ();
+		return new Empty();
 	}
 
 	@Override
-	public Option<Address> findAddressByPhoneNumber (String number)
+	public Option<Address> findAddressByPhoneNumber(String number)
 	{
-		return new Empty ();
+		return new Empty();
 	}
 
 	@Override
-	public Option<Address> findAddressOfOwnerByPhoneNumber (PhoneNumber phoneNumber, Integer ownerId)
+	public Option<Address> findAddressOfOwnerByPhoneNumber(PhoneNumber phoneNumber, Integer ownerId)
 	{
-		return new Empty ();
+		return new Empty();
 	}
 
 	@Override
-	public List<PhoneNumber> findPhoneNumbersEndingWith (String number)
+	public List<PhoneNumber> findPhoneNumbersEndingWith(String number)
 	{
-		List<PhoneNumber> list = new LinkedList<PhoneNumber> ();
+		List<PhoneNumber> list = new LinkedList<PhoneNumber>();
 
 		return list;
 	}
 
 	@Override
-	public List<PhoneNumber> findPhoneNumbersOfOwnerEndingWith (String number, Integer ownerId)
+	public List<PhoneNumber> findPhoneNumbersOfOwnerEndingWith(String number, Integer ownerId)
 	{
-		List<PhoneNumber> list = new LinkedList<PhoneNumber> ();
+		List<PhoneNumber> list = new LinkedList<PhoneNumber>();
 
 		return list;
 	}
 
 	@Override
-	public Option<Address> findAddressByOwnerAndContactNumber (Integer ownerId, String contactNumber)
+	public Option<Address> findAddressByOwnerAndContactNumber(Integer ownerId, String contactNumber)
 	{
-		return new Empty ();
+		return new Empty();
 	}
 
 	@Override
-	public Option<Address> findAddressByOnwerAndFirstNameOrLastNameOrCompany (Integer ownerId, String firstName,
+	public Option<Address> findAddressByOnwerAndFirstNameOrLastNameOrCompany(Integer ownerId, String firstName,
 					String lastName, String company)
 	{
-		return new Empty ();
+		return new Empty();
 	}
 
 	@Override
-	public List<PhoneNumber> findAllPhoneNumbersByAddressDnSortedByCategoryList (String addressDn, String[] categories)
+	public List<PhoneNumber> findAllPhoneNumbersByAddressDnSortedByCategoryList(String addressDn, String[] categories)
 	{
-		return new LinkedList ();
+		return new LinkedList();
 	}
 
 	@Override
-	public List<Address> createAddressListing (Integer userId, String search, String orderBy, SortOrder orderDir,
+	public List<Address> createAddressListing(Integer userId, String search, String orderBy, SortOrder orderDir,
 					int firstResult, int maxResults)
 	{
-		List<Address> res = new LinkedList<Address> ();
+		List<Address> res = new LinkedList<Address>();
 
 		try
 		{
-			ContactsService myService = new ContactsService ("unknown");
+			ContactsService myService = new ContactsService("unknown");
 
-			myService.setUserCredentials (authUser, authPassword);
+			myService.setUserCredentials(authUser, authPassword);
 
-			URL feedUrl = new URL (url);
-			Query myQuery = new Query (feedUrl);
+			URL feedUrl = new URL(url);
+			Query myQuery = new Query(feedUrl);
 
-			myQuery.setStartIndex (firstResult + 1);
-			myQuery.setMaxResults (maxResults);
+			myQuery.setStartIndex(firstResult + 1);
+			myQuery.setMaxResults(maxResults);
 
-			ContactFeed resultFeed = myService.query (myQuery, ContactFeed.class);
+			ContactFeed resultFeed = myService.query(myQuery, ContactFeed.class);
 
-			for (ContactEntry entry : resultFeed.getEntries ())
+			for (ContactEntry entry : resultFeed.getEntries())
 			{
-				Address address = createAddressFromGoogleEntry (entry);
+				Address address = createAddressFromGoogleEntry(entry);
 
-				res.add (address);
+				res.add(address);
 			}
 		}
 		catch (MalformedURLException x)
@@ -219,37 +219,37 @@ public class AddressGoogleStore extends AddressStore
 	}
 
 	@Override
-	public void updateAddress (Address address)
+	public void updateAddress(Address address)
 	{
 	}
 
 	@Override
-	public Object createAddress (Address address, Integer ownerId)
+	public Object createAddress(Address address, Integer ownerId)
 	{
 		return null;
 	}
 
 	@Override
-	public void deleteAddressWithDn (Object addressDn)
+	public void deleteAddressWithDn(Object addressDn)
 	{
 	}
 
 	@Override
-	public long countAddressesByOwnerAndSearch (Integer userId, String search)
+	public long countAddressesByOwnerAndSearch(Integer userId, String search)
 	{
 		long count = 0;
 
 		try
 		{
-			ContactsService myService = new ContactsService ("unknown");
+			ContactsService myService = new ContactsService("unknown");
 
-			myService.setUserCredentials (authUser, authPassword);
+			myService.setUserCredentials(authUser, authPassword);
 
-			URL feedUrl = new URL (url);
-			Query myQuery = new Query (feedUrl);
-			ContactFeed resultFeed = myService.query (myQuery, ContactFeed.class);
+			URL feedUrl = new URL(url);
+			Query myQuery = new Query(feedUrl);
+			ContactFeed resultFeed = myService.query(myQuery, ContactFeed.class);
 
-			count = resultFeed.getTotalResults ();
+			count = resultFeed.getTotalResults();
 		}
 		catch (MalformedURLException x)
 		{
@@ -265,40 +265,40 @@ public class AddressGoogleStore extends AddressStore
 	}
 
 	@Override
-	public void deleteAllAddresses ()
+	public void deleteAllAddresses()
 	{
 	}
 
 	@Override
-	public boolean isGlobalStore ()
+	public boolean isGlobalStore()
 	{
 		return true;
 	}
 
-	private Address createAddressFromGoogleEntry (ContactEntry entry)
+	private Address createAddressFromGoogleEntry(ContactEntry entry)
 	{
-		Address address = new Address ();
+		Address address = new Address();
 
-		address.setAlternateId (entry.getId ());
-		address.setFirstName (entry.getName ().getGivenName ().getValue ());
-		address.setLastName (entry.getName ().getFamilyName ().getValue ());
+		address.setAlternateId(entry.getId());
+		address.setFirstName(entry.getName().getGivenName().getValue());
+		address.setLastName(entry.getName().getFamilyName().getValue());
 
-		if (entry.getOrganizations ().size () > 0)
+		if (entry.getOrganizations().size() > 0)
 		{
-			address.setCompany (entry.getOrganizations ().get (0).getOrgName ().getValue ());
+			address.setCompany(entry.getOrganizations().get(0).getOrgName().getValue());
 		}
 
-		for (com.google.gdata.data.extensions.PhoneNumber pn : entry.getPhoneNumbers ())
+		for (com.google.gdata.data.extensions.PhoneNumber pn : entry.getPhoneNumbers())
 		{
-			String category = phoneNumberTypes.get (pn.getRel ());
+			String category = phoneNumberTypes.get(pn.getRel());
 
 			if (category != null)
 			{
-				PhoneNumber number = new PhoneNumber ();
+				PhoneNumber number = new PhoneNumber();
 
-				address.addPhoneNumber (number);
-				number.setCategory (category);
-				number.setNumber (pn.getPhoneNumber ());
+				address.addPhoneNumber(number);
+				number.setCategory(category);
+				number.setNumber(pn.getPhoneNumber());
 			}
 		}
 
@@ -306,13 +306,13 @@ public class AddressGoogleStore extends AddressStore
 	}
 
 	@Override
-	public boolean canBeDeleted ()
+	public boolean canBeDeleted()
 	{
 		return true;
 	}
 
 	@Override
-	public void deleteAllAddressesOfOwner (Integer userId)
+	public void deleteAllAddressesOfOwner(Integer userId)
 	{
 	}
 }

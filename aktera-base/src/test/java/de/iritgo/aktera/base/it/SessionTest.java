@@ -31,24 +31,24 @@ public class SessionTest extends BrowserTestCase
 	 * Try to access the about page.
 	 */
 	@Test
-	public void accessAboutPage () throws Exception
+	public void accessAboutPage() throws Exception
 	{
-		openURL ("model.do?model=aktera.about-seq");
-		assertTextPresent ("Applikationsinformationen");
+		openURL("model.do?model=aktera.about-seq");
+		assertTextPresent("Applikationsinformationen");
 	}
 
 	/**
 	 * Login as the admin user. Logout.
 	 */
 	@Test
-	public void loginLogout ()
+	public void loginLogout()
 	{
-		openStartPage ();
-		assertTextPresent ("Nicht angemeldet");
-		UserTools.loginAsAdmin (selenium);
-		assertTextPresent ("Angemeldet als");
-		assertTextPresent ("[admin]");
-		UserTools.logout (selenium);
-		assertTextPresent ("Nicht angemeldet");
+		openStartPage();
+		assertTextPresent("Nicht angemeldet");
+		UserTools.loginAsAdmin(selenium);
+		assertTextPresent("Angemeldet als");
+		assertTextPresent("[admin]");
+		UserTools.logout(selenium);
+		assertTextPresent("Nicht angemeldet");
 	}
 }

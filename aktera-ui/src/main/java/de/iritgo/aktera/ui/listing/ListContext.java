@@ -36,12 +36,12 @@ public class ListContext extends ExpressionLanguageContext
 	/** The listing descriptor */
 	private ListingDescriptor listing;
 
-	public void setListing (ListingDescriptor listing)
+	public void setListing(ListingDescriptor listing)
 	{
 		this.listing = listing;
 	}
 
-	public ListingDescriptor getListing ()
+	public ListingDescriptor getListing()
 	{
 		return listing;
 	}
@@ -49,12 +49,12 @@ public class ListContext extends ExpressionLanguageContext
 	/** Number of result rows per page */
 	public int resultsPerPage;
 
-	public int getResultsPerPage ()
+	public int getResultsPerPage()
 	{
 		return resultsPerPage;
 	}
 
-	public void setResultsPerPage (int resultsPerPage)
+	public void setResultsPerPage(int resultsPerPage)
 	{
 		this.resultsPerPage = resultsPerPage;
 	}
@@ -62,12 +62,12 @@ public class ListContext extends ExpressionLanguageContext
 	/** Number of previous pages */
 	public int numPrevPages;
 
-	public int getNumPrevPages ()
+	public int getNumPrevPages()
 	{
 		return numPrevPages;
 	}
 
-	public void setNumPrevPages (int numPrevPages)
+	public void setNumPrevPages(int numPrevPages)
 	{
 		this.numPrevPages = numPrevPages;
 	}
@@ -75,12 +75,12 @@ public class ListContext extends ExpressionLanguageContext
 	/** Number of following pages */
 	public int numNextPages;
 
-	public int getNumNextPages ()
+	public int getNumNextPages()
 	{
 		return numNextPages;
 	}
 
-	public void setNumNextPages (int numNextPages)
+	public void setNumNextPages(int numNextPages)
 	{
 		this.numNextPages = numNextPages;
 	}
@@ -88,12 +88,12 @@ public class ListContext extends ExpressionLanguageContext
 	/** The name of the list */
 	public String listName;
 
-	public String getListName ()
+	public String getListName()
 	{
 		return listName;
 	}
 
-	public void setListName (String listName)
+	public void setListName(String listName)
 	{
 		this.listName = listName;
 	}
@@ -101,12 +101,12 @@ public class ListContext extends ExpressionLanguageContext
 	/** If true, only column headers are generated */
 	public boolean describe;
 
-	public boolean isDescribe ()
+	public boolean isDescribe()
 	{
 		return describe;
 	}
 
-	public void setDescribe (boolean describe)
+	public void setDescribe(boolean describe)
 	{
 		this.describe = describe;
 	}
@@ -114,12 +114,12 @@ public class ListContext extends ExpressionLanguageContext
 	/** Current page number */
 	private int page;
 
-	public void setPage (int page)
+	public void setPage(int page)
 	{
 		this.page = page;
 	}
 
-	public int getPage ()
+	public int getPage()
 	{
 		return page;
 	}
@@ -127,12 +127,12 @@ public class ListContext extends ExpressionLanguageContext
 	/** Row offset */
 	private int firstResult;
 
-	public void setFirstResult (int firstResult)
+	public void setFirstResult(int firstResult)
 	{
 		this.firstResult = firstResult;
 	}
 
-	public int getFirstResult ()
+	public int getFirstResult()
 	{
 		return firstResult;
 	}
@@ -140,38 +140,38 @@ public class ListContext extends ExpressionLanguageContext
 	/** Current row data */
 	private Object it;
 
-	public Object getIt ()
+	public Object getIt()
 	{
 		return it;
 	}
 
-	public void setIt (Object it)
+	public void setIt(Object it)
 	{
 		this.it = it;
 	}
 
 	/** Custom attributes */
-	private Map<String, Object> attributes = new HashMap ();
+	private Map<String, Object> attributes = new HashMap();
 
-	public void setAttribute (String key, Object value)
+	public void setAttribute(String key, Object value)
 	{
-		attributes.put (key, value);
+		attributes.put(key, value);
 	}
 
-	public Object getAttribute (String key)
+	public Object getAttribute(String key)
 	{
-		return attributes.get (key);
+		return attributes.get(key);
 	}
 
 	/** The name of this session's user */
 	private String userName;
 
-	public String getUserName ()
+	public String getUserName()
 	{
 		return userName;
 	}
 
-	public void setUserName (String userName)
+	public void setUserName(String userName)
 	{
 		this.userName = userName;
 	}
@@ -181,9 +181,9 @@ public class ListContext extends ExpressionLanguageContext
 	 *
 	 * @return The search text
 	 */
-	public String getSearchExact ()
+	public String getSearchExact()
 	{
-		return StringTools.trim (request.getParameterAsString (listing.getId (request) + "Search")).toLowerCase ();
+		return StringTools.trim(request.getParameterAsString(listing.getId(request) + "Search")).toLowerCase();
 	}
 
 	/**
@@ -191,9 +191,9 @@ public class ListContext extends ExpressionLanguageContext
 	 *
 	 * @return The search text
 	 */
-	public String getSearch ()
+	public String getSearch()
 	{
-		return "%" + getSearchExact () + "%";
+		return "%" + getSearchExact() + "%";
 	}
 
 	/**
@@ -201,9 +201,9 @@ public class ListContext extends ExpressionLanguageContext
 	 *
 	 * @return The search text
 	 */
-	public String getSearchStartsWith ()
+	public String getSearchStartsWith()
 	{
-		return "%" + getSearchExact ();
+		return "%" + getSearchExact();
 	}
 
 	/**
@@ -211,9 +211,9 @@ public class ListContext extends ExpressionLanguageContext
 	 *
 	 * @return The search text
 	 */
-	public String getSearchEndsWith ()
+	public String getSearchEndsWith()
 	{
-		return getSearchExact () + "%";
+		return getSearchExact() + "%";
 	}
 
 	/**
@@ -223,7 +223,7 @@ public class ListContext extends ExpressionLanguageContext
 	 * @param index The array index
 	 * @return The row data element
 	 */
-	public Object getIt (int index)
+	public Object getIt(int index)
 	{
 		return ((Object[]) it)[index];
 	}
@@ -232,23 +232,23 @@ public class ListContext extends ExpressionLanguageContext
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
-	public String toString ()
+	public String toString()
 	{
-		StringBuilder builder = new StringBuilder ();
+		StringBuilder builder = new StringBuilder();
 
-		builder.append ("ListContext [firstResult=");
-		builder.append (firstResult);
-		builder.append (", listName=");
-		builder.append (listName);
-		builder.append (", listing=");
-		builder.append (listing);
-		builder.append (", page=");
-		builder.append (page);
-		builder.append (", resultsPerPage=");
-		builder.append (resultsPerPage);
-		builder.append ("]");
+		builder.append("ListContext [firstResult=");
+		builder.append(firstResult);
+		builder.append(", listName=");
+		builder.append(listName);
+		builder.append(", listing=");
+		builder.append(listing);
+		builder.append(", page=");
+		builder.append(page);
+		builder.append(", resultsPerPage=");
+		builder.append(resultsPerPage);
+		builder.append("]");
 
-		return builder.toString ();
+		return builder.toString();
 	}
 
 	/**
@@ -256,9 +256,9 @@ public class ListContext extends ExpressionLanguageContext
 	 *
 	 * @return The list category
 	 */
-	public String getCategory ()
+	public String getCategory()
 	{
-		return StringTools.trim (listing.getCategory ());
+		return StringTools.trim(listing.getCategory());
 	}
 
 	/**
@@ -271,22 +271,22 @@ public class ListContext extends ExpressionLanguageContext
 	 * @throws PermissionException If the current user has no permission to upload files
 	 * for another user
 	 */
-	public Integer getActualUserId (ModelRequest request)
+	public Integer getActualUserId(ModelRequest request)
 		throws PersistenceException, PermissionException, ModelException
 	{
-		if (! StringTools.isTrimEmpty (request.getParameter ("userId")))
+		if (! StringTools.isTrimEmpty(request.getParameter("userId")))
 		{
-			int userId = request.getParameterAsInt ("userId", - 1);
+			int userId = request.getParameterAsInt("userId", - 1);
 
-			if (! UserTools.currentUserIsInGroup (request, "manager") && UserTools.getCurrentUserId (request) != userId)
+			if (! UserTools.currentUserIsInGroup(request, "manager") && UserTools.getCurrentUserId(request) != userId)
 			{
-				throw new PermissionException ("Permission denied to edit com device function keys of user " + userId);
+				throw new PermissionException("Permission denied to edit com device function keys of user " + userId);
 			}
 
 			return userId;
 		}
 
-		return UserTools.getCurrentUserId (request);
+		return UserTools.getCurrentUserId(request);
 	}
 
 	/**
@@ -294,7 +294,7 @@ public class ListContext extends ExpressionLanguageContext
 	 *
 	 * @return True
 	 */
-	public Boolean getTRUE ()
+	public Boolean getTRUE()
 	{
 		return true;
 	}
@@ -304,7 +304,7 @@ public class ListContext extends ExpressionLanguageContext
 	 *
 	 * @return False
 	 */
-	public Boolean getFALSE ()
+	public Boolean getFALSE()
 	{
 		return false;
 	}

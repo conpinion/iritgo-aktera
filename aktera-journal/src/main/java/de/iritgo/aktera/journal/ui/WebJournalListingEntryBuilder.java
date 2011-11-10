@@ -37,12 +37,12 @@ public interface WebJournalListingEntryBuilder
 	 * @param bundle The resource bundle
 	 * @param locale The locale
 	 */
-	public Object getValue (Map<String, Object> entry, String column, String bundle, Locale locale);
+	public Object getValue(Map<String, Object> entry, String column, String bundle, Locale locale);
 
 	/**
 	 * Get the resource bundle
 	 *
 	 * @return The resource bundle
 	 */
-	public String getBundle ();
+	public String getBundle();
 }

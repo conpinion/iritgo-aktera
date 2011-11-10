@@ -70,7 +70,7 @@ public class ThemeImageTag extends BaseTagSupport
 	 *
 	 * @return The image name.
 	 */
-	public String getSrc ()
+	public String getSrc()
 	{
 		return src;
 	}
@@ -80,7 +80,7 @@ public class ThemeImageTag extends BaseTagSupport
 	 *
 	 * @param src The image name.
 	 */
-	public void setSrc (String src)
+	public void setSrc(String src)
 	{
 		this.src = src;
 	}
@@ -90,7 +90,7 @@ public class ThemeImageTag extends BaseTagSupport
 	 *
 	 * @return The image name.
 	 */
-	public String getName ()
+	public String getName()
 	{
 		return name;
 	}
@@ -100,7 +100,7 @@ public class ThemeImageTag extends BaseTagSupport
 	 *
 	 * @param name The image name.
 	 */
-	public void setName (String name)
+	public void setName(String name)
 	{
 		this.name = name;
 	}
@@ -110,7 +110,7 @@ public class ThemeImageTag extends BaseTagSupport
 	 *
 	 * @return The image name.
 	 */
-	public String getProperty ()
+	public String getProperty()
 	{
 		return property;
 	}
@@ -120,7 +120,7 @@ public class ThemeImageTag extends BaseTagSupport
 	 *
 	 * @param property The image name.
 	 */
-	public void setProperty (String property)
+	public void setProperty(String property)
 	{
 		this.property = property;
 	}
@@ -130,7 +130,7 @@ public class ThemeImageTag extends BaseTagSupport
 	 *
 	 * @return The image scope.
 	 */
-	public String getScope ()
+	public String getScope()
 	{
 		return scope;
 	}
@@ -140,7 +140,7 @@ public class ThemeImageTag extends BaseTagSupport
 	 *
 	 * @param scope The image scope.
 	 */
-	public void setScope (String scope)
+	public void setScope(String scope)
 	{
 		this.scope = scope;
 	}
@@ -150,7 +150,7 @@ public class ThemeImageTag extends BaseTagSupport
 	 *
 	 * @return The alternate image text.
 	 */
-	public String getAlt ()
+	public String getAlt()
 	{
 		return alt;
 	}
@@ -160,7 +160,7 @@ public class ThemeImageTag extends BaseTagSupport
 	 *
 	 * @param alt The alternate image text.
 	 */
-	public void setAlt (String alt)
+	public void setAlt(String alt)
 	{
 		this.alt = alt;
 	}
@@ -170,7 +170,7 @@ public class ThemeImageTag extends BaseTagSupport
 	 *
 	 * @return The image border.
 	 */
-	public String getBorder ()
+	public String getBorder()
 	{
 		return border;
 	}
@@ -180,7 +180,7 @@ public class ThemeImageTag extends BaseTagSupport
 	 *
 	 * @param border The image border.
 	 */
-	public void setBorder (String border)
+	public void setBorder(String border)
 	{
 		this.border = border;
 	}
@@ -190,7 +190,7 @@ public class ThemeImageTag extends BaseTagSupport
 	 *
 	 * @return The image alignment.
 	 */
-	public String getAlign ()
+	public String getAlign()
 	{
 		return align;
 	}
@@ -200,7 +200,7 @@ public class ThemeImageTag extends BaseTagSupport
 	 *
 	 * @param align The image alignment.
 	 */
-	public void setAlign (String align)
+	public void setAlign(String align)
 	{
 		this.align = align;
 	}
@@ -210,7 +210,7 @@ public class ThemeImageTag extends BaseTagSupport
 	 *
 	 * @return The image style class.
 	 */
-	public String getStyleClass ()
+	public String getStyleClass()
 	{
 		return styleClass;
 	}
@@ -220,7 +220,7 @@ public class ThemeImageTag extends BaseTagSupport
 	 *
 	 * @param style The image style class.
 	 */
-	public void setStyleClass (String styleClass)
+	public void setStyleClass(String styleClass)
 	{
 		this.styleClass = styleClass;
 	}
@@ -230,7 +230,7 @@ public class ThemeImageTag extends BaseTagSupport
 	 *
 	 * @return The image width.
 	 */
-	public String getWidth ()
+	public String getWidth()
 	{
 		return width;
 	}
@@ -240,7 +240,7 @@ public class ThemeImageTag extends BaseTagSupport
 	 *
 	 * @param width The image width.
 	 */
-	public void setWidth (String width)
+	public void setWidth(String width)
 	{
 		this.width = width;
 	}
@@ -250,7 +250,7 @@ public class ThemeImageTag extends BaseTagSupport
 	 *
 	 * @return The image height.
 	 */
-	public String getHeight ()
+	public String getHeight()
 	{
 		return height;
 	}
@@ -260,7 +260,7 @@ public class ThemeImageTag extends BaseTagSupport
 	 *
 	 * @param height The image height.
 	 */
-	public void setHeight (String height)
+	public void setHeight(String height)
 	{
 		this.height = height;
 	}
@@ -268,7 +268,7 @@ public class ThemeImageTag extends BaseTagSupport
 	/**
 	 * Reset all tag attributes to their default values.
 	 */
-	public void release ()
+	public void release()
 	{
 		src = null;
 		alt = null;
@@ -287,39 +287,36 @@ public class ThemeImageTag extends BaseTagSupport
 	 *
 	 * @return EVAL_PAGE.
 	 */
-	public int doEndTag () throws JspException
+	public int doEndTag() throws JspException
 	{
 		try
 		{
 			if (name != null)
 			{
-				Object value = TagUtils.getInstance ().lookup (pageContext, name, property, scope);
+				Object value = TagUtils.getInstance().lookup(pageContext, name, property, scope);
 
 				if (value != null)
 				{
-					src = value.toString ();
+					src = value.toString();
 				}
 			}
 
-			String browser = ((HttpServletRequest) pageContext.getRequest ()).getHeader ("User-Agent");
+			String browser = ((HttpServletRequest) pageContext.getRequest()).getHeader("User-Agent");
 
 			if (browser != null)
 			{
-				browser = browser.toLowerCase ();
+				browser = browser.toLowerCase();
 			}
 			else
 			{
 				browser = "";
 			}
 
-			String url = ((HttpServletRequest) pageContext.getRequest ()).getContextPath ()
-							+ pageContext.getRequest ().getAttribute ("themeImagesUrl")
-							+ "/"
-							+ src
-							+ ((browser.indexOf ("msie") != - 1) && (browser.indexOf ("opera") == - 1) ? ".gif"
-											: ".png");
+			String url = ((HttpServletRequest) pageContext.getRequest()).getContextPath()
+							+ pageContext.getRequest().getAttribute("themeImagesUrl") + "/" + src
+							+ ((browser.indexOf("msie") != - 1) && (browser.indexOf("opera") == - 1) ? ".gif" : ".png");
 
-			pageContext.getOut ().print (
+			pageContext.getOut().print(
 							"<img src=\"" + url + "\"" + ((alt != null) ? (" alt=\"" + alt + "\"") : "")
 											+ ((border != null) ? (" border=\"" + border + "\"") : "")
 											+ ((align != null) ? (" align=\"" + align + "\"") : "")
@@ -331,7 +328,7 @@ public class ThemeImageTag extends BaseTagSupport
 		}
 		catch (Exception x)
 		{
-			throw new JspException (x);
+			throw new JspException(x);
 		}
 	}
 }

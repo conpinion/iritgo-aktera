@@ -88,9 +88,9 @@ public class Save extends SecurableStandardLogEnabledModel implements InstanceSe
 	 *
 	 * @return The instance id.
 	 */
-	public String getInstanceIdentifier ()
+	public String getInstanceIdentifier()
 	{
-		return getConfiguration ().getAttribute ("id", "aktera.save");
+		return getConfiguration().getAttribute("id", "aktera.save");
 	}
 
 	/**
@@ -99,37 +99,37 @@ public class Save extends SecurableStandardLogEnabledModel implements InstanceSe
 	 * @param req The model request.
 	 * @return The model response.
 	 */
-	public ModelResponse execute (ModelRequest req) throws ModelException
+	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
-		SaveFormContext context = new SaveFormContext ();
+		SaveFormContext context = new SaveFormContext();
 
-		context.setRequest (req);
+		context.setRequest(req);
 
-		ModelResponse res = req.createResponse ();
+		ModelResponse res = req.createResponse();
 
 		try
 		{
-			readConfig (req);
+			readConfig(req);
 		}
 		catch (ConfigurationException x)
 		{
-			throw new ModelException (x);
+			throw new ModelException(x);
 		}
 
-		Object id = req.getParameter (keyName);
+		Object id = req.getParameter(keyName);
 
-		if (StringTools.isTrimEmpty (id))
+		if (StringTools.isTrimEmpty(id))
 		{
-			id = new Integer (- 1);
+			id = new Integer(- 1);
 		}
 
-		String persistentsId = FormTools.createContextKey (contextId, id);
+		String persistentsId = FormTools.createContextKey(contextId, id);
 
-		FormularDescriptor formular = (FormularDescriptor) UserTools.getContextObject (req, persistentsId);
+		FormularDescriptor formular = (FormularDescriptor) UserTools.getContextObject(req, persistentsId);
 
 		if (formular == null)
 		{
-			res.setAttribute ("forward", "aktera.formular.save-without-edit");
+			res.setAttribute("forward", "aktera.formular.save-without-edit");
 
 			return res;
 		}
@@ -138,97 +138,96 @@ public class Save extends SecurableStandardLogEnabledModel implements InstanceSe
 		{
 			boolean modified = false;
 
-			handler.adjustFormular (req, formular, formular.getPersistents ());
+			handler.adjustFormular(req, formular, formular.getPersistents());
 
-			if (req.getParameter (NO_FORM_STORE) == null
-							&& ! NumberTools.toBool (req.getParameter (SYSTEM_EDIT), false))
+			if (req.getParameter(NO_FORM_STORE) == null && ! NumberTools.toBool(req.getParameter(SYSTEM_EDIT), false))
 			{
 				try
 				{
-					modified = FormTools.storeInput (req, res, formular, formular.getPersistents (), log);
+					modified = FormTools.storeInput(req, res, formular, formular.getPersistents(), log);
 				}
 				catch (Exception x)
 				{
-					System.out.println ("[Save] Error while storing input: " + x);
-					x.printStackTrace ();
+					System.out.println("[Save] Error while storing input: " + x);
+					x.printStackTrace();
 				}
 			}
 
-			if (req.getParameter ("AKTERA_page") != null)
+			if (req.getParameter("AKTERA_page") != null)
 			{
-				int page = NumberTools.toInt (req.getParameter ("AKTERA_page"), formular.getPage ());
+				int page = NumberTools.toInt(req.getParameter("AKTERA_page"), formular.getPage());
 
 				if (page >= 0)
 				{
-					formular.setPage (page);
+					formular.setPage(page);
 				}
 			}
 
-			if (NumberTools.toBool (req.getParameter ("AKTERA_auto"), false))
+			if (NumberTools.toBool(req.getParameter("AKTERA_auto"), false))
 			{
-				CommandInfo cmdInfo = (CommandInfo) (cmdPage != null && cmdPage.getModel () != null ? cmdPage.clone ()
-								: cmdEdit.clone ());
-				Command cmd = cmdInfo.createCommand (req, res, context);
+				CommandInfo cmdInfo = (CommandInfo) (cmdPage != null && cmdPage.getModel() != null ? cmdPage.clone()
+								: cmdEdit.clone());
+				Command cmd = cmdInfo.createCommand(req, res, context);
 
-				for (Iterator i = req.getParameters ().keySet ().iterator (); i.hasNext ();)
+				for (Iterator i = req.getParameters().keySet().iterator(); i.hasNext();)
 				{
-					String key = (String) i.next ();
+					String key = (String) i.next();
 
-					if (! "model".equals (key) && ! "SEQUENCE_NAME".equals (key) && ! "SEQUENCE_NUMBER".equals (key))
+					if (! "model".equals(key) && ! "SEQUENCE_NAME".equals(key) && ! "SEQUENCE_NUMBER".equals(key))
 					{
-						cmd.setParameter (key, req.getParameters ().get (key));
+						cmd.setParameter(key, req.getParameters().get(key));
 					}
 				}
 
-				cmd.setParameter (keyName, id);
-				cmd.setParameter ("reedit", "Y");
+				cmd.setParameter(keyName, id);
+				cmd.setParameter("reedit", "Y");
 
-				if (req.getParameter ("ajax") != null)
+				if (req.getParameter("ajax") != null)
 				{
-					cmd.setParameter ("ajax", "Y");
+					cmd.setParameter("ajax", "Y");
 				}
 
-				return cmd.execute (req, res);
+				return cmd.execute(req, res);
 			}
 
-			handler.preStorePersistents (req, formular, formular.getPersistents (), new Boolean (modified));
+			handler.preStorePersistents(req, formular, formular.getPersistents(), new Boolean(modified));
 
-			if (req.getParameter (NO_FORM_STORE) == null && validate
-							&& ! NumberTools.toBool (req.getParameter (SYSTEM_EDIT), false))
+			if (req.getParameter(NO_FORM_STORE) == null && validate
+							&& ! NumberTools.toBool(req.getParameter(SYSTEM_EDIT), false))
 			{
 				ValidationResult result = null;
 
 				try
 				{
-					result = FormTools.validateInput (req, res, formular, formular.getPersistents ());
-					handler.validatePersistents (persistentConfig, req, res, formular, formular.getPersistents (),
-									NumberTools.toInt (id, - 1) == - 1, result);
+					result = FormTools.validateInput(req, res, formular, formular.getPersistents());
+					handler.validatePersistents(persistentConfig, req, res, formular, formular.getPersistents(),
+									NumberTools.toInt(id, - 1) == - 1, result);
 				}
 				catch (Exception x)
 				{
-					System.out.println ("[Save] Error while validating input: " + x);
-					x.printStackTrace ();
+					System.out.println("[Save] Error while validating input: " + x);
+					x.printStackTrace();
 				}
 
-				if (result.hasErrors ())
+				if (result.hasErrors())
 				{
-					formular.setPage (Math.max (formular.getPageWithField (result.getFirstErrorField (formular)
-									.replaceAll ("_", ".")), 0));
+					formular.setPage(Math.max(formular.getPageWithField(result.getFirstErrorField(formular).replaceAll(
+									"_", ".")), 0));
 				}
 
-				result.createResponseElements (res, formular);
+				result.createResponseElements(res, formular);
 
-				if (result.hasErrors ())
+				if (result.hasErrors())
 				{
-					CommandInfo cmdInfo = (CommandInfo) cmdEdit.clone ();
-					Command cmd = cmdInfo.createCommand (req, res, context);
+					CommandInfo cmdInfo = (CommandInfo) cmdEdit.clone();
+					Command cmd = cmdInfo.createCommand(req, res, context);
 
-					cmd.setParameter (keyName, id);
-					cmd.setParameter ("error", result.getFirstErrorField (formular));
+					cmd.setParameter(keyName, id);
+					cmd.setParameter("error", result.getFirstErrorField(formular));
 
-					if (! NumberTools.toBool (req.getParameter (SYSTEM_EDIT), false))
+					if (! NumberTools.toBool(req.getParameter(SYSTEM_EDIT), false))
 					{
-						return cmd.execute (req, res);
+						return cmd.execute(req, res);
 					}
 					else
 					{
@@ -237,46 +236,45 @@ public class Save extends SecurableStandardLogEnabledModel implements InstanceSe
 				}
 			}
 
-			if (NumberTools.toInt (id, - 1) != - 1)
+			if (NumberTools.toInt(id, - 1) != - 1)
 			{
-				handler.updatePersistents (req, formular, formular.getPersistents (), persistentConfig, modified);
+				handler.updatePersistents(req, formular, formular.getPersistents(), persistentConfig, modified);
 
 				if (! preserveContext)
 				{
-					UserTools.removeContextObject (req, persistentsId);
+					UserTools.removeContextObject(req, persistentsId);
 				}
 			}
 			else
 			{
-				id = new Integer (handler.createPersistents (req, formular, formular.getPersistents (),
-								persistentConfig));
+				id = new Integer(handler.createPersistents(req, formular, formular.getPersistents(), persistentConfig));
 
-				if (NumberTools.toInt (id, - 1) != - 1)
+				if (NumberTools.toInt(id, - 1) != - 1)
 				{
 					if (! preserveContext)
 					{
-						UserTools.removeContextObject (req, FormTools.createContextKey (contextId, - 1));
+						UserTools.removeContextObject(req, FormTools.createContextKey(contextId, - 1));
 					}
 					else
 					{
-						UserTools.setContextObject (req, FormTools.createContextKey (contextId, id), formular);
+						UserTools.setContextObject(req, FormTools.createContextKey(contextId, id), formular);
 					}
 				}
 			}
 
-			if (! NumberTools.toBool (req.getParameter (SYSTEM_EDIT), false))
+			if (! NumberTools.toBool(req.getParameter(SYSTEM_EDIT), false))
 			{
-				context.setSaveId (id);
+				context.setSaveId(id);
 
-				CommandInfo cmdInfo = (CommandInfo) cmdOk.clone ();
-				Command cmd = cmdInfo.createCommand (req, res, context);
+				CommandInfo cmdInfo = (CommandInfo) cmdOk.clone();
+				Command cmd = cmdInfo.createCommand(req, res, context);
 
-				ModelRequest newReq = (ModelRequest) req.getService (ModelRequest.ROLE);
-				ModelResponse cmdRes = cmd.execute (newReq, res);
+				ModelRequest newReq = (ModelRequest) req.getService(ModelRequest.ROLE);
+				ModelResponse cmdRes = cmd.execute(newReq, res);
 
-				if (res.get ("IRITGO_formMessages") != null)
+				if (res.get("IRITGO_formMessages") != null)
 				{
-					cmdRes.add (res.get ("IRITGO_formMessages"));
+					cmdRes.add(res.get("IRITGO_formMessages"));
 				}
 
 				return cmdRes;
@@ -288,11 +286,11 @@ public class Save extends SecurableStandardLogEnabledModel implements InstanceSe
 		}
 		catch (ModelException x)
 		{
-			throw ModelTools.handleException (res, x, log);
+			throw ModelTools.handleException(res, x, log);
 		}
 		catch (PersistenceException x)
 		{
-			throw ModelTools.handleException (res, x, log);
+			throw ModelTools.handleException(res, x, log);
 		}
 	}
 
@@ -301,67 +299,67 @@ public class Save extends SecurableStandardLogEnabledModel implements InstanceSe
 	 *
 	 * @param req The model configuration.
 	 */
-	public void readConfig (ModelRequest req) throws ModelException, ConfigurationException
+	public void readConfig(ModelRequest req) throws ModelException, ConfigurationException
 	{
 		if (configRead)
 		{
 			return;
 		}
 
-		java.util.List configPath = ModelTools.getDerivationPath (req, this);
+		java.util.List configPath = ModelTools.getDerivationPath(req, this);
 
-		validate = ModelTools.getConfigBool (configPath, "validate", true);
+		validate = ModelTools.getConfigBool(configPath, "validate", true);
 
-		cmdOk = readCommandConfig (configPath, "command-ok", "ok", null, "ok");
-		cmdEdit = readCommandConfig (configPath, "command-edit", "edit", null, "edit");
-		cmdPage = readCommandConfig (configPath, "command-page", "page", null, "page");
+		cmdOk = readCommandConfig(configPath, "command-ok", "ok", null, "ok");
+		cmdEdit = readCommandConfig(configPath, "command-edit", "edit", null, "edit");
+		cmdPage = readCommandConfig(configPath, "command-page", "page", null, "page");
 
-		keyName = ModelTools.getConfigString (configPath, "keyName", "id");
+		keyName = ModelTools.getConfigString(configPath, "keyName", "id");
 
-		persistentConfig = ModelTools.getConfigChildren (configPath, "persistent");
+		persistentConfig = ModelTools.getConfigChildren(configPath, "persistent");
 
-		contextId = ModelTools.getConfigString (configPath, "context", "id", null);
+		contextId = ModelTools.getConfigString(configPath, "context", "id", null);
 
-		preserveContext = ModelTools.getConfigBool (configPath, "preserveContext", false);
+		preserveContext = ModelTools.getConfigBool(configPath, "preserveContext", false);
 
-		String handlerClassName = ModelTools.getConfigString (configPath, "handler", "class", null);
+		String handlerClassName = ModelTools.getConfigString(configPath, "handler", "class", null);
 
 		if (handlerClassName != null)
 		{
 			try
 			{
-				handler = (FormularHandler) Class.forName (handlerClassName).newInstance ();
+				handler = (FormularHandler) Class.forName(handlerClassName).newInstance();
 			}
 			catch (ClassNotFoundException x)
 			{
-				throw new ModelException ("[aktera.save] Unable to create handler " + handlerClassName + " (" + x + ")");
+				throw new ModelException("[aktera.save] Unable to create handler " + handlerClassName + " (" + x + ")");
 			}
 			catch (InstantiationException x)
 			{
-				throw new ModelException ("[aktera.save] Unable to create handler " + handlerClassName + " (" + x + ")");
+				throw new ModelException("[aktera.save] Unable to create handler " + handlerClassName + " (" + x + ")");
 			}
 			catch (IllegalAccessException x)
 			{
-				throw new ModelException ("[aktera.save] Unable to create handler " + handlerClassName + " (" + x + ")");
+				throw new ModelException("[aktera.save] Unable to create handler " + handlerClassName + " (" + x + ")");
 			}
 		}
 		else
 		{
-			String handlerBeanName = ModelTools.getConfigString (configPath, "handler", "bean", null);
+			String handlerBeanName = ModelTools.getConfigString(configPath, "handler", "bean", null);
 
 			if (handlerBeanName != null)
 			{
-				handler = (FormularHandler) SpringTools.getBean (handlerBeanName);
+				handler = (FormularHandler) SpringTools.getBean(handlerBeanName);
 			}
 		}
 
 		if (handler != null)
 		{
-			handler.setDefaultHandler (new DefaultFormularHandler ());
+			handler.setDefaultHandler(new DefaultFormularHandler());
 		}
 		else
 		{
-			handler = new DefaultFormularHandler ();
+			handler = new DefaultFormularHandler();
 		}
 
 		configRead = true;
@@ -376,39 +374,39 @@ public class Save extends SecurableStandardLogEnabledModel implements InstanceSe
 	 * @param defaultLabel The default command label.
 	 * @return The command info.
 	 */
-	public CommandInfo readCommandConfig (java.util.List configPath, String configName, String name,
+	public CommandInfo readCommandConfig(java.util.List configPath, String configName, String name,
 					String defaultModel, String defaultLabel) throws ModelException, ConfigurationException
 	{
-		Configuration config = ModelTools.getConfig (configPath, configName);
+		Configuration config = ModelTools.getConfig(configPath, configName);
 
-		String model = config != null ? config.getAttribute ("model", defaultModel) : defaultModel;
-		String label = config != null ? config.getAttribute ("label", defaultLabel) : defaultLabel;
-		String bundle = config != null ? config.getAttribute ("bundle", "Aktera") : "Aktera";
+		String model = config != null ? config.getAttribute("model", defaultModel) : defaultModel;
+		String label = config != null ? config.getAttribute("label", defaultLabel) : defaultLabel;
+		String bundle = config != null ? config.getAttribute("bundle", "Aktera") : "Aktera";
 
 		if (config != null)
 		{
-			CommandInfo cmd = new CommandInfo (model, name, label);
+			CommandInfo cmd = new CommandInfo(model, name, label);
 
-			cmd.setBundle (bundle);
+			cmd.setBundle(bundle);
 
 			if (config != null)
 			{
-				Configuration[] params = config.getChildren ("parameter");
+				Configuration[] params = config.getChildren("parameter");
 
 				for (int i = 0; i < params.length; ++i)
 				{
-					cmd.addParameter (params[i].getAttribute ("name"), params[i].getAttribute ("value"));
+					cmd.addParameter(params[i].getAttribute("name"), params[i].getAttribute("value"));
 				}
 
-				params = config.getChildren ("param");
+				params = config.getChildren("param");
 
 				for (int i = 0; i < params.length; ++i)
 				{
-					cmd.addParameter (params[i].getAttribute ("name"), params[i].getAttribute ("value"));
+					cmd.addParameter(params[i].getAttribute("name"), params[i].getAttribute("value"));
 				}
 			}
 
-			cmd.setIcon (config.getAttribute ("icon", null));
+			cmd.setIcon(config.getAttribute("icon", null));
 
 			return cmd;
 		}

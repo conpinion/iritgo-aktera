@@ -35,71 +35,71 @@ import org.w3c.dom.NodeList;
 public abstract class ConfigurationBeanDefinitionParser extends AbstractSimpleBeanDefinitionParser
 {
 	@Override
-	protected void doParse (Element element, ParserContext parserContext, BeanDefinitionBuilder builder)
+	protected void doParse(Element element, ParserContext parserContext, BeanDefinitionBuilder builder)
 	{
-		if (element.hasAttribute ("forward"))
+		if (element.hasAttribute("forward"))
 		{
-			builder.addPropertyValue ("forward", element.getAttribute ("forward"));
+			builder.addPropertyValue("forward", element.getAttribute("forward"));
 		}
 
-		if (element.hasAttribute ("bundle"))
+		if (element.hasAttribute("bundle"))
 		{
-			builder.addPropertyValue ("bundle", element.getAttribute ("bundle"));
+			builder.addPropertyValue("bundle", element.getAttribute("bundle"));
 		}
 
-		if (element.hasAttribute ("security"))
+		if (element.hasAttribute("security"))
 		{
-			builder.addPropertyValue ("security", element.getAttribute ("security"));
+			builder.addPropertyValue("security", element.getAttribute("security"));
 		}
 
-		builder.addPropertyReference ("logger", "de.iritgo.aktera.logger.Logger");
+		builder.addPropertyReference("logger", "de.iritgo.aktera.logger.Logger");
 
-		Configuration configuration = createConfigurationFromElement (element);
+		Configuration configuration = createConfigurationFromElement(element);
 
-		builder.addPropertyValue ("configuration", configuration);
+		builder.addPropertyValue("configuration", configuration);
 	}
 
-	private Configuration createConfigurationFromElement (Node element)
+	private Configuration createConfigurationFromElement(Node element)
 	{
-		DefaultConfiguration configuration = new DefaultConfiguration (element.getLocalName ());
-		NamedNodeMap attributeNodes = element.getAttributes ();
+		DefaultConfiguration configuration = new DefaultConfiguration(element.getLocalName());
+		NamedNodeMap attributeNodes = element.getAttributes();
 
 		if (attributeNodes != null)
 		{
-			for (int i = 0; i < attributeNodes.getLength (); ++i)
+			for (int i = 0; i < attributeNodes.getLength(); ++i)
 			{
-				Node attributeNode = attributeNodes.item (i);
+				Node attributeNode = attributeNodes.item(i);
 
-				configuration.setAttribute (attributeNode.getLocalName (), attributeNode.getTextContent ());
+				configuration.setAttribute(attributeNode.getLocalName(), attributeNode.getTextContent());
 			}
 		}
 
-		StringBuilder value = new StringBuilder ();
-		NodeList childNodes = element.getChildNodes ();
+		StringBuilder value = new StringBuilder();
+		NodeList childNodes = element.getChildNodes();
 
-		for (int i = 0; i < childNodes.getLength (); ++i)
+		for (int i = 0; i < childNodes.getLength(); ++i)
 		{
-			Node childNode = childNodes.item (i);
+			Node childNode = childNodes.item(i);
 
-			if (Node.TEXT_NODE == childNode.getNodeType ())
+			if (Node.TEXT_NODE == childNode.getNodeType())
 			{
-				value.append (childNode.getTextContent ());
+				value.append(childNode.getTextContent());
 			}
-			else if (Node.CDATA_SECTION_NODE == childNode.getNodeType ())
+			else if (Node.CDATA_SECTION_NODE == childNode.getNodeType())
 			{
-				value.append (StringTools.trim (childNode.getTextContent ()));
+				value.append(StringTools.trim(childNode.getTextContent()));
 			}
 			else
 			{
-				Configuration childConfiguration = createConfigurationFromElement (childNode);
+				Configuration childConfiguration = createConfigurationFromElement(childNode);
 
-				configuration.addChild (childConfiguration);
+				configuration.addChild(childConfiguration);
 			}
 		}
 
-		if (StringTools.isNotTrimEmpty (value))
+		if (StringTools.isNotTrimEmpty(value))
 		{
-			configuration.setValue (StringTools.trim (value));
+			configuration.setValue(StringTools.trim(value));
 		}
 
 		return configuration;

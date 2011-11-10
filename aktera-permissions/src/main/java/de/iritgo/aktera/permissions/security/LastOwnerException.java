@@ -24,7 +24,7 @@ public class LastOwnerException extends Exception
 {
 	private static final long serialVersionUID = 1L;
 
-	public LastOwnerException ()
+	public LastOwnerException()
 	{
 	}
 }

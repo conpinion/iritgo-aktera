@@ -54,9 +54,9 @@ public class MonitorForKeelDirectServer extends Thread
 	 * @param thread
 	 * @param keelDirectServer
 	 */
-	public MonitorForKeelDirectServer ()
+	public MonitorForKeelDirectServer()
 	{
-		super (null, null, "MonitorForKeelDirectServer");
+		super(null, null, "MonitorForKeelDirectServer");
 	}
 
 	/**
@@ -64,25 +64,25 @@ public class MonitorForKeelDirectServer extends Thread
 	 * calls stopRuningKeelDirectServer() to tell the keelDirectServer thread to die, and then this thread dies itself.
 	 * Do not start this thread until after you have started threadToWatch.
 	 */
-	public void run ()
+	public void run()
 	{
 		try
 		{
-			threadToWatch.getThreadGroup ().getParent ().list ();
-			sleep (5000);
+			threadToWatch.getThreadGroup().getParent().list();
+			sleep(5000);
 
-			while (threadToWatch.isAlive ())
+			while (threadToWatch.isAlive())
 			{
-				sleep (5000); //Sleep for five seconds
+				sleep(5000); //Sleep for five seconds
 			}
 
-			print (" ");
-			print ("Thread died...");
-			print (" ");
+			print(" ");
+			print("Thread died...");
+			print(" ");
 		}
 		catch (InterruptedException e1)
 		{
-			e1.printStackTrace ();
+			e1.printStackTrace();
 		}
 
 		// The code below is equivalent to calling KeelDirectServer.dispose();   
@@ -90,30 +90,30 @@ public class MonitorForKeelDirectServer extends Thread
 		{
 			Method m;
 
-			m = keelDirectServerClazz.getMethod ("dispose", (Class[]) null);
+			m = keelDirectServerClazz.getMethod("dispose", (Class[]) null);
 			//Object[] parms = {};
-			print ("***> calling " + m.getName () + "   to tell the keel direct sever to stop.");
-			m.invoke (keelDirectServerInstance, (Object[]) null);
+			print("***> calling " + m.getName() + "   to tell the keel direct sever to stop.");
+			m.invoke(keelDirectServerInstance, (Object[]) null);
 		}
 		catch (SecurityException e)
 		{
-			e.printStackTrace ();
+			e.printStackTrace();
 		}
 		catch (NoSuchMethodException e)
 		{
-			e.printStackTrace ();
+			e.printStackTrace();
 		}
 		catch (IllegalArgumentException e)
 		{
-			e.printStackTrace ();
+			e.printStackTrace();
 		}
 		catch (IllegalAccessException e)
 		{
-			e.printStackTrace ();
+			e.printStackTrace();
 		}
 		catch (InvocationTargetException e)
 		{
-			e.printStackTrace ();
+			e.printStackTrace();
 		}
 
 		keelDirectServerInstance = null; //Clear for Garbage Collection
@@ -126,34 +126,34 @@ public class MonitorForKeelDirectServer extends Thread
 	/**
 	 * @param thread
 	 */
-	public void setThreadToWatch (Thread thread)
+	public void setThreadToWatch(Thread thread)
 	{
 		threadToWatch = thread;
 
 		if (thread != null)
 		{
-			print ("***>Thread to watch set to " + thread.getName ());
+			print("***>Thread to watch set to " + thread.getName());
 		}
 		else
 		{
-			print ("***>Thread to watch set to null ");
+			print("***>Thread to watch set to null ");
 		}
 	}
 
 	/**
 	 * @param keelDirectServer
 	 */
-	public void setKeelDirectServer (Thread keelDirectServer)
+	public void setKeelDirectServer(Thread keelDirectServer)
 	{
 		keelDirectServerInstance = keelDirectServer;
 
 		if (keelDirectServer != null)
 		{
-			print ("***>keelDirectServer set to " + keelDirectServer.getName ());
+			print("***>keelDirectServer set to " + keelDirectServer.getName());
 		}
 		else
 		{
-			print ("***>keelDirectServer set to null ");
+			print("***>keelDirectServer set to null ");
 		}
 	}
 
@@ -161,17 +161,17 @@ public class MonitorForKeelDirectServer extends Thread
 	 *
 	 * @param theKeelDirectServerClazz
 	 */
-	public void setKeelDirectServerClass (Class theKeelDirectServerClazz)
+	public void setKeelDirectServerClass(Class theKeelDirectServerClazz)
 	{
 		keelDirectServerClazz = theKeelDirectServerClazz;
 
 		if (theKeelDirectServerClazz != null)
 		{
-			print ("***>theKeelDirectServerClazz set to " + theKeelDirectServerClazz.getName ());
+			print("***>theKeelDirectServerClazz set to " + theKeelDirectServerClazz.getName());
 		}
 		else
 		{
-			print ("***>theKeelDirectServerClazz set to null ");
+			print("***>theKeelDirectServerClazz set to null ");
 		}
 	}
 
@@ -179,8 +179,8 @@ public class MonitorForKeelDirectServer extends Thread
 	 * Causes text to appear on the std error.
 	 * @param string
 	 */
-	public final void print (String string)
+	public final void print(String string)
 	{
-		System.err.println (this.getClass ().getName () + ":" + string);
+		System.err.println(this.getClass().getName() + ":" + string);
 	}
 }

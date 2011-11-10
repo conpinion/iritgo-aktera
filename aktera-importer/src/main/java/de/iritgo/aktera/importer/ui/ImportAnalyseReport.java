@@ -49,82 +49,82 @@ public class ImportAnalyseReport extends SecurableStandardLogEnabledModel
 	 * @param req The model request.
 	 * @return The model response.
 	 */
-	public ModelResponse execute (ModelRequest req) throws ModelException
+	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
-		I18N i18n = (I18N) req.getSpringBean (I18N.ID);
+		I18N i18n = (I18N) req.getSpringBean(I18N.ID);
 
-		ModelResponse res = req.createResponse ();
+		ModelResponse res = req.createResponse();
 
-		String file = req.getParameterAsString ("file");
-		String destination = req.getParameterAsString ("destination");
-		String handler = req.getParameterAsString ("handler");
-		String backModel = req.getParameterAsString ("backModel");
-		String importModel = req.getParameterAsString ("importModel");
+		String file = req.getParameterAsString("file");
+		String destination = req.getParameterAsString("destination");
+		String handler = req.getParameterAsString("handler");
+		String backModel = req.getParameterAsString("backModel");
+		String importModel = req.getParameterAsString("importModel");
 
-		res.setAttribute ("forward", "aktera.import.analyse-report");
+		res.setAttribute("forward", "aktera.import.analyse-report");
 
-		Output report = res.createOutput ("report");
+		Output report = res.createOutput("report");
 
-		res.add (report);
+		res.add(report);
 
 		String lastLine = null;
 
 		try
 		{
-			StringBuffer reportBuf = new StringBuffer ();
-			File reportFile = FileTools.newAkteraFile ("/var/tmp/iritgo/import-report.txt");
-			BufferedReader in = new BufferedReader (new FileReader (reportFile));
+			StringBuffer reportBuf = new StringBuffer();
+			File reportFile = FileTools.newAkteraFile("/var/tmp/iritgo/import-report.txt");
+			BufferedReader in = new BufferedReader(new FileReader(reportFile));
 			String line = null;
 
-			while ((line = in.readLine ()) != null)
+			while ((line = in.readLine()) != null)
 			{
-				reportBuf.append (line + "\n");
+				reportBuf.append(line + "\n");
 				lastLine = line;
 			}
 
-			report.setContent (reportBuf.toString ());
+			report.setContent(reportBuf.toString());
 		}
 		catch (IOException x)
 		{
 		}
 
-		if (i18n.msg (req, "Aktera", "reportFileResult", "OK").equals (lastLine))
+		if (i18n.msg(req, "Aktera", "reportFileResult", "OK").equals(lastLine))
 		{
-			Command cmdImport = res.createCommand (importModel);
+			Command cmdImport = res.createCommand(importModel);
 
-			cmdImport.setName ("cmdImport");
-			cmdImport.setParameter ("file", file);
-			cmdImport.setParameter ("destination", destination);
-			cmdImport.setParameter ("mode", "import");
-			cmdImport.setParameter ("backModel", backModel);
-			cmdImport.setParameter ("handler", handler);
-			res.add (cmdImport);
+			cmdImport.setName("cmdImport");
+			cmdImport.setParameter("file", file);
+			cmdImport.setParameter("destination", destination);
+			cmdImport.setParameter("mode", "import");
+			cmdImport.setParameter("backModel", backModel);
+			cmdImport.setParameter("handler", handler);
+			res.add(cmdImport);
 
-			Command cmdBack = res.createCommand (backModel);
+			Command cmdBack = res.createCommand(backModel);
 
-			cmdBack.setName ("cmdBack");
-			res.add (cmdBack);
+			cmdBack.setName("cmdBack");
+			res.add(cmdBack);
 		}
-		else if (i18n.msg (req, "Aktera", "reportFileResult", "ERROR").equals (lastLine))
+		else if (i18n.msg(req, "Aktera", "reportFileResult", "ERROR").equals(lastLine))
 		{
-			Command cmdBack = res.createCommand (backModel);
+			Command cmdBack = res.createCommand(backModel);
 
-			cmdBack.setName ("cmdBack");
-			res.add (cmdBack);
+			cmdBack.setName("cmdBack");
+			res.add(cmdBack);
 
-			res.add (res.createOutput ("error", "Y"));
+			res.add(res.createOutput("error", "Y"));
 		}
 		else
 		{
-			Command cmdReport = res.createCommand ("aktera.import.analyse.report");
+			Command cmdReport = res.createCommand("aktera.import.analyse.report");
 
-			cmdReport.setName ("cmdReport");
-			cmdReport.setParameter ("file", file);
-			cmdReport.setParameter ("destination", destination);
-			cmdReport.setParameter ("handler", handler);
-			cmdReport.setParameter ("backModel", backModel);
-			cmdReport.setParameter ("importModel", importModel);
-			res.add (cmdReport);
+			cmdReport.setName("cmdReport");
+			cmdReport.setParameter("file", file);
+			cmdReport.setParameter("destination", destination);
+			cmdReport.setParameter("handler", handler);
+			cmdReport.setParameter("backModel", backModel);
+			cmdReport.setParameter("importModel", importModel);
+			res.add(cmdReport);
 		}
 
 		return res;

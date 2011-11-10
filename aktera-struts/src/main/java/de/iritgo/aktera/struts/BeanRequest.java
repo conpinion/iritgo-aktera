@@ -49,12 +49,12 @@ public class BeanRequest implements UIRequest
 	private Locale locale;
 
 	/** */
-	private Map<String, Object> parameters = new HashMap ();
+	private Map<String, Object> parameters = new HashMap();
 
 	/**
 	 * @see de.iritgo.aktera.ui.UIRequest#setBean(java.lang.String)
 	 */
-	public void setBean (String bean)
+	public void setBean(String bean)
 	{
 		this.bean = bean;
 	}
@@ -64,7 +64,7 @@ public class BeanRequest implements UIRequest
 	 *
 	 * @return bean The bean name
 	 */
-	public String getBean ()
+	public String getBean()
 	{
 		return bean;
 	}
@@ -74,7 +74,7 @@ public class BeanRequest implements UIRequest
 	 *
 	 * @param userEnvironment The user environment
 	 */
-	public void setUserEnvironment (UserEnvironment userEnvironment)
+	public void setUserEnvironment(UserEnvironment userEnvironment)
 	{
 		this.userEnvironment = userEnvironment;
 	}
@@ -84,7 +84,7 @@ public class BeanRequest implements UIRequest
 	 *
 	 * @return The user environment
 	 */
-	public UserEnvironment getUserEnvironment ()
+	public UserEnvironment getUserEnvironment()
 	{
 		return userEnvironment;
 	}
@@ -92,7 +92,7 @@ public class BeanRequest implements UIRequest
 	/**
 	 * @see de.iritgo.aktera.ui.UIRequest#getLocale()
 	 */
-	public Locale getLocale ()
+	public Locale getLocale()
 	{
 		return locale;
 	}
@@ -102,7 +102,7 @@ public class BeanRequest implements UIRequest
 	 *
 	 * @param locale The new request locale
 	 */
-	public void setLocale (Locale locale)
+	public void setLocale(Locale locale)
 	{
 		this.locale = locale;
 	}
@@ -112,7 +112,7 @@ public class BeanRequest implements UIRequest
 	 *
 	 * @param parameters The new parameters
 	 */
-	public void setParameters (Map<String, Object> parameters)
+	public void setParameters(Map<String, Object> parameters)
 	{
 		this.parameters = parameters;
 	}
@@ -122,7 +122,7 @@ public class BeanRequest implements UIRequest
 	 *
 	 * @return The request parameters
 	 */
-	public Map<String, Object> getParameters ()
+	public Map<String, Object> getParameters()
 	{
 		return parameters;
 	}
@@ -130,46 +130,46 @@ public class BeanRequest implements UIRequest
 	/**
 	 * @see de.iritgo.aktera.ui.UIRequest#setParameter(java.lang.String, java.lang.Object)
 	 */
-	public void setParameter (String name, Object value)
+	public void setParameter(String name, Object value)
 	{
 		if (name != null)
 		{
 			if (value == null)
 			{
-				value = new HashMap ();
+				value = new HashMap();
 			}
 
-			parameters.put (name, value);
+			parameters.put(name, value);
 		}
 	}
 
-	public Object getParameter (String name)
+	public Object getParameter(String name)
 	{
-		return parameters.get (name);
+		return parameters.get(name);
 	}
 
-	public boolean hasParameter (String name)
+	public boolean hasParameter(String name)
 	{
-		return getParameter (name) != null;
+		return getParameter(name) != null;
 	}
 
-	public Object[] getParameterAsArray (String name)
+	public Object[] getParameterAsArray(String name)
 	{
 		assert name != null;
 
-		final Object val = getParameter (name);
+		final Object val = getParameter(name);
 
 		if (val == null)
 		{
 			return (null);
 		}
 
-		final Class valClass = val.getClass ();
-		final Class valType = valClass.getComponentType ();
+		final Class valClass = val.getClass();
+		final Class valType = valClass.getComponentType();
 
 		if (valType == null)
 		{
-			Object[] retVal = (Object[]) Array.newInstance (val.getClass (), 1);
+			Object[] retVal = (Object[]) Array.newInstance(val.getClass(), 1);
 
 			retVal[0] = val;
 
@@ -177,172 +177,172 @@ public class BeanRequest implements UIRequest
 		}
 		else
 		{
-			Object[] retVal = (Object[]) Array.newInstance (valType, Array.getLength (val));
+			Object[] retVal = (Object[]) Array.newInstance(valType, Array.getLength(val));
 
-			for (int i = 0; i < Array.getLength (val); i++)
+			for (int i = 0; i < Array.getLength(val); i++)
 			{
-				retVal[i] = Array.get (val, i);
+				retVal[i] = Array.get(val, i);
 			}
 
 			return retVal;
 		}
 	}
 
-	public Object[] getParameterAsArray (String name, Object[] defaultValue)
+	public Object[] getParameterAsArray(String name, Object[] defaultValue)
 	{
 		assert name != null;
 
-		Object val = getParameter (name);
+		Object val = getParameter(name);
 
 		if (val == null)
 		{
 			return defaultValue;
 		}
 
-		return getParameterAsArray (name);
+		return getParameterAsArray(name);
 	}
 
-	public Date getParameterAsDate (String name)
+	public Date getParameterAsDate(String name)
 	{
 		assert name != null;
 
-		return new SuperString (getParameterAsString (name)).toDate ();
+		return new SuperString(getParameterAsString(name)).toDate();
 	}
 
-	public Date getParameterAsDate (String name, Date defaultValue)
+	public Date getParameterAsDate(String name, Date defaultValue)
 	{
 		assert name != null;
 
-		Object val = getParameter (name);
+		Object val = getParameter(name);
 
 		if (val == null)
 		{
 			return defaultValue;
 		}
 
-		return getParameterAsDate (name);
+		return getParameterAsDate(name);
 	}
 
-	public double getParameterAsDouble (String name)
+	public double getParameterAsDouble(String name)
 	{
 		assert name != null;
 
-		Converter c = ConvertUtils.lookup (java.lang.Double.class);
+		Converter c = ConvertUtils.lookup(java.lang.Double.class);
 
-		return ((Double) c.convert (java.lang.Double.class, getParameterAsString (name))).doubleValue ();
+		return ((Double) c.convert(java.lang.Double.class, getParameterAsString(name))).doubleValue();
 	}
 
-	public double getParameterAsDouble (String name, double defaultValue)
+	public double getParameterAsDouble(String name, double defaultValue)
 	{
 		assert name != null;
 
-		if (getParameter (name) == null)
+		if (getParameter(name) == null)
 		{
 			return defaultValue;
 		}
 
-		return getParameterAsDouble (name);
+		return getParameterAsDouble(name);
 	}
 
-	public float getParameterAsFloat (String name)
+	public float getParameterAsFloat(String name)
 	{
 		assert name != null;
 
-		Converter c = ConvertUtils.lookup (java.lang.Float.class);
+		Converter c = ConvertUtils.lookup(java.lang.Float.class);
 
-		return ((Float) c.convert (java.lang.Float.class, getParameterAsString (name))).floatValue ();
+		return ((Float) c.convert(java.lang.Float.class, getParameterAsString(name))).floatValue();
 	}
 
-	public float getParameterAsFloat (String name, float defaultValue)
+	public float getParameterAsFloat(String name, float defaultValue)
 	{
 		assert name != null;
 
-		if (getParameter (name) == null)
+		if (getParameter(name) == null)
 		{
 			return defaultValue;
 		}
 
-		return getParameterAsFloat (name);
+		return getParameterAsFloat(name);
 	}
 
-	public int getParameterAsInt (String name)
+	public int getParameterAsInt(String name)
 	{
 		assert name != null;
 
-		Converter c = ConvertUtils.lookup (java.lang.Integer.class);
+		Converter c = ConvertUtils.lookup(java.lang.Integer.class);
 
-		return ((Integer) c.convert (java.lang.Integer.class, getParameterAsString (name))).intValue ();
+		return ((Integer) c.convert(java.lang.Integer.class, getParameterAsString(name))).intValue();
 	}
 
-	public int getParameterAsInt (String name, int defaultValue)
+	public int getParameterAsInt(String name, int defaultValue)
 	{
 		assert name != null;
 
-		Object val = getParameter (name);
+		Object val = getParameter(name);
 
-		if (val == null || "".equals (val))
+		if (val == null || "".equals(val))
 		{
 			return defaultValue;
 		}
 
-		return getParameterAsInt (name);
+		return getParameterAsInt(name);
 	}
 
-	public List getParameterAsList (String name)
+	public List getParameterAsList(String name)
 	{
 		assert name != null;
 
-		Object[] arr = getParameterAsArray (name);
-		ArrayList l = new ArrayList ();
+		Object[] arr = getParameterAsArray(name);
+		ArrayList l = new ArrayList();
 
 		for (int i = 0; i < arr.length; i++)
 		{
-			l.add (arr[i]);
+			l.add(arr[i]);
 		}
 
 		return l;
 	}
 
-	public List getParameterAsList (String name, List defaultValue)
+	public List getParameterAsList(String name, List defaultValue)
 	{
 		assert name != null;
 
-		Object val = getParameter (name);
+		Object val = getParameter(name);
 
 		if (val == null)
 		{
 			return defaultValue;
 		}
 
-		return getParameterAsList (name);
+		return getParameterAsList(name);
 	}
 
-	public long getParameterAsLong (String name)
+	public long getParameterAsLong(String name)
 	{
 		assert name != null;
 
-		Converter c = ConvertUtils.lookup (java.lang.Long.class);
+		Converter c = ConvertUtils.lookup(java.lang.Long.class);
 
-		return ((Long) c.convert (java.lang.Long.class, getParameterAsString (name))).longValue ();
+		return ((Long) c.convert(java.lang.Long.class, getParameterAsString(name))).longValue();
 	}
 
-	public long getParameterAsLong (String name, long defaultValue)
+	public long getParameterAsLong(String name, long defaultValue)
 	{
 		assert name != null;
 
-		if (getParameter (name) == null)
+		if (getParameter(name) == null)
 		{
 			return defaultValue;
 		}
 
-		return getParameterAsLong (name);
+		return getParameterAsLong(name);
 	}
 
-	public String getParameterAsString (String name)
+	public String getParameterAsString(String name)
 	{
 		assert name != null;
 
-		Object val = getParameter (name);
+		Object val = getParameter(name);
 
 		if (val == null)
 		{
@@ -354,20 +354,20 @@ public class BeanRequest implements UIRequest
 			val = ((String[]) val)[0];
 		}
 
-		return val.toString ();
+		return val.toString();
 	}
 
-	public String getParameterAsString (String name, String defaultValue)
+	public String getParameterAsString(String name, String defaultValue)
 	{
 		assert name != null;
 
-		Object val = getParameter (name);
+		Object val = getParameter(name);
 
 		if (val == null)
 		{
 			return defaultValue;
 		}
 
-		return val.toString ();
+		return val.toString();
 	}
 }

@@ -26,16 +26,16 @@ import org.junit.BeforeClass;
 public class WebserviceTestCase
 {
 	@BeforeClass
-	public static void beforeStartup ()
+	public static void beforeStartup()
 	{
-		WebserviceTools.setHost (System.getProperty ("test.host", "localhost"));
-		WebserviceTools.setPort (System.getProperty ("test.port", "8080"));
-		WebserviceTools.setContext (System.getProperty ("test.context", "aktera"));
+		WebserviceTools.setHost(System.getProperty("test.host", "localhost"));
+		WebserviceTools.setPort(System.getProperty("test.port", "8080"));
+		WebserviceTools.setContext(System.getProperty("test.context", "aktera"));
 	}
 
-	public static WebserviceRequest createWebserviceRequest (String serviceBaseURL, String serviceName,
-					String username, String password)
+	public static WebserviceRequest createWebserviceRequest(String serviceBaseURL, String serviceName, String username,
+					String password)
 	{
-		return WebserviceTools.createWebserviceRequest (serviceBaseURL, serviceName, username, password);
+		return WebserviceTools.createWebserviceRequest(serviceBaseURL, serviceName, username, password);
 	}
 }

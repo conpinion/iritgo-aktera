@@ -40,7 +40,7 @@ import de.iritgo.aktera.model.StandardLogEnabledModel;
  */
 public class DefaultModel extends StandardLogEnabledModel
 {
-	public ModelResponse execute (ModelRequest request) throws ModelException
+	public ModelResponse execute(ModelRequest request) throws ModelException
 	{
 		return null;
 	}

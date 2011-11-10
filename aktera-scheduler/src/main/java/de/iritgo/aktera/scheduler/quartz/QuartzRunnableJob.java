@@ -37,11 +37,11 @@ public class QuartzRunnableJob implements Job
 	/**
 	 * @see org.quartz.Job#execute(org.quartz.JobExecutionContext)
 	 */
-	public void execute (JobExecutionContext jobContext) throws JobExecutionException
+	public void execute(JobExecutionContext jobContext) throws JobExecutionException
 	{
-		JobDetail jobDetail = jobContext.getJobDetail ();
-		Runnable runnable = (Runnable) jobDetail.getJobDataMap ().get ("runnable");
+		JobDetail jobDetail = jobContext.getJobDetail();
+		Runnable runnable = (Runnable) jobDetail.getJobDataMap().get("runnable");
 
-		runnable.run ();
+		runnable.run();
 	}
 }

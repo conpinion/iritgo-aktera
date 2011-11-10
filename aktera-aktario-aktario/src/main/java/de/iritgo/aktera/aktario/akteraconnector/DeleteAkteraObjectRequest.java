@@ -45,54 +45,54 @@ public class DeleteAkteraObjectRequest extends FrameworkServerAction
 	/**
 	 * Standard constructor
 	 */
-	public DeleteAkteraObjectRequest ()
+	public DeleteAkteraObjectRequest()
 	{
 	}
 
 	/**
 	 * Standard constructor
 	 */
-	public DeleteAkteraObjectRequest (String model, DataObject dataObject, String onScreenUniqueId)
+	public DeleteAkteraObjectRequest(String model, DataObject dataObject, String onScreenUniqueId)
 	{
 		this.model = model;
-		this.keelObjectUniqueId = dataObject.getStringAttribute ("keelObjectId");
-		this.dataObjectUniqueId = dataObject.getUniqueId ();
+		this.keelObjectUniqueId = dataObject.getStringAttribute("keelObjectId");
+		this.dataObjectUniqueId = dataObject.getUniqueId();
 		this.onScreenUniqueId = onScreenUniqueId;
 	}
 
 	/**
 	 * Read the attributes from the given stream.
 	 */
-	public void readObject (FrameworkInputStream stream) throws IOException, ClassNotFoundException
+	public void readObject(FrameworkInputStream stream) throws IOException, ClassNotFoundException
 	{
-		model = stream.readUTF ();
-		keelObjectUniqueId = stream.readUTF ();
-		dataObjectUniqueId = stream.readLong ();
-		onScreenUniqueId = stream.readUTF ();
+		model = stream.readUTF();
+		keelObjectUniqueId = stream.readUTF();
+		dataObjectUniqueId = stream.readLong();
+		onScreenUniqueId = stream.readUTF();
 	}
 
 	/**
 	 * Write the attributes to the given stream.
 	 */
-	public void writeObject (FrameworkOutputStream stream) throws IOException
+	public void writeObject(FrameworkOutputStream stream) throws IOException
 	{
-		stream.writeUTF (model);
-		stream.writeUTF (keelObjectUniqueId);
-		stream.writeLong (dataObjectUniqueId);
-		stream.writeUTF (onScreenUniqueId);
+		stream.writeUTF(model);
+		stream.writeUTF(keelObjectUniqueId);
+		stream.writeLong(dataObjectUniqueId);
+		stream.writeUTF(onScreenUniqueId);
 	}
 
 	/**
 	 * Perform the action.
 	 */
-	public void perform ()
+	public void perform()
 	{
-		ConnectorServerManager connectorServerManager = (ConnectorServerManager) Engine.instance ()
-						.getManagerRegistry ().getManager ("ConnectorServerManager");
+		ConnectorServerManager connectorServerManager = (ConnectorServerManager) Engine.instance().getManagerRegistry()
+						.getManager("ConnectorServerManager");
 
-		connectorServerManager.deleteKeelObject (model, keelObjectUniqueId, userUniqueId);
+		connectorServerManager.deleteKeelObject(model, keelObjectUniqueId, userUniqueId);
 
-		ActionTools.sendToClient (userUniqueId, new DeleteAkteraObjectResponse (model, keelObjectUniqueId,
+		ActionTools.sendToClient(userUniqueId, new DeleteAkteraObjectResponse(model, keelObjectUniqueId,
 						dataObjectUniqueId, onScreenUniqueId));
 	}
 }

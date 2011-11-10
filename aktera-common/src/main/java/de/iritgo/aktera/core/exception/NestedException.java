@@ -44,18 +44,18 @@ public class NestedException extends Exception
 {
 	private String errorKey = null;
 
-	private StringBuffer addedStacktrace = new StringBuffer ();
+	private StringBuffer addedStacktrace = new StringBuffer();
 
-	private StringBuffer addedMessages = new StringBuffer ();
+	private StringBuffer addedMessages = new StringBuffer();
 
-	private String nestedExceptionType = getClass ().getName ();
+	private String nestedExceptionType = getClass().getName();
 
 	/**
 	 * Default constructor
 	 */
-	public NestedException ()
+	public NestedException()
 	{
-		super ();
+		super();
 	}
 
 	/**
@@ -63,17 +63,17 @@ public class NestedException extends Exception
 	 *
 	 * @param   s exception message
 	 */
-	public NestedException (String s)
+	public NestedException(String s)
 	{
-		super (s);
+		super(s);
 	}
 
 	/**
 	 * String message and error key
 	 */
-	public NestedException (String s, String newErrorKey)
+	public NestedException(String s, String newErrorKey)
 	{
-		super (s);
+		super(s);
 		errorKey = newErrorKey;
 	}
 
@@ -83,10 +83,10 @@ public class NestedException extends Exception
 	 * @param   s The exception message
 	 * @param   newNested The nested item
 	 */
-	public NestedException (String message, Throwable newNested)
+	public NestedException(String message, Throwable newNested)
 	{
-		super (message);
-		setNested (newNested);
+		super(message);
+		setNested(newNested);
 	}
 
 	/**
@@ -96,10 +96,10 @@ public class NestedException extends Exception
 	 * @param   newNested The nested item
 	 * @param   errorKey A string key to the messages bundle
 	 */
-	public NestedException (String message, Throwable newNested, String newErrorKey)
+	public NestedException(String message, Throwable newNested, String newErrorKey)
 	{
-		super (message);
-		setNested (newNested);
+		super(message);
+		setNested(newNested);
 		errorKey = newErrorKey;
 	}
 
@@ -108,10 +108,10 @@ public class NestedException extends Exception
 	 *
 	 * @param   newNested The nested exception
 	 */
-	public NestedException (Throwable newNested)
+	public NestedException(Throwable newNested)
 	{
-		super ();
-		setNested (newNested);
+		super();
+		setNested(newNested);
 	}
 
 	/**
@@ -119,26 +119,26 @@ public class NestedException extends Exception
 	 *
 	 * @param   newNested The nested exception
 	 */
-	public NestedException (Throwable newNested, String newErrorKey)
+	public NestedException(Throwable newNested, String newErrorKey)
 	{
-		super ();
-		setNested (newNested);
+		super();
+		setNested(newNested);
 		errorKey = newErrorKey;
 	}
 
-	public void addToMessage (String s)
+	public void addToMessage(String s)
 	{
-		addedMessages.append (", " + s);
+		addedMessages.append(", " + s);
 	}
 
-	private void setNested (Throwable newNested)
+	private void setNested(Throwable newNested)
 	{
-		addToStack (getStackTraceAsString (newNested));
-		addToMessage (newNested.getMessage ());
-		nestedExceptionType = newNested.getClass ().getName ();
+		addToStack(getStackTraceAsString(newNested));
+		addToMessage(newNested.getMessage());
+		nestedExceptionType = newNested.getClass().getName();
 	}
 
-	public String getNestedExceptionType ()
+	public String getNestedExceptionType()
 	{
 		return nestedExceptionType;
 	}
@@ -148,15 +148,15 @@ public class NestedException extends Exception
 	 *
 	 * @return The extended message.
 	 */
-	public String getMessage ()
+	public String getMessage()
 	{
-		return super.getMessage () + addedMessages.toString ();
+		return super.getMessage() + addedMessages.toString();
 	}
 
 	/**
 	 * Return the error key if one was supplied
 	 */
-	public String getErrorKey ()
+	public String getErrorKey()
 	{
 		return errorKey;
 	}
@@ -164,9 +164,9 @@ public class NestedException extends Exception
 	/**
 	 * Extend printStackTrace to handle the nested exception correctly.
 	 */
-	public void printStackTrace ()
+	public void printStackTrace()
 	{
-		printStackTrace (System.err);
+		printStackTrace(System.err);
 	}
 
 	/**
@@ -174,10 +174,10 @@ public class NestedException extends Exception
 	 *
 	 * @param   p The PrintStream to write the exception messages into
 	 */
-	public void printStackTrace (PrintStream p)
+	public void printStackTrace(PrintStream p)
 	{
-		super.printStackTrace (p);
-		p.println (addedStacktrace.toString ());
+		super.printStackTrace(p);
+		p.println(addedStacktrace.toString());
 	}
 
 	/**
@@ -185,10 +185,10 @@ public class NestedException extends Exception
 	 *
 	 * @param   p The PrintWriter to write the exception messages into
 	 */
-	public void printStackTrace (PrintWriter p)
+	public void printStackTrace(PrintWriter p)
 	{
-		super.printStackTrace (p);
-		p.println (addedStacktrace.toString ());
+		super.printStackTrace(p);
+		p.println(addedStacktrace.toString());
 	}
 
 	/**
@@ -196,23 +196,23 @@ public class NestedException extends Exception
 	 *
 	 * @param s The string to add: presumably the string representation of another stack trace
 	 */
-	public void addToStack (String s)
+	public void addToStack(String s)
 	{
-		addedStacktrace.append ("\n-----------------------------------------\n" + s + "\n");
+		addedStacktrace.append("\n-----------------------------------------\n" + s + "\n");
 	}
 
-	public String getStackTraceAsString ()
+	public String getStackTraceAsString()
 	{
-		return getStackTraceAsString (this);
+		return getStackTraceAsString(this);
 	}
 
-	private String getStackTraceAsString (Throwable t)
+	private String getStackTraceAsString(Throwable t)
 	{
-		StringWriter stw = new StringWriter ();
-		PrintWriter pw = new PrintWriter (stw);
+		StringWriter stw = new StringWriter();
+		PrintWriter pw = new PrintWriter(stw);
 
-		t.printStackTrace (pw);
+		t.printStackTrace(pw);
 
-		return stw.getBuffer ().toString ();
+		return stw.getBuffer().toString();
 	}
 }

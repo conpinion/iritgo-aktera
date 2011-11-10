@@ -88,13 +88,13 @@ public class FormularDescriptor implements Serializable
 	/**
 	 * Create a new, empty formular.
 	 */
-	public FormularDescriptor ()
+	public FormularDescriptor()
 	{
-		groups = new LinkedList<GroupDescriptor> ();
-		groupsByKey = new HashMap<String, GroupDescriptor> ();
-		pages = new LinkedList<PageDescriptor> ();
-		pagesByKey = new HashMap<String, PageDescriptor> ();
-		commands = new CommandDescriptor ();
+		groups = new LinkedList<GroupDescriptor>();
+		groupsByKey = new HashMap<String, GroupDescriptor>();
+		pages = new LinkedList<PageDescriptor>();
+		pagesByKey = new HashMap<String, PageDescriptor>();
+		commands = new CommandDescriptor();
 	}
 
 	/**
@@ -104,13 +104,13 @@ public class FormularDescriptor implements Serializable
 	 * @param bundle The resource bundle to lookup for the label.
 	 * @return The new page.
 	 */
-	public PageDescriptor addPage (String label, String bundle)
+	public PageDescriptor addPage(String label, String bundle)
 	{
-		PageDescriptor page = new PageDescriptor (label, bundle);
+		PageDescriptor page = new PageDescriptor(label, bundle);
 
 		lastCreatedPage = page;
-		pages.add (page);
-		pagesByKey.put (label, page);
+		pages.add(page);
+		pagesByKey.put(label, page);
 
 		return page;
 	}
@@ -122,14 +122,14 @@ public class FormularDescriptor implements Serializable
 	 * @param bundle The resource bundle to lookup for the label.
 	 * @return The new group.
 	 */
-	public GroupDescriptor addGroup (String label, String bundle)
+	public GroupDescriptor addGroup(String label, String bundle)
 	{
-		GroupDescriptor group = new GroupDescriptor (label, bundle);
-		groups.add (group);
-		groupsByKey.put (label, group);
+		GroupDescriptor group = new GroupDescriptor(label, bundle);
+		groups.add(group);
+		groupsByKey.put(label, group);
 		if (lastCreatedPage != null)
 		{
-			lastCreatedPage.addGroup (group);
+			lastCreatedPage.addGroup(group);
 		}
 		return group;
 	}
@@ -139,9 +139,9 @@ public class FormularDescriptor implements Serializable
 	 *
 	 * @return A group iterator.
 	 */
-	public Iterator groupIterator ()
+	public Iterator groupIterator()
 	{
-		return groups.iterator ();
+		return groups.iterator();
 	}
 
 	/**
@@ -149,7 +149,7 @@ public class FormularDescriptor implements Serializable
 	 *
 	 * @return The formular groups
 	 */
-	public List<GroupDescriptor> getGroups ()
+	public List<GroupDescriptor> getGroups()
 	{
 		return groups;
 	}
@@ -161,13 +161,13 @@ public class FormularDescriptor implements Serializable
 	 * @return The group.
 	 * @throws ModelException If the group wasn't found.
 	 */
-	public GroupDescriptor getGroup (String key) throws ModelException
+	public GroupDescriptor getGroup(String key) throws ModelException
 	{
-		GroupDescriptor group = groupsByKey.get (key);
+		GroupDescriptor group = groupsByKey.get(key);
 
 		if (group == null)
 		{
-			throw new ModelException ("Unable to find group '" + key + "' in formular '" + id + "'");
+			throw new ModelException("Unable to find group '" + key + "' in formular '" + id + "'");
 		}
 
 		return group;
@@ -179,9 +179,9 @@ public class FormularDescriptor implements Serializable
 	 * @param key The group key.
 	 * @return True if the formular contains a given group.
 	 */
-	public boolean hasGroup (String key)
+	public boolean hasGroup(String key)
 	{
-		return groupsByKey.get (key) != null;
+		return groupsByKey.get(key) != null;
 	}
 
 	/**
@@ -190,9 +190,9 @@ public class FormularDescriptor implements Serializable
 	 * @param key The group key.
 	 * @return True if the formular contains a given group.
 	 */
-	public boolean containsGroup (String key)
+	public boolean containsGroup(String key)
 	{
-		return hasGroup (key);
+		return hasGroup(key);
 	}
 
 	/**
@@ -200,9 +200,9 @@ public class FormularDescriptor implements Serializable
 	 *
 	 * @return A page iterator.
 	 */
-	public Iterator pageIterator ()
+	public Iterator pageIterator()
 	{
-		return pages.iterator ();
+		return pages.iterator();
 	}
 
 	/**
@@ -210,9 +210,9 @@ public class FormularDescriptor implements Serializable
 	 *
 	 * @return The page count.
 	 */
-	public int getPageCount ()
+	public int getPageCount()
 	{
-		return pages.size ();
+		return pages.size();
 	}
 
 	/**
@@ -220,9 +220,9 @@ public class FormularDescriptor implements Serializable
 	 *
 	 * @return True if the formular contains pages.
 	 */
-	public boolean hasPages ()
+	public boolean hasPages()
 	{
-		return pages.size () > 0;
+		return pages.size() > 0;
 	}
 
 	/**
@@ -230,7 +230,7 @@ public class FormularDescriptor implements Serializable
 	 *
 	 * @return True if the formular contains the page.
 	 */
-	public boolean hasPage (String name)
+	public boolean hasPage(String name)
 	{
 		return true;
 	}
@@ -241,9 +241,9 @@ public class FormularDescriptor implements Serializable
 	 * @param index The page index.
 	 * @return The page.
 	 */
-	public PageDescriptor getPage (int index)
+	public PageDescriptor getPage(int index)
 	{
-		return pages.get (index);
+		return pages.get(index);
 	}
 
 	/**
@@ -251,7 +251,7 @@ public class FormularDescriptor implements Serializable
 	 *
 	 * @param idField The new id field.
 	 */
-	public void setIdField (String idField)
+	public void setIdField(String idField)
 	{
 		this.idField = idField;
 	}
@@ -261,7 +261,7 @@ public class FormularDescriptor implements Serializable
 	 *
 	 * @return The id field.
 	 */
-	public String getIdField ()
+	public String getIdField()
 	{
 		return idField;
 	}
@@ -271,7 +271,7 @@ public class FormularDescriptor implements Serializable
 	 *
 	 * @return The title.
 	 */
-	public String getTitle ()
+	public String getTitle()
 	{
 		return title;
 	}
@@ -281,7 +281,7 @@ public class FormularDescriptor implements Serializable
 	 *
 	 * @return title The new title.
 	 */
-	public void setTitle (String title)
+	public void setTitle(String title)
 	{
 		this.title = title;
 	}
@@ -291,7 +291,7 @@ public class FormularDescriptor implements Serializable
 	 *
 	 * @return The icon.
 	 */
-	public String getIcon ()
+	public String getIcon()
 	{
 		return icon;
 	}
@@ -301,7 +301,7 @@ public class FormularDescriptor implements Serializable
 	 *
 	 * @return icon The new icon.
 	 */
-	public void setIcon (String icon)
+	public void setIcon(String icon)
 	{
 		this.icon = icon;
 	}
@@ -311,7 +311,7 @@ public class FormularDescriptor implements Serializable
 	 *
 	 * @return The ressource bundle name.
 	 */
-	public String getBundle ()
+	public String getBundle()
 	{
 		return bundle;
 	}
@@ -321,7 +321,7 @@ public class FormularDescriptor implements Serializable
 	 *
 	 * @return bundle The new ressource bundle name.
 	 */
-	public void setBundle (String bundle)
+	public void setBundle(String bundle)
 	{
 		this.bundle = bundle;
 	}
@@ -331,7 +331,7 @@ public class FormularDescriptor implements Serializable
 	 *
 	 * @return The read onyl state.
 	 */
-	public boolean getReadOnly ()
+	public boolean getReadOnly()
 	{
 		return readOnly;
 	}
@@ -341,7 +341,7 @@ public class FormularDescriptor implements Serializable
 	 *
 	 * @return The read onyl state.
 	 */
-	public boolean isReadOnly ()
+	public boolean isReadOnly()
 	{
 		return readOnly;
 	}
@@ -351,7 +351,7 @@ public class FormularDescriptor implements Serializable
 	 *
 	 * @return readOnly The new read only state.
 	 */
-	public void setReadOnly (boolean readOnly)
+	public void setReadOnly(boolean readOnly)
 	{
 		this.readOnly = readOnly;
 	}
@@ -361,7 +361,7 @@ public class FormularDescriptor implements Serializable
 	 *
 	 * @param labelWidth The new label width.
 	 */
-	public void setLabelWidth (int labelWidth)
+	public void setLabelWidth(int labelWidth)
 	{
 		this.labelWidth = labelWidth;
 	}
@@ -371,7 +371,7 @@ public class FormularDescriptor implements Serializable
 	 *
 	 * @param labelWidth The new label width.
 	 */
-	public int getLabelWidth ()
+	public int getLabelWidth()
 	{
 		return labelWidth;
 	}
@@ -379,27 +379,27 @@ public class FormularDescriptor implements Serializable
 	/**
 	 * Sort all pages, groups and fields by comparing their relative position.
 	 */
-	public void sort ()
+	public void sort()
 	{
-		Collections.sort (pages, new Comparator<PageDescriptor> ()
+		Collections.sort(pages, new Comparator<PageDescriptor>()
 		{
-			public int compare (PageDescriptor page1, PageDescriptor page2)
+			public int compare(PageDescriptor page1, PageDescriptor page2)
 			{
-				return page1.getPosition () - page2.getPosition ();
+				return page1.getPosition() - page2.getPosition();
 			}
 		});
 
-		Collections.sort (groups, new Comparator<GroupDescriptor> ()
+		Collections.sort(groups, new Comparator<GroupDescriptor>()
 		{
-			public int compare (GroupDescriptor group1, GroupDescriptor group2)
+			public int compare(GroupDescriptor group1, GroupDescriptor group2)
 			{
-				return group1.getPosition () - group2.getPosition ();
+				return group1.getPosition() - group2.getPosition();
 			}
 		});
 
 		for (PageDescriptor page : pages)
 		{
-			page.sort ();
+			page.sort();
 		}
 	}
 
@@ -410,9 +410,9 @@ public class FormularDescriptor implements Serializable
 	 * @param persistents The edited persistent descriptor.
 	 * @return The current page.
 	 */
-	public PageDescriptor getCurrentPage (ModelRequest req, PersistentDescriptor persistents)
+	public PageDescriptor getCurrentPage(ModelRequest req, PersistentDescriptor persistents)
 	{
-		return getPage (page);
+		return getPage(page);
 	}
 
 	/**
@@ -420,7 +420,7 @@ public class FormularDescriptor implements Serializable
 	 *
 	 * @return The persistents.
 	 */
-	public PersistentDescriptor getPersistents ()
+	public PersistentDescriptor getPersistents()
 	{
 		return persistents;
 	}
@@ -430,7 +430,7 @@ public class FormularDescriptor implements Serializable
 	 *
 	 * @return persistents The new persistents.
 	 */
-	public void setPersistents (PersistentDescriptor persistents)
+	public void setPersistents(PersistentDescriptor persistents)
 	{
 		this.persistents = persistents;
 	}
@@ -440,7 +440,7 @@ public class FormularDescriptor implements Serializable
 	 *
 	 * @return The forumlar commands.
 	 */
-	public CommandDescriptor getCommands ()
+	public CommandDescriptor getCommands()
 	{
 		return commands;
 	}
@@ -450,7 +450,7 @@ public class FormularDescriptor implements Serializable
 	 *
 	 * @param page The new current page.
 	 */
-	public void setPage (int page)
+	public void setPage(int page)
 	{
 		this.page = page;
 	}
@@ -460,7 +460,7 @@ public class FormularDescriptor implements Serializable
 	 *
 	 * @return The current page.
 	 */
-	public int getPage ()
+	public int getPage()
 	{
 		return page;
 	}
@@ -471,15 +471,15 @@ public class FormularDescriptor implements Serializable
 	 * @param name The field name.
 	 * @return The page number or -1 if the field wasn't found.
 	 */
-	public int getPageWithField (String name)
+	public int getPageWithField(String name)
 	{
 		int pageNum = 0;
 
 		for (PageDescriptor page : pages)
 		{
-			for (GroupDescriptor group : page.getGroups ())
+			for (GroupDescriptor group : page.getGroups())
 			{
-				if (group.containsField (name))
+				if (group.containsField(name))
 				{
 					return pageNum;
 				}
@@ -496,9 +496,9 @@ public class FormularDescriptor implements Serializable
 	 *
 	 * @return True if the formular has visible buttons.
 	 */
-	public boolean hasVisibleButtons ()
+	public boolean hasVisibleButtons()
 	{
-		return commands.hasVisibleButtons ();
+		return commands.hasVisibleButtons();
 	}
 
 	/**
@@ -506,7 +506,7 @@ public class FormularDescriptor implements Serializable
 	 *
 	 * @param bundle The new title resource bundle.
 	 */
-	public void setTitleBundle (String titleBundle)
+	public void setTitleBundle(String titleBundle)
 	{
 		this.titleBundle = titleBundle;
 	}
@@ -516,7 +516,7 @@ public class FormularDescriptor implements Serializable
 	 *
 	 * @return The title resource bundle.
 	 */
-	public String getTitleBundle ()
+	public String getTitleBundle()
 	{
 		return titleBundle != null ? titleBundle : bundle;
 	}
@@ -527,15 +527,15 @@ public class FormularDescriptor implements Serializable
 	 * @param name The name of the field to check.
 	 * @return True if the formular contains the field.
 	 */
-	public boolean hasField (String name)
+	public boolean hasField(String name)
 	{
-		if (hasPages ())
+		if (hasPages())
 		{
 			for (PageDescriptor page : pages)
 			{
-				for (GroupDescriptor group : page.getGroups ())
+				for (GroupDescriptor group : page.getGroups())
 				{
-					if (group.containsField (name))
+					if (group.containsField(name))
 					{
 						return true;
 					}
@@ -546,7 +546,7 @@ public class FormularDescriptor implements Serializable
 		{
 			for (GroupDescriptor group : groups)
 			{
-				if (group.containsField (name))
+				if (group.containsField(name))
 				{
 					return true;
 				}
@@ -562,9 +562,9 @@ public class FormularDescriptor implements Serializable
 	 * @param name The name of the field to check.
 	 * @return True if the formular contains the field.
 	 */
-	public boolean containsField (String name)
+	public boolean containsField(String name)
 	{
-		return hasField (name);
+		return hasField(name);
 	}
 
 	/**
@@ -572,7 +572,7 @@ public class FormularDescriptor implements Serializable
 	 *
 	 * @param id The formular id.
 	 */
-	public void setId (String id)
+	public void setId(String id)
 	{
 		this.id = id;
 	}
@@ -582,18 +582,18 @@ public class FormularDescriptor implements Serializable
 	 *
 	 * @return The formular id.
 	 */
-	public String getId ()
+	public String getId()
 	{
 		return id;
 	}
 
-	public FieldDescriptor getField (String name)
+	public FieldDescriptor getField(String name)
 	{
 		for (GroupDescriptor group : groups)
 		{
 			try
 			{
-				return group.getField (name);
+				return group.getField(name);
 			}
 			catch (ModelException notFound)
 			{

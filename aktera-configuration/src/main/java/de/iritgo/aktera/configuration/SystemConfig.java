@@ -72,7 +72,7 @@ public class SystemConfig implements Serializable
 	/**
 	 * Initialize a new system config.
 	 */
-	public SystemConfig ()
+	public SystemConfig()
 	{
 	}
 
@@ -84,7 +84,7 @@ public class SystemConfig implements Serializable
 	 * @param type The config type
 	 * @param value The config value
 	 */
-	public SystemConfig (String category, String name, String type, String value)
+	public SystemConfig(String category, String name, String type, String value)
 	{
 		this.category = category;
 		this.name = name;
@@ -103,7 +103,7 @@ public class SystemConfig implements Serializable
 	 *   null-allowed="false"
 	 *   auto-increment="identity"
 	 */
-	public Integer getId ()
+	public Integer getId()
 	{
 		return id;
 	}
@@ -111,7 +111,7 @@ public class SystemConfig implements Serializable
 	/**
 	 * Set the primary key.
 	 */
-	public void setId (Integer id)
+	public void setId(Integer id)
 	{
 		this.id = id;
 	}
@@ -127,7 +127,7 @@ public class SystemConfig implements Serializable
 	 *   primary-key="true"
 	 *   null-allowed="false"
 	 */
-	public String getCategory ()
+	public String getCategory()
 	{
 		return category;
 	}
@@ -135,7 +135,7 @@ public class SystemConfig implements Serializable
 	/**
 	 * Set the category.
 	 */
-	public void setCategory (String category)
+	public void setCategory(String category)
 	{
 		this.category = category;
 	}
@@ -151,7 +151,7 @@ public class SystemConfig implements Serializable
 	 *   primary-key="true"
 	 *   null-allowed="false"
 	 */
-	public String getName ()
+	public String getName()
 	{
 		return name;
 	}
@@ -159,7 +159,7 @@ public class SystemConfig implements Serializable
 	/**
 	 * Set the name.
 	 */
-	public void setName (String name)
+	public void setName(String name)
 	{
 		this.name = name;
 	}
@@ -174,7 +174,7 @@ public class SystemConfig implements Serializable
 	 *   length="1"
 	 *   null-allowed="false"
 	 */
-	public String getType ()
+	public String getType()
 	{
 		return type;
 	}
@@ -182,7 +182,7 @@ public class SystemConfig implements Serializable
 	/**
 	 * Set the value type.
 	 */
-	public void setType (String type)
+	public void setType(String type)
 	{
 		this.type = type;
 	}
@@ -195,7 +195,7 @@ public class SystemConfig implements Serializable
 	 *   db-name="value"
 	 *   type="text"
 	 */
-	public String getValue ()
+	public String getValue()
 	{
 		return value;
 	}
@@ -203,7 +203,7 @@ public class SystemConfig implements Serializable
 	/**
 	 * Set the configuration value.
 	 */
-	public void setValue (String value)
+	public void setValue(String value)
 	{
 		this.value = value;
 	}
@@ -216,7 +216,7 @@ public class SystemConfig implements Serializable
 	 *   db-name="validValues"
 	 *   type="text"
 	 */
-	public String getValidValues ()
+	public String getValidValues()
 	{
 		return validValues;
 	}
@@ -224,7 +224,7 @@ public class SystemConfig implements Serializable
 	/**
 	 * Set the valid value.
 	 */
-	public void setValidValues (String validValues)
+	public void setValidValues(String validValues)
 	{
 		this.validValues = validValues;
 	}

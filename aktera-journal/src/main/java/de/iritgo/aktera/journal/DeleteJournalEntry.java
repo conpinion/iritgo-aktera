@@ -45,33 +45,33 @@ public class DeleteJournalEntry extends StandardLogEnabledModel
 	 * @param req The model request.
 	 * @return The model response.
 	 */
-	public ModelResponse execute (ModelRequest req) throws ModelException
+	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
-		JournalManager journalManager = (JournalManager) req.getSpringBean (JournalManager.ID);
+		JournalManager journalManager = (JournalManager) req.getSpringBean(JournalManager.ID);
 
 		String[] ids;
 
-		if (req.getParameter ("id") == null)
+		if (req.getParameter("id") == null)
 		{
 			ids = new String[0];
 		}
-		else if (req.getParameter ("id") instanceof String)
+		else if (req.getParameter("id") instanceof String)
 		{
 			ids = new String[]
 			{
-				(String) req.getParameter ("id")
+				(String) req.getParameter("id")
 			};
 		}
 		else
 		{
-			ids = (String[]) req.getParameter ("id");
+			ids = (String[]) req.getParameter("id");
 		}
 
 		for (int i = 0; i < ids.length; ++i)
 		{
-			journalManager.deleteJournalEntry (NumberTools.toInt (ids[i], - 1));
+			journalManager.deleteJournalEntry(NumberTools.toInt(ids[i], - 1));
 		}
 
-		return req.createResponse ();
+		return req.createResponse();
 	}
 }

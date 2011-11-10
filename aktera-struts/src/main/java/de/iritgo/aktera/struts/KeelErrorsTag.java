@@ -75,34 +75,34 @@ public class KeelErrorsTag extends ErrorsTag
 	 *
 	 * @exception JspException if a JSP exception has occurred
 	 */
-	public int doStartTag () throws JspException
+	public int doStartTag() throws JspException
 	{
 		// Were any error messages specified?
 		ActionMessages errors = null;
 
 		try
 		{
-			errors = TagUtils.getInstance ().getActionMessages (pageContext, name);
+			errors = TagUtils.getInstance().getActionMessages(pageContext, name);
 		}
 		catch (JspException e)
 		{
-			TagUtils.getInstance ().saveException (pageContext, e);
+			TagUtils.getInstance().saveException(pageContext, e);
 			throw e;
 		}
 
-		if ((errors == null) || errors.isEmpty ())
+		if ((errors == null) || errors.isEmpty())
 		{
 			return (EVAL_BODY_INCLUDE);
 		}
 
 		// Check for presence of header and footer message keys
-		boolean headerPresent = TagUtils.getInstance ().present (pageContext, bundle, locale, "errors.header");
-		boolean footerPresent = TagUtils.getInstance ().present (pageContext, bundle, locale, "errors.footer");
-		boolean prefixPresent = TagUtils.getInstance ().present (pageContext, bundle, locale, "error.prefix");
-		boolean suffixPresent = TagUtils.getInstance ().present (pageContext, bundle, locale, "error.suffix");
+		boolean headerPresent = TagUtils.getInstance().present(pageContext, bundle, locale, "errors.header");
+		boolean footerPresent = TagUtils.getInstance().present(pageContext, bundle, locale, "errors.footer");
+		boolean prefixPresent = TagUtils.getInstance().present(pageContext, bundle, locale, "error.prefix");
+		boolean suffixPresent = TagUtils.getInstance().present(pageContext, bundle, locale, "error.suffix");
 
 		// Render the error messages appropriately
-		StringBuffer results = new StringBuffer ();
+		StringBuffer results = new StringBuffer();
 		boolean headerDone = false;
 		boolean oneErrorOnly = false;
 		String message = null;
@@ -110,25 +110,25 @@ public class KeelErrorsTag extends ErrorsTag
 
 		if (property == null)
 		{
-			reports = errors.get ();
+			reports = errors.get();
 		}
 		else
 		{
 			oneErrorOnly = true;
-			reports = errors.get (property);
+			reports = errors.get(property);
 		}
 
-		while (reports.hasNext ())
+		while (reports.hasNext())
 		{
-			ActionMessage report = (ActionMessage) reports.next ();
+			ActionMessage report = (ActionMessage) reports.next();
 
 			if ((! headerDone) && (! oneErrorOnly))
 			{
 				if (headerPresent)
 				{
-					message = TagUtils.getInstance ().message (pageContext, bundle, locale, "errors.header");
-					results.append (message);
-					results.append ("<BR>");
+					message = TagUtils.getInstance().message(pageContext, bundle, locale, "errors.header");
+					results.append(message);
+					results.append("<BR>");
 				}
 
 				headerDone = true;
@@ -136,58 +136,58 @@ public class KeelErrorsTag extends ErrorsTag
 
 			if ((prefixPresent) && (! oneErrorOnly))
 			{
-				results.append (TagUtils.getInstance ().message (pageContext, bundle, locale, "error.prefix"));
+				results.append(TagUtils.getInstance().message(pageContext, bundle, locale, "error.prefix"));
 			}
 			else
 			{
 				if (! oneErrorOnly)
 				{
-					results.append ("<tr><td><font color=\"red\">");
+					results.append("<tr><td><font color=\"red\">");
 				}
 			}
 
-			if (report.getKey ().startsWith ("$"))
+			if (report.getKey().startsWith("$"))
 			{
-				message = TagUtils.getInstance ().message (pageContext, bundle, locale, report.getKey (),
-								report.getValues ());
+				message = TagUtils.getInstance().message(pageContext, bundle, locale, report.getKey(),
+								report.getValues());
 			}
 			else
 			{
-				message = report.getKey ();
+				message = report.getKey();
 			}
 
 			if (message != null)
 			{
-				results.append (message);
+				results.append(message);
 			}
 
 			if (! oneErrorOnly)
 			{
-				results.append ("<BR>");
+				results.append("<BR>");
 			}
 
 			if ((suffixPresent) && (! oneErrorOnly))
 			{
-				results.append (TagUtils.getInstance ().message (pageContext, bundle, locale, "error.suffix"));
+				results.append(TagUtils.getInstance().message(pageContext, bundle, locale, "error.suffix"));
 			}
 			else
 			{
 				if (! oneErrorOnly)
 				{
-					results.append ("</font></td></tr>");
+					results.append("</font></td></tr>");
 				}
 			}
 		}
 
 		if ((headerDone) && (footerPresent) && (! oneErrorOnly))
 		{
-			message = TagUtils.getInstance ().message (pageContext, bundle, locale, "errors.footer");
-			results.append (message);
-			results.append ("<BR>");
+			message = TagUtils.getInstance().message(pageContext, bundle, locale, "errors.footer");
+			results.append(message);
+			results.append("<BR>");
 		}
 
 		// Print the results to our output writer
-		TagUtils.getInstance ().write (pageContext, results.toString ());
+		TagUtils.getInstance().write(pageContext, results.toString());
 
 		// Continue processing this page
 		return (EVAL_BODY_INCLUDE);

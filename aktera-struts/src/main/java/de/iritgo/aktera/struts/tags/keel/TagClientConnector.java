@@ -50,7 +50,7 @@ public class TagClientConnector extends AbstractWebappClientConnector
 	/**
 	 * Create a new <code>TagClientConnector</code>
 	 */
-	public TagClientConnector ()
+	public TagClientConnector()
 	{
 		req = null;
 		res = null;
@@ -64,10 +64,10 @@ public class TagClientConnector extends AbstractWebappClientConnector
 	 * @param res The http response.
 	 * @param model The name of the model to call.
 	 */
-	public TagClientConnector (HttpServletRequest req, HttpServletResponse res, String model)
+	public TagClientConnector(HttpServletRequest req, HttpServletResponse res, String model)
 	{
-		this.req = new DefaultWebappRequest (req);
-		this.res = new DefaultWebappResponse (res);
+		this.req = new DefaultWebappRequest(req);
+		this.res = new DefaultWebappResponse(res);
 		this.model = model;
 	}
 
@@ -76,9 +76,9 @@ public class TagClientConnector extends AbstractWebappClientConnector
 	 *
 	 * @param req The http request.
 	 */
-	public void setRequest (HttpServletRequest req)
+	public void setRequest(HttpServletRequest req)
 	{
-		this.req = new DefaultWebappRequest (req);
+		this.req = new DefaultWebappRequest(req);
 	}
 
 	/**
@@ -86,9 +86,9 @@ public class TagClientConnector extends AbstractWebappClientConnector
 	 *
 	 * @param req The http response.
 	 */
-	public void setResponse (HttpServletResponse res)
+	public void setResponse(HttpServletResponse res)
 	{
-		this.res = new DefaultWebappResponse (res);
+		this.res = new DefaultWebappResponse(res);
 	}
 
 	/**
@@ -96,7 +96,7 @@ public class TagClientConnector extends AbstractWebappClientConnector
 	 *
 	 * @param req The webapp request.
 	 */
-	public void setRequest (WebappRequest req)
+	public void setRequest(WebappRequest req)
 	{
 		this.req = req;
 	}
@@ -106,7 +106,7 @@ public class TagClientConnector extends AbstractWebappClientConnector
 	 *
 	 * @param res The webapp response.
 	 */
-	public void setResponse (WebappResponse res)
+	public void setResponse(WebappResponse res)
 	{
 		this.res = res;
 	}
@@ -116,7 +116,7 @@ public class TagClientConnector extends AbstractWebappClientConnector
 	 *
 	 * @param model The model name.
 	 */
-	public void setModel (String model)
+	public void setModel(String model)
 	{
 		this.model = model;
 	}
@@ -126,15 +126,15 @@ public class TagClientConnector extends AbstractWebappClientConnector
 	 *
 	 * @return The model response.
 	 */
-	public KeelResponse execute () throws ClientException, ModelException
+	public KeelResponse execute() throws ClientException, ModelException
 	{
-		return super.execute (req, res, model);
+		return super.execute(req, res, model);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.clients.webapp.WebappClientConnector#getForward()
 	 */
-	public String getForward (KeelResponse kres)
+	public String getForward(KeelResponse kres)
 	{
 		return null;
 	}
@@ -150,11 +150,11 @@ public class TagClientConnector extends AbstractWebappClientConnector
 	 * @return The Keel request
 	 * @throws ClientException
 	 */
-	protected KeelRequest makeKeelRequest (WebappRequest wreq, String defaultModelName) throws ClientException
+	protected KeelRequest makeKeelRequest(WebappRequest wreq, String defaultModelName) throws ClientException
 	{
-		KeelRequest kreq = super.makeKeelRequest (wreq, defaultModelName);
+		KeelRequest kreq = super.makeKeelRequest(wreq, defaultModelName);
 
-		kreq.setModel (defaultModelName);
+		kreq.setModel(defaultModelName);
 
 		return kreq;
 	}

@@ -37,12 +37,12 @@ public interface IritgoUserDAO
 	 * @param name The user name
 	 * @return The user object
 	 */
-	public IritgoUser findIritgoUserByName (String name);
+	public IritgoUser findIritgoUserByName(String name);
 
 	/**
 	 * Update an Iritgo user.
 	 *
 	 * @param iritgoUser The Iritgo user to update
 	 */
-	public void updateIritgoUser (IritgoUser iritgoUser);
+	public void updateIritgoUser(IritgoUser iritgoUser);
 }

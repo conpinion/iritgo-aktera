@@ -47,60 +47,60 @@ public class OutputAdapter implements Output
 	 *
 	 * @param name The name of this output element.
 	 */
-	public OutputAdapter (String name)
+	public OutputAdapter(String name)
 	{
 		this.name = name;
-		attributes = new HashMap ();
-		elements = new LinkedList ();
+		attributes = new HashMap();
+		elements = new LinkedList();
 	}
 
-	public void setContent (Object newContent)
+	public void setContent(Object newContent)
 	{
 	}
 
-	public Object getContent ()
+	public Object getContent()
 	{
-		return toString ();
+		return toString();
 	}
 
-	public void add (ResponseElement re)
-	{
-	}
-
-	public void remove (ResponseElement re)
+	public void add(ResponseElement re)
 	{
 	}
 
-	public void setAttribute (String key, Object value)
+	public void remove(ResponseElement re)
 	{
 	}
 
-	public Object getAttribute (String key)
+	public void setAttribute(String key, Object value)
+	{
+	}
+
+	public Object getAttribute(String key)
 	{
 		return null;
 	}
 
-	public String getName ()
+	public String getName()
 	{
 		return name;
 	}
 
-	public void setName (String name)
+	public void setName(String name)
 	{
 		this.name = name;
 	}
 
-	public List getAll ()
+	public List getAll()
 	{
 		return elements;
 	}
 
-	public Map getAttributes ()
+	public Map getAttributes()
 	{
 		return attributes;
 	}
 
-	public void removeAttribute (String key)
+	public void removeAttribute(String key)
 	{
 	}
 }

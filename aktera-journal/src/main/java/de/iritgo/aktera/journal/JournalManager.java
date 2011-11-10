@@ -46,14 +46,14 @@ public interface JournalManager
 	 *
 	 * @param journal The journal
 	 */
-	public void addJournalEntry (JournalEntry journal);
+	public void addJournalEntry(JournalEntry journal);
 
 	/**
 	 * Delete a journal entry to the journal system
 	 *
 	 * @param journal The journal
 	 */
-	public void deleteJournalEntry (JournalEntry journal);
+	public void deleteJournalEntry(JournalEntry journal);
 
 	/**
 	 * Retrieve the journal entry and call on all extenders the visit method from the visitor
@@ -61,33 +61,33 @@ public interface JournalManager
 	 * @param id The journal id
 	 * @param strategy The strategy
 	 */
-	public Map<String, Object> getJournalEntryById (Integer id);
+	public Map<String, Object> getJournalEntryById(Integer id);
 
-	public List<Map<String, Object>> listJournalEntries (String parameterAsString, Timestamp start, Timestamp end,
+	public List<Map<String, Object>> listJournalEntries(String parameterAsString, Timestamp start, Timestamp end,
 					Integer ownerId, String ownerType, String sortColumnName, SortOrder sortOrder, int firstResult,
 					int resultsPerPage);
 
-	public long countJournalEntries (String search, Timestamp start, Timestamp end, Integer ownerId, String ownerType);
+	public long countJournalEntries(String search, Timestamp start, Timestamp end, Integer ownerId, String ownerType);
 
-	public List<Map<String, Object>> listJournalEntriesByPrimaryAndSecondaryType (String search, Timestamp start,
+	public List<Map<String, Object>> listJournalEntriesByPrimaryAndSecondaryType(String search, Timestamp start,
 					Timestamp end, Integer ownerId, String ownerType, String sortColumnName, SortOrder sortOrder,
 					int firstResult, int resultsPerPage, String primaryType, String secondaryType);
 
-	public long countJournalEntriesByPrimaryAndSecondaryType (String search, Timestamp start, Timestamp end,
+	public long countJournalEntriesByPrimaryAndSecondaryType(String search, Timestamp start, Timestamp end,
 					Integer ownerId, String ownerType, String primaryType, String secondaryType);
 
-	public List<Map<String, Object>> listJournalEntriesByCondition (String sortColumnName, SortOrder sortOrder,
+	public List<Map<String, Object>> listJournalEntriesByCondition(String sortColumnName, SortOrder sortOrder,
 					final int firstResult, final int resultsPerPage, final String condition,
 					final Map<String, Object> conditionMap);
 
-	public long countJournalEntriesByCondition (final String condition, final Map<String, Object> conditionMap);
+	public long countJournalEntriesByCondition(final String condition, final Map<String, Object> conditionMap);
 
 	/**
 	 * Delete a journal entry to the journal system
 	 *
 	 * @param journal The journal id
 	 */
-	public void deleteJournalEntry (int journalEntryId);
+	public void deleteJournalEntry(int journalEntryId);
 
 	/**
 	 * Execute a special execution method on the entry
@@ -96,12 +96,12 @@ public interface JournalManager
 	 * @param id The id
 	 * @param preifx The prefix
 	 */
-	public void executeJournalEntry (String commandId, int id, String prefix, ModelRequest req);
+	public void executeJournalEntry(String commandId, int id, String prefix, ModelRequest req);
 
 	/**
 	 * Delete all journal entries for the given owner id.
 	 *
 	 * @param ownerId The owner id
 	 */
-	public void deleteJournalAllEntries (Integer ownerId);
+	public void deleteJournalAllEntries(Integer ownerId);
 }

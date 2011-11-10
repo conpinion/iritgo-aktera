@@ -43,18 +43,18 @@ public interface ClientConnector
 	 * @throws ClientException
 	 * @throws ModelException
 	 */
-	public KeelResponse execute (KeelRequest req) throws ClientException, ModelException;
+	public KeelResponse execute(KeelRequest req) throws ClientException, ModelException;
 
 	/**
 	 * Set the logger
 	 * @param log the logger to use
 	 */
-	public void setLogger (Log log);
+	public void setLogger(Log log);
 
 	/**
 	 * Context to retrieve various configuration items from
 	 * @see de.iritgo.aktera.clients.KeelClient for items that can be set
 	 * @param clientContext Contains all the configuration items
 	 */
-	public void setContext (Map clientContext);
+	public void setContext(Map clientContext);
 }

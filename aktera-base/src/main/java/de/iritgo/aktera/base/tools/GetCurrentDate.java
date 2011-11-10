@@ -47,15 +47,15 @@ public class GetCurrentDate extends StandardLogEnabledModel
 	 * @param req The model request.
 	 * @throws ModelException In case of a business failure.
 	 */
-	public ModelResponse execute (ModelRequest req) throws ModelException
+	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
-		ModelResponse res = req.createResponse ();
-		Locale locale = req.getLocale ();
-		Output outDate = res.createOutput ("currentDate");
-		SimpleDateFormat simpleDate = new SimpleDateFormat ("EEE, dd. MMM yyyy - HH:mm", locale);
+		ModelResponse res = req.createResponse();
+		Locale locale = req.getLocale();
+		Output outDate = res.createOutput("currentDate");
+		SimpleDateFormat simpleDate = new SimpleDateFormat("EEE, dd. MMM yyyy - HH:mm", locale);
 
-		outDate.setContent (simpleDate.format (new Date (System.currentTimeMillis ())));
-		res.add (outDate);
+		outDate.setContent(simpleDate.format(new Date(System.currentTimeMillis())));
+		res.add(outDate);
 
 		return res;
 	}

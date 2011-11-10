@@ -84,7 +84,7 @@ public class Script implements Serializable
 	/**
 	 * Initialize a new script.
 	 */
-	public Script ()
+	public Script()
 	{
 	}
 
@@ -95,7 +95,7 @@ public class Script implements Serializable
 	 * @param code String code
 	 * @param language The script language
 	 */
-	public Script (String name, String code, String language)
+	public Script(String name, String code, String language)
 	{
 		this.name = name;
 		this.language = language;
@@ -113,7 +113,7 @@ public class Script implements Serializable
 	 *   null-allowed="false"
 	 *   auto-increment="identity"
 	 */
-	public Integer getId ()
+	public Integer getId()
 	{
 		return id;
 	}
@@ -121,7 +121,7 @@ public class Script implements Serializable
 	/**
 	 * Set the primary key.
 	 */
-	public void setId (Integer id)
+	public void setId(Integer id)
 	{
 		this.id = id;
 	}
@@ -136,7 +136,7 @@ public class Script implements Serializable
 	 *   length="255"
 	 *   null-allowed="false"
 	 */
-	public String getName ()
+	public String getName()
 	{
 		return name;
 	}
@@ -144,7 +144,7 @@ public class Script implements Serializable
 	/**
 	 * Set the script name.
 	 */
-	public void setName (String name)
+	public void setName(String name)
 	{
 		this.name = name;
 	}
@@ -159,7 +159,7 @@ public class Script implements Serializable
 	 *   length="255"
 	 *   null-allowed="false"
 	 */
-	public String getDisplayName ()
+	public String getDisplayName()
 	{
 		return displayName;
 	}
@@ -167,7 +167,7 @@ public class Script implements Serializable
 	/**
 	 * Set the script display name.
 	 */
-	public void setDisplayName (String displayName)
+	public void setDisplayName(String displayName)
 	{
 		this.displayName = displayName;
 	}
@@ -180,7 +180,7 @@ public class Script implements Serializable
 	 *   db-name="code"
 	 *   type="text"
 	 */
-	public String getCode ()
+	public String getCode()
 	{
 		return code;
 	}
@@ -188,7 +188,7 @@ public class Script implements Serializable
 	/**
 	 * Set the script code.
 	 */
-	public void setCode (String code)
+	public void setCode(String code)
 	{
 		this.code = code;
 	}
@@ -204,7 +204,7 @@ public class Script implements Serializable
 	 *   null-allowed="false"
 	 *   default-value="groovy"
 	 */
-	public String getLanguage ()
+	public String getLanguage()
 	{
 		return language;
 	}
@@ -212,7 +212,7 @@ public class Script implements Serializable
 	/**
 	 * Set the script language.
 	 */
-	public void setLanguage (String language)
+	public void setLanguage(String language)
 	{
 		this.language = language;
 	}
@@ -225,7 +225,7 @@ public class Script implements Serializable
 	 *   db-name="description"
 	 *   type="text"
 	 */
-	public String getDescription ()
+	public String getDescription()
 	{
 		return description;
 	}
@@ -233,7 +233,7 @@ public class Script implements Serializable
 	/**
 	 * Set the description.
 	 */
-	public void setDescription (String description)
+	public void setDescription(String description)
 	{
 		this.description = description;
 	}
@@ -247,7 +247,7 @@ public class Script implements Serializable
 	 *   type="varchar"
 	 *   length="255"
 	 */
-	public String getAuthor ()
+	public String getAuthor()
 	{
 		return author;
 	}
@@ -255,7 +255,7 @@ public class Script implements Serializable
 	/**
 	 * Set the script name.
 	 */
-	public void setAuthor (String author)
+	public void setAuthor(String author)
 	{
 		this.author = author;
 	}
@@ -269,7 +269,7 @@ public class Script implements Serializable
 	 *   type="varchar"
 	 *   length="255"
 	 */
-	public String getCopyright ()
+	public String getCopyright()
 	{
 		return copyright;
 	}
@@ -277,7 +277,7 @@ public class Script implements Serializable
 	/**
 	 * Set the copyright information.
 	 */
-	public void setCopyright (String copyright)
+	public void setCopyright(String copyright)
 	{
 		this.copyright = copyright;
 	}
@@ -291,7 +291,7 @@ public class Script implements Serializable
 	 *   type="varchar"
 	 *   length="80"
 	 */
-	public String getVersion ()
+	public String getVersion()
 	{
 		return version;
 	}
@@ -299,7 +299,7 @@ public class Script implements Serializable
 	/**
 	 * Set the version information.
 	 */
-	public void setVersion (String version)
+	public void setVersion(String version)
 	{
 		this.version = version;
 	}

@@ -43,23 +43,23 @@ public class UpdateDatabase extends StandardLogEnabledModel
 	 * @param req The model request.
 	 * @throws ModelException In case of a business failure.
 	 */
-	public ModelResponse execute (ModelRequest req) throws ModelException
+	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
-		ModelResponse res = req.createResponse ();
+		ModelResponse res = req.createResponse();
 
 		try
 		{
-			UpdateHelper.update (req, res, null);
+			UpdateHelper.update(req, res, null);
 		}
 		catch (ServiceException x)
 		{
-			throw new ModelException (x);
+			throw new ModelException(x);
 		}
 
-		Command cmd = res.createCommand ("aktera.tools.goto-start-model");
+		Command cmd = res.createCommand("aktera.tools.goto-start-model");
 
-		cmd.setName ("cmd");
-		res.add (cmd);
+		cmd.setName("cmd");
+		res.add(cmd);
 
 		return res;
 	}

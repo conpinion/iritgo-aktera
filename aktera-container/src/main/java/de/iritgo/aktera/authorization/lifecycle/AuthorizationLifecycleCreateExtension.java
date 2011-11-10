@@ -45,7 +45,7 @@ public class AuthorizationLifecycleCreateExtension extends AbstractCreator imple
 
 	private KeelServiceableDelegate m_delegate = null;
 
-	public void create (Object component, Context context) throws Exception
+	public void create(Object component, Context context) throws Exception
 	{
 		if (component instanceof Securable)
 		{
@@ -54,34 +54,34 @@ public class AuthorizationLifecycleCreateExtension extends AbstractCreator imple
 
 			try
 			{
-				amHint = (String) context.get ("component.am");
+				amHint = (String) context.get("component.am");
 			}
 			catch (ContextException e)
 			{
 				//--- quikdraw: Why is this empty?
 			}
 
-			if ((null == amHint) || ("".equals (amHint) || "default".equals (amHint)))
+			if ((null == amHint) || ("".equals(amHint) || "default".equals(amHint)))
 			{
 				// No specific auth. mgr., just use the default
 				amHint = "authmanager";
 				// log the fact
-				getLogger ().debug ("no am attribute available, using standard authorization manager");
+				getLogger().debug("no am attribute available, using standard authorization manager");
 			}
 			else
 			{
 				// A specified auth. mgr. - log the fact
-				getLogger ().debug ("am attribute is " + amHint);
+				getLogger().debug("am attribute is " + amHint);
 			}
 
 			try
 			{
-				m_servicemanager = (ServiceManager) context.get (ContextManagerConstants.SERVICE_MANAGER);
+				m_servicemanager = (ServiceManager) context.get(ContextManagerConstants.SERVICE_MANAGER);
 			}
 			catch (Exception e)
 			{
-				getLogger ().error ("Could not get Service Manager for life-cycle extensions");
-				throw new Exception (e);
+				getLogger().error("Could not get Service Manager for life-cycle extensions");
+				throw new Exception(e);
 			}
 
 			// Lookup the Authorization Manager from the Service Manager
@@ -90,24 +90,24 @@ public class AuthorizationLifecycleCreateExtension extends AbstractCreator imple
 
 			try
 			{
-				myAuthMgr = (AuthorizationManager) m_servicemanager.lookup (serviceKey);
+				myAuthMgr = (AuthorizationManager) m_servicemanager.lookup(serviceKey);
 			}
 			catch (Exception e)
 			{
-				getLogger ().error ("Could not get service " + serviceKey);
-				throw new Exception (e);
+				getLogger().error("Could not get service " + serviceKey);
+				throw new Exception(e);
 			}
 
 			if (myAuthMgr == null)
 			{
-				throw new Exception ("Got null service " + serviceKey);
+				throw new Exception("Got null service " + serviceKey);
 			}
 
 			// Now set the AuthorizationManager for the component
-			((Securable) component).setAuthorizationManager (myAuthMgr);
+			((Securable) component).setAuthorizationManager(myAuthMgr);
 		}
 
-		super.create (component, context);
+		super.create(component, context);
 	}
 
 	/**
@@ -115,17 +115,17 @@ public class AuthorizationLifecycleCreateExtension extends AbstractCreator imple
 	 * @throws ServiceException
 	 * @see org.apache.avalon.framework.service.Serviceable#service(org.apache.avalon.framework.service.ServiceManager)
 	 */
-	public void service (ServiceManager manager) throws ServiceException
+	public void service(ServiceManager manager) throws ServiceException
 	{
 		m_servicemanager = manager;
-		m_delegate = new KeelServiceableDelegate (manager);
+		m_delegate = new KeelServiceableDelegate(manager);
 	}
 
 	/**
 	 * Release all services retrieved so far
 	 */
-	public synchronized void releaseServices ()
+	public synchronized void releaseServices()
 	{
-		m_delegate.releaseServices ();
+		m_delegate.releaseServices();
 	}
 }

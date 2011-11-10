@@ -63,7 +63,7 @@ public class MonthsMultiSelectTag extends org.apache.struts.taglib.html.BaseInpu
 	/**
 	 * Get the bean name.
 	 */
-	public String getName ()
+	public String getName()
 	{
 		return this.name;
 	}
@@ -71,7 +71,7 @@ public class MonthsMultiSelectTag extends org.apache.struts.taglib.html.BaseInpu
 	/**
 	 * Set the bean name.
 	 */
-	public void setName (String name)
+	public void setName(String name)
 	{
 		this.name = name;
 	}
@@ -79,7 +79,7 @@ public class MonthsMultiSelectTag extends org.apache.struts.taglib.html.BaseInpu
 	/**
 	 * Get the bundle name.
 	 */
-	public String getBundle ()
+	public String getBundle()
 	{
 		return this.bundle;
 	}
@@ -87,7 +87,7 @@ public class MonthsMultiSelectTag extends org.apache.struts.taglib.html.BaseInpu
 	/**
 	 * Set the bundle name.
 	 */
-	public void setBundle (String bundle)
+	public void setBundle(String bundle)
 	{
 		this.bundle = bundle;
 	}
@@ -97,7 +97,7 @@ public class MonthsMultiSelectTag extends org.apache.struts.taglib.html.BaseInpu
 	 *
 	 * @return The locale.
 	 */
-	public String getLocale ()
+	public String getLocale()
 	{
 		return this.locale;
 	}
@@ -107,7 +107,7 @@ public class MonthsMultiSelectTag extends org.apache.struts.taglib.html.BaseInpu
 	 *
 	 * @param locale The new locale.
 	 */
-	public void setLocale (String locale)
+	public void setLocale(String locale)
 	{
 		this.locale = locale;
 	}
@@ -117,7 +117,7 @@ public class MonthsMultiSelectTag extends org.apache.struts.taglib.html.BaseInpu
 	 *
 	 * @param readOnly Read only flag.
 	 */
-	public void setReadOnly (boolean readOnly)
+	public void setReadOnly(boolean readOnly)
 	{
 		this.readOnly = readOnly;
 	}
@@ -127,7 +127,7 @@ public class MonthsMultiSelectTag extends org.apache.struts.taglib.html.BaseInpu
 	 *
 	 * @retrun The read only flag.
 	 */
-	public boolean getReadOnly ()
+	public boolean getReadOnly()
 	{
 		return readOnly;
 	}
@@ -135,9 +135,9 @@ public class MonthsMultiSelectTag extends org.apache.struts.taglib.html.BaseInpu
 	/**
 	 * Reset all tag attributes to their default values.
 	 */
-	public void release ()
+	public void release()
 	{
-		super.release ();
+		super.release();
 
 		name = null;
 		readOnly = false;
@@ -149,55 +149,54 @@ public class MonthsMultiSelectTag extends org.apache.struts.taglib.html.BaseInpu
 	 *
 	 * @exception JspException if a JSP exception has occurred
 	 */
-	public int doStartTag () throws JspException
+	public int doStartTag() throws JspException
 	{
 		String selectedMonths = "";
 
 		if (value != null)
 		{
-			selectedMonths = "," + value.toString () + ",";
+			selectedMonths = "," + value.toString() + ",";
 		}
 		else
 		{
-			Object val = TagUtils.getInstance ().lookup (pageContext, name, property, null);
+			Object val = TagUtils.getInstance().lookup(pageContext, name, property, null);
 
 			if (val != null)
 			{
-				selectedMonths = "," + val.toString () + ",";
+				selectedMonths = "," + val.toString() + ",";
 			}
 		}
 
-		StringBuffer results = new StringBuffer ();
+		StringBuffer results = new StringBuffer();
 
-		results.append ("<table><tr>\n");
+		results.append("<table><tr>\n");
 
 		int month = 1;
 
 		for (int i = 0; i < 4; ++i)
 		{
-			results.append ("<td valign=\"top\"><select multiple=\"true\" size=\"3\" name=\"" + prepareName ()
-							+ "\">\n");
+			results.append("<td valign=\"top\"><select multiple=\"true\" size=\"3\" name=\"" + prepareName() + "\">\n");
 
 			for (int j = 0; j < 3; ++j)
 			{
-				results.append ("<option value=\"" + month + "\"");
+				results.append("<option value=\"" + month + "\"");
 
-				if (selectedMonths.indexOf ("," + month + ",") != - 1)
+				if (selectedMonths.indexOf("," + month + ",") != - 1)
 				{
-					results.append (" selected=\"true\"");
+					results.append(" selected=\"true\"");
 				}
 
-				results.append (">");
-				results.append (TagUtils.getInstance ().message (pageContext, bundle, locale, months[month - 1]));
-				results.append ("</option>");
+				results.append(">");
+				results.append(TagUtils.getInstance().message(pageContext, bundle, locale, months[month - 1]));
+				results.append("</option>");
 				++month;
 			}
 
-			results.append ("</select></td>\n");
+			results.append("</select></td>\n");
 		}
 
-		results.append ("</tr></table>\n");
-		TagUtils.getInstance ().write (pageContext, results.toString ());
+		results.append("</tr></table>\n");
+		TagUtils.getInstance().write(pageContext, results.toString());
 
 		return SKIP_BODY;
 	}

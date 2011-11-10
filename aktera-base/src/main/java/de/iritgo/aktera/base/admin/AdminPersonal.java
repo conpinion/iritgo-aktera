@@ -37,12 +37,12 @@ import de.iritgo.aktera.ui.tools.UserTools;
  */
 public class AdminPersonal extends SecurableStandardLogEnabledModel
 {
-	public ModelResponse execute (ModelRequest req) throws ModelException
+	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
-		ModelResponse res = req.createResponse ();
+		ModelResponse res = req.createResponse();
 
-		UserTools.setContextObject (req, "aktera.currentMenu", "aktera.menu.admin");
-		UserTools.removeContextObject (req, "aktera.currentMenuItem");
+		UserTools.setContextObject(req, "aktera.currentMenu", "aktera.menu.admin");
+		UserTools.removeContextObject(req, "aktera.currentMenuItem");
 
 		return res;
 	}

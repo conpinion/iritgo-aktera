@@ -110,9 +110,9 @@ public class DefaultModelValidator implements ModelValidator, LogEnabled
 	 *         any validation errors are stored as a Map in a request
 	 *         attribute, where they may be accessed by the Model as needed.
 	 */
-	public Command validate (ModelRequest req, Model newModel) throws ConfigurationException, ModelException
+	public Command validate(ModelRequest req, Model newModel) throws ConfigurationException, ModelException
 	{
-		Configuration conf = newModel.getConfiguration ();
+		Configuration conf = newModel.getConfiguration();
 
 		/* If there's no config, we can't possibly have any parameter config */
 		if (conf == null)
@@ -122,7 +122,7 @@ public class DefaultModelValidator implements ModelValidator, LogEnabled
 
 		if (! convertersRegistered)
 		{
-			registerConverters ();
+			registerConverters();
 		}
 
 		String name = null;
@@ -132,104 +132,104 @@ public class DefaultModelValidator implements ModelValidator, LogEnabled
 		String type = null;
 		boolean required = false;
 
-		Configuration[] paramConfigs = conf.getChildren ("parameter");
+		Configuration[] paramConfigs = conf.getChildren("parameter");
 
 		for (int i = 0; i < paramConfigs.length; i++)
 		{
 			Configuration oneParamConfig = paramConfigs[i];
 
-			name = oneParamConfig.getAttribute ("name");
-			required = oneParamConfig.getAttributeAsBoolean ("required", false);
-			value = req.getParameter (name);
+			name = oneParamConfig.getAttribute("name");
+			required = oneParamConfig.getAttributeAsBoolean("required", false);
+			value = req.getParameter(name);
 
 			if (required && (value == null))
 			{
-				req.addError (name, "'" + name + "' is required");
+				req.addError(name, "'" + name + "' is required");
 			}
 
-			defaultValue = oneParamConfig.getAttribute ("default", null);
-			type = oneParamConfig.getAttribute ("type", null);
+			defaultValue = oneParamConfig.getAttribute("default", null);
+			type = oneParamConfig.getAttribute("type", null);
 
 			if ((value == null) && (defaultValue != null))
 			{
-				req.setParameter (name, defaultValue);
+				req.setParameter(name, defaultValue);
 			}
 
 			if ((value != null) && (type != null))
 			{
 				/* verify the value can be converted to the specified type */
-				if (! type.equals ("java.lang.String"))
+				if (! type.equals("java.lang.String"))
 				{
 					Class clazz = null;
 
 					try
 					{
-						clazz = Class.forName (type);
+						clazz = Class.forName(type);
 					}
 					catch (ClassNotFoundException ce)
 					{
-						throw new ConfigurationException ("No class found for '" + type
+						throw new ConfigurationException("No class found for '" + type
 										+ "', specified as type for parameter '" + name + "'");
 					}
 
-					if (type.equalsIgnoreCase ("java.util.Date"))
+					if (type.equalsIgnoreCase("java.util.Date"))
 					{
 						try
 						{
-							new SuperString (value.toString ()).toDate ();
+							new SuperString(value.toString()).toDate();
 						}
 						catch (Exception e)
 						{
-							log.error ("Value '" + value + " cannot be converted to a date", e);
-							req.addError (name, "Value '" + value + "' cannot be converted to a date");
+							log.error("Value '" + value + " cannot be converted to a date", e);
+							req.addError(name, "Value '" + value + "' cannot be converted to a date");
 						}
 					}
 					else
 					{
-						Converter c = ConvertUtils.lookup (clazz);
+						Converter c = ConvertUtils.lookup(clazz);
 
 						if (c == null)
 						{
-							log.error ("No converter found for class '" + type + "'");
-							throw new IllegalArgumentException ("No converter found for class '" + type + "'");
+							log.error("No converter found for class '" + type + "'");
+							throw new IllegalArgumentException("No converter found for class '" + type + "'");
 						}
 
 						try
 						{
-							c.convert (clazz, value);
+							c.convert(clazz, value);
 						}
 						catch (ConversionException ce)
 						{
-							req.addError (name, "Value '" + value + "' cannot be converted to a '" + type + "'");
+							req.addError(name, "Value '" + value + "' cannot be converted to a '" + type + "'");
 						}
 					}
 				}
 			}
 
-			pattern = oneParamConfig.getAttribute ("pattern", null);
+			pattern = oneParamConfig.getAttribute("pattern", null);
 
 			if ((value != null) && (pattern != null))
 			{
-				if (! value.toString ().matches (pattern))
+				if (! value.toString().matches(pattern))
 				{
-					req.addError (name, "Value '" + value + "' does not match validation pattern '" + pattern + "'");
+					req.addError(name, "Value '" + value + "' does not match validation pattern '" + pattern + "'");
 				}
 			}
 		}
 
-		if (conf.getChild ("validation-error", false) != null)
+		if (conf.getChild("validation-error", false) != null)
 		{
-			Configuration validationErrorConfig = conf.getChild ("validation-error");
-			Command redirect = req.createResponse ().createCommand (validationErrorConfig.getAttribute ("model"));
+			Configuration validationErrorConfig = conf.getChild("validation-error");
+			Command redirect = req.createResponse().createCommand(validationErrorConfig.getAttribute("model"));
 
-			if (validationErrorConfig.getAttributeAsBoolean ("params", true))
+			if (validationErrorConfig.getAttributeAsBoolean("params", true))
 			{
 				String oneParamName = null;
 
-				for (Iterator i = req.getParameters ().keySet ().iterator (); i.hasNext ();)
+				for (Iterator i = req.getParameters().keySet().iterator(); i.hasNext();)
 				{
-					oneParamName = (String) i.next ();
-					redirect.setParameter (oneParamName, req.getParameter (oneParamName));
+					oneParamName = (String) i.next();
+					redirect.setParameter(oneParamName, req.getParameter(oneParamName));
 
 					return redirect;
 				}
@@ -243,7 +243,7 @@ public class DefaultModelValidator implements ModelValidator, LogEnabled
 	 * Receive our logger from the container
 	 * @param newLog The logger passed to this component by the container on initialization
 	 */
-	public void enableLogging (Logger newLog)
+	public void enableLogging(Logger newLog)
 	{
 		log = newLog;
 	}
@@ -257,13 +257,13 @@ public class DefaultModelValidator implements ModelValidator, LogEnabled
 	 * Support for additional types might require additional converters be
 	 * registered here.
 	 */
-	private void registerConverters ()
+	private void registerConverters()
 	{
-		ConvertUtils.deregister ();
-		ConvertUtils.register (new LongConverter (), java.lang.Long.class);
-		ConvertUtils.register (new IntegerConverter (), java.lang.Integer.class);
-		ConvertUtils.register (new FloatConverter (), java.lang.Float.class);
-		ConvertUtils.register (new DoubleConverter (), java.lang.Double.class);
+		ConvertUtils.deregister();
+		ConvertUtils.register(new LongConverter(), java.lang.Long.class);
+		ConvertUtils.register(new IntegerConverter(), java.lang.Integer.class);
+		ConvertUtils.register(new FloatConverter(), java.lang.Float.class);
+		ConvertUtils.register(new DoubleConverter(), java.lang.Double.class);
 
 		convertersRegistered = true;
 	}

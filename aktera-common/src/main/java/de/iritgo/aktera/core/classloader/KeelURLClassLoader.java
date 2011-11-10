@@ -42,17 +42,17 @@ public class KeelURLClassLoader extends URLClassLoader
 	/**
 	 * @see java.net.URLClassLoader#URLClassLoader(URL[])
 	 */
-	public KeelURLClassLoader (URL[] urls)
+	public KeelURLClassLoader(URL[] urls)
 	{
-		super (urls);
+		super(urls);
 	}
 
 	/**
 	 * @see java.net.URLClassLoader#URLClassLoader(URL[], ClassLoader)
 	 */
-	public KeelURLClassLoader (URL[] urls, ClassLoader loader)
+	public KeelURLClassLoader(URL[] urls, ClassLoader loader)
 	{
-		super (urls, loader);
+		super(urls, loader);
 	}
 
 	/**
@@ -61,17 +61,17 @@ public class KeelURLClassLoader extends URLClassLoader
 	 * @param name Name of the class, fully qualified with package name
 	 * @return boolean True if the class is a system class, false otherwise
 	 */
-	protected boolean isSystemResource (String name)
+	protected boolean isSystemResource(String name)
 	{
 		//return true;  // Debug: Force loading all from parent class-loader
-		return (name.startsWith ("java.") || name.startsWith ("java/") || name.startsWith ("javax.")
-						|| name.startsWith ("javax/") || name.startsWith ("sun.") || name.startsWith ("sun/")
-						|| name.startsWith ("sunw.") || name.startsWith ("sunw/") || name.startsWith ("com.sun.")
-						|| name.startsWith ("com/sun/") || name.startsWith ("org.xml.") || name.startsWith ("org/xml/")
-						|| name.startsWith ("org/w3c/") || name.startsWith ("org.w3c.")
-						|| name.startsWith ("EDU.oswego.cs.dl.util.concurrent.")
-						|| name.startsWith ("EDU/oswego/cs/dl/util/concurrent/") || name.startsWith ("ru/nlmk/") || name
-						.startsWith ("ru.nlmk."));
+		return (name.startsWith("java.") || name.startsWith("java/") || name.startsWith("javax.")
+						|| name.startsWith("javax/") || name.startsWith("sun.") || name.startsWith("sun/")
+						|| name.startsWith("sunw.") || name.startsWith("sunw/") || name.startsWith("com.sun.")
+						|| name.startsWith("com/sun/") || name.startsWith("org.xml.") || name.startsWith("org/xml/")
+						|| name.startsWith("org/w3c/") || name.startsWith("org.w3c.")
+						|| name.startsWith("EDU.oswego.cs.dl.util.concurrent.")
+						|| name.startsWith("EDU/oswego/cs/dl/util/concurrent/") || name.startsWith("ru/nlmk/") || name
+						.startsWith("ru.nlmk."));
 	}
 
 	/**
@@ -80,19 +80,19 @@ public class KeelURLClassLoader extends URLClassLoader
 	 *
 	 * @see java.lang.ClassLoader#loadClass(String, boolean)
 	 */
-	public synchronized Class loadClass (String name, boolean resolve) throws ClassNotFoundException
+	public synchronized Class loadClass(String name, boolean resolve) throws ClassNotFoundException
 	{
 		Class c = null;
 
 		//Check if the class is a system class or not
-		if (isSystemResource (name))
+		if (isSystemResource(name))
 		{
 			try
 			{
 				// Load system classes from the parent class-loader
-				if (getParent () != null)
+				if (getParent() != null)
 				{
-					c = getParent ().loadClass (name);
+					c = getParent().loadClass(name);
 				}
 			}
 			catch (ClassNotFoundException cnfe)
@@ -106,19 +106,19 @@ public class KeelURLClassLoader extends URLClassLoader
 		if (c == null)
 		{
 			// First, check if the class has already been loaded
-			c = findLoadedClass (name);
+			c = findLoadedClass(name);
 
 			if (c == null)
 			{
 				// If not found, then try to find class locally
-				c = findClass (name);
+				c = findClass(name);
 			}
 		}
 
 		// Link the class if specified
 		if (resolve)
 		{
-			resolveClass (c);
+			resolveClass(c);
 		}
 
 		return c;
@@ -130,18 +130,18 @@ public class KeelURLClassLoader extends URLClassLoader
 	 *
 	 * @see java.lang.ClassLoader#getResource(String)
 	 */
-	public URL getResource (String name)
+	public URL getResource(String name)
 	{
 		URL u = null;
 
-		if (isSystemResource (name))
+		if (isSystemResource(name))
 		{
-			u = getParent ().getResource (name);
+			u = getParent().getResource(name);
 		}
 
 		if (u == null)
 		{
-			u = findResource (name);
+			u = findResource(name);
 		}
 
 		return u;

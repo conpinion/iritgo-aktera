@@ -52,9 +52,9 @@ public class KeelListItem implements Serializable
 	/**
 	 *
 	 */
-	public KeelListItem ()
+	public KeelListItem()
 	{
-		super ();
+		super();
 	}
 
 	/**
@@ -67,7 +67,7 @@ public class KeelListItem implements Serializable
 	 *   type="varchar"
 	 * @return
 	 */
-	public String getItemCode ()
+	public String getItemCode()
 	{
 		return itemCode;
 	}
@@ -84,7 +84,7 @@ public class KeelListItem implements Serializable
 	 *   type="integer"
 	 * @return
 	 */
-	public Integer getItemId ()
+	public Integer getItemId()
 	{
 		return itemId;
 	}
@@ -99,7 +99,7 @@ public class KeelListItem implements Serializable
 	 *   type="varchar"
 	 * @return
 	 */
-	public String getItemName ()
+	public String getItemName()
 	{
 		return itemName;
 	}
@@ -117,7 +117,7 @@ public class KeelListItem implements Serializable
 	 *   field="ListName"
 	 * @return
 	 */
-	public String getListName ()
+	public String getListName()
 	{
 		return listName;
 	}
@@ -131,7 +131,7 @@ public class KeelListItem implements Serializable
 	 *   type="integer"
 	 * @return
 	 */
-	public Integer getSortOrder ()
+	public Integer getSortOrder()
 	{
 		return sortOrder;
 	}
@@ -139,7 +139,7 @@ public class KeelListItem implements Serializable
 	/**
 	 * @param string
 	 */
-	public void setItemCode (String string)
+	public void setItemCode(String string)
 	{
 		itemCode = string;
 	}
@@ -147,7 +147,7 @@ public class KeelListItem implements Serializable
 	/**
 	 * @param integer
 	 */
-	public void setItemId (Integer integer)
+	public void setItemId(Integer integer)
 	{
 		itemId = integer;
 	}
@@ -155,7 +155,7 @@ public class KeelListItem implements Serializable
 	/**
 	 * @param string
 	 */
-	public void setItemName (String string)
+	public void setItemName(String string)
 	{
 		itemName = string;
 	}
@@ -163,7 +163,7 @@ public class KeelListItem implements Serializable
 	/**
 	 * @param string
 	 */
-	public void setListName (String string)
+	public void setListName(String string)
 	{
 		listName = string;
 	}
@@ -171,7 +171,7 @@ public class KeelListItem implements Serializable
 	/**
 	 * @param integer
 	 */
-	public void setSortOrder (Integer integer)
+	public void setSortOrder(Integer integer)
 	{
 		sortOrder = integer;
 	}

@@ -48,31 +48,31 @@ public interface ImportManager
 
 		private ImportHandler handler;
 
-		public ImportHandlerConfig (String id, String root, ImportHandler handler)
+		public ImportHandlerConfig(String id, String root, ImportHandler handler)
 		{
 			this.id = id;
 			this.root = root;
 			this.handler = handler;
 		}
 
-		public String getId ()
+		public String getId()
 		{
 			return id;
 		}
 
-		public String getRoot ()
+		public String getRoot()
 		{
 			return root;
 		}
 
-		public ImportHandler getHandler ()
+		public ImportHandler getHandler()
 		{
 			return handler;
 		}
 
-		public String toString ()
+		public String toString()
 		{
-			return super.toString () + "[" + id + "," + handler.getClass ().getName () + "]";
+			return super.toString() + "[" + id + "," + handler.getClass().getName() + "]";
 		}
 	}
 
@@ -85,25 +85,25 @@ public interface ImportManager
 
 		private String xsl;
 
-		public CsvImportHandlerConfig (String id, String xsl)
+		public CsvImportHandlerConfig(String id, String xsl)
 		{
 			this.id = id;
 			this.xsl = xsl;
 		}
 
-		public String getId ()
+		public String getId()
 		{
 			return id;
 		}
 
-		public String getXsl ()
+		public String getXsl()
 		{
 			return xsl;
 		}
 
-		public String toString ()
+		public String toString()
 		{
-			return super.toString () + "[" + id + "," + xsl + "]";
+			return super.toString() + "[" + id + "," + xsl + "]";
 		}
 	}
 
@@ -115,14 +115,14 @@ public interface ImportManager
 	 *
 	 * @return A list of ImportHandlerConfig objects
 	 */
-	public List<ImportHandlerConfig> getImportHandlerConfigs ();
+	public List<ImportHandlerConfig> getImportHandlerConfigs();
 
 	/**
 	 * Retrieve a collection of all CSV import handler ids.
 	 *
 	 * @return A list of all CSV import handler ids
 	 */
-	public Collection<String> getCsvImportHandlerIds ();
+	public Collection<String> getCsvImportHandlerIds();
 
 	/**
 	 * Get the XSL id of the specified CSV import handler.
@@ -130,7 +130,7 @@ public interface ImportManager
 	 * @param id The id of the CSV import handler
 	 * @return The id of the XSL
 	 */
-	public String getCsvImportHandlerXsl (String id);
+	public String getCsvImportHandlerXsl(String id);
 
 	/**
 	 * Validate the given XML file.
@@ -138,7 +138,7 @@ public interface ImportManager
 	 * @param importFile The XML import file to validate
 	 * @return True if the import file is valid
 	 */
-	public boolean validateXmlFile (File importFile);
+	public boolean validateXmlFile(File importFile);
 
 	/**
 	 * Perform an XML import.
@@ -146,7 +146,7 @@ public interface ImportManager
 	 * @param importFile The XML file to import
 	 * @param reporter A report result writer
 	 */
-	public void importXmlFile (File importFile, PrintWriter reporter);
+	public void importXmlFile(File importFile, PrintWriter reporter);
 
 	/**
 	 * Perform an XML import.
@@ -155,7 +155,7 @@ public interface ImportManager
 	 * @param reporter A report result writer
 	 * @param properties Additional import properties
 	 */
-	public void importXmlFile (File importFile, PrintWriter reporter, Properties properties);
+	public void importXmlFile(File importFile, PrintWriter reporter, Properties properties);
 
 	/**
 	 * Perform an XML import.
@@ -164,7 +164,7 @@ public interface ImportManager
 	 * @param importHandler The import handler to use (can be null)
 	 * @param reporter A report result writer
 	 */
-	public void importXmlFile (File importFile, String importHandler, PrintWriter reporter);
+	public void importXmlFile(File importFile, String importHandler, PrintWriter reporter);
 
 	/**
 	 * Perform an XML import.
@@ -174,29 +174,29 @@ public interface ImportManager
 	 * @param reporter A report result writer
 	 * @param properties Additional import properties
 	 */
-	public void importXmlFile (File importFile, String importHandler, PrintWriter reporter, Properties properties);
+	public void importXmlFile(File importFile, String importHandler, PrintWriter reporter, Properties properties);
 
 	/**
 	 * Analyse an import with all registered handlers.
 	 */
-	public boolean analyzeImport (ModelRequest req, Document doc, Node importElem, PrintWriter reporter, I18N i18n,
+	public boolean analyzeImport(ModelRequest req, Document doc, Node importElem, PrintWriter reporter, I18N i18n,
 					Properties properties) throws ModelException;
 
 	/**
 	 * Analyse an import with a specified handler.
 	 */
-	public boolean analyzeImport (ModelRequest req, Document doc, Node importElem, PrintWriter reporter, I18N i18n,
+	public boolean analyzeImport(ModelRequest req, Document doc, Node importElem, PrintWriter reporter, I18N i18n,
 					String handlerId, Properties properties) throws ModelException;
 
 	/**
 	 * Import an import with all registered handlers.
 	 */
-	public boolean performImport (ModelRequest req, Document doc, Node importElem, PrintWriter reporter, I18N i18n,
+	public boolean performImport(ModelRequest req, Document doc, Node importElem, PrintWriter reporter, I18N i18n,
 					Properties properties) throws ModelException;
 
 	/**
 	 * Import an import with a specified handler.
 	 */
-	public boolean performImport (ModelRequest req, Document doc, Node importElem, PrintWriter reporter, I18N i18n,
+	public boolean performImport(ModelRequest req, Document doc, Node importElem, PrintWriter reporter, I18N i18n,
 					String handlerId, Properties properties) throws ModelException;
 }

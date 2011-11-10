@@ -45,17 +45,17 @@ public class EditAkteraObjectRequest extends FrameworkServerAction
 	/**
 	 * Standard constructor
 	 */
-	public EditAkteraObjectRequest ()
+	public EditAkteraObjectRequest()
 	{
 	}
 
 	/**
 	 * Standard constructor
 	 */
-	public EditAkteraObjectRequest (String model, DataObject dataObject, String jFrameId, String queryPaneId)
+	public EditAkteraObjectRequest(String model, DataObject dataObject, String jFrameId, String queryPaneId)
 	{
 		this.model = model;
-		this.keelObjectUniqueId = dataObject.getStringAttribute ("keelObjectId");
+		this.keelObjectUniqueId = dataObject.getStringAttribute("keelObjectId");
 		this.jFrameId = jFrameId;
 		this.queryPaneId = queryPaneId;
 	}
@@ -63,36 +63,36 @@ public class EditAkteraObjectRequest extends FrameworkServerAction
 	/**
 	 * Read the attributes from the given stream.
 	 */
-	public void readObject (FrameworkInputStream stream) throws IOException, ClassNotFoundException
+	public void readObject(FrameworkInputStream stream) throws IOException, ClassNotFoundException
 	{
-		model = stream.readUTF ();
-		keelObjectUniqueId = stream.readUTF ();
-		jFrameId = stream.readUTF ();
-		queryPaneId = stream.readUTF ();
+		model = stream.readUTF();
+		keelObjectUniqueId = stream.readUTF();
+		jFrameId = stream.readUTF();
+		queryPaneId = stream.readUTF();
 	}
 
 	/**
 	 * Write the attributes to the given stream.
 	 */
-	public void writeObject (FrameworkOutputStream stream) throws IOException
+	public void writeObject(FrameworkOutputStream stream) throws IOException
 	{
-		stream.writeUTF (model);
-		stream.writeUTF (keelObjectUniqueId);
-		stream.writeUTF (jFrameId);
-		stream.writeUTF (queryPaneId);
+		stream.writeUTF(model);
+		stream.writeUTF(keelObjectUniqueId);
+		stream.writeUTF(jFrameId);
+		stream.writeUTF(queryPaneId);
 	}
 
 	/**
 	 * Perform the action.
 	 */
-	public void perform ()
+	public void perform()
 	{
-		ConnectorServerManager connectorServerManager = (ConnectorServerManager) Engine.instance ()
-						.getManagerRegistry ().getManager ("ConnectorServerManager");
+		ConnectorServerManager connectorServerManager = (ConnectorServerManager) Engine.instance().getManagerRegistry()
+						.getManager("ConnectorServerManager");
 
-		connectorServerManager.editKeelObject (model, keelObjectUniqueId, userUniqueId);
+		connectorServerManager.editKeelObject(model, keelObjectUniqueId, userUniqueId);
 
-		ActionTools.sendToClient (userUniqueId, new EditAkteraObjectResponse (model, keelObjectUniqueId, jFrameId,
+		ActionTools.sendToClient(userUniqueId, new EditAkteraObjectResponse(model, keelObjectUniqueId, jFrameId,
 						queryPaneId));
 	}
 }

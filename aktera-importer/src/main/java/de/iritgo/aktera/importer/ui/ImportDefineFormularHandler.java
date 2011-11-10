@@ -51,7 +51,7 @@ public class ImportDefineFormularHandler extends FormularHandler
 	/**
 	 * @param importManager The new importManager.
 	 */
-	public void setImportManager (ImportManager importManager)
+	public void setImportManager(ImportManager importManager)
 	{
 		this.importManager = importManager;
 	}
@@ -60,86 +60,86 @@ public class ImportDefineFormularHandler extends FormularHandler
 	 * @see de.iritgo.aktera.ui.form.FormularHandler#adjustFormular(de.iritgo.aktera.model.ModelRequest, de.iritgo.aktera.ui.form.FormularDescriptor, de.iritgo.aktera.ui.form.PersistentDescriptor)
 	 */
 	@Override
-	public void adjustFormular (ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents)
+	public void adjustFormular(ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents)
 		throws ModelException, PersistenceException
 	{
-		super.adjustFormular (request, formular, persistents);
+		super.adjustFormular(request, formular, persistents);
 
-		TreeMap<String, String> csvImports = new TreeMap<String, String> ();
+		TreeMap<String, String> csvImports = new TreeMap<String, String>();
 
-		persistents.putAttributeValidValues ("xslt", csvImports);
-		csvImports.put ("", "$opt-");
+		persistents.putAttributeValidValues("xslt", csvImports);
+		csvImports.put("", "$opt-");
 
-		for (String id : importManager.getCsvImportHandlerIds ())
+		for (String id : importManager.getCsvImportHandlerIds())
 		{
-			csvImports.put (importManager.getCsvImportHandlerXsl (id), "$import" + id);
+			csvImports.put(importManager.getCsvImportHandlerXsl(id), "$import" + id);
 		}
 	}
 
 	/**
 	 * @see de.iritgo.aktera.ui.form.FormularHandler
 	 */
-	public void validatePersistents (List<Configuration> persistentConfig, ModelRequest request,
-					ModelResponse response, FormularDescriptor formular, PersistentDescriptor persistents,
-					boolean create, ValidationResult result) throws ModelException, PersistenceException
+	public void validatePersistents(List<Configuration> persistentConfig, ModelRequest request, ModelResponse response,
+					FormularDescriptor formular, PersistentDescriptor persistents, boolean create,
+					ValidationResult result) throws ModelException, PersistenceException
 	{
-		persistents.putAttribute ("fileUpload1", request.getParameter ("fileUpload1"));
+		persistents.putAttribute("fileUpload1", request.getParameter("fileUpload1"));
 
-		if (request.getParameter ("fileUpload1") == null && request.getParameter ("fileUpload2") == null)
+		if (request.getParameter("fileUpload1") == null && request.getParameter("fileUpload2") == null)
 		{
-			FormTools.addError (response, result, "fileUpload1", "Aktera:noImportFileGiven");
+			FormTools.addError(response, result, "fileUpload1", "Aktera:noImportFileGiven");
 		}
 
-		if (request.getParameter ("fileUpload2") != null && StringTools.isTrimEmpty (persistents.getAttribute ("xslt")))
+		if (request.getParameter("fileUpload2") != null && StringTools.isTrimEmpty(persistents.getAttribute("xslt")))
 		{
-			FormTools.addError (response, result, "xslt", "Aktera:noCsvTypeSpecified");
+			FormTools.addError(response, result, "xslt", "Aktera:noCsvTypeSpecified");
 		}
 
-		if (request.getParameter ("fileUpload1") != null)
+		if (request.getParameter("fileUpload1") != null)
 		{
-			BinaryWrapper data = (BinaryWrapper) request.getParameter ("fileUpload1");
+			BinaryWrapper data = (BinaryWrapper) request.getParameter("fileUpload1");
 
 			if (data != null)
 			{
-				File outDir = FileTools.newAkteraFile ("/var/tmp/iritgo");
+				File outDir = FileTools.newAkteraFile("/var/tmp/iritgo");
 
-				outDir.mkdirs ();
+				outDir.mkdirs();
 
-				File outFile = FileTools.newAkteraFile ("/var/tmp/iritgo/import.data");
+				File outFile = FileTools.newAkteraFile("/var/tmp/iritgo/import.data");
 
 				try
 				{
-					outFile.delete ();
-					outFile.createNewFile ();
-					data.write (outFile);
+					outFile.delete();
+					outFile.createNewFile();
+					data.write(outFile);
 				}
 				catch (IOException x)
 				{
-					System.out.println ("[ImportDefineFormularHandler] Unable to store import file: " + x);
+					System.out.println("[ImportDefineFormularHandler] Unable to store import file: " + x);
 				}
 			}
 		}
-		else if (request.getParameter ("fileUpload2") != null)
+		else if (request.getParameter("fileUpload2") != null)
 		{
-			BinaryWrapper data = (BinaryWrapper) request.getParameter ("fileUpload2");
+			BinaryWrapper data = (BinaryWrapper) request.getParameter("fileUpload2");
 
 			if (data != null)
 			{
-				File outDir = FileTools.newAkteraFile ("/var/tmp/iritgo");
+				File outDir = FileTools.newAkteraFile("/var/tmp/iritgo");
 
-				outDir.mkdirs ();
+				outDir.mkdirs();
 
-				File outFile = FileTools.newAkteraFile ("/var/tmp/iritgo/import.data");
+				File outFile = FileTools.newAkteraFile("/var/tmp/iritgo/import.data");
 
 				try
 				{
-					outFile.delete ();
-					outFile.createNewFile ();
-					data.write (outFile);
+					outFile.delete();
+					outFile.createNewFile();
+					data.write(outFile);
 				}
 				catch (IOException x)
 				{
-					System.out.println ("[ImportDefineFormularHandler] Unable to store import file: " + x);
+					System.out.println("[ImportDefineFormularHandler] Unable to store import file: " + x);
 				}
 			}
 		}
@@ -148,10 +148,10 @@ public class ImportDefineFormularHandler extends FormularHandler
 	/**
 	 * @see de.iritgo.aktera.ui.form.FormularHandler
 	 */
-	public int createPersistents (ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents,
+	public int createPersistents(ModelRequest request, FormularDescriptor formular, PersistentDescriptor persistents,
 					List<Configuration> persistentConfig) throws ModelException, PersistenceException
 	{
-		request.setParameter ("filename", FileTools.newAkteraFile ("var/tmp/iritgo/import.data"));
+		request.setParameter("filename", FileTools.newAkteraFile("var/tmp/iritgo/import.data"));
 
 		return - 1;
 	}

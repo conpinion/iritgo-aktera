@@ -45,9 +45,9 @@ public final class FileTools
 	 * @param dir Directory where to store the uploaded file.
 	 * @param extensions Allowed file extension
 	 */
-	public static File storeUploadedAudioFile (ModelRequest req, String paramName, String dir, String extensions)
+	public static File storeUploadedAudioFile(ModelRequest req, String paramName, String dir, String extensions)
 	{
-		return storeUploadedAudioFile (req, paramName, dir, extensions, true, true);
+		return storeUploadedAudioFile(req, paramName, dir, extensions, true, true);
 	}
 
 	/**
@@ -61,10 +61,10 @@ public final class FileTools
 	 *   actual file name. If false, dir must specify the complete file path.
 	 * @param boolean If true we convert the file.
 	 */
-	public static File storeUploadedAudioFile (ModelRequest req, String paramName, String dir, String extensions,
+	public static File storeUploadedAudioFile(ModelRequest req, String paramName, String dir, String extensions,
 					boolean useDataFileName)
 	{
-		return storeUploadedAudioFile (req, paramName, dir, extensions, useDataFileName, true);
+		return storeUploadedAudioFile(req, paramName, dir, extensions, useDataFileName, true);
 	}
 
 	/**
@@ -79,25 +79,25 @@ public final class FileTools
 	 * @param convert If true we convert the file.
 	 * @return The created file
 	 */
-	public static File storeUploadedAudioFile (ModelRequest req, String paramName, String dir, String extensions,
+	public static File storeUploadedAudioFile(ModelRequest req, String paramName, String dir, String extensions,
 					boolean useDataFileName, boolean convert)
 	{
-		BinaryWrapper data = (BinaryWrapper) req.getParameter (paramName);
+		BinaryWrapper data = (BinaryWrapper) req.getParameter(paramName);
 
 		if (data == null)
 		{
 			return null;
 		}
 
-		String fileName = FilenameUtils.getBaseName (data.getName ()).replaceAll ("\\s", "-");
-		String fileExt = FilenameUtils.getExtension (data.getName ()).toLowerCase ();
+		String fileName = FilenameUtils.getBaseName(data.getName()).replaceAll("\\s", "-");
+		String fileExt = FilenameUtils.getExtension(data.getName()).toLowerCase();
 
 		boolean ok = false;
-		String[] exts = extensions.split ("\\|");
+		String[] exts = extensions.split("\\|");
 
 		for (int i = 0; i < exts.length; ++i)
 		{
-			if (fileExt.equals (exts[i]))
+			if (fileExt.equals(exts[i]))
 			{
 				ok = true;
 
@@ -107,59 +107,60 @@ public final class FileTools
 
 		if (ok)
 		{
-			File outFile = FileTools.newAkteraFile (dir);
+			File outFile = FileTools.newAkteraFile(dir);
 
-			outFile.mkdirs ();
+			outFile.mkdirs();
 
 			if (useDataFileName)
 			{
-				outFile = FileTools.newAkteraFile (dir, fileName + "." + fileExt);
+				outFile = FileTools.newAkteraFile(dir, fileName + "." + fileExt);
 			}
 
 			try
 			{
-				outFile.delete ();
-				outFile.createNewFile ();
-				data.write (outFile);
+				outFile.delete();
+				outFile.createNewFile();
+				data.write(outFile);
 			}
 			catch (IOException x)
 			{
-				System.out.println ("[FileTools.storeUploadedAudioFile] Error: " + x);
+				System.out.println("[FileTools.storeUploadedAudioFile] Error: " + x);
 			}
 
 			try
 			{
-				String filePathNoExt = outFile.getCanonicalPath ();
+				String filePathNoExt = outFile.getCanonicalPath();
 
-				filePathNoExt = filePathNoExt.substring (0, filePathNoExt.lastIndexOf ('.'));
+				filePathNoExt = filePathNoExt.substring(0, filePathNoExt.lastIndexOf('.'));
 
 				if (convert)
 				{
-					if (fileExt.equals ("mp3"))
+					if (fileExt.equals("mp3"))
 					{
-						SystemTools.startAndWaitAkteraProcess ("/usr/bin/id3convert", "-s "
-										+ outFile.getCanonicalPath ());
+						SystemTools
+										.startAndWaitAkteraProcess("/usr/bin/id3convert", "-s "
+														+ outFile.getCanonicalPath());
 					}
-					else if (fileExt.equals ("gsm"))
+					else if (fileExt.equals("gsm"))
 					{
-						SystemTools.startAndWaitAkteraProcess ("/usr/bin/sox", filePathNoExt + ".gsm"
+						SystemTools.startAndWaitAkteraProcess("/usr/bin/sox", filePathNoExt + ".gsm"
 										+ " -r 8000 -c 1 -s -w " + filePathNoExt + ".wav");
 
-						SystemTools.startAndWaitAkteraProcess ("/usr/bin/rm", filePathNoExt + ".gsm");
+						SystemTools.startAndWaitAkteraProcess("/usr/bin/rm", filePathNoExt + ".gsm");
 					}
-					else if (fileExt.equals ("wav"))
+					else if (fileExt.equals("wav"))
 					{
-						SystemTools.startAndWaitAkteraProcess ("/usr/bin/sox", filePathNoExt + ".wav"
+						SystemTools.startAndWaitAkteraProcess("/usr/bin/sox", filePathNoExt + ".wav"
 										+ " -r 8000 -c 1 -s -w " + filePathNoExt + "-tmp.wav");
 
-						SystemTools.startAndWaitAkteraProcess ("/usr/bin/mv", filePathNoExt + "-tmp.wav "
+						SystemTools.startAndWaitAkteraProcess("/usr/bin/mv", filePathNoExt + "-tmp.wav "
 										+ filePathNoExt + ".wav");
 					}
 				}
 			}
 			catch (IOException x)
 			{
-				System.out.println ("[FileTools.storeUploadedAudioFile] Error: " + x);
+				System.out.println("[FileTools.storeUploadedAudioFile] Error: " + x);
 			}
 
 			return outFile;
@@ -174,16 +175,16 @@ public final class FileTools
 	 * @param req The model request.
 	 * @param paramName Request paramter name.
 	 */
-	public static String getFilename (ModelRequest req, String paramName)
+	public static String getFilename(ModelRequest req, String paramName)
 	{
-		BinaryWrapper data = (BinaryWrapper) req.getParameter (paramName);
+		BinaryWrapper data = (BinaryWrapper) req.getParameter(paramName);
 
 		if (data == null)
 		{
 			return "";
 		}
 
-		return data.getName ().replaceAll ("\\s", "-");
+		return data.getName().replaceAll("\\s", "-");
 	}
 
 	/**
@@ -193,9 +194,9 @@ public final class FileTools
 	 * @param path The file path
 	 * @return The File object
 	 */
-	public static File newAkteraFile (String path)
+	public static File newAkteraFile(String path)
 	{
-		return new File (new File (StringTools.trim (System.getenv ("AKTERA_FS_ROOT"))), path);
+		return new File(new File(StringTools.trim(System.getenv("AKTERA_FS_ROOT"))), path);
 	}
 
 	/**
@@ -206,9 +207,9 @@ public final class FileTools
 	 * @param child The file path
 	 * @return The File object
 	 */
-	public static File newAkteraFile (String parent, String child)
+	public static File newAkteraFile(String parent, String child)
 	{
-		return new File (new File (StringTools.trim (System.getenv ("AKTERA_FS_ROOT")), parent), child);
+		return new File(new File(StringTools.trim(System.getenv("AKTERA_FS_ROOT")), parent), child);
 	}
 
 	/**
@@ -217,11 +218,11 @@ public final class FileTools
 	 *
 	 * @return The unix owner format e.g. "root:tomcat"
 	 */
-	public static String getAkteraFileOwner ()
+	public static String getAkteraFileOwner()
 	{
-		String owner = System.getenv ("AKTERA_FS_OWNER");
+		String owner = System.getenv("AKTERA_FS_OWNER");
 
-		return ! StringTools.isTrimEmpty (owner) ? owner : "root:tomcat";
+		return ! StringTools.isTrimEmpty(owner) ? owner : "root:tomcat";
 	}
 
 	/**
@@ -232,8 +233,8 @@ public final class FileTools
 	 * @throws IOException
 	 * @throws FileNotFoundException
 	 */
-	public static void copyAkteraFile (String src, String dst) throws FileNotFoundException, IOException
+	public static void copyAkteraFile(String src, String dst) throws FileNotFoundException, IOException
 	{
-		IOUtils.copy (new FileInputStream (newAkteraFile (src)), new FileOutputStream (newAkteraFile (dst)));
+		IOUtils.copy(new FileInputStream(newAkteraFile(src)), new FileOutputStream(newAkteraFile(dst)));
 	}
 }

@@ -35,63 +35,64 @@ public class GroovyScriptCompiler implements ScriptCompiler
 
 		private Class scriptClass;
 
-		public CompiledGroovyScript (String scriptName, Class scriptClass)
+		public CompiledGroovyScript(String scriptName, Class scriptClass)
 		{
 			this.scriptName = scriptName;
 			this.scriptClass = scriptClass;
 		}
 
 		@Override
-		public Object execute (String methodName, Object... args) throws ScriptMethodNotFoundException, ScriptExecutionException
+		public Object execute(String methodName, Object... args)
+			throws ScriptMethodNotFoundException, ScriptExecutionException
 		{
 			try
 			{
-				Object scriptObject = scriptClass.newInstance ();
-				return MethodUtils.invokeMethod (scriptObject, methodName, args);
+				Object scriptObject = scriptClass.newInstance();
+				return MethodUtils.invokeMethod(scriptObject, methodName, args);
 			}
 			catch (InstantiationException x)
 			{
-				throw new ScriptExecutionException ("Unable to instantiate script with name '" + scriptName + "'", x);
+				throw new ScriptExecutionException("Unable to instantiate script with name '" + scriptName + "'", x);
 			}
 			catch (IllegalAccessException x)
 			{
-				throw new ScriptMethodNotFoundException ("No such script method with name '" + methodName + "'", x);
+				throw new ScriptMethodNotFoundException("No such script method with name '" + methodName + "'", x);
 			}
 			catch (NoSuchMethodException x)
 			{
-				throw new ScriptMethodNotFoundException ("No such script method with name '" + methodName + "'", x);
+				throw new ScriptMethodNotFoundException("No such script method with name '" + methodName + "'", x);
 			}
 			catch (InvocationTargetException x)
 			{
-				throw new ScriptExecutionException ("Error during execution of script method '" + scriptName + "."
-								+ methodName + "': " + x.getTargetException ().getMessage (), x.getTargetException ());
+				throw new ScriptExecutionException("Error during execution of script method '" + scriptName + "."
+								+ methodName + "': " + x.getTargetException().getMessage(), x.getTargetException());
 			}
 		}
 	}
 
-	public CompiledScript compile (String scriptName, String scriptCode) throws ScriptCompilerException
+	public CompiledScript compile(String scriptName, String scriptCode) throws ScriptCompilerException
 	{
 		try
 		{
-			GroovyClassLoader gcl = new GroovyClassLoader ();
-			return new CompiledGroovyScript (scriptName, gcl.parseClass (scriptCode));
+			GroovyClassLoader gcl = new GroovyClassLoader();
+			return new CompiledGroovyScript(scriptName, gcl.parseClass(scriptCode));
 		}
 		catch (CompilationFailedException x)
 		{
-			throw new ScriptCompilerException ("Unable to compile script", x);
+			throw new ScriptCompilerException("Unable to compile script", x);
 		}
 	}
 
-	public void check (String scriptCode) throws ScriptCompilerException
+	public void check(String scriptCode) throws ScriptCompilerException
 	{
 		try
 		{
-			GroovyShell gs = new GroovyShell ();
-			gs.parse (scriptCode);
+			GroovyShell gs = new GroovyShell();
+			gs.parse(scriptCode);
 		}
 		catch (CompilationFailedException x)
 		{
-			throw new ScriptCompilerException ("Unable to compile script", x);
+			throw new ScriptCompilerException("Unable to compile script", x);
 		}
 	}
 }

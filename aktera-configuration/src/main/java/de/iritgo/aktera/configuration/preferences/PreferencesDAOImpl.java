@@ -32,56 +32,56 @@ public class PreferencesDAOImpl extends HibernateDaoSupport implements Preferenc
 	/**
 	 * @see de.iritgo.aktera.configuration.preferences.PreferencesDAO#findPreferencesByUserId(java.lang.Integer)
 	 */
-	public Preferences findPreferencesByUserId (Integer userId)
+	public Preferences findPreferencesByUserId(Integer userId)
 	{
-		HibernateTemplate htl = getHibernateTemplate ();
-		List<Preferences> res = htl.find ("from Preferences where userId = ?", userId);
+		HibernateTemplate htl = getHibernateTemplate();
+		List<Preferences> res = htl.find("from Preferences where userId = ?", userId);
 
-		return res.size () > 0 ? res.get (0) : null;
+		return res.size() > 0 ? res.get(0) : null;
 	}
 
 	/**
 	 * @see de.iritgo.aktera.configuration.preferences.PreferencesDAO#findPreferencesConfig(java.lang.Integer, java.lang.String, java.lang.String)
 	 */
-	public PreferencesConfig findPreferencesConfig (Integer userId, String category, String name)
+	public PreferencesConfig findPreferencesConfig(Integer userId, String category, String name)
 	{
-		HibernateTemplate htl = getHibernateTemplate ();
-		List<PreferencesConfig> res = htl.find (
-						"from PreferencesConfig where userId = ? and category = ? and name = ?", new Object[]
+		HibernateTemplate htl = getHibernateTemplate();
+		List<PreferencesConfig> res = htl.find("from PreferencesConfig where userId = ? and category = ? and name = ?",
+						new Object[]
 						{
 										userId, category, name
 						});
 
-		return res.size () > 0 ? res.get (0) : null;
+		return res.size() > 0 ? res.get(0) : null;
 	}
 
 	/**
 	 * @see de.iritgo.aktera.configuration.preferences.PreferencesDAO#updatePreferencesConfig(de.iritgo.aktera.configuration.preferences.PreferencesConfig)
 	 */
 	@Transactional(readOnly = false)
-	public void updatePreferencesConfig (PreferencesConfig preferencesConfig)
+	public void updatePreferencesConfig(PreferencesConfig preferencesConfig)
 	{
-		getHibernateTemplate ().update (preferencesConfig);
+		getHibernateTemplate().update(preferencesConfig);
 	}
 
 	/**
 	 * @see de.iritgo.aktera.configuration.preferences.PreferencesDAO#updatePreferencesConfig(java.lang.Integer, java.lang.String, java.lang.String, java.lang.Object)
 	 */
 	@Transactional(readOnly = false)
-	public void updatePreferencesConfig (Integer userId, String category, String name, Object value)
+	public void updatePreferencesConfig(Integer userId, String category, String name, Object value)
 	{
-		PreferencesConfig pc = findPreferencesConfig (userId, category, name);
+		PreferencesConfig pc = findPreferencesConfig(userId, category, name);
 
 		if (pc != null)
 		{
-			pc.setValue (value.toString ());
-			updatePreferencesConfig (pc);
+			pc.setValue(value.toString());
+			updatePreferencesConfig(pc);
 		}
 	}
 
 	@Transactional(readOnly = false)
-	public void create (Preferences preferences)
+	public void create(Preferences preferences)
 	{
-		getHibernateTemplate ().saveOrUpdate (preferences);
+		getHibernateTemplate().saveOrUpdate(preferences);
 	}
 }

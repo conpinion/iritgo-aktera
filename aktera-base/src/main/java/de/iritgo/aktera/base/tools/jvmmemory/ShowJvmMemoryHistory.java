@@ -40,7 +40,7 @@ public class ShowJvmMemoryHistory extends AbstractUIController
 	 *
 	 * @param jvmMemoryManager The JVM memory manager
 	 */
-	public void setJvmMemoryManager (AkteraJvmMemoryManager jvmMemoryManager)
+	public void setJvmMemoryManager(AkteraJvmMemoryManager jvmMemoryManager)
 	{
 		this.jvmMemoryManager = jvmMemoryManager;
 	}
@@ -48,8 +48,8 @@ public class ShowJvmMemoryHistory extends AbstractUIController
 	/**
 	 * @see de.iritgo.aktera.ui.UIController#execute(de.iritgo.aktera.ui.UIRequest, de.iritgo.aktera.ui.UIResponse)
 	 */
-	public void execute (UIRequest request, UIResponse response) throws UIControllerException
+	public void execute(UIRequest request, UIResponse response) throws UIControllerException
 	{
-		jvmMemoryManager.setStartTime (NumberTools.toInt (request.getParameter ("startTime"), 10));
+		jvmMemoryManager.setStartTime(NumberTools.toInt(request.getParameter("startTime"), 10));
 	}
 }
