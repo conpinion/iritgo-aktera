@@ -274,4 +274,22 @@ public class JournalDAOImpl extends HibernateDaoSupport implements JournalDAO
 
 		return res.size() > 0 ? res.get(0) : null;
 	}
+
+	/**
+	 * @see de.iritgo.aktera.journal.JournalDAO#deleteAllJournalEntriesByOwnerId(java.lang.Integer)
+	 */
+	@Transactional(readOnly = false)
+	public void deleteAllJournalEntriesByOwnerId(Integer ownerId)
+	{
+		getHibernateTemplate().bulkUpdate("delete from JournalEntry where ownerId = ?", ownerId);
+	}
+
+	/**
+	 * @see de.iritgo.aktera.journal.JournalDAO#deleteJournalDataById(java.lang.Integer)
+	 */
+	@Transactional(readOnly = false)
+	public void deleteJournalDataById(Integer id)
+	{
+		getHibernateTemplate().bulkUpdate("delete from JournalData where ownerId = ?", id);
+	}
 }

@@ -194,4 +194,18 @@ public interface JournalDAO
 	 * @return The journal entry
 	 */
 	public JournalEntry getByExtendedInfoTypeAndExtendedInfoId(String type, Integer id);
+
+	/**
+	 * Delete all journal entries by the given owner id
+	 *
+	 * @param ownerId The owner id
+	 */
+	public void deleteAllJournalEntriesByOwnerId(Integer ownerId);
+
+	/**
+	 * Delete a journal data entry by the given id
+	 *
+	 * @param extendedInfoId The id
+	 */
+	public void deleteJournalDataById(Integer id);
 }

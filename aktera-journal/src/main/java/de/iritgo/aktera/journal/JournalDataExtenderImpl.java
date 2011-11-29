@@ -41,9 +41,7 @@ public class JournalDataExtenderImpl implements JournalDataExtender, JournalExte
 
 	public void deletedJournalEntry(JournalEntry journal)
 	{
-		JournalData journalData = journalDAO.getJournalDataById(journal.getExtendedInfoId());
-
-		journalDAO.deleteJournalData(journalData);
+		journalDAO.deleteJournalDataById (journal.getExtendedInfoId());
 	}
 
 	public void newJournalEntry(JournalEntry journal)

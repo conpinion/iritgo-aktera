@@ -344,9 +344,33 @@ public class JournalManagerImpl implements JournalManager, StartupHandler
 	 */
 	public void deleteJournalAllEntries(Integer ownerId)
 	{
-		for (JournalEntry entry : journalDAO.listJournalEntriesByOwnerId(ownerId))
+		List<JournalEntry> journalEntries = journalDAO.listJournalEntriesByOwnerId(ownerId);
+
+		for (JournalEntry journalEntry : journalEntries)
 		{
-			deleteJournalEntry(entry.getId());
+			if (journalEntry.getExtendedInfoType() != null)
+			{
+				JournalExtender je = journalExtenders.get(journalEntry.getExtendedInfoType());
+
+				if (je != null)
+				{
+					je.deletedJournalEntry(journalEntry);
+				}
+			}
+			Properties eventProps = new Properties();
+
+			eventProps.put("journalEntry", journalEntry);
+			eventManager.fire("iritgo.aktera.journal.removed-entry", eventProps);
 		}
+
+		journalDAO.deleteAllJournalEntriesByOwnerId (ownerId);
+
+		UserDAO userDAO = (UserDAO) SpringTools.getBean(UserDAO.ID);
+		de.iritgo.aktera.authentication.defaultauth.entity.AkteraUser userAktera =
+				userDAO.findUserById (ownerId);
+
+		Properties props = new Properties ();
+		props.setProperty("akteraUserName", userAktera.getName());
+		CommandTools.performAsync("de.iritgo.aktera.journal.RefreshJournal", props);
 	}
 }
