@@ -22,17 +22,19 @@ package de.iritgo.aktera.license;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.logging.Log;
+import de.iritgo.simplelife.string.StringTools;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.net.NetworkInterface;
 import java.security.KeyFactory;
 import java.security.MessageDigest;
 import java.security.PublicKey;
 import java.security.Signature;
 import java.security.spec.X509EncodedKeySpec;
-import java.util.Properties;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -78,23 +80,22 @@ public class LicenseTools
 
 	public static String machineInfo()
 	{
-		StringBuffer machineInfo = new StringBuffer();
-
-		Pattern re = Pattern.compile("eth0\\s.+\\s(..:..:..:..:..:..).*");
+		StringBuilder machineInfo = new StringBuilder();
 
 		try
 		{
-			Process proc = Runtime.getRuntime().exec("/sbin/ifconfig");
-			BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-			String line = null;
-
-			while ((line = in.readLine()) != null)
+			Enumeration networkInterfaces = NetworkInterface.getNetworkInterfaces();
+			while (networkInterfaces.hasMoreElements())
 			{
-				Matcher matcher = re.matcher(line);
-
-				if (matcher.matches())
+				NetworkInterface networkInterface = (NetworkInterface) networkInterfaces.nextElement();
+				if ("eth0".equals(networkInterface.getDisplayName()))
 				{
-					machineInfo.append(matcher.group(1) + "\n");
+					for (byte b : networkInterface.getHardwareAddress())
+					{
+						StringTools.appendWithDelimiter(machineInfo, String.format("%02x", b), ":");
+					}
+					machineInfo.append("\n");
+					break;
 				}
 			}
 		}
@@ -102,33 +103,6 @@ public class LicenseTools
 		{
 			System.out.println("LicenseTools.machineInfo: " + x.getMessage());
 			x.printStackTrace();
-		}
-
-		if (machineInfo.length() == 0)
-		{
-			re = Pattern.compile("eth0\\s.+\\s(..-..-..-..-..-..-..-..-..-..-..-..-..-..-..-..).*");
-
-			try
-			{
-				Process proc = Runtime.getRuntime().exec("/sbin/ifconfig");
-				BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-				String line = null;
-
-				while ((line = in.readLine()) != null)
-				{
-					Matcher matcher = re.matcher(line);
-
-					if (matcher.matches())
-					{
-						machineInfo.append(matcher.group(1) + "\n");
-					}
-				}
-			}
-			catch (IOException x)
-			{
-				System.out.println("LicenseTools.machineInfo: " + x.getMessage());
-				x.printStackTrace();
-			}
 		}
 
 		if (machineInfo.length() == 0)
