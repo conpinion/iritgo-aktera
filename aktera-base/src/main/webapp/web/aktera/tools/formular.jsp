@@ -397,12 +397,16 @@
 												<xlogic:case value="combo">
 													<logic:present name="field" property="attributes.submit">
 														<xhtml:select name="default" property="<%= fieldName %>" onchange="javascript:comboBoxSubmit()">
-															<xhtml:optionsCollection bundle="<%= bundle %>" name="field" property="validValues"/>
+															<logic:present name="field" property="validValues">
+																<xhtml:optionsCollection bundle="<%= bundle %>" name="field" property="validValues"/>
+															</logic:present>
 														</xhtml:select>
 													</logic:present>
 													<logic:notPresent name="field" property="attributes.submit">
 														<xhtml:select name="default" property="<%= fieldName %>">
-															<xhtml:optionsCollection bundle="<%= bundle %>" name="field" property="validValues"/>
+															<logic:present name="field" property="validValues">
+																<xhtml:optionsCollection bundle="<%= bundle %>" name="field" property="validValues"/>
+															</logic:present>
 														</xhtml:select>
 													</logic:notPresent>
 												</xlogic:case>
@@ -616,7 +620,9 @@
 
 												<xlogic:case value="combo">
 													<xhtml:select readOnly="true" name="default" property="<%= fieldName %>">
-														<xhtml:optionsCollection bundle="<%= bundle %>" name="field" property="validValues"/>
+														<logic:present name="field" property="validValues">
+															<xhtml:optionsCollection bundle="<%= bundle %>" name="field" property="validValues"/>
+														</logic:present>
 													</xhtml:select>
 												</xlogic:case>
 
