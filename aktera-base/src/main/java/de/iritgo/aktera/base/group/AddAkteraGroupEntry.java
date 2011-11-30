@@ -20,12 +20,9 @@
 package de.iritgo.aktera.base.group;
 
 
-import de.iritgo.aktera.authentication.defaultauth.entity.AkteraGroupEntry;
-import de.iritgo.aktera.authentication.defaultauth.entity.UserDAO;
+import de.iritgo.aktera.authentication.defaultauth.entity.*;
 import de.iritgo.aktera.permissions.PermissionManager;
-import de.iritgo.aktera.ui.UIControllerException;
-import de.iritgo.aktera.ui.UIRequest;
-import de.iritgo.aktera.ui.UIResponse;
+import de.iritgo.aktera.ui.*;
 import de.iritgo.aktera.ui.ng.listing.AbstractListCommandUIController;
 
 
@@ -58,10 +55,16 @@ public class AddAkteraGroupEntry extends AbstractListCommandUIController
 	{
 		for (String id : ids)
 		{
-			AkteraGroupEntry entry = new AkteraGroupEntry();
-			entry.setGroupId(request.getParameterAsInt("id"));
-			entry.setUserId(Integer.valueOf(id));
-			userDAO.createAkteraGroupEntry(entry);
+			int userId = Integer.valueOf(id);
+			int groupId = request.getParameterAsInt("id");
+			AkteraGroupEntry entry = userDAO.findAkteraGroupEntryByUserIdAndGroupId(userId, groupId);
+			if (entry == null)
+			{
+				entry = new AkteraGroupEntry();
+				entry.setGroupId(request.getParameterAsInt("id"));
+				entry.setUserId(Integer.valueOf(id));
+				userDAO.createAkteraGroupEntry(entry);
+			}
 		}
 		permissionManager.clear();
 	}
