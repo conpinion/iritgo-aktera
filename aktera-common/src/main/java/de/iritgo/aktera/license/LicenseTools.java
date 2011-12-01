@@ -92,7 +92,7 @@ public class LicenseTools
 				{
 					for (byte b : networkInterface.getHardwareAddress())
 					{
-						StringTools.appendWithDelimiter(machineInfo, String.format("%02x", b), ":");
+						StringTools.appendWithDelimiter(machineInfo, String.format("%02x", b).toUpperCase(), ":");
 					}
 					machineInfo.append("\n");
 					break;
