@@ -40,7 +40,12 @@
 		<event id="iritgo.aktera.journal.removed-entry">
 			<param name="journalEntry" type="de.iritgo.aktera.journal.entity.JournalEntry" description="The journal entry" />
 		</event>
+		<event id="iritgo.aktera.journal.remove-all-entries">
+			<param name="ownerId" type="Integer" description="The ownerId" />
+		</event>
 	</events>
+
+
 
 	<aktera.listing id="aktera.journal.listing">
 		<title>journal</title>

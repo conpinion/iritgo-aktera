@@ -208,4 +208,11 @@ public interface JournalDAO
 	 * @param extendedInfoId The id
 	 */
 	public void deleteJournalDataById(Integer id);
+
+	/**
+	 * Delete all journaldata by the given journal entries
+	 *
+	 * @param journalEntries The journal entries
+	 */
+	public void deleteAllJournalDataByJournalEntries(List<JournalEntry> journalEntries);
 }

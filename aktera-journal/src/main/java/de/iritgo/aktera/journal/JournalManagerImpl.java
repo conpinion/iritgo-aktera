@@ -32,6 +32,9 @@ import de.iritgo.aktera.startup.StartupException;
 import de.iritgo.aktera.startup.StartupHandler;
 import de.iritgo.simplelife.bean.BeanTools;
 import de.iritgo.simplelife.constants.SortOrder;
+import de.iritgo.simplelife.math.*;
+import de.iritgo.simplelife.string.*;
+
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -346,22 +349,15 @@ public class JournalManagerImpl implements JournalManager, StartupHandler
 	{
 		List<JournalEntry> journalEntries = journalDAO.listJournalEntriesByOwnerId(ownerId);
 
-		for (JournalEntry journalEntry : journalEntries)
+		for (JournalExtender extender : journalExtenders.values())
 		{
-			if (journalEntry.getExtendedInfoType() != null)
-			{
-				JournalExtender je = journalExtenders.get(journalEntry.getExtendedInfoType());
-
-				if (je != null)
-				{
-					je.deletedJournalEntry(journalEntry);
-				}
-			}
-			Properties eventProps = new Properties();
-
-			eventProps.put("journalEntry", journalEntry);
-			eventManager.fire("iritgo.aktera.journal.removed-entry", eventProps);
+			extender.deleteAllJournalEntries (journalEntries);
 		}
+
+		Properties eventProps = new Properties();
+		eventProps.setProperty ("ownerId", StringTools.trim(ownerId));
+
+		eventManager.fire("iritgo.aktera.journal.remove-all-entries", eventProps);
 
 		journalDAO.deleteAllJournalEntriesByOwnerId (ownerId);
 

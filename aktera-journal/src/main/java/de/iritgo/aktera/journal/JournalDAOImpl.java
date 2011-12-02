@@ -290,6 +290,15 @@ public class JournalDAOImpl extends HibernateDaoSupport implements JournalDAO
 	@Transactional(readOnly = false)
 	public void deleteJournalDataById(Integer id)
 	{
-		getHibernateTemplate().bulkUpdate("delete from JournalData where ownerId = ?", id);
+		getHibernateTemplate().bulkUpdate("delete from JournalData where id = ?", id);
+	}
+
+	public void deleteAllJournalDataByJournalEntries(
+			List<JournalEntry> journalEntries) {
+
+		for (JournalEntry entry : journalEntries)
+		{
+			deleteJournalDataById(entry.getExtendedInfoId());
+		}
 	}
 }

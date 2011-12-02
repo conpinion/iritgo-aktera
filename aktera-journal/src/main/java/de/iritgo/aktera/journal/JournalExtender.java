@@ -21,7 +21,8 @@ package de.iritgo.aktera.journal;
 
 
 import de.iritgo.aktera.journal.entity.JournalEntry;
-import java.util.Map;
+
+import java.util.*;
 
 
 public interface JournalExtender
@@ -33,4 +34,6 @@ public interface JournalExtender
 	public void accept(JournalEntry journal, JournalStrategy strategy);
 
 	public void addJournalEntryAttributes(Map<String, Object> entry);
+
+	public void deleteAllJournalEntries(List<JournalEntry> journalEntries);
 }

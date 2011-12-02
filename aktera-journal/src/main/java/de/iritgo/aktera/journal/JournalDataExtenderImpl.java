@@ -23,7 +23,8 @@ package de.iritgo.aktera.journal;
 import de.iritgo.aktera.journal.entity.JournalData;
 import de.iritgo.aktera.journal.entity.JournalEntry;
 import de.iritgo.simplelife.bean.BeanTools;
-import java.util.Map;
+
+import java.util.*;
 
 
 public class JournalDataExtenderImpl implements JournalDataExtender, JournalExtender
@@ -42,6 +43,11 @@ public class JournalDataExtenderImpl implements JournalDataExtender, JournalExte
 	public void deletedJournalEntry(JournalEntry journal)
 	{
 		journalDAO.deleteJournalDataById (journal.getExtendedInfoId());
+	}
+
+	public void deleteAllJournalEntries(List<JournalEntry> journalEntries)
+	{
+		journalDAO.deleteAllJournalDataByJournalEntries (journalEntries);
 	}
 
 	public void newJournalEntry(JournalEntry journal)
