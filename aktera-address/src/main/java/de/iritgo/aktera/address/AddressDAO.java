@@ -30,6 +30,8 @@ public interface AddressDAO
 {
 	static public String ID = "de.iritgo.aktera.address.AddressDAO";
 
+	public AddressStore getNullAddressStore();
+
 	public Party getPartyById(Integer id);
 
 	public Party getPartyByUserId(Integer userId);

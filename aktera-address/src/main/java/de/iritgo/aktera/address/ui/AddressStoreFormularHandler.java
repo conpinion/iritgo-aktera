@@ -127,7 +127,7 @@ public class AddressStoreFormularHandler extends FormularHandler
 					ValidationResult result) throws ModelException, PersistenceException
 	{
 		AddressStore store = (AddressStore) entity;
-		if (systemDelete || store.canBeDeleted())
+		if (systemDelete || (store.canBeDeleted() && ! store.getDefaultStore()))
 		{
 			return true;
 		}

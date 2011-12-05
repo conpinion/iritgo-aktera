@@ -21,11 +21,9 @@ package de.iritgo.aktera.address;
 
 
 import java.util.*;
-import javax.annotation.Resource;
 import lombok.*;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.commons.collections.*;
-import org.springframework.beans.factory.annotation.*;
 import de.iritgo.aktera.address.entity.*;
 import de.iritgo.aktera.authentication.defaultauth.entity.*;
 import de.iritgo.aktera.event.Event;
@@ -87,7 +85,7 @@ public class AddressManagerImpl implements AddressManager, StartupHandler
 		});
 		if (store == null)
 		{
-			throw new AddressStoreNotFoundException("Unable to find address store with id " + id);
+			return addressDAO.getNullAddressStore();
 		}
 		return store;
 	}
@@ -103,7 +101,7 @@ public class AddressManagerImpl implements AddressManager, StartupHandler
 		});
 		if (store == null)
 		{
-			throw new DefaultAddressStoreNotFoundException("Unable to find the default address store");
+			store = addressDAO.getNullAddressStore();
 		}
 		return store;
 	}

@@ -38,6 +38,13 @@ import de.iritgo.simplelife.tools.*;
 @Transactional(readOnly = true)
 public class AddressDAOImpl extends HibernateDaoSupport implements AddressDAO
 {
+	private AddressNullStore nullAddressStore = new AddressNullStore();
+
+	public AddressStore getNullAddressStore()
+	{
+		return nullAddressStore;
+	}
+
 	public Party getPartyById(Integer id)
 	{
 		return (Party) getHibernateTemplate().get(Party.class, id);
@@ -345,7 +352,7 @@ public class AddressDAOImpl extends HibernateDaoSupport implements AddressDAO
 		AddressStore store = getHibernateTemplate().get(AddressStore.class, id);
 		if (store == null)
 		{
-			throw new DataRetrievalFailureException("AddressStore with id " + id + " not found");
+			store = nullAddressStore;
 		}
 		return store;
 	}

@@ -209,7 +209,7 @@
 		<ui:column name="name" value="#{it(name)}" bundle="Aktera" viewer="text" width="60" />
 		<ui:column name="type" value="#{it(type)}" bundle="Aktera" viewer="handler:formatTypeColumn" width="60" />
 		<ui:column name="position" value="#{it(position)}" bundle="Aktera" viewer="text" width="10" />
-		<ui:column name="default" value="#{it(default)}" bundle="Aktera" viewer="icon:tool-ok-16" width="0" />
+		<ui:column name="default" value="#{it(defaultStore)}" bundle="Aktera" viewer="icon:tool-ok-16" width="0" />
 		<ui:query name="de.iritgo.aktera.address.AddressStoreList">
 			<ui:param name="name" value="#{search}" />
 		</ui:query>

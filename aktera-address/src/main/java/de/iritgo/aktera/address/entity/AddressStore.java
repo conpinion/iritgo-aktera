@@ -87,6 +87,10 @@ public abstract class AddressStore implements Serializable
 	@Autowired
 	transient protected SystemConfigManager systemConfigManager;
 
+	public AddressStore()
+	{
+	}
+
 	public String getDisplayedTitle()
 	{
 		return StringTools.isNotTrimEmpty(title) ? title : name;

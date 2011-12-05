@@ -53,6 +53,7 @@ public abstract class AbstractAddressListingHandler extends ListingHandler
 		throws ModelException
 	{
 		Map<String, String> addressStores = new TreeMap<String, String>();
+		addressStores.put("", "$opt-");
 		try
 		{
 			String userName = getActualUserName(request);
