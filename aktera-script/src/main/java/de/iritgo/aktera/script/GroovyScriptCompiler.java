@@ -75,6 +75,11 @@ public class GroovyScriptCompiler implements ScriptCompiler
 		try
 		{
 			GroovyClassLoader gcl = new GroovyClassLoader();
+			Class scriptClass = gcl.parseClass(scriptCode);
+			if (scriptClass == null)
+			{
+				throw new ScriptCompilerException("No compiled script code in script \"" + scriptName + "\"");
+			}
 			return new CompiledGroovyScript(scriptName, gcl.parseClass(scriptCode));
 		}
 		catch (CompilationFailedException x)
@@ -87,8 +92,14 @@ public class GroovyScriptCompiler implements ScriptCompiler
 	{
 		try
 		{
-			GroovyShell gs = new GroovyShell();
-			gs.parse(scriptCode);
+//			GroovyShell gs = new GroovyShell();
+//			gs.parse(scriptCode);
+			GroovyClassLoader gcl = new GroovyClassLoader();
+			Class scriptClass = gcl.parseClass(scriptCode);
+			if (scriptClass == null)
+			{
+				throw new ScriptCompilerException("No compiled script code");
+			}
 		}
 		catch (CompilationFailedException x)
 		{

@@ -73,6 +73,7 @@ public class ScriptCompilerException extends Exception
 	@Override
 	public String getMessage()
 	{
-		return super.getMessage() + "\n" + getCause().getMessage();
+		String causeMessage = getCause() != null ? getCause().getMessage() : "";
+		return super.getMessage() + "\n" + causeMessage;
 	}
 }
