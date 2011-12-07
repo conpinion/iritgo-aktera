@@ -424,7 +424,7 @@ public class BeanResponse implements UIResponse
 	/**
 	 * @see de.iritgo.aktera.ui.UIResponse#getErrors()
 	 */
-	public Map getErrors()
+	public Map<String, String> getErrors()
 	{
 		return errors;
 	}
