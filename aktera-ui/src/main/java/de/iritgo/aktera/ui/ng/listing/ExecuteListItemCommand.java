@@ -117,6 +117,11 @@ public class ExecuteListItemCommand extends AbstractUIController
 				{
 					response.add(re.getValue());
 				}
+
+				for (Map.Entry<String, String> error : uiResponse.getErrors().entrySet())
+				{
+					response.addError(error.getKey(), error.getValue());
+				}
 			}
 			catch (AuthorizationException x)
 			{
