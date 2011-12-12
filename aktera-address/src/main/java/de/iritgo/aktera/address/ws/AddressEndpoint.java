@@ -23,7 +23,7 @@ package de.iritgo.aktera.address.ws;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.*;
-import de.iritgo.aktera.address.*;
+import de.iritgo.aktera.address.AddressManager;
 import de.iritgo.aktera.address.entity.*;
 import de.iritgo.aktera.address.entity.Address;
 import de.iritgo.aktera.authentication.SecurityContext;
@@ -64,8 +64,8 @@ public class AddressEndpoint
 		ListAddressStoresResponse response = new ListAddressStoresResponse();
 		for (Tuple3<Integer, String, String> store : addressManager.listAddressStoresIdAndNameAndTitle())
 		{
-			if (permissionManager.hasPermission(user.getName(), "de.iritgo.aktera.address.view", AddressStore.class
-							.getName(), store.get1()))
+			if (permissionManager.hasPermission(user.getName(), "de.iritgo.aktera.address.view",
+							AddressStore.class.getName(), store.get1()))
 			{
 				ListAddressStoresResponse.AddressStore as = new ListAddressStoresResponse.AddressStore();
 				as.setId(store.get1());
@@ -84,12 +84,9 @@ public class AddressEndpoint
 		GetDefaultAddressStoreNameResponse response = new GetDefaultAddressStoreNameResponse();
 		AkteraUser user = securityContext.getUser();
 		AddressStore store = null;
-		try
-		{
-			store = addressManager.getAddressStoreById(preferencesManager.getInt(user.getId(), "address",
-							"defaultAddressStore", - 1));
-		}
-		catch (AddressStoreNotFoundException x)
+		store = addressManager.getAddressStoreById(preferencesManager.getInt(user.getId(), "address",
+						"defaultAddressStore", - 1));
+		if (store.getId() == - 1)
 		{
 			store = addressManager.getDefaultAddressStore();
 		}
@@ -104,12 +101,9 @@ public class AddressEndpoint
 		GetDefaultAddressStoreIdResponse response = new GetDefaultAddressStoreIdResponse();
 		AkteraUser user = securityContext.getUser();
 		AddressStore store = null;
-		try
-		{
-			store = addressManager.getAddressStoreById(preferencesManager.getInt(user.getId(), "address",
-							"defaultAddressStore", - 1));
-		}
-		catch (AddressStoreNotFoundException x)
+		store = addressManager.getAddressStoreById(preferencesManager.getInt(user.getId(), "address",
+						"defaultAddressStore", - 1));
+		if (store.getId() == - 1)
 		{
 			store = addressManager.getDefaultAddressStore();
 		}

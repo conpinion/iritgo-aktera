@@ -23,14 +23,16 @@ package de.iritgo.aktera.address;
 import java.util.*;
 import de.iritgo.aktera.address.entity.*;
 import de.iritgo.simplelife.data.*;
-import de.iritgo.simplelife.tools.*;
+import de.iritgo.simplelife.tools.Option;
 
 
 public interface AddressManager
 {
 	public enum SalutationFormatMode
 	{
-		NORMAL, LETTER, FIRST_LASTNAME
+		NORMAL,
+		LETTER,
+		FIRST_LASTNAME
 	}
 
 	public static String ID = "de.iritgo.aktera.address.AddressManager";
@@ -39,9 +41,9 @@ public interface AddressManager
 
 	public static String DEFAULT_PRIVATE_ADDRESS_STORE_NAME = "de.iritgo.aktera.address.AddressLocalPrivateStore";
 
-	public AddressStore getAddressStoreByName(String storeName) throws AddressStoreNotFoundException;
+	public AddressStore getAddressStoreByName(String storeName);
 
-	public AddressStore getAddressStoreById(Integer id) throws AddressStoreNotFoundException;
+	public AddressStore getAddressStoreById(Integer id);
 
 	public AddressStore getDefaultAddressStore();
 
@@ -57,8 +59,7 @@ public interface AddressManager
 	public Option<Address> findAddressOfOwnerByPhoneNumber(Integer ownerId, String number, String countryPrefix,
 					String localPrefix, String internationalPrefix, String nationalPrefix);
 
-	public Option<Address> findAddressByStoreAndDn(String storeName, Object addressDn)
-		throws AddressStoreNotFoundException;
+	public Option<Address> findAddressByStoreAndDn(String storeName, Object addressDn);
 
 	public String formatNameWithSalutation(Address address, Locale dstLocale, SalutationFormatMode mode);
 
@@ -70,9 +71,9 @@ public interface AddressManager
 
 	public void initializeAddressStores();
 
-	public boolean isAddressStoreEditable(String storeName) throws AddressStoreNotFoundException;
+	public boolean isAddressStoreEditable(String storeName);
 
-	public boolean isAddressStoreGlobal(String storeName) throws AddressStoreNotFoundException;
+	public boolean isAddressStoreGlobal(String storeName);
 
 	public List<Tuple2<String, String>> listAddressStoresNameAndTitle();
 

@@ -20,12 +20,9 @@
 package de.iritgo.aktera.address.services;
 
 
-import de.iritgo.aktera.address.*;
-
-
 public interface AddressService
 {
 	public static final String ID = "de.iritgo.aktera.services.address.AddressService";
 
-	public void deleteAllAddresses(String storeName) throws AddressStoreNotFoundException;
+	public void deleteAllAddresses(String storeName);
 }

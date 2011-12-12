@@ -20,12 +20,12 @@
 package de.iritgo.aktera.address.ui;
 
 
-import de.iritgo.aktera.address.*;
+import de.iritgo.aktera.address.AddressManager;
 import de.iritgo.aktera.address.entity.*;
 import de.iritgo.aktera.model.*;
-import de.iritgo.aktera.spring.*;
+import de.iritgo.aktera.spring.SpringTools;
 import de.iritgo.aktera.ui.*;
-import de.iritgo.simplelife.tools.*;
+import de.iritgo.simplelife.tools.Option;
 
 
 public class GetPhoneNumbersByStoreAndAddress extends AbstractUIController
@@ -35,26 +35,19 @@ public class GetPhoneNumbersByStoreAndAddress extends AbstractUIController
 		AddressManager addressManager = (AddressManager) SpringTools.getBean(AddressManager.ID);
 		String addressId = request.getParameterAsString("addressId");
 		Integer addressStoreId = request.getParameterAsInt("storeId");
-		try
+		AddressStore store = addressManager.getAddressStoreById(addressStoreId);
+		Option<Address> address = store.findAddressByDn(addressId);
+		if (address.full())
 		{
-			AddressStore store = addressManager.getAddressStoreById(addressStoreId);
-			Option<Address> address = store.findAddressByDn(addressId);
-			if (address.full())
+			for (PhoneNumber number : address.get().getPhoneNumbers())
 			{
-				for (PhoneNumber number : address.get().getPhoneNumbers())
-				{
-					Command cmd = new DefaultCommand();
-					cmd.setModel("connect.pbx.base.my.call-number-seq");
-					cmd.setName("phoneNumber" + number.getCategory());
-					cmd.setLabel(number.getNumber());
-					cmd.setParameter("number", number.getInternalNumber());
-					response.add(cmd);
-				}
+				Command cmd = new DefaultCommand();
+				cmd.setModel("connect.pbx.base.my.call-number-seq");
+				cmd.setName("phoneNumber" + number.getCategory());
+				cmd.setLabel(number.getNumber());
+				cmd.setParameter("number", number.getInternalNumber());
+				response.add(cmd);
 			}
-		}
-		catch (AddressStoreNotFoundException x)
-		{
-			throw new UIControllerException(x);
 		}
 	}
 }

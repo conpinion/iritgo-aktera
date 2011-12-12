@@ -20,8 +20,8 @@
 package de.iritgo.aktera.address.services;
 
 
-import lombok.*;
-import de.iritgo.aktera.address.*;
+import lombok.Setter;
+import de.iritgo.aktera.address.AddressManager;
 
 
 public class AddressServiceImpl implements AddressService
@@ -29,7 +29,7 @@ public class AddressServiceImpl implements AddressService
 	@Setter
 	private AddressManager addressManager;
 
-	public void deleteAllAddresses(String storeName) throws AddressStoreNotFoundException
+	public void deleteAllAddresses(String storeName)
 	{
 		addressManager.getAddressStoreByName(storeName).deleteAllAddresses();
 	}

@@ -20,22 +20,22 @@
 package de.iritgo.aktera.address.ui;
 
 
-import java.lang.reflect.*;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.List;
-import lombok.*;
-import org.apache.commons.beanutils.*;
-import org.springframework.beans.factory.annotation.*;
-import de.iritgo.aktera.address.*;
+import lombok.Setter;
+import org.apache.commons.beanutils.PropertyUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import de.iritgo.aktera.address.AddressManager;
 import de.iritgo.aktera.address.entity.*;
 import de.iritgo.aktera.model.*;
-import de.iritgo.aktera.permissions.*;
-import de.iritgo.aktera.persist.*;
+import de.iritgo.aktera.permissions.PermissionManager;
+import de.iritgo.aktera.persist.PersistenceException;
 import de.iritgo.aktera.ui.listing.*;
-import de.iritgo.aktera.ui.tools.*;
-import de.iritgo.simplelife.data.*;
-import de.iritgo.simplelife.math.*;
-import de.iritgo.simplelife.string.*;
+import de.iritgo.aktera.ui.tools.UserTools;
+import de.iritgo.simplelife.data.Tuple2;
+import de.iritgo.simplelife.math.NumberTools;
+import de.iritgo.simplelife.string.StringTools;
 
 
 public abstract class AbstractAddressListingHandler extends ListingHandler
@@ -59,8 +59,8 @@ public abstract class AbstractAddressListingHandler extends ListingHandler
 			String userName = getActualUserName(request);
 			for (Tuple2<Integer, String> store : addressManager.listAddressStoresIdAndTitle())
 			{
-				if (permissionManager.hasPermission(userName, "de.iritgo.aktera.address.view", AddressStore.class
-								.getName(), store.get1()))
+				if (permissionManager.hasPermission(userName, "de.iritgo.aktera.address.view",
+								AddressStore.class.getName(), store.get1()))
 				{
 					addressStores.put(store.get1().toString(), store.get2());
 				}
@@ -76,96 +76,87 @@ public abstract class AbstractAddressListingHandler extends ListingHandler
 	@Override
 	public String getCurrentSearchCategory(ModelRequest request, ListingDescriptor listing) throws ModelException
 	{
-		try
+		AddressStore addressStore = addressManager.getAddressStoreById(NumberTools.toInt(listing.getCategory(), - 1));
+		if (addressStore.getId() == - 1)
 		{
-			return addressManager.getAddressStoreById(NumberTools.toInt(listing.getCategory(), - 1)).getId().toString();
+			addressStore = addressManager.getDefaultAddressStore();
 		}
-		catch (AddressStoreNotFoundException x)
-		{
-			return addressManager.getDefaultAddressStore().getId().toString();
-		}
+		return addressStore.getId().toString();
 	}
 
 	@Override
 	public ListFiller createListing(ModelRequest request, ListingDescriptor listing, ListingHandler handler,
 					ListContext context) throws ModelException, PersistenceException
 	{
-		try
+		AddressStore store = addressManager.getAddressStoreById(NumberTools.toInt(
+						getCurrentSearchCategory(request, listing), - 1));
+
+		final long addressCount = store.countAddressesByOwnerAndSearch(UserTools.getCurrentUserId(request),
+						request.getParameterAsString(listing.getId() + "Search", ""));
+
+		context.setFirstResult(Math.min(context.getFirstResult(), context.getResultsPerPage()
+						* (int) (addressCount / context.getResultsPerPage())));
+
+		final List<Address> addresses = store.createAddressListing(UserTools.getCurrentUserId(request),
+						request.getParameterAsString(listing.getId() + "Search", ""), listing.getSortColumnName(),
+						listing.getSortOrder(), context.getFirstResult(), context.getResultsPerPage());
+
+		return new ListFiller()
 		{
-			AddressStore store = addressManager.getAddressStoreById(NumberTools.toInt(getCurrentSearchCategory(request,
-							listing), - 1));
+			Iterator<Address> i = addresses.iterator();
 
-			final long addressCount = store.countAddressesByOwnerAndSearch(UserTools.getCurrentUserId(request), request
-							.getParameterAsString(listing.getId() + "Search", ""));
+			Address address = null;
 
-			context.setFirstResult(Math.min(context.getFirstResult(), context.getResultsPerPage()
-							* (int) (addressCount / context.getResultsPerPage())));
-
-			final List<Address> addresses = store.createAddressListing(UserTools.getCurrentUserId(request), request
-							.getParameterAsString(listing.getId() + "Search", ""), listing.getSortColumnName(), listing
-							.getSortOrder(), context.getFirstResult(), context.getResultsPerPage());
-
-			return new ListFiller()
+			@Override
+			public long getTotalRowCount()
 			{
-				Iterator<Address> i = addresses.iterator();
+				return addressCount;
+			}
 
-				Address address = null;
+			@Override
+			public int getRowCount()
+			{
+				return addresses.size();
+			}
 
-				@Override
-				public long getTotalRowCount()
+			@Override
+			public boolean next()
+			{
+				boolean more = i.hasNext();
+
+				if (more)
 				{
-					return addressCount;
+					address = i.next();
 				}
 
-				@Override
-				public int getRowCount()
+				return more;
+			}
+
+			@Override
+			public Object getId()
+			{
+				return StringTools.trim(address.getAnyId());
+			}
+
+			@Override
+			public Object getValue(String column)
+			{
+				try
 				{
-					return addresses.size();
+					return PropertyUtils.getNestedProperty(address, column);
+				}
+				catch (IllegalAccessException x)
+				{
+				}
+				catch (InvocationTargetException x)
+				{
+				}
+				catch (NoSuchMethodException x)
+				{
 				}
 
-				@Override
-				public boolean next()
-				{
-					boolean more = i.hasNext();
-
-					if (more)
-					{
-						address = i.next();
-					}
-
-					return more;
-				}
-
-				@Override
-				public Object getId()
-				{
-					return StringTools.trim(address.getAnyId());
-				}
-
-				@Override
-				public Object getValue(String column)
-				{
-					try
-					{
-						return PropertyUtils.getNestedProperty(address, column);
-					}
-					catch (IllegalAccessException x)
-					{
-					}
-					catch (InvocationTargetException x)
-					{
-					}
-					catch (NoSuchMethodException x)
-					{
-					}
-
-					return "";
-				}
-			};
-		}
-		catch (AddressStoreNotFoundException x)
-		{
-			throw new ModelException(x);
-		}
+				return "";
+			}
+		};
 	}
 }

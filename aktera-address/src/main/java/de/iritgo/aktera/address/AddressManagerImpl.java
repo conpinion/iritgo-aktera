@@ -56,7 +56,7 @@ public class AddressManagerImpl implements AddressManager, StartupHandler
 	@Getter
 	private List<AddressStoreType> addressStoreTypes;
 
-	public AddressStore getAddressStoreByName(final String storeName) throws AddressStoreNotFoundException
+	public AddressStore getAddressStoreByName(final String storeName)
 	{
 		AddressStore store = (AddressStore) CollectionUtils.find(addressStores, new Predicate()
 		{
@@ -71,10 +71,10 @@ public class AddressManagerImpl implements AddressManager, StartupHandler
 			return store;
 		}
 
-		throw new AddressStoreNotFoundException("Address store with id '" + storeName + "' not found");
+		return addressDAO.getNullAddressStore();
 	}
 
-	public AddressStore getAddressStoreById(final Integer id) throws AddressStoreNotFoundException
+	public AddressStore getAddressStoreById(final Integer id)
 	{
 		AddressStore store = (AddressStore) CollectionUtils.find(addressStores, new Predicate()
 		{
@@ -107,7 +107,6 @@ public class AddressManagerImpl implements AddressManager, StartupHandler
 	}
 
 	public Option<Address> findAddressByStoreAndDn(String storeName, Object addressDn)
-		throws AddressStoreNotFoundException
 	{
 		AddressStore store = getAddressStoreByName(storeName);
 		Option<Address> address = store.findAddressByDn(addressDn);
@@ -393,12 +392,12 @@ public class AddressManagerImpl implements AddressManager, StartupHandler
 		return res;
 	}
 
-	public boolean isAddressStoreEditable(String storeName) throws AddressStoreNotFoundException
+	public boolean isAddressStoreEditable(String storeName)
 	{
 		return getAddressStoreByName(storeName).getEditable();
 	}
 
-	public boolean isAddressStoreGlobal(String storeName) throws AddressStoreNotFoundException
+	public boolean isAddressStoreGlobal(String storeName)
 	{
 		return getAddressStoreByName(storeName).isGlobalStore();
 	}

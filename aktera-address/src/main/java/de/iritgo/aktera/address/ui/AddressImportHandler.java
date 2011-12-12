@@ -20,23 +20,23 @@
 package de.iritgo.aktera.address.ui;
 
 
-import java.io.*;
-import java.util.*;
+import java.io.PrintWriter;
+import java.util.Properties;
 import javax.xml.xpath.*;
 import org.apache.avalon.framework.context.*;
-import org.apache.avalon.framework.service.*;
+import org.apache.avalon.framework.service.ServiceException;
 import org.w3c.dom.*;
 import org.xml.sax.*;
-import de.iritgo.aktera.address.*;
+import de.iritgo.aktera.address.AddressManager;
 import de.iritgo.aktera.address.entity.*;
-import de.iritgo.aktera.authentication.*;
-import de.iritgo.aktera.i18n.*;
+import de.iritgo.aktera.authentication.UserEnvironment;
+import de.iritgo.aktera.i18n.I18N;
 import de.iritgo.aktera.importer.*;
 import de.iritgo.aktera.model.*;
-import de.iritgo.aktera.spring.*;
+import de.iritgo.aktera.spring.SpringTools;
 import de.iritgo.aktera.tools.*;
-import de.iritgo.aktera.ui.tools.*;
-import de.iritgo.simplelife.string.*;
+import de.iritgo.aktera.ui.tools.UserTools;
+import de.iritgo.simplelife.string.StringTools;
 import de.iritgo.simplelife.tools.*;
 
 
@@ -66,16 +66,7 @@ public class AddressImportHandler implements ImportHandler
 
 		AddressStore addressStore = null;
 
-		try
-		{
-			addressStore = addressManager.getAddressStoreByName(addressStoreId);
-		}
-		catch (AddressStoreNotFoundException x)
-		{
-			reporter.println(i18n.msg(req, "AkteraAddress", "addressImportHandlerStoreNotFound"));
-
-			return false;
-		}
+		addressStore = addressManager.getAddressStoreByName(addressStoreId);
 
 		if (! addressStore.getEditable())
 		{
@@ -162,16 +153,7 @@ public class AddressImportHandler implements ImportHandler
 
 		AddressStore addressStore = null;
 
-		try
-		{
-			addressStore = addressManager.getAddressStoreByName(addressStoreId);
-		}
-		catch (AddressStoreNotFoundException x)
-		{
-			reporter.println(i18n.msg(req, "AkteraAddress", "addressImportHandlerStoreNotFound"));
-
-			return false;
-		}
+		addressStore = addressManager.getAddressStoreByName(addressStoreId);
 
 		if (! addressStore.getEditable())
 		{
@@ -286,32 +268,38 @@ public class AddressImportHandler implements ImportHandler
 												StringTools.trim(xPath.evaluate("sourceSystemClient", addressElem)));
 				address.get().setRemark(StringTools.trim(xPath.evaluate("remark", addressElem)));
 
-				address.get().getPhoneNumberByCategory("B").setNumber(
-								StringTools
-												.trim(xPath.evaluate("phoneNumbers/phoneNumber[@category='B']",
-																addressElem)));
-				address.get().getPhoneNumberByCategory("BM").setNumber(
-								StringTools.trim(xPath
-												.evaluate("phoneNumbers/phoneNumber[@category='BM']", addressElem)));
-				address.get().getPhoneNumberByCategory("BF").setNumber(
-								StringTools.trim(xPath
-												.evaluate("phoneNumbers/phoneNumber[@category='BF']", addressElem)));
-				address.get().getPhoneNumberByCategory("BDD").setNumber(
-								StringTools.trim(xPath.evaluate("phoneNumbers/phoneNumber[@category='BDD']",
+				address.get()
+								.getPhoneNumberByCategory("B")
+								.setNumber(StringTools.trim(xPath.evaluate("phoneNumbers/phoneNumber[@category='B']",
 												addressElem)));
-				address.get().getPhoneNumberByCategory("P").setNumber(
-								StringTools
-												.trim(xPath.evaluate("phoneNumbers/phoneNumber[@category='P']",
-																addressElem)));
-				address.get().getPhoneNumberByCategory("PM").setNumber(
-								StringTools.trim(xPath
-												.evaluate("phoneNumbers/phoneNumber[@category='PM']", addressElem)));
-				address.get().getPhoneNumberByCategory("PF").setNumber(
-								StringTools.trim(xPath
-												.evaluate("phoneNumbers/phoneNumber[@category='PF']", addressElem)));
-				address.get().getPhoneNumberByCategory("VOIP").setNumber(
-								StringTools.trim(xPath.evaluate("phoneNumbers/phoneNumber[@category='VOIP']",
+				address.get()
+								.getPhoneNumberByCategory("BM")
+								.setNumber(StringTools.trim(xPath.evaluate("phoneNumbers/phoneNumber[@category='BM']",
 												addressElem)));
+				address.get()
+								.getPhoneNumberByCategory("BF")
+								.setNumber(StringTools.trim(xPath.evaluate("phoneNumbers/phoneNumber[@category='BF']",
+												addressElem)));
+				address.get()
+								.getPhoneNumberByCategory("BDD")
+								.setNumber(StringTools.trim(xPath.evaluate("phoneNumbers/phoneNumber[@category='BDD']",
+												addressElem)));
+				address.get()
+								.getPhoneNumberByCategory("P")
+								.setNumber(StringTools.trim(xPath.evaluate("phoneNumbers/phoneNumber[@category='P']",
+												addressElem)));
+				address.get()
+								.getPhoneNumberByCategory("PM")
+								.setNumber(StringTools.trim(xPath.evaluate("phoneNumbers/phoneNumber[@category='PM']",
+												addressElem)));
+				address.get()
+								.getPhoneNumberByCategory("PF")
+								.setNumber(StringTools.trim(xPath.evaluate("phoneNumbers/phoneNumber[@category='PF']",
+												addressElem)));
+				address.get()
+								.getPhoneNumberByCategory("VOIP")
+								.setNumber(StringTools.trim(xPath.evaluate(
+												"phoneNumbers/phoneNumber[@category='VOIP']", addressElem)));
 
 				if (address.get().getId() != null)
 				{
@@ -397,20 +385,12 @@ public class AddressImportHandler implements ImportHandler
 			I18N i18n = (I18N) request.getSpringBean(I18N.ID);
 
 			AddressManager addressManager = (AddressManager) SpringTools.getBean(AddressManager.ID);
-			String addressStoreId = properties.getProperty("destination", properties.getProperty("addressStoreId",
-							addressManager.getDefaultAddressStore().getName()));
+			String addressStoreId = properties
+							.getProperty("destination", properties.getProperty("addressStoreId", addressManager
+											.getDefaultAddressStore().getName()));
 			AddressStore addressStore = null;
 
-			try
-			{
-				addressStore = addressManager.getAddressStoreByName(addressStoreId);
-			}
-			catch (AddressStoreNotFoundException x)
-			{
-				reporter.println(i18n.msg(request, "AkteraAddress", "addressImportHandlerStoreNotFound"));
-
-				return;
-			}
+			addressStore = addressManager.getAddressStoreByName(addressStoreId);
 
 			if (! addressStore.getEditable())
 			{
