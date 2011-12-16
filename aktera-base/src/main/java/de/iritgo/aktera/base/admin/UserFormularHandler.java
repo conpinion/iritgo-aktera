@@ -41,6 +41,7 @@ import de.iritgo.simplelife.string.StringTools;
 
 public class UserFormularHandler extends FormularHandler
 {
+	private static final int FREE_ADDITIONAL_USER_ACCOUNT = 1;
 	@Setter
 	@Autowired
 	private PermissionManager permissionManager;
@@ -169,7 +170,7 @@ public class UserFormularHandler extends FormularHandler
 		long userCount = userDAO.countNonSystemUsers();
 
 		if (create && LicenseTools.getLicenseInfo().hasUserLimit()
-						&& (userCount == - 1 || userCount >= LicenseTools.getLicenseInfo().getUserCount()))
+						&& (userCount == - 1 || userCount >= (LicenseTools.getLicenseInfo().getUserCount() + FREE_ADDITIONAL_USER_ACCOUNT)))
 		{
 			FormTools.addError(response, result, "sysUser.name", "Aktera:licenseUserRestrictions");
 		}
