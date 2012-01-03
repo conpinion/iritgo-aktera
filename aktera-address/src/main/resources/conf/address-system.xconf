@@ -103,6 +103,7 @@
 		<labelWidth>20</labelWidth>
 		<key>address.anyId</key>
 		<group name="address">
+			<field name="addressStore" editor="message" readonly="true" unbound="true" bundle="AkteraAddress"/>
 			<field name="address.salutation" editor="salutation" />
 			<field name="address.firstName" editor="text" size="80" />
 			<field name="address.lastName" editor="text" size="80" />

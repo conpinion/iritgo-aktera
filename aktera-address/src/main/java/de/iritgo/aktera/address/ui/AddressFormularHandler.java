@@ -60,6 +60,7 @@ public class AddressFormularHandler extends FormularHandler
 					List<Configuration> persistentConfig, Integer id) throws ModelException, PersistenceException
 	{
 		AddressStore store = addressManager.getAddressStoreById(getAddressStoreId(request));
+		persistents.putAttribute("addressStore", store.getDisplayedTitle());
 		persistents.putAttribute("addressStoreId", store.getId());
 
 		String addressDn = request.getParameterAsString("id");
