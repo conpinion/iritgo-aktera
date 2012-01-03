@@ -21,6 +21,7 @@ package de.iritgo.aktera.struts.tags.bean;
 
 
 import org.apache.struts.taglib.TagUtils;
+import de.iritgo.simplelife.string.StringTools;
 import javax.servlet.jsp.JspException;
 
 
@@ -115,12 +116,9 @@ public class MessageTag extends org.apache.struts.taglib.bean.MessageTag
 		}
 
 		String message = TagUtils.getInstance().message(pageContext, bundle, this.localeKey, key, args);
-
-		if (message == null)
+		if (message == null || message.startsWith("???"))
 		{
-			JspException x = new JspException(messages.getMessage("message.message", "\"" + key + "\""));
-			TagUtils.getInstance().saveException(pageContext, x);
-			throw x;
+			message = key;
 		}
 
 		TagUtils.getInstance().write(pageContext, message);
