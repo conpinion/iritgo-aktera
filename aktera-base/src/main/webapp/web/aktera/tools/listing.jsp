@@ -157,9 +157,11 @@
 	<table class="list" width="<%= width %>" cellspacing="0" cellpadding="4">
 
 		<tr>
-			<th width="0%">
-				<input type="checkbox" name="selectAll" onclick="<%= listId %>CheckAll()">
-			</th>
+			<logic:present name="<%= listId %>" property="attributes.selectable">
+				<th width="0%">
+					<input type="checkbox" name="selectAll" onclick="<%= listId %>CheckAll()">
+				</th>
+			</logic:present>
 			<logic:iterate id="column" name="<%= listId %>" property="attributes.header.nested">
 
 				<logic:notPresent name="column" property="attributes.hide">
@@ -214,9 +216,11 @@
 					<tr class="even">
 				</logic:equal>
 
-					<td width="0%" valign="top">
-						<input type="checkbox" name="<%= keyName %>" value="<%= itemId %>">
-					</td>
+					<logic:present name="<%= listId %>" property="attributes.selectable">
+						<td width="0%" valign="top">
+							<input type="checkbox" name="<%= keyName %>" value="<%= itemId %>">
+						</td>
+					</logic:present>
 
 					<logic:iterate id="column" name="item" property="nested">
 

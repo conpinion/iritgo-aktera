@@ -140,6 +140,9 @@ public class Listing extends AbstractUIController
 	/** If true, only a single list item can be selected */
 	protected boolean singleSelection;
 
+	/** List items can only be selected if this is true */
+	protected boolean selectable;
+
 	public Listing()
 	{
 		security = Security.INSTANCE;
@@ -295,6 +298,7 @@ public class Listing extends AbstractUIController
 		overview = ModelTools.getConfigBool(configPath, "overview", false);
 		embedded = ModelTools.getConfigBool(configPath, "embedded", false);
 		singleSelection = ModelTools.getConfigBool(configPath, "singleSelection", false);
+		selectable = ModelTools.getConfigBool(configPath, "selectable", true);
 
 		title = ModelTools.getConfigString(configPath, "title", null);
 		titleBundle = ModelTools.getConfigString(configPath, "title", "bundle", null);
@@ -480,6 +484,7 @@ public class Listing extends AbstractUIController
 		listing.setIcon(icon);
 		listing.setEmbedded(embedded);
 		listing.setSingleSelection(singleSelection);
+		listing.setSelectable(selectable);
 		listing.setKeyName(keyName);
 		listing.setId(listId);
 		listing.setListModel(listModel);

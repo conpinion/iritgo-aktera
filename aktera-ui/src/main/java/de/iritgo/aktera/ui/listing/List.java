@@ -20,28 +20,18 @@
 package de.iritgo.aktera.ui.listing;
 
 
+import java.util.*;
+import org.apache.avalon.framework.configuration.*;
 import de.iritgo.aktera.authorization.InstanceSecurable;
 import de.iritgo.aktera.configuration.preferences.PreferencesManager;
-import de.iritgo.aktera.model.ModelException;
-import de.iritgo.aktera.model.ModelRequest;
-import de.iritgo.aktera.model.ModelResponse;
-import de.iritgo.aktera.model.SecurableStandardLogEnabledModel;
-import de.iritgo.aktera.persist.PersistenceException;
-import de.iritgo.aktera.persist.Persistent;
-import de.iritgo.aktera.persist.PersistentFactory;
+import de.iritgo.aktera.model.*;
+import de.iritgo.aktera.persist.*;
 import de.iritgo.aktera.spring.SpringTools;
 import de.iritgo.aktera.tools.ModelTools;
-import de.iritgo.aktera.ui.form.CommandDescriptor;
-import de.iritgo.aktera.ui.form.CommandInfo;
-import de.iritgo.aktera.ui.form.PersistentDescriptor;
-import de.iritgo.aktera.ui.form.QueryDescriptor;
+import de.iritgo.aktera.ui.form.*;
 import de.iritgo.aktera.ui.tools.UserTools;
 import de.iritgo.simplelife.math.NumberTools;
 import de.iritgo.simplelife.string.StringTools;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
-import java.util.Iterator;
-import java.util.Map;
 
 
 /**
@@ -136,6 +126,9 @@ public class List extends SecurableStandardLogEnabledModel implements InstanceSe
 
 	/** If true, only a single list item can be selected */
 	protected boolean singleSelection;
+
+	/** List items can only be selected if this is true */
+	protected boolean selectable;
 
 	/**
 	 * Return an identifying string.
@@ -296,6 +289,7 @@ public class List extends SecurableStandardLogEnabledModel implements InstanceSe
 		overview = ModelTools.getConfigBool(configPath, "overview", false);
 		embedded = ModelTools.getConfigBool(configPath, "embedded", false);
 		singleSelection = ModelTools.getConfigBool(configPath, "singleSelection", false);
+		selectable = ModelTools.getConfigBool(configPath, "selectable", true);
 
 		title = ModelTools.getConfigString(configPath, "title", null);
 		titleBundle = ModelTools.getConfigString(configPath, "title", "bundle", null);
@@ -438,9 +432,9 @@ public class List extends SecurableStandardLogEnabledModel implements InstanceSe
 	}
 
 	/**
-	 * Create the listing descriptor. This method stores the descriptor in the user's
-	 * context. On a later request, the descriptor is taken directly from the user
-	 * context.
+	 * Create the listing descriptor. This method stores the descriptor in the
+	 * user's context. On a later request, the descriptor is taken directly from
+	 * the user context.
 	 *
 	 * @param req The model request.
 	 * @throws ModelException In case of an error.
@@ -500,6 +494,7 @@ public class List extends SecurableStandardLogEnabledModel implements InstanceSe
 		listing.setIcon(icon);
 		listing.setEmbedded(embedded);
 		listing.setSingleSelection(singleSelection);
+		listing.setSelectable(selectable);
 		listing.setKeyName(keyName);
 		listing.setId(listId);
 		listing.setListModel(listModel);
@@ -532,9 +527,9 @@ public class List extends SecurableStandardLogEnabledModel implements InstanceSe
 					continue;
 				}
 
-				CommandInfo cmdInfo = new CommandInfo(aCommandConfig.getAttribute("model"), aCommandConfig
-								.getAttribute("id"), aCommandConfig.getAttribute("label"), aCommandConfig.getAttribute(
-								"icon", null));
+				CommandInfo cmdInfo = new CommandInfo(aCommandConfig.getAttribute("model"),
+								aCommandConfig.getAttribute("id"), aCommandConfig.getAttribute("label"),
+								aCommandConfig.getAttribute("icon", null));
 
 				cmdInfo.setBundle(aCommandConfig.getAttribute("bundle", "Aktera"));
 
@@ -566,9 +561,9 @@ public class List extends SecurableStandardLogEnabledModel implements InstanceSe
 					continue;
 				}
 
-				CommandInfo cmdInfo = new CommandInfo(aItemCommandConfig.getAttribute("model", aItemCommandConfig
-								.getAttribute("bean", null)), aItemCommandConfig.getAttribute("id"), aItemCommandConfig
-								.getAttribute("label"), aItemCommandConfig.getAttribute("icon", null));
+				CommandInfo cmdInfo = new CommandInfo(aItemCommandConfig.getAttribute("model",
+								aItemCommandConfig.getAttribute("bean", null)), aItemCommandConfig.getAttribute("id"),
+								aItemCommandConfig.getAttribute("label"), aItemCommandConfig.getAttribute("icon", null));
 
 				cmdInfo.setStyle(aItemCommandConfig.getAttribute("style", null));
 				cmdInfo.setBundle(aItemCommandConfig.getAttribute("bundle", "Aktera"));
@@ -588,8 +583,8 @@ public class List extends SecurableStandardLogEnabledModel implements InstanceSe
 			listing.setItemCommands(cmdDescriptor);
 		}
 
-		PersistentFactory persistentManager = (PersistentFactory) req.getService(PersistentFactory.ROLE, req
-						.getDomain());
+		PersistentFactory persistentManager = (PersistentFactory) req.getService(PersistentFactory.ROLE,
+						req.getDomain());
 		PersistentDescriptor persistents = new PersistentDescriptor();
 
 		if (persistentConfig.size() > 0)
@@ -656,7 +651,7 @@ public class List extends SecurableStandardLogEnabledModel implements InstanceSe
 		return listing;
 	}
 
-	private void setParameters(ModelRequest req, CommandInfo cmdInfo, Configuration[] params)
+	private void setParameters(@SuppressWarnings("unused") ModelRequest req, CommandInfo cmdInfo, Configuration[] params)
 		throws ConfigurationException
 	{
 		for (int j = 0; j < params.length; ++j)

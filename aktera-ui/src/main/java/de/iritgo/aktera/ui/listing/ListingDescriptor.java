@@ -154,6 +154,9 @@ public class ListingDescriptor implements Serializable
 	/** If true, only a single list item can be selected */
 	private boolean singleSelection;
 
+	/** List items can only be selected if this is true */
+	private boolean selectable;
+
 	/** A query descriptor */
 	private QueryDescriptor queryDescriptor;
 
@@ -1042,5 +1045,15 @@ public class ListingDescriptor implements Serializable
 	public void setNg(boolean ng)
 	{
 		this.ng = ng;
+	}
+
+	public boolean isSelectable()
+	{
+		return selectable;
+	}
+
+	public void setSelectable(boolean selectable)
+	{
+		this.selectable = selectable;
 	}
 }

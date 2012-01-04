@@ -148,7 +148,7 @@ public class Edit extends AbstractUIController
 
 			Object id = handler.getPersistentId(wrappedRequest, contextId, keyName);
 
-			if (StringTools.isTrimEmpty(id))
+			if (StringTools.isTrimEmpty(id) || request.hasParameter("new"))
 			{
 				id = new Integer(- 1);
 			}

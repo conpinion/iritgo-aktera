@@ -1,0 +1,10 @@
+	<servlet>
+		<servlet-name>vaadin</servlet-name>
+		<servlet-class>de.iritgo.aktera.vaadin.SpringApplicationServlet</servlet-class>
+		<load-on-startup>10</load-on-startup>
+		<init-param>
+			<param-name>applicationBeanName</param-name>
+			<param-value>vaadinApplication</param-value>
+		</init-param>
+	</servlet>
+

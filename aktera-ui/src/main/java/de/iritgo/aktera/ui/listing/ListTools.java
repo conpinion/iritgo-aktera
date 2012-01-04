@@ -1688,6 +1688,10 @@ public class ListTools
 
 		res.add(outList);
 
+		if (listing.isSelectable())
+		{
+			outList.setAttribute("selectable", "Y");
+		}
 		outList.setAttribute("columnCount", new Integer(listing.getVisibleColumnCount()
 						+ (listing.getItemCommands() != null ? 1 : 0)));
 

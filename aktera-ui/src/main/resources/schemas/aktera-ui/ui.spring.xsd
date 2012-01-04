@@ -100,6 +100,7 @@
 						<xsd:element name="title" minOccurs="0" maxOccurs="1" />
 						<xsd:element name="titleBundle" minOccurs="0" maxOccurs="1" />
 						<xsd:element name="icon" minOccurs="0" maxOccurs="1" />
+						<xsd:element name="selectable" minOccurs="0" maxOccurs="1" type="xsd:boolean" />
 					</xsd:choice>
 					<xsd:attribute name="forward" use="optional" type="xsd:string" />
 					<xsd:attribute name="bundle" use="optional" type="xsd:string" />
