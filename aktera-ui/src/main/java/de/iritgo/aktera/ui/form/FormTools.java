@@ -22,6 +22,7 @@ package de.iritgo.aktera.ui.form;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
+import java.net.InetAddress;
 import java.sql.*;
 import java.sql.Date;
 import java.text.*;
@@ -86,7 +87,10 @@ public class FormTools
 			reNumber = Pattern.compile("[0-9]*");
 			reInteger = Pattern.compile("([-+])?[0-9]*");
 			reDigits = Pattern.compile("[0-9]*");
-			reIpAddress = Pattern.compile("[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}(/\\d\\d)?");
+			reIpAddress = Pattern
+							.compile("^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])$");
+			// reIpAddress =
+			// Pattern.compile("[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}(/\\d\\d)?");
 			reNoWhiteSpace = Pattern.compile("[^ ]+");
 			reIdentifier = Pattern.compile("\\w+");
 			reRealNumber = Pattern.compile("[0-9]+(\\.[0-9]+)?");
@@ -102,10 +106,8 @@ public class FormTools
 	 * Create the key under which the persistents are stored in the user
 	 * context.
 	 *
-	 * @param contextId
-	 * The context id.
-	 * @param id
-	 * The object id.
+	 * @param contextId The context id.
+	 * @param id The object id.
 	 * @return The context key.
 	 */
 	public static String createContextKey(String contextId, Object id)
@@ -116,10 +118,8 @@ public class FormTools
 	/**
 	 * Retrieve the request id of the formular persistents.
 	 *
-	 * @param req
-	 * A model request.
-	 * @param keyName
-	 * Alternate id name.
+	 * @param req A model request.
+	 * @param keyName Alternate id name.
 	 * @return The persistent id.
 	 */
 	public static Object getPersistentId(ModelRequest req, String formName, String keyName)
@@ -161,12 +161,9 @@ public class FormTools
 	/**
 	 * Retrieve a formular descriptor that is stored in the user context.
 	 *
-	 * @param req
-	 * A model request.
-	 * @param formName
-	 * The name of the formular.
-	 * @param id
-	 * The persistents id.
+	 * @param req A model request.
+	 * @param formName The name of the formular.
+	 * @param id The persistents id.
 	 * @return The formular.
 	 */
 	public static FormularDescriptor getFormularFromContext(ModelRequest req, String formName, Object id)
@@ -180,12 +177,9 @@ public class FormTools
 	/**
 	 * Retrieve a formular descriptor that is stored in the user context.
 	 *
-	 * @param req
-	 * A model request.
-	 * @param formName
-	 * The name of the formular.
-	 * @param id
-	 * The persistents id.
+	 * @param req A model request.
+	 * @param formName The name of the formular.
+	 * @param id The persistents id.
 	 * @return The formular.
 	 */
 	public static FormularDescriptor getFormularFromContext(UIRequest request, String formName, Object id)
@@ -200,12 +194,9 @@ public class FormTools
 	/**
 	 * Retrieve a formular descriptor that is stored in the user context.
 	 *
-	 * @param req
-	 * A model request.
-	 * @param formName
-	 * The name of the formular.
-	 * @param keyName
-	 * Alternate id name.
+	 * @param req A model request.
+	 * @param formName The name of the formular.
+	 * @param keyName Alternate id name.
 	 * @return The formular.
 	 */
 	public static FormularDescriptor getFormularFromContext(ModelRequest req, String formName, String keyName)
@@ -218,14 +209,10 @@ public class FormTools
 	/**
 	 * Create all input and output elements for the given formular.
 	 *
-	 * @param req
-	 * The model request.
-	 * @param res
-	 * The model response.
-	 * @param formular
-	 * The formular description.
-	 * @param persistents
-	 * The persistent instances.
+	 * @param req The model request.
+	 * @param res The model response.
+	 * @param formular The formular description.
+	 * @param persistents The persistent instances.
 	 */
 	public static void createResponseElements(ModelRequest req, ModelResponse res, FormularDescriptor formular,
 					PersistentDescriptor persistents, ExpressionLanguageContext context)
@@ -237,16 +224,11 @@ public class FormTools
 	/**
 	 * Create all input and output elements for the given formular.
 	 *
-	 * @param req
-	 * The model request.
-	 * @param res
-	 * The model response.
-	 * @param formular
-	 * The formular description.
-	 * @param persistents
-	 * The persistent instances.
-	 * @param commands
-	 * The formular commands.
+	 * @param req The model request.
+	 * @param res The model response.
+	 * @param formular The formular description.
+	 * @param persistents The persistent instances.
+	 * @param commands The formular commands.
 	 */
 	public static void createResponseElements(ModelRequest req, ModelResponse res, FormularDescriptor formular,
 					PersistentDescriptor persistents, CommandDescriptor commands, ExpressionLanguageContext context)
@@ -258,18 +240,12 @@ public class FormTools
 	/**
 	 * Create all input and output elements for the given formular.
 	 *
-	 * @param req
-	 * The model request.
-	 * @param res
-	 * The model response.
-	 * @param formular
-	 * The formular description.
-	 * @param persistents
-	 * The persistent instances.
-	 * @param commands
-	 * The formular commands.
-	 * @param readOnly
-	 * If true, all fields are created as read only fields.
+	 * @param req The model request.
+	 * @param res The model response.
+	 * @param formular The formular description.
+	 * @param persistents The persistent instances.
+	 * @param commands The formular commands.
+	 * @param readOnly If true, all fields are created as read only fields.
 	 */
 	public static void createResponseElements(ModelRequest req, ModelResponse res, FormularDescriptor formular,
 					PersistentDescriptor persistents, CommandDescriptor commands, boolean readOnly,
@@ -365,8 +341,8 @@ public class FormTools
 				{
 					command.setAttribute("icon", page.getIcon());
 
-					command.setAttribute("inactiveIcon", page.hasInactiveIcon() ? page.getInactiveIcon() : page
-									.getIcon());
+					command.setAttribute("inactiveIcon",
+									page.hasInactiveIcon() ? page.getInactiveIcon() : page.getIcon());
 				}
 
 				boolean active = pageNum == currentPage;
@@ -511,20 +487,13 @@ public class FormTools
 	 * </tr>
 	 * </table>
 	 *
-	 * @param req
-	 * The model request.
-	 * @param res
-	 * The model response.
-	 * @param persistents
-	 * The persistent instances.
-	 * @param field
-	 * The formular field descriptor.
-	 * @param group
-	 * An optional grouping output which can be null.
-	 * @param readOnly
-	 * If true, all fields are created as read only fields.
-	 * @param num
-	 * The current element number.
+	 * @param req The model request.
+	 * @param res The model response.
+	 * @param persistents The persistent instances.
+	 * @param field The formular field descriptor.
+	 * @param group An optional grouping output which can be null.
+	 * @param readOnly If true, all fields are created as read only fields.
+	 * @param num The current element number.
 	 */
 	public static void createResponseElementsForField(ModelRequest req, ModelResponse res, FieldDescriptor field,
 					PersistentDescriptor persistents, Output outGroup, boolean readOnly, int num,
@@ -695,8 +664,7 @@ public class FormTools
 			else
 			{
 				inputDay.setDefaultValue(NumberTools.toIntInstance(persistents.getAttribute(inputName + "Day"), - 1));
-				inputMonth.setDefaultValue(NumberTools
-								.toIntInstance(persistents.getAttribute(inputName + "Month"), - 1));
+				inputMonth.setDefaultValue(NumberTools.toIntInstance(persistents.getAttribute(inputName + "Month"), - 1));
 				inputYear.setDefaultValue(NumberTools.toIntInstance(persistents.getAttribute(inputName + "Year"), - 1));
 			}
 		}
@@ -787,8 +755,7 @@ public class FormTools
 			else
 			{
 				inputDay.setDefaultValue(NumberTools.toIntInstance(persistents.getAttribute(inputName + "Day"), - 1));
-				inputMonth.setDefaultValue(NumberTools
-								.toIntInstance(persistents.getAttribute(inputName + "Month"), - 1));
+				inputMonth.setDefaultValue(NumberTools.toIntInstance(persistents.getAttribute(inputName + "Month"), - 1));
 				inputYear.setDefaultValue(NumberTools.toIntInstance(persistents.getAttribute(inputName + "Year"), - 1));
 				inputHour.setDefaultValue(NumberTools.toIntInstance(persistents.getAttribute(inputName + "Hour"), - 1));
 				inputMinute.setDefaultValue(NumberTools.toIntInstance(persistents.getAttribute(inputName + "Minute"),
@@ -991,18 +958,14 @@ public class FormTools
 	}
 
 	/**
-	 * Validate the complete formular input against the formular and
-	 * persistent constraints. This method generates global and field
-	 * specific error objects in the model response.
+	 * Validate the complete formular input against the formular and persistent
+	 * constraints. This method generates global and field specific error
+	 * objects in the model response.
 	 *
-	 * @param req
-	 * The model request.
-	 * @param res
-	 * The model response.
-	 * @param formular
-	 * The formular description.
-	 * @param persistents
-	 * The persistent instances.
+	 * @param req The model request.
+	 * @param res The model response.
+	 * @param formular The formular description.
+	 * @param persistents The persistent instances.
 	 * @return A validation result.
 	 * @throws ModelException
 	 */
@@ -1035,22 +998,16 @@ public class FormTools
 	}
 
 	/**
-	 * Validate the complete formular input against the formular and
-	 * persistent constraints. This method generates global and field
-	 * specific error objects in the model response.
+	 * Validate the complete formular input against the formular and persistent
+	 * constraints. This method generates global and field specific error
+	 * objects in the model response.
 	 *
-	 * @param req
-	 * The model request.
-	 * @param res
-	 * The model response.
-	 * @param formular
-	 * The formular description.
-	 * @param persistents
-	 * The persistent instances.
-	 * @param result
-	 * The validation result.
-	 * @param pageNum
-	 * The current page number.
+	 * @param req The model request.
+	 * @param res The model response.
+	 * @param formular The formular description.
+	 * @param persistents The persistent instances.
+	 * @param result The validation result.
+	 * @param pageNum The current page number.
 	 * @throws ModelException
 	 */
 	public static void validateInput(ModelRequest req, ModelResponse res, FormularDescriptor formular,
@@ -1108,10 +1065,7 @@ public class FormTools
 						if (! StringTools.isTrimEmpty(persistents.getAttribute(inputName)))
 						{
 							if ("number".equals(field.getEditor())
-											&& ! reNumber
-															.matcher(
-																			StringTools.trim(persistents
-																							.getAttribute(inputName)))
+											&& ! reNumber.matcher(StringTools.trim(persistents.getAttribute(inputName)))
 															.matches())
 							{
 								addError(res, ValidationResult.ERROR_NOT_A_NUMBER, inputName, result, pageNum);
@@ -1124,10 +1078,7 @@ public class FormTools
 								addError(res, ValidationResult.ERROR_NOT_AN_INTEGER, inputName, result, pageNum);
 							}
 							else if ("digits".equals(field.getEditor())
-											&& ! reDigits
-															.matcher(
-																			StringTools.trim(persistents
-																							.getAttribute(inputName)))
+											&& ! reDigits.matcher(StringTools.trim(persistents.getAttribute(inputName)))
 															.matches())
 							{
 								addError(res, ValidationResult.ERROR_ONLY_DIGITS_ALLOWED, inputName, result, pageNum);
@@ -1251,16 +1202,11 @@ public class FormTools
 	 * This method sets a global error, but only if this is the first time, that
 	 * a specific error occurred. In any case a field error is generated.
 	 *
-	 * @param res
-	 * The model response.
-	 * @param errorType
-	 * The error type.
-	 * @param inputName
-	 * The name of the input field.
-	 * @param result
-	 * The validation result.
-	 * @param pageNum
-	 * The index of the page that contains the field.
+	 * @param res The model response.
+	 * @param errorType The error type.
+	 * @param inputName The name of the input field.
+	 * @param result The validation result.
+	 * @param pageNum The index of the page that contains the field.
 	 * @throws ModelException
 	 */
 	public static void addError(ModelResponse res, int errorType, String inputName, ValidationResult result, int pageNum)
@@ -1275,18 +1221,12 @@ public class FormTools
 	 * This method sets a global error, but only if this is the first time, that
 	 * a specific error occurred. In any case a field error is generated.
 	 *
-	 * @param res
-	 * The model response.
-	 * @param errorType
-	 * The error type.
-	 * @param inputName
-	 * The name of the input field.
-	 * @param result
-	 * The validation result.
-	 * @param string
-	 * The errorTextId
-	 * @param pageNum
-	 * The index of the page that contains the field.
+	 * @param res The model response.
+	 * @param errorType The error type.
+	 * @param inputName The name of the input field.
+	 * @param result The validation result.
+	 * @param string The errorTextId
+	 * @param pageNum The index of the page that contains the field.
 	 * @throws ModelException
 	 */
 	public static void addError(ModelResponse res, int errorType, String inputName, ValidationResult result,
@@ -1300,14 +1240,10 @@ public class FormTools
 	/**
 	 * Add an error to a model response and validation result.
 	 *
-	 * @param res
-	 * The model response.
-	 * @param result
-	 * The validation result.
-	 * @param field
-	 * The error field.
-	 * @param message
-	 * The error message.
+	 * @param res The model response.
+	 * @param result The validation result.
+	 * @param field The error field.
+	 * @param message The error message.
 	 */
 	public static void addError(ModelResponse res, ValidationResult result, String field, String message)
 	{
@@ -1319,12 +1255,9 @@ public class FormTools
 	/**
 	 * Add an info message to a model response and validation result.
 	 *
-	 * @param res
-	 * The model response.
-	 * @param result
-	 * The validation result.
-	 * @param message
-	 * The info message.
+	 * @param res The model response.
+	 * @param result The validation result.
+	 * @param message The info message.
 	 */
 	public static void addInfo(ModelResponse res, ValidationResult result, String message)
 	{
@@ -1334,14 +1267,10 @@ public class FormTools
 	/**
 	 * Transfer the complete formular input into the persistent objects.
 	 *
-	 * @param req
-	 * The model request.
-	 * @param res
-	 * The model response.
-	 * @param formular
-	 * The formular description.
-	 * @param persistents
-	 * The persistent instances.
+	 * @param req The model request.
+	 * @param res The model response.
+	 * @param formular The formular description.
+	 * @param persistents The persistent instances.
 	 * @return True If the stored input has modified the persistents.
 	 * @throws ModelException
 	 */
@@ -1546,8 +1475,8 @@ public class FormTools
 						}
 					}
 
-					setAttributeOnDataObjectSafe(logger, persistents, persistent, persistentName, fieldName, val
-									.toString());
+					setAttributeOnDataObjectSafe(logger, persistents, persistent, persistentName, fieldName,
+									val.toString());
 					persistents.putAttribute(inputName, val.toString());
 				}
 				else if ("weekdaycheck".equals(field.getEditor()))
@@ -1559,8 +1488,8 @@ public class FormTools
 						val.append(req.getParameter(inputName + i) != null ? (i + ",") : "");
 					}
 
-					setAttributeOnDataObjectSafe(logger, persistents, persistent, persistentName, fieldName, val
-									.toString());
+					setAttributeOnDataObjectSafe(logger, persistents, persistent, persistentName, fieldName,
+									val.toString());
 					persistents.putAttribute(inputName, val.toString());
 				}
 				else if ("seconds".equals(field.getEditor()) || "minutes".equals(field.getEditor())
@@ -1636,19 +1565,15 @@ public class FormTools
 
 	/**
 	 * This method sets the input values by reading the data of a property
-	 * table.
-	 * The persistents of this table must contain the fields 'category', 'name',
-	 * 'type',
-	 * 'validValues' and 'value'.
+	 * table. The persistents of this table must contain the fields 'category',
+	 * 'name', 'type', 'validValues' and 'value'.
 	 *
-	 * @param req
-	 * The model request.
-	 * @param formular
-	 * The formular description.
-	 * @param persistents
-	 * The persistent descriptor in which to store the input values.
-	 * @param persistentId
-	 * The id of the persistent objects of the property table.
+	 * @param req The model request.
+	 * @param formular The formular description.
+	 * @param persistents The persistent descriptor in which to store the input
+	 *            values.
+	 * @param persistentId The id of the persistent objects of the property
+	 *            table.
 	 */
 	public static void createInputValuesFromPropertyTable(ModelRequest req, FormularDescriptor formular,
 					PersistentDescriptor persistents, String persistentId) throws ModelException, PersistenceException
@@ -1658,54 +1583,46 @@ public class FormTools
 
 	/**
 	 * This method sets the input values by reading the data of a property
-	 * table.
-	 * The persistents of this table must contain the fields 'category', 'name',
-	 * 'type',
-	 * 'validValues' and 'value'.
+	 * table. The persistents of this table must contain the fields 'category',
+	 * 'name', 'type', 'validValues' and 'value'.
 	 *
-	 * @param req
-	 * The model request.
-	 * @param formular
-	 * The formular description.
-	 * @param persistents
-	 * The persistent descriptor in which to store the input values.
-	 * @param persistentId
-	 * The id of the persistent objects of the property table.
-	 * @param category
-	 * Only create input values for fields that match this category.
+	 * @param req The model request.
+	 * @param formular The formular description.
+	 * @param persistents The persistent descriptor in which to store the input
+	 *            values.
+	 * @param persistentId The id of the persistent objects of the property
+	 *            table.
+	 * @param category Only create input values for fields that match this
+	 *            category.
 	 */
 	public static void createInputValuesFromPropertyTable(ModelRequest req, FormularDescriptor formular,
 					PersistentDescriptor persistents, String persistentId, String category)
 		throws ModelException, PersistenceException
 	{
-		createInputValuesFromPropertyTable(req, formular, persistents, persistentId, category, UserTools
-						.getCurrentUserId(req));
+		createInputValuesFromPropertyTable(req, formular, persistents, persistentId, category,
+						UserTools.getCurrentUserId(req));
 	}
 
 	/**
 	 * This method sets the input values by reading the data of a property
-	 * table.
-	 * The persistents of this table must contain the fields 'category', 'name',
-	 * 'type',
-	 * 'validValues' and 'value'.
+	 * table. The persistents of this table must contain the fields 'category',
+	 * 'name', 'type', 'validValues' and 'value'.
 	 *
-	 * @param req
-	 * The model request.
-	 * @param formular
-	 * The formular description.
-	 * @param persistents
-	 * The persistent descriptor in which to store the input values.
-	 * @param persistentId
-	 * The id of the persistent objects of the property table.
-	 * @param category
-	 * Only create input values for fields that match this category.
+	 * @param req The model request.
+	 * @param formular The formular description.
+	 * @param persistents The persistent descriptor in which to store the input
+	 *            values.
+	 * @param persistentId The id of the persistent objects of the property
+	 *            table.
+	 * @param category Only create input values for fields that match this
+	 *            category.
 	 */
 	public static void createInputValuesFromPropertyTable(ModelRequest req, FormularDescriptor formular,
 					PersistentDescriptor persistents, String persistentId, String category, Integer userId)
 		throws ModelException, PersistenceException
 	{
-		PersistentFactory persistentManager = (PersistentFactory) req.getService(PersistentFactory.ROLE, req
-						.getDomain());
+		PersistentFactory persistentManager = (PersistentFactory) req.getService(PersistentFactory.ROLE,
+						req.getDomain());
 
 		Persistent sample = persistentManager.create(persistentId);
 
@@ -1776,19 +1693,16 @@ public class FormTools
 	}
 
 	/**
-	 * This method stores the input values into a property table.
-	 * The persistents of this table must contain the fields 'category', 'name',
-	 * 'type',
-	 * 'validValues' and 'value'.
+	 * This method stores the input values into a property table. The
+	 * persistents of this table must contain the fields 'category', 'name',
+	 * 'type', 'validValues' and 'value'.
 	 *
-	 * @param req
-	 * The model request.
-	 * @param formular
-	 * The formular description.
-	 * @param persistents
-	 * The persistent descriptor in which to store the input values.
-	 * @param persistentId
-	 * The id of the persistent objects of the property table.
+	 * @param req The model request.
+	 * @param formular The formular description.
+	 * @param persistents The persistent descriptor in which to store the input
+	 *            values.
+	 * @param persistentId The id of the persistent objects of the property
+	 *            table.
 	 * @return True if any of the values have changed.
 	 */
 	public static boolean storeInputValuesToPropertyTable(ModelRequest req, FormularDescriptor formular,
@@ -1798,47 +1712,41 @@ public class FormTools
 	}
 
 	/**
-	 * This method stores the input values into a property table.
-	 * The persistents of this table must contain the fields 'category', 'name',
-	 * 'type',
-	 * 'validValues' and 'value'.
+	 * This method stores the input values into a property table. The
+	 * persistents of this table must contain the fields 'category', 'name',
+	 * 'type', 'validValues' and 'value'.
 	 *
-	 * @param req
-	 * The model request.
-	 * @param formular
-	 * The formular description.
-	 * @param persistents
-	 * The persistent descriptor in which to store the input values.
-	 * @param persistentId
-	 * The id of the persistent objects of the property table.
-	 * @param category
-	 * Only store input values for fields that match this category.
+	 * @param req The model request.
+	 * @param formular The formular description.
+	 * @param persistents The persistent descriptor in which to store the input
+	 *            values.
+	 * @param persistentId The id of the persistent objects of the property
+	 *            table.
+	 * @param category Only store input values for fields that match this
+	 *            category.
 	 * @return True if any of the values have changed.
 	 */
 	public static boolean storeInputValuesToPropertyTable(ModelRequest req, FormularDescriptor formular,
 					PersistentDescriptor persistents, String persistentId, String category)
 		throws ModelException, PersistenceException
 	{
-		return storeInputValuesToPropertyTable(req, formular, persistents, persistentId, category, UserTools
-						.getCurrentUserId(req));
+		return storeInputValuesToPropertyTable(req, formular, persistents, persistentId, category,
+						UserTools.getCurrentUserId(req));
 	}
 
 	/**
-	 * This method stores the input values into a property table.
-	 * The persistents of this table must contain the fields 'category', 'name',
-	 * 'type',
-	 * 'validValues' and 'value'.
+	 * This method stores the input values into a property table. The
+	 * persistents of this table must contain the fields 'category', 'name',
+	 * 'type', 'validValues' and 'value'.
 	 *
-	 * @param req
-	 * The model request.
-	 * @param formular
-	 * The formular description.
-	 * @param persistents
-	 * The persistent descriptor in which to store the input values.
-	 * @param persistentId
-	 * The id of the persistent objects of the property table.
-	 * @param category
-	 * Only store input values for fields that match this category.
+	 * @param req The model request.
+	 * @param formular The formular description.
+	 * @param persistents The persistent descriptor in which to store the input
+	 *            values.
+	 * @param persistentId The id of the persistent objects of the property
+	 *            table.
+	 * @param category Only store input values for fields that match this
+	 *            category.
 	 * @return True if any of the values have changed.
 	 */
 	public static boolean storeInputValuesToPropertyTable(ModelRequest req, FormularDescriptor formular,
@@ -1847,8 +1755,8 @@ public class FormTools
 	{
 		boolean modified = false;
 
-		PersistentFactory persistentManager = (PersistentFactory) req.getService(PersistentFactory.ROLE, req
-						.getDomain());
+		PersistentFactory persistentManager = (PersistentFactory) req.getService(PersistentFactory.ROLE,
+						req.getDomain());
 
 		Persistent sample = persistentManager.create(persistentId);
 
@@ -2005,16 +1913,13 @@ public class FormTools
 	}
 
 	/**
-	 * Retrieve an attribute either from a Persistent object or a
-	 * general bean object.
+	 * Retrieve an attribute either from a Persistent object or a general bean
+	 * object.
 	 *
-	 * @param o
-	 * The object
-	 * @param name
-	 * The attribute name
+	 * @param o The object
+	 * @param name The attribute name
 	 * @return The attribute value
-	 * @throws PersistenceException
-	 * If the attribute couldn't be retrieved
+	 * @throws PersistenceException If the attribute couldn't be retrieved
 	 */
 	protected static Object getAttributeFromDataObject(Object o, String name) throws PersistenceException
 	{
@@ -2045,12 +1950,9 @@ public class FormTools
 	/**
 	 * Set an attribute either on a Persistent object or a general bean object.
 	 *
-	 * @param o
-	 * The object
-	 * @param value
-	 * The attribute vale
-	 * @throws PersistenceException
-	 * If the attribute couldn't be retrieved
+	 * @param o The object
+	 * @param value The attribute vale
+	 * @throws PersistenceException If the attribute couldn't be retrieved
 	 */
 	private static void setAttributeOnDataObject(Logger logger, Object o, String name, Object value)
 		throws PersistenceException
@@ -2106,8 +2008,7 @@ public class FormTools
 
 	/**
 	 * Set an attribute either on a Persistent object, a general bean object or
-	 * as
-	 * a persistent attribute.
+	 * as a persistent attribute.
 	 *
 	 * @param persistents
 	 * @param persistent
@@ -2134,9 +2035,7 @@ public class FormTools
 
 	/**
 	 * Set an attribute either on a Persistent object, a general bean object or
-	 * as
-	 * a persistent attribute.
-	 * Ignore any exceptions.
+	 * as a persistent attribute. Ignore any exceptions.
 	 *
 	 * @param persistents
 	 * @param persistent
@@ -2164,13 +2063,10 @@ public class FormTools
 	 * Retrieve an attribute's valid values either from a Persistent object or a
 	 * general bean object.
 	 *
-	 * @param o
-	 * The object
-	 * @param name
-	 * The attribute name
+	 * @param o The object
+	 * @param name The attribute name
 	 * @return The attribute's valid values
-	 * @throws PersistenceException
-	 * If the attribute couldn't be retrieved
+	 * @throws PersistenceException If the attribute couldn't be retrieved
 	 */
 	protected static Map getAttributeValidValuesFromDataObject(Object o, String name) throws PersistenceException
 	{
@@ -2187,16 +2083,12 @@ public class FormTools
 
 	/**
 	 * Retrieve the default value of an attribute either from a Persistent
-	 * object or a
-	 * general bean object.
+	 * object or a general bean object.
 	 *
-	 * @param o
-	 * The object
-	 * @param name
-	 * The attribute name
+	 * @param o The object
+	 * @param name The attribute name
 	 * @return The attribute value
-	 * @throws PersistenceException
-	 * If the attribute couldn't be retrieved
+	 * @throws PersistenceException If the attribute couldn't be retrieved
 	 */
 	protected static Object getAttributeDefaultValueFromDataObject(Object o, String name) throws PersistenceException
 	{
