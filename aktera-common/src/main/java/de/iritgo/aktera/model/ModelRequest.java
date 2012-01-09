@@ -276,4 +276,6 @@ public interface ModelRequest extends KeelRequest
 	public Map getParams();
 
 	public boolean hasParameter(String name);
+
+	public void removeParameter(String name);
 }
