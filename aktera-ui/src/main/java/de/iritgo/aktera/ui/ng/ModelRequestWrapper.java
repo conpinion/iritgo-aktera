@@ -414,4 +414,8 @@ public class ModelRequestWrapper implements ModelRequest
 	public void setSource(String source)
 	{
 	}
+
+	public void removeParameter(String name)
+	{
+	}
 }

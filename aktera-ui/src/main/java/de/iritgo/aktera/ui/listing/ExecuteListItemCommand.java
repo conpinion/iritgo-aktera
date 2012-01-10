@@ -88,6 +88,7 @@ public class ExecuteListItemCommand extends StandardLogEnabledModel
 			ModelRequest mreq = (ModelRequest) req.getService(ModelRequest.ROLE, "default");
 
 			mreq.copyFrom(req);
+			mreq.removeParameter("listSearch");
 
 			for (Iterator i = req.getParameters().keySet().iterator(); i.hasNext();)
 			{
