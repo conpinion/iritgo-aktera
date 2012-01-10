@@ -20,17 +20,12 @@
 package de.iritgo.aktera.ui.module;
 
 
-import de.iritgo.aktera.model.ModelRequest;
-import de.iritgo.aktera.persist.ModuleVersion;
-import de.iritgo.aktera.persist.PersistentFactory;
-import de.iritgo.aktera.persist.UpdateHandler;
-import org.apache.avalon.framework.logger.Logger;
 import java.sql.Connection;
+import org.apache.avalon.framework.logger.Logger;
+import de.iritgo.aktera.model.ModelRequest;
+import de.iritgo.aktera.persist.*;
 
 
-/**
- *
- */
 public class ModuleUpdateHandler extends UpdateHandler
 {
 	@Override
@@ -51,6 +46,23 @@ public class ModuleUpdateHandler extends UpdateHandler
 		if (currentVersion.lessThan("2.2.1"))
 		{
 			currentVersion.setVersion("2.2.1");
+		}
+
+		if (currentVersion.lessThan("2.2.2"))
+		{
+			if (count("preferencesconfig", "category='gui' and name='tableRowsPerPage' and userid=1") == 0)
+			{
+				insert("preferencesconfig", "category", "'gui'", "name", "'tableRowsPerPage'", "type", "'I'", "userId",
+								"1", "value", "''");
+			}
+
+			if (count("preferencesconfig", "category='gui' and name='tableRowsPerPage' and userid=2") == 0)
+			{
+				insert("preferencesconfig", "category", "'gui'", "name", "'tableRowsPerPage'", "type", "'I'", "userId",
+								"2", "value", "''");
+			}
+
+			currentVersion.setVersion("2.2.2");
 		}
 	}
 }

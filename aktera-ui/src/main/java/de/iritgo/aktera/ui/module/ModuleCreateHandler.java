@@ -20,21 +20,15 @@
 package de.iritgo.aktera.ui.module;
 
 
-import de.iritgo.aktera.model.ModelException;
-import de.iritgo.aktera.model.ModelRequest;
-import de.iritgo.aktera.persist.CreateHandler;
-import de.iritgo.aktera.persist.PersistenceException;
-import de.iritgo.aktera.persist.PersistentFactory;
+import java.sql.*;
 import org.apache.avalon.framework.logger.Logger;
-import java.sql.Connection;
-import java.sql.SQLException;
+import de.iritgo.aktera.model.*;
+import de.iritgo.aktera.persist.*;
 
 
-/**
- *
- */
 public class ModuleCreateHandler extends CreateHandler
 {
+	@Override
 	public void createTables(ModelRequest request, PersistentFactory persistentFactory, Connection connection,
 					Logger logger) throws ModelException, PersistenceException, SQLException
 	{
@@ -44,12 +38,13 @@ public class ModuleCreateHandler extends CreateHandler
 						"security varchar(16) null", "theme varchar(32) null", "userId int4 not null");
 	}
 
-	/**
-	 * @see de.iritgo.aktera.persist.CreateHandler#createData(de.iritgo.aktera.persist.PersistentFactory, java.sql.Connection, Logger, ModelRequest)
-	 */
 	@Override
 	public void createData(PersistentFactory persistentFactory, Connection connection, Logger logger,
 					ModelRequest request) throws ModelException, PersistenceException, SQLException
 	{
+		insert("preferencesconfig", "category", "'gui'", "name", "'tableRowsPerPage'", "type", "'I'", "userId", "1",
+						"value", "''");
+		insert("preferencesconfig", "category", "'gui'", "name", "'tableRowsPerPage'", "type", "'I'", "userId", "2",
+						"value", "''");
 	}
 }
