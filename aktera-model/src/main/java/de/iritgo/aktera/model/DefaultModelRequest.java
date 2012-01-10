@@ -1050,4 +1050,9 @@ public class DefaultModelRequest implements LogEnabled, KeelServiceable, ModelRe
 	{
 		this.myBean = bean;
 	}
+
+	public void removeParameter(String name)
+	{
+		params.remove(name);
+	}
 }
