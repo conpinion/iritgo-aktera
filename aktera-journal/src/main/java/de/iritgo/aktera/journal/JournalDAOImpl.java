@@ -298,7 +298,10 @@ public class JournalDAOImpl extends HibernateDaoSupport implements JournalDAO
 
 		for (JournalEntry entry : journalEntries)
 		{
-			deleteJournalDataById(entry.getExtendedInfoId());
+			if (entry.getExtendedInfoId() != null)
+			{
+				deleteJournalDataById(entry.getExtendedInfoId());
+			}
 		}
 	}
 }
