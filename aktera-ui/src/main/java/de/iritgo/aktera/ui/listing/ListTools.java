@@ -668,8 +668,6 @@ public class ListTools
 				totalCount = filler.getRowCount();
 			}
 
-			page = Math.max(request.getParameterAsInt(context.getListName() + "Page", 1), 1);
-
 			if (request.hasParameter(context.getListName() + "Page"))
 			{
 				page = Math.max(request.getParameterAsInt(context.getListName() + "Page", 1), 1);
