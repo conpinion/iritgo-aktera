@@ -388,6 +388,8 @@ public class ModuleUpdateHandler extends UpdateHandler
 				update("update AddressLdapStore set authPassword='" + StringTools.encode(row.get("authPassword").toString())
 								+ "' where id=" + row.get("id"));
 			}
+
+			setReboot();
 		}
 	}
 }
