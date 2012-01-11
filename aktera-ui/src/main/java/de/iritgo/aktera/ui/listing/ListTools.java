@@ -721,16 +721,13 @@ public class ListTools
 				for (Iterator j = listing.columnIterator(); j.hasNext();)
 				{
 					ColumnDescriptor column = (ColumnDescriptor) j.next();
-
 					Output outColumn = response.createOutput(String.valueOf(colNum++));
-					String value = StringTools.trim(filler.getValue(column.getField()));
 
 					if (column.getViewer().startsWith("js:"))
 					{
+						String value = StringTools.trim(filler.getValue(column.getField()));
 						outColumn.setContent(value);
-
 						String[] params = column.getViewer().split(":");
-
 						outColumn.setAttribute("viewer", "js");
 						outColumn.setContent(params[1]);
 						outColumn.setAttribute("name", column.getName());
@@ -738,10 +735,9 @@ public class ListTools
 					}
 					else if (column.getViewer().equals("message"))
 					{
+						String value = StringTools.trim(filler.getValue(column.getField()));
 						outColumn.setAttribute("viewer", "message");
-
 						int bundlePos = value.indexOf(":");
-
 						if (bundlePos >= 0)
 						{
 							outColumn.setAttribute("bundle", value.substring(0, bundlePos));
@@ -750,12 +746,11 @@ public class ListTools
 						{
 							outColumn.setAttribute("bundle", column.getBundle());
 						}
-
 						outColumn.setContent(value.substring(bundlePos + 1));
 					}
 					else
 					{
-						outColumn.setContent(value);
+						outColumn.setContent(filler.getValue(column.getField()));
 						outColumn.setAttribute("viewer", column.getViewer());
 					}
 
