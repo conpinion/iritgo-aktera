@@ -20,16 +20,17 @@
 package de.iritgo.aktera.address.module;
 
 
-import java.sql.*;
+import java.sql.Connection;
 import java.util.*;
-import org.apache.avalon.framework.logger.*;
-import org.apache.commons.dbutils.*;
-import org.apache.commons.dbutils.handlers.*;
-import de.iritgo.aktera.address.entity.*;
-import de.iritgo.aktera.authentication.defaultauth.entity.*;
-import de.iritgo.aktera.model.*;
+import org.apache.avalon.framework.logger.Logger;
+import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.MapListHandler;
+import de.iritgo.aktera.address.entity.AddressLDAPStore;
+import de.iritgo.aktera.authentication.defaultauth.entity.AkteraGroup;
+import de.iritgo.aktera.model.ModelRequest;
 import de.iritgo.aktera.persist.*;
-import de.iritgo.simplelife.math.*;
+import de.iritgo.simplelife.math.NumberTools;
+import de.iritgo.simplelife.string.StringTools;
 
 
 public class ModuleUpdateHandler extends UpdateHandler
@@ -63,8 +64,8 @@ public class ModuleUpdateHandler extends UpdateHandler
 			{
 				update("UPDATE Address SET category = ?, ownerId = ?, remark = ? where partyId = ?", new Object[]
 				{
-								row.get("category"), "G".equals(row.get("category")) ? null : row.get("ownerId"),
-								row.get("remark"), row.get("partyId")
+					row.get("category"), "G".equals(row.get("category")) ? null : row.get("ownerId"),
+					row.get("remark"), row.get("partyId")
 				});
 			}
 
@@ -76,8 +77,7 @@ public class ModuleUpdateHandler extends UpdateHandler
 			update("ALTER TABLE PhoneNumber ADD addressId int");
 
 			res = (List<Map<String, ?>>) new QueryRunner()
-							.query(
-											connection,
+							.query(connection,
 											"SELECT PhoneNumber.id as phoneNumberId, Address.id as addressId FROM PhoneNumber LEFT JOIN Address ON PhoneNumber.partyId = Address.partyId",
 											new MapListHandler());
 
@@ -85,7 +85,7 @@ public class ModuleUpdateHandler extends UpdateHandler
 			{
 				update("UPDATE PhoneNumber set addressId = ? where id = ?", new Object[]
 				{
-								row.get("addressId"), row.get("phoneNumberId")
+					row.get("addressId"), row.get("phoneNumberId")
 				});
 			}
 
@@ -107,7 +107,7 @@ public class ModuleUpdateHandler extends UpdateHandler
 				permission = permission.replaceAll("addressbook", "address");
 				update("UPDATE Permission set permission = ? where permissionId = ?", new Object[]
 				{
-								permission, row.get("permissionId")
+					permission, row.get("permissionId")
 				});
 			}
 
@@ -293,9 +293,9 @@ public class ModuleUpdateHandler extends UpdateHandler
 				}
 				insert("AddressStore", "name", "'" + name + "'", "type", "'" + oldToNewTypes.get(oldType) + "'",
 								"position", "" + (position++), "systemStore", "false", "defaultStore", "false",
-								"editable", "local".equals(oldType) ? "true" : "false", "numberLookup", ""
-												+ row.get("numberLookup"), "emptySearchReturnsAllEntries", ""
-												+ row.get("emptySearchReturnsAllEntries"));
+								"editable", "local".equals(oldType) ? "true" : "false", "numberLookup",
+								"" + row.get("numberLookup"), "emptySearchReturnsAllEntries",
+								"" + row.get("emptySearchReturnsAllEntries"));
 				int id = selectInt("AddressStore", "id", "name = '" + name + "'");
 				if ("local".equals(oldType))
 				{
@@ -304,17 +304,29 @@ public class ModuleUpdateHandler extends UpdateHandler
 				}
 				else if ("ldap".equals(oldType))
 				{
-					insert("AddressLDAPStore", "id", "" + id, "host", "'" + row.get("ldapHost") + "'", "port", ""
-									+ (0 + NumberTools.toInt(row.get("ldapPort"), 0)), "authDn", "'"
-									+ row.get("ldapAuthDn") + "'", "authPassword", "'" + row.get("ldapAuthPassword")
-									+ "'", "baseDn", "'" + row.get("ldapBaseDn") + "'", "query", "'"
-									+ row.get("ldapQuery") + "'", "scope", "'"
-									+ ("level".equals(row.get("ldapScope")) ? AddressLDAPStore.SearchScope.LEVEL
-													: AddressLDAPStore.SearchScope.SUBTREE) + "'", "pageSize", ""
-									+ (0 + NumberTools.toInt(row.get("ldapPageSize"), 0)), "maxEntries", ""
-									+ (0 + NumberTools.toInt(row.get("ldapMaxEntries"), 0)), "attributeNames", "'"
-									+ row.get("ldapAttributeNames") + "'", "searchAttributes", "'"
-									+ row.get("ldapSearchAttributes") + "'");
+					insert("AddressLDAPStore",
+									"id",
+									"" + id,
+									"host",
+									"'" + row.get("ldapHost") + "'",
+									"port",
+									"" + (0 + NumberTools.toInt(row.get("ldapPort"), 0)),
+									"authDn",
+									"'" + row.get("ldapAuthDn") + "'",
+									"authPassword",
+									"'" + row.get("ldapAuthPassword") + "'",
+									"baseDn",
+									"'" + row.get("ldapBaseDn") + "'",
+									"query",
+									"'" + row.get("ldapQuery") + "'",
+									"scope",
+									"'"
+													+ ("level".equals(row.get("ldapScope")) ? AddressLDAPStore.SearchScope.LEVEL
+																	: AddressLDAPStore.SearchScope.SUBTREE) + "'",
+									"pageSize", "" + (0 + NumberTools.toInt(row.get("ldapPageSize"), 0)), "maxEntries",
+									"" + (0 + NumberTools.toInt(row.get("ldapMaxEntries"), 0)), "attributeNames", "'"
+													+ row.get("ldapAttributeNames") + "'", "searchAttributes", "'"
+													+ row.get("ldapSearchAttributes") + "'");
 				}
 				else if ("google".equals(oldType))
 				{
@@ -324,27 +336,37 @@ public class ModuleUpdateHandler extends UpdateHandler
 				}
 
 				createPermission("G", managerGroupId, "de.iritgo.aktera.address.*",
-								"de.iritgo.aktera.address.entity.AddressStore", selectInt("AddressStore", "id",
-												"name = '" + name + "'"));
+								"de.iritgo.aktera.address.entity.AddressStore",
+								selectInt("AddressStore", "id", "name = '" + name + "'"));
 
 				createPermission("G", userGroupId, "de.iritgo.aktera.address.view",
-								"de.iritgo.aktera.address.entity.AddressStore", selectInt("AddressStore", "id",
-												"name = '" + name + "'"));
+								"de.iritgo.aktera.address.entity.AddressStore",
+								selectInt("AddressStore", "id", "name = '" + name + "'"));
 			}
 
 			dropTable("AddressDataSource");
 
-			createPermission("G", userGroupId, "de.iritgo.aktera.address.view",
-							"de.iritgo.aktera.address.entity.AddressStore", selectInt("AddressStore", "id",
-											"name = 'de.iritgo.aktera.address.AddressLocalGlobalStore'"));
+			createPermission(
+							"G",
+							userGroupId,
+							"de.iritgo.aktera.address.view",
+							"de.iritgo.aktera.address.entity.AddressStore",
+							selectInt("AddressStore", "id", "name = 'de.iritgo.aktera.address.AddressLocalGlobalStore'"));
 
-			createPermission("G", userGroupId, "de.iritgo.aktera.address.*",
-							"de.iritgo.aktera.address.entity.AddressStore", selectInt("AddressStore", "id",
+			createPermission(
+							"G",
+							userGroupId,
+							"de.iritgo.aktera.address.*",
+							"de.iritgo.aktera.address.entity.AddressStore",
+							selectInt("AddressStore", "id",
 											"name = 'de.iritgo.aktera.address.AddressLocalPrivateStore'"));
 
-			createPermission("G", managerGroupId, "de.iritgo.aktera.address.*",
-							"de.iritgo.aktera.address.entity.AddressStore", selectInt("AddressStore", "id",
-											"name = 'de.iritgo.aktera.address.AddressLocalGlobalStore'"));
+			createPermission(
+							"G",
+							managerGroupId,
+							"de.iritgo.aktera.address.*",
+							"de.iritgo.aktera.address.entity.AddressStore",
+							selectInt("AddressStore", "id", "name = 'de.iritgo.aktera.address.AddressLocalGlobalStore'"));
 
 			update("delete from Permission where permission like 'de.iritgo.aktera.address.global%'");
 
@@ -356,6 +378,16 @@ public class ModuleUpdateHandler extends UpdateHandler
 			deleteComponentSecurity("de.iritgo.aktera.address.ui.UpdateDefaultPhoneNumbers", "user");
 
 			currentVersion.setVersion("2.3.1");
+		}
+
+		if (currentVersion.lessThan("2.3.2"))
+		{
+			for (Map<String, Object> row : (List<Map<String, Object>>) query("select * from AddressLdapStore",
+							new MapListHandler()))
+			{
+				update("update AddressLdapStore set authPassword='" + StringTools.encode(row.get("authPassword").toString())
+								+ "' where id=" + row.get("id"));
+			}
 		}
 	}
 }

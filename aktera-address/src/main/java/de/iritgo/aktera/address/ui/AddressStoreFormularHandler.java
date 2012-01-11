@@ -31,6 +31,7 @@ import de.iritgo.aktera.address.entity.*;
 import de.iritgo.aktera.model.*;
 import de.iritgo.aktera.persist.PersistenceException;
 import de.iritgo.aktera.ui.form.*;
+import de.iritgo.simplelife.string.StringTools;
 import de.iritgo.simplelife.tools.Option;
 
 
@@ -55,6 +56,11 @@ public class AddressStoreFormularHandler extends FormularHandler
 			String addressStoreClassName = type.getClassName();
 			formular.getGroup(addressStoreClassName).setVisible(
 							addressStoreClassName.equals(store.getClass().getName()));
+		}
+		if (store instanceof AddressLDAPStore)
+		{
+			AddressLDAPStore ldapStore = (AddressLDAPStore) store;
+			ldapStore.setAuthPassword(StringTools.decode(ldapStore.getAuthPassword()));
 		}
 	}
 
@@ -91,6 +97,11 @@ public class AddressStoreFormularHandler extends FormularHandler
 	{
 		AddressStore store = (AddressStore) persistents.get("store");
 		store.setPosition(addressDAO.calculateMaxAddressStorePosition() + 1);
+		if (store instanceof AddressLDAPStore)
+		{
+			AddressLDAPStore ldapStore = (AddressLDAPStore) store;
+			ldapStore.setAuthPassword(StringTools.encode(ldapStore.getAuthPassword()));
+		}
 	}
 
 	@Override

@@ -878,7 +878,7 @@ public class AddressLDAPStore extends AddressStore
 		{
 			env.put(Context.SECURITY_AUTHENTICATION, "simple");
 			env.put(Context.SECURITY_PRINCIPAL, authDn);
-			env.put(Context.SECURITY_CREDENTIALS, authPassword);
+			env.put(Context.SECURITY_CREDENTIALS, StringTools.decode(authPassword));
 		}
 
 		LdapContext ldapContext = new InitialLdapContext(env, null);
