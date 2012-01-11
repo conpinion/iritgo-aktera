@@ -1366,32 +1366,25 @@ public class ListTools
 		throws ModelException
 	{
 		outList.setAttribute("keyName", listing.getKeyName());
-
 		outList.setAttribute("headerTitle", listing.getHeader());
-
 		outList.setAttribute("bundle", listing.getBundle());
-
 		if (listing.getTitle() != null)
 		{
 			outList.setAttribute("title", listing.getTitle());
 			outList.setAttribute("titleBundle", listing.getTitleBundle() != null ? listing.getTitleBundle() : listing
 							.getBundle());
 		}
-
 		if (listing.getIcon() != null)
 		{
 			outList.setAttribute("icon", listing.getIcon());
 		}
-
 		if (listing.isEmbedded())
 		{
 			outList.setAttribute("embedded", "Y");
 		}
-
 		outList.setAttribute("commandStyle", listing.getCommandStyle());
 
 		CommandInfo viewCommand = listing.getCommand(ListingDescriptor.COMMAND_VIEW);
-
 		if (viewCommand != null && viewCommand.checkPermission(request))
 		{
 			Command cmd = viewCommand.createCommand(request, response, context);
@@ -1402,7 +1395,6 @@ public class ListTools
 		}
 
 		CommandInfo cmdNew = listing.getCommand(ListingDescriptor.COMMAND_NEW);
-
 		if (cmdNew != null && cmdNew.isVisible() && cmdNew.checkPermission(request))
 		{
 			Command cmd = cmdNew.createCommand(request, response, context);
@@ -1412,14 +1404,12 @@ public class ListTools
 		}
 
 		String outListName = outList.getName();
-
 		if (currentPage > 1)
 		{
 			Command cmdPageStart = createPageCommand(request, response, listing, "cmdPageStart", new String[]
 			{
 				"~listSort"
 			});
-
 			cmdPageStart.setParameter(outListName + "Page", String.valueOf(minPage));
 			cmdPageStart.setLabel("$start");
 			outList.setAttribute("cmdPageStart", cmdPageStart);
@@ -1428,24 +1418,19 @@ public class ListTools
 			{
 				"~listSort"
 			});
-
 			cmdPageBack.setParameter(outListName + "Page", String.valueOf(currentPage - 1));
 			cmdPageBack.setLabel("$back");
 			outList.setAttribute("cmdPageBack", cmdPageBack);
 
 			Output outPrevPages = response.createOutput("prevPages");
-
 			outList.setAttribute("prevPages", outPrevPages);
-
 			int firstPrevPage = Math.max(minPage, currentPage - context.getNumPrevPages());
-
 			for (int i = currentPage - 1; i >= firstPrevPage; --i)
 			{
 				Command cmdPage = createPageCommand(request, response, listing, "cmdPage", new String[]
 				{
 					"~listSort"
 				});
-
 				cmdPage.setParameter(outListName + "Page", String.valueOf(currentPage - i - 1 + firstPrevPage));
 				cmdPage.setLabel(String.valueOf(currentPage - i - 1 + firstPrevPage));
 				outPrevPages.add(cmdPage);
@@ -1458,7 +1443,6 @@ public class ListTools
 			{
 				"~listSort"
 			});
-
 			cmdPageEnd.setParameter(outListName + "Page", String.valueOf(maxPage));
 			cmdPageEnd.setLabel("$end");
 			outList.setAttribute("cmdPageEnd", cmdPageEnd);
@@ -1467,24 +1451,19 @@ public class ListTools
 			{
 				"~listSort"
 			});
-
 			cmdPageNext.setParameter(outListName + "Page", String.valueOf(currentPage + 1));
 			cmdPageNext.setLabel("$next");
 			outList.setAttribute("cmdPageNext", cmdPageNext);
 
 			Output outNextPages = response.createOutput("nextPages");
-
 			outList.setAttribute("nextPages", outNextPages);
-
 			int lastNextPage = Math.min(maxPage, currentPage + context.getNumNextPages());
-
 			for (int i = currentPage + 1; i <= lastNextPage; ++i)
 			{
 				Command cmdPage = createPageCommand(request, response, listing, "page", new String[]
 				{
 					"~listSort"
 				});
-
 				cmdPage.setParameter(outListName + "Page", String.valueOf(i));
 				cmdPage.setLabel(String.valueOf(i));
 				outNextPages.add(cmdPage);
@@ -1494,14 +1473,11 @@ public class ListTools
 		if (listing.getListCommands() != null)
 		{
 			Output outCommands = response.createOutput("commands");
-
 			outList.setAttribute("commands", outCommands);
-
 			for (Iterator i = listing.getListCommands().iterator(); i.hasNext();)
 			{
 				CommandInfo descriptor = (CommandInfo) i.next();
 				Command command = descriptor.createCommand(request, response, context);
-
 				outCommands.add(command);
 			}
 		}
@@ -1509,33 +1485,25 @@ public class ListTools
 		if (listing.getItemCommands() != null)
 		{
 			Output outItemCommands = response.createOutput("itemCommands");
-
 			CommandInfo viewCmd = listing.getCommand(ListingDescriptor.COMMAND_VIEW);
-
 			if (viewCmd != null && viewCmd.checkPermission(request))
 			{
 				Command cmd = viewCmd.createCommand(request, response, context);
-
 				outItemCommands.add(cmd);
 			}
-
 			outItemCommands.setAttribute("label", listing.getItemCommands().getLabel());
 			outList.setAttribute("itemCommands", outItemCommands);
-
 			for (Iterator i = listing.getItemCommands().iterator(); i.hasNext();)
 			{
 				CommandInfo descriptor = (CommandInfo) i.next();
-
 				if (viewCmd == null || ! descriptor.getName().equals(viewCmd.getName()))
 				{
 					Command command = descriptor.createCommand(request, response, context);
-
 					outItemCommands.add(command);
 				}
 			}
 
 			Command cmdExecute;
-
 			if (listing.getCommand(ListingDescriptor.COMMAND_EXECUTE) == null)
 			{
 				if (listing.isNg())
@@ -1547,7 +1515,6 @@ public class ListTools
 				{
 					cmdExecute = response.createCommand("aktera.tools.execute-listitem-command");
 				}
-
 				cmdExecute.setName(outListName + "CmdExecute");
 				cmdExecute.setLabel("execute");
 			}
@@ -1560,39 +1527,31 @@ public class ListTools
 			outList.setAttribute("cmdExecute", cmdExecute);
 			cmdExecute.setParameter("_lm", listing.getListModel() != null ? listing.getListModel() : ModelTools
 							.getPreviousModel(request));
-
 			for (Iterator i = request.getParameters().keySet().iterator(); i.hasNext();)
 			{
 				String key = (String) i.next();
-
 				if ("model".equals(key) || "orig-model".equals(key) || key.startsWith("_lp"))
 				{
 					continue;
 				}
-
 				cmdExecute.setParameter("_lp" + key, request.getParameter(key));
 			}
 
 			for (Iterator i = listing.getItemCommands().iterator(); i.hasNext();)
 			{
 				CommandInfo descriptor = (CommandInfo) i.next();
-
 				descriptor.setParameters(request, cmdExecute, "_lp", context);
 			}
 		}
 
 		CommandInfo cmdSearch = listing.getCommand(ListingDescriptor.COMMAND_SEARCH);
-
 		if (cmdSearch != null)
 		{
 			String searchInputName = outListName + "Search";
-
 			Input input = response.createInput(searchInputName);
-
 			input.setLabel("search");
 			input.setDefaultValue(request.getParameterAsString(searchInputName));
 			response.add(input);
-
 			if (listing.getCategories() != null)
 			{
 				input = response.createInput(searchInputName + "Category");
@@ -1600,19 +1559,15 @@ public class ListTools
 				input.setValidValues(listing.getCategories());
 				response.add(input);
 			}
-
 			Command cmd = cmdSearch.createCommand(request, response, context);
-
 			cmd.setName(outListName + "CmdSearch");
 			outList.setAttribute("cmdSearch", cmd);
 		}
 
 		CommandInfo cmdBack = listing.getCommand(ListingDescriptor.COMMAND_BACK);
-
 		if (cmdBack != null)
 		{
 			Command cmd = cmdBack.createCommand(request, response, context);
-
 			outList.setAttribute("cmdBack", cmd);
 		}
 	}
@@ -1656,9 +1611,8 @@ public class ListTools
 	{
 		Command cmd = ModelTools.createPreviousModelCommand(request, response, listing.getListModel(),
 						ommitPrevParameters);
-
 		cmd.setName(name);
-
+		cmd.getParameters().remove(listing.getId() + "Sort");
 		return cmd;
 	}
 
