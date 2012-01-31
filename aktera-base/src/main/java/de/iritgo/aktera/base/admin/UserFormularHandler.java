@@ -21,9 +21,11 @@ package de.iritgo.aktera.base.admin;
 
 
 import java.util.*;
+import javax.inject.Inject;
 import lombok.Setter;
 import org.apache.avalon.framework.configuration.Configuration;
-import javax.inject.Inject;
+import de.iritgo.aktera.address.AddressDAO;
+import de.iritgo.aktera.address.entity.Address;
 import de.iritgo.aktera.authentication.defaultauth.entity.*;
 import de.iritgo.aktera.configuration.preferences.*;
 import de.iritgo.aktera.event.EventManager;
@@ -37,6 +39,7 @@ import de.iritgo.aktera.ui.form.*;
 import de.iritgo.aktera.ui.tools.UserTools;
 import de.iritgo.simplelife.math.NumberTools;
 import de.iritgo.simplelife.string.StringTools;
+import de.iritgo.simplelife.tools.Option;
 
 
 public class UserFormularHandler extends FormularHandler
@@ -53,6 +56,9 @@ public class UserFormularHandler extends FormularHandler
 	@Setter
 	@Inject
 	private UserDAO userDAO;
+
+	@Inject
+	private AddressDAO addressDAO;
 
 	public UserFormularHandler()
 	{
@@ -400,53 +406,37 @@ public class UserFormularHandler extends FormularHandler
 		Integer userId = NumberTools.toIntInstance(persistent.getField("uid"), - 1);
 
 		Persistent user = persistentManager.create("keel.user");
-
 		user.setField("uid", userId);
 		user.retrieve();
-
 		if (! user.find())
 		{
 			return;
 		}
 
 		Persistent preferences = persistentManager.create("aktera.Preferences");
-
 		preferences.setField("userId", userId);
-
 		if (! preferences.find() || (preferences.getFieldBoolean("protect") && ! systemDelete))
 		{
 			return;
 		}
 
 		Persistent party = persistentManager.create("aktera.Party");
-
 		party.setField("userId", userId);
-
 		if (! party.find())
 		{
 			return;
 		}
 
-		Object partyId = party.getField("partyId");
-
 		if (request.getParameter("deleteAddress") != null)
 		{
-			Persistent address = persistentManager.create("aktera.Address");
-
-			address.setField("partyId", partyId);
-
-			if (address.find())
+			Option<Address> address = addressDAO.findAddressByPartyId(party.getFieldInt("partyId"));
+			if (address.full())
 			{
-				Properties props = new Properties();
-
-				props.put("id", address.getField("id"));
-				props.put("systemDelete", Boolean.TRUE);
-				ModelTools.callModel(request, "aktera.address.delete", props);
+				addressDAO.deleteAddress(address.get());
 			}
 		}
 
 		Properties props = new Properties();
-
 		props = new Properties();
 		props.put("id", userId.toString());
 		ModelTools.callModel(request, "aktera.aktario.user.delete-aktario-user", props);
@@ -456,16 +446,12 @@ public class UserFormularHandler extends FormularHandler
 		permissionManager.deleteAllPermissionsOfPrincipal(userId, "U");
 
 		preferences.delete();
-
 		Persistent preferencesConfig = persistentManager.create("aktera.PreferencesConfig");
-
 		preferencesConfig.setField("userId", userId);
 		preferencesConfig.deleteAll();
 
 		Persistent profile = persistentManager.create("aktera.Profile");
-
-		profile.setField("partyId", partyId);
-
+		profile.setField("partyId", party.getField("partyId"));
 		if (profile.find())
 		{
 			profile.delete();
