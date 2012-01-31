@@ -23,7 +23,7 @@ package de.iritgo.aktera.address.ui;
 import java.util.*;
 import lombok.Setter;
 import org.apache.avalon.framework.configuration.Configuration;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import de.iritgo.aktera.address.*;
@@ -39,11 +39,11 @@ import de.iritgo.simplelife.tools.Option;
 public class AddressStoreFormularHandler extends FormularHandler
 {
 	@Setter
-	@Autowired
+	@Inject
 	private AddressDAO addressDAO;
 
 	@Setter
-	@Autowired
+	@Inject
 	private AddressManager addressManager;
 
 	@Override

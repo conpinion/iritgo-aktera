@@ -22,7 +22,7 @@ package de.iritgo.aktera.address.ui;
 
 import java.util.TreeMap;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 import org.springframework.stereotype.Component;
 import de.iritgo.aktera.address.AddressDAO;
 import de.iritgo.aktera.address.entity.AddressStore;
@@ -49,7 +49,7 @@ public class AddressPermissionFormPart extends PermissionFormPart
 	}
 
 	@Setter
-	@Autowired
+	@Inject
 	private AddressDAO addressDAO;
 
 	@Override

@@ -25,7 +25,7 @@ import java.util.*;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 import de.iritgo.aktera.model.*;
 import de.iritgo.aktera.permissions.PermissionManager;
 import de.iritgo.aktera.persist.PersistenceException;
@@ -35,11 +35,11 @@ import de.iritgo.aktera.ui.listing.*;
 public class PermissionListingHandler extends ListingHandler
 {
 	@Setter
-	@Autowired
+	@Inject
 	private PermissionManager permissionManager;
 
 	@Setter
-	@Autowired
+	@Inject
 	private List<PermissionFormPart> permissionFormParts;
 
 	private Map<String, PermissionFormPart> permissionFormPartsByKey = new HashMap();

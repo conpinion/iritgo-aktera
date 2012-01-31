@@ -24,7 +24,7 @@ import java.util.*;
 import javax.annotation.PostConstruct;
 import lombok.Setter;
 import org.apache.avalon.framework.configuration.Configuration;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 import org.springframework.stereotype.Component;
 import de.iritgo.aktera.model.*;
 import de.iritgo.aktera.permissions.*;
@@ -37,11 +37,11 @@ import de.iritgo.simplelife.string.StringTools;
 public class PermissionFormularHandler extends FormularHandler
 {
 	@Setter
-	@Autowired
+	@Inject
 	private PermissionManager permissionManager;
 
 	@Setter
-	@Autowired
+	@Inject
 	private List<PermissionFormPart> permissionFormParts;
 
 	private Map<String, PermissionFormPart> permissionFormPartsByKey = new HashMap();

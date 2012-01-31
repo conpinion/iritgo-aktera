@@ -21,7 +21,7 @@ package de.iritgo.aktera.address.ui;
 
 
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 import de.iritgo.aktera.address.AddressManager;
 import de.iritgo.aktera.address.entity.AddressStore;
 import de.iritgo.aktera.ui.*;
@@ -32,7 +32,7 @@ import de.iritgo.simplelife.math.NumberTools;
 public class DeleteAllAddressesInAddressStore extends AbstractListCommandUIController
 {
 	@Setter
-	@Autowired
+	@Inject
 	private AddressManager addressManager;
 
 	@Override

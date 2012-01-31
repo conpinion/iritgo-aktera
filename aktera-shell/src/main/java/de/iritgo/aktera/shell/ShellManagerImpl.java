@@ -21,14 +21,14 @@ package de.iritgo.aktera.shell;
 
 
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 import de.iritgo.aktera.shell.groovyshell.GroovyShellService;
 
 
 public class ShellManagerImpl implements ShellManager
 {
 	@Setter
-	@Autowired
+	@Inject
 	private GroovyShellService groovyShellService;
 
 	public void startShell()

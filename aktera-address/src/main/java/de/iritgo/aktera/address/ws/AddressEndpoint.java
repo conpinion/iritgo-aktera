@@ -21,7 +21,7 @@ package de.iritgo.aktera.address.ws;
 
 
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 import org.springframework.ws.server.endpoint.annotation.*;
 import de.iritgo.aktera.address.AddressManager;
 import de.iritgo.aktera.address.entity.*;
@@ -41,19 +41,19 @@ import de.iritgo.simplelife.tools.Option;
 public class AddressEndpoint
 {
 	@Setter
-	@Autowired
+	@Inject
 	private SecurityContext securityContext;
 
 	@Setter
-	@Autowired
+	@Inject
 	private AddressManager addressManager;
 
 	@Setter
-	@Autowired
+	@Inject
 	private PreferencesManager preferencesManager;
 
 	@Setter
-	@Autowired
+	@Inject
 	private PermissionManager permissionManager;
 
 	@PayloadRoot(localPart = "listAddressStoresRequest", namespace = "http://aktera.iritgo.de/webservices/address")

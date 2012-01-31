@@ -651,7 +651,8 @@ public class List extends SecurableStandardLogEnabledModel implements InstanceSe
 		return listing;
 	}
 
-	private void setParameters(@SuppressWarnings("unused") ModelRequest req, CommandInfo cmdInfo, Configuration[] params)
+	@SuppressWarnings("unused")
+	private void setParameters(ModelRequest req, CommandInfo cmdInfo, Configuration[] params)
 		throws ConfigurationException
 	{
 		for (int j = 0; j < params.length; ++j)

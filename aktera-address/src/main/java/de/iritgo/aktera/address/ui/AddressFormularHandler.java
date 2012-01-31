@@ -23,7 +23,7 @@ package de.iritgo.aktera.address.ui;
 import java.util.List;
 import lombok.Setter;
 import org.apache.avalon.framework.configuration.Configuration;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 import de.iritgo.aktera.address.*;
 import de.iritgo.aktera.address.entity.*;
 import de.iritgo.aktera.authentication.defaultauth.entity.*;
@@ -40,19 +40,19 @@ import de.iritgo.simplelife.tools.*;
 public class AddressFormularHandler extends FormularHandler
 {
 	@Setter
-	@Autowired
+	@Inject
 	private AddressManager addressManager;
 
 	@Setter
-	@Autowired
+	@Inject
 	private AddressDAO addressDAO;
 
 	@Setter
-	@Autowired
+	@Inject
 	private UserDAO userDAO;
 
 	@Setter
-	@Autowired
+	@Inject
 	private PermissionManager permissionManager;
 
 	@Override

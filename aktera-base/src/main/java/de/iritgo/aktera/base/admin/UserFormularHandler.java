@@ -23,7 +23,7 @@ package de.iritgo.aktera.base.admin;
 import java.util.*;
 import lombok.Setter;
 import org.apache.avalon.framework.configuration.Configuration;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 import de.iritgo.aktera.authentication.defaultauth.entity.*;
 import de.iritgo.aktera.configuration.preferences.*;
 import de.iritgo.aktera.event.EventManager;
@@ -43,15 +43,15 @@ public class UserFormularHandler extends FormularHandler
 {
 	private static final int FREE_ADDITIONAL_USER_ACCOUNT = 1;
 	@Setter
-	@Autowired
+	@Inject
 	private PermissionManager permissionManager;
 
 	@Setter
-	@Autowired
+	@Inject
 	private PreferencesManager preferencesManager;
 
 	@Setter
-	@Autowired
+	@Inject
 	private UserDAO userDAO;
 
 	public UserFormularHandler()

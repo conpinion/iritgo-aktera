@@ -24,7 +24,7 @@ import java.sql.Timestamp;
 import java.util.*;
 import javax.xml.datatype.*;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 import org.springframework.ws.server.endpoint.annotation.*;
 import de.iritgo.aktera.authentication.SecurityContext;
 import de.iritgo.aktera.authentication.defaultauth.entity.AkteraUser;
@@ -38,15 +38,15 @@ import de.iritgo.simplelife.string.StringTools;
 public class JournalEndpoint
 {
 	@Setter
-	@Autowired
+	@Inject
 	private JournalManager journalManager;
 
 	@Setter
-	@Autowired
+	@Inject
 	private JournalDAO journalDAO;
 
 	@Setter
-	@Autowired
+	@Inject
 	private SecurityContext securityContext;
 
 	@PayloadRoot(localPart = "countJournalRequest", namespace = "http://aktera.iritgo.de/webservices/journal")

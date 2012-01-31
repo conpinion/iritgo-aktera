@@ -25,7 +25,7 @@ import java.util.*;
 import java.util.List;
 import lombok.Setter;
 import org.apache.commons.beanutils.PropertyUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 import de.iritgo.aktera.address.AddressManager;
 import de.iritgo.aktera.address.entity.*;
 import de.iritgo.aktera.model.*;
@@ -41,11 +41,11 @@ import de.iritgo.simplelife.string.StringTools;
 public abstract class AbstractAddressListingHandler extends ListingHandler
 {
 	@Setter
-	@Autowired
+	@Inject
 	protected AddressManager addressManager;
 
 	@Setter
-	@Autowired
+	@Inject
 	protected PermissionManager permissionManager;
 
 	@Override

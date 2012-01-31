@@ -20,23 +20,23 @@
 package de.iritgo.aktera.address.ui;
 
 
-import lombok.*;
-import org.springframework.beans.factory.annotation.*;
+import javax.inject.Inject;
+import lombok.Setter;
 import de.iritgo.aktera.address.*;
-import de.iritgo.aktera.address.entity.*;
+import de.iritgo.aktera.address.entity.AddressStore;
 import de.iritgo.aktera.ui.*;
-import de.iritgo.aktera.ui.ng.listing.*;
-import de.iritgo.simplelife.math.*;
+import de.iritgo.aktera.ui.ng.listing.AbstractListCommandUIController;
+import de.iritgo.simplelife.math.NumberTools;
 
 
 public class MoveAddressStoreOnePositionUp extends AbstractListCommandUIController
 {
 	@Setter
-	@Autowired
+	@Inject
 	private AddressDAO addressDAO;
 
 	@Setter
-	@Autowired
+	@Inject
 	private AddressManager addressManager;
 
 	@Override

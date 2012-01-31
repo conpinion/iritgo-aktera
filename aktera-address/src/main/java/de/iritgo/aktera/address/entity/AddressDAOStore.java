@@ -21,14 +21,15 @@ package de.iritgo.aktera.address.entity;
 
 
 import java.util.*;
-import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.inject.Inject;
+import javax.persistence.Entity;
+import javax.validation.constraints.NotNull;
 import lombok.*;
-import org.hibernate.validator.constraints.*;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.*;
-import de.iritgo.aktera.address.*;
-import de.iritgo.simplelife.constants.*;
-import de.iritgo.simplelife.math.*;
+import de.iritgo.aktera.address.AddressDAO;
+import de.iritgo.simplelife.constants.SortOrder;
+import de.iritgo.simplelife.math.NumberTools;
 import de.iritgo.simplelife.tools.*;
 
 
@@ -49,7 +50,7 @@ public class AddressDAOStore extends AddressStore
 	@Value("false")
 	private Boolean checkOwner;
 
-	@Autowired
+	@Inject
 	transient private AddressDAO addressDAO;
 
 	@Override

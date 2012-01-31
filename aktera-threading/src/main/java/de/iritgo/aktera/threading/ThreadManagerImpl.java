@@ -20,7 +20,7 @@
 package de.iritgo.aktera.threading;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 import lombok.Setter;
 
 

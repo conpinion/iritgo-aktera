@@ -20,8 +20,8 @@
 package de.iritgo.aktera.address.ui;
 
 
-import lombok.*;
-import org.springframework.beans.factory.annotation.*;
+import javax.inject.Inject;
+import lombok.Setter;
 import de.iritgo.aktera.address.*;
 import de.iritgo.aktera.ui.listing.*;
 
@@ -29,7 +29,7 @@ import de.iritgo.aktera.ui.listing.*;
 public class AddressStoreListingHandler extends ListingHandler
 {
 	@Setter
-	@Autowired
+	@Inject
 	protected AddressManager addressManager;
 
 	public CellData formatTypeColumn(Object value)

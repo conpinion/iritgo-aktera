@@ -21,20 +21,20 @@ package de.iritgo.aktera.address.ui;
 
 
 import java.util.*;
-import lombok.*;
-import org.apache.avalon.framework.configuration.*;
-import org.springframework.beans.factory.annotation.*;
+import javax.inject.Inject;
+import lombok.Setter;
+import org.apache.avalon.framework.configuration.Configuration;
 import de.iritgo.aktera.address.*;
-import de.iritgo.aktera.address.entity.*;
+import de.iritgo.aktera.address.entity.AddressStore;
 import de.iritgo.aktera.model.*;
-import de.iritgo.aktera.persist.*;
+import de.iritgo.aktera.persist.PersistenceException;
 import de.iritgo.aktera.ui.form.*;
 
 
 public class AddressStoreCreationFormularHandler extends FormularHandler
 {
 	@Setter
-	@Autowired
+	@Inject
 	private AddressManager addressManager;
 
 	@Override

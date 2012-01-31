@@ -20,18 +20,19 @@
 package de.iritgo.aktera.address.entity;
 
 
-import java.io.*;
-import java.util.*;
+import java.io.Serializable;
+import java.util.List;
+import javax.inject.Inject;
 import javax.persistence.*;
 import javax.validation.constraints.*;
-import lombok.*;
-import org.apache.avalon.framework.logger.*;
-import org.hibernate.validator.constraints.*;
+import lombok.Data;
+import org.apache.avalon.framework.logger.Logger;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.*;
-import de.iritgo.aktera.configuration.*;
-import de.iritgo.simplelife.constants.*;
-import de.iritgo.simplelife.string.*;
-import de.iritgo.simplelife.tools.*;
+import de.iritgo.aktera.configuration.SystemConfigManager;
+import de.iritgo.simplelife.constants.SortOrder;
+import de.iritgo.simplelife.string.StringTools;
+import de.iritgo.simplelife.tools.Option;
 
 
 @Data
@@ -80,11 +81,11 @@ public abstract class AddressStore implements Serializable
 	@Value("false")
 	protected Boolean emptySearchReturnsAllEntries;
 
-	@Autowired
+	@Inject
 	@Qualifier("de.iritgo.aktera.logger.Logger")
 	transient protected Logger logger;
 
-	@Autowired
+	@Inject
 	transient protected SystemConfigManager systemConfigManager;
 
 	public AddressStore()

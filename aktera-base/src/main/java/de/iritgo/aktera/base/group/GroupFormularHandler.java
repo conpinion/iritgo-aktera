@@ -23,7 +23,7 @@ package de.iritgo.aktera.base.group;
 import java.util.List;
 import lombok.Setter;
 import org.apache.avalon.framework.configuration.Configuration;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 import de.iritgo.aktera.model.*;
 import de.iritgo.aktera.permissions.PermissionManager;
 import de.iritgo.aktera.persist.*;
@@ -35,7 +35,7 @@ import de.iritgo.simplelife.string.StringTools;
 public class GroupFormularHandler extends FormularHandler
 {
 	@Setter
-	@Autowired
+	@Inject
 	private PermissionManager permissionManager;
 
 	@Override

@@ -26,17 +26,17 @@ import lombok.Setter;
 import org.apache.velocity.Template;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.context.Context;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 
 
 public class TemplateManagerImpl implements TemplateManager
 {
 	@Setter
-	@Autowired
+	@Inject
 	private VelocityEngine velocityEngine;
 
 	@Setter
-	@Autowired
+	@Inject
 	private VelocitySpringResourceLoader velocitySpringResourceLoader;
 
 	/**
