@@ -554,6 +554,12 @@ public class AddressDAOImpl extends HibernateDaoSupport implements AddressDAO
 	}
 
 	@Transactional(readOnly = false)
+	public void deleteAddress(Address address)
+	{
+		getHibernateTemplate().delete(address);
+	}
+
+	@Transactional(readOnly = false)
 	public void resetDefaultStoreFlagOnAllAddressStores()
 	{
 		getHibernateTemplate().bulkUpdate("update AddressStore set defaultStore = false");

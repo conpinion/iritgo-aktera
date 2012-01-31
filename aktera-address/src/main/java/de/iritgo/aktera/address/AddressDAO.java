@@ -103,6 +103,8 @@ public interface AddressDAO
 
 	public void deleteAddressWithDn(Object addressDn);
 
+	public void deleteAddress(Address address);
+
 	public int calculateMaxAddressStorePosition();
 
 	public void moveAddressStoreOnePositionUp(AddressStore addressStore);
