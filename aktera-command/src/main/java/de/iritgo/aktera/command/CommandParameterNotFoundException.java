@@ -16,11 +16,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package de.iritgo.aktera.command;
 
-public interface CommandManager
-{
-	public CommandResponse execute(String string, CommandRequest req) throws CommandNotFoundException;
 
-	public CommandResponse executeIfAvailable(String string, CommandRequest req);
+public class CommandParameterNotFoundException extends RuntimeException
+{
+	private static final long serialVersionUID = 1L;
+
+	public CommandParameterNotFoundException()
+	{
+	}
+
+	public CommandParameterNotFoundException(String message)
+	{
+		super(message);
+	}
+
+	public CommandParameterNotFoundException(Throwable cause)
+	{
+		super(cause);
+	}
+
+	public CommandParameterNotFoundException(String message, Throwable cause)
+	{
+		super(message, cause);
+	}
 }

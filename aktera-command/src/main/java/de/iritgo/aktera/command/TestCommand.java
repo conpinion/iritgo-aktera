@@ -16,11 +16,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package de.iritgo.aktera.command;
 
-public interface CommandManager
-{
-	public CommandResponse execute(String string, CommandRequest req) throws CommandNotFoundException;
+import org.springframework.stereotype.Component;
 
-	public CommandResponse executeIfAvailable(String string, CommandRequest req);
+
+@Component("de.iritgo.aktera.command.TestCommand")
+public class TestCommand extends AbstractCommand
+{
+	@Override
+	public CommandResponse execute(CommandRequest request)
+	{
+		return new CommandResponse();
+	}
 }
