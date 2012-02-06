@@ -448,9 +448,7 @@
 		</pluginManagement>
 	</build>
 	<modules>
-		<module>aktera-common</module>
 		<module>aktera-core</module>
-		<module>aktera-container</module>
 		<module>aktera-server</module>
 		<module>aktera-client</module>
 		<module>aktera-spring</module>
@@ -475,6 +473,7 @@
 		<module>aktera-i18n</module>
 		<module>aktera-logger</module>
 		<module>aktera-event</module>
+		<module>aktera-command</module>
 		<module>aktera-fsm</module>
 		<module>aktera-scheduler</module>
 		<module>aktera-script</module>

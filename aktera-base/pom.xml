@@ -62,6 +62,11 @@
 		</dependency>
 		<dependency>
 			<groupId>de.iritgo.aktera</groupId>
+			<artifactId>iritgo-aktera-command</artifactId>
+			<version>2.2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>de.iritgo.aktera</groupId>
 			<artifactId>iritgo-aktera-scheduler</artifactId>
 			<version>2.2.1</version>
 		</dependency>

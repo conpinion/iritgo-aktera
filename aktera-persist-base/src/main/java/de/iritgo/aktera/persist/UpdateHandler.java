@@ -112,7 +112,7 @@ public class UpdateHandler
 		{
 			update("update " + tableName + " set " + columnName + " = ? where " + idColumnName + " = ?", new Object[]
 			{
-							count++, row.get(idColumnName)
+				count++, row.get(idColumnName)
 			});
 		}
 
@@ -137,7 +137,7 @@ public class UpdateHandler
 
 		run.update(connection, "INSERT INTO ids (table_name, next_id) values (?, ?)", new Object[]
 		{
-						persistentName, initialId
+			persistentName, initialId
 		});
 	}
 
@@ -157,7 +157,7 @@ public class UpdateHandler
 	{
 		update("INSERT INTO componentsecurity (component, groupname, operationsallowed) VALUES (?, ?, ?)", new Object[]
 		{
-						component, groupName, operationsAllowed
+			component, groupName, operationsAllowed
 		});
 	}
 
@@ -166,7 +166,7 @@ public class UpdateHandler
 	{
 		update("INSERT INTO " + tableName + " (category, name, type, value) VALUES (?, ?, ?, ?)", new Object[]
 		{
-						category, name, type, value
+			category, name, type, value
 		});
 	}
 
@@ -176,7 +176,7 @@ public class UpdateHandler
 		update("INSERT INTO " + tableName + " (category, name, type, value, validValues) VALUES (?, ?, ?, ?, ?)",
 						new Object[]
 						{
-										category, name, type, value, validValues
+							category, name, type, value, validValues
 						});
 	}
 
@@ -185,20 +185,26 @@ public class UpdateHandler
 	{
 		update("INSERT INTO " + tableName + " (id, category, name, type, value) VALUES (?, ?, ?, ?, ?)", new Object[]
 		{
-						createKeelId(tableName), category, name, type, value
+			createKeelId(tableName), category, name, type, value
 		});
 	}
 
 	protected void createConfigEntryWithKeelId(String tableName, String category, String name, String type,
 					String value, String validValues) throws SQLException
 	{
-		update(
-						"INSERT INTO " + tableName
-										+ " (id, category, name, type, value, validValues) VALUES (?, ?, ?, ?, ?, ?)",
+		update("INSERT INTO " + tableName + " (id, category, name, type, value, validValues) VALUES (?, ?, ?, ?, ?, ?)",
 						new Object[]
 						{
-										createKeelId(tableName), category, name, type, value, validValues
+							createKeelId(tableName), category, name, type, value, validValues
 						});
+	}
+
+	protected void deleteConfigEntry(String tableName, String category, String name) throws SQLException
+	{
+		update("DELETE FROM " + tableName + " WHERE category = ? AND name = ?", new Object[]
+		{
+			category, name
+		});
 	}
 
 	protected void createIndex(String tableName, String columnName) throws SQLException
@@ -212,18 +218,17 @@ public class UpdateHandler
 		update("INSERT INTO instancesecurity (component, instance, groupname, operationsallowed) VALUES (?, ?, ?, ?)",
 						new Object[]
 						{
-										component, instance, groupName, operationsAllowed
+							component, instance, groupName, operationsAllowed
 						});
 	}
 
 	protected void createInvokationSecurity(String component, String instance, String property, String comparator,
 					String value, String groupName, String operationsAllowed) throws SQLException
 	{
-		update(
-						"INSERT INTO invokationsecurity (component, instance, property, comparator, value, groupname, operationsallowed) VALUES (?, ?, ?, ?, ?, ?, ?)",
+		update("INSERT INTO invokationsecurity (component, instance, property, comparator, value, groupname, operationsallowed) VALUES (?, ?, ?, ?, ?, ?, ?)",
 						new Object[]
 						{
-										component, instance, property, comparator, value, groupName, operationsAllowed
+							component, instance, property, comparator, value, groupName, operationsAllowed
 						});
 	}
 
@@ -251,19 +256,21 @@ public class UpdateHandler
 						+ "_tmp AS integer)");
 		run.update(connection, "ALTER TABLE " + tableName + " DROP COLUMN " + columnName + "_tmp");
 
-		int maxId = NumberTools.toInt(run.query(connection, "SELECT MAX(" + columnName + ") from " + tableName,
-						new ScalarHandler()), 0);
+		int maxId = NumberTools.toInt(
+						run.query(connection, "SELECT MAX(" + columnName + ") from " + tableName, new ScalarHandler()),
+						0);
 
 		run.update(connection, "INSERT INTO ids (table_name, next_id) values (?, ?)", new Object[]
 		{
-						persistentName, maxId + 1
+			persistentName, maxId + 1
 		});
 	}
 
 	protected void createPrimaryKeySequenceFromIdTable(String table, String idColumn) throws SQLException
 	{
-		int nextId = NumberTools.toInt(new QueryRunner().query(connection,
-						"SELECT next_id from ids where table_name = '" + table + "'", new ScalarHandler()), - 1);
+		int nextId = NumberTools.toInt(
+						new QueryRunner().query(connection, "SELECT next_id from ids where table_name = '" + table
+										+ "'", new ScalarHandler()), - 1);
 
 		if (nextId == - 1)
 		{
@@ -324,10 +331,14 @@ public class UpdateHandler
 		createConfigEntryWithKeelId("SystemConfig", category, name, type, value, validValues);
 	}
 
+	protected void deleteSystemConfigEntry(String category, String name) throws SQLException
+	{
+		deleteConfigEntry("SystemConfig", category, name);
+	}
+
 	protected void createTable(String tableName, String... columnDefinitions) throws SQLException
 	{
 		StringBuilder sb = new StringBuilder();
-
 		StringTools.appendWithDelimiter(sb, columnDefinitions, ", ");
 		update("CREATE TABLE " + tableName + " (" + sb.toString() + ")");
 	}
@@ -343,11 +354,10 @@ public class UpdateHandler
 	protected void createUserPreference(Integer userId, String category, String name, String type, String value,
 					String validValues) throws SQLException
 	{
-		update(
-						"insert into PreferencesConfig (userId, category, name, type, value, validValues) values (?, ?, ?, ?, ?, ?)",
+		update("insert into PreferencesConfig (userId, category, name, type, value, validValues) values (?, ?, ?, ?, ?, ?)",
 						new Object[]
 						{
-										userId, category, name, type, value, validValues
+							userId, category, name, type, value, validValues
 						});
 	}
 
@@ -355,7 +365,7 @@ public class UpdateHandler
 	{
 		update("DELETE FROM componentsecurity WHERE component = ? AND groupname = ?", new Object[]
 		{
-						component, groupName
+			component, groupName
 		});
 	}
 
@@ -370,7 +380,7 @@ public class UpdateHandler
 	{
 		update("DELETE FROM instancesecurity WHERE component = ? AND instance = ? AND groupname = ?", new Object[]
 		{
-						component, instance, groupName
+			component, instance, groupName
 		});
 	}
 
@@ -553,14 +563,14 @@ public class UpdateHandler
 
 	protected Integer selectInt(String tableName, String field, String where) throws SQLException
 	{
-		return NumberTools.toIntInstance(query("select " + field + " from " + tableName + " where " + where,
-						new ScalarHandler()), - 1);
+		return NumberTools.toIntInstance(
+						query("select " + field + " from " + tableName + " where " + where, new ScalarHandler()), - 1);
 	}
 
 	protected Long selectLong(String tableName, String field, String where) throws SQLException
 	{
-		return NumberTools.toLongInstance(query("select " + field + " from " + tableName + " where " + where,
-						new ScalarHandler()), - 1);
+		return NumberTools.toLongInstance(
+						query("select " + field + " from " + tableName + " where " + where, new ScalarHandler()), - 1);
 	}
 
 	protected Map<String, Object> selectMap(String tableName, String where) throws SQLException
@@ -609,11 +619,13 @@ public class UpdateHandler
 		update("ALTER TABLE " + tableName + " ALTER COLUMN " + columnName + " TYPE " + typeDef);
 	}
 
-	public void updateDatabase(@SuppressWarnings("unused") ModelRequest req, @SuppressWarnings("unused") Logger logger,
-					@SuppressWarnings("unused") Connection connection,
-					@SuppressWarnings("unused") PersistentFactory pf,
-					@SuppressWarnings("unused") ModuleVersion currentVersion,
-					@SuppressWarnings("unused") ModuleVersion newVersion) throws Exception
+	public void updateDatabase(@SuppressWarnings("unused")
+	ModelRequest req, @SuppressWarnings("unused")
+	Logger logger, @SuppressWarnings("unused")
+	Connection connection, @SuppressWarnings("unused")
+	PersistentFactory pf, @SuppressWarnings("unused")
+	ModuleVersion currentVersion, @SuppressWarnings("unused")
+	ModuleVersion newVersion) throws Exception
 	{
 	}
 

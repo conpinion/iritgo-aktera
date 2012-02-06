@@ -335,7 +335,7 @@ public class FormularHandler
 	 * for another user
 	 */
 	protected Integer getActualUserId(ModelRequest request)
-		throws PersistenceException, PermissionException, ModelException
+		throws PermissionException
 	{
 		if (! StringTools.isTrimEmpty(request.getParameter("userId")))
 		{

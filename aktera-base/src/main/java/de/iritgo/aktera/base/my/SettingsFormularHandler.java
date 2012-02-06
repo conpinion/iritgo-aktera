@@ -68,13 +68,7 @@ public class SettingsFormularHandler extends FormularHandler
 		{
 			return getActualUserId(request);
 		}
-		catch (PersistenceException x)
-		{
-		}
 		catch (PermissionException x)
-		{
-		}
-		catch (ModelException x)
 		{
 		}
 

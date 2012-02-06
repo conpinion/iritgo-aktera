@@ -27,10 +27,10 @@
 		<version>2.2</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>iritgo-aktera-event</artifactId>
+	<artifactId>iritgo-aktera-command</artifactId>
 	<version>2.2.1</version>
-	<name>Iritgo Aktera Event</name>
-	<description>Provides event service to application modules</description>
+	<name>Iritgo Aktera Command</name>
+	<description>Provides command service to application modules</description>
 	<properties>
 	    <main.basedir>${project.parent.basedir}</main.basedir>
 	</properties>
@@ -42,7 +42,7 @@
 		</dependency>
 		<dependency>
 			<groupId>de.iritgo.aktera</groupId>
-			<artifactId>iritgo-aktera-tools</artifactId>
+			<artifactId>iritgo-aktera-startup</artifactId>
 			<version>2.2.1</version>
 		</dependency>
 	</dependencies>

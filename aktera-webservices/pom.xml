@@ -24,8 +24,8 @@
 	<dependencies>
 		<dependency>
 			<groupId>de.iritgo.aktera</groupId>
-			<artifactId>iritgo-aktera-common</artifactId>
-			<version>2.3.1</version>
+			<artifactId>iritgo-aktera-core</artifactId>
+			<version>2.2.1</version>
 		</dependency>
 		<dependency>
 			<groupId>de.iritgo.aktera</groupId>
