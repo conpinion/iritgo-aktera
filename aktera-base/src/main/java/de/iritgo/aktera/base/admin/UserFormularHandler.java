@@ -407,7 +407,7 @@ public class UserFormularHandler extends FormularHandler
 
 		Persistent user = persistentManager.create("keel.user");
 		user.setField("uid", userId);
-		user.retrieve();
+
 		if (! user.find())
 		{
 			return;
