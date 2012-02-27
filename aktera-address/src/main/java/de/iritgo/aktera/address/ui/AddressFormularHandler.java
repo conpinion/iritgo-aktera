@@ -63,7 +63,7 @@ public class AddressFormularHandler extends FormularHandler
 		persistents.putAttribute("addressStore", store.getDisplayedTitle());
 		persistents.putAttribute("addressStoreId", store.getId());
 
-		Option<Address> address = store.findAddressByDn(id.toString());
+		Option<Address> address = store.findAddressByDn(request.getParameter("id"));
 		if (address.empty())
 		{
 			address = new Full(new Address());
