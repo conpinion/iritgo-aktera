@@ -24,6 +24,7 @@ import java.util.*;
 import lombok.*;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.commons.collections.*;
+import org.springframework.cache.annotation.Cacheable;
 import de.iritgo.aktera.address.entity.*;
 import de.iritgo.aktera.authentication.defaultauth.entity.*;
 import de.iritgo.aktera.event.Event;
@@ -131,6 +132,7 @@ public class AddressManagerImpl implements AddressManager, StartupHandler
 		return new Empty();
 	}
 
+	@Cacheable("addressResolution")
 	public Option<Address> findAddressByPhoneNumber(String phoneNumber)
 	{
 		for (AddressStore store : addressStores)
@@ -150,6 +152,7 @@ public class AddressManagerImpl implements AddressManager, StartupHandler
 		return new Empty();
 	}
 
+	@Cacheable("addressResolution")
 	public Option<Address> findAddressByPhoneNumber(String number, String countryPrefix, String localPrefix,
 					String internationalPrefix, String nationalPrefix)
 	{
@@ -211,6 +214,7 @@ public class AddressManagerImpl implements AddressManager, StartupHandler
 		return new Empty();
 	}
 
+	@Cacheable("addressResolution")
 	public Option<Address> findAddressOfOwnerByPhoneNumber(Integer ownerId, String number, String countryPrefix,
 					String localPrefix, String internationalPrefix, String nationalPrefix)
 	{

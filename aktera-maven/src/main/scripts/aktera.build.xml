@@ -40,6 +40,7 @@
 		<mkdir dir="${webapp.dir}/aktario/lib/native" />
 		<mkdir dir="${webapp.dir}/WEB-INF" />
 		<mkdir dir="${webapp.dir}/WEB-INF/lib" />
+		<mkdir dir="${webapp.dir}/WEB-INF/classes" />
 		<mkdir dir="${webapp.dir}/WEB-INF/conf" />
 		<mkdir dir="${webapp.dir}/WEB-INF/resources" />
 		<mkdir dir="${webapp.dir}/WEB-INF/schemas" />
@@ -141,6 +142,28 @@
 				<include name="**/*" />
 			</fileset>
 		</move>
+
+		<!-- Create ehcache.xml -->
+
+		<concat destfile="${webapp.dir}/WEB-INF/classes/ehcache.xml">
+			<fileset dir="${webapp.dir}/tmp/conf" includes="ehcache-1" />
+		</concat>
+		<concat destfile="${webapp.dir}/WEB-INF/classes/ehcache.xml" append="true">
+			<fileset dir="${webapp.dir}/tmp/conf" includes="*.ehcache.xml" />
+			<filterchain>
+				<prefixlines prefix="    " />
+			</filterchain>
+		</concat>
+		<concat destfile="${webapp.dir}/WEB-INF/classes/ehcache.xml" append="true">
+			<fileset dir="${webapp.dir}/tmp/conf" includes="ehcache-2" />
+		</concat>
+		<delete>
+			<fileset dir="${webapp.dir}/tmp/conf">
+				<include name="*.ehcache" />
+				<include name="ehcache-1" />
+				<include name="ehcache-2" />
+			</fileset>
+		</delete>
 
 		<!-- Move config files -->
 

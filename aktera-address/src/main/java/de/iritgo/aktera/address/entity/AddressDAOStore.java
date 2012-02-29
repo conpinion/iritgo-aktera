@@ -27,6 +27,7 @@ import javax.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.cache.annotation.Cacheable;
 import de.iritgo.aktera.address.AddressDAO;
 import de.iritgo.simplelife.constants.SortOrder;
 import de.iritgo.simplelife.math.NumberTools;
