@@ -760,21 +760,25 @@ public class AkteraAktarioGUI extends AktarioGUI implements ClientGUI
 		{
 		}
 
-		manualDisconnect = false;
-
-		getDesktopManager().closeAllDisplays();
-
-		desktopFrame.setVisible(false);
-
-		if (tray != null)
-		{
-			tray.remove(trayIcon);
-		}
-
 		User user = AppContext.instance().getUser();
-		String password = AppContext.instance().getUserPassword();
 
-		UserLoginHelper.login(null, AppContext.instance().getServerIP(), user.getName(), password, false, false);
+		if (user.isOnline())
+		{
+			manualDisconnect = false;
+
+			getDesktopManager().closeAllDisplays();
+
+			desktopFrame.setVisible(false);
+
+			if (tray != null)
+			{
+				tray.remove(trayIcon);
+			}
+
+			String password = AppContext.instance().getUserPassword();
+
+			UserLoginHelper.login(null, AppContext.instance().getServerIP(), user.getName(), password, false, false);
+		}
 	}
 
 	/**
