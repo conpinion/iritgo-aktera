@@ -21,7 +21,7 @@ package de.iritgo.aktera.base.it;
 
 
 import de.iritgo.aktera.test.BrowserTestCase;
-import de.iritgo.aktera.test.UserTools;
+import de.iritgo.aktera.test.UserTestTools;
 import org.junit.Test;
 
 
@@ -45,10 +45,10 @@ public class SessionTest extends BrowserTestCase
 	{
 		openStartPage();
 		assertTextPresent("Nicht angemeldet");
-		UserTools.loginAsAdmin(selenium);
+		UserTestTools.loginAsAdmin(selenium);
 		assertTextPresent("Angemeldet als");
 		assertTextPresent("[admin]");
-		UserTools.logout(selenium);
+		UserTestTools.logout(selenium);
 		assertTextPresent("Nicht angemeldet");
 	}
 }

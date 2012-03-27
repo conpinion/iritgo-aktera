@@ -32,21 +32,21 @@ import org.junit.BeforeClass;
  */
 public abstract class BrowserTestCase
 {
-	private static String host;
+	protected static String host;
 
-	private static String port;
+	protected static String port;
 
-	private static String executable;
+	protected static String executable;
 
-	private static String context;
+	protected static String context;
 
-	private static String waitForPageTimeout;
+	protected static String waitForPageTimeout;
 
-	private static String executionDelay;
+	protected static String executionDelay;
 
-	private static Random random = new Random();
+	protected static Random random = new Random();
 
-	private static String lowerCaseAlphaChars = "abcdefghijklmonpqrstuvwxyz";
+	protected static String lowerCaseAlphaChars = "abcdefghijklmonpqrstuvwxyz";
 
 	protected SuperSelenium selenium;
 

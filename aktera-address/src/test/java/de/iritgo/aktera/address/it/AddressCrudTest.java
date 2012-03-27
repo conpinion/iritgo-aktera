@@ -21,7 +21,7 @@ package de.iritgo.aktera.address.it;
 
 
 import de.iritgo.aktera.test.BrowserTestCase;
-import de.iritgo.aktera.test.UserTools;
+import de.iritgo.aktera.test.UserTestTools;
 import org.junit.Test;
 import java.util.Properties;
 
@@ -35,7 +35,7 @@ public class AddressCrudTest extends BrowserTestCase
 	@Test
 	public void addressCrud()
 	{
-		UserTools.loginAsAdmin(selenium);
+		UserTestTools.loginAsAdmin(selenium);
 
 		Properties newEntry = new Properties();
 
@@ -69,7 +69,7 @@ public class AddressCrudTest extends BrowserTestCase
 
 		deleteAddress(newEntry.getProperty("address_lastName"));
 
-		UserTools.logout(selenium);
+		UserTestTools.logout(selenium);
 	}
 
 	protected void createAddress(Properties addressEntry)
