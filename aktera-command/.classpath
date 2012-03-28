@@ -2,18 +2,7 @@
 <classpath>
 	<classpathentry kind="src" output="target/classes" path="src/main/java"/>
 	<classpathentry excluding="**" including="**/*.java" kind="src" output="target/classes" path="src/main/resources"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER"/>
-	<classpathentry kind="var" path="UNIMOD_CORE_HOME/unimod-core.jar" sourcepath="UNIMOD_CORE_HOME/unimod-coresrc.zip"/>
-	<classpathentry kind="var" path="UNIMOD_CORE_HOME/lib/antlr.jar"/>
-	<classpathentry kind="var" path="UNIMOD_CORE_HOME/lib/common-01.01.022.jar" sourcepath="UNIMOD_CORE_HOME/lib/common-01.01.022-src.jar"/>
-	<classpathentry kind="var" path="UNIMOD_CORE_HOME/lib/commons-collections-3.1.jar"/>
-	<classpathentry kind="var" path="UNIMOD_CORE_HOME/lib/commons-digester-1.7.jar"/>
-	<classpathentry kind="var" path="UNIMOD_CORE_HOME/lib/commons-logging.jar"/>
-	<classpathentry kind="var" path="UNIMOD_CORE_HOME/lib/velocity-1.4.jar"/>
-	<classpathentry kind="var" path="UNIMOD_CORE_HOME/lib/commons-lang-2.0.jar"/>
-	<classpathentry kind="var" path="UNIMOD_CORE_HOME/lib/commons-beanutils.jar"/>
-	<classpathentry kind="var" path="UNIMOD_ADAPTER_STANDALONE_HOME/unimod-adapter-standalone.jar" sourcepath="UNIMOD_ADAPTER_STANDALONE_HOME/unimod-adapter-standalonesrc.zip"/>
-	<classpathentry kind="var" path="UNIMOD_ADAPTER_STANDALONE_HOME/lib/log4j-1.2.8.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
