@@ -21,7 +21,7 @@ package de.iritgo.aktera.base.it;
 
 
 import de.iritgo.aktera.test.BrowserTestCase;
-import de.iritgo.aktera.test.UserTestTools;
+import de.iritgo.aktera.test.UserTestSteps;
 import org.junit.Test;
 
 
@@ -34,7 +34,7 @@ public class AccountTest extends BrowserTestCase
 	@Test
 	public void newPasswordMatchValidation()
 	{
-		UserTestTools.loginAsAdmin(selenium);
+		UserTestSteps.loginAsAdmin(selenium);
 
 		clickLinkWithText("Einstellungen");
 		enterText("passwordNew", "abc");
@@ -44,7 +44,7 @@ public class AccountTest extends BrowserTestCase
 		assertTextPresent("Die Passwörter stimmen nicht überein");
 		assertElementPresent("//tr[@class='error']");
 
-		UserTestTools.logout(selenium);
+		UserTestSteps.logout(selenium);
 	}
 
 	/**
@@ -53,20 +53,20 @@ public class AccountTest extends BrowserTestCase
 	@Test
 	public void passwordChange() throws Exception
 	{
-		UserTestTools.loginAsAdmin(selenium);
+		UserTestSteps.loginAsAdmin(selenium);
 
 		clickLinkWithText("Einstellungen");
 		enterText("passwordNew", "abc");
 		enterText("passwordNewRepeat", "abc");
 		clickButton("COMMAND_save");
 
-		UserTestTools.logout(selenium);
+		UserTestSteps.logout(selenium);
 
-		UserTestTools.loginAsAdmin(selenium);
+		UserTestSteps.loginAsAdmin(selenium);
 
 		assertTextPresent("Das von Ihnen eingegebene Passwort ist falsch!");
 
-		UserTestTools.login(selenium, "admin", "abc");
+		UserTestSteps.login(selenium, "admin", "abc");
 
 		assertTextPresent("Angemeldet als");
 		assertTextPresent("[admin]");
@@ -76,7 +76,7 @@ public class AccountTest extends BrowserTestCase
 		enterText("passwordNewRepeat", "admin");
 		clickButton("COMMAND_save");
 
-		UserTestTools.logout(selenium);
+		UserTestSteps.logout(selenium);
 	}
 
 	/**
@@ -86,7 +86,7 @@ public class AccountTest extends BrowserTestCase
 	@Test
 	public void userAndGroupCreation()
 	{
-		UserTestTools.loginAsAdmin(selenium);
+		UserTestSteps.loginAsAdmin(selenium);
 
 		clickLinkWithText("Benutzerverwaltung");
 
@@ -111,15 +111,15 @@ public class AccountTest extends BrowserTestCase
 		clickTable("newUser");
 		assertTextPresent("newUser");
 
-		UserTestTools.logout(selenium);
+		UserTestSteps.logout(selenium);
 
-		UserTestTools.login(selenium, "newUser", "newPassword");
+		UserTestSteps.login(selenium, "newUser", "newPassword");
 
 		assertTextPresent("[newUser]");
 
-		UserTestTools.logout(selenium);
+		UserTestSteps.logout(selenium);
 
-		UserTestTools.loginAsAdmin(selenium);
+		UserTestSteps.loginAsAdmin(selenium);
 
 		clickLinkWithText("Benutzerverwaltung");
 
@@ -135,6 +135,6 @@ public class AccountTest extends BrowserTestCase
 		clickButton("COMMAND_userListCmdExecute");
 		assertTextNotPresent("newUser");
 
-		UserTestTools.logout(selenium);
+		UserTestSteps.logout(selenium);
 	}
 }

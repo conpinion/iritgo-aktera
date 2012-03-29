@@ -21,7 +21,7 @@ package de.iritgo.aktera.script.it;
 
 
 import de.iritgo.aktera.test.BrowserTestCase;
-import de.iritgo.aktera.test.UserTestTools;
+import de.iritgo.aktera.test.UserTestSteps;
 import org.junit.Test;
 import java.util.Properties;
 
@@ -33,7 +33,7 @@ public class ScriptCrudTest extends BrowserTestCase
 	{
 		try
 		{
-			UserTestTools.loginAsAdmin(selenium);
+			UserTestSteps.loginAsAdmin(selenium);
 
 			// create script
 			String scriptName = "pseudoscript" + String.valueOf(randomNumber(4));
@@ -53,7 +53,7 @@ public class ScriptCrudTest extends BrowserTestCase
 			// delete script
 			deleteScript(scriptName);
 
-			UserTestTools.logout(selenium);
+			UserTestSteps.logout(selenium);
 		}
 		catch (com.thoughtworks.selenium.SeleniumException e)
 		{

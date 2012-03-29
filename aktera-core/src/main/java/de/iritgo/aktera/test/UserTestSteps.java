@@ -23,7 +23,7 @@ package de.iritgo.aktera.test;
 import java.util.Properties;
 
 
-public class UserTestTools
+public class UserTestSteps
 {
 	public static final String SYSUSER_NAME = "sysUser_name";
 
