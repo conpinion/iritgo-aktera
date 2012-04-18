@@ -19,12 +19,9 @@
 
 package de.iritgo.aktera.test;
 
-
 import java.util.Properties;
 
-
-public class UserTestSteps
-{
+public class UserTestSteps {
 	public static final String SYSUSER_NAME = "sysUser_name";
 
 	public static final String SYSUSER_LDAPNAME = "sysUser_ldapName";
@@ -73,105 +70,168 @@ public class UserTestSteps
 
 	public static final Integer GUIROWS = 15;
 
-	public static void createUser(SuperSelenium selenium, Properties newUserProperties)
-	{
-		try
-		{
-			selenium.clickButton("user");
-			selenium.clickButton("COMMAND_usersCmdNew");
-			selenium.type(SYSUSER_NAME, newUserProperties.getProperty("sysUser_name", "")); // required
-			selenium.type(SYSUSER_LDAPNAME, newUserProperties.getProperty("sysUser_ldapName", ""));
+	private static final String USERADMINISTRATION = "user";
 
-			if (newUserProperties.getProperty("deletePassword") == "true")
-			{
-				selenium.click(DELETEPASSWORD);
-			}
-			else
-			{
-				selenium.type(PASSWORDNEW, newUserProperties.getProperty("passwordNew", ""));
-				selenium.type(PASSWORDNEWREPEAT, newUserProperties.getProperty("passwordNewRepeat", ""));
-			}
+	private static final String COMMAND_USERSCMDNEW = "COMMAND_usersCmdNew";
 
-			selenium.type(PINNEW, newUserProperties.getProperty("pinNew", ""));
-			selenium.type(PINNEWREPEAT, newUserProperties.getProperty("pinNewRepeat", ""));
-			selenium.select(ROLE, "label=" + newUserProperties.getProperty("role", "Benutzer"));
-			selenium.select(ADDRESS_SALUTATION, "label=" + newUserProperties.getProperty("role", "---"));
-			selenium.type(ADDRESS_FIRSTNAME, newUserProperties.getProperty("address_firstName", ""));
-			selenium.type(ADDRESS_LASTNAME, newUserProperties.getProperty("address_lastName", "")); // required
-			selenium.type(ADDRESS_COMPANY, newUserProperties.getProperty("address_company", ""));
-			selenium.type(ADDRESS_DIVISION, newUserProperties.getProperty("address_division", ""));
-			selenium.type(ADDRESS_STREET, newUserProperties.getProperty("address_street", ""));
-			selenium.type(ADDRESS_POSTALCODE, newUserProperties.getProperty("address_postalCode", ""));
-			selenium.type(ADDRESS_CITY, newUserProperties.getProperty("address_city", ""));
-			selenium.select(ADDRESS_COUNTRY, "label=" + newUserProperties.getProperty("address_country", "---"));
-			selenium.type(ADDRESS_EMAIL, newUserProperties.getProperty("address_email", "")); // required
-			selenium.type(ADDRESS_WEB, newUserProperties.getProperty("address_web", ""));
+	public static void createUser(SuperSelenium selenium,
+			Properties newUserProperties) {
+		selenium.clickButton(USERADMINISTRATION);
+		selenium.clickButton(COMMAND_USERSCMDNEW);
+		selenium.type(SYSUSER_NAME,
+				newUserProperties.getProperty("sysUser_name", "")); // required
+		selenium.type(SYSUSER_LDAPNAME,
+				newUserProperties.getProperty("sysUser_ldapName", ""));
 
-			if (newUserProperties.getProperty("preferences_canChangePassword") == "true")
-			{
-				selenium.click(PREFERENCES_CANCHANGEPASSWORD);
-			}
-
-			selenium.select(PREFERENCES_LANGUAGE, "label="
-							+ newUserProperties.getProperty("preferences_language", "Deutsch"));
-			selenium.select(PREFERENCES_THEME, "label="
-							+ newUserProperties.getProperty("preferences_theme", "Standard"));
-			selenium.type(GUI_TABLEROWSPERPAGE, newUserProperties.getProperty("gui_tableRowsPerPage", String
-							.valueOf(GUIROWS)));
-			selenium.clickButton("COMMAND_save");
+		if (newUserProperties.getProperty("deletePassword") == "true") {
+			selenium.click(DELETEPASSWORD);
+		} else {
+			selenium.type(PASSWORDNEW,
+					newUserProperties.getProperty("passwordNew", ""));
+			selenium.type(PASSWORDNEWREPEAT,
+					newUserProperties.getProperty("passwordNewRepeat", ""));
 		}
-		catch (com.thoughtworks.selenium.SeleniumException e)
-		{
-			selenium.captureScreenshot("exception.png");
-			throw (e);
+
+		selenium.type(PINNEW, newUserProperties.getProperty("pinNew", ""));
+		selenium.type(PINNEWREPEAT,
+				newUserProperties.getProperty("pinNewRepeat", ""));
+		selenium.select(ROLE,
+				"label=" + newUserProperties.getProperty("role", "Benutzer"));
+		selenium.select(ADDRESS_SALUTATION,
+				"label=" + newUserProperties.getProperty("role", "---"));
+		selenium.type(ADDRESS_FIRSTNAME,
+				newUserProperties.getProperty("address_firstName", ""));
+		selenium.type(ADDRESS_LASTNAME,
+				newUserProperties.getProperty("address_lastName", "")); // required
+		selenium.type(ADDRESS_COMPANY,
+				newUserProperties.getProperty("address_company", ""));
+		selenium.type(ADDRESS_DIVISION,
+				newUserProperties.getProperty("address_division", ""));
+		selenium.type(ADDRESS_STREET,
+				newUserProperties.getProperty("address_street", ""));
+		selenium.type(ADDRESS_POSTALCODE,
+				newUserProperties.getProperty("address_postalCode", ""));
+		selenium.type(ADDRESS_CITY,
+				newUserProperties.getProperty("address_city", ""));
+		selenium.select(
+				ADDRESS_COUNTRY,
+				"label="
+						+ newUserProperties.getProperty("address_country",
+								"---"));
+		selenium.type(ADDRESS_EMAIL,
+				newUserProperties.getProperty("address_email", "")); // required
+		selenium.type(ADDRESS_WEB,
+				newUserProperties.getProperty("address_web", ""));
+
+		if (newUserProperties.getProperty("preferences_canChangePassword") == "true") {
+			selenium.click(PREFERENCES_CANCHANGEPASSWORD);
 		}
+
+		selenium.select(
+				PREFERENCES_LANGUAGE,
+				"label="
+						+ newUserProperties.getProperty("preferences_language",
+								"Deutsch"));
+		selenium.select(
+				PREFERENCES_THEME,
+				"label="
+						+ newUserProperties.getProperty("preferences_theme",
+								"Standard"));
+		selenium.type(
+				GUI_TABLEROWSPERPAGE,
+				newUserProperties.getProperty("gui_tableRowsPerPage",
+						String.valueOf(GUIROWS)));
+		selenium.clickButton("COMMAND_save");
 	}
 
-	public static void createUserAndLogin(SuperSelenium selenium, Properties newUserProperties)
-	{
+	public static void createUserAndLogin(SuperSelenium selenium,
+			Properties newUserProperties) {
 		createUser(selenium, newUserProperties);
 		logout(selenium);
-		login(selenium, newUserProperties.getProperty("sysUser_name"), newUserProperties.getProperty("passwordNew"));
+		login(selenium, newUserProperties.getProperty("sysUser_name"),
+				newUserProperties.getProperty("passwordNew"));
 	}
 
-	public static void deleteUser(SuperSelenium selenium, String username)
-	{
-		selenium.clickButton("user");
+	public static void deleteUser(SuperSelenium selenium, String username) {
+		selenium.clickButton(USERADMINISTRATION);
 		selenium.type("usersSearch", username);
 		selenium.clickButton("COMMAND_usersCmdSearch");
 
-		if (! (selenium.isTextPresent(username)))
-		{
+		if (!(selenium.isTextPresent(username))) {
 			selenium.captureScreenshot("assertfailure.png");
 		}
 		assert (selenium.isTextPresent(username));
 		selenium.selectTable(username);
-		selenium.select("usersExecuteModel", "label=Benutzer und Adresse löschen");
+		selenium.select("usersExecuteModel",
+				"label=Benutzer und Adresse löschen");
 		selenium.clickButton("COMMAND_usersCmdExecute");
 	}
 
-	public static void login(SuperSelenium selenium, String username, String password)
-	{
+	public static void createUserGroup(SuperSelenium selenium,
+			String groupName, String groupTitle, Boolean visibleGroup) {
+		selenium.click(USERADMINISTRATION);
+		selenium.waitForPageToLoad("30000");
+		// TAB Gruppen
+		selenium.click("//div[@id='container']/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/form/table/tbody/tr[1]/td/table/tbody/tr[2]/td[6]/a/nobr");
+		selenium.waitForPageToLoad("30000");
+		selenium.click("COMMAND_userGroupsCmdNew");
+		selenium.waitForPageToLoad("30000");
+		selenium.type("akteraGroup_name", groupName);
+		selenium.type("akteraGroup_title", groupTitle);
+		// Voreinstellung "aktiv"
+		if (!visibleGroup) {
+			selenium.click("akteraGroup_visible");
+		}
+		selenium.click("COMMAND_save");
+		selenium.waitForPageToLoad("30000");
+		// TAB Benutzer
+		selenium.click("//div[@id='container']/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/form/table/tbody/tr[1]/td/table/tbody/tr[2]/td[3]/a/nobr");
+		selenium.waitForPageToLoad("30000");
+	}
+
+	public static void createUserGroup(SuperSelenium selenium, String groupName) {
+		createUserGroup(selenium, groupName, groupName, true);
+	}
+
+	public static void deleteUserGroup(SuperSelenium selenium, String groupName) {
+		selenium.click(USERADMINISTRATION);
+		selenium.waitForPageToLoad("30000");
+		// TAB Gruppen
+		selenium.click("//div[@id='container']/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/form/table/tbody/tr[1]/td/table/tbody/tr[2]/td[6]/a/nobr");
+		selenium.waitForPageToLoad("30000");
+		selenium.click("COMMAND_userGroupsCmdSearch");
+		selenium.type("userGroupsSearch", groupName);
+		selenium.click("COMMAND_userGroupsCmdSearch");
+		selenium.waitForPageToLoad("30000");
+		selenium.click("id");
+		selenium.select("userGroupsExecuteModel", "label=Löschen");
+		selenium.click("COMMAND_userGroupsCmdExecute");
+		selenium.waitForPageToLoad("30000");
+		// TAB Benutzer
+		selenium.click("//div[@id='container']/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/form/table/tbody/tr[1]/td/table/tbody/tr[2]/td[3]/a/nobr/img");
+		selenium.waitForPageToLoad("30000");
+	}
+
+	public static void login(SuperSelenium selenium, String username,
+			String password) {
 		selenium.openStartPage();
 		selenium.enterText("loginName", username);
 		selenium.enterText("password", password);
 		selenium.clickButton("COMMAND_login");
 	}
 
-	public static void loginAsAdmin(SuperSelenium selenium)
-	{
+	public static void loginAsAdmin(SuperSelenium selenium) {
 		selenium.openStartPage();
 		login(selenium, "admin", "admin");
 	}
 
-	public static void logout(SuperSelenium selenium)
-	{
+	public static void logout(SuperSelenium selenium) {
 		selenium.openStartPage();
 		selenium.clickLinkWithText("Abmelden");
 	}
 
-	public static void logoutAndDeleteUser(SuperSelenium selenium, String userName)
-	{
+	public static void logoutAndDeleteUser(SuperSelenium selenium,
+			String userName) {
 		logout(selenium);
 		loginAsAdmin(selenium);
 		deleteUser(selenium, userName);
