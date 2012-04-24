@@ -272,7 +272,6 @@
 			<ui:field name="store.title" bundle="Aktera" editor="text" size="40" />
 			<ui:field name="store.numberLookup" label="useAddressStoreForPhoneNumberLookup" editor="check" />
 			<ui:field name="store.emptySearchReturnsAllEntries" label="emptySearchReturnsAllEntries" editor="check" />
-			<ui:field name="store.systemStore" label="addressStoreSystemStore" editor="check" />
 			<ui:field name="store.defaultStore" label="addressStoreDefaultStore" editor="check" />
 			<ui:field name="store.editable" label="addressStoreEditable" editor="check" />
 		</ui:group>
