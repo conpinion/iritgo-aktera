@@ -453,7 +453,6 @@
 		<module>aktera-client</module>
 		<module>aktera-spring</module>
 		<module>aktera-struts</module>
-		<module>aktera-vaadin</module>
 		<module>aktera-webservices</module>
 		<module>aktera-webservices-aktario</module>
 		<module>aktera-startup</module>
