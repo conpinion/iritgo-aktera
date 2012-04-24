@@ -2,6 +2,5 @@
 <aspectj>
 	<weaver options="-verbose">
 		<exclude within="*..*CGLIB*" />
-		<exclude within="com.vaadin..*" />
 	</weaver>
 </aspectj>
