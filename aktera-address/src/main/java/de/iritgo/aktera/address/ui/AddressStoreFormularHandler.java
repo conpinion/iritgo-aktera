@@ -96,7 +96,6 @@ public class AddressStoreFormularHandler extends FormularHandler
 					PersistentDescriptor persistents, boolean modified) throws ModelException, PersistenceException
 	{
 		AddressStore store = (AddressStore) persistents.get("store");
-		store.setPosition(addressDAO.calculateMaxAddressStorePosition() + 1);
 		if (store instanceof AddressLDAPStore)
 		{
 			AddressLDAPStore ldapStore = (AddressLDAPStore) store;
@@ -114,6 +113,7 @@ public class AddressStoreFormularHandler extends FormularHandler
 		{
 			addressDAO.resetDefaultStoreFlagOnAllAddressStores();
 		}
+		store.setPosition(addressDAO.calculateMaxAddressStorePosition() + 1);
 		int id = super.createPersistents(request, formular, persistents, persistentConfig);
 		addressManager.initializeAddressStores();
 		return id;

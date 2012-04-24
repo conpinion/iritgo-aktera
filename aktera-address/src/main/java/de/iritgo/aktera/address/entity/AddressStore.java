@@ -60,6 +60,7 @@ public abstract class AddressStore implements Serializable
 
 	@Min(value = 1)
 	@NotNull
+	@Value ("1")
 	protected Integer position;
 
 	@NotNull

@@ -522,7 +522,7 @@ public class AddressDAOImpl extends HibernateDaoSupport implements AddressDAO
 	public int calculateMaxAddressStorePosition()
 	{
 		List res = getHibernateTemplate().find("select max(position) from AddressStore");
-		return res.get(0) != null ? (Integer) res.get(0) : 1;
+		return res.get(0) != null ? (Integer) res.get(0) : 0;
 	}
 
 	public void renumberAddressStorePositions(Integer firstPosition, Integer deltaPosition)
