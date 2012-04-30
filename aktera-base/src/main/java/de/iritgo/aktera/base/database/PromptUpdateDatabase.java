@@ -20,6 +20,7 @@
 package de.iritgo.aktera.base.database;
 
 
+import de.iritgo.aktera.base.server.*;
 import de.iritgo.aktera.model.Command;
 import de.iritgo.aktera.model.ModelException;
 import de.iritgo.aktera.model.ModelRequest;
@@ -44,6 +45,8 @@ public class PromptUpdateDatabase extends StandardLogEnabledModel
 	 */
 	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
+		SystemFirewall.disable();
+
 		ModelResponse res = req.createResponse();
 
 		Command cmd = res.createCommand("aktera.database.update");

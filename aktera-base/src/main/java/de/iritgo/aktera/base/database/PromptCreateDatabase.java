@@ -20,6 +20,7 @@
 package de.iritgo.aktera.base.database;
 
 
+import de.iritgo.aktera.base.server.*;
 import de.iritgo.aktera.model.Command;
 import de.iritgo.aktera.model.ModelException;
 import de.iritgo.aktera.model.ModelRequest;
@@ -44,8 +45,9 @@ public class PromptCreateDatabase extends StandardLogEnabledModel
 	 */
 	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
-		ModelResponse res = req.createResponse();
+		SystemFirewall.disable();
 
+		ModelResponse res = req.createResponse();
 		Command cmd = res.createCommand("aktera.database.create");
 		cmd.setName("create");
 		cmd.setLabel("$createDatabase");
