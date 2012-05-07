@@ -231,12 +231,13 @@ public class AddressLDAPStore extends AddressStore
 	public Option<Address> findAddressByLastNameOrCompany(String name)
 	{
 		LdapContext context = null;
+		NamingEnumeration<SearchResult> res = null;
 		try
 		{
 			context = createLDAPContext();
 			SearchControls controls = new SearchControls();
 			controls.setSearchScope(ldapScope);
-			NamingEnumeration<SearchResult> res = context.search(baseDn, "(sn=" + name + ")", controls);
+			res = context.search(baseDn, "(sn=" + name + ")", controls);
 			if (res.hasMore())
 			{
 				SearchResult sr = res.next();
@@ -251,6 +252,7 @@ public class AddressLDAPStore extends AddressStore
 		}
 		finally
 		{
+			closeNamingEnumeration (res);
 			closeLDAPContext(context);
 		}
 		return new Empty();
@@ -262,6 +264,7 @@ public class AddressLDAPStore extends AddressStore
 		List<Address> list = new LinkedList<Address>();
 
 		LdapContext context = null;
+		NamingEnumeration<SearchResult> res = null;
 
 		try
 		{
@@ -272,7 +275,7 @@ public class AddressLDAPStore extends AddressStore
 			controls.setSearchScope(ldapScope);
 			controls.setCountLimit(maxEntries);
 
-			NamingEnumeration<SearchResult> res = context.search(baseDn, "(sn=" + name + "*)", controls);
+			res = context.search(baseDn, "(sn=" + name + "*)", controls);
 			while (res.hasMore())
 			{
 				SearchResult sr = res.next();
@@ -287,6 +290,7 @@ public class AddressLDAPStore extends AddressStore
 		}
 		finally
 		{
+			closeNamingEnumeration(res);
 			closeLDAPContext(context);
 		}
 
@@ -303,13 +307,14 @@ public class AddressLDAPStore extends AddressStore
 	public Option<Address> findAddressByPhoneNumber(PhoneNumber phoneNumber)
 	{
 		LdapContext context = null;
+		NamingEnumeration<SearchResult> res = null;
 		try
 		{
 			context = createLDAPContext();
 			SearchControls controls = new SearchControls();
 			controls.setSearchScope(ldapScope);
 			String searchQuery = createQuery(phoneNumber.getInternalNumber(), phoneNumberSearchAttributesList);
-			NamingEnumeration<SearchResult> res = context.search(baseDn, searchQuery, controls);
+			res = context.search(baseDn, searchQuery, controls);
 			if (res.hasMore())
 			{
 				SearchResult sr = res.next();
@@ -324,6 +329,7 @@ public class AddressLDAPStore extends AddressStore
 		}
 		finally
 		{
+			closeNamingEnumeration(res);
 			closeLDAPContext(context);
 		}
 		return new Empty();
@@ -333,13 +339,14 @@ public class AddressLDAPStore extends AddressStore
 	public Option<Address> findAddressByPhoneNumber(String number)
 	{
 		LdapContext context = null;
+		NamingEnumeration<SearchResult> res = null;
 		try
 		{
 			context = createLDAPContext();
 			SearchControls controls = new SearchControls();
 			controls.setSearchScope(ldapScope);
 			String searchQuery = createQuery(number, phoneNumberSearchAttributesList);
-			NamingEnumeration<SearchResult> res = context.search(baseDn, searchQuery, controls);
+			res = context.search(baseDn, searchQuery, controls);
 			if (res.hasMore())
 			{
 				SearchResult sr = res.next();
@@ -354,6 +361,7 @@ public class AddressLDAPStore extends AddressStore
 		}
 		finally
 		{
+			closeNamingEnumeration(res);
 			closeLDAPContext(context);
 		}
 		return new Empty();
@@ -370,13 +378,14 @@ public class AddressLDAPStore extends AddressStore
 	{
 		List<PhoneNumber> list = new LinkedList<PhoneNumber>();
 		LdapContext context = null;
+		NamingEnumeration<SearchResult> res = null;
 		try
 		{
 			context = createLDAPContext();
 			SearchControls controls = new SearchControls();
 			controls.setSearchScope(ldapScope);
 			String searchQuery = createQuery("*" + number, phoneNumberSearchAttributesList);
-			NamingEnumeration<SearchResult> res = context.search(baseDn, searchQuery, controls);
+			res = context.search(baseDn, searchQuery, controls);
 			if (res.hasMore())
 			{
 				SearchResult sr = res.next();
@@ -397,6 +406,7 @@ public class AddressLDAPStore extends AddressStore
 		}
 		finally
 		{
+			closeNamingEnumeration(res);
 			closeLDAPContext(context);
 		}
 
@@ -414,13 +424,14 @@ public class AddressLDAPStore extends AddressStore
 		}
 
 		LdapContext context = null;
+		NamingEnumeration<SearchResult> res = null;
 		try
 		{
 			context = createLDAPContext();
 			SearchControls controls = new SearchControls();
 			controls.setSearchScope(ldapScope);
 			String searchQuery = createQuery("*" + number, phoneNumberSearchAttributesList);
-			NamingEnumeration<SearchResult> res = context.search(baseDn, searchQuery, controls);
+			res = context.search(baseDn, searchQuery, controls);
 			if (res.hasMore())
 			{
 				SearchResult sr = res.next();
@@ -441,6 +452,7 @@ public class AddressLDAPStore extends AddressStore
 		}
 		finally
 		{
+			closeNamingEnumeration(res);
 			closeLDAPContext(context);
 		}
 
@@ -540,6 +552,7 @@ public class AddressLDAPStore extends AddressStore
 					if (count > firstResult + maxResults)
 					{
 						moreResults = false;
+						i.close ();
 
 						break;
 					}
@@ -668,7 +681,7 @@ public class AddressLDAPStore extends AddressStore
 				if (! i.hasMore() || count >= maxEntries)
 				{
 					moreResults = false;
-
+					i.close ();
 					break;
 				}
 
@@ -801,7 +814,7 @@ public class AddressLDAPStore extends AddressStore
 				}
 			}
 		}
-
+		closeNamingEnumeration(results);
 		capsChecked = true;
 	}
 
@@ -901,10 +914,26 @@ public class AddressLDAPStore extends AddressStore
 			}
 			catch (NamingException x)
 			{
-				logger.error("LDAP Error: " + x.toString());
+				logger.error("LDAP close context error: " + x.toString());
 			}
 		}
 	}
+
+	private void closeNamingEnumeration(NamingEnumeration namingEnumeration)
+	{
+		if (namingEnumeration != null)
+		{
+			try
+			{
+				namingEnumeration.close();
+			}
+			catch (NamingException x)
+			{
+				logger.error("LDAP close naming enumeration error: " + x.toString());
+			}
+		}
+	}
+
 
 	/**
 	 * Safely retrieve a LDAP attribute from an attribute set.
