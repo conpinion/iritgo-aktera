@@ -17,6 +17,7 @@ import java.util.Enumeration;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -77,10 +78,14 @@ public class EncodingFilter implements Filter
 		public String encoding;
 	};
 	
+	private FilterConfig config;
+	
 	@Override
 	@SuppressWarnings("unchecked")
 	public void init(FilterConfig config) throws ServletException
 	{
+		this.config = config;
+		
 		String encodingsStr = "UTF-8";
 
 		Enumeration<String> en = config.getInitParameterNames();
@@ -124,6 +129,7 @@ public class EncodingFilter implements Filter
 		}
 		catch (IOException e)
 		{
+			config.getServletContext().log(e.getMessage());
 			res.sendError(400, e.getMessage());
 			return;
 		}

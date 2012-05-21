@@ -4,7 +4,7 @@
 		<filter-class>de.iritgo.aktera.struts.EncodingFilter</filter-class>
 		<init-param>
 			<param-name>encodings</param-name>
-			<param-value>UTF-8,ISO_8859_1</param-value>
+			<param-value>UTF-8,ISO-8859-1,ISO-8859-2</param-value>
 		</init-param>
 		<init-param>
 			<param-name>inputEncodingParameterName</param-name>
