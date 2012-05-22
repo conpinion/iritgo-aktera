@@ -1,5 +1,16 @@
 
 	<filter>
+		<filter-name>CharsetFilter</filter-name>
+		<filter-class>de.iritgo.aktera.struts.CharsetFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>CharsetFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+<!--
+	<filter>
 		<filter-name>EncodingFilter</filter-name>
 		<filter-class>de.iritgo.aktera.struts.EncodingFilter</filter-class>
 		<init-param>
@@ -16,6 +27,7 @@
 		<filter-name>EncodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+-->
 
 	<listener>
 		<listener-class>de.iritgo.aktera.struts.KeelContextListener</listener-class>

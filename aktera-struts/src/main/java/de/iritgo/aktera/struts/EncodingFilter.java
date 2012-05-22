@@ -135,7 +135,11 @@ public class EncodingFilter implements Filter
 		}
 
 		HttpServletRequest wrapper = new ParametersWrapper(req, decodedParams.params);
-		wrapper.setCharacterEncoding(decodedParams.encoding);
+		if (wrapper.getCharacterEncoding() == null)
+		{
+			wrapper.setCharacterEncoding(decodedParams.encoding);
+		}
+
 		fc.doFilter(wrapper, res);
 	}
 
