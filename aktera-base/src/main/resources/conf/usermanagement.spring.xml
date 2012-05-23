@@ -357,7 +357,7 @@
 		<ui:command-view bean="aktera.group.add-entry-seq" id="add" label="add">
 			<ui:param name="id" value="#{params(groupId)}"/>
 		</ui:command-view>
-		<ui:command-search bean="aktera.group.user.list">
+		<ui:command-search bean="aktera.group.user.listing">
 			<ui:param name="groupId" value="#{params(groupId)}"/>
 		</ui:command-search>
 		<ui:command-execute>
