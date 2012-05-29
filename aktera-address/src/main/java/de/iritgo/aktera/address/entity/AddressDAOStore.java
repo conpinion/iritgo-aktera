@@ -21,16 +21,19 @@ package de.iritgo.aktera.address.entity;
 
 
 import java.util.*;
-import javax.inject.Inject;
-import javax.persistence.Entity;
-import javax.validation.constraints.NotNull;
+
+import javax.inject.*;
+import javax.persistence.*;
+import javax.validation.constraints.*;
+
 import lombok.*;
-import org.hibernate.validator.constraints.Length;
+
+import org.hibernate.validator.constraints.*;
 import org.springframework.beans.factory.annotation.*;
-import org.springframework.cache.annotation.Cacheable;
-import de.iritgo.aktera.address.AddressDAO;
-import de.iritgo.simplelife.constants.SortOrder;
-import de.iritgo.simplelife.math.NumberTools;
+
+import de.iritgo.aktera.address.*;
+import de.iritgo.simplelife.constants.*;
+import de.iritgo.simplelife.math.*;
 import de.iritgo.simplelife.tools.*;
 
 
@@ -252,5 +255,114 @@ public class AddressDAOStore extends AddressStore
 		{
 			addressDAO.deleteAllAddressesOfOnwerByCategory(category, userId);
 		}
+	}
+
+	@Override
+	public Option<Address> findAddressByPhoneNumber(String number, String countryPrefix, String localPrefix, String internationalPrefix, String nationalPrefix)
+	{
+
+		number = removePrefixesFromPhoneNumber(number, countryPrefix, localPrefix, nationalPrefix);
+
+		logger.debug("DAO-Store address resolution with number: " + number);
+
+		List<PhoneNumber> phoneNumbers = findPhoneNumbersEndingWith(number);
+
+		for (PhoneNumber phoneNumber : phoneNumbers)
+		{
+			String internalNumber = phoneNumber.getInternalNumber();
+
+			Option<Address> address = new Empty();
+
+			// Add like 0049
+			if (internalNumber.equals(countryPrefix + number))
+			{
+				address = findAddressByPhoneNumber(phoneNumber);
+			}
+
+			// Add like 0231
+			if (internalNumber.equals(nationalPrefix + localPrefix + number))
+			{
+				address = findAddressByPhoneNumber(phoneNumber);
+			}
+
+			// Add like 00 (Fallback for dummy prefix user)
+			if (internalNumber.equals("00" + number))
+			{
+				address = findAddressByPhoneNumber(phoneNumber);
+			}
+
+			// Add like 0
+			if (internalNumber.equals("0" + number))
+			{
+				address = findAddressByPhoneNumber(phoneNumber);
+			}
+
+			if (internalNumber.equals(number))
+			{
+				address = findAddressByPhoneNumber(phoneNumber);
+			}
+
+			if (address.full())
+			{
+				address.get().setAddressStore(this);
+
+				return address;
+			}
+		}
+		return new Empty ();
+	}
+
+	@Override
+	public Option<Address> findAddressOfOwnerByPhoneNumber(Integer ownerId, String number, String countryPrefix, String localPrefix, String internationalPrefix, String nationalPrefix)
+	{
+		number = removePrefixesFromPhoneNumber(number, countryPrefix, localPrefix, nationalPrefix);
+
+		logger.debug("Private DAO-Store address resolution with number: " + number);
+
+		List<PhoneNumber> phoneNumbers = findPhoneNumbersOfOwnerEndingWith(number, ownerId);
+
+		for (PhoneNumber phoneNumber : phoneNumbers)
+		{
+			String internalNumber = phoneNumber.getInternalNumber();
+
+			Option<Address> address = null;
+
+			// Add like 0049
+			if (internalNumber.equals(countryPrefix + number))
+			{
+				address = findAddressOfOwnerByPhoneNumber(phoneNumber, ownerId);
+			}
+
+			// Add like 0231
+			if (internalNumber.equals(nationalPrefix + localPrefix + number))
+			{
+				address = findAddressOfOwnerByPhoneNumber(phoneNumber, ownerId);
+			}
+
+			// Add like 00 (Fallback for dummy prefix user)
+			if (internalNumber.equals("00" + number))
+			{
+				address = findAddressOfOwnerByPhoneNumber(phoneNumber, ownerId);
+			}
+
+			// Add like 0
+			if (internalNumber.equals("0" + number))
+			{
+				address = findAddressOfOwnerByPhoneNumber(phoneNumber, ownerId);
+			}
+
+			if (internalNumber.equals(number))
+			{
+				address = findAddressOfOwnerByPhoneNumber(phoneNumber, ownerId);
+			}
+
+			if (address.full())
+			{
+				address.get().setAddressStore (this);
+
+				return address;
+			}
+		}
+		return new Empty ();
 	}
 }

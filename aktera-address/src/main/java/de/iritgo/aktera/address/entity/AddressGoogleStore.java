@@ -24,6 +24,7 @@ import java.io.*;
 import java.net.*;
 import java.net.URL;
 import java.util.*;
+
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import lombok.*;
@@ -314,5 +315,42 @@ public class AddressGoogleStore extends AddressStore
 	@Override
 	public void deleteAllAddressesOfOwner(Integer userId)
 	{
+	}
+
+	@Override
+	public Option<Address> findAddressByPhoneNumber(String number, String countryPrefix, String localPrefix, String internationalPrefix, String nationalPrefix)
+	{
+
+		number = normalizeNumber (number, countryPrefix, localPrefix, nationalPrefix);
+		logger.debug("Google-Store address resolution with number: " + number);
+
+		Option<Address> address = findAddressByPhoneNumber (number);
+
+		if (address.full())
+		{
+			address.get().setAddressStore(this);
+
+			return address;
+		}
+		return new Empty ();
+	}
+
+	@Override
+	public Option<Address> findAddressOfOwnerByPhoneNumber(Integer ownerId, String number, String countryPrefix, String localPrefix, String internationalPrefix, String nationalPrefix)
+	{
+		number = normalizeNumber (number, countryPrefix, localPrefix, nationalPrefix);
+
+		logger.debug("Private Google-Store address resolution with number: " + number);
+
+		PhoneNumber phoneNumber = new PhoneNumber ();
+		phoneNumber.setInternalNumber(number);
+		phoneNumber.setNumber(number);
+		Option<Address> address = findAddressOfOwnerByPhoneNumber(phoneNumber, ownerId);
+		if (address.full ())
+		{
+			address.get().setAddressStore (this);
+			return address;
+		}
+		return new Empty ();
 	}
 }

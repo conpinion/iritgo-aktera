@@ -19,8 +19,7 @@
 	limitations under the License.
 -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<parent>
 		<artifactId>iritgo-aktera</artifactId>
 		<groupId>de.iritgo.aktera</groupId>
@@ -32,7 +31,7 @@
 	<name>Iritgo Aktera Base</name>
 	<description>Iritgo/Aktera Enterprise Application Framework Base</description>
 	<properties>
-	    <main.basedir>${project.parent.basedir}</main.basedir>
+		<main.basedir>${project.parent.basedir}</main.basedir>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -128,7 +127,7 @@
 		<dependency>
 			<groupId>de.iritgo.aktera</groupId>
 			<artifactId>iritgo-aktera-address</artifactId>
-			<version>2.3.2</version>
+			<version>2.3.3</version>
 		</dependency>
 	</dependencies>
 </project>

@@ -391,5 +391,12 @@ public class ModuleUpdateHandler extends UpdateHandler
 
 			setReboot();
 		}
+		if (currentVersion.between("2.3.2", "2.3.3"))
+		{
+			addColumn("AddressStore", "numberNormalization", "varchar(64)");
+			update("UPDATE AddressStore set numberNormalization = 'NO_NORMALIZATION'");
+
+			currentVersion.setVersion("2.3.3");
+		}
 	}
 }

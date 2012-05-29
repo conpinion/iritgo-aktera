@@ -22,7 +22,7 @@ package de.iritgo.aktera.address.entity;
 
 import java.util.*;
 import de.iritgo.simplelife.constants.SortOrder;
-import de.iritgo.simplelife.tools.Option;
+import de.iritgo.simplelife.tools.*;
 
 
 @SuppressWarnings("serial")
@@ -175,4 +175,17 @@ public class AddressNullStore extends AddressStore
 	public void deleteAllAddressesOfOwner(Integer userId)
 	{
 	}
+
+	@Override
+	public Option<Address> findAddressByPhoneNumber(String number, String countryPrefix, String localPrefix, String internationalPrefix, String nationalPrefix)
+	{
+		return new Empty ();
+	}
+
+	@Override
+	public Option<Address> findAddressOfOwnerByPhoneNumber(Integer ownerId, String number, String countryPrefix, String localPrefix, String internationalPrefix, String nationalPrefix)
+	{
+		return new Empty ();
+	}
+
 }

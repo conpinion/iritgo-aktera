@@ -74,6 +74,13 @@ public class AddressStoreFormularHandler extends FormularHandler
 		{
 			scopes.put(scope.name(), "$ldapScope" + scope.name());
 		}
+
+		Map numberNormalizations = new HashMap();
+		persistents.putValidValues("store.numberNormalization", numberNormalizations);
+		for (AddressStore.NumberNormalizationType type : AddressStore.NumberNormalizationType.values())
+		{
+			numberNormalizations.put(type.name(), "$numberNormalizationType" + type.name());
+		}
 	}
 
 	@Override

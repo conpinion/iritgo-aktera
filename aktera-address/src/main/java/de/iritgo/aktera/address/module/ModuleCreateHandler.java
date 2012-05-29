@@ -50,7 +50,8 @@ public class ModuleCreateHandler extends CreateHandler
 		createTable("AddressStore", "id serial primary key", "name varchar(255) not null",
 						"type varchar(255) not null", "title varchar(255)", "position int4 not null",
 						"systemStore boolean not null", "defaultStore boolean not null", "editable boolean not null",
-						"numberLookup boolean not null", "emptySearchReturnsAllEntries boolean not null");
+						"numberLookup boolean not null", "emptySearchReturnsAllEntries boolean not null",
+						"numberNormalization varschar(64)");
 
 		createIndex("AddressStore", "name");
 

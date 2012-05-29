@@ -156,8 +156,6 @@ public class AddressManagerImpl implements AddressManager, StartupHandler
 	public Option<Address> findAddressByPhoneNumber(String number, String countryPrefix, String localPrefix,
 					String internationalPrefix, String nationalPrefix)
 	{
-		number = removePrefixesFromPhoneNumber(number, countryPrefix, localPrefix, nationalPrefix);
-
 		for (AddressStore store : addressStores)
 		{
 			if (! store.getNumberLookup())
@@ -165,49 +163,12 @@ public class AddressManagerImpl implements AddressManager, StartupHandler
 				continue;
 			}
 
-			List<PhoneNumber> phoneNumbers = store.findPhoneNumbersEndingWith(number);
+			Option<Address> address = store.findAddressByPhoneNumber (number, countryPrefix, localPrefix,
+					internationalPrefix, nationalPrefix);
 
-			for (PhoneNumber phoneNumber : phoneNumbers)
+			if (address.full())
 			{
-				String internalNumber = phoneNumber.getInternalNumber();
-
-				Option<Address> address = new Empty();
-
-				// Add like 0049
-				if (internalNumber.equals(countryPrefix + number))
-				{
-					address = store.findAddressByPhoneNumber(phoneNumber);
-				}
-
-				// Add like 0231
-				if (internalNumber.equals(nationalPrefix + localPrefix + number))
-				{
-					address = store.findAddressByPhoneNumber(phoneNumber);
-				}
-
-				// Add like 00 (Fallback for dummy prefix user)
-				if (internalNumber.equals("00" + number))
-				{
-					address = store.findAddressByPhoneNumber(phoneNumber);
-				}
-
-				// Add like 0
-				if (internalNumber.equals("0" + number))
-				{
-					address = store.findAddressByPhoneNumber(phoneNumber);
-				}
-
-				if (internalNumber.equals(number))
-				{
-					address = store.findAddressByPhoneNumber(phoneNumber);
-				}
-
-				if (address.full())
-				{
-					address.get().setAddressStore(store);
-
-					return address;
-				}
+				return address;
 			}
 		}
 
@@ -218,7 +179,6 @@ public class AddressManagerImpl implements AddressManager, StartupHandler
 	public Option<Address> findAddressOfOwnerByPhoneNumber(Integer ownerId, String number, String countryPrefix,
 					String localPrefix, String internationalPrefix, String nationalPrefix)
 	{
-		number = removePrefixesFromPhoneNumber(number, countryPrefix, localPrefix, nationalPrefix);
 
 		for (AddressStore store : addressStores)
 		{
@@ -227,49 +187,11 @@ public class AddressManagerImpl implements AddressManager, StartupHandler
 				continue;
 			}
 
-			List<PhoneNumber> phoneNumbers = store.findPhoneNumbersOfOwnerEndingWith(number, ownerId);
-
-			for (PhoneNumber phoneNumber : phoneNumbers)
+			Option<Address> address = store.findAddressOfOwnerByPhoneNumber(ownerId, number, countryPrefix,
+					localPrefix, internationalPrefix, nationalPrefix);
+			if (address.full())
 			{
-				String internalNumber = phoneNumber.getInternalNumber();
-
-				Option<Address> address = null;
-
-				// Add like 0049
-				if (internalNumber.equals(countryPrefix + number))
-				{
-					address = store.findAddressOfOwnerByPhoneNumber(phoneNumber, ownerId);
-				}
-
-				// Add like 0231
-				if (internalNumber.equals(nationalPrefix + localPrefix + number))
-				{
-					address = store.findAddressOfOwnerByPhoneNumber(phoneNumber, ownerId);
-				}
-
-				// Add like 00 (Fallback for dummy prefix user)
-				if (internalNumber.equals("00" + number))
-				{
-					address = store.findAddressOfOwnerByPhoneNumber(phoneNumber, ownerId);
-				}
-
-				// Add like 0
-				if (internalNumber.equals("0" + number))
-				{
-					address = store.findAddressOfOwnerByPhoneNumber(phoneNumber, ownerId);
-				}
-
-				if (internalNumber.equals(number))
-				{
-					address = store.findAddressOfOwnerByPhoneNumber(phoneNumber, ownerId);
-				}
-
-				if (address != null)
-				{
-					address.get().setAddressStore(store);
-
-					return address;
-				}
+				return address;
 			}
 		}
 

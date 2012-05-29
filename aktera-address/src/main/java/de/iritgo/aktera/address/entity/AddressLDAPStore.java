@@ -370,6 +370,32 @@ public class AddressLDAPStore extends AddressStore
 	@Override
 	public Option<Address> findAddressOfOwnerByPhoneNumber(PhoneNumber phoneNumber, Integer ownerId)
 	{
+		LdapContext context = null;
+		NamingEnumeration<SearchResult> res = null;
+		try
+		{
+			context = createLDAPContext();
+			SearchControls controls = new SearchControls();
+			controls.setSearchScope(ldapScope);
+			String searchQuery = createQuery(phoneNumber.getInternalNumber(), phoneNumberSearchAttributesList);
+			res = context.search(baseDn, searchQuery, controls);
+			if (res.hasMore())
+			{
+				SearchResult sr = res.next();
+				Attributes attributes = sr.getAttributes();
+				Address address = inflateAddress(attributes, sr.getNameInNamespace());
+				return new Full(address);
+			}
+		}
+		catch (NamingException x)
+		{
+			logger.error("LDAP Error: " + x.toString());
+		}
+		finally
+		{
+			closeNamingEnumeration(res);
+			closeLDAPContext(context);
+		}
 		return new Empty();
 	}
 
@@ -1007,5 +1033,42 @@ public class AddressLDAPStore extends AddressStore
 	@Override
 	public void deleteAllAddressesOfOwner(Integer userId)
 	{
+	}
+
+	@Override
+	public Option<Address> findAddressByPhoneNumber(String number, String countryPrefix, String localPrefix, String internationalPrefix, String nationalPrefix)
+	{
+		number = normalizeNumber (number, countryPrefix, localPrefix, nationalPrefix);
+
+		logger.debug("LDAP-Store address resolution with number: " + number);
+
+		Option<Address> address = findAddressByPhoneNumber (number);
+
+		if (address.full())
+		{
+			address.get().setAddressStore(this);
+
+			return address;
+		}
+		return new Empty ();
+	}
+
+	@Override
+	public Option<Address> findAddressOfOwnerByPhoneNumber(Integer ownerId, String number, String countryPrefix, String localPrefix, String internationalPrefix, String nationalPrefix)
+	{
+		number = normalizeNumber(number, countryPrefix, localPrefix, nationalPrefix);
+
+		logger.debug("Private LDAP-Store address resolution with number: " + number);
+
+		PhoneNumber phoneNumber = new PhoneNumber ();
+		phoneNumber.setInternalNumber(number);
+		phoneNumber.setNumber(number);
+		Option<Address> address = findAddressOfOwnerByPhoneNumber(phoneNumber, ownerId);
+		if (address.full ())
+		{
+			address.get().setAddressStore (this);
+			return address;
+		}
+		return new Empty ();
 	}
 }
