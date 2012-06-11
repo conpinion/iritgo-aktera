@@ -104,35 +104,38 @@ public class UserFormularHandler extends FormularHandler
 		roles.put("manager", "$manager");
 		roles.put("user", "$user");
 
-		if (userId == - 1)
+		if (! persistents.hasAttribute("role"))
 		{
-			persistents.putAttribute("role", "user");
-		}
-		else
-		{
-			Persistent groupMember = persistentManager.create("keel.groupmembers");
-			groupMember.setField("groupname", "admin");
-			groupMember.setField("uid", userId);
-			if (groupMember.find())
+			if (userId == - 1)
 			{
-				persistents.putAttribute("role", "admin");
+				persistents.putAttribute("role", "user");
 			}
 			else
 			{
-				groupMember = persistentManager.create("keel.groupmembers");
-				groupMember.setField("groupname", "manager");
+				Persistent groupMember = persistentManager.create("keel.groupmembers");
+				groupMember.setField("groupname", "admin");
 				groupMember.setField("uid", userId);
 				if (groupMember.find())
 				{
-					persistents.putAttribute("role", "manager");
+					persistents.putAttribute("role", "admin");
 				}
 				else
 				{
-					persistents.putAttribute("role", "user");
+					groupMember = persistentManager.create("keel.groupmembers");
+					groupMember.setField("groupname", "manager");
+					groupMember.setField("uid", userId);
+					if (groupMember.find())
+					{
+						persistents.putAttribute("role", "manager");
+					}
+					else
+					{
+						persistents.putAttribute("role", "user");
+					}
 				}
 			}
 		}
-
+		
 		if (user.getStatus() == Persistent.NEW)
 		{
 			TreeMap groups = new TreeMap();
@@ -142,7 +145,10 @@ public class UserFormularHandler extends FormularHandler
 				groups.put(group.getId().toString(), group.getName());
 			}
 			AkteraGroup userGroup = userDAO.findGroupByName(AkteraGroup.GROUP_NAME_USER);
-			persistents.putAttribute("newUsersGroup", userGroup.getId());
+			if (! persistents.hasAttribute("newUsersGroup"))
+			{
+				persistents.putAttribute("newUsersGroup", userGroup.getId());
+			}
 			formular.getField("newUsersGroup").setVisible(true);
 		}
 		else

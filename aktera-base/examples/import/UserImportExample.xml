@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<import>
+	<users>
+		<user>
+			<systemName>user001</systemName>
+			<password>pass001</password>
+			<pin>001</pin>
+			<firstName>First001</firstName>
+			<lastName>Last001</lastName>
+			<email>user001@domain.com</email>
+		</user>
+		<user>
+			<systemName>user002</systemName>
+			<ldapName>ldap002</ldapName>
+			<group>manager</group>
+			<role>manager</role>
+			<password>pass002</password>
+			<pin>002</pin>
+			<firstName>First002</firstName>
+			<lastName>Last002</lastName>
+			<email>user002@domain.com</email>
+		</user>
+	</users>
+</import>

@@ -34,7 +34,6 @@
 			<logic:present name="report">
 				<logic:present name="cmdReport">
 					<xhtml:img src="/aktera/images/std/timer-48" align="center" />
-					<xhtml:img src="/aktera/images/std/timer-48" align="center" />
 					<br>
 					<br>
 					<xhtml:form action="model" method="post">
@@ -51,10 +50,7 @@
 				<br>
 				<table class="report" width="100%" cellpadding="8" cellspacing="0">
 					<tr>
-						<td><pre>
-								<bean:write name="report" />
-							</pre>
-						</td>
+						<td><pre><bean:write name="report" /></pre></td>
 					</tr>
 				</table>
 				<br>
@@ -94,14 +90,13 @@
 						<tr>
 							<td><xkeel:command name="cmdBack" styleClass="form-button" icon="/aktera/images/std/tool-cancel-16">
 									<bean:message key="back" bundle="Aktera" />
-								</xkeel:command>
-							</td>
+								</xkeel:command></td>
 							<td>
-								<div class="space-horizontal" /></td>
+								<div class="space-horizontal" />
+							</td>
 							<td><xkeel:command name="cmdForce" styleClass="form-button" icon="/aktera/images/std/tool-ok-16">
 									<bean:message key="forceImport" bundle="Aktera" />
-								</xkeel:command>
-							</td>
+								</xkeel:command></td>
 						</tr>
 					</table>
 				</xhtml:form>

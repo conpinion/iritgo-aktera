@@ -20,28 +20,20 @@
 package de.iritgo.aktera.base.admin;
 
 
-import de.iritgo.aktera.i18n.I18N;
-import de.iritgo.aktera.importer.ImportHandler;
-import de.iritgo.aktera.importer.IterableNodeList;
-import de.iritgo.aktera.model.ModelException;
-import de.iritgo.aktera.model.ModelRequest;
-import de.iritgo.aktera.persist.PersistenceException;
-import de.iritgo.aktera.persist.Persistent;
-import de.iritgo.aktera.persist.PersistentFactory;
-import de.iritgo.aktera.ui.ng.formular.Edit;
-import de.iritgo.aktera.ui.form.FormularDescriptor;
-import de.iritgo.simplelife.string.StringTools;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
 import java.io.PrintWriter;
 import java.util.Properties;
+import javax.xml.xpath.*;
+import org.w3c.dom.*;
+import org.xml.sax.*;
+import de.iritgo.aktera.authentication.defaultauth.entity.*;
+import de.iritgo.aktera.i18n.I18N;
+import de.iritgo.aktera.importer.*;
+import de.iritgo.aktera.model.*;
+import de.iritgo.aktera.persist.*;
+import de.iritgo.aktera.spring.SpringTools;
+import de.iritgo.aktera.ui.form.FormularDescriptor;
+import de.iritgo.aktera.ui.ng.formular.Edit;
+import de.iritgo.simplelife.string.StringTools;
 
 
 /**
@@ -136,7 +128,6 @@ public class UserImportHandler implements ImportHandler
 				if (StringTools.isTrimEmpty(systemName))
 				{
 					reporter.println("User import error: No <systemName> tag specified");
-
 					continue;
 				}
 
@@ -154,7 +145,6 @@ public class UserImportHandler implements ImportHandler
 				if (StringTools.isTrimEmpty(password))
 				{
 					reporter.println("User import error: No <password> tag specified for user '" + systemName + "'");
-
 					continue;
 				}
 
@@ -163,7 +153,6 @@ public class UserImportHandler implements ImportHandler
 				if (StringTools.isTrimEmpty(lastName))
 				{
 					reporter.println("User import error: No <lastName> tag specified for user '" + systemName + "'");
-
 					continue;
 				}
 
@@ -172,7 +161,6 @@ public class UserImportHandler implements ImportHandler
 				if (StringTools.isTrimEmpty(email))
 				{
 					reporter.println("User import error: No <email> tag specified for user '" + systemName + "'");
-
 					continue;
 				}
 
@@ -189,6 +177,27 @@ public class UserImportHandler implements ImportHandler
 				{
 					formular.getPersistents().putAttribute("pinNew", pin);
 					formular.getPersistents().putAttribute("pinNewRepeat", pin);
+				}
+
+				user.setField("ldapName", StringTools.trim(xPath.evaluate("ldapName", userElem)));
+
+				String groupName = StringTools.trim(xPath.evaluate("group", userElem));
+				if (! groupName.isEmpty())
+				{
+					UserDAO userDAO = (UserDAO) SpringTools.getBean(UserDAO.ID);
+					AkteraGroup group = userDAO.findGroupByName(groupName);
+					if (group == null)
+					{
+						reporter.println("User import error: Unable to find user group '" + groupName + "'");
+						continue;
+					}
+					formular.getPersistents().putAttribute("newUsersGroup", group.getId());
+				}
+
+				String roleName = StringTools.trim(xPath.evaluate("role", userElem));
+				if (! roleName.isEmpty())
+				{
+					formular.getPersistents().putAttribute("role", roleName);
 				}
 
 				Persistent preferences = formular.getPersistents().getPersistent("preferences");
