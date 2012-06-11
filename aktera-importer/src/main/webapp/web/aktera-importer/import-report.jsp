@@ -17,7 +17,7 @@
 				<logic:iterate id="param" name="cmdReport" property="parameters">&<bean:write name="param" />
 				</logic:iterate>
 			</bean:define>
-			<meta http-equiv="refresh" content="<%= "4; url=model.do?model=" + refreshModel %>">
+			<meta http-equiv="refresh" content="<%="4; url=model.do?model=" + refreshModel%>">
 		</tiles:put>
 	</logic:present>
 
@@ -30,55 +30,67 @@
 	</tiles:put>
 
 	<tiles:put name="content" type="string">
-		<center><logic:present name="report">
-			<logic:present name="cmdReport">
-				<xhtml:img src="/aktera/images/std/timer-48" align="center" />
-			</logic:present>
-			<br>
-			<br>
-			<bean:message key="importReport" bundle="aktera-importer" />
-			<br>
-			<br>
-			<table class="report" width="100%" cellpadding="8" cellspacing="0">
-				<tr>
-					<td><pre><bean:write name="report" /></pre></td>
-				</tr>
-			</table>
-			<br>
-			<br>
-			<xhtml:form action="model" method="post">
-				<logic:present name="cmdBack">
-					<xkeel:command name="cmdBack" styleClass="form-button" icon="/aktera/images/std/tool-cancel-16">
-						<bean:message key="back" bundle="Aktera" />
-					</xkeel:command>
+		<center>
+			<logic:present name="report">
+				<logic:present name="cmdReport">
+					<xhtml:img src="/aktera/images/std/timer-48" align="center" />
+					<br>
+					<br>
+					<xhtml:form action="model" method="post">
+						<xkeel:command name="cmdReport" styleClass="form-button" icon="/aktera/images/std/tool-reload-16">
+							<bean:message key="reload" bundle="Aktera" />
+						</xkeel:command>
+					</xhtml:form>
+					<br>
 				</logic:present>
-			</xhtml:form>
-		</logic:present> <logic:notPresent name="report">
-			<br>
-			<xhtml:img src="/aktera/images/std/error-64" align="center" />
-			<br>
-			<br>
-			<h1><bean:message key="importAllreadyRunning1" bundle="aktera-importer" /></h1>
-			<br>
-			<bean:message key="importAllreadyRunning2" bundle="aktera-importer" />
-			<br>
-			<br>
-			<bean:message key="importAllreadyRunning3" bundle="aktera-importer" />
-			<br>
-			<br>
-			<br>
-			<br>
-			<xhtml:form action="model" method="post">
-				<table>
+				<br>
+				<br>
+				<bean:message key="importReport" bundle="aktera-importer" />
+				<br>
+				<br>
+				<table class="report" width="100%" cellpadding="8" cellspacing="0">
 					<tr>
-						<td><xkeel:command name="cmdBack" styleClass="form-button" icon="/aktera/images/std/tool-cancel-16">
-							<bean:message key="back" bundle="Aktera" />
-						</xkeel:command></td>
+						<td><pre><bean:write name="report" /></pre></td>
 					</tr>
 				</table>
-			</xhtml:form>
-		</logic:notPresent>
-		<center>
+				<br>
+				<br>
+				<xhtml:form action="model" method="post">
+					<logic:present name="cmdBack">
+						<xkeel:command name="cmdBack" styleClass="form-button" icon="/aktera/images/std/tool-cancel-16">
+							<bean:message key="back" bundle="Aktera" />
+						</xkeel:command>
+					</logic:present>
+				</xhtml:form>
+			</logic:present>
+			<logic:notPresent name="report">
+				<br>
+				<xhtml:img src="/aktera/images/std/error-64" align="center" />
+				<br>
+				<br>
+				<h1>
+					<bean:message key="importAllreadyRunning1" bundle="aktera-importer" />
+				</h1>
+				<br>
+				<bean:message key="importAllreadyRunning2" bundle="aktera-importer" />
+				<br>
+				<br>
+				<bean:message key="importAllreadyRunning3" bundle="aktera-importer" />
+				<br>
+				<br>
+				<br>
+				<br>
+				<xhtml:form action="model" method="post">
+					<table>
+						<tr>
+							<td><xkeel:command name="cmdBack" styleClass="form-button" icon="/aktera/images/std/tool-cancel-16">
+									<bean:message key="back" bundle="Aktera" />
+								</xkeel:command></td>
+						</tr>
+					</table>
+				</xhtml:form>
+			</logic:notPresent>
+			<center>
 	</tiles:put>
 
 </tiles:insert>

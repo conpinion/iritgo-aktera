@@ -266,6 +266,7 @@ public class ImportManagerImpl implements ImportManager
 		}
 		catch (SAXException x)
 		{
+			logger.error(x.getMessage());
 			return false;
 		}
 

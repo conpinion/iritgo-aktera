@@ -20,29 +20,19 @@
 package de.iritgo.aktera.importer;
 
 
+import static org.junit.Assert.*;
+import java.io.*;
+import java.util.*;
+import javax.xml.xpath.XPathExpressionException;
+import org.apache.commons.io.FileUtils;
+import org.junit.*;
+import org.w3c.dom.*;
+import org.xml.sax.*;
 import de.iritgo.aktera.i18n.I18N;
 import de.iritgo.aktera.importer.ImportManager.ImportHandlerConfig;
-import de.iritgo.aktera.model.ModelException;
-import de.iritgo.aktera.model.ModelRequest;
+import de.iritgo.aktera.logger.NullLoggerImpl;
+import de.iritgo.aktera.model.*;
 import de.iritgo.simplelife.io.NullPrintWriter;
-import org.apache.commons.io.FileUtils;
-import org.junit.After;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import org.junit.Before;
-import org.junit.Test;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-import javax.xml.xpath.XPathExpressionException;
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Properties;
 
 
 /**
@@ -116,6 +106,7 @@ public class ImportManagerTest
 	public void before() throws IOException
 	{
 		importManager = new ImportManagerImpl();
+		((ImportManagerImpl) importManager).setLogger(new NullLoggerImpl ());
 
 		List<ImportHandlerConfig> ihcs = new LinkedList<ImportHandlerConfig>();
 
