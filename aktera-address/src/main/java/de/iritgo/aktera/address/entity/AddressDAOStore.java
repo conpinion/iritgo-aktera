@@ -32,6 +32,7 @@ import org.hibernate.validator.constraints.*;
 import org.springframework.beans.factory.annotation.*;
 
 import de.iritgo.aktera.address.*;
+import de.iritgo.aktera.address.entity.AddressStore.*;
 import de.iritgo.simplelife.constants.*;
 import de.iritgo.simplelife.math.*;
 import de.iritgo.simplelife.tools.*;
@@ -315,54 +316,92 @@ public class AddressDAOStore extends AddressStore
 	@Override
 	public Option<Address> findAddressOfOwnerByPhoneNumber(Integer ownerId, String number, String countryPrefix, String localPrefix, String internationalPrefix, String nationalPrefix)
 	{
-		number = removePrefixesFromPhoneNumber(number, countryPrefix, localPrefix, nationalPrefix);
-
-		logger.debug("Private DAO-Store address resolution with number: " + number);
-
-		List<PhoneNumber> phoneNumbers = findPhoneNumbersOfOwnerEndingWith(number, ownerId);
-
-		for (PhoneNumber phoneNumber : phoneNumbers)
+		if (numberNormalization == NumberNormalizationType.REMOVE_PREFIX)
 		{
-			String internalNumber = phoneNumber.getInternalNumber();
+			number = removePrefixesFromPhoneNumber(number, countryPrefix, localPrefix, nationalPrefix);
 
-			Option<Address> address = null;
+			logger.debug("Private DAO-Store address resolution with number: " + number);
 
-			// Add like 0049
-			if (internalNumber.equals(countryPrefix + number))
+			List<PhoneNumber> phoneNumbers = findPhoneNumbersOfOwnerEndingWith(number, ownerId);
+
+			for (PhoneNumber phoneNumber : phoneNumbers)
 			{
-				address = findAddressOfOwnerByPhoneNumber(phoneNumber, ownerId);
-			}
+				String internalNumber = phoneNumber.getInternalNumber();
 
-			// Add like 0231
-			if (internalNumber.equals(nationalPrefix + localPrefix + number))
-			{
-				address = findAddressOfOwnerByPhoneNumber(phoneNumber, ownerId);
-			}
+				Option<Address> address = null;
 
-			// Add like 00 (Fallback for dummy prefix user)
-			if (internalNumber.equals("00" + number))
-			{
-				address = findAddressOfOwnerByPhoneNumber(phoneNumber, ownerId);
-			}
+				// Add like 0049
+				if (internalNumber.equals(countryPrefix + number))
+				{
+					address = findAddressOfOwnerByPhoneNumber(phoneNumber, ownerId);
+				}
 
-			// Add like 0
-			if (internalNumber.equals("0" + number))
-			{
-				address = findAddressOfOwnerByPhoneNumber(phoneNumber, ownerId);
-			}
+				// Add like 0231
+				if (internalNumber.equals(nationalPrefix + localPrefix + number))
+				{
+					address = findAddressOfOwnerByPhoneNumber(phoneNumber, ownerId);
+				}
 
-			if (internalNumber.equals(number))
-			{
-				address = findAddressOfOwnerByPhoneNumber(phoneNumber, ownerId);
-			}
+				// Add like 00 (Fallback for dummy prefix user)
+				if (internalNumber.equals("00" + number))
+				{
+					address = findAddressOfOwnerByPhoneNumber(phoneNumber, ownerId);
+				}
 
-			if (address.full())
+				// Add like 0
+				if (internalNumber.equals("0" + number))
+				{
+					address = findAddressOfOwnerByPhoneNumber(phoneNumber, ownerId);
+				}
+
+				if (internalNumber.equals(number))
+				{
+					address = findAddressOfOwnerByPhoneNumber(phoneNumber, ownerId);
+				}
+
+				if (address.full())
+				{
+					address.get().setAddressStore (this);
+
+					return address;
+				}
+			}
+		}
+		else if (numberNormalization == NumberNormalizationType.ADD_INTERNATIONAL_COUNTRY_PREFIX)
+		{
+			String normNumber = normalizeNumber(number, countryPrefix, localPrefix, nationalPrefix);
+			PhoneNumber phoneNumber = new PhoneNumber ();
+			phoneNumber.setInternalNumber(number);
+			phoneNumber.setNumber(number);
+			Option<Address> address = findAddressOfOwnerByPhoneNumber(phoneNumber, ownerId);
+			if (address.full ())
 			{
 				address.get().setAddressStore (this);
-
+				return address;
+			}
+			phoneNumber = new PhoneNumber ();
+			phoneNumber.setInternalNumber(normNumber);
+			phoneNumber.setNumber(normNumber);
+			address = findAddressOfOwnerByPhoneNumber(phoneNumber, ownerId);
+			if (address.full ())
+			{
+				address.get().setAddressStore (this);
 				return address;
 			}
 		}
+		else if (numberNormalization == NumberNormalizationType.NO_NORMALIZATION)
+		{
+			PhoneNumber phoneNumber = new PhoneNumber ();
+			phoneNumber.setInternalNumber(number);
+			phoneNumber.setNumber(number);
+			Option<Address> address = findAddressOfOwnerByPhoneNumber(phoneNumber, ownerId);
+			if (address.full ())
+			{
+				address.get().setAddressStore (this);
+				return address;
+			}
+		}
+
 		return new Empty ();
 	}
 }
