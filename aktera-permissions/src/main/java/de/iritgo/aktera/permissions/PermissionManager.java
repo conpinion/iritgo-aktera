@@ -105,4 +105,11 @@ public interface PermissionManager
 	 * @param principalType The principal type.
 	 */
 	public void deleteAllPermissionsOfPrincipal(Integer principalId, String principalType) throws PersistenceException;
+
+	/**
+	 * Dump all users groups permissions
+	 *
+	 */
+	public String dumpAll ();
+
 }

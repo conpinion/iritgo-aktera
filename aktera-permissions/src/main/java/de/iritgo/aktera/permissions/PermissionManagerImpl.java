@@ -330,4 +330,24 @@ public class PermissionManagerImpl implements PermissionManager
 		permissionDAO.deleteAllPermissionsOfPrincipal(principalId, principalType);
 		clear();
 	}
+
+	public String dumpAll ()
+	{
+		clear ();
+		StringBuffer buffer = new StringBuffer ();
+		for (AkteraUser user : userDAO.findAllUsers())
+		{
+			buffer.append ("\n\nPermissions for user: " + user.getName()+ "\n");
+			for (AkteraGroup akteraGroup : userDAO.findGroupsByUser(user))
+			{
+				String groupName = akteraGroup.getName();
+				buffer.append ("  Group: " + groupName + "\n");
+				for (Permission permissionEntity : permissionDAO.findGroupPermissions(akteraGroup))
+				{
+					buffer.append ("  - " + permissionEntity.getPermission() + ":" + permissionEntity.getPrincipalType() + ":" + permissionEntity.getObjectType() + ">" + permissionEntity.getObjectId() + "\n");
+				}
+			}
+		}
+		return buffer.toString ();
+	}
 }
