@@ -54,8 +54,7 @@ public interface AddressDAO
 	public Option<Address> findAddressOfOwnerByCategoryAndPhoneNumber(Integer ownerId, String category,
 					PhoneNumber phoneNumber);
 
-	public Option<Address> findAddressOfOwnerByCategoryAndPhoneNumber(Integer ownerId, String category, String number,
-					String countryLocalPrefix, String localPrefix);
+	public Option<Address> findAddressOfOwnerByCategoryAndPhoneNumber(Integer ownerId, String category, String number);
 
 	public Option<Address> findAddressByCategoryAndPhoneNumber(String category, PhoneNumber phoneNumber);
 

@@ -22,6 +22,7 @@ package de.iritgo.aktera.address;
 
 import java.sql.*;
 import java.util.*;
+
 import org.hibernate.*;
 import org.springframework.dao.*;
 import org.springframework.orm.hibernate3.*;
@@ -140,39 +141,13 @@ public class AddressDAOImpl extends HibernateDaoSupport implements AddressDAO
 	}
 
 	public Option<Address> findAddressOfOwnerByCategoryAndPhoneNumber(final Integer ownerId, final String category,
-					String number, final String countryLocalPrefix, final String localPrefix)
+					String number)
 	{
-		String searchNumber = number;
-		if (number.startsWith(countryLocalPrefix))
-		{
-			searchNumber = number.substring(countryLocalPrefix.length());
-		}
-		if (number.startsWith(localPrefix))
-		{
-			searchNumber = number.substring(localPrefix.length());
-		}
-
-		List<PhoneNumber> phoneNumbers = findPhoneNumbersEndingWith(searchNumber);
+		List<PhoneNumber> phoneNumbers = findPhoneNumbers (number);
 		for (PhoneNumber phoneNumber : phoneNumbers)
 		{
-			String internalNumber = phoneNumber.getInternalNumber();
-			Option<Address> address = new Empty();
-			if (internalNumber.equals(countryLocalPrefix + searchNumber))
-			{
-				address = findAddressByCategoryAndPhoneNumber(category, phoneNumber);
-			}
-			if (internalNumber.equals(localPrefix + searchNumber))
-			{
-				address = findAddressByCategoryAndPhoneNumber(category, phoneNumber);
-			}
-			if (internalNumber.equals("0" + searchNumber))
-			{
-				address = findAddressByCategoryAndPhoneNumber(category, phoneNumber);
-			}
-			if (internalNumber.equals(searchNumber))
-			{
-				address = findAddressByCategoryAndPhoneNumber(category, phoneNumber);
-			}
+			Option<Address> address = findAddressByCategoryAndPhoneNumber(category, phoneNumber);
+
 			if (address.full() && (ownerId == null || address.get().getOwnerId().equals(ownerId)))
 			{
 				return address;
@@ -188,6 +163,13 @@ public class AddressDAOImpl extends HibernateDaoSupport implements AddressDAO
 						phoneNumber.getAddressId(), category
 		});
 		return res.size() > 0 ? new Full(res.get(0)) : new Empty();
+	}
+
+	private List<PhoneNumber> findPhoneNumbers(String number)
+	{
+		List<PhoneNumber> phoneNumbers = getHibernateTemplate().find("from PhoneNumber where internalNumber like ?",
+				number);
+		return phoneNumbers;
 	}
 
 	public List<PhoneNumber> findPhoneNumbersEndingWith(final String number)

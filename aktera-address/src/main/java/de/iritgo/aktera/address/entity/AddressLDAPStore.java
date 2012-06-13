@@ -1056,6 +1056,9 @@ public class AddressLDAPStore extends AddressStore
 	@Override
 	public Option<Address> findAddressOfOwnerByPhoneNumber(Integer ownerId, String number, String countryPrefix, String localPrefix, String internationalPrefix, String nationalPrefix)
 	{
+		// No private LDAP-Store
+
+		/*
 		number = normalizeNumber(number, countryPrefix, localPrefix, nationalPrefix);
 
 		logger.debug("Private LDAP-Store address resolution with number: " + number);
@@ -1069,6 +1072,7 @@ public class AddressLDAPStore extends AddressStore
 			address.get().setAddressStore (this);
 			return address;
 		}
+		*/
 		return new Empty ();
 	}
 }

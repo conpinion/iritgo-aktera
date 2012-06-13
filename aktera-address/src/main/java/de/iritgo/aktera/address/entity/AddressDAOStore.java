@@ -123,6 +123,18 @@ public class AddressDAOStore extends AddressStore
 		return new Empty();
 	}
 
+	private Option<Address> findAddressOfOwnerByPhoneNumber(String number, Integer ownerId)
+	{
+		if (checkOwner)
+		{
+			return addressDAO.findAddressOfOwnerByCategoryAndPhoneNumber(ownerId, category, number);
+		}
+		else
+		{
+			return addressDAO.findAddressByCategoryAndPhoneNumber(category, number);
+		}
+	}
+
 	@Override
 	public Option<Address> findAddressOfOwnerByPhoneNumber(PhoneNumber number, Integer ownerId)
 	{
@@ -261,55 +273,83 @@ public class AddressDAOStore extends AddressStore
 	@Override
 	public Option<Address> findAddressByPhoneNumber(String number, String countryPrefix, String localPrefix, String internationalPrefix, String nationalPrefix)
 	{
-
-		number = removePrefixesFromPhoneNumber(number, countryPrefix, localPrefix, nationalPrefix);
-
-		logger.debug("DAO-Store address resolution with number: " + number);
-
-		List<PhoneNumber> phoneNumbers = findPhoneNumbersEndingWith(number);
-
-		for (PhoneNumber phoneNumber : phoneNumbers)
+		if (numberNormalization == NumberNormalizationType.REMOVE_PREFIX)
 		{
-			String internalNumber = phoneNumber.getInternalNumber();
+			number = removePrefixesFromPhoneNumber(number, countryPrefix, localPrefix, nationalPrefix);
 
-			Option<Address> address = new Empty();
+			logger.debug("Private DAO-Store address resolution with number: " + number);
 
-			// Add like 0049
-			if (internalNumber.equals(countryPrefix + number))
+			List<PhoneNumber> phoneNumbers = findPhoneNumbersEndingWith(number);
+
+			for (PhoneNumber phoneNumber : phoneNumbers)
 			{
-				address = findAddressByPhoneNumber(phoneNumber);
+				String internalNumber = phoneNumber.getInternalNumber();
+
+				Option<Address> address = null;
+
+				// Add like 0049
+				if (internalNumber.equals(countryPrefix + number))
+				{
+					address = findAddressByPhoneNumber(phoneNumber);
+				}
+
+				// Add like 0231
+				if (internalNumber.equals(nationalPrefix + localPrefix + number))
+				{
+					address = findAddressByPhoneNumber(phoneNumber);
+				}
+
+				// Add like 00 (Fallback for dummy prefix user)
+				if (internalNumber.equals("00" + number))
+				{
+					address = findAddressByPhoneNumber(phoneNumber);
+				}
+
+				// Add like 0
+				if (internalNumber.equals("0" + number))
+				{
+					address = findAddressByPhoneNumber(phoneNumber);
+				}
+
+				if (internalNumber.equals(number))
+				{
+					address = findAddressByPhoneNumber(phoneNumber);
+				}
+
+				if (address.full())
+				{
+					address.get().setAddressStore (this);
+
+					return address;
+				}
 			}
-
-			// Add like 0231
-			if (internalNumber.equals(nationalPrefix + localPrefix + number))
+		}
+		else if (numberNormalization == NumberNormalizationType.ADD_INTERNATIONAL_COUNTRY_PREFIX)
+		{
+			String normNumber = normalizeNumber(number, countryPrefix, localPrefix, nationalPrefix);
+			Option<Address> address = findAddressByPhoneNumber(number);
+			if (address.full ())
 			{
-				address = findAddressByPhoneNumber(phoneNumber);
+				address.get().setAddressStore (this);
+				return address;
 			}
-
-			// Add like 00 (Fallback for dummy prefix user)
-			if (internalNumber.equals("00" + number))
+			address = findAddressByPhoneNumber(normNumber);
+			if (address.full ())
 			{
-				address = findAddressByPhoneNumber(phoneNumber);
-			}
-
-			// Add like 0
-			if (internalNumber.equals("0" + number))
-			{
-				address = findAddressByPhoneNumber(phoneNumber);
-			}
-
-			if (internalNumber.equals(number))
-			{
-				address = findAddressByPhoneNumber(phoneNumber);
-			}
-
-			if (address.full())
-			{
-				address.get().setAddressStore(this);
-
+				address.get().setAddressStore (this);
 				return address;
 			}
 		}
+		else if (numberNormalization == NumberNormalizationType.NO_NORMALIZATION)
+		{
+			Option<Address> address = findAddressByPhoneNumber(number);
+			if (address.full ())
+			{
+				address.get().setAddressStore (this);
+				return address;
+			}
+		}
+
 		return new Empty ();
 	}
 
@@ -370,19 +410,13 @@ public class AddressDAOStore extends AddressStore
 		else if (numberNormalization == NumberNormalizationType.ADD_INTERNATIONAL_COUNTRY_PREFIX)
 		{
 			String normNumber = normalizeNumber(number, countryPrefix, localPrefix, nationalPrefix);
-			PhoneNumber phoneNumber = new PhoneNumber ();
-			phoneNumber.setInternalNumber(number);
-			phoneNumber.setNumber(number);
-			Option<Address> address = findAddressOfOwnerByPhoneNumber(phoneNumber, ownerId);
+			Option<Address> address = findAddressOfOwnerByPhoneNumber(number, ownerId);
 			if (address.full ())
 			{
 				address.get().setAddressStore (this);
 				return address;
 			}
-			phoneNumber = new PhoneNumber ();
-			phoneNumber.setInternalNumber(normNumber);
-			phoneNumber.setNumber(normNumber);
-			address = findAddressOfOwnerByPhoneNumber(phoneNumber, ownerId);
+			address = findAddressOfOwnerByPhoneNumber(normNumber, ownerId);
 			if (address.full ())
 			{
 				address.get().setAddressStore (this);
@@ -391,10 +425,7 @@ public class AddressDAOStore extends AddressStore
 		}
 		else if (numberNormalization == NumberNormalizationType.NO_NORMALIZATION)
 		{
-			PhoneNumber phoneNumber = new PhoneNumber ();
-			phoneNumber.setInternalNumber(number);
-			phoneNumber.setNumber(number);
-			Option<Address> address = findAddressOfOwnerByPhoneNumber(phoneNumber, ownerId);
+			Option<Address> address = findAddressOfOwnerByPhoneNumber(number, ownerId);
 			if (address.full ())
 			{
 				address.get().setAddressStore (this);
