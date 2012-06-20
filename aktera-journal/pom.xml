@@ -28,7 +28,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>iritgo-aktera-journal</artifactId>
 	<name>Iritgo Aktera Journal</name>
-	<version>2.3.1</version>
+	<version>2.3.2</version>
 	<description>Provides journal service to application modules</description>
 	<properties>
 		<main.basedir>${project.parent.basedir}</main.basedir>
@@ -77,6 +77,11 @@
 		<dependency>
 			<groupId>de.iritgo.aktera</groupId>
 			<artifactId>iritgo-aktera-dashboard</artifactId>
+			<version>2.2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>de.iritgo.aktera</groupId>
+			<artifactId>iritgo-aktera-scheduler</artifactId>
 			<version>2.2.1</version>
 		</dependency>
 	</dependencies>

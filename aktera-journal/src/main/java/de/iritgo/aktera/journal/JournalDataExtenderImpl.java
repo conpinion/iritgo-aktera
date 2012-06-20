@@ -36,28 +36,37 @@ public class JournalDataExtenderImpl implements JournalDataExtender, JournalExte
 		this.journalDAO = journalDAO;
 	}
 
+	@Override
 	public void accept(JournalEntry journal, JournalStrategy strategy)
 	{
 	}
 
+	@Override
 	public void deletedJournalEntry(JournalEntry journal)
 	{
 		journalDAO.deleteJournalDataById (journal.getExtendedInfoId());
 	}
 
+	@Override
 	public void deleteAllJournalEntries(List<JournalEntry> journalEntries)
 	{
 		journalDAO.deleteAllJournalDataByJournalEntries (journalEntries);
 	}
 
+	@Override
 	public void newJournalEntry(JournalEntry journal)
 	{
 	}
 
+	@Override
 	public void addJournalEntryAttributes(Map<String, Object> entry)
 	{
 		JournalData journalData = journalDAO.getJournalDataById((Integer) entry.get("extendedInfoId"));
-
 		BeanTools.copyBean2Map(journalData, entry, false);
+	}
+
+	@Override
+	public void deleteAllJournalEntriesBefore(long periodInSeconds)
+	{
 	}
 }

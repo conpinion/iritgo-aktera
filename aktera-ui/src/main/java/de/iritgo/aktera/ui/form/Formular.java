@@ -337,6 +337,11 @@ public class Formular extends StandardLogEnabledModel
 				cmd.setBean(true);
 			}
 
+			if (commandConfig.getAttribute("confirm", null) != null)
+			{
+				cmd.setConfirm(commandConfig.getAttribute("confirm"));
+			}
+
 			CommandDescriptor command = field.getCommands().add(cmd);
 
 			command.setBundle(commandConfig.getAttribute("bundle", field.getBundle()));
@@ -360,7 +365,7 @@ public class Formular extends StandardLogEnabledModel
 			for (Configuration attributeConfig : attributeChildren)
 			{
 				command.withParameter(attributeConfig.getAttribute("name"), attributeConfig.getAttribute("value"));
-			}
+			}			
 		}
 	}
 

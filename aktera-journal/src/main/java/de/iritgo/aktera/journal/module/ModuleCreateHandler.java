@@ -52,6 +52,7 @@ public class ModuleCreateHandler extends CreateHandler
 						"secondaryType varchar(255)", "newFlag boolean");
 		createIndex("JournalEntry", "occurredat");
 		createTable("JournalData", "id serial primary key", "type varchar(255)", "category varchar(255)",
+						"occurredAt timestamp not null",
 						"timestamp1 timestamp", "timestamp2 timestamp", "key int4", "integer1 int4", "integer2 int4",
 						"string1 varchar(255)", "string2 varchar(255)", "string3 varchar(255)", "string4 varchar(255)",
 						"string5 varchar(255)", "string6 varchar(255)");

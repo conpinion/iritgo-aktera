@@ -20,87 +20,82 @@
 package de.iritgo.aktera.journal;
 
 
+import java.sql.*;
+import java.util.*;
+import com.ibm.icu.util.GregorianCalendar;
+import lombok.Setter;
 import de.iritgo.aktario.framework.command.CommandTools;
 import de.iritgo.aktera.authentication.defaultauth.entity.UserDAO;
+import de.iritgo.aktera.configuration.SystemConfigManager;
 import de.iritgo.aktera.event.EventManager;
 import de.iritgo.aktera.journal.entity.JournalEntry;
 import de.iritgo.aktera.logger.Logger;
 import de.iritgo.aktera.model.ModelRequest;
+import de.iritgo.aktera.scheduler.*;
 import de.iritgo.aktera.spring.SpringTools;
-import de.iritgo.aktera.startup.ShutdownException;
-import de.iritgo.aktera.startup.StartupException;
-import de.iritgo.aktera.startup.StartupHandler;
+import de.iritgo.aktera.startup.*;
 import de.iritgo.simplelife.bean.BeanTools;
 import de.iritgo.simplelife.constants.SortOrder;
-import de.iritgo.simplelife.math.*;
-import de.iritgo.simplelife.string.*;
-
-import java.sql.Timestamp;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import de.iritgo.simplelife.string.StringTools;
 
 
-/**
- * Default implementation of the journal manager.
- */
 public class JournalManagerImpl implements JournalManager, StartupHandler
 {
-	/** The journal dao */
+	@Setter
 	private JournalDAO journalDAO;
 
+	@Setter
 	private Logger logger;
 
-	/** Journal extenders list */
+	@Setter
 	private Map<String, JournalExtender> journalExtenders;
 
-	/** Journal executers */
+	@Setter
 	private List<JournalExecute> journalExecuters;
 
-	/** The event manager */
+	@Setter
 	private EventManager eventManager;
 
-	/** Set the journal dao */
-	public void setJournalDAO(JournalDAO journalDAO)
-	{
-		this.journalDAO = journalDAO;
-	}
+	@Setter
+	private SystemConfigManager systemConfigManager;
 
-	/** Set the event manager */
-	public void setEventManager(EventManager eventManager)
-	{
-		this.eventManager = eventManager;
-	}
+	@Setter
+	private Scheduler scheduler;
 
-	/** Set a list with journal extenders */
-	public void setJournalExtenders(Map<String, JournalExtender> journalExtenders)
-	{
-		this.journalExtenders = journalExtenders;
-	}
-
-	/** Set journal executers */
-	public void setJournalExecuters(List<JournalExecute> journalExecuters)
-	{
-		this.journalExecuters = journalExecuters;
-	}
-
-	public void setLogger(Logger logger)
-	{
-		this.logger = logger;
-	}
-
-	/**
-	 * @see de.iritgo.aktera.startup.StartupHandler#startup()
-	 */
+	@Override
 	public void startup() throws StartupException
 	{
+		if (systemConfigManager.getBool("phone", "journalCleanupEnabled"))
+		{
+			Time cleanupTime = systemConfigManager.getTime("phone", "journalCleanupTime");
+			int cleanupInterval = systemConfigManager.getInt("phone", "journalCleanupPeriod");
+			logger.info("Starting Journal cleanup job (at " + cleanupTime + ", delete entries older than "
+							+ cleanupInterval + " seconds)");
+			GregorianCalendar cleanupTimeCal = new GregorianCalendar();
+			cleanupTimeCal.setTime(cleanupTime);
+			Runnable cleanupTask = new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					journalCleanup();
+				}
+			};
+			scheduler.scheduleRunnable(
+							"de.iritgo.aktera.journal.JournalCleanup",
+							"JournalManager",
+							cleanupTask,
+							new ScheduleOn().hour(cleanupTimeCal.get(Calendar.HOUR_OF_DAY))
+											.minute(cleanupTimeCal.get(Calendar.MINUTE)).second(0));
+		}
 	}
 
-	/**
-	 * @see de.iritgo.aktera.journal.JournalManager#addJournalEntry(de.iritgo.aktera.journal.entity.JournalEntry)
-	 */
+	@Override
+	public void shutdown() throws ShutdownException
+	{
+	}
+
+	@Override
 	public void addJournalEntry(JournalEntry journalEntry)
 	{
 		if (journalEntry.getExtendedInfoType() != null)
@@ -123,9 +118,7 @@ public class JournalManagerImpl implements JournalManager, StartupHandler
 		refreshAktarioJournalList(journalEntry);
 	}
 
-	/**
-	 * @see de.iritgo.aktera.journal.JournalManager#deleteJournalEntry(de.iritgo.aktera.journal.entity.JournalEntry)
-	 */
+	@Override
 	public void deleteJournalEntry(JournalEntry journalEntry)
 	{
 		if (journalEntry == null)
@@ -158,7 +151,6 @@ public class JournalManagerImpl implements JournalManager, StartupHandler
 
 	private void refreshAktarioJournalList(JournalEntry journalEntry)
 	{
-		//Aktera-Aktario
 		UserDAO userDAO = (UserDAO) SpringTools.getBean(UserDAO.ID);
 		de.iritgo.aktera.authentication.defaultauth.entity.AkteraUser userAktera = userDAO.findUserById(journalEntry
 						.getOwnerId());
@@ -169,9 +161,7 @@ public class JournalManagerImpl implements JournalManager, StartupHandler
 		CommandTools.performAsync("de.iritgo.aktera.journal.RefreshJournal", props);
 	}
 
-	/**
-	 * @see de.iritgo.aktera.journal.JournalManager#getJournalEntryById(java.lang.Integer, de.iritgo.aktera.journal.JournalStrategy)
-	 */
+	@Override
 	public Map<String, Object> getJournalEntryById(Integer id)
 	{
 		Map<String, Object> entry = new HashMap<String, Object>();
@@ -193,9 +183,7 @@ public class JournalManagerImpl implements JournalManager, StartupHandler
 		return entry;
 	}
 
-	/**
-	 * @see de.iritgo.aktera.journal.JournalManager#listJournalEntries(java.lang.String, java.lang.Integer, java.lang.String, java.lang.String, de.iritgo.simplelife.constants.SortOrder, int, int)
-	 */
+	@Override
 	public List<Map<String, Object>> listJournalEntries(String search, Timestamp start, Timestamp end, Integer ownerId,
 					String ownerType, String sortColumnName, SortOrder sortOrder, int firstResult, int resultsPerPage)
 	{
@@ -224,11 +212,13 @@ public class JournalManagerImpl implements JournalManager, StartupHandler
 		return entries;
 	}
 
+	@Override
 	public long countJournalEntries(String search, Timestamp start, Timestamp end, Integer ownerId, String ownerType)
 	{
 		return journalDAO.countJournalEntries(search, start, end, ownerId, ownerType);
 	}
 
+	@Override
 	public List<Map<String, Object>> listJournalEntriesByPrimaryAndSecondaryType(String search, Timestamp start,
 					Timestamp end, Integer ownerId, String ownerType, String sortColumnName, SortOrder sortOrder,
 					int firstResult, int resultsPerPage, String primaryType, String secondaryType)
@@ -259,6 +249,7 @@ public class JournalManagerImpl implements JournalManager, StartupHandler
 		return entries;
 	}
 
+	@Override
 	public long countJournalEntriesByPrimaryAndSecondaryType(String search, Timestamp start, Timestamp end,
 					Integer ownerId, String ownerType, String primaryType, String secondaryType)
 	{
@@ -271,9 +262,7 @@ public class JournalManagerImpl implements JournalManager, StartupHandler
 		BeanTools.copyBean2Map(journalEntry, entry, true);
 	}
 
-	/**
-	 * @see de.iritgo.aktera.journal.JournalManager#deleteJournalEntry(int)
-	 */
+	@Override
 	public void deleteJournalEntry(int journalEntryId)
 	{
 		JournalEntry journalEntry = journalDAO.getById(journalEntryId);
@@ -281,17 +270,13 @@ public class JournalManagerImpl implements JournalManager, StartupHandler
 		deleteJournalEntry(journalEntry);
 	}
 
-	/**
-	 * @see de.iritgo.aktera.journal.JournalManager#countJournalEntriesByCondition(int, int, java.lang.String, java.util.Map)
-	 */
+	@Override
 	public long countJournalEntriesByCondition(String condition, Map<String, Object> conditionMap)
 	{
 		return journalDAO.countJournalEntriesByCondition(condition, conditionMap);
 	}
 
-	/**
-	 * @see de.iritgo.aktera.journal.JournalManager#listJournalEntriesByCondition(java.lang.String, de.iritgo.simplelife.constants.SortOrder, int, int, java.lang.String, java.util.Map)
-	 */
+	@Override
 	public List<Map<String, Object>> listJournalEntriesByCondition(String sortColumnName, SortOrder sortOrder,
 					int firstResult, int resultsPerPage, String condition, Map<String, Object> conditionMap)
 	{
@@ -320,9 +305,7 @@ public class JournalManagerImpl implements JournalManager, StartupHandler
 		return entries;
 	}
 
-	/**
-	 * @see de.iritgo.aktera.journal.JournalManager#executeJournalEntry(int)
-	 */
+	@Override
 	public void executeJournalEntry(String commandId, int id, String prefix, ModelRequest req)
 	{
 		Map<String, Object> entry = getJournalEntryById(id);
@@ -335,38 +318,51 @@ public class JournalManagerImpl implements JournalManager, StartupHandler
 		}
 	}
 
-	/**
-	 * @see de.iritgo.aktera.startup.StartupHandler#shutdown()
-	 */
-	public void shutdown() throws ShutdownException
-	{
-	}
-
-	/**
-	 * @see de.iritgo.aktera.journal.JournalManager#deleteJournalAllEntries(java.lang.Integer)
-	 */
+	@Override
 	public void deleteJournalAllEntries(Integer ownerId)
 	{
 		List<JournalEntry> journalEntries = journalDAO.listJournalEntriesByOwnerId(ownerId);
 
 		for (JournalExtender extender : journalExtenders.values())
 		{
-			extender.deleteAllJournalEntries (journalEntries);
+			extender.deleteAllJournalEntries(journalEntries);
 		}
 
 		Properties eventProps = new Properties();
-		eventProps.setProperty ("ownerId", StringTools.trim(ownerId));
+		eventProps.setProperty("ownerId", StringTools.trim(ownerId));
 
 		eventManager.fire("iritgo.aktera.journal.remove-all-entries", eventProps);
 
-		journalDAO.deleteAllJournalEntriesByOwnerId (ownerId);
+		journalDAO.deleteAllJournalEntriesByOwnerId(ownerId);
 
 		UserDAO userDAO = (UserDAO) SpringTools.getBean(UserDAO.ID);
-		de.iritgo.aktera.authentication.defaultauth.entity.AkteraUser userAktera =
-				userDAO.findUserById (ownerId);
+		de.iritgo.aktera.authentication.defaultauth.entity.AkteraUser userAktera = userDAO.findUserById(ownerId);
 
-		Properties props = new Properties ();
+		Properties props = new Properties();
 		props.setProperty("akteraUserName", userAktera.getName());
 		CommandTools.performAsync("de.iritgo.aktera.journal.RefreshJournal", props);
+	}
+
+	@Override
+	public void deleteAllJournalEntriesBefore(long periodInSeconds)
+	{
+		for (JournalExtender extender : journalExtenders.values())
+		{
+			extender.deleteAllJournalEntriesBefore(periodInSeconds);
+		}
+
+		journalDAO.deleteAllJournalDatasBefore(periodInSeconds);
+		journalDAO.deleteAllJournalEntriesBefore(periodInSeconds);
+	}
+
+	@Override
+	public void journalCleanup()
+	{
+		int cleanupInterval = systemConfigManager.getInt("phone", "journalCleanupPeriod");
+		if (cleanupInterval > 0)
+		{
+			logger.info("Cleaning CDR data older than " + cleanupInterval + " seconds)");
+			deleteAllJournalEntriesBefore(cleanupInterval);
+		}
 	}
 }

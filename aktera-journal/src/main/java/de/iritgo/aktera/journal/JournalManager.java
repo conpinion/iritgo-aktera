@@ -28,9 +28,6 @@ import java.util.List;
 import java.util.Map;
 
 
-/**
- * The journal manager delegates the journal entry functions to the right implementations
- */
 public interface JournalManager
 {
 	public static enum COMMANDS
@@ -38,7 +35,6 @@ public interface JournalManager
 		EXECUTE;
 	}
 
-	/** Service id */
 	public static String ID = "de.iritgo.aktera.journal.JournalManager";
 
 	/**
@@ -104,4 +100,18 @@ public interface JournalManager
 	 * @param ownerId The owner id
 	 */
 	public void deleteJournalAllEntries(Integer ownerId);
+
+	/**
+	 * Delete all journal entries that are older than periodInSeconds seconds
+	 * (from the time this method is called)
+	 * 
+	 * @param periodInSeconds Delete all entries before this time period
+	 */
+	public void deleteAllJournalEntriesBefore(long periodInSeconds);
+
+	/**
+	 * Cleanup the jounal data. Which journal entries are deleted is spefied
+	 * in the system configuration.
+	 */
+	public void journalCleanup();
 }

@@ -37,6 +37,8 @@ import java.util.Map;
  */
 public class FormularDescriptor implements Serializable
 {
+	private static final long serialVersionUID = 1517072683158150851L;
+
 	/** Formular title. */
 	protected String title;
 

@@ -29,9 +29,6 @@ import java.util.List;
 import java.util.Map;
 
 
-/**
- * Journal DAO.
- */
 public interface JournalDAO
 {
 	static public String ID = "de.iritgo.aktera.address.JournalDAO";
@@ -215,4 +212,20 @@ public interface JournalDAO
 	 * @param journalEntries The journal entries
 	 */
 	public void deleteAllJournalDataByJournalEntries(List<JournalEntry> journalEntries);
+	
+	/**
+	 * Delete all journal entries that are older than periodInSeconds seconds
+	 * (from the time this method is called)
+	 * 
+	 * @param periodInSeconds Delete all entries before this time period
+	 */
+	public void deleteAllJournalEntriesBefore(long periodInSeconds);
+
+	/**
+	 * Delete all journal data items that are older than periodInSeconds seconds
+	 * (from the time this method is called)
+	 * 
+	 * @param periodInSeconds Delete all items before this time period
+	 */
+	public void deleteAllJournalDatasBefore(long periodInSeconds);
 }

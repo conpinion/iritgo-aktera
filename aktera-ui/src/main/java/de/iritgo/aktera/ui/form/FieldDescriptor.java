@@ -60,6 +60,9 @@ public class FieldDescriptor
 	/** Specifies that the field is omitted. */
 	private boolean omitted;
 
+	/** Specifies that the field is disabled. */
+	private boolean disabled;
+
 	/** Field name. */
 	protected String name;
 
@@ -611,5 +614,23 @@ public class FieldDescriptor
 	public void setMulti(boolean multi)
 	{
 		this.multi = multi;
+	}
+
+	/**
+	 * Specify if the field should be disabled
+	 */
+	public void setDisabled(boolean disabled)
+	{
+		this.disabled = disabled;
+	}
+
+	/**
+	 * Check if the field is disabled.
+	 *
+	 * @return True If this field is disabled.
+	 */
+	public boolean isDisabled()
+	{
+		return disabled;
 	}
 }

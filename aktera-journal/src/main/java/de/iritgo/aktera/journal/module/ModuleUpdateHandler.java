@@ -80,5 +80,16 @@ public class ModuleUpdateHandler extends UpdateHandler
 		{
 			currentVersion.setVersion("2.3.1");
 		}
+
+		if (currentVersion.between("2.3.1", "2.3.2"))
+		{
+			addColumn("JournalData", "occurredAt", "timestamp");
+			update("update journaldata set occurredat = (select occurredat from journalentry where journalentry.extendedinfoid = journaldata.id)");
+			update("delete from journaldata where occurredat is null");
+			updateColumnToNotNull("JournalData", "occurredAt");
+			
+			currentVersion.setVersion("2.3.2");
+		}
+
 	}
 }

@@ -20,15 +20,10 @@
 package de.iritgo.aktera.journal.entity;
 
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import javax.persistence.*;
+import lombok.*;
 
 
 /**
@@ -45,213 +40,76 @@ import java.sql.Timestamp;
 @Entity
 public class JournalData implements Serializable
 {
-	/** */
 	private static final long serialVersionUID = 1L;
 
-	/** Primary key */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Setter
+	@Getter
 	private Integer id;
 
-	/** The type */
 	@Column(length = 255)
+	@Setter
+	@Getter
 	private String type;
 
-	/** The category */
 	@Column(length = 255)
+	@Setter
+	@Getter
 	private String category;
 
-	/** The key */
+	@Setter
+	@Getter
 	private Integer key;
 
-	/** The timestamp1 */
-	@Column()
+	@Column(nullable = false)
+	@Setter
+	@Getter
+	private Timestamp occurredAt;
+
+	@Setter
+	@Getter
 	private Timestamp timestamp1;
 
-	/** The timestamp2 */
-	@Column()
+	@Setter
+	@Getter
 	private Timestamp timestamp2;
 
-	/** The integer1 */
+	@Setter
+	@Getter
 	private Integer integer1;
 
-	/** The integer2 */
+	@Setter
+	@Getter
 	private Integer integer2;
 
-	/** The string1 */
 	@Column(length = 255)
+	@Setter
+	@Getter
 	private String string1;
 
-	/** The string1 */
 	@Column(length = 255)
+	@Setter
+	@Getter
 	private String string2;
 
-	/** The string1 */
 	@Column(length = 255)
+	@Setter
+	@Getter
 	private String string3;
 
-	/** The string1 */
 	@Column(length = 255)
+	@Setter
+	@Getter
 	private String string4;
 
-	/** The string1 */
 	@Column(length = 255)
+	@Setter
+	@Getter
 	private String string5;
 
-	/** The string1 */
 	@Column(length = 255)
+	@Setter
+	@Getter
 	private String string6;
-
-	/**
-	 * Create a default journal.
-	 */
-	public JournalData()
-	{
-	}
-
-	/**
-	 * Get the primary key.
-	 */
-	public Integer getId()
-	{
-		return id;
-	}
-
-	/**
-	 * Set the primary key.
-	 */
-	public void setId(Integer id)
-	{
-		this.id = id;
-	}
-
-	public String getCategory()
-	{
-		return category;
-	}
-
-	public void setCategory(String category)
-	{
-		this.category = category;
-	}
-
-	public Integer getKey()
-	{
-		return key;
-	}
-
-	public void setKey(Integer key)
-	{
-		this.key = key;
-	}
-
-	public Timestamp getTimestamp1()
-	{
-		return timestamp1;
-	}
-
-	public void setTimestamp1(Timestamp timestamp1)
-	{
-		this.timestamp1 = timestamp1;
-	}
-
-	public Timestamp getTimestamp2()
-	{
-		return timestamp2;
-	}
-
-	public void setTimestamp2(Timestamp timestamp2)
-	{
-		this.timestamp2 = timestamp2;
-	}
-
-	public Integer getInteger1()
-	{
-		return integer1;
-	}
-
-	public void setInteger1(Integer integer1)
-	{
-		this.integer1 = integer1;
-	}
-
-	public Integer getInteger2()
-	{
-		return integer2;
-	}
-
-	public void setInteger2(Integer integer2)
-	{
-		this.integer2 = integer2;
-	}
-
-	public String getString1()
-	{
-		return string1;
-	}
-
-	public void setString1(String string1)
-	{
-		this.string1 = string1;
-	}
-
-	public String getString2()
-	{
-		return string2;
-	}
-
-	public void setString2(String string2)
-	{
-		this.string2 = string2;
-	}
-
-	public String getString3()
-	{
-		return string3;
-	}
-
-	public void setString3(String string3)
-	{
-		this.string3 = string3;
-	}
-
-	public String getString4()
-	{
-		return string4;
-	}
-
-	public void setString4(String string4)
-	{
-		this.string4 = string4;
-	}
-
-	public String getString5()
-	{
-		return string5;
-	}
-
-	public void setString5(String string5)
-	{
-		this.string5 = string5;
-	}
-
-	public String getString6()
-	{
-		return string6;
-	}
-
-	public void setString6(String string6)
-	{
-		this.string6 = string6;
-	}
-
-	public String getType()
-	{
-		return type;
-	}
-
-	public void setType(String type)
-	{
-		this.type = type;
-	}
 }

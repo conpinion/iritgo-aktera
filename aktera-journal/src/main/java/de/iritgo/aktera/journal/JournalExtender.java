@@ -36,4 +36,14 @@ public interface JournalExtender
 	public void addJournalEntryAttributes(Map<String, Object> entry);
 
 	public void deleteAllJournalEntries(List<JournalEntry> journalEntries);
+
+	/**
+	 * Delete all journal entries that are older than periodInSeconds seconds
+	 * (from the time this method is called).
+	 * You ounly need to implement this method if you store custom journal data 
+	 * in a location which differs from JournalEntry or JournalData.
+	 * 
+	 * @param periodInSeconds Delete all entries before this time period
+	 */
+	public void deleteAllJournalEntriesBefore(long periodInSeconds);
 }

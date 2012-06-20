@@ -603,6 +603,11 @@ public class UpdateHandler
 		new QueryRunner().update(connection, sql, params);
 	}
 
+	protected void updateColumnToNotNull(String tableName, String columnName) throws SQLException
+	{
+		update("ALTER TABLE " + tableName + " ALTER COLUMN " + columnName + " SET NOT NULL");		
+	}
+	
 	protected void updateColumnToNotNull(String tableName, String columnName, Object defaultValue) throws SQLException
 	{
 		String delim = (defaultValue instanceof String) ? "'" : "";

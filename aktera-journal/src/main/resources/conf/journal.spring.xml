@@ -38,6 +38,8 @@
 		<property name="journalExecuters" ref="de.iritgo.aktera.journal.JournalExecuters" />
 		<property name="eventManager" ref="de.iritgo.aktera.event.EventManager" />
  		<property name="logger" ref="de.telcat.iptell.base.Logger"/>
+		<property name="systemConfigManager" ref="de.iritgo.aktera.configuration.SystemConfigManager" />
+ 		<property name="scheduler" ref="de.iritgo.aktera.scheduler.Scheduler"/>
  	</bean>
 
 	<util:map id="de.iritgo.aktera.journal.JournalExtenders">

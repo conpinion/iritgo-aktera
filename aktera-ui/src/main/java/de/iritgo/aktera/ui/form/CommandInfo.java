@@ -20,10 +20,9 @@
 package de.iritgo.aktera.ui.form;
 
 
-import de.iritgo.aktera.model.Command;
-import de.iritgo.aktera.model.ModelException;
-import de.iritgo.aktera.model.ModelRequest;
-import de.iritgo.aktera.model.ModelResponse;
+import java.util.*;
+import lombok.*;
+import de.iritgo.aktera.model.*;
 import de.iritgo.aktera.permissions.PermissionManager;
 import de.iritgo.aktera.spring.SpringTools;
 import de.iritgo.aktera.struts.BeanRequest;
@@ -31,9 +30,6 @@ import de.iritgo.aktera.ui.el.ExpressionLanguageContext;
 import de.iritgo.aktera.ui.tools.UserTools;
 import de.iritgo.simplelife.math.NumberTools;
 import de.iritgo.simplelife.string.StringTools;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 
 /**
@@ -42,21 +38,30 @@ import java.util.Map;
 public class CommandInfo implements Cloneable
 {
 	/** Command model. */
+	@Setter
+	@Getter
 	protected String model;
 
 	/** Command name. */
+	@Getter
 	protected String name;
 
 	/** Command label. */
+	@Getter
 	protected String label;
 
 	/** Command label resource bundle. */
+	@Setter
+	@Getter
 	protected String bundle = "Aktera";
 
 	/** Command icon. */
+	@Setter
+	@Getter
 	protected String icon;
 
 	/** Parameters. */
+	@Getter
 	protected Map<String, Object> parameters;
 
 	/** Attributes. */
@@ -69,13 +74,25 @@ public class CommandInfo implements Cloneable
 	protected boolean visible = true;
 
 	/** Position of this command. */
+	@Setter
+	@Getter
 	protected int position;
 
 	/** If true, the model is a bean */
 	protected boolean bean;
 
 	/** Permission that must be met for a command to be available */
+	@Setter
+	@Getter
 	protected String permission;
+
+	/**
+	 * If a confirm message is set, a confirm dialog is shown before executing
+	 * the command.
+	 */
+	@Setter
+	@Getter
+	protected String confirm;
 
 	/**
 	 * Create an empty Command.
@@ -86,7 +103,7 @@ public class CommandInfo implements Cloneable
 
 	/**
 	 * Create a new Command.
-	 *
+	 * 
 	 * @param model The command model.
 	 * @param name The command name.
 	 * @param label The command label.
@@ -106,7 +123,7 @@ public class CommandInfo implements Cloneable
 
 	/**
 	 * Create a new Command.
-	 *
+	 * 
 	 * @param model The command model.
 	 * @param name The command name.
 	 * @param label The command label.
@@ -119,7 +136,7 @@ public class CommandInfo implements Cloneable
 
 	/**
 	 * Create a new Command.
-	 *
+	 * 
 	 * @param model The command model.
 	 * @param name The command name.
 	 * @param label The command label.
@@ -131,7 +148,7 @@ public class CommandInfo implements Cloneable
 
 	/**
 	 * Create a new Command.
-	 *
+	 * 
 	 * @param model The command model.
 	 * @param label The command label.
 	 */
@@ -141,88 +158,8 @@ public class CommandInfo implements Cloneable
 	}
 
 	/**
-	 * Set the command model.
-	 *
-	 * @return The new command model.
-	 */
-	public void setModel(String model)
-	{
-		this.model = model;
-	}
-
-	/**
-	 * Get the command model.
-	 *
-	 * @return The command model.
-	 */
-	public String getModel()
-	{
-		return model;
-	}
-
-	/**
-	 * Get the command name.
-	 *
-	 * @return The command name.
-	 */
-	public String getName()
-	{
-		return name;
-	}
-
-	/**
-	 * Get the command label.
-	 *
-	 * @return The command label.
-	 */
-	public String getLabel()
-	{
-		return label;
-	}
-
-	/**
-	 * Get the command label resource bundle.
-	 *
-	 * @return The resource bundle.
-	 */
-	public String getBundle()
-	{
-		return bundle;
-	}
-
-	/**
-	 * Set the command label resource bundle.
-	 *
-	 * @param bundle The new resource bundle.
-	 */
-	public void setBundle(String bundle)
-	{
-		this.bundle = bundle;
-	}
-
-	/**
-	 * Get the command icon.
-	 *
-	 * @return The command icon.
-	 */
-	public String getIcon()
-	{
-		return icon;
-	}
-
-	/**
-	 * Set the command icon.
-	 *
-	 * @param icon The new command icon.
-	 */
-	public void setIcon(String icon)
-	{
-		this.icon = icon;
-	}
-
-	/**
 	 * Set the visible state.
-	 *
+	 * 
 	 * @param visible True for a visible command.
 	 */
 	public void setVisible(boolean visible)
@@ -232,7 +169,7 @@ public class CommandInfo implements Cloneable
 
 	/**
 	 * Get the visible state.
-	 *
+	 * 
 	 * @return True for a visible command.
 	 */
 	public boolean isVisible()
@@ -242,7 +179,7 @@ public class CommandInfo implements Cloneable
 
 	/**
 	 * Add a command parameter.
-	 *
+	 * 
 	 * @param name Parameter name.
 	 * @param value Parameter value.
 	 * @return This command info.
@@ -255,18 +192,8 @@ public class CommandInfo implements Cloneable
 	}
 
 	/**
-	 * Get the command parameters.
-	 *
-	 * @return The command parameters.
-	 */
-	public Map getParameters()
-	{
-		return parameters;
-	}
-
-	/**
 	 * Get an iterator over all parameters.
-	 *
+	 * 
 	 * @return A parameter iterator (map entries).
 	 */
 	public Iterator parameterIterator()
@@ -276,7 +203,7 @@ public class CommandInfo implements Cloneable
 
 	/**
 	 * Add a command attribute.
-	 *
+	 * 
 	 * @param name Attribute name.
 	 * @param value Attribute value.
 	 */
@@ -287,7 +214,7 @@ public class CommandInfo implements Cloneable
 
 	/**
 	 * Get an iterator over all attributes.
-	 *
+	 * 
 	 * @return An attribute iterator (map entries).
 	 */
 	public Iterator attributeIterator()
@@ -297,7 +224,7 @@ public class CommandInfo implements Cloneable
 
 	/**
 	 * Get the command style.
-	 *
+	 * 
 	 * @return The command style.
 	 */
 	public String getStyle()
@@ -307,7 +234,7 @@ public class CommandInfo implements Cloneable
 
 	/**
 	 * Get the command style.
-	 *
+	 * 
 	 * @return The command style.
 	 */
 	public void setStyle(String style)
@@ -317,7 +244,7 @@ public class CommandInfo implements Cloneable
 
 	/**
 	 * Create a Keel command from this command descriptor.
-	 *
+	 * 
 	 * @param req The model request.
 	 * @param res The model response.
 	 * @param context The expression language context
@@ -331,7 +258,7 @@ public class CommandInfo implements Cloneable
 
 	/**
 	 * Create a Keel command from this command descriptor.
-	 *
+	 * 
 	 * @param req The model request.
 	 * @param res The model response.
 	 * @param context The expression language context
@@ -387,7 +314,7 @@ public class CommandInfo implements Cloneable
 
 	/**
 	 * Create a Keel command from this command descriptor.
-	 *
+	 * 
 	 * @param req The model request.
 	 * @param res The model response.
 	 * @param paramPrefix Prefix for parameter names.
@@ -398,49 +325,39 @@ public class CommandInfo implements Cloneable
 					ExpressionLanguageContext context) throws ModelException
 	{
 		String myModel = StringTools.trim(context.evalExpressionLanguageValue(model));
-
 		Command command = res.createCommand(myModel);
-
 		if (bean)
 		{
 			command.setBean(myModel);
 			command.setModel(null);
 		}
-
 		command.setName(name);
-
 		command.setLabel(StringTools.trim(label));
-
 		if (! StringTools.isTrimEmpty(icon))
 		{
 			command.setAttribute("icon", icon);
 		}
-
 		if (! StringTools.isTrimEmpty(bundle))
 		{
 			command.setAttribute("bundle", bundle);
 		}
-
 		command.setAttribute("style", StringTools.isTrimEmpty(style) ? "" : style);
-
 		if (! visible)
 		{
 			command.setAttribute("hide", "Y");
 		}
-
 		setParameters(req, command, paramPrefix, context);
-
 		for (Map.Entry<String, Object> attribute : attributes.entrySet())
 		{
 			command.setAttribute(attribute.getKey(), attribute.getValue());
 		}
-
+		command.setAttribute("confirm", StringTools.trim(confirm));
 		return command;
 	}
 
 	/**
 	 * Set the command parameter.
-	 *
+	 * 
 	 * @param req The model request.
 	 * @param command The command.
 	 * @param paramPrefix Prefix for parameter names.
@@ -466,7 +383,7 @@ public class CommandInfo implements Cloneable
 
 	/**
 	 * Describe method setParameters() here.
-	 *
+	 * 
 	 * @param request
 	 * @param context
 	 */
@@ -490,7 +407,7 @@ public class CommandInfo implements Cloneable
 
 	/**
 	 * Clone a command info.
-	 *
+	 * 
 	 * @return The clone.
 	 */
 	public Object clone()
@@ -523,28 +440,8 @@ public class CommandInfo implements Cloneable
 	}
 
 	/**
-	 * Get the command position.
-	 *
-	 * @return The command position.
-	 */
-	public int getPosition()
-	{
-		return position;
-	}
-
-	/**
 	 * Set the command position.
-	 *
-	 * @param position The new command position.
-	 */
-	public void setPosition(int position)
-	{
-		this.position = position;
-	}
-
-	/**
-	 * Set the command position.
-	 *
+	 * 
 	 * @param position The new command position.
 	 */
 	public void setPosition(String position)
@@ -587,7 +484,7 @@ public class CommandInfo implements Cloneable
 
 	/**
 	 * Set the controller bean that should be executed by this command
-	 *
+	 * 
 	 * @param bean The controller bean name
 	 */
 	public void setBean(boolean bean)
@@ -597,7 +494,7 @@ public class CommandInfo implements Cloneable
 
 	/**
 	 * Get the controller bean that should be executed by this command
-	 *
+	 * 
 	 * @return bean The controller bean name
 	 */
 	public boolean isBean()
@@ -606,28 +503,8 @@ public class CommandInfo implements Cloneable
 	}
 
 	/**
-	 * Set the command permission
-	 *
-	 * @param permission The new permission
-	 */
-	public void setPermission(String permission)
-	{
-		this.permission = permission;
-	}
-
-	/**
-	 * Get the command permission
-	 *
-	 * @return The permission
-	 */
-	public String getPermission()
-	{
-		return permission;
-	}
-
-	/**
 	 * Check if the command permissions are fulfilled.
-	 *
+	 * 
 	 * @param request A model request
 	 * @return True if the permissions are met
 	 */

@@ -22,7 +22,6 @@ package de.iritgo.aktera.ui.form;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
-import java.net.InetAddress;
 import java.sql.*;
 import java.sql.Date;
 import java.text.*;
@@ -314,6 +313,10 @@ public class FormTools
 
 		int currentPage = Math.max(Math.min(formular.getPage(), formular.getPageCount() - 1), 0);
 
+		Output outCurrentPage = res.createOutput("currentPage");
+		outCurrentPage.setContent(currentPage);
+		res.add(outCurrentPage);
+
 		Output pageList = null;
 
 		Iterator iGroups = formular.groupIterator();
@@ -585,7 +588,9 @@ public class FormTools
 			input.setAttribute("readOnly", "Y");
 		}
 
-		if (field.isDuty() && ! field.isReadOnly())
+		input.setAttribute("disabled", field.isDisabled());
+
+		if (field.isDuty() && ! field.isReadOnly() && ! field.isDisabled())
 		{
 			input.setAttribute("duty", "Y");
 		}
@@ -936,15 +941,11 @@ public class FormTools
 		if (field.getCommands().commandCount() > 0)
 		{
 			Output commands = res.createOutput("commands");
-
 			input.setAttribute("commands", commands);
-
 			for (Iterator i = field.getCommands().iterator(); i.hasNext();)
 			{
 				CommandInfo descriptor = (CommandInfo) i.next();
-
 				Command command = descriptor.createCommand(req, res, context);
-
 				commands.add(command);
 			}
 		}
@@ -1046,7 +1047,7 @@ public class FormTools
 								|| "month".equals(field.getEditor()) || "year".equals(field.getEditor())
 								|| field.getEditor().startsWith("regexp"))
 				{
-					if (field.isDuty() && StringTools.isTrimEmpty(persistents.getAttribute(inputName)))
+					if (field.isDuty() && ! field.isDisabled() && StringTools.isTrimEmpty(persistents.getAttribute(inputName)))
 					{
 						addError(res, ValidationResult.ERROR_MISSING_DUTY_FIELD, inputName, result, pageNum);
 					}
@@ -1160,7 +1161,7 @@ public class FormTools
 					int month = NumberTools.toInt(persistents.getAttribute(inputName + "Month"), - 1);
 					int year = NumberTools.toInt(persistents.getAttribute(inputName + "Year"), - 1);
 
-					if (field.isDuty() && day == - 1 && month == - 1 && year == - 1)
+					if (field.isDuty() && ! field.isDisabled() && day == - 1 && month == - 1 && year == - 1)
 					{
 						addError(res, ValidationResult.ERROR_MISSING_DUTY_FIELD, inputName, result, pageNum);
 					}
@@ -1175,7 +1176,7 @@ public class FormTools
 					int minute = NumberTools.toInt(persistents.getAttribute(inputName + "Minute"), - 1);
 					int hour = NumberTools.toInt(persistents.getAttribute(inputName + "Hour"), - 1);
 
-					if (field.isDuty() && minute == - 1 && hour == - 1)
+					if (field.isDuty() && ! field.isDisabled() && minute == - 1 && hour == - 1)
 					{
 						addError(res, ValidationResult.ERROR_MISSING_DUTY_FIELD, inputName, result, pageNum);
 					}
@@ -1187,7 +1188,7 @@ public class FormTools
 				}
 				else if ("money".equals(field.getEditor()))
 				{
-					if (field.isDuty() && StringTools.isTrimEmpty(persistents.getAttribute(inputName)))
+					if (field.isDuty() && ! field.isDisabled() && StringTools.isTrimEmpty(persistents.getAttribute(inputName)))
 					{
 						addError(res, ValidationResult.ERROR_MISSING_DUTY_FIELD, inputName, result, pageNum);
 					}
@@ -1298,7 +1299,7 @@ public class FormTools
 			{
 				FieldDescriptor field = (FieldDescriptor) j.next();
 
-				if (field.isReadOnly() || field.isOmitted() || field.isComment() || field.getEditor().startsWith("jsp"))
+				if (field.isReadOnly() || field.isDisabled() || field.isOmitted() || field.isComment() || field.getEditor().startsWith("jsp"))
 				{
 					continue;
 				}

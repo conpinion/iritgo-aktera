@@ -61,7 +61,7 @@ public class JournalItemImpl extends AbstractDashboardItem implements JournalIte
 
 		conds.put("ownerId", ownerId);
 		conds.put("primaryType", primaryType);
-		journalEntries = journalManager.listJournalEntriesByCondition("occuredAt", SortOrder.DESCENDING, 0, 3,
+		journalEntries = journalManager.listJournalEntriesByCondition("occurredAt", SortOrder.DESCENDING, 0, 3,
 						"ownerId = :ownerId AND primaryType = :primaryType", conds);
 		iterator = journalEntries.iterator();
 	}

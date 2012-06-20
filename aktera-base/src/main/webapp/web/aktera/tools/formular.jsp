@@ -19,7 +19,8 @@
 <xhtml:form formName="formular" action="<%= formAction %>" method="post" enctype="multipart/form-data" focus="<%= focusField %>">
 
 	<input type="hidden" name="AKTERA_auto" value="false"/>
-	<input type="hidden" name="AKTERA_page" value="-1"/>
+	<bean:define id="currentPage" name="currentPage" property="content" type="java.lang.Integer"/>
+	<input type="hidden" name="AKTERA_page" value="<%= currentPage %>"/>
 
 	<logic:present name="default" property="id">
 		<html:hidden name="default" property="id"/>
@@ -247,6 +248,8 @@
 
 									<logic:notPresent name="field" property="attributes.readOnly">
 
+										<bean:define id="disabled" type="java.lang.Boolean" name="field" property="attributes.disabled"/>
+										
 										<td class="<%= fieldClass %>" valign="<%= labelAlign %>" width="<%= fieldWidth %>%" colspan="<%= fieldColSpan %>">
 
 											<logic:present name="field" property="attributes.selectable">
@@ -379,7 +382,7 @@
 												</xlogic:case>
 
 												<xlogic:case value="timecombo">
-													<xhtml:timeSelect name="default" property="<%= fieldName %>"/>
+													<xhtml:timeSelect name="default" property="<%= fieldName %>" disabled="<%= disabled %>"/>
 												</xlogic:case>
 
 												<xlogic:case value="timestamptext">
@@ -391,7 +394,12 @@
 												</xlogic:case>
 
 												<xlogic:case value="check">
-													<html:checkbox name="default" property="<%= fieldName %>" styleClass="checkbox"/>
+													<logic:present name="field" property="attributes.submit">
+														<html:checkbox name="default" property="<%= fieldName %>" styleClass="checkbox" onchange="javascript:autoSubmit()"/>
+													</logic:present>
+													<logic:notPresent name="field" property="attributes.submit">
+														<html:checkbox name="default" property="<%= fieldName %>" styleClass="checkbox"/>
+													</logic:notPresent>
 												</xlogic:case>
 
 												<xlogic:case value="money">
@@ -400,14 +408,14 @@
 
 												<xlogic:case value="combo">
 													<logic:present name="field" property="attributes.submit">
-														<xhtml:select name="default" property="<%= fieldName %>" onchange="javascript:comboBoxSubmit()">
+														<xhtml:select name="default" property="<%= fieldName %>" disabled="<%= disabled %>" onchange="javascript:comboBoxSubmit()">
 															<logic:present name="field" property="validValues">
-																<xhtml:optionsCollection bundle="<%= bundle %>" name="field" property="validValues"/>
+																<xhtml:optionsCollection bundle="<%= bundle %>" name="field" property="validValues" />
 															</logic:present>
 														</xhtml:select>
 													</logic:present>
 													<logic:notPresent name="field" property="attributes.submit">
-														<xhtml:select name="default" property="<%= fieldName %>">
+														<xhtml:select name="default" property="<%= fieldName %>" disabled="<%= disabled %>" >
 															<logic:present name="field" property="validValues">
 																<xhtml:optionsCollection bundle="<%= bundle %>" name="field" property="validValues"/>
 															</logic:present>
@@ -482,7 +490,10 @@
 														<bean:define id="bundle" name="command" property="attributes.bundle" type="java.lang.String"/>
 													</logic:present>
 
-													<xkeel:command name="command" styleClass="form-button" icon="<%= iconName %>">
+													<bean:define id="confirmMessage" type="java.lang.String"><bean:message name="command" property="attributes.confirm" bundle="<%= bundle %>"/></bean:define>
+													<bean:define id="confirm" type="java.lang.String">return buttonConfirmAndClick('<%= confirmMessage %>', this);</bean:define>
+
+													<xkeel:command name="command" styleClass="form-button" icon="<%= iconName %>" onclick="<%= confirm %>">
 														<logic:notEqual name="command" property="label" value="">
 															<bean:message key="<%= label %>" bundle="<%= bundle %>"/>
 														</logic:notEqual>
