@@ -88,6 +88,9 @@ public class ModuleUpdateHandler extends UpdateHandler
 			update("delete from journaldata where occurredat is null");
 			updateColumnToNotNull("JournalData", "occurredAt");
 			
+			createIndex("journalentry", "occurredat");
+			createIndex("journaldata", "occurredat");
+
 			currentVersion.setVersion("2.3.2");
 		}
 

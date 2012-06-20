@@ -209,7 +209,7 @@ public class UpdateHandler
 
 	protected void createIndex(String tableName, String columnName) throws SQLException
 	{
-		update("CREATE INDEX " + columnName + "_idx ON " + tableName + " (" + columnName + ")");
+		update("CREATE INDEX " + tableName + "_" + columnName + "_idx ON " + tableName + " (" + columnName + ")");
 	}
 
 	protected void createInstanceSecurity(String component, String instance, String groupName, String operationsAllowed)
