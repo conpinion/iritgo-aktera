@@ -490,7 +490,7 @@
 														<bean:define id="bundle" name="command" property="attributes.bundle" type="java.lang.String"/>
 													</logic:present>
 
-													<bean:define id="confirmMessage" type="java.lang.String"><bean:message name="command" property="attributes.confirm" bundle="<%= bundle %>"/></bean:define>
+													<bean:define id="confirmMessage" type="java.lang.String"><xbean:message name="command" property="attributes.confirm" bundle="<%= bundle %>" defaultMessage="__EMPTY__"/></bean:define>
 													<bean:define id="confirm" type="java.lang.String">return buttonConfirmAndClick('<%= confirmMessage %>', this);</bean:define>
 
 													<xkeel:command name="command" styleClass="form-button" icon="<%= iconName %>" onclick="<%= confirm %>">

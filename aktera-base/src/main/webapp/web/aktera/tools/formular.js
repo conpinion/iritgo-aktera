@@ -19,7 +19,7 @@ function autoSubmit()
 
 function buttonConfirmAndClick(confirmMessage, button)
 {
-	if (confirmMessage != "")
+	if (confirmMessage != "__EMPTY__")
 	{
 		if (! confirm(confirmMessage))
 		{

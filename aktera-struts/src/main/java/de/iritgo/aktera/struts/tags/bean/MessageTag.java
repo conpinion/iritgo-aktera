@@ -20,24 +20,19 @@
 package de.iritgo.aktera.struts.tags.bean;
 
 
-import org.apache.struts.taglib.TagUtils;
-import de.iritgo.simplelife.string.StringTools;
 import javax.servlet.jsp.JspException;
+import lombok.*;
+import org.apache.struts.taglib.TagUtils;
 
 
-/**
- *
- */
 public class MessageTag extends org.apache.struts.taglib.bean.MessageTag
 {
-	/** */
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * Execute the tag.
-	 *
-	 * @return SKIP_BODY.
-	 */
+	@Setter
+	@Getter
+	private String defaultMessage;
+	
 	@Override
 	public int doStartTag() throws JspException
 	{
@@ -118,7 +113,7 @@ public class MessageTag extends org.apache.struts.taglib.bean.MessageTag
 		String message = TagUtils.getInstance().message(pageContext, bundle, this.localeKey, key, args);
 		if (message == null || message.startsWith("???"))
 		{
-			message = key;
+			message = defaultMessage != null ? defaultMessage : key;
 		}
 
 		TagUtils.getInstance().write(pageContext, message);
