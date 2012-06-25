@@ -25,12 +25,10 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.persistence.*;
 import javax.validation.constraints.*;
-
 import lombok.Data;
 import org.apache.avalon.framework.logger.Logger;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.*;
-import org.springframework.cache.annotation.Cacheable;
 import de.iritgo.aktera.configuration.SystemConfigManager;
 import de.iritgo.simplelife.constants.SortOrder;
 import de.iritgo.simplelife.string.StringTools;
@@ -92,6 +90,7 @@ public abstract class AddressStore implements Serializable
 
 	@Enumerated(EnumType.STRING)
 	@NotNull
+	@Value("NO_NORMALIZATION")
 	protected NumberNormalizationType numberNormalization;
 
 	@Inject

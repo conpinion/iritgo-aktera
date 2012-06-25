@@ -51,7 +51,7 @@ public class ModuleCreateHandler extends CreateHandler
 						"type varchar(255) not null", "title varchar(255)", "position int4 not null",
 						"systemStore boolean not null", "defaultStore boolean not null", "editable boolean not null",
 						"numberLookup boolean not null", "emptySearchReturnsAllEntries boolean not null",
-						"numberNormalization varchar(64)");
+						"numberNormalization varchar(64) not null");
 
 		createIndex("AddressStore", "name");
 
@@ -110,7 +110,8 @@ public class ModuleCreateHandler extends CreateHandler
 		insert("AddressStore", "name", "'de.iritgo.aktera.address.AddressLocalGlobalStore'", "type",
 						"'de.iritgo.aktera.address.entity.AddressDAOStore'", "title", "'$AkteraAddress:global'",
 						"position", "1", "systemStore", "true", "defaultStore", "true", "editable", "true",
-						"numberLookup", "true", "emptysearchreturnsallentries", "true");
+						"numberLookup", "true", "emptysearchreturnsallentries", "true",
+						"numberNormalization", "'NO_NORMALIZATION'");
 
 		insert("AddressDAOStore", "id", String.valueOf(selectInt("AddressStore", "id",
 						"name = 'de.iritgo.aktera.address.AddressLocalGlobalStore'")), "category", "'G'", "checkOwner",
@@ -119,7 +120,8 @@ public class ModuleCreateHandler extends CreateHandler
 		insert("AddressStore", "name", "'de.iritgo.aktera.address.AddressLocalPrivateStore'", "type",
 						"'de.iritgo.aktera.address.entity.AddressDAOStore'", "title", "'$AkteraAddress:private'",
 						"position", "2", "systemStore", "true", "defaultStore", "true", "editable", "true",
-						"numberLookup", "true", "emptysearchreturnsallentries", "true");
+						"numberLookup", "true", "emptysearchreturnsallentries", "true",
+						"numberNormalization", "'NO_NORMALIZATION'");
 
 		insert("AddressDAOStore", "id", String.valueOf(selectInt("AddressStore", "id",
 						"name = 'de.iritgo.aktera.address.AddressLocalPrivateStore'")), "category", "'P'",
