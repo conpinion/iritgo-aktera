@@ -147,6 +147,8 @@ public class AddressImportHandler implements ImportHandler
 	public boolean perform(ModelRequest req, Document doc, Node importElem, PrintWriter reporter, I18N i18n,
 					Properties properties) throws ModelException, XPathExpressionException
 	{
+		boolean bulkImport = (Boolean) properties.get("bulkImport");
+
 		AddressManager addressManager = (AddressManager) SpringTools.getBean(AddressManager.ID);
 		String addressStoreId = (String) properties.getProperty("destination", addressManager.getDefaultAddressStore()
 						.getName());
@@ -219,27 +221,29 @@ public class AddressImportHandler implements ImportHandler
 				}
 
 				Option<Address> address = new Empty();
-
-				if (! StringTools.isTrimEmpty(contactNumber))
+				if (! bulkImport)
 				{
-					address = addressStore.findAddressByOwnerAndContactNumber(ownerId, contactNumber);
-					if (address.full())
+					if (! StringTools.isTrimEmpty(contactNumber))
 					{
-						reporter.println(i18n.msg(req, "AkteraAddress", "updateAddressEntry", name));
-					}
-				}
-				else
-				{
-					address = addressStore.findAddressByOnwerAndFirstNameOrLastNameOrCompany(ownerId, firstName,
-									lastName, company);
-
-					if (address.full())
-					{
-						reporter.println(i18n.msg(req, "AkteraAddress", "updateAddressEntry", name));
+						address = addressStore.findAddressByOwnerAndContactNumber(ownerId, contactNumber);
+						if (address.full())
+						{
+							reporter.println(i18n.msg(req, "AkteraAddress", "updateAddressEntry", name));
+						}
 					}
 					else
 					{
-						reporter.println(i18n.msg(req, "AkteraAddress", "newAddressEntry", name));
+						address = addressStore.findAddressByOnwerAndFirstNameOrLastNameOrCompany(ownerId, firstName,
+								lastName, company);
+
+						if (address.full())
+						{
+							reporter.println(i18n.msg(req, "AkteraAddress", "updateAddressEntry", name));
+						}
+						else
+						{
+							reporter.println(i18n.msg(req, "AkteraAddress", "newAddressEntry", name));
+						}
 					}
 				}
 
@@ -382,6 +386,8 @@ public class AddressImportHandler implements ImportHandler
 	{
 		try
 		{
+			boolean bulkImport = (Boolean) properties.get("bulkImport");
+
 			I18N i18n = (I18N) request.getSpringBean(I18N.ID);
 
 			AddressManager addressManager = (AddressManager) SpringTools.getBean(AddressManager.ID);
@@ -446,28 +452,30 @@ public class AddressImportHandler implements ImportHandler
 			}
 
 			Option<Address> address = new Empty();
-
-			if (! StringTools.isTrimEmpty(contactNumber))
+			if (! bulkImport)
 			{
-				address = addressStore.findAddressByOwnerAndContactNumber(ownerId, contactNumber);
-
-				if (address.full())
+				if (! StringTools.isTrimEmpty(contactNumber))
 				{
-					reporter.println(i18n.msg(request, "AkteraAddress", "updateAddressEntry", displayName));
-				}
-			}
-			else
-			{
-				address = addressStore.findAddressByOnwerAndFirstNameOrLastNameOrCompany(ownerId, firstName, lastName,
-								company);
+					address = addressStore.findAddressByOwnerAndContactNumber(ownerId, contactNumber);
 
-				if (address.full())
-				{
-					reporter.println(i18n.msg(request, "AkteraAddress", "updateAddressEntry", displayName));
+					if (address.full())
+					{
+						reporter.println(i18n.msg(request, "AkteraAddress", "updateAddressEntry", displayName));
+					}
 				}
 				else
 				{
-					reporter.println(i18n.msg(request, "AkteraAddress", "newAddressEntry", displayName));
+					address = addressStore.findAddressByOnwerAndFirstNameOrLastNameOrCompany(ownerId, firstName, lastName,
+							company);
+
+					if (address.full())
+					{
+						reporter.println(i18n.msg(request, "AkteraAddress", "updateAddressEntry", displayName));
+					}
+					else
+					{
+						reporter.println(i18n.msg(request, "AkteraAddress", "newAddressEntry", displayName));
+					}
 				}
 			}
 

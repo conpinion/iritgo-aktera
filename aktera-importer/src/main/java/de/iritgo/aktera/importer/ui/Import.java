@@ -77,6 +77,8 @@ public class Import extends SecurableStandardLogEnabledModel
 		public String xslt;
 
 		public String destination;
+
+		public boolean bulkImport;
 	}
 
 	/**
@@ -106,7 +108,7 @@ public class Import extends SecurableStandardLogEnabledModel
 
 		if ("analyze".equals(params.mode))
 		{
-			if (analyze(req, res, params.fileName, params.handlerId, params.xslt, properties))
+			if (analyze(req, res, params.fileName, params.handlerId, params.bulkImport, params.xslt, properties))
 			{
 				Properties props = new Properties();
 
@@ -150,7 +152,7 @@ public class Import extends SecurableStandardLogEnabledModel
 		}
 		else if ("import".equals(params.mode))
 		{
-			if (perform(req, res, params.fileName, params.handlerId, params.xslt, properties))
+			if (perform(req, res, params.fileName, params.handlerId, params.xslt, params.bulkImport, properties))
 			{
 				Properties props = new Properties();
 
@@ -192,6 +194,17 @@ public class Import extends SecurableStandardLogEnabledModel
 		if (StringTools.isTrimEmpty(params.fileName))
 		{
 			params.fileName = "import.data";
+		}
+
+		String bulkImport = StringTools.trim(req.getParameter("bulkImport"));
+
+		if (StringTools.isTrimEmpty(bulkImport) || "off".equals(bulkImport))
+		{
+			params.bulkImport = false;
+		}
+		else
+		{
+			params.bulkImport = true;
 		}
 
 		params.mode = StringTools.trim(req.getParameter("mode"));
@@ -326,7 +339,7 @@ public class Import extends SecurableStandardLogEnabledModel
 	 *         file.
 	 */
 	protected boolean analyze(final ModelRequest req, ModelResponse res, final String fileName, final String handlerId,
-					String xslt, final Properties properties) throws ModelException
+					final boolean bulkImport, String xslt, final Properties properties) throws ModelException
 	{
 		final I18N i18n = (I18N) req.getSpringBean(I18N.ID);
 		final ImportManager im = (ImportManager) req.getSpringBean(ImportManager.ID);
@@ -380,7 +393,7 @@ public class Import extends SecurableStandardLogEnabledModel
 								if (importElem != null)
 								{
 									reporter.println(i18n.msg(req, "Aktera", "startingImportAnalysis"));
-									ok = im.analyzeImport(req, doc, importElem, reporter, i18n, handlerId, properties);
+									ok = im.analyzeImport(req, doc, importElem, reporter, i18n, handlerId, bulkImport, properties);
 								}
 								else
 								{
@@ -474,7 +487,7 @@ public class Import extends SecurableStandardLogEnabledModel
 	 *         file.
 	 */
 	protected boolean perform(final ModelRequest req, ModelResponse res, final String fileName, final String handlerId,
-					String xslt, final Properties properties) throws ModelException
+					String xslt, final boolean bulkImport, final Properties properties) throws ModelException
 	{
 		final I18N i18n = (I18N) req.getSpringBean(I18N.ID);
 		final ImportManager im = (ImportManager) req.getSpringBean(ImportManager.ID);
@@ -523,7 +536,7 @@ public class Import extends SecurableStandardLogEnabledModel
 
 							reporter.println(i18n.msg(req, "Aktera", "startingImport"));
 
-							ok = im.performImport(req, doc, importElem, reporter, i18n, handlerId, properties);
+							ok = im.performImport(req, doc, importElem, reporter, i18n, handlerId, bulkImport, properties);
 						}
 						catch (ParserConfigurationException x)
 						{

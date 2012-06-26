@@ -152,7 +152,6 @@ public class ImportDefineFormularHandler extends FormularHandler
 					List<Configuration> persistentConfig) throws ModelException, PersistenceException
 	{
 		request.setParameter("filename", FileTools.newAkteraFile("var/tmp/iritgo/import.data"));
-
 		return - 1;
 	}
 }

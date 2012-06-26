@@ -42,6 +42,7 @@
 		</group>
 		<group name="defineImportCsv">
 			<comment label="importCsvTypeDescription"/>
+			<field name="bulkImport" editor="check" size="40" unbound="true"/>
 			<field name="xslt" label="csvType" editor="combo" size="20" unbound="true"/>
 			<comment label="importCsvFileDescription"/>
 			<field name="fileUpload2" editor="file" size="40" unbound="true"/>
@@ -64,6 +65,7 @@
 		<command-ok model="aktera.import">
 			<parameter name="file" value="#{params(filename)}"/>
 			<parameter name="mode" value="analyze"/>
+			<parameter name="bulkImport" value="#{params(bulkImport)}"/>
 		</command-ok>
 		<command-edit model="aktera.import.define.edit"/>
 	</aktera.save>

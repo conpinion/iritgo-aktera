@@ -180,23 +180,23 @@ public interface ImportManager
 	 * Analyse an import with all registered handlers.
 	 */
 	public boolean analyzeImport(ModelRequest req, Document doc, Node importElem, PrintWriter reporter, I18N i18n,
-					Properties properties) throws ModelException;
+					boolean bulkImport, Properties properties) throws ModelException;
 
 	/**
 	 * Analyse an import with a specified handler.
 	 */
 	public boolean analyzeImport(ModelRequest req, Document doc, Node importElem, PrintWriter reporter, I18N i18n,
-					String handlerId, Properties properties) throws ModelException;
+					String handlerId, boolean bulkImport, Properties properties) throws ModelException;
 
 	/**
 	 * Import an import with all registered handlers.
 	 */
 	public boolean performImport(ModelRequest req, Document doc, Node importElem, PrintWriter reporter, I18N i18n,
-					Properties properties) throws ModelException;
+					boolean bulkImport, Properties properties) throws ModelException;
 
 	/**
 	 * Import an import with a specified handler.
 	 */
 	public boolean performImport(ModelRequest req, Document doc, Node importElem, PrintWriter reporter, I18N i18n,
-					String handlerId, Properties properties) throws ModelException;
+					String handlerId, boolean bulkImport, Properties properties) throws ModelException;
 }
