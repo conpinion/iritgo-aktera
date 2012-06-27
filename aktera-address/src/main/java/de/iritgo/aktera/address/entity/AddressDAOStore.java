@@ -48,7 +48,7 @@ public class AddressDAOStore extends AddressStore
 	/** Store category */
 	@Length(min = 1, max = 255)
 	@NotNull
-	private String category;
+	public String category;
 
 	/** If true the address owner must match the searching user */
 	@NotNull

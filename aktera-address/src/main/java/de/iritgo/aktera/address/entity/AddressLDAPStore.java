@@ -204,6 +204,12 @@ public class AddressLDAPStore extends AddressStore
 	}
 
 	@Override
+	public String getCategory()
+	{
+		return null;
+	}
+
+	@Override
 	public Option<Address> findAddressByDn(Object addressDn)
 	{
 		LdapContext context = null;

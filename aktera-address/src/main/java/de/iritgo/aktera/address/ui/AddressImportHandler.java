@@ -39,7 +39,6 @@ import de.iritgo.aktera.ui.tools.UserTools;
 import de.iritgo.simplelife.string.StringTools;
 import de.iritgo.simplelife.tools.*;
 
-
 public class AddressImportHandler implements ImportHandler
 {
 	private static final int BULK_IMPORT_SIZE = 500;
@@ -187,12 +186,14 @@ public class AddressImportHandler implements ImportHandler
 			ownerId = null;
 		}
 
+		String category = StringTools.trim (addressStore.getCategory());
+
 		XPath xPath = XPathFactory.newInstance().newXPath();
 
 		NodeList addressElems = (NodeList) xPath.evaluate("addresses/address", importElem, XPathConstants.NODESET);
 
 		Collection<Address> bulkAddresses = new ArrayList<Address> ();
-
+		long startImportTime = System.currentTimeMillis();
 		for (Node addressElem : new IterableNodeList(addressElems))
 		{
 			try
@@ -270,6 +271,7 @@ public class AddressImportHandler implements ImportHandler
 					address = new Full(new Address());
 				}
 
+				address.get().setCategory(category);
 				address.get().setFirstName(firstName);
 				address.get().setLastName(lastName);
 				address.get().setCompany(company);
@@ -338,7 +340,10 @@ public class AddressImportHandler implements ImportHandler
 					bulkAddresses.add (address.get ());
 					if (bulkAddresses.size () == BULK_IMPORT_SIZE)
 					{
+						long startTime = System.currentTimeMillis();
 						addressStore.bulkImport (bulkAddresses);
+						reporter.println(i18n.msg(req, "AkteraAddress", "numAddressInSekAdded", new Integer(
+								bulkAddresses.size ()), new Integer ((int) (System.currentTimeMillis()-startTime)/1000)));
 						bulkAddresses.clear();
 					}
 				}
@@ -348,6 +353,9 @@ public class AddressImportHandler implements ImportHandler
 				reporter.println(i18n.msg(req, "AkteraAddress", "addressImportHandlerPerformError", x));
 			}
 		}
+		addressStore.bulkImport (bulkAddresses);
+		reporter.println(i18n.msg(req, "AkteraAddress", "numAddressInSekAdded", new Integer(
+				addressElems.getLength()), new Integer ((int) (System.currentTimeMillis()-startImportTime)/1000)));
 
 		return true;
 	}

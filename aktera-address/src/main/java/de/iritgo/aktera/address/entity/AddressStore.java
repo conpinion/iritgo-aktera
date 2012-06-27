@@ -166,6 +166,8 @@ public abstract class AddressStore implements Serializable
 			String number, String countryPrefix, String localPrefix,
 			String internationalPrefix, String nationalPrefix);
 
+	public abstract String getCategory ();
+
 	protected String normalizeNumber (String number, String countryPrefix, String localPrefix,
 			String nationalPrefix)
 	{
