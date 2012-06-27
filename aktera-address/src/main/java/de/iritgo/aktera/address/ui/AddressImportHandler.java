@@ -353,7 +353,10 @@ public class AddressImportHandler implements ImportHandler
 				reporter.println(i18n.msg(req, "AkteraAddress", "addressImportHandlerPerformError", x));
 			}
 		}
-		addressStore.bulkImport (bulkAddresses);
+		if (bulkImport)
+		{
+			addressStore.bulkImport (bulkAddresses);
+		}
 		reporter.println(i18n.msg(req, "AkteraAddress", "numAddressInSekAdded", new Integer(
 				addressElems.getLength()), new Integer ((int) (System.currentTimeMillis()-startImportTime)/1000)));
 
