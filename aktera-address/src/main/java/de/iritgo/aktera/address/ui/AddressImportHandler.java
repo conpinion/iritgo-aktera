@@ -96,10 +96,27 @@ public class AddressImportHandler implements ImportHandler
 		{
 			try
 			{
-				String company = StringTools.trim(xPath.evaluate("company", addressElem));
-				String lastName = StringTools.trim(xPath.evaluate("lastName", addressElem));
-				String firstName = StringTools.trim(xPath.evaluate("firstName", addressElem));
-				String contactNumber = StringTools.trim(xPath.evaluate("contactNumber", addressElem));
+				String addressCategory = addressElem.getAttributes().getNamedItem("category").getTextContent();
+				NodeList addressNodes = addressElem.getChildNodes();
+				int nodePos = 1;
+				nodePos++;
+				String firstName = addressNodes.item(nodePos++).getTextContent();
+				nodePos++;
+				String lastName = addressNodes.item(nodePos++).getTextContent();
+				nodePos++;
+				String company = addressNodes.item(nodePos++).getTextContent();
+				nodePos++;
+				nodePos++;
+				nodePos++;
+				nodePos++;
+				nodePos++;
+				nodePos++;
+				nodePos++;
+				nodePos++;
+				nodePos++;
+				String contactNumber = addressNodes.item(nodePos++).getTextContent();
+				nodePos++;
+				nodePos++;
 
 				if (StringTools.isTrimEmpty(company) && StringTools.isTrimEmpty(lastName))
 				{
@@ -198,12 +215,57 @@ public class AddressImportHandler implements ImportHandler
 		{
 			try
 			{
-				String company = StringTools.trim(xPath.evaluate("company", addressElem));
-				String lastName = StringTools.trim(xPath.evaluate("lastName", addressElem));
-				String firstName = StringTools.trim(xPath.evaluate("firstName", addressElem));
-				@SuppressWarnings("unused")
-				String city = StringTools.trim(xPath.evaluate("city", addressElem));
-				String contactNumber = StringTools.trim(xPath.evaluate("contactNumber", addressElem));
+				String addressCategory = addressElem.getAttributes().getNamedItem("category").getTextContent();
+				NodeList addressNodes = addressElem.getChildNodes();
+				int nodePos = 1;
+				String salutation = addressNodes.item(nodePos++).getTextContent();
+				nodePos++;
+				String firstName = addressNodes.item(nodePos++).getTextContent();
+				nodePos++;
+				String lastName = addressNodes.item(nodePos++).getTextContent();
+				nodePos++;
+				String company = addressNodes.item(nodePos++).getTextContent();
+				nodePos++;
+				String division = addressNodes.item(nodePos++).getTextContent();
+				nodePos++;
+				String position = addressNodes.item(nodePos++).getTextContent();
+				nodePos++;
+				String street = addressNodes.item(nodePos++).getTextContent();
+				nodePos++;
+				String postalCode = addressNodes.item(nodePos++).getTextContent();
+				nodePos++;
+				String city = addressNodes.item(nodePos++).getTextContent();
+				nodePos++;
+				String country = addressNodes.item(nodePos++).getTextContent();
+				nodePos++;
+				String email = addressNodes.item(nodePos++).getTextContent();
+				nodePos++;
+				String web = addressNodes.item(nodePos++).getTextContent();
+				nodePos++;
+				String contactNumber = addressNodes.item(nodePos++).getTextContent();
+				nodePos++;
+				String companyNumber = addressNodes.item(nodePos++).getTextContent();
+				nodePos++;
+				Node phoneNumberElem = addressNodes.item(nodePos++);
+				NodeList phoneNumberNodes = phoneNumberElem.getChildNodes();
+				int phoneNumberPos = 1;
+				String numberB = phoneNumberNodes.item(phoneNumberPos++).getTextContent();
+				phoneNumberPos++;
+				String numberBM = phoneNumberNodes.item(phoneNumberPos++).getTextContent();
+				phoneNumberPos++;
+				String numberBF = phoneNumberNodes.item(phoneNumberPos++).getTextContent();
+				phoneNumberPos++;
+				String numberBDD = phoneNumberNodes.item(phoneNumberPos++).getTextContent();
+				phoneNumberPos++;
+				String numberP = phoneNumberNodes.item(phoneNumberPos++).getTextContent();
+				phoneNumberPos++;
+				String numberPM = phoneNumberNodes.item(phoneNumberPos++).getTextContent();
+				phoneNumberPos++;
+				String numberPF = phoneNumberNodes.item(phoneNumberPos++).getTextContent();
+				phoneNumberPos++;
+				String numberVOIP = phoneNumberNodes.item(phoneNumberPos++).getTextContent();
+				nodePos++;
+				String remark = addressNodes.item(nodePos++).getTextContent();
 
 				if (StringTools.isTrimEmpty(company) && StringTools.isTrimEmpty(lastName))
 				{
@@ -275,55 +337,47 @@ public class AddressImportHandler implements ImportHandler
 				address.get().setFirstName(firstName);
 				address.get().setLastName(lastName);
 				address.get().setCompany(company);
-				address.get().setSalutation(StringTools.trim(xPath.evaluate("salutation", addressElem)));
-				address.get().setDivision(StringTools.trim(xPath.evaluate("division", addressElem)));
-				address.get().setPosition(StringTools.trim(xPath.evaluate("position", addressElem)));
-				address.get().setStreet(StringTools.trim(xPath.evaluate("street", addressElem)));
-				address.get().setPostalCode(StringTools.trim(xPath.evaluate("postalCode", addressElem)));
-				address.get().setCity(StringTools.trim(xPath.evaluate("city", addressElem)));
-				address.get().setCountry(StringTools.trim(xPath.evaluate("country", addressElem)));
-				address.get().setEmail(StringTools.trim(xPath.evaluate("email", addressElem)));
-				address.get().setWeb(StringTools.trim(xPath.evaluate("web", addressElem)));
-				address.get().setContactNumber(StringTools.trim(xPath.evaluate("contactNumber", addressElem)));
-				address.get().setCompanyNumber(StringTools.trim(xPath.evaluate("companyNumber", addressElem)));
-				address.get().setSourceSystemId(StringTools.trim(xPath.evaluate("sourceSystemId", addressElem)));
-				address.get()
-								.setSourceSystemClient(
-												StringTools.trim(xPath.evaluate("sourceSystemClient", addressElem)));
-				address.get().setRemark(StringTools.trim(xPath.evaluate("remark", addressElem)));
+				address.get().setSalutation(StringTools.trim(salutation));
+				address.get().setDivision(StringTools.trim(division));
+				address.get().setPosition(StringTools.trim(position));
+				address.get().setStreet(StringTools.trim(street));
+				address.get().setPostalCode(StringTools.trim(postalCode));
+				address.get().setCity(StringTools.trim(city));
+				address.get().setCountry(StringTools.trim(country));
+				address.get().setEmail(StringTools.trim(email));
+				address.get().setWeb(StringTools.trim(web));
+				address.get().setContactNumber(StringTools.trim(contactNumber));
+				address.get().setCompanyNumber(StringTools.trim(companyNumber));
+//				address.get().setSourceSystemId(StringTools.trim(xPath.evaluate("sourceSystemId", addressElem)));
+//				address.get().setSourceSystemClient(StringTools.trim(xPath.evaluate("sourceSystemClient", addressElem)));
+				address.get().setSourceSystemId(StringTools.trim(addressCategory));
+				address.get().setSourceSystemClient(StringTools.trim(addressCategory));
+				address.get().setRemark(StringTools.trim(remark));
 
 				address.get()
 								.getPhoneNumberByCategory("B")
-								.setNumber(StringTools.trim(xPath.evaluate("phoneNumbers/phoneNumber[@category='B']",
-												addressElem)));
+								.setNumber(StringTools.trim(numberB));
 				address.get()
 								.getPhoneNumberByCategory("BM")
-								.setNumber(StringTools.trim(xPath.evaluate("phoneNumbers/phoneNumber[@category='BM']",
-												addressElem)));
+								.setNumber(StringTools.trim(numberBM));
 				address.get()
 								.getPhoneNumberByCategory("BF")
-								.setNumber(StringTools.trim(xPath.evaluate("phoneNumbers/phoneNumber[@category='BF']",
-												addressElem)));
+								.setNumber(StringTools.trim(numberBF));
 				address.get()
 								.getPhoneNumberByCategory("BDD")
-								.setNumber(StringTools.trim(xPath.evaluate("phoneNumbers/phoneNumber[@category='BDD']",
-												addressElem)));
+								.setNumber(StringTools.trim(numberBDD));
 				address.get()
 								.getPhoneNumberByCategory("P")
-								.setNumber(StringTools.trim(xPath.evaluate("phoneNumbers/phoneNumber[@category='P']",
-												addressElem)));
+								.setNumber(StringTools.trim(numberP));
 				address.get()
 								.getPhoneNumberByCategory("PM")
-								.setNumber(StringTools.trim(xPath.evaluate("phoneNumbers/phoneNumber[@category='PM']",
-												addressElem)));
+								.setNumber(StringTools.trim(numberPM));
 				address.get()
 								.getPhoneNumberByCategory("PF")
-								.setNumber(StringTools.trim(xPath.evaluate("phoneNumbers/phoneNumber[@category='PF']",
-												addressElem)));
+								.setNumber(StringTools.trim(numberPF));
 				address.get()
 								.getPhoneNumberByCategory("VOIP")
-								.setNumber(StringTools.trim(xPath.evaluate(
-												"phoneNumbers/phoneNumber[@category='VOIP']", addressElem)));
+								.setNumber(StringTools.trim(numberVOIP));
 				if (! bulkImport)
 				{
 					if (address.get().getId() != null)
