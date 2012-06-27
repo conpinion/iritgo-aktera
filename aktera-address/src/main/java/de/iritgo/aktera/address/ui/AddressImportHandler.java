@@ -21,7 +21,7 @@ package de.iritgo.aktera.address.ui;
 
 
 import java.io.PrintWriter;
-import java.util.Properties;
+import java.util.*;
 import javax.xml.xpath.*;
 import org.apache.avalon.framework.context.*;
 import org.apache.avalon.framework.service.ServiceException;
@@ -42,6 +42,8 @@ import de.iritgo.simplelife.tools.*;
 
 public class AddressImportHandler implements ImportHandler
 {
+	private static final int BULK_IMPORT_SIZE = 500;
+
 	@SuppressWarnings("serial")
 	private class DataCollector extends ImportDataCollector
 	{
@@ -60,6 +62,8 @@ public class AddressImportHandler implements ImportHandler
 	public boolean analyze(ModelRequest req, Document doc, Node importElem, PrintWriter reporter, I18N i18n,
 					Properties properties) throws ModelException, XPathExpressionException
 	{
+		boolean bulkImport = (Boolean) properties.get("bulkImport");
+
 		AddressManager addressManager = (AddressManager) SpringTools.getBean(AddressManager.ID);
 		String addressStoreId = (String) properties.getProperty("destination", addressManager.getDefaultAddressStore()
 						.getName());
@@ -103,19 +107,26 @@ public class AddressImportHandler implements ImportHandler
 					continue;
 				}
 
-				if (! StringTools.isTrimEmpty(contactNumber)
+				if (! bulkImport && ! StringTools.isTrimEmpty(contactNumber)
 								&& addressStore.findAddressByOwnerAndContactNumber(ownerId, contactNumber).full())
 				{
 					++numOldAddresses;
 				}
 				else
 				{
-					Option<Address> address = addressStore.findAddressByOnwerAndFirstNameOrLastNameOrCompany(ownerId,
-									firstName, lastName, company);
-
-					if (address.full())
+					if (! bulkImport)
 					{
-						++numOldAddresses;
+						Option<Address> address = addressStore.findAddressByOnwerAndFirstNameOrLastNameOrCompany(ownerId,
+								firstName, lastName, company);
+
+						if (address.full())
+						{
+							++numOldAddresses;
+						}
+						else
+						{
+							++numNewAddresses;
+						}
 					}
 					else
 					{
@@ -149,6 +160,11 @@ public class AddressImportHandler implements ImportHandler
 	{
 		boolean bulkImport = (Boolean) properties.get("bulkImport");
 
+		if (bulkImport)
+		{
+			reporter.println(i18n.msg(req, "AkteraAddress", "addressImportBulkMode"));
+		}
+
 		AddressManager addressManager = (AddressManager) SpringTools.getBean(AddressManager.ID);
 		String addressStoreId = (String) properties.getProperty("destination", addressManager.getDefaultAddressStore()
 						.getName());
@@ -174,6 +190,8 @@ public class AddressImportHandler implements ImportHandler
 		XPath xPath = XPathFactory.newInstance().newXPath();
 
 		NodeList addressElems = (NodeList) xPath.evaluate("addresses/address", importElem, XPathConstants.NODESET);
+
+		Collection<Address> bulkAddresses = new ArrayList<Address> ();
 
 		for (Node addressElem : new IterableNodeList(addressElems))
 		{
@@ -304,14 +322,25 @@ public class AddressImportHandler implements ImportHandler
 								.getPhoneNumberByCategory("VOIP")
 								.setNumber(StringTools.trim(xPath.evaluate(
 												"phoneNumbers/phoneNumber[@category='VOIP']", addressElem)));
-
-				if (address.get().getId() != null)
+				if (! bulkImport)
 				{
-					addressStore.updateAddress(address.get());
+					if (address.get().getId() != null)
+					{
+						addressStore.updateAddress(address.get());
+					}
+					else
+					{
+						addressStore.createAddress(address.get(), ownerId);
+					}
 				}
 				else
 				{
-					addressStore.createAddress(address.get(), ownerId);
+					bulkAddresses.add (address.get ());
+					if (bulkAddresses.size () == BULK_IMPORT_SIZE)
+					{
+						addressStore.bulkImport (bulkAddresses);
+						bulkAddresses.clear();
+					}
 				}
 			}
 			catch (Exception x)

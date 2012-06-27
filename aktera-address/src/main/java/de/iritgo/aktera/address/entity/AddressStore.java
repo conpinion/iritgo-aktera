@@ -21,7 +21,7 @@ package de.iritgo.aktera.address.entity;
 
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.*;
 import javax.inject.Inject;
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -221,5 +221,9 @@ public abstract class AddressStore implements Serializable
 		}
 
 		return number;
+	}
+
+	public void bulkImport(Collection<Address> addresses)
+	{
 	}
 }

@@ -56,6 +56,7 @@ public class ImportAnalyseReport extends SecurableStandardLogEnabledModel
 		ModelResponse res = req.createResponse();
 
 		String file = req.getParameterAsString("file");
+		String bulkImport = req.getParameterAsString("bulkImport");
 		String destination = req.getParameterAsString("destination");
 		String handler = req.getParameterAsString("handler");
 		String backModel = req.getParameterAsString("backModel");
@@ -94,6 +95,7 @@ public class ImportAnalyseReport extends SecurableStandardLogEnabledModel
 
 			cmdImport.setName("cmdImport");
 			cmdImport.setParameter("file", file);
+			cmdImport.setParameter("bulkImport", bulkImport);
 			cmdImport.setParameter("destination", destination);
 			cmdImport.setParameter("mode", "import");
 			cmdImport.setParameter("backModel", backModel);
@@ -120,6 +122,7 @@ public class ImportAnalyseReport extends SecurableStandardLogEnabledModel
 
 			cmdReport.setName("cmdReport");
 			cmdReport.setParameter("file", file);
+			cmdReport.setParameter("bulkImport", bulkImport);
 			cmdReport.setParameter("destination", destination);
 			cmdReport.setParameter("handler", handler);
 			cmdReport.setParameter("backModel", backModel);

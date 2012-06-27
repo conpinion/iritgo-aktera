@@ -435,4 +435,9 @@ public class AddressDAOStore extends AddressStore
 
 		return new Empty ();
 	}
+
+	public void bulkImport (Collection<Address> addresses)
+	{
+		addressDAO.bulkImport (addresses);
+	}
 }

@@ -113,4 +113,6 @@ public interface AddressDAO
 	public void renumberAddressStorePositions(Integer firstPosition, Integer deltaPosition);
 
 	public void resetDefaultStoreFlagOnAllAddressStores();
+
+	public void bulkImport(Collection<Address> address);
 }

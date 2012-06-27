@@ -546,4 +546,10 @@ public class AddressDAOImpl extends HibernateDaoSupport implements AddressDAO
 	{
 		getHibernateTemplate().bulkUpdate("update AddressStore set defaultStore = false");
 	}
+
+	@Transactional(readOnly = false)
+	public void bulkImport(Collection<Address> addresses)
+	{
+		getHibernateTemplate().saveOrUpdateAll (addresses);
+	}
 }

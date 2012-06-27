@@ -120,6 +120,7 @@ public class Import extends SecurableStandardLogEnabledModel
 				}
 
 				props.put("backModel", params.backModel);
+				props.put("bulkImport", params.bulkImport);
 				props.put("handler", params.handlerId);
 				props.put("xslt", params.xslt);
 				props.put("importModel", getConfiguration().getAttribute("id", "none"));
@@ -139,6 +140,7 @@ public class Import extends SecurableStandardLogEnabledModel
 				}
 
 				cmdForce.setParameter("mode", "analyze");
+				cmdForce.setParameter("bulkImport", params.bulkImport);
 				cmdForce.setParameter("force", "Y");
 				cmdForce.setParameter("backModel", params.backModel);
 				cmdForce.setParameter("handler", params.handlerId);
@@ -162,6 +164,7 @@ public class Import extends SecurableStandardLogEnabledModel
 				{
 					props.put("destination", params.destination);
 				}
+				props.put ("bulkImport", params.bulkImport);
 
 				return ModelTools.callModel(req, "aktera.import.report", props);
 			}
@@ -198,7 +201,7 @@ public class Import extends SecurableStandardLogEnabledModel
 
 		String bulkImport = StringTools.trim(req.getParameter("bulkImport"));
 
-		if (StringTools.isTrimEmpty(bulkImport) || "off".equals(bulkImport))
+		if (StringTools.isTrimEmpty(bulkImport) || "off".equals(bulkImport) || "false".equals(bulkImport))
 		{
 			params.bulkImport = false;
 		}
