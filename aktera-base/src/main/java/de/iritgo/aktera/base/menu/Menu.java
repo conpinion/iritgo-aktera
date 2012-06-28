@@ -118,7 +118,7 @@ public class Menu extends StandardLogEnabledModel
 	protected static final int SORT_NAME = 1;
 
 	/** True if the configuration was already read. */
-	protected boolean configRead;
+	protected Boolean configRead = false;
 
 	/** Function list. */
 	protected List<FunctionItem> functions = new LinkedList();
@@ -349,6 +349,15 @@ public class Menu extends StandardLogEnabledModel
 			return;
 		}
 
+		synchronized (configRead)
+		{
+			if (configRead)
+			{
+				return;
+			}
+			configRead = true;
+		}
+
 		Configuration config = getConfiguration();
 
 		for (Configuration groupConfig : config.getChildren("group"))
@@ -454,7 +463,5 @@ public class Menu extends StandardLogEnabledModel
 				return ((FunctionItem) o1).position - ((FunctionItem) o2).position;
 			}
 		});
-
-		configRead = true;
 	}
 }
