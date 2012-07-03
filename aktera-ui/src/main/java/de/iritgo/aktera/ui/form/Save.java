@@ -54,7 +54,7 @@ public class Save extends SecurableStandardLogEnabledModel implements InstanceSe
 	public static final String SYSTEM_EDIT = "AKTERA_SYSTEM_EDIT";
 
 	/** True if the configuration was already read. */
-	protected boolean configRead;
+	protected Boolean configRead;
 
 	/** The edit command. */
 	CommandInfo cmdEdit;
@@ -306,63 +306,69 @@ public class Save extends SecurableStandardLogEnabledModel implements InstanceSe
 			return;
 		}
 
-		java.util.List configPath = ModelTools.getDerivationPath(req, this);
-
-		validate = ModelTools.getConfigBool(configPath, "validate", true);
-
-		cmdOk = readCommandConfig(configPath, "command-ok", "ok", null, "ok");
-		cmdEdit = readCommandConfig(configPath, "command-edit", "edit", null, "edit");
-		cmdPage = readCommandConfig(configPath, "command-page", "page", null, "page");
-
-		keyName = ModelTools.getConfigString(configPath, "keyName", "id");
-
-		persistentConfig = ModelTools.getConfigChildren(configPath, "persistent");
-
-		contextId = ModelTools.getConfigString(configPath, "context", "id", null);
-
-		preserveContext = ModelTools.getConfigBool(configPath, "preserveContext", false);
-
-		String handlerClassName = ModelTools.getConfigString(configPath, "handler", "class", null);
-
-		if (handlerClassName != null)
+		synchronized (configRead)
 		{
-			try
+			if (configRead)
 			{
-				handler = (FormularHandler) Class.forName(handlerClassName).newInstance();
+				return;
 			}
-			catch (ClassNotFoundException x)
+			configRead = true;
+			java.util.List configPath = ModelTools.getDerivationPath(req, this);
+
+			validate = ModelTools.getConfigBool(configPath, "validate", true);
+
+			cmdOk = readCommandConfig(configPath, "command-ok", "ok", null, "ok");
+			cmdEdit = readCommandConfig(configPath, "command-edit", "edit", null, "edit");
+			cmdPage = readCommandConfig(configPath, "command-page", "page", null, "page");
+
+			keyName = ModelTools.getConfigString(configPath, "keyName", "id");
+
+			persistentConfig = ModelTools.getConfigChildren(configPath, "persistent");
+
+			contextId = ModelTools.getConfigString(configPath, "context", "id", null);
+
+			preserveContext = ModelTools.getConfigBool(configPath, "preserveContext", false);
+
+			String handlerClassName = ModelTools.getConfigString(configPath, "handler", "class", null);
+
+			if (handlerClassName != null)
 			{
-				throw new ModelException("[aktera.save] Unable to create handler " + handlerClassName + " (" + x + ")");
+				try
+				{
+					handler = (FormularHandler) Class.forName(handlerClassName).newInstance();
+				}
+				catch (ClassNotFoundException x)
+				{
+					throw new ModelException("[aktera.save] Unable to create handler " + handlerClassName + " (" + x + ")");
+				}
+				catch (InstantiationException x)
+				{
+					throw new ModelException("[aktera.save] Unable to create handler " + handlerClassName + " (" + x + ")");
+				}
+				catch (IllegalAccessException x)
+				{
+					throw new ModelException("[aktera.save] Unable to create handler " + handlerClassName + " (" + x + ")");
+				}
 			}
-			catch (InstantiationException x)
+			else
 			{
-				throw new ModelException("[aktera.save] Unable to create handler " + handlerClassName + " (" + x + ")");
+				String handlerBeanName = ModelTools.getConfigString(configPath, "handler", "bean", null);
+
+				if (handlerBeanName != null)
+				{
+					handler = (FormularHandler) SpringTools.getBean(handlerBeanName);
+				}
 			}
-			catch (IllegalAccessException x)
+
+			if (handler != null)
 			{
-				throw new ModelException("[aktera.save] Unable to create handler " + handlerClassName + " (" + x + ")");
+				handler.setDefaultHandler(new DefaultFormularHandler());
+			}
+			else
+			{
+				handler = new DefaultFormularHandler();
 			}
 		}
-		else
-		{
-			String handlerBeanName = ModelTools.getConfigString(configPath, "handler", "bean", null);
-
-			if (handlerBeanName != null)
-			{
-				handler = (FormularHandler) SpringTools.getBean(handlerBeanName);
-			}
-		}
-
-		if (handler != null)
-		{
-			handler.setDefaultHandler(new DefaultFormularHandler());
-		}
-		else
-		{
-			handler = new DefaultFormularHandler();
-		}
-
-		configRead = true;
 	}
 
 	/**

@@ -76,7 +76,7 @@ public class StartupManagerImpl extends AbstractKeelServiceable implements Start
 	 * @return A list of startup configurations
 	 * @throws ConfigurationException In case of a configuration exception
 	 */
-	private List<Configuration> resolveStartupConfig() throws ConfigurationException
+	synchronized private List<Configuration> resolveStartupConfig() throws ConfigurationException
 	{
 		List<Configuration> sortedConfigs = new LinkedList<Configuration>();
 

@@ -356,112 +356,112 @@ public class Menu extends StandardLogEnabledModel
 				return;
 			}
 			configRead = true;
+
+			Configuration config = getConfiguration();
+
+			for (Configuration groupConfig : config.getChildren("group"))
+			{
+				MenuGroup group = new MenuGroup();
+
+				group.id = groupConfig.getAttribute("id", "null");
+				group.label = groupConfig.getAttribute("label", group.id);
+				group.bundle = groupConfig.getAttribute("bundle", "Aktera");
+				group.position = groupConfig.getAttributeAsInteger("position", 0);
+				menuGroups.add(group);
+			}
+
+			Collections.sort(menuGroups, new Comparator()
+			{
+				public int compare(Object o1, Object o2)
+				{
+					return ((MenuGroup) o1).position - ((MenuGroup) o2).position;
+				}
+			});
+
+			style = config.getChild("style").getValue("default");
+
+			for (Configuration itemConfig : config.getChildren("item"))
+			{
+				if (itemConfig.getAttribute("ifModule", null) != null
+						&& ! ModuleTools.moduleExists(req, itemConfig.getAttribute("ifModule")))
+				{
+					continue;
+				}
+
+				if (itemConfig.getAttribute("id", null) == null)
+				{
+					System.out.println("[Menu] No id defined for menu item in menu '" + config.getAttribute("id") + "'");
+
+					continue;
+				}
+
+				int position = 0;
+				String pos = itemConfig.getAttribute("pos", "C");
+
+				if ("SS".equals(pos))
+				{
+					position = - 100000;
+				}
+				else if ("S".equals(pos))
+				{
+					position = - 10000;
+				}
+				else if ("H".equals(pos))
+				{
+					position = - 1000;
+				}
+				else if ("C".equals(pos))
+				{
+					position = 0;
+				}
+				else if ("T".equals(pos))
+				{
+					position = 1000;
+				}
+				else if ("E".equals(pos))
+				{
+					position = 10000;
+				}
+				else if ("EE".equals(pos))
+				{
+					position = 100000;
+				}
+				else
+				{
+					position = NumberTools.toInt(pos, 0);
+				}
+
+				FunctionItem functionItem = new FunctionItem();
+
+				functionItem.id = itemConfig.getAttribute("id", null);
+				functionItem.category = itemConfig.getAttribute("id", null);
+				functionItem.menu = itemConfig.getAttribute("menu", null);
+				functionItem.menuItem = itemConfig.getAttribute("menuItem", null);
+				functionItem.model = itemConfig.getAttribute("model", "unknown");
+				functionItem.bean = itemConfig.getAttribute("bean", null);
+				functionItem.label = itemConfig.getAttribute("title", "unknown");
+				functionItem.bundle = itemConfig.getAttribute("bundle", "Aktera");
+				functionItem.icon = itemConfig.getAttribute("icon", "menu-bullet");
+				functionItem.bigIcon = itemConfig.getAttribute("bigIcon", functionItem.icon);
+				functionItem.inactiveIcon = itemConfig.getAttribute("inactiveIcon", itemConfig.getAttribute("icon",
+						"menu-bullet"));
+				functionItem.position = position;
+				functionItem.check = itemConfig.getAttribute("ifCheck", null);
+				functionItem.feature = itemConfig.getAttribute("ifFeature", null);
+				functionItem.role = itemConfig.getAttribute("ifRole", null);
+				functionItem.group = itemConfig.getAttribute("group", null);
+				functionItem.permission = itemConfig.getAttribute("ifPermission", null);
+
+				functions.add(functionItem);
+			}
+
+			Collections.sort(functions, new Comparator()
+			{
+				public int compare(Object o1, Object o2)
+				{
+					return ((FunctionItem) o1).position - ((FunctionItem) o2).position;
+				}
+			});
 		}
-
-		Configuration config = getConfiguration();
-
-		for (Configuration groupConfig : config.getChildren("group"))
-		{
-			MenuGroup group = new MenuGroup();
-
-			group.id = groupConfig.getAttribute("id", "null");
-			group.label = groupConfig.getAttribute("label", group.id);
-			group.bundle = groupConfig.getAttribute("bundle", "Aktera");
-			group.position = groupConfig.getAttributeAsInteger("position", 0);
-			menuGroups.add(group);
-		}
-
-		Collections.sort(menuGroups, new Comparator()
-		{
-			public int compare(Object o1, Object o2)
-			{
-				return ((MenuGroup) o1).position - ((MenuGroup) o2).position;
-			}
-		});
-
-		style = config.getChild("style").getValue("default");
-
-		for (Configuration itemConfig : config.getChildren("item"))
-		{
-			if (itemConfig.getAttribute("ifModule", null) != null
-							&& ! ModuleTools.moduleExists(req, itemConfig.getAttribute("ifModule")))
-			{
-				continue;
-			}
-
-			if (itemConfig.getAttribute("id", null) == null)
-			{
-				System.out.println("[Menu] No id defined for menu item in menu '" + config.getAttribute("id") + "'");
-
-				continue;
-			}
-
-			int position = 0;
-			String pos = itemConfig.getAttribute("pos", "C");
-
-			if ("SS".equals(pos))
-			{
-				position = - 100000;
-			}
-			else if ("S".equals(pos))
-			{
-				position = - 10000;
-			}
-			else if ("H".equals(pos))
-			{
-				position = - 1000;
-			}
-			else if ("C".equals(pos))
-			{
-				position = 0;
-			}
-			else if ("T".equals(pos))
-			{
-				position = 1000;
-			}
-			else if ("E".equals(pos))
-			{
-				position = 10000;
-			}
-			else if ("EE".equals(pos))
-			{
-				position = 100000;
-			}
-			else
-			{
-				position = NumberTools.toInt(pos, 0);
-			}
-
-			FunctionItem functionItem = new FunctionItem();
-
-			functionItem.id = itemConfig.getAttribute("id", null);
-			functionItem.category = itemConfig.getAttribute("id", null);
-			functionItem.menu = itemConfig.getAttribute("menu", null);
-			functionItem.menuItem = itemConfig.getAttribute("menuItem", null);
-			functionItem.model = itemConfig.getAttribute("model", "unknown");
-			functionItem.bean = itemConfig.getAttribute("bean", null);
-			functionItem.label = itemConfig.getAttribute("title", "unknown");
-			functionItem.bundle = itemConfig.getAttribute("bundle", "Aktera");
-			functionItem.icon = itemConfig.getAttribute("icon", "menu-bullet");
-			functionItem.bigIcon = itemConfig.getAttribute("bigIcon", functionItem.icon);
-			functionItem.inactiveIcon = itemConfig.getAttribute("inactiveIcon", itemConfig.getAttribute("icon",
-							"menu-bullet"));
-			functionItem.position = position;
-			functionItem.check = itemConfig.getAttribute("ifCheck", null);
-			functionItem.feature = itemConfig.getAttribute("ifFeature", null);
-			functionItem.role = itemConfig.getAttribute("ifRole", null);
-			functionItem.group = itemConfig.getAttribute("group", null);
-			functionItem.permission = itemConfig.getAttribute("ifPermission", null);
-
-			functions.add(functionItem);
-		}
-
-		Collections.sort(functions, new Comparator()
-		{
-			public int compare(Object o1, Object o2)
-			{
-				return ((FunctionItem) o1).position - ((FunctionItem) o2).position;
-			}
-		});
 	}
 }

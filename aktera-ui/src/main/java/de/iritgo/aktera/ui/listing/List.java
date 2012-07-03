@@ -44,7 +44,7 @@ import de.iritgo.simplelife.string.StringTools;
 public class List extends SecurableStandardLogEnabledModel implements InstanceSecurable
 {
 	/** True if the configuration was already read. */
-	protected boolean configRead;
+	protected Boolean configRead;
 
 	/** The id of this list. */
 	protected String id;
@@ -280,109 +280,116 @@ public class List extends SecurableStandardLogEnabledModel implements InstanceSe
 			return;
 		}
 
-		Configuration config = getConfiguration();
-		java.util.List configPath = ModelTools.getDerivationPath(req, this);
-
-		id = config.getAttribute("id");
-
-		readOnly = ModelTools.getConfigBool(configPath, "readOnly", false);
-		overview = ModelTools.getConfigBool(configPath, "overview", false);
-		embedded = ModelTools.getConfigBool(configPath, "embedded", false);
-		singleSelection = ModelTools.getConfigBool(configPath, "singleSelection", false);
-		selectable = ModelTools.getConfigBool(configPath, "selectable", true);
-
-		title = ModelTools.getConfigString(configPath, "title", null);
-		titleBundle = ModelTools.getConfigString(configPath, "title", "bundle", null);
-		header = ModelTools.getConfigString(configPath, "header", null);
-
-		if (titleBundle == null)
+		synchronized (configRead)
 		{
-			titleBundle = ModelTools.getConfigString(configPath, "titleBundle", null);
-		}
-
-		icon = ModelTools.getConfigString(configPath, "icon", null);
-		listId = ModelTools.getConfigString(configPath, "listId", "list");
-		keyName = ModelTools.getConfigString(configPath, "keyName", "id");
-		listModel = ModelTools.getConfigString(configPath, "listModel", null);
-
-		cmdView = readCommandConfig(configPath, "command-view", "view", null, "edit");
-		cmdSearch = readCommandConfig(configPath, "command-search", "search", null, "search");
-		cmdBack = readCommandConfig(configPath, "command-back", "back", null, "back");
-		cmdExecute = readCommandConfig(configPath, "command-execute", listId + "CmdExecute",
-						"aktera.tools.execute-listitem-command", "execute");
-
-		cmdNew = readCommandConfig(configPath, "command-new", "new", null, "new");
-
-		if (cmdNew != null)
-		{
-			cmdNew.addParameter("new", "Y");
-		}
-
-		commandConfig = ModelTools.getConfigChildren(configPath, "command");
-
-		itemCommandConfig = ModelTools.getConfigChildren(configPath, "item-command");
-
-		condition = StringTools.trim(ModelTools.getConfigString(configPath, "condition", null));
-
-		commandStyle = ModelTools.getConfigString(configPath, "commandStyle", "button").toLowerCase();
-
-		persistentConfig = ModelTools.getConfigChildren(configPath, "persistent");
-
-		queryConfig = ModelTools.getConfig(configPath, "query");
-
-		Configuration forwardConfig = ModelTools.findConfig(configPath, "attribute", "name", "forward");
-
-		forward = forwardConfig != null ? forwardConfig.getAttribute("value", "aktera.listing") : ModelTools
-						.getConfigString(configPath, "forward", "aktera.listing");
-
-		listingClassName = ModelTools.getConfigString(configPath, "listing", "class", null);
-
-		listingModelName = ModelTools.getConfigString(configPath, "listing", "id", null);
-
-		String handlerClassName = ModelTools.getConfigString(configPath, "handler", "class", null);
-
-		if (handlerClassName != null)
-		{
-			try
+			if (configRead)
 			{
-				handler = (ListingHandler) Class.forName(handlerClassName).newInstance();
+				return;
 			}
-			catch (ClassNotFoundException x)
-			{
-				log.error("Unable to create handler " + handlerClassName + " (" + x + ")");
-				throw new ModelException("[aktera.list] Unable to create handler " + handlerClassName + " (" + x + ")");
-			}
-			catch (InstantiationException x)
-			{
-				log.error("Unable to create handler " + handlerClassName + " (" + x + ")");
-				throw new ModelException("[aktera.list] Unable to create handler " + handlerClassName + " (" + x + ")");
-			}
-			catch (IllegalAccessException x)
-			{
-				log.error("Unable to create handler " + handlerClassName + " (" + x + ")");
-				throw new ModelException("[aktera.list] Unable to create handler " + handlerClassName + " (" + x + ")");
-			}
-		}
-		else
-		{
-			String handlerBeanName = ModelTools.getConfigString(configPath, "handler", "bean", null);
+			configRead = true;
 
-			if (handlerBeanName != null)
+			Configuration config = getConfiguration();
+			java.util.List configPath = ModelTools.getDerivationPath(req, this);
+
+			id = config.getAttribute("id");
+
+			readOnly = ModelTools.getConfigBool(configPath, "readOnly", false);
+			overview = ModelTools.getConfigBool(configPath, "overview", false);
+			embedded = ModelTools.getConfigBool(configPath, "embedded", false);
+			singleSelection = ModelTools.getConfigBool(configPath, "singleSelection", false);
+			selectable = ModelTools.getConfigBool(configPath, "selectable", true);
+
+			title = ModelTools.getConfigString(configPath, "title", null);
+			titleBundle = ModelTools.getConfigString(configPath, "title", "bundle", null);
+			header = ModelTools.getConfigString(configPath, "header", null);
+
+			if (titleBundle == null)
 			{
-				handler = (ListingHandler) SpringTools.getBean(handlerBeanName);
+				titleBundle = ModelTools.getConfigString(configPath, "titleBundle", null);
+			}
+
+			icon = ModelTools.getConfigString(configPath, "icon", null);
+			listId = ModelTools.getConfigString(configPath, "listId", "list");
+			keyName = ModelTools.getConfigString(configPath, "keyName", "id");
+			listModel = ModelTools.getConfigString(configPath, "listModel", null);
+
+			cmdView = readCommandConfig(configPath, "command-view", "view", null, "edit");
+			cmdSearch = readCommandConfig(configPath, "command-search", "search", null, "search");
+			cmdBack = readCommandConfig(configPath, "command-back", "back", null, "back");
+			cmdExecute = readCommandConfig(configPath, "command-execute", listId + "CmdExecute",
+					"aktera.tools.execute-listitem-command", "execute");
+
+			cmdNew = readCommandConfig(configPath, "command-new", "new", null, "new");
+
+			if (cmdNew != null)
+			{
+				cmdNew.addParameter("new", "Y");
+			}
+
+			commandConfig = ModelTools.getConfigChildren(configPath, "command");
+
+			itemCommandConfig = ModelTools.getConfigChildren(configPath, "item-command");
+
+			condition = StringTools.trim(ModelTools.getConfigString(configPath, "condition", null));
+
+			commandStyle = ModelTools.getConfigString(configPath, "commandStyle", "button").toLowerCase();
+
+			persistentConfig = ModelTools.getConfigChildren(configPath, "persistent");
+
+			queryConfig = ModelTools.getConfig(configPath, "query");
+
+			Configuration forwardConfig = ModelTools.findConfig(configPath, "attribute", "name", "forward");
+
+			forward = forwardConfig != null ? forwardConfig.getAttribute("value", "aktera.listing") : ModelTools
+					.getConfigString(configPath, "forward", "aktera.listing");
+
+			listingClassName = ModelTools.getConfigString(configPath, "listing", "class", null);
+
+			listingModelName = ModelTools.getConfigString(configPath, "listing", "id", null);
+
+			String handlerClassName = ModelTools.getConfigString(configPath, "handler", "class", null);
+
+			if (handlerClassName != null)
+			{
+				try
+				{
+					handler = (ListingHandler) Class.forName(handlerClassName).newInstance();
+				}
+				catch (ClassNotFoundException x)
+				{
+					log.error("Unable to create handler " + handlerClassName + " (" + x + ")");
+					throw new ModelException("[aktera.list] Unable to create handler " + handlerClassName + " (" + x + ")");
+				}
+				catch (InstantiationException x)
+				{
+					log.error("Unable to create handler " + handlerClassName + " (" + x + ")");
+					throw new ModelException("[aktera.list] Unable to create handler " + handlerClassName + " (" + x + ")");
+				}
+				catch (IllegalAccessException x)
+				{
+					log.error("Unable to create handler " + handlerClassName + " (" + x + ")");
+					throw new ModelException("[aktera.list] Unable to create handler " + handlerClassName + " (" + x + ")");
+				}
+			}
+			else
+			{
+				String handlerBeanName = ModelTools.getConfigString(configPath, "handler", "bean", null);
+
+				if (handlerBeanName != null)
+				{
+					handler = (ListingHandler) SpringTools.getBean(handlerBeanName);
+				}
+			}
+
+			if (handler != null)
+			{
+				handler.setDefaultHandler(new DefaultListingHandler());
+			}
+			else
+			{
+				handler = new DefaultListingHandler();
 			}
 		}
-
-		if (handler != null)
-		{
-			handler.setDefaultHandler(new DefaultListingHandler());
-		}
-		else
-		{
-			handler = new DefaultListingHandler();
-		}
-
-		configRead = true;
 	}
 
 	/**

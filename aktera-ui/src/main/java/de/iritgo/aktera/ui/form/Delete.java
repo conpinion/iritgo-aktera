@@ -53,7 +53,7 @@ public class Delete extends SecurableStandardLogEnabledModel implements Instance
 	public static final String SYSTEM_DELETE = "systemDelete";
 
 	/** True if the configuration was already read. */
-	protected boolean configRead;
+	protected Boolean configRead;
 
 	/** Formular handler. */
 	protected FormularHandler handler;
@@ -175,56 +175,63 @@ public class Delete extends SecurableStandardLogEnabledModel implements Instance
 			return;
 		}
 
-		Configuration config = getConfiguration();
-		java.util.List configPath = ModelTools.getDerivationPath(req, this);
-
-		keyName = ModelTools.getConfigString(configPath, "keyName", "id");
-
-		persistentConfig = ModelTools.getConfigChildren(configPath, "persistent");
-
-		String handlerClassName = ModelTools.getConfigString(configPath, "handler", "class", null);
-
-		if (handlerClassName != null)
+		synchronized (configRead)
 		{
-			try
+			if (configRead)
 			{
-				handler = (FormularHandler) Class.forName(handlerClassName).newInstance();
+				return;
 			}
-			catch (ClassNotFoundException x)
+			configRead = true;
+
+			Configuration config = getConfiguration();
+			java.util.List configPath = ModelTools.getDerivationPath(req, this);
+
+			keyName = ModelTools.getConfigString(configPath, "keyName", "id");
+
+			persistentConfig = ModelTools.getConfigChildren(configPath, "persistent");
+
+			String handlerClassName = ModelTools.getConfigString(configPath, "handler", "class", null);
+
+			if (handlerClassName != null)
 			{
-				throw new ModelException("[aktera.delete] Unable to create handler " + handlerClassName + " (" + x
-								+ ")");
+				try
+				{
+					handler = (FormularHandler) Class.forName(handlerClassName).newInstance();
+				}
+				catch (ClassNotFoundException x)
+				{
+					throw new ModelException("[aktera.delete] Unable to create handler " + handlerClassName + " (" + x
+							+ ")");
+				}
+				catch (InstantiationException x)
+				{
+					throw new ModelException("[aktera.delete] Unable to create handler " + handlerClassName + " (" + x
+							+ ")");
+				}
+				catch (IllegalAccessException x)
+				{
+					throw new ModelException("[aktera.delete] Unable to create handler " + handlerClassName + " (" + x
+							+ ")");
+				}
 			}
-			catch (InstantiationException x)
+			else
 			{
-				throw new ModelException("[aktera.delete] Unable to create handler " + handlerClassName + " (" + x
-								+ ")");
+				String handlerBeanName = ModelTools.getConfigString(configPath, "handler", "bean", null);
+
+				if (handlerBeanName != null)
+				{
+					handler = (FormularHandler) SpringTools.getBean(handlerBeanName);
+				}
 			}
-			catch (IllegalAccessException x)
+
+			if (handler != null)
 			{
-				throw new ModelException("[aktera.delete] Unable to create handler " + handlerClassName + " (" + x
-								+ ")");
+				handler.setDefaultHandler(new DefaultFormularHandler());
+			}
+			else
+			{
+				handler = new DefaultFormularHandler();
 			}
 		}
-		else
-		{
-			String handlerBeanName = ModelTools.getConfigString(configPath, "handler", "bean", null);
-
-			if (handlerBeanName != null)
-			{
-				handler = (FormularHandler) SpringTools.getBean(handlerBeanName);
-			}
-		}
-
-		if (handler != null)
-		{
-			handler.setDefaultHandler(new DefaultFormularHandler());
-		}
-		else
-		{
-			handler = new DefaultFormularHandler();
-		}
-
-		configRead = true;
 	}
 }

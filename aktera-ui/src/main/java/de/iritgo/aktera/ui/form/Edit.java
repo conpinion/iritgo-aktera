@@ -56,7 +56,7 @@ public class Edit extends SecurableStandardLogEnabledModel implements InstanceSe
 	public static final String FORM_KEY = "AKTERA_FORMULAR";
 
 	/** True if the configuration was already read. */
-	protected boolean configRead;
+	protected Boolean configRead;
 
 	/** If true a read only formular is generated. */
 	protected boolean readOnly;
@@ -230,123 +230,130 @@ public class Edit extends SecurableStandardLogEnabledModel implements InstanceSe
 			return;
 		}
 
-		java.util.List configPath = ModelTools.getDerivationPath(req, this);
-
-		readOnly = ModelTools.getConfigBool(configPath, "readOnly", false);
-		reeditAlways = ModelTools.getConfigBool(configPath, "reeditAlways", false);
-
-		if (! readOnly)
+		synchronized (configRead)
 		{
-			cmdSave = readCommandConfig(configPath, "command-save", "save", null, "save", "S");
-
-			if (cmdSave != null)
+			if (configRead)
 			{
-				cmdSave.setVisible(ModelTools.getConfigBool(configPath, "command-save", "visible", true));
+				return;
+			}
+			configRead = true;
 
-				if (cmdSave.getIcon() == null)
+			java.util.List configPath = ModelTools.getDerivationPath(req, this);
+
+			readOnly = ModelTools.getConfigBool(configPath, "readOnly", false);
+			reeditAlways = ModelTools.getConfigBool(configPath, "reeditAlways", false);
+
+			if (! readOnly)
+			{
+				cmdSave = readCommandConfig(configPath, "command-save", "save", null, "save", "S");
+
+				if (cmdSave != null)
 				{
-					cmdSave.setIcon("tool-ok-16");
+					cmdSave.setVisible(ModelTools.getConfigBool(configPath, "command-save", "visible", true));
+
+					if (cmdSave.getIcon() == null)
+					{
+						cmdSave.setIcon("tool-ok-16");
+					}
 				}
 			}
-		}
-		else
-		{
-			cmdEdit = readCommandConfig(configPath, "command-edit", "save", null, "edit", "S");
-
-			if (cmdEdit != null)
+			else
 			{
-				if (cmdEdit.getIcon() == null)
+				cmdEdit = readCommandConfig(configPath, "command-edit", "save", null, "edit", "S");
+
+				if (cmdEdit != null)
 				{
-					cmdEdit.setIcon("tool-edit-16");
+					if (cmdEdit.getIcon() == null)
+					{
+						cmdEdit.setIcon("tool-edit-16");
+					}
 				}
 			}
-		}
 
-		cmdCancel = readCommandConfig(configPath, "command-cancel", "cancel", null, "cancel", "E");
+			cmdCancel = readCommandConfig(configPath, "command-cancel", "cancel", null, "cancel", "E");
 
-		if (cmdCancel != null)
-		{
-			cmdCancel.addAttribute("cancel", "Y");
-			cmdCancel.addParameter("cancel", "Y");
-
-			if (cmdCancel.getIcon() == null)
+			if (cmdCancel != null)
 			{
-				cmdCancel.setIcon("tool-cancel-16");
+				cmdCancel.addAttribute("cancel", "Y");
+				cmdCancel.addParameter("cancel", "Y");
+
+				if (cmdCancel.getIcon() == null)
+				{
+					cmdCancel.setIcon("tool-cancel-16");
+				}
+			}
+
+			formularClassName = ModelTools.getConfigString(configPath, "formular", "class", null);
+
+			formularModelName = ModelTools.getConfigString(configPath, "formular", "id", null);
+
+			persistentConfig = ModelTools.getConfigChildren(configPath, "persistent");
+
+			contextId = ModelTools.getConfigString(configPath, "context", "id", null);
+
+			keyName = ModelTools.getConfigString(configPath, "keyName", null);
+
+			commandConfig = ModelTools.getConfigChildrenReverse(configPath, "command");
+
+			Configuration forwardConfig = ModelTools.findConfig(configPath, "attribute", "name", "forward");
+
+			forward = forwardConfig != null ? forwardConfig.getAttribute("value", "aktera.formular") : "aktera.formular";
+
+			title = ModelTools.getConfigString(configPath, "title", null);
+			titleBundle = ModelTools.getConfigString(configPath, "title", "bundle", null);
+
+			if (titleBundle == null)
+			{
+				titleBundle = ModelTools.getConfigString(configPath, "titleBundle", null);
+			}
+
+			icon = ModelTools.getConfigString(configPath, "icon", null);
+
+			String handlerClassName = ModelTools.getConfigString(configPath, "handler", "class", null);
+
+			if (handlerClassName != null)
+			{
+				try
+				{
+					handler = (FormularHandler) Class.forName(handlerClassName).newInstance();
+				}
+				catch (ClassNotFoundException x)
+				{
+					throw new ModelException("[aktera.edit] Unable to create handler " + handlerClassName + " (" + x + ")");
+				}
+				catch (InstantiationException x)
+				{
+					throw new ModelException("[aktera.edit] Unable to create handler " + handlerClassName + " (" + x + ")");
+				}
+				catch (IllegalAccessException x)
+				{
+					throw new ModelException("[aktera.edit] Unable to create handler " + handlerClassName + " (" + x + ")");
+				}
+			}
+			else
+			{
+				String handlerBeanName = ModelTools.getConfigString(configPath, "handler", "bean", null);
+
+				if (handlerBeanName != null)
+				{
+					handler = (FormularHandler) SpringTools.getBean(handlerBeanName);
+				}
+			}
+
+			if (handler != null)
+			{
+				handler.setDefaultHandler(new DefaultFormularHandler());
+			}
+			else
+			{
+				handler = new DefaultFormularHandler();
+			}
+
+			if (handler != null)
+			{
+				handler.setLogger(log);
 			}
 		}
-
-		formularClassName = ModelTools.getConfigString(configPath, "formular", "class", null);
-
-		formularModelName = ModelTools.getConfigString(configPath, "formular", "id", null);
-
-		persistentConfig = ModelTools.getConfigChildren(configPath, "persistent");
-
-		contextId = ModelTools.getConfigString(configPath, "context", "id", null);
-
-		keyName = ModelTools.getConfigString(configPath, "keyName", null);
-
-		commandConfig = ModelTools.getConfigChildrenReverse(configPath, "command");
-
-		Configuration forwardConfig = ModelTools.findConfig(configPath, "attribute", "name", "forward");
-
-		forward = forwardConfig != null ? forwardConfig.getAttribute("value", "aktera.formular") : "aktera.formular";
-
-		title = ModelTools.getConfigString(configPath, "title", null);
-		titleBundle = ModelTools.getConfigString(configPath, "title", "bundle", null);
-
-		if (titleBundle == null)
-		{
-			titleBundle = ModelTools.getConfigString(configPath, "titleBundle", null);
-		}
-
-		icon = ModelTools.getConfigString(configPath, "icon", null);
-
-		String handlerClassName = ModelTools.getConfigString(configPath, "handler", "class", null);
-
-		if (handlerClassName != null)
-		{
-			try
-			{
-				handler = (FormularHandler) Class.forName(handlerClassName).newInstance();
-			}
-			catch (ClassNotFoundException x)
-			{
-				throw new ModelException("[aktera.edit] Unable to create handler " + handlerClassName + " (" + x + ")");
-			}
-			catch (InstantiationException x)
-			{
-				throw new ModelException("[aktera.edit] Unable to create handler " + handlerClassName + " (" + x + ")");
-			}
-			catch (IllegalAccessException x)
-			{
-				throw new ModelException("[aktera.edit] Unable to create handler " + handlerClassName + " (" + x + ")");
-			}
-		}
-		else
-		{
-			String handlerBeanName = ModelTools.getConfigString(configPath, "handler", "bean", null);
-
-			if (handlerBeanName != null)
-			{
-				handler = (FormularHandler) SpringTools.getBean(handlerBeanName);
-			}
-		}
-
-		if (handler != null)
-		{
-			handler.setDefaultHandler(new DefaultFormularHandler());
-		}
-		else
-		{
-			handler = new DefaultFormularHandler();
-		}
-
-		if (handler != null)
-		{
-			handler.setLogger(log);
-		}
-
-		configRead = true;
 	}
 
 	/**

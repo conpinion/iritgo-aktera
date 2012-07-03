@@ -45,6 +45,7 @@ public class PromptUpdateDatabase extends StandardLogEnabledModel
 	 */
 	public ModelResponse execute(ModelRequest req) throws ModelException
 	{
+		log.info("*** Unblock firewall for database update...");
 		SystemFirewall.disable();
 
 		ModelResponse res = req.createResponse();
