@@ -54,7 +54,7 @@ public class Save extends SecurableStandardLogEnabledModel implements InstanceSe
 	public static final String SYSTEM_EDIT = "AKTERA_SYSTEM_EDIT";
 
 	/** True if the configuration was already read. */
-	protected Boolean configRead;
+	protected Boolean configRead = false;
 
 	/** The edit command. */
 	CommandInfo cmdEdit;

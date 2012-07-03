@@ -61,7 +61,7 @@ public class Save extends AbstractUIController
 	private Configuration configuration;
 
 	/** True if the configuration was already read. */
-	protected Boolean configRead;
+	protected Boolean configRead = false;
 
 	/** The edit command. */
 	CommandInfo cmdEdit;

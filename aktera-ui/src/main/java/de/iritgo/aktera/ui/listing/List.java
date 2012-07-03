@@ -44,7 +44,7 @@ import de.iritgo.simplelife.string.StringTools;
 public class List extends SecurableStandardLogEnabledModel implements InstanceSecurable
 {
 	/** True if the configuration was already read. */
-	protected Boolean configRead;
+	protected Boolean configRead = false;
 
 	/** The id of this list. */
 	protected String id;

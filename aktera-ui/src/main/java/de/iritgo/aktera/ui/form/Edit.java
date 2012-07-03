@@ -56,7 +56,7 @@ public class Edit extends SecurableStandardLogEnabledModel implements InstanceSe
 	public static final String FORM_KEY = "AKTERA_FORMULAR";
 
 	/** True if the configuration was already read. */
-	protected Boolean configRead;
+	protected Boolean configRead = false;
 
 	/** If true a read only formular is generated. */
 	protected boolean readOnly;

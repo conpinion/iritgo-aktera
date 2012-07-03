@@ -56,7 +56,7 @@ public class Delete extends AbstractUIController
 	private Configuration configuration;
 
 	/** True if the configuration was already read. */
-	protected Boolean configRead;
+	protected Boolean configRead = false;
 
 	/** Formular handler. */
 	protected FormularHandler handler;
