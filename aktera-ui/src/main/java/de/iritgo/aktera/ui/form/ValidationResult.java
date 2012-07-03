@@ -112,9 +112,13 @@ public class ValidationResult
 	/** Error type */
 	public static final int ERROR_NOT_A_MACADDRESS = 15;
 
+	/** Error type */
+	public static final int ERROR_NOT_A_HOSTNAME = 16;
+	
 	/** Number of error types */
-	public static final int NUM_ERROR_TYPES = 16;
+	public static final int NUM_ERROR_TYPES = 17;
 
+	
 	/** List of all errors. */
 	protected List<Error> errors;
 
@@ -399,6 +403,15 @@ public class ValidationResult
 							if (! errorFlags[error.type])
 							{
 								res.addError("GLOBAL_notAMacAddress", "$notAMacAddress");
+							}
+							break;
+							
+						case ERROR_NOT_A_HOSTNAME:
+							res.addError(error.field, "$notAHostname");
+
+							if (! errorFlags[error.type])
+							{
+								res.addError("GLOBAL_notAHostname", "$notAHostname");
 							}
 
 							break;

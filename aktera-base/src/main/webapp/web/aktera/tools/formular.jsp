@@ -313,6 +313,11 @@
 													<html:text name="default" property="<%= fieldName %>" size="<%= fieldSize.toString () %>"/>
 												</xlogic:case>
 
+												<xlogic:case value="hostname">
+													<bean:define id="fieldSize" name="field" property="attributes.size" type="java.lang.Integer"/>
+													<html:text name="default" property="<%= fieldName %>" size="<%= fieldSize.toString () %>"/>
+												</xlogic:case>
+
 												<xlogic:case value="email">
 													<bean:define id="fieldSize" name="field" property="attributes.size" type="java.lang.Integer"/>
 													<html:text name="default" property="<%= fieldName %>" size="<%= fieldSize.toString () %>"/>
@@ -560,6 +565,10 @@
 													<bean:write name="default" property="<%= fieldName %>"/>
 												</xlogic:case>
 
+												<xlogic:case value="hostname">
+													<bean:write name="default" property="<%= fieldName %>"/>
+												</xlogic:case>
+												
 												<xlogic:case value="email">
 													<bean:write name="default" property="<%= fieldName %>"/>
 												</xlogic:case>

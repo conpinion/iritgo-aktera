@@ -64,6 +64,9 @@ public class FormTools
 	/** Regular expression for validating ip addresses. */
 	private static Pattern reIpAddress;
 
+	/** Regular expression for validating host names. */
+	private static Pattern reHostname;
+
 	/** Regular expression for validating no whitespace text. */
 	private static Pattern reNoWhiteSpace;
 
@@ -90,6 +93,7 @@ public class FormTools
 							.compile("^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])$");
 			// reIpAddress =
 			// Pattern.compile("[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}(/\\d\\d)?");
+			reHostname = Pattern.compile("^(([\\w][\\w\\-\\.]*)\\.)?([\\w][\\w\\-]+)(\\.([\\w][\\w\\.]*))?$");
 			reNoWhiteSpace = Pattern.compile("[^ ]+");
 			reIdentifier = Pattern.compile("\\w+");
 			reRealNumber = Pattern.compile("[0-9]+(\\.[0-9]+)?");
@@ -1045,7 +1049,7 @@ public class FormTools
 								|| "combo".equals(field.getEditor()) || "email".equals(field.getEditor())
 								|| "macaddress".equals(field.getEditor()) || "day".equals(field.getEditor())
 								|| "month".equals(field.getEditor()) || "year".equals(field.getEditor())
-								|| field.getEditor().startsWith("regexp"))
+								|| "hostname".equals(field.getEditor()) || field.getEditor().startsWith("regexp"))
 				{
 					if (field.isDuty() && ! field.isDisabled() && StringTools.isTrimEmpty(persistents.getAttribute(inputName)))
 					{
@@ -1097,6 +1101,13 @@ public class FormTools
 															.matches())
 							{
 								addError(res, ValidationResult.ERROR_NOT_A_IP_ADDRESS, inputName, result, pageNum);
+							}
+							else if ("hostname".equals(field.getEditor())
+											&& ! reHostname.matcher(
+															StringTools.trim(persistents.getAttribute(inputName)))
+															.matches())
+							{
+								addError(res, ValidationResult.ERROR_NOT_A_HOSTNAME, inputName, result, pageNum);
 							}
 							else if ("nospacetext".equals(field.getEditor())
 											&& ! reNoWhiteSpace.matcher(
