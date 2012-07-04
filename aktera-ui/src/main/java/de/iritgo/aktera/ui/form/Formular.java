@@ -187,6 +187,11 @@ public class Formular extends StandardLogEnabledModel
 					field.setSubmit(childConfig.getAttributeAsBoolean("submit", false));
 				}
 
+				if (childConfig.getAttribute("nullAllowed", null) != null)
+				{
+					field.setNullAllowed(childConfig.getAttributeAsBoolean("nullAllowed", true));
+				}
+
 				if (parentGroup != null)
 				{
 					parentGroup.addField(field);

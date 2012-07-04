@@ -20,11 +20,10 @@
 package de.iritgo.aktera.struts.tags.html;
 
 
-import org.apache.struts.taglib.TagUtils;
-import org.apache.struts.util.ResponseUtils;
+import java.text.*;
 import javax.servlet.jsp.JspException;
-import java.text.DecimalFormat;
-import java.text.FieldPosition;
+import lombok.*;
+import org.apache.struts.taglib.TagUtils;
 
 
 /**
@@ -32,40 +31,19 @@ import java.text.FieldPosition;
  */
 public class TimeSelectTag extends SelectTagBase
 {
-	/** */
 	private static final long serialVersionUID = 1L;
 
-	/** String formatter. */
 	protected static DecimalFormat timeFormat = new DecimalFormat("00");
 
-	/** Read only. */
+	@Setter
+	@Getter
 	protected boolean readOnly = false;
 
-	/**
-	 * Set the read only flag.
-	 *
-	 * @param readOnly Read only flag.
-	 */
-	public void setReadOnly(boolean readOnly)
-	{
-		this.readOnly = readOnly;
-	}
-
-	/**
-	 * Get the read only flag.
-	 *
-	 * @retrun The read only flag.
-	 */
-	public boolean getReadOnly()
-	{
-		return readOnly;
-	}
-
-	/**
-	 * Render the tag.
-	 *
-	 * @exception JspException if a JSP exception has occurred.
-	 */
+	@Setter
+	@Getter
+	protected boolean nullAllowed = true;
+	
+	@Override
 	public int doEndTag() throws JspException
 	{
 		String hour = getBeanProperty("Hour").toString();
@@ -74,46 +52,44 @@ public class TimeSelectTag extends SelectTagBase
 		StringBuffer results = new StringBuffer();
 
 		createSelectTag(results, "Hour");
-		results.append("<option value=\"-1\">---</option>");
+		if (nullAllowed)
+		{
+			results.append("<option value=\"-1\">---</option>");
+		}
 
 		for (int i = 0; i <= 23; ++i)
 		{
 			String value = String.valueOf(i);
-
 			results.append("<option value=\"");
 			results.append(value);
 			results.append("\"");
-
 			if (value.equals(hour))
 			{
 				results.append(" selected=\"selected\"");
 			}
-
 			results.append(">");
 			results.append(timeFormat.format(i, new StringBuffer(), new FieldPosition(0)).toString());
 			results.append("</option>");
 		}
 
 		results.append("</select>\n");
-
 		results.append("<b>:</b>\n");
-
 		createSelectTag(results, "Minute");
-		results.append("<option value=\"-1\">---</option>");
+		if (nullAllowed)
+		{
+			results.append("<option value=\"-1\">---</option>");
+		}
 
 		for (int i = 0; i <= 59; ++i)
 		{
 			String value = String.valueOf(i);
-
 			results.append("<option value=\"");
 			results.append(value);
 			results.append("\"");
-
 			if (value.equals(minute))
 			{
 				results.append(" selected=\"selected\"");
 			}
-
 			results.append(">");
 			results.append(timeFormat.format(i, new StringBuffer(), new FieldPosition(0)).toString());
 			results.append("</option>");
@@ -122,17 +98,14 @@ public class TimeSelectTag extends SelectTagBase
 		results.append("</select>\n");
 
 		TagUtils.getInstance().write(pageContext, results.toString());
-
 		return EVAL_PAGE;
 	}
 
-	/**
-	 * Reset all tag attributes to their default values.
-	 */
+	@Override
 	public void release()
 	{
 		super.release();
-
 		readOnly = false;
+		nullAllowed = true;
 	}
 }

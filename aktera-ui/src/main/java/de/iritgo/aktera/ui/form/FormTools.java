@@ -609,6 +609,8 @@ public class FormTools
 			input.setAttribute("submit", "Y");
 		}
 
+		input.setAttribute("nullAllowed", field.isNullAllowed());
+		
 		if (field.isComment())
 		{
 			input.setAttribute("desc", "Y");
@@ -1031,8 +1033,8 @@ public class FormTools
 			for (Iterator<FieldDescriptor> j = group.fieldIterator(); j.hasNext();)
 			{
 				FieldDescriptor field = (FieldDescriptor) j.next();
-
-				if (field.isReadOnly() || field.isOmitted())
+				
+				if (field.isReadOnly() || field.isOmitted() || field.isDisabled())
 				{
 					continue;
 				}

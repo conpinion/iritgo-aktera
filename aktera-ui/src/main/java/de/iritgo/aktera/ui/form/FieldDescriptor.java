@@ -105,6 +105,9 @@ public class FieldDescriptor
 	/** If true, the field can be selected (for example through a check box left to the field. */
 	protected boolean selectable;
 
+	/** Specifies that the field allowes null values. */
+	private boolean nullAllowed = true;
+
 	/**
 	 * Create a new FieldDescriptor.
 	 *
@@ -632,5 +635,15 @@ public class FieldDescriptor
 	public boolean isDisabled()
 	{
 		return disabled;
+	}
+
+	public void setNullAllowed(boolean nullAllowed)
+	{
+		this.nullAllowed = nullAllowed; 
+	}
+
+	public boolean isNullAllowed()
+	{
+		return nullAllowed;
 	}
 }

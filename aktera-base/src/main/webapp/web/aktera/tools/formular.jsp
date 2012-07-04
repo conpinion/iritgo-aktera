@@ -249,6 +249,7 @@
 									<logic:notPresent name="field" property="attributes.readOnly">
 
 										<bean:define id="disabled" type="java.lang.Boolean" name="field" property="attributes.disabled"/>
+										<bean:define id="nullAllowed" type="java.lang.Boolean" name="field" property="attributes.nullAllowed"/>
 										
 										<td class="<%= fieldClass %>" valign="<%= labelAlign %>" width="<%= fieldWidth %>%" colspan="<%= fieldColSpan %>">
 
@@ -387,7 +388,7 @@
 												</xlogic:case>
 
 												<xlogic:case value="timecombo">
-													<xhtml:timeSelect name="default" property="<%= fieldName %>" disabled="<%= disabled %>"/>
+													<xhtml:timeSelect name="default" property="<%= fieldName %>" disabled="<%= disabled %>" nullAllowed="<%= nullAllowed %>"/>
 												</xlogic:case>
 
 												<xlogic:case value="timestamptext">
