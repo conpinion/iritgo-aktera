@@ -20,13 +20,16 @@
 package de.iritgo.aktera.base.server;
 
 
+import de.iritgo.aktera.base.database.*;
 import de.iritgo.aktera.core.container.AbstractKeelServiceable;
 import de.iritgo.aktera.core.container.KeelContainer;
+import de.iritgo.aktera.model.*;
 import de.iritgo.aktera.startup.AbstractStartupHandler;
 import de.iritgo.aktera.startup.ShutdownException;
 import de.iritgo.aktera.startup.StartupException;
 import de.iritgo.aktera.startup.StartupHandler;
 import de.iritgo.aktera.startup.StartupManager;
+import de.iritgo.aktera.tools.*;
 import de.iritgo.simplelife.string.StringTools;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configurable;
@@ -37,6 +40,7 @@ import org.apache.avalon.framework.logger.Logger;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.*;
 
 
 /**
@@ -139,6 +143,24 @@ public class StartupManagerImpl extends AbstractKeelServiceable implements Start
 	public void initialize() throws Exception
 	{
 		List<Configuration> sortedConfigs = resolveStartupConfig();
+
+		/**
+		 * TODO: Very bad hack!
+		 * Wir dürfen das System nicht vor einem fertigen DB-Update initialisieren...
+		 */
+		ModelRequest model = ModelTools.createModelRequest();
+		boolean needUpdate = UpdateHelper.needUpdate(model);
+		if (needUpdate)
+		{
+			try
+			{
+				TimeUnit.SECONDS.sleep(10);
+				initialize ();
+			}
+			catch (Exception x)
+			{
+			}
+		}
 
 		for (Configuration config : sortedConfigs)
 		{

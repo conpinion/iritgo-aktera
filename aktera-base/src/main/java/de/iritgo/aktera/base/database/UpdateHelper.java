@@ -60,7 +60,7 @@ public class UpdateHelper
 
 	public static boolean updateNeeded = false;
 
-	public static boolean needUpdate(ModelRequest req) throws ModelException, ConfigurationException
+	synchronized public static boolean needUpdate(ModelRequest req) throws ModelException, ConfigurationException
 	{
 		if (updateChecked)
 		{
