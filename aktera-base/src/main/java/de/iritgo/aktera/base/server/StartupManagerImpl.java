@@ -149,18 +149,17 @@ public class StartupManagerImpl extends AbstractKeelServiceable implements Start
 		 * Wir dürfen das System nicht vor einem fertigen DB-Update initialisieren...
 		 */
 		ModelRequest model = ModelTools.createModelRequest();
-		boolean needUpdate = UpdateHelper.needUpdate(model);
-		if (needUpdate)
+		while (UpdateHelper.needUpdate(model))
 		{
 			try
 			{
 				TimeUnit.SECONDS.sleep(10);
-				initialize ();
 			}
 			catch (Exception x)
 			{
 			}
 		}
+		ModelTools.releaseModelRequest(model);
 
 		for (Configuration config : sortedConfigs)
 		{
