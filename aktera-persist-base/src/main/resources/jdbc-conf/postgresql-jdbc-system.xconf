@@ -24,22 +24,22 @@
 	<!--**********************************************
 		JDBC driver & pool definition for Postgres SQL
 		********************************************-->
-		
-	<!-- 
+
+	<!--
 		NOTE: There can be as many *-jdbc-system.xconf files in the conf
 		directory as needed.  Keel needs a pool defined with the "id" set
 		to "keel-dbpool".  By convention, that file should be renamed to
 		"jdbc-system.xconf".  In other included *-jdbc-system.xconf files,
 		make sure the "id" parameter is renamed to something other than
 		"keel-dbpool"
-		
+
 		NOTE 2: The items below with surrounded by "@" characters, like
 		@SERVERNAME@ and @USERNAME@, are meant to be replaced by
 		an ANT script that prompts the user for input. To run this script, execute
 		the "setupdb" target in keel-build/build.xml.
 	-->
 	<jdbc id="keel-dbpool">
-		<pool-controller max="16" max-strict="false" blocking="true" timeout="-1"
+		<pool-controller max="64" max-strict="false" blocking="true" timeout="2000"
 			trim-interval="60000" auto-commit="true"
 			connection-class="org.apache.avalon.excalibur.datasource.JdbcConnection"
 			>
@@ -52,7 +52,7 @@
 		<password>@aktera.database.password@</password>
 	</jdbc>
 
-	<!-- 
+	<!--
 		NOTE: There can be as many *-jdbc-system.xconf files in the conf
 		directory as needed.  Keel needs a dbtype defined with the "id" set
 		to "keel-dbtype".  By convention, that file should be renamed to
@@ -68,7 +68,7 @@
 		<type from="float" to="real" prefix="" suffix=""/>
 		<type from="distinct" to="serial" prefix="" suffix=""/>
 	</postgresql>
-	
+
 	<default-persistent id="default">
     	<properties id="default">
     	    <hibernate.connection.driver_class>org.postgresql.Driver</hibernate.connection.driver_class>
@@ -83,4 +83,4 @@
     </default-persistent>
 
 </keel>
-     
+
