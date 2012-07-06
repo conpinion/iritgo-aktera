@@ -149,8 +149,14 @@ public class StartupManagerImpl extends AbstractKeelServiceable implements Start
 		 * Wir dürfen das System nicht vor einem fertigen DB-Update initialisieren...
 		 */
 		ModelRequest model = ModelTools.createModelRequest();
+		boolean oneShotDisableFirewall = true;
 		while (UpdateHelper.needUpdate(model))
 		{
+			if (oneShotDisableFirewall)
+			{
+				SystemFirewall.disable();
+				oneShotDisableFirewall = false;
+			}
 			try
 			{
 				TimeUnit.SECONDS.sleep(10);
