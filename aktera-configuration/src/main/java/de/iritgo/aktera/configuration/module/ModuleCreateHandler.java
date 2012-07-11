@@ -42,7 +42,14 @@ public class ModuleCreateHandler extends CreateHandler
 		createTable("SystemConfig", "category varchar(255) not null", "id serial primary key",
 						"name varchar(255) not null", "type varchar(1) not null", "validValues text", "value text");
 
-		createTable("Version", "name varchar(255) not null", "type varchar(1) not null", "version varchar(16) not null");
+		try
+		{
+			createTable("Version", "name varchar(255) not null", "type varchar(1) not null", "version varchar(16) not null");
+		}
+		catch (Exception x)
+		{
+			//Is ok...
+		}
 	}
 
 	/**
