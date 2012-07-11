@@ -310,16 +310,9 @@ public class Import extends SecurableStandardLogEnabledModel
 
 		String xslFileName = System.getProperty("keel.config.dir") + "/../resources/csv2xml/" + xslt + ".xsl";
 
-		javax.xml.transform.TransformerFactory tFactory = javax.xml.transform.TransformerFactory.newInstance();
-
-		javax.xml.transform.Source stylesheet = new javax.xml.transform.stream.StreamSource(xslFileName);
-
-		javax.xml.transform.Transformer transformer = tFactory.newTransformer(stylesheet);
-
-		transformer.transform(new javax.xml.transform.stream.StreamSource(tmpFile.getCanonicalPath()),
-						new javax.xml.transform.stream.StreamResult(new java.io.FileOutputStream(orgFile
-										.getCanonicalPath())));
-
+		SystemTools.startAndWaitAkteraProcess("/usr/bin/xsltproc", xslFileName +  
+						" -o " + orgFile.getCanonicalPath() + " " + tmpFile.getCanonicalPath());
+		
 		tmpFile.delete();
 	}
 

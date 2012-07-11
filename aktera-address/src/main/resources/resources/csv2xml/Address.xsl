@@ -302,7 +302,7 @@
 
 <xsl:template match="/import">
 
-	<import>
+	<xsl:element name="import" namespace="">
 
 		<addresses>
 
@@ -418,7 +418,7 @@
 
 		</addresses>
 
-	</import>
+	</xsl:element>
 
 </xsl:template>
 
