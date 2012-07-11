@@ -116,7 +116,7 @@ public class UpdateHelper
 		return false;
 	}
 
-	public static void createVersionTableIfNotExists(ModelRequest request) throws ModelException
+	synchronized public static void createVersionTableIfNotExists(ModelRequest request) throws ModelException
 	{
 		PersistentFactory pf = (PersistentFactory) request.getService(PersistentFactory.ROLE, request.getDomain());
 
