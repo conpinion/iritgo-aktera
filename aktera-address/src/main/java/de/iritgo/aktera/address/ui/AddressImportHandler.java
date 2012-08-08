@@ -383,15 +383,18 @@ public class AddressImportHandler implements ImportHandler
 					if (address.get().getId() != null)
 					{
 						addressStore.updateAddress(address.get());
+						reporter.println(i18n.msg(req, "AkteraAddress", "updateAddressEntry", name));
 					}
 					else
 					{
 						addressStore.createAddress(address.get(), ownerId);
+						reporter.println(i18n.msg(req, "AkteraAddress", "newAddressEntry", name));
 					}
 				}
 				else
 				{
 					bulkAddresses.add (address.get ());
+					reporter.println(i18n.msg(req, "AkteraAddress", "newAddressEntry", name));
 					if (bulkAddresses.size () == BULK_IMPORT_SIZE)
 					{
 						long startTime = System.currentTimeMillis();
