@@ -127,6 +127,7 @@ public class AddressImportHandler implements ImportHandler
 								&& addressStore.findAddressByOwnerAndContactNumber(ownerId, contactNumber).full())
 				{
 					++numOldAddresses;
+					reporter.println(i18n.msg(req, "AkteraAddress", "updateAddressEntry", lastName));
 				}
 				else
 				{
@@ -138,10 +139,12 @@ public class AddressImportHandler implements ImportHandler
 						if (address.full())
 						{
 							++numOldAddresses;
+							reporter.println(i18n.msg(req, "AkteraAddress", "updateAddressEntry", lastName));
 						}
 						else
 						{
 							++numNewAddresses;
+							reporter.println(i18n.msg(req, "AkteraAddress", "newAddressEntry", lastName));
 						}
 					}
 					else
@@ -383,12 +386,10 @@ public class AddressImportHandler implements ImportHandler
 					if (address.get().getId() != null)
 					{
 						addressStore.updateAddress(address.get());
-						reporter.println(i18n.msg(req, "AkteraAddress", "updateAddressEntry", name));
 					}
 					else
 					{
 						addressStore.createAddress(address.get(), ownerId);
-						reporter.println(i18n.msg(req, "AkteraAddress", "newAddressEntry", name));
 					}
 				}
 				else
