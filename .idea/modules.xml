@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/iritgo-aktera.iml" filepath="$PROJECT_DIR$/iritgo-aktera.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aktera-address/iritgo-aktera-address.iml" filepath="$PROJECT_DIR$/aktera-address/iritgo-aktera-address.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aktera-address-aktario/iritgo-aktera-address-aktario.iml" filepath="$PROJECT_DIR$/aktera-address-aktario/iritgo-aktera-address-aktario.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aktera-aktario/iritgo-aktera-aktario.iml" filepath="$PROJECT_DIR$/aktera-aktario/iritgo-aktera-aktario.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aktera-aktario-aktario/iritgo-aktera-aktario-aktario.iml" filepath="$PROJECT_DIR$/aktera-aktario-aktario/iritgo-aktera-aktario-aktario.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aktera-authentication/iritgo-aktera-authentication.iml" filepath="$PROJECT_DIR$/aktera-authentication/iritgo-aktera-authentication.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aktera-authorization/iritgo-aktera-authorization.iml" filepath="$PROJECT_DIR$/aktera-authorization/iritgo-aktera-authorization.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aktera-base/iritgo-aktera-base.iml" filepath="$PROJECT_DIR$/aktera-base/iritgo-aktera-base.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aktera-base-aktario/iritgo-aktera-base-aktario.iml" filepath="$PROJECT_DIR$/aktera-base-aktario/iritgo-aktera-base-aktario.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aktera-client/iritgo-aktera-client.iml" filepath="$PROJECT_DIR$/aktera-client/iritgo-aktera-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aktera-command/iritgo-aktera-command.iml" filepath="$PROJECT_DIR$/aktera-command/iritgo-aktera-command.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aktera-configuration/iritgo-aktera-configuration.iml" filepath="$PROJECT_DIR$/aktera-configuration/iritgo-aktera-configuration.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aktera-core/iritgo-aktera-core.iml" filepath="$PROJECT_DIR$/aktera-core/iritgo-aktera-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aktera-crypto-base64/iritgo-aktera-crypto-bas64.iml" filepath="$PROJECT_DIR$/aktera-crypto-base64/iritgo-aktera-crypto-bas64.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aktera-dashboard/iritgo-aktera-dashboard.iml" filepath="$PROJECT_DIR$/aktera-dashboard/iritgo-aktera-dashboard.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aktera-email/iritgo-aktera-email.iml" filepath="$PROJECT_DIR$/aktera-email/iritgo-aktera-email.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aktera-event/iritgo-aktera-event.iml" filepath="$PROJECT_DIR$/aktera-event/iritgo-aktera-event.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aktera-fsm/iritgo-aktera-fsm.iml" filepath="$PROJECT_DIR$/aktera-fsm/iritgo-aktera-fsm.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aktera-hibernate/iritgo-aktera-hibernate.iml" filepath="$PROJECT_DIR$/aktera-hibernate/iritgo-aktera-hibernate.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aktera-i18n/iritgo-aktera-i18n.iml" filepath="$PROJECT_DIR$/aktera-i18n/iritgo-aktera-i18n.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aktera-importer/iritgo-aktera-importer.iml" filepath="$PROJECT_DIR$/aktera-importer/iritgo-aktera-importer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aktera-journal/iritgo-aktera-journal.iml" filepath="$PROJECT_DIR$/aktera-journal/iritgo-aktera-journal.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aktera-journal-aktario/iritgo-aktera-journal-aktario.iml" filepath="$PROJECT_DIR$/aktera-journal-aktario/iritgo-aktera-journal-aktario.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aktera-logger/iritgo-aktera-logger.iml" filepath="$PROJECT_DIR$/aktera-logger/iritgo-aktera-logger.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aktera-model/iritgo-aktera-model.iml" filepath="$PROJECT_DIR$/aktera-model/iritgo-aktera-model.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aktera-nexim/iritgo-aktera-nexim.iml" filepath="$PROJECT_DIR$/aktera-nexim/iritgo-aktera-nexim.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aktera-permissions/iritgo-aktera-permissions.iml" filepath="$PROJECT_DIR$/aktera-permissions/iritgo-aktera-permissions.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aktera-permissions-ui/iritgo-aktera-permissions-ui.iml" filepath="$PROJECT_DIR$/aktera-permissions-ui/iritgo-aktera-permissions-ui.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aktera-persist-base/iritgo-aktera-persist-base.iml" filepath="$PROJECT_DIR$/aktera-persist-base/iritgo-aktera-persist-base.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aktera-persist-default/iritgo-aktera-persist-default.iml" filepath="$PROJECT_DIR$/aktera-persist-default/iritgo-aktera-persist-default.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aktera-query-jdbc/iritgo-aktera-query-jdbc.iml" filepath="$PROJECT_DIR$/aktera-query-jdbc/iritgo-aktera-query-jdbc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aktera-reporting/iritgo-aktera-reporting.iml" filepath="$PROJECT_DIR$/aktera-reporting/iritgo-aktera-reporting.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aktera-scheduler/iritgo-aktera-scheduler.iml" filepath="$PROJECT_DIR$/aktera-scheduler/iritgo-aktera-scheduler.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aktera-script/iritgo-aktera-script.iml" filepath="$PROJECT_DIR$/aktera-script/iritgo-aktera-script.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aktera-server/iritgo-aktera-server.iml" filepath="$PROJECT_DIR$/aktera-server/iritgo-aktera-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aktera-shell/iritgo-aktera-shell.iml" filepath="$PROJECT_DIR$/aktera-shell/iritgo-aktera-shell.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aktera-spring/iritgo-aktera-spring.iml" filepath="$PROJECT_DIR$/aktera-spring/iritgo-aktera-spring.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aktera-startup/iritgo-aktera-startup.iml" filepath="$PROJECT_DIR$/aktera-startup/iritgo-aktera-startup.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aktera-struts/iritgo-aktera-struts.iml" filepath="$PROJECT_DIR$/aktera-struts/iritgo-aktera-struts.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aktera-templating/iritgo-aktera-templating.iml" filepath="$PROJECT_DIR$/aktera-templating/iritgo-aktera-templating.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aktera-threading/iritgo-aktera-threading.iml" filepath="$PROJECT_DIR$/aktera-threading/iritgo-aktera-threading.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aktera-tools/iritgo-aktera-tools.iml" filepath="$PROJECT_DIR$/aktera-tools/iritgo-aktera-tools.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aktera-ui/iritgo-aktera-ui.iml" filepath="$PROJECT_DIR$/aktera-ui/iritgo-aktera-ui.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aktera-usergroup/iritgo-aktera-usergroup.iml" filepath="$PROJECT_DIR$/aktera-usergroup/iritgo-aktera-usergroup.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aktera-webservices/iritgo-aktera-webservices.iml" filepath="$PROJECT_DIR$/aktera-webservices/iritgo-aktera-webservices.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aktera-webservices-aktario/iritgo-aktera-webservices-aktario.iml" filepath="$PROJECT_DIR$/aktera-webservices-aktario/iritgo-aktera-webservices-aktario.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aktera-maven/maven-aktera-plugin.iml" filepath="$PROJECT_DIR$/aktera-maven/maven-aktera-plugin.iml" />
+    </modules>
+  </component>
+</project>
+

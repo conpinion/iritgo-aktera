@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.evelopers:common:01.01.022">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/evelopers/common/01.01.022/common-01.01.022.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/evelopers/common/01.01.022/common-01.01.022-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/evelopers/common/01.01.022/common-01.01.022-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

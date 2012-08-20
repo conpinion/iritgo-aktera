@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false">
+    <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/aktera-address" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/aktera-address-aktario" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/aktera-aktario" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/aktera-aktario-aktario" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/aktera-authentication" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/aktera-authorization" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/aktera-base" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/aktera-base-aktario" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/aktera-client" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/aktera-command" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/aktera-configuration" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/aktera-core" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/aktera-crypto-base64" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/aktera-dashboard" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/aktera-email" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/aktera-event" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/aktera-fsm" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/aktera-hibernate" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/aktera-i18n" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/aktera-importer" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/aktera-journal" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/aktera-journal-aktario" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/aktera-logger" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/aktera-model" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/aktera-nexim" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/aktera-permissions" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/aktera-permissions-ui" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/aktera-persist-base" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/aktera-persist-default" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/aktera-query-jdbc" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/aktera-reporting" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/aktera-scheduler" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/aktera-script" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/aktera-server" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/aktera-shell" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/aktera-spring" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/aktera-startup" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/aktera-struts" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/aktera-templating" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/aktera-threading" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/aktera-tools" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/aktera-ui" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/aktera-usergroup" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/aktera-webservices" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/aktera-webservices-aktario" charset="UTF-8" />
+  </component>
+</project>
+
