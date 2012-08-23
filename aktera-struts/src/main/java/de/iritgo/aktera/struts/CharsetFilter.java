@@ -42,9 +42,9 @@ public class CharsetFilter implements Filter
 		String userAgent = req.getHeader("User-Agent");
 		if (request.getCharacterEncoding() == null)
 		{
-			if (userAgent.indexOf("Aastra") != -1)
+			if (userAgent != null && userAgent.indexOf("Aastra") != -1)
 			{
-				request.setCharacterEncoding("ISO-8859-1");				
+				request.setCharacterEncoding("ISO-8859-1");
 			}
 			else
 			{
