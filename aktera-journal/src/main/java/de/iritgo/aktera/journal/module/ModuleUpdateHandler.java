@@ -84,7 +84,7 @@ public class ModuleUpdateHandler extends UpdateHandler
 		if (currentVersion.between("2.3.1", "2.3.2"))
 		{
 			addColumn("JournalData", "occurredAt", "timestamp");
-			update("update journaldata set occurredat = (select occurredat from journalentry where journalentry.extendedinfoid = journaldata.id limit 1 )");
+			update("update journaldata set occurredat = (select occurredat from journalentry where journalentry.extendedinfoid = journaldata.id AND extendedinfotype != 'de.telcat.iptell.base.CdrJournal' limit 1 )");
 			update("delete from journaldata where occurredat is null");
 			updateColumnToNotNull("JournalData", "occurredAt");
 

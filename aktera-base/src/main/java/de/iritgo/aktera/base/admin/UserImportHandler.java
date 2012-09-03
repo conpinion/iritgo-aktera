@@ -60,6 +60,7 @@ public class UserImportHandler implements ImportHandler
 		XPath xPath = XPathFactory.newInstance().newXPath();
 
 		int numUsers = 0;
+		int updatedUsers = 0;
 
 		NodeList userElems = (NodeList) xPath.evaluate("users/user", importElem, XPathConstants.NODESET);
 
@@ -80,6 +81,7 @@ public class UserImportHandler implements ImportHandler
 
 				if (user.find())
 				{
+					++updatedUsers;
 					continue;
 				}
 
@@ -94,6 +96,11 @@ public class UserImportHandler implements ImportHandler
 		if (numUsers > 0)
 		{
 			reporter.println(i18n.msg(req, "Aktera", "numUsersWillBeCreated", new Integer(numUsers)));
+		}
+
+		if (updatedUsers > 0)
+		{
+			reporter.println(i18n.msg(req, "Aktera", "numUsersWillBeUpdated", new Integer(updatedUsers)));
 		}
 
 		return true;
@@ -131,22 +138,24 @@ public class UserImportHandler implements ImportHandler
 					continue;
 				}
 
+				FormularDescriptor formular  = null;
+
 				Persistent user = persistentManager.create("keel.user");
 
 				user.setField("name", systemName);
 
+
+				Integer userId = null;
 				if (user.find())
 				{
-					continue;
+					formular = Edit.start(req, "aktera.admin.user.edit", user.getField("uid"));
+					userId = user.getFieldInt ("uid");
 				}
+				else
+					formular = Edit.start(req, "aktera.admin.user.edit");
+
 
 				String password = StringTools.trim(xPath.evaluate("password", userElem));
-
-				if (StringTools.isTrimEmpty(password))
-				{
-					reporter.println("User import error: No <password> tag specified for user '" + systemName + "'");
-					continue;
-				}
 
 				String lastName = StringTools.trim(xPath.evaluate("lastName", userElem));
 
@@ -164,12 +173,14 @@ public class UserImportHandler implements ImportHandler
 					continue;
 				}
 
-				FormularDescriptor formular = Edit.start(req, "aktera.admin.user.edit");
-
 				user = formular.getPersistents().getPersistent("sysUser");
 				user.setField("name", systemName);
-				formular.getPersistents().putAttribute("passwordNew", password);
-				formular.getPersistents().putAttribute("passwordNewRepeat", password);
+
+				if (StringTools.isNotTrimEmpty(password))
+				{
+					formular.getPersistents().putAttribute("passwordNew", password);
+					formular.getPersistents().putAttribute("passwordNewRepeat", password);
+				}
 
 				String pin = StringTools.trim(xPath.evaluate("pin", userElem));
 
@@ -223,9 +234,9 @@ public class UserImportHandler implements ImportHandler
 				address.setField("web", StringTools.trim(xPath.evaluate("web", userElem)));
 				address.setField("remark", StringTools.trim(xPath.evaluate("remark", userElem)));
 
-				Edit.finish(req, "aktera.admin.user.save");
+				Edit.finish(req, "aktera.admin.user.save", userId);
 
-				reporter.println("New user: " + systemName);
+				reporter.println("New/Updated user: " + systemName);
 			}
 			catch (Exception x)
 			{
