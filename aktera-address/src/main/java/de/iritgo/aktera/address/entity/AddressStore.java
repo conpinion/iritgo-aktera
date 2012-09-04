@@ -191,14 +191,20 @@ public abstract class AddressStore implements Serializable
 		{
 			return number;
 		}
+		else if (number.startsWith ("+"))
+		{
+			number = number.substring(1);
+			number = internationalPrefix + number;
+			return number;
+		}
 		else if (number.startsWith(nationalPrefix)) // 0
 		{
 			number = number.substring(nationalPrefix.length());
-			number = countryPrefix + number;
+			number = internationalPrefix + countryPrefix + number;
 			return number;
 		}
-		// Unknown
-		return number;
+		// City- or firm-Number add compete prefix (e.g. 0049-231)
+		return internationalPrefix + countryPrefix + localPrefix + number;
 	}
 
 	protected String removePrefixesFromPhoneNumber(String number, String internationPrefix, String countryPrefix,
