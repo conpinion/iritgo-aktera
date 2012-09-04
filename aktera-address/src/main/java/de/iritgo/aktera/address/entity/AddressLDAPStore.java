@@ -1042,9 +1042,9 @@ public class AddressLDAPStore extends AddressStore
 	}
 
 	@Override
-	public Option<Address> findAddressByPhoneNumber(String number, String countryPrefix, String localPrefix, String internationalPrefix, String nationalPrefix)
+	public Option<Address> findAddressByPhoneNumber(String number, String internationalPrefix, String countryPrefix, String nationalPrefix, String localPrefix)
 	{
-		number = normalizeNumber (number, countryPrefix, localPrefix, nationalPrefix);
+		number = normalizeNumber (number, internationalPrefix, countryPrefix, nationalPrefix, localPrefix);
 
 		logger.debug("LDAP-Store address resolution with number: " + number);
 
@@ -1060,7 +1060,7 @@ public class AddressLDAPStore extends AddressStore
 	}
 
 	@Override
-	public Option<Address> findAddressOfOwnerByPhoneNumber(Integer ownerId, String number, String countryPrefix, String localPrefix, String internationalPrefix, String nationalPrefix)
+	public Option<Address> findAddressOfOwnerByPhoneNumber(Integer ownerId, String number, String internationalPrefix, String countryPrefix, String nationalPrefix, String localPrefix)
 	{
 		// No private LDAP-Store
 

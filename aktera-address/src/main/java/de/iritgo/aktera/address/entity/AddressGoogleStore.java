@@ -324,10 +324,10 @@ public class AddressGoogleStore extends AddressStore
 	}
 
 	@Override
-	public Option<Address> findAddressByPhoneNumber(String number, String countryPrefix, String localPrefix, String internationalPrefix, String nationalPrefix)
+	public Option<Address> findAddressByPhoneNumber(String number, String internationalPrefix, String countryPrefix, String nationalPrefix, String localPrefix)
 	{
 
-		number = normalizeNumber (number, countryPrefix, localPrefix, nationalPrefix);
+		number = normalizeNumber (number, internationalPrefix, countryPrefix, nationalPrefix, localPrefix);
 		logger.debug("Google-Store address resolution with number: " + number);
 
 		Option<Address> address = findAddressByPhoneNumber (number);
@@ -342,9 +342,9 @@ public class AddressGoogleStore extends AddressStore
 	}
 
 	@Override
-	public Option<Address> findAddressOfOwnerByPhoneNumber(Integer ownerId, String number, String countryPrefix, String localPrefix, String internationalPrefix, String nationalPrefix)
+	public Option<Address> findAddressOfOwnerByPhoneNumber(Integer ownerId, String number, String internationalPrefix, String countryPrefix, String nationalPrefix, String localPrefix)
 	{
-		number = normalizeNumber (number, countryPrefix, localPrefix, nationalPrefix);
+		number = normalizeNumber (number, internationalPrefix, countryPrefix, nationalPrefix, localPrefix);
 
 		logger.debug("Private Google-Store address resolution with number: " + number);
 

@@ -153,8 +153,8 @@ public class AddressManagerImpl implements AddressManager, StartupHandler
 	}
 
 	@Cacheable("addressResolution")
-	public Option<Address> findAddressByPhoneNumber(String number, String countryPrefix, String localPrefix,
-					String internationalPrefix, String nationalPrefix)
+	public Option<Address> findAddressByPhoneNumber(String number, String internationalPrefix, String countryPrefix,
+					String nationalPrefix, String localPrefix)
 	{
 		for (AddressStore store : addressStores)
 		{
@@ -163,8 +163,8 @@ public class AddressManagerImpl implements AddressManager, StartupHandler
 				continue;
 			}
 
-			Option<Address> address = store.findAddressByPhoneNumber (number, countryPrefix, localPrefix,
-					internationalPrefix, nationalPrefix);
+			Option<Address> address = store.findAddressByPhoneNumber (number, internationalPrefix, countryPrefix,
+					nationalPrefix, localPrefix);
 
 			if (address.full())
 			{
@@ -176,8 +176,8 @@ public class AddressManagerImpl implements AddressManager, StartupHandler
 	}
 
 	@Cacheable("addressResolution")
-	public Option<Address> findAddressOfOwnerByPhoneNumber(Integer ownerId, String number, String countryPrefix,
-					String localPrefix, String internationalPrefix, String nationalPrefix)
+	public Option<Address> findAddressOfOwnerByPhoneNumber(Integer ownerId, String number, String internationalPrefix,
+					String countryPrefix, String nationalPrefix, String localPrefix)
 	{
 
 		for (AddressStore store : addressStores)
@@ -187,8 +187,8 @@ public class AddressManagerImpl implements AddressManager, StartupHandler
 				continue;
 			}
 
-			Option<Address> address = store.findAddressOfOwnerByPhoneNumber(ownerId, number, countryPrefix,
-					localPrefix, internationalPrefix, nationalPrefix);
+			Option<Address> address = store.findAddressOfOwnerByPhoneNumber(ownerId, number, internationalPrefix,
+					countryPrefix, nationalPrefix, localPrefix);
 			if (address.full())
 			{
 				return address;

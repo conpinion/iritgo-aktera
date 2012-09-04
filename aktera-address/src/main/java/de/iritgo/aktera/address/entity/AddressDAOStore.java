@@ -271,11 +271,11 @@ public class AddressDAOStore extends AddressStore
 	}
 
 	@Override
-	public Option<Address> findAddressByPhoneNumber(String number, String countryPrefix, String localPrefix, String internationalPrefix, String nationalPrefix)
+	public Option<Address> findAddressByPhoneNumber(String number, String internationalPrefix, String countryPrefix, String nationalPrefix, String localPrefix)
 	{
 		if (numberNormalization == NumberNormalizationType.REMOVE_PREFIX)
 		{
-			number = removePrefixesFromPhoneNumber(number, countryPrefix, localPrefix, nationalPrefix);
+			number = removePrefixesFromPhoneNumber(number, internationalPrefix, countryPrefix, nationalPrefix, localPrefix);
 
 			logger.debug("Private DAO-Store address resolution with number: " + number);
 
@@ -288,7 +288,7 @@ public class AddressDAOStore extends AddressStore
 				Option<Address> address = null;
 
 				// Add like 0049
-				if (internalNumber.equals(countryPrefix + number))
+				if (internalNumber.equals(internationalPrefix + countryPrefix + number))
 				{
 					address = findAddressByPhoneNumber(phoneNumber);
 				}
@@ -326,7 +326,7 @@ public class AddressDAOStore extends AddressStore
 		}
 		else if (numberNormalization == NumberNormalizationType.ADD_INTERNATIONAL_COUNTRY_PREFIX)
 		{
-			String normNumber = normalizeNumber(number, countryPrefix, localPrefix, nationalPrefix);
+			String normNumber = normalizeNumber(number, internationalPrefix, countryPrefix, nationalPrefix, localPrefix);
 			Option<Address> address = findAddressByPhoneNumber(number);
 			if (address.full ())
 			{
@@ -354,11 +354,11 @@ public class AddressDAOStore extends AddressStore
 	}
 
 	@Override
-	public Option<Address> findAddressOfOwnerByPhoneNumber(Integer ownerId, String number, String countryPrefix, String localPrefix, String internationalPrefix, String nationalPrefix)
+	public Option<Address> findAddressOfOwnerByPhoneNumber(Integer ownerId, String number, String internationalPrefix, String countryPrefix, String nationalPrefix, String localPrefix)
 	{
 		if (numberNormalization == NumberNormalizationType.REMOVE_PREFIX)
 		{
-			number = removePrefixesFromPhoneNumber(number, countryPrefix, localPrefix, nationalPrefix);
+			number = removePrefixesFromPhoneNumber(number, internationalPrefix, countryPrefix, nationalPrefix, localPrefix);
 
 			logger.debug("Private DAO-Store address resolution with number: " + number);
 
@@ -409,7 +409,7 @@ public class AddressDAOStore extends AddressStore
 		}
 		else if (numberNormalization == NumberNormalizationType.ADD_INTERNATIONAL_COUNTRY_PREFIX)
 		{
-			String normNumber = normalizeNumber(number, countryPrefix, localPrefix, nationalPrefix);
+			String normNumber = normalizeNumber(number, internationalPrefix, countryPrefix, nationalPrefix, localPrefix);
 			Option<Address> address = findAddressOfOwnerByPhoneNumber(number, ownerId);
 			if (address.full ())
 			{

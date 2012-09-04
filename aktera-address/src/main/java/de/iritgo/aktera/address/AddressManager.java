@@ -53,11 +53,11 @@ public interface AddressManager
 
 	public Option<Address> findAddressByPhoneNumber(String number);
 
-	public Option<Address> findAddressByPhoneNumber(String number, String countryPrefix, String localPrefix,
-					String internationalPrefix, String nationalPrefix);
+	public Option<Address> findAddressByPhoneNumber(String number, String internationalPrefix, String countryPrefix,
+					String nationalPrefix, String localPrefix);
 
-	public Option<Address> findAddressOfOwnerByPhoneNumber(Integer ownerId, String number, String countryPrefix,
-					String localPrefix, String internationalPrefix, String nationalPrefix);
+	public Option<Address> findAddressOfOwnerByPhoneNumber(Integer ownerId, String number, String internationalPrefix,
+					String countryPrefix, String nationalPrefix, String localPrefix);
 
 	public Option<Address> findAddressByStoreAndDn(String storeName, Object addressDn);
 
