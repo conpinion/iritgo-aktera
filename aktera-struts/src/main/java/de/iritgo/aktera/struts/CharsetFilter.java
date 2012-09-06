@@ -39,18 +39,18 @@ public class CharsetFilter implements Filter
 		throws IOException, ServletException
 	{
 		HttpServletRequest req = (HttpServletRequest) request;
-		String userAgent = req.getHeader("User-Agent");
-		if (request.getCharacterEncoding() == null)
-		{
-			if (userAgent != null && userAgent.indexOf("Aastra") != -1)
-			{
-				request.setCharacterEncoding("ISO-8859-1");
-			}
-			else
-			{
-				request.setCharacterEncoding("UTF-8");
-			}
-		}
+//		String userAgent = req.getHeader("User-Agent");
+//		if (request.getCharacterEncoding() == null)
+//		{
+//			if (userAgent != null && userAgent.indexOf("Aastra") != -1)
+//			{
+//				request.setCharacterEncoding("ISO-8859-1");
+//			}
+//			else
+//			{
+//				request.setCharacterEncoding("UTF-8");
+//			}
+//		}
 
 		next.doFilter(request, response);
 	}
