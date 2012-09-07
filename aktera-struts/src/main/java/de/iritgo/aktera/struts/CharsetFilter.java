@@ -48,9 +48,11 @@ public class CharsetFilter implements Filter
 //			}
 //			else
 //			{
-//				request.setCharacterEncoding("UTF-8");
+//		request.setCharaerEncoding("UTF-8");
 //			}
 //		}
+
+		request.setCharacterEncoding("UTF-8");
 
 		next.doFilter(request, response);
 	}
