@@ -275,6 +275,8 @@
 			<ui:field name="store.defaultStore" label="addressStoreDefaultStore" editor="check" />
 			<ui:field name="store.editable" label="addressStoreEditable" editor="check" />
 			<ui:field name="store.numberNormalization" editor="combo" />
+			<ui:field name="store.mainNumber" editor="text" size="40"/>
+			<ui:field name="store.internalNumberLength" editor="number" />
 		</ui:group>
 		<ui:group name="de.iritgo.aktera.address.entity.AddressDAOStore">
 			<ui:field name="store.category" editor="text" size="40" duty="true" />

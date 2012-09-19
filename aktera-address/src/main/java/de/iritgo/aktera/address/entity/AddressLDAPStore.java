@@ -22,14 +22,21 @@ package de.iritgo.aktera.address.entity;
 
 import java.io.*;
 import java.util.*;
+
 import javax.naming.*;
 import javax.naming.directory.*;
+import javax.naming.directory.Attribute;
+import javax.naming.directory.SearchResult;
 import javax.naming.ldap.*;
+import javax.naming.ldap.Control;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.*;
+
+import com.unboundid.ldap.sdk.*;
+
 import de.iritgo.simplelife.constants.SortOrder;
 import de.iritgo.simplelife.math.NumberTools;
 import de.iritgo.simplelife.string.StringTools;
@@ -909,6 +916,66 @@ public class AddressLDAPStore extends AddressStore
 		address.addPhoneNumber(number);
 	}
 
+	private void inflatePhoneNumbers(SearchResultEntry entry, Address address)
+	{
+		PhoneNumber number = new PhoneNumber();
+		number.setCategory("B");
+		number.setNumber(getLDAPAttributeAsString(entry, "businessNumber", "telephoneNumber"));
+		address.addPhoneNumber(number);
+		number = new PhoneNumber();
+		number.setCategory("BF");
+		number.setNumber(getLDAPAttributeAsString(entry, "businessFaxNumber", "facsimileTelephoneNumber"));
+		address.addPhoneNumber(number);
+		number = new PhoneNumber();
+		number.setCategory("BM");
+		number.setNumber(getLDAPAttributeAsString(entry, "businessMobileNumber", "mobile"));
+		address.addPhoneNumber(number);
+		number = new PhoneNumber();
+		number.setCategory("BDD");
+		number.setNumber(getLDAPAttributeAsString(entry, "businessDirectDialNumber", "otherTelephone"));
+		address.addPhoneNumber(number);
+		number = new PhoneNumber();
+		number.setCategory("P");
+		number.setNumber(getLDAPAttributeAsString(entry, "privateNumber", "homePhone"));
+		address.addPhoneNumber(number);
+		number = new PhoneNumber();
+		number.setCategory("PM");
+		number.setNumber(getLDAPAttributeAsString(entry, "privateMobileNumber", "otherMobile"));
+		address.addPhoneNumber(number);
+		number = new PhoneNumber();
+		number.setCategory("PF");
+		number.setNumber(getLDAPAttributeAsString(entry, "privateFaxNumber", "otherFacsimileTelephoneNumber"));
+		address.addPhoneNumber(number);
+		number = new PhoneNumber();
+		number.setCategory("VOIP");
+		number.setNumber(getLDAPAttributeAsString(entry, "voipNumber", "ipPhone"));
+		address.addPhoneNumber(number);
+	}
+
+	private Address inflateAddress(SearchResultEntry entry, String addressDn)
+	{
+		Address address = new Address();
+		address.setAlternateId(addressDn.toString());
+
+		address.setLastName(getLDAPAttributeAsString(entry, "lastName", "sn"));
+		address.setFirstName(getLDAPAttributeAsString(entry, "firstName", "givenName"));
+		address.setCompany(getLDAPAttributeAsString(entry, "company", "o"));
+		address.setStreet(getLDAPAttributeAsString(entry, "street", "street"));
+		address.setSalutation(getLDAPAttributeAsString(entry, "salutation", null));
+		address.setPosition(getLDAPAttributeAsString(entry, "position", "title"));
+		address.setDivision(getLDAPAttributeAsString(entry, "division", "ou"));
+		address.setCity(getLDAPAttributeAsString(entry, "city", "l"));
+		address.setPostalCode(getLDAPAttributeAsString(entry, "postalCode", "postalCode"));
+		address.setCountry(getLDAPAttributeAsString(entry, "country", "destinationIndicator"));
+		address.setEmail(getLDAPAttributeAsString(entry, "email", "mail"));
+		address.setWeb(getLDAPAttributeAsString(entry, "web", "seeAlso"));
+		address.setRemark(getLDAPAttributeAsString(entry, "remark", "description"));
+
+		inflatePhoneNumbers(entry, address);
+
+		return address;
+	}
+
 	private LdapContext createLDAPContext() throws NamingException
 	{
 		Hashtable env = new Hashtable();
@@ -993,6 +1060,21 @@ public class AddressLDAPStore extends AddressStore
 		return "";
 	}
 
+	private String getLDAPAttributeAsString(SearchResultEntry entry,
+			String attributeName, String ldapAttributeName) {
+
+		String realAttributeName = getLdapAttributeName(attributeName, ldapAttributeName);
+		try
+		{
+			return StringTools.trim(entry.getAttributeValue(realAttributeName));
+		}
+		catch (Exception ignored)
+		{
+		}
+		return "";
+	}
+
+
 	/**
 	 * Create the LDAP query expression.
 	 *
@@ -1044,17 +1126,60 @@ public class AddressLDAPStore extends AddressStore
 	@Override
 	public Option<Address> findAddressByPhoneNumber(String number, String internationalPrefix, String countryPrefix, String nationalPrefix, String localPrefix)
 	{
+		if (StringTools.isNotTrimEmpty(mainNumber) && number.length() <= internalNumberLength)
+		{
+			number = mainNumber + number;
+		}
+
 		number = normalizeNumber (number, internationalPrefix, countryPrefix, nationalPrefix, localPrefix);
 
-		logger.debug("LDAP-Store address resolution with number: " + number);
-
-		Option<Address> address = findAddressByPhoneNumber (number);
-
-		if (address.full())
+		try
 		{
-			address.get().setAddressStore(this);
+			int ldapPort = NumberTools.toInt(port, 0);
 
-			return address;
+			LDAPConnection connection = null;
+
+			if (StringTools.isNotTrimEmpty(authDn) && StringTools.isNotTrimEmpty(authPassword))
+			{
+				connection = new LDAPConnection(host, (ldapPort != 0 ? ldapPort : 389),
+						authDn, StringTools.decode(authPassword));
+			}
+			else
+			{
+				connection = new LDAPConnection(host, (ldapPort != 0 ? ldapPort : 389));
+			}
+			LDAPConnectionOptions connectionOptions = new LDAPConnectionOptions();
+			connectionOptions.setConnectTimeoutMillis (3000);
+			connection.setConnectionOptions(connectionOptions);
+
+			// Logging ist defekt!
+			logger.debug("LDAP-Store address resolution with number: " + number);
+			System.out.print (new Date () + " LDAP-Store address resolution with number: " + number);
+			long startTime = System.currentTimeMillis();
+
+			com.unboundid.ldap.sdk.SearchResult searchResults = connection.search(baseDn,
+					ldapScope == SearchControls.ONELEVEL_SCOPE ? com.unboundid.ldap.sdk.SearchScope.ONE : com.unboundid.ldap.sdk.SearchScope.SUB ,
+							createQuery(number, phoneNumberSearchAttributesList));
+
+			System.out.println (" -> response in " + (System.currentTimeMillis() - startTime) + " ms.");
+
+			if (searchResults.getEntryCount() > 0)
+			{
+				SearchResultEntry entry = searchResults.getSearchEntries().get(0);
+				Address address = inflateAddress (entry, entry.getDN());
+
+				if (address != null)
+				{
+					address.setAddressStore(this);
+
+					return Option.Full(address);
+				}
+
+			}
+		}
+		catch (LDAPException x)
+		{
+			x.printStackTrace();
 		}
 		return new Empty ();
 	}

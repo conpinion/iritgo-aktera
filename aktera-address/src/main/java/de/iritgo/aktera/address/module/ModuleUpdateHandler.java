@@ -391,7 +391,7 @@ public class ModuleUpdateHandler extends UpdateHandler
 			setReboot();
 			currentVersion.setVersion("2.3.2");
 		}
-		
+
 		if (currentVersion.between("2.3.2", "2.3.3"))
 		{
 			addColumn("AddressStore", "numberNormalization", "varchar(64)");
@@ -404,8 +404,16 @@ public class ModuleUpdateHandler extends UpdateHandler
 		if (currentVersion.between("2.3.3", "2.3.4"))
 		{
 			updateColumnToNotNull("AddressStore", "numberNormalization");
-			
+
 			currentVersion.setVersion("2.3.4");
 		}
-	}
+
+		if (currentVersion.between("2.3.4", "2.3.5"))
+		{
+			addColumn("AddressStore", "mainNumber", "varchar(255)");
+			addColumn("AddressStore", "internalNumberLength", "int4");
+
+			currentVersion.setVersion("2.3.5");
+		}
+}
 }

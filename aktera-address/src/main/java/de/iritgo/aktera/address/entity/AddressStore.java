@@ -87,11 +87,15 @@ public abstract class AddressStore implements Serializable
 	@Value("false")
 	protected Boolean emptySearchReturnsAllEntries;
 
-
 	@Enumerated(EnumType.STRING)
 	@NotNull
 	@Value("NO_NORMALIZATION")
 	protected NumberNormalizationType numberNormalization;
+
+	@Length(max = 255)
+	protected String mainNumber;
+
+	protected Integer internalNumberLength;
 
 	@Inject
 	@Qualifier("de.iritgo.aktera.logger.Logger")
