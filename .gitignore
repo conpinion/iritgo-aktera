@@ -1,0 +1,375 @@
+
+# /
+/target
+
+# /.idea/
+/.idea/workspace.xml
+/.idea/tasks.xml
+
+# /.settings/
+/.settings/org.eclipse.core.resources.prefs
+/.settings/org.eclipse.jdt.core.prefs
+/.settings/org.eclipse.m2e.core.prefs
+
+# /aktera-address/
+/aktera-address/target
+
+# /aktera-address/.settings/
+/aktera-address/.settings/org.eclipse.core.resources.prefs
+/aktera-address/.settings/org.eclipse.jdt.core.prefs
+/aktera-address/.settings/org.eclipse.m2e.core.prefs
+
+# /aktera-address-aktario/
+/aktera-address-aktario/target
+
+# /aktera-address-aktario/.settings/
+/aktera-address-aktario/.settings/org.eclipse.core.resources.prefs
+/aktera-address-aktario/.settings/org.eclipse.jdt.core.prefs
+/aktera-address-aktario/.settings/org.eclipse.m2e.core.prefs
+
+# /aktera-aktario/
+/aktera-aktario/target
+
+# /aktera-aktario/.settings/
+/aktera-aktario/.settings/org.eclipse.core.resources.prefs
+/aktera-aktario/.settings/org.eclipse.jdt.core.prefs
+/aktera-aktario/.settings/org.eclipse.m2e.core.prefs
+
+# /aktera-aktario-aktario/
+/aktera-aktario-aktario/target
+
+# /aktera-aktario-aktario/.settings/
+/aktera-aktario-aktario/.settings/org.eclipse.core.resources.prefs
+/aktera-aktario-aktario/.settings/org.eclipse.jdt.core.prefs
+/aktera-aktario-aktario/.settings/org.eclipse.m2e.core.prefs
+
+# /aktera-authentication/
+/aktera-authentication/target
+
+# /aktera-authentication/.settings/
+/aktera-authentication/.settings/org.eclipse.core.resources.prefs
+/aktera-authentication/.settings/org.eclipse.jdt.core.prefs
+/aktera-authentication/.settings/org.eclipse.m2e.core.prefs
+
+# /aktera-authorization/
+/aktera-authorization/target
+
+# /aktera-authorization/.settings/
+/aktera-authorization/.settings/org.eclipse.core.resources.prefs
+/aktera-authorization/.settings/org.eclipse.jdt.core.prefs
+/aktera-authorization/.settings/org.eclipse.m2e.core.prefs
+
+# /aktera-base/
+/aktera-base/target
+
+# /aktera-base/.settings/
+/aktera-base/.settings/org.eclipse.core.resources.prefs
+/aktera-base/.settings/org.eclipse.jdt.core.prefs
+/aktera-base/.settings/org.eclipse.m2e.core.prefs
+
+# /aktera-base-aktario/
+/aktera-base-aktario/target
+
+# /aktera-base-aktario/.settings/
+/aktera-base-aktario/.settings/org.eclipse.core.resources.prefs
+/aktera-base-aktario/.settings/org.eclipse.jdt.core.prefs
+/aktera-base-aktario/.settings/org.eclipse.m2e.core.prefs
+
+# /aktera-client/
+/aktera-client/target
+
+# /aktera-client/.settings/
+/aktera-client/.settings/org.eclipse.core.resources.prefs
+/aktera-client/.settings/org.eclipse.jdt.core.prefs
+/aktera-client/.settings/org.eclipse.m2e.core.prefs
+
+# /aktera-command/
+/aktera-command/target
+
+# /aktera-configuration/
+/aktera-configuration/target
+
+# /aktera-configuration/.settings/
+/aktera-configuration/.settings/org.eclipse.core.resources.prefs
+/aktera-configuration/.settings/org.eclipse.jdt.core.prefs
+/aktera-configuration/.settings/org.eclipse.m2e.core.prefs
+
+# /aktera-core/
+/aktera-core/target
+
+# /aktera-core/.settings/
+/aktera-core/.settings/org.eclipse.core.resources.prefs
+/aktera-core/.settings/org.eclipse.jdt.core.prefs
+/aktera-core/.settings/org.eclipse.m2e.core.prefs
+
+# /aktera-crypto-base64/
+/aktera-crypto-base64/target
+
+# /aktera-crypto-base64/.settings/
+/aktera-crypto-base64/.settings/org.eclipse.core.resources.prefs
+/aktera-crypto-base64/.settings/org.eclipse.jdt.core.prefs
+/aktera-crypto-base64/.settings/org.eclipse.m2e.core.prefs
+
+# /aktera-dashboard/
+/aktera-dashboard/target
+
+# /aktera-dashboard/.settings/
+/aktera-dashboard/.settings/org.eclipse.core.resources.prefs
+/aktera-dashboard/.settings/org.eclipse.jdt.core.prefs
+/aktera-dashboard/.settings/org.eclipse.m2e.core.prefs
+
+# /aktera-email/
+/aktera-email/target
+
+# /aktera-email/.settings/
+/aktera-email/.settings/org.eclipse.core.resources.prefs
+/aktera-email/.settings/org.eclipse.jdt.core.prefs
+/aktera-email/.settings/org.eclipse.m2e.core.prefs
+
+# /aktera-event/
+/aktera-event/target
+
+# /aktera-event/.settings/
+/aktera-event/.settings/org.eclipse.core.resources.prefs
+/aktera-event/.settings/org.eclipse.jdt.core.prefs
+/aktera-event/.settings/org.eclipse.m2e.core.prefs
+
+# /aktera-fsm/
+/aktera-fsm/target
+
+# /aktera-fsm/.settings/
+/aktera-fsm/.settings/org.eclipse.core.resources.prefs
+/aktera-fsm/.settings/org.eclipse.jdt.core.prefs
+/aktera-fsm/.settings/org.eclipse.m2e.core.prefs
+
+# /aktera-hibernate/
+/aktera-hibernate/target
+
+# /aktera-hibernate/.settings/
+/aktera-hibernate/.settings/org.eclipse.core.resources.prefs
+/aktera-hibernate/.settings/org.eclipse.jdt.core.prefs
+/aktera-hibernate/.settings/org.eclipse.m2e.core.prefs
+
+# /aktera-i18n/
+/aktera-i18n/target
+
+# /aktera-i18n/.settings/
+/aktera-i18n/.settings/org.eclipse.core.resources.prefs
+/aktera-i18n/.settings/org.eclipse.jdt.core.prefs
+/aktera-i18n/.settings/org.eclipse.m2e.core.prefs
+
+# /aktera-importer/
+/aktera-importer/target
+
+# /aktera-importer/.settings/
+/aktera-importer/.settings/org.eclipse.core.resources.prefs
+/aktera-importer/.settings/org.eclipse.jdt.core.prefs
+/aktera-importer/.settings/org.eclipse.m2e.core.prefs
+
+# /aktera-journal/
+/aktera-journal/target
+
+# /aktera-journal/.settings/
+/aktera-journal/.settings/org.eclipse.core.resources.prefs
+/aktera-journal/.settings/org.eclipse.jdt.core.prefs
+/aktera-journal/.settings/org.eclipse.m2e.core.prefs
+
+# /aktera-journal-aktario/
+/aktera-journal-aktario/target
+
+# /aktera-journal-aktario/.settings/
+/aktera-journal-aktario/.settings/org.eclipse.core.resources.prefs
+/aktera-journal-aktario/.settings/org.eclipse.jdt.core.prefs
+/aktera-journal-aktario/.settings/org.eclipse.m2e.core.prefs
+
+# /aktera-logger/
+/aktera-logger/target
+
+# /aktera-logger/.settings/
+/aktera-logger/.settings/org.eclipse.core.resources.prefs
+/aktera-logger/.settings/org.eclipse.jdt.core.prefs
+/aktera-logger/.settings/org.eclipse.m2e.core.prefs
+
+# /aktera-maven/
+/aktera-maven/target
+
+# /aktera-maven/.settings/
+/aktera-maven/.settings/org.eclipse.core.resources.prefs
+/aktera-maven/.settings/org.eclipse.jdt.core.prefs
+/aktera-maven/.settings/org.eclipse.m2e.core.prefs
+
+# /aktera-model/
+/aktera-model/target
+
+# /aktera-model/.settings/
+/aktera-model/.settings/org.eclipse.core.resources.prefs
+/aktera-model/.settings/org.eclipse.jdt.core.prefs
+/aktera-model/.settings/org.eclipse.m2e.core.prefs
+
+# /aktera-nexim/
+/aktera-nexim/target
+
+# /aktera-nexim/.settings/
+/aktera-nexim/.settings/org.eclipse.core.resources.prefs
+/aktera-nexim/.settings/org.eclipse.jdt.core.prefs
+/aktera-nexim/.settings/org.eclipse.m2e.core.prefs
+
+# /aktera-permissions/
+/aktera-permissions/target
+
+# /aktera-permissions/.settings/
+/aktera-permissions/.settings/org.eclipse.core.resources.prefs
+/aktera-permissions/.settings/org.eclipse.jdt.core.prefs
+/aktera-permissions/.settings/org.eclipse.m2e.core.prefs
+
+# /aktera-permissions-ui/
+/aktera-permissions-ui/target
+
+# /aktera-permissions-ui/.settings/
+/aktera-permissions-ui/.settings/org.eclipse.core.resources.prefs
+/aktera-permissions-ui/.settings/org.eclipse.jdt.core.prefs
+/aktera-permissions-ui/.settings/org.eclipse.m2e.core.prefs
+
+# /aktera-persist-base/
+/aktera-persist-base/target
+
+# /aktera-persist-base/.settings/
+/aktera-persist-base/.settings/org.eclipse.core.resources.prefs
+/aktera-persist-base/.settings/org.eclipse.jdt.core.prefs
+/aktera-persist-base/.settings/org.eclipse.m2e.core.prefs
+
+# /aktera-persist-default/
+/aktera-persist-default/target
+
+# /aktera-persist-default/.settings/
+/aktera-persist-default/.settings/org.eclipse.core.resources.prefs
+/aktera-persist-default/.settings/org.eclipse.jdt.core.prefs
+/aktera-persist-default/.settings/org.eclipse.m2e.core.prefs
+
+# /aktera-query-jdbc/
+/aktera-query-jdbc/target
+
+# /aktera-query-jdbc/.settings/
+/aktera-query-jdbc/.settings/org.eclipse.core.resources.prefs
+/aktera-query-jdbc/.settings/org.eclipse.jdt.core.prefs
+/aktera-query-jdbc/.settings/org.eclipse.m2e.core.prefs
+
+# /aktera-reporting/
+/aktera-reporting/target
+
+# /aktera-reporting/.settings/
+/aktera-reporting/.settings/org.eclipse.core.resources.prefs
+/aktera-reporting/.settings/org.eclipse.jdt.core.prefs
+/aktera-reporting/.settings/org.eclipse.m2e.core.prefs
+
+# /aktera-scheduler/
+/aktera-scheduler/target
+
+# /aktera-scheduler/.settings/
+/aktera-scheduler/.settings/org.eclipse.core.resources.prefs
+/aktera-scheduler/.settings/org.eclipse.jdt.core.prefs
+/aktera-scheduler/.settings/org.eclipse.m2e.core.prefs
+
+# /aktera-script/
+/aktera-script/target
+
+# /aktera-script/.settings/
+/aktera-script/.settings/org.eclipse.core.resources.prefs
+/aktera-script/.settings/org.eclipse.jdt.core.prefs
+/aktera-script/.settings/org.eclipse.m2e.core.prefs
+
+# /aktera-server/
+/aktera-server/target
+
+# /aktera-server/.settings/
+/aktera-server/.settings/org.eclipse.core.resources.prefs
+/aktera-server/.settings/org.eclipse.jdt.core.prefs
+/aktera-server/.settings/org.eclipse.m2e.core.prefs
+
+# /aktera-shell/
+/aktera-shell/target
+
+# /aktera-shell/.settings/
+/aktera-shell/.settings/org.eclipse.core.resources.prefs
+/aktera-shell/.settings/org.eclipse.jdt.core.prefs
+/aktera-shell/.settings/org.eclipse.m2e.core.prefs
+
+# /aktera-spring/
+/aktera-spring/target
+
+# /aktera-spring/.settings/
+/aktera-spring/.settings/org.eclipse.core.resources.prefs
+/aktera-spring/.settings/org.eclipse.jdt.core.prefs
+/aktera-spring/.settings/org.eclipse.m2e.core.prefs
+
+# /aktera-startup/
+/aktera-startup/target
+
+# /aktera-startup/.settings/
+/aktera-startup/.settings/org.eclipse.core.resources.prefs
+/aktera-startup/.settings/org.eclipse.jdt.core.prefs
+/aktera-startup/.settings/org.eclipse.m2e.core.prefs
+
+# /aktera-struts/
+/aktera-struts/target
+
+# /aktera-struts/.settings/
+/aktera-struts/.settings/org.eclipse.core.resources.prefs
+/aktera-struts/.settings/org.eclipse.jdt.core.prefs
+/aktera-struts/.settings/org.eclipse.m2e.core.prefs
+
+# /aktera-templating/
+/aktera-templating/target
+
+# /aktera-templating/.settings/
+/aktera-templating/.settings/org.eclipse.core.resources.prefs
+/aktera-templating/.settings/org.eclipse.jdt.core.prefs
+/aktera-templating/.settings/org.eclipse.m2e.core.prefs
+
+# /aktera-threading/
+/aktera-threading/target
+
+# /aktera-threading/.settings/
+/aktera-threading/.settings/org.eclipse.core.resources.prefs
+/aktera-threading/.settings/org.eclipse.jdt.core.prefs
+/aktera-threading/.settings/org.eclipse.m2e.core.prefs
+
+# /aktera-tools/
+/aktera-tools/target
+
+# /aktera-tools/.settings/
+/aktera-tools/.settings/org.eclipse.core.resources.prefs
+/aktera-tools/.settings/org.eclipse.jdt.core.prefs
+/aktera-tools/.settings/org.eclipse.m2e.core.prefs
+
+# /aktera-ui/
+/aktera-ui/target
+
+# /aktera-ui/.settings/
+/aktera-ui/.settings/org.eclipse.core.resources.prefs
+/aktera-ui/.settings/org.eclipse.jdt.core.prefs
+/aktera-ui/.settings/org.eclipse.m2e.core.prefs
+
+# /aktera-usergroup/
+/aktera-usergroup/target
+
+# /aktera-usergroup/.settings/
+/aktera-usergroup/.settings/org.eclipse.core.resources.prefs
+/aktera-usergroup/.settings/org.eclipse.jdt.core.prefs
+/aktera-usergroup/.settings/org.eclipse.m2e.core.prefs
+
+# /aktera-webservices/
+/aktera-webservices/target
+
+# /aktera-webservices/.settings/
+/aktera-webservices/.settings/org.eclipse.core.resources.prefs
+/aktera-webservices/.settings/org.eclipse.jdt.core.prefs
+/aktera-webservices/.settings/org.eclipse.m2e.core.prefs
+
+# /aktera-webservices-aktario/
+/aktera-webservices-aktario/target
+
+# /aktera-webservices-aktario/.settings/
+/aktera-webservices-aktario/.settings/org.eclipse.core.resources.prefs
+/aktera-webservices-aktario/.settings/org.eclipse.jdt.core.prefs
+/aktera-webservices-aktario/.settings/org.eclipse.m2e.core.prefs
