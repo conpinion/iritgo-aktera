@@ -51,7 +51,9 @@ public class ModuleCreateHandler extends CreateHandler
 						"type varchar(255) not null", "title varchar(255)", "position int4 not null",
 						"systemStore boolean not null", "defaultStore boolean not null", "editable boolean not null",
 						"numberLookup boolean not null", "emptySearchReturnsAllEntries boolean not null",
-						"numberNormalization varchar(64) not null");
+						"numberNormalization varchar(64) not null",
+						"internalNumberLength int4",
+						"mainNumber varchar(255)");
 
 		createIndex("AddressStore", "name");
 
