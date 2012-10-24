@@ -1133,11 +1133,11 @@ public class AddressLDAPStore extends AddressStore
 
 		number = normalizeNumber (number, internationalPrefix, countryPrefix, nationalPrefix, localPrefix);
 
+		LDAPConnection connection = null;
+
 		try
 		{
 			int ldapPort = NumberTools.toInt(port, 0);
-
-			LDAPConnection connection = null;
 
 			if (StringTools.isNotTrimEmpty(authDn) && StringTools.isNotTrimEmpty(authPassword))
 			{
@@ -1181,6 +1181,14 @@ public class AddressLDAPStore extends AddressStore
 		{
 			x.printStackTrace();
 		}
+		finally
+		{
+			if (connection != null)
+			{			
+				connection.close();
+			}		   
+		}
+	   
 		return new Empty ();
 	}
 
