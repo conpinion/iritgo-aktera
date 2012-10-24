@@ -103,7 +103,7 @@ then
 fi
 if [ ! -z "$optBatchMode" ]
 then
-	BUILD="$BUILD $optBatchMode"
+	BUILD="$BUILD --batchmode"
 fi
 
 shift $(($OPTIND - 1))
